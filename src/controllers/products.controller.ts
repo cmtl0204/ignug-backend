@@ -10,14 +10,18 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ProductsService } from '../services/products.service';
 
 @Controller('products')
 export class ProductsController {
+  constructor(private productsService: ProductsService) {}
+
   @Get('')
   @HttpCode(HttpStatus.OK)
-  index(@Query('name') name: string, @Query('lastname') lastname: string) {
+  index(@Query() params: any) {
+    this.productsService.getAll();
     return {
-      data: `${name} ${lastname}`,
+      data: ``,
       message: `index`,
     };
   }
