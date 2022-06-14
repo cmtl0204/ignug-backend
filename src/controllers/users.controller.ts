@@ -11,9 +11,12 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { UsersService } from '../services/users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Get('')
   @HttpCode(HttpStatus.OK)
   index(@Query() params: any) {
@@ -23,9 +26,9 @@ export class UsersController {
     const selectedFields = params.fields
       ? params.fields.split(',').filter((field) => field != '')
       : null;
-
+    const data = this.usersService.getAll();
     return {
-      data: 'data',
+      data,
       message: `index`,
     };
   }
@@ -66,8 +69,10 @@ export class UsersController {
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   store(@Body() payload: any) {
+    const data = this.usersService.create(payload);
+
     return {
-      data: payload,
+      data,
       message: 'created',
     };
   }
