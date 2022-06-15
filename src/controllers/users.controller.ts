@@ -12,6 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
+import { CreateUserDto } from '../dtos/users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -59,16 +60,18 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  show(@Param('id', ParseIntPipe) id: number) {
+  async show(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.usersService.getOne(id);
+
     return {
-      data: 'data',
+      data,
       message: `show ${id}`,
     };
   }
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: any) {
+  store(@Body() payload: CreateUserDto) {
     const data = this.usersService.create(payload);
 
     return {

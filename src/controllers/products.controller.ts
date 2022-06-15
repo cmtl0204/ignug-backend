@@ -6,11 +6,13 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
+import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -37,7 +39,7 @@ export class ProductsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  show(@Param('id') id: number) {
+  show(@Param('id', ParseIntPipe) id: number) {
     return {
       data: id,
       message: `show`,
@@ -46,7 +48,7 @@ export class ProductsController {
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: any) {
+  store(@Body() payload: CreateProductDto) {
     return {
       data: payload,
       message: `created`,
@@ -55,7 +57,10 @@ export class ProductsController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id') id: number, @Body() payload: any) {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateProductDto,
+  ) {
     return {
       data: payload,
       message: `updated ${id}`,
@@ -64,7 +69,7 @@ export class ProductsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  destroy(@Param('id') id: number) {
+  destroy(@Param('id', ParseIntPipe) id: number) {
     return {
       data: id,
       message: `deleted`,
