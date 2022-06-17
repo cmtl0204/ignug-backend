@@ -38,8 +38,7 @@ export class UsersService {
 
     const newUser = this.userRepository.create(data);
     const response = await this.userRepository.save(newUser);
-    console.log(response);
-    return await this.userRepository.save(newUser);
+    return await this.userRepository.save(response);
   }
 
   async update(id: number, data: any) {

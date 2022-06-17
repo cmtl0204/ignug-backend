@@ -21,9 +21,10 @@ export class ProductsController {
   @Get('')
   @HttpCode(HttpStatus.OK)
   index(@Query() params: any) {
-    this.productsService.getAll();
+    const response = this.productsService.getAll();
+
     return {
-      data: ``,
+      data: response,
       message: `index`,
     };
   }
@@ -40,8 +41,9 @@ export class ProductsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   show(@Param('id', ParseIntPipe) id: number) {
+    const response = this.productsService.getOne(id);
     return {
-      data: id,
+      data: response,
       message: `show`,
     };
   }
@@ -49,8 +51,9 @@ export class ProductsController {
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   store(@Body() payload: CreateProductDto) {
+    const response = this.productsService.create(payload);
     return {
-      data: payload,
+      data: response,
       message: `created`,
     };
   }
@@ -61,8 +64,9 @@ export class ProductsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateProductDto,
   ) {
+    const response = this.productsService.update(id, payload);
     return {
-      data: payload,
+      data: response,
       message: `updated ${id}`,
     };
   }
@@ -70,8 +74,9 @@ export class ProductsController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   destroy(@Param('id', ParseIntPipe) id: number) {
+    const response = this.productsService.delete(id);
     return {
-      data: id,
+      data: response,
       message: `deleted`,
     };
   }

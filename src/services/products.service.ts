@@ -1,28 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
 
 @Injectable()
 export class ProductsService {
+  products: any[] = [];
+  id = 1;
+
   getAll() {
-    return 'todos los products';
+    return this.products;
   }
 
-  getOne() {
-    return 'un producto';
+  getOne(id: number) {
+    const product = this.products.find((product) => product.id == id);
+    if (product == undefined) {
+      throw new NotFoundException('El producto no se encontro');
+    }
+
+    return product;
   }
 
-  filter() {
-    return 'productos filtrados';
+  filter(search: string) {
+    const products = this.products.filter((product) => product.name == search);
+    return products;
   }
 
-  create() {
-    return 'producto creado';
+  create(payload: CreateProductDto) {
+    const data = {
+      id: this.id,
+      name: payload.name,
+      price: payload.price,
+      free: payload.free,
+    };
+    this.id++;
+    this.products.push(data);
+    return data;
   }
 
-  update() {
-    return 'producto actualizado';
+  update(id: number, payload: UpdateProductDto) {
+    const index = this.products.findIndex((product) => product.id == id);
+    if (index == -1) {
+      throw new NotFoundException('El producto no se encontro');
+    }
+    this.products[index]['name'] = payload.name;
+    this.products[index]['price'] = payload.price;
+    this.products[index]['free'] = payload.free;
+    return this.products[index];
   }
 
-  delete() {
-    return 'producto eliminado';
+  delete(id: number) {
+    const index = this.products.findIndex((product) => product.id == id);
+    if (index == -1) {
+      throw new NotFoundException('El producto no se encontro');
+    }
+    this.products.splice(index, 1);
+    return true;
   }
 }
