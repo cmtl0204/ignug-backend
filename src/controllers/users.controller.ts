@@ -13,11 +13,14 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dtos/users.dto';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @ApiOperation({ summary: 'List of users' })
   @Get('')
   @HttpCode(HttpStatus.OK)
   index(@Query() params: any) {

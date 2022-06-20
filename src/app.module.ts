@@ -8,6 +8,7 @@ import { enviroments } from './enviroments';
 import config from './config';
 import { UsersModule } from './users/users.module';
 import { ProductsService } from './services/products.service';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -15,6 +16,10 @@ import { ProductsService } from './services/products.service';
       envFilePath: enviroments[process.env.NODE_ENV] || '.env',
       isGlobal: true,
       load: [config],
+      validationSchema: Joi.object({
+        DB_NAME: Joi.string().required(),
+        DB_PORT: Joi.number().required(),
+      }),
     }),
     HttpModule,
     DatabasesModule,
