@@ -5,7 +5,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -14,9 +16,9 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('API')
-    .setDescription('App')
-    .setVersion('1.0')
+    .setTitle('API IGNUG')
+    .setDescription('App description')
+    .setVersion('1.5')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
