@@ -11,8 +11,8 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
-import { CreateUserDto } from '../dtos/users.dto';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/users.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('users')
