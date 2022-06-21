@@ -1,14 +1,14 @@
 import { HttpModule, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductsController } from './controllers/products.controller';
+import { ProductsController } from './products/controllers/products.controller';
 import { DatabasesModule } from './databases/databases.module';
 import { ConfigModule } from '@nestjs/config';
 import { enviroments } from './enviroments';
 import config from './config';
 import { UsersModule } from './users/users.module';
-import { ProductsService } from './services/products.service';
 import * as Joi from 'joi';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -23,9 +23,10 @@ import * as Joi from 'joi';
     }),
     HttpModule,
     DatabasesModule,
+    ProductsModule,
     UsersModule,
   ],
-  controllers: [AppController, ProductsController],
-  providers: [AppService, ProductsService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
