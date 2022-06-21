@@ -6,7 +6,6 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { PartialType } from '@nestjs/swagger';
 
 export class CreateProductDto {
   @IsString()
@@ -21,5 +20,3 @@ export class CreateProductDto {
   @IsBoolean()
   readonly free: boolean;
 }
-
-export class UpdateProductDto extends PartialType(CreateProductDto) {}
