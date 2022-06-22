@@ -22,7 +22,7 @@ export class ProductsController {
 
   @Get('')
   @HttpCode(HttpStatus.OK)
-  index(@Query() params: any) {
+  findAll(@Query() params: any) {
     const response = this.productsService.findAll();
 
     return response;
@@ -34,7 +34,7 @@ export class ProductsController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  show(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number) {
     const response = this.productsService.findOne(id);
     return response;
     // return {
@@ -45,7 +45,7 @@ export class ProductsController {
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: CreateProductDto) {
+  create(@Body() payload: CreateProductDto) {
     const response = this.productsService.create(payload);
     return response;
     // return {
@@ -70,7 +70,7 @@ export class ProductsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  destroy(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     const response = this.productsService.delete(id);
     return response;
     // return {
