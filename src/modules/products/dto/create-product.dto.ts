@@ -1,6 +1,8 @@
 import {
   IsBoolean,
+  IsDate,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
   Min,
@@ -19,4 +21,12 @@ export class CreateProductDto {
 
   @IsBoolean()
   readonly free: boolean;
+
+  // @IsOptional()
+  // @IsString()
+  // readonly longDescription: string;
+  //
+  // @IsOptional()
+  // @IsDate()
+  // readonly registeredAt: Date;
 }

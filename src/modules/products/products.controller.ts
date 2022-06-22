@@ -23,41 +23,35 @@ export class ProductsController {
   @Get('')
   @HttpCode(HttpStatus.OK)
   index(@Query() params: any) {
-    const response = this.productsService.getAll();
+    const response = this.productsService.findAll();
 
-    return {
-      data: response,
-      message: `index`,
-    };
-  }
-
-  @Get('filter')
-  @HttpCode(HttpStatus.OK)
-  filter(@Query('search') search: string) {
-    return {
-      data: search,
-      message: `filter`,
-    };
+    return response;
+    // return {
+    //   data: response,
+    //   message: `index`,
+    // };
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   show(@Param('id', ParseIntPipe) id: number) {
-    const response = this.productsService.getOne(id);
-    return {
-      data: response,
-      message: `show`,
-    };
+    const response = this.productsService.findOne(id);
+    return response;
+    // return {
+    //   data: response,
+    //   message: `show`,
+    // };
   }
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   store(@Body() payload: CreateProductDto) {
     const response = this.productsService.create(payload);
-    return {
-      data: response,
-      message: `created`,
-    };
+    return response;
+    // return {
+    //   data: response,
+    //   message: `created`,
+    // };
   }
 
   @Put(':id')
@@ -67,19 +61,21 @@ export class ProductsController {
     @Body() payload: UpdateProductDto,
   ) {
     const response = this.productsService.update(id, payload);
-    return {
-      data: response,
-      message: `updated ${id}`,
-    };
+    return response;
+    // return {
+    //   data: response,
+    //   message: `updated ${id}`,
+    // };
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   destroy(@Param('id', ParseIntPipe) id: number) {
     const response = this.productsService.delete(id);
-    return {
-      data: response,
-      message: `deleted`,
-    };
+    return response;
+    // return {
+    //   data: response,
+    //   message: `deleted`,
+    // };
   }
 }

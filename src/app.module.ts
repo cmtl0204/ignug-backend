@@ -6,10 +6,11 @@ import { DatabasesModule } from './databases/databases.module';
 import { ConfigModule } from '@nestjs/config';
 import { enviroments } from './enviroments';
 import config from './config';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
 import * as Joi from 'joi';
-import { ProductsModule } from './products/products.module';
-import { CategoriesModule } from './categories/categories.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { AuthenticationsModule } from './modules/authentications/authentications.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CategoriesModule } from './categories/categories.module';
     ProductsModule,
     UsersModule,
     CategoriesModule,
+    AuthenticationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
