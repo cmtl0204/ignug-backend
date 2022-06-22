@@ -17,6 +17,6 @@ export class ProductEntity {
   @Column('varchar', { length: 500, nullable: true })
   long_description: string;
 
-  // @Column('date')
-  // registered_at: Date;
+  @Column('date')
+  registered_at: Date;
 }
