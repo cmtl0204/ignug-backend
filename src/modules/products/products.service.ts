@@ -34,7 +34,12 @@ export class ProductsService {
   }
 
   create(payload: CreateProductDto) {
-    const newProduct = this.productRepository.create(payload);
+    const newProduct = new ProductEntity();
+    newProduct.name = payload.name;
+    newProduct.price = payload.price;
+    newProduct.free = payload.free;
+    newProduct.long_description = payload.longDescription;
+
     return this.productRepository.save(newProduct);
   }
 
@@ -48,7 +53,12 @@ export class ProductsService {
     if (product === null) {
       throw new NotFoundException('El producto no se encontro');
     }
-    this.productRepository.merge(product, payload);
+
+    product.name = payload.name;
+    product.price = payload.price;
+    product.free = payload.free;
+    product.long_description = payload.longDescription;
+
     return this.productRepository.save(product);
   }
 

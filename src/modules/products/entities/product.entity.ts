@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('product')
+@Entity('products')
 export class ProductEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -14,9 +14,9 @@ export class ProductEntity {
   @Column('boolean')
   free: boolean;
 
-  // @Column('varchar', { length: 500 })
-  // long_description: string;
-  //
+  @Column('varchar', { length: 500, nullable: true })
+  long_description: string;
+
   // @Column('date')
   // registered_at: Date;
 }

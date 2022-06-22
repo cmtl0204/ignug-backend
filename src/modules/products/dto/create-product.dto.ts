@@ -22,10 +22,10 @@ export class CreateProductDto {
   @IsBoolean()
   readonly free: boolean;
 
-  // @IsOptional()
-  // @IsString()
-  // readonly longDescription: string;
-  //
+  @IsOptional()
+  @IsString()
+  readonly longDescription: string;
+
   // @IsOptional()
   // @IsDate()
   // readonly registeredAt: Date;
