@@ -1,6 +1,6 @@
 import {
   IsBoolean,
-  IsDate,
+  IsDateString,
   IsNumber,
   IsOptional,
   IsString,
@@ -10,9 +10,9 @@ import {
 } from 'class-validator';
 
 export class CreateProductDto {
-  @IsString()
-  @MinLength(3)
-  @MaxLength(5)
+  @IsString({ message: 'Debe ser un string' })
+  @MinLength(3, { message: 'El número de caracteres mínimo es 3.' })
+  @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly name: string;
 
   @IsNumber()
@@ -26,7 +26,7 @@ export class CreateProductDto {
   @IsString()
   readonly longDescription: string;
 
-  // @IsOptional()
-  // @IsDate()
-  // readonly registeredAt: Date;
+  @IsOptional()
+  @IsDateString()
+  readonly registeredAt: Date;
 }

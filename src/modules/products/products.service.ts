@@ -7,13 +7,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ProductsService {
-  products: any[] = [];
-  id = 1;
-
   constructor(
     @InjectRepository(ProductEntity)
     private productRepository: Repository<ProductEntity>,
   ) {}
+
+  async create(payload: CreateProductDto) {
+    const newProduct = this.productRepository.create(payload);
+
+    return await this.productRepository.save(newProduct);
+  }
+
+  async delete(id: number) {
+    return await this.productRepository.softDelete(id);
+  }
 
   async findAll() {
     return await this.productRepository.find();
@@ -33,16 +40,6 @@ export class ProductsService {
     return product;
   }
 
-  create(payload: CreateProductDto) {
-    const newProduct = new ProductEntity();
-    newProduct.name = payload.name;
-    newProduct.price = payload.price;
-    newProduct.free = payload.free;
-    newProduct.long_description = payload.longDescription;
-
-    return this.productRepository.save(newProduct);
-  }
-
   async update(id: number, payload: UpdateProductDto) {
     const product = await this.productRepository.findOne({
       where: {
@@ -54,15 +51,8 @@ export class ProductsService {
       throw new NotFoundException('El producto no se encontro');
     }
 
-    product.name = payload.name;
-    product.price = payload.price;
-    product.free = payload.free;
-    product.long_description = payload.longDescription;
+    this.productRepository.merge(product, payload);
 
     return this.productRepository.save(product);
-  }
-
-  delete(id: number) {
-    return this.productRepository.delete(id);
   }
 }

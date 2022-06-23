@@ -8,8 +8,6 @@ export default registerAs('config', () => {
       password: process.env.DB_PASSWORD,
       username: process.env.DB_USER,
       host: process.env.DB_HOST,
-      synchronize: Boolean(process.env.DB_SYNCHRONIZE),
-      autoLoadEntities: Boolean(process.env.DB_AUTO_LOAD_ENTITIES),
     },
     apiKey: process.env.API_KEY,
   };
