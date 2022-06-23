@@ -15,7 +15,7 @@ export class CreateProductDto {
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly name: string;
 
-  @IsNumber()
+  @IsNumber({}, { message: 'asd' })
   @Min(0)
   readonly price: number;
 
