@@ -22,7 +22,7 @@ export class ProductEntity {
   @Column('varchar', {
     name: 'name',
     length: 255,
-    unique: true,
+    default: 'SN',
     comment: 'Nombre del producto',
   })
   name: string;
