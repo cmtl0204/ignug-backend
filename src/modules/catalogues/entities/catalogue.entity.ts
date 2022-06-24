@@ -14,6 +14,9 @@ export class CatalogueEntity {
   })
   name: string;
 
+  // @OneToMany(() => ProductEntity, (product) => product.type)
+  // products: ProductEntity[];
+
   @OneToMany(() => ProductEntity, (product) => product.type)
   products: ProductEntity[];
 }

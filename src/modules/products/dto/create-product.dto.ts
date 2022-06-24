@@ -1,4 +1,5 @@
 import {
+  IS_NOT_EMPTY,
   IsBoolean,
   IsDateString,
   IsNumber,
@@ -11,7 +12,7 @@ import {
 } from 'class-validator';
 
 export class CreateProductDto {
-  @IsString({ message: 'Debe ser un string' })
+  @IsString({ message: 'El campo name debe ser un string' })
   @MinLength(3, { message: 'El número de caracteres mínimo es 3.' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly name: string;
@@ -35,7 +36,10 @@ export class CreateProductDto {
   @IsOptional()
   userId: number;
 
+  @IsPositive({ message: 'EL campo typeId debe ser positivo' })
+  typeId: number;
+
   @IsPositive()
   @IsOptional()
-  typeId: number;
+  categoryId: number;
 }

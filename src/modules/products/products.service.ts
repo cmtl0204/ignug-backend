@@ -18,17 +18,10 @@ export class ProductsService {
 
   async create(payload: CreateProductDto) {
     const newProduct = this.productRepository.create(payload);
-    if (payload.userId) {
-      newProduct.user = await this.userService.findOne(payload.userId);
-    }
-    if (payload.typeId) {
-      newProduct.type = await this.catalogueService.findOne(payload.typeId);
-    }
-    return await this.productRepository.save(newProduct);
-  }
 
-  async delete(id: number) {
-    return await this.productRepository.softDelete(id);
+    newProduct.type = await this.catalogueService.findOne(payload.typeId);
+
+    return await this.productRepository.save(newProduct);
   }
 
   async findAll() {
@@ -49,6 +42,10 @@ export class ProductsService {
     }
 
     return product;
+  }
+
+  async remove(id: number) {
+    return await this.productRepository.softDelete(id);
   }
 
   async update(id: number, payload: UpdateProductDto) {

@@ -28,17 +28,17 @@ export class CataloguesService {
   }
 
   async findOne(id: number) {
-    const product = await this.repository.findOne({
+    const catalogue = await this.repository.findOne({
       where: {
         id: id,
       },
     });
 
-    if (product === null) {
-      throw new NotFoundException('El producto no se encontro');
+    if (catalogue === null) {
+      throw new NotFoundException('El catalogo no se encontro');
     }
 
-    return product;
+    return catalogue;
   }
 
   async update(id: number, payload: UpdateCatalogueDto) {

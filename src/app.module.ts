@@ -12,6 +12,7 @@ import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { AuthenticationsModule } from './modules/authentications/authentications.module';
 import { CataloguesModule } from './modules/catalogues/catalogues.module';
+import { StudentsModule } from './modules/students/students.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { CataloguesModule } from './modules/catalogues/catalogues.module';
     CategoriesModule,
     AuthenticationsModule,
     CataloguesModule,
+    StudentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

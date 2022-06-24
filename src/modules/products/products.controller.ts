@@ -20,6 +20,17 @@ import { ProductsService } from './products.service';
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
+  @Post('')
+  @HttpCode(HttpStatus.CREATED)
+  create(@Body() payload: CreateProductDto) {
+    const response = this.productsService.create(payload);
+    return response;
+    // return {
+    //   data: response,
+    //   message: `created`,
+    // };
+  }
+
   @Get('')
   @HttpCode(HttpStatus.OK)
   findAll(@Query() params: any) {
@@ -43,17 +54,6 @@ export class ProductsController {
     // };
   }
 
-  @Post('')
-  @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateProductDto) {
-    const response = this.productsService.create(payload);
-    return response;
-    // return {
-    //   data: response,
-    //   message: `created`,
-    // };
-  }
-
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   update(
@@ -70,8 +70,8 @@ export class ProductsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  delete(@Param('id', ParseIntPipe) id: number) {
-    const response = this.productsService.delete(id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    const response = this.productsService.remove(id);
     return response;
     // return {
     //   data: response,

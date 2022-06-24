@@ -81,13 +81,13 @@ export class ProductEntity {
   })
   deletedAt: Date;
 
-  @OneToOne(() => User, (user) => user.product, {
-    nullable: true,
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.products, {
+    nullable: false,
   })
-  @JoinColumn({ name: 'user_id' })
-  user: User;
-
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.products)
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.products)
+  @JoinColumn({ name: 'category_id' })
+  category: CatalogueEntity;
 }
