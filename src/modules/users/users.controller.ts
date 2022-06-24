@@ -64,7 +64,7 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async show(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.usersService.getOne(id);
+    const data = await this.usersService.findOne(id);
 
     return {
       data,

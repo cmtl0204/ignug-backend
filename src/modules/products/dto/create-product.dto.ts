@@ -3,6 +3,7 @@ import {
   IsDateString,
   IsNumber,
   IsOptional,
+  IsPositive,
   IsString,
   MaxLength,
   Min,
@@ -29,4 +30,12 @@ export class CreateProductDto {
   @IsOptional()
   @IsDateString()
   readonly registeredAt: Date;
+
+  @IsPositive()
+  @IsOptional()
+  userId: number;
+
+  @IsPositive()
+  @IsOptional()
+  typeId: number;
 }

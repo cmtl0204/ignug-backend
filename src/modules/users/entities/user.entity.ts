@@ -1,4 +1,6 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, OneToOne } from 'typeorm';
+import { ProductEntity } from '../../products/entities/product.entity';
+import { JoinColumn } from 'typeorm/browser';
 
 @Entity('users')
 export class User {
@@ -19,4 +21,7 @@ export class User {
 
   @Column({ type: 'boolean' })
   married: boolean;
+
+  @OneToOne(() => ProductEntity, (product) => product.user, { nullable: true })
+  product: ProductEntity;
 }

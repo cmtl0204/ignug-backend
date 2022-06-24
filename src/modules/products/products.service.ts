@@ -4,17 +4,26 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Repository } from 'typeorm';
 import { ProductEntity } from './entities/product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UsersService } from '../users/users.service';
+import { CataloguesService } from '../catalogues/catalogues.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(ProductEntity)
     private productRepository: Repository<ProductEntity>,
+    private userService: UsersService,
+    private catalogueService: CataloguesService,
   ) {}
 
   async create(payload: CreateProductDto) {
     const newProduct = this.productRepository.create(payload);
-
+    if (payload.userId) {
+      newProduct.user = await this.userService.findOne(payload.userId);
+    }
+    if (payload.typeId) {
+      newProduct.type = await this.catalogueService.findOne(payload.typeId);
+    }
     return await this.productRepository.save(newProduct);
   }
 
@@ -23,7 +32,9 @@ export class ProductsService {
   }
 
   async findAll() {
-    return await this.productRepository.find();
+    return await this.productRepository.find({
+      relations: ['user', 'type'],
+    });
   }
 
   async findOne(id: number) {

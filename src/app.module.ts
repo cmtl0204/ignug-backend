@@ -11,6 +11,7 @@ import * as Joi from 'joi';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { AuthenticationsModule } from './modules/authentications/authentications.module';
+import { CataloguesModule } from './modules/catalogues/catalogues.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthenticationsModule } from './modules/authentications/authentications
     UsersModule,
     CategoriesModule,
     AuthenticationsModule,
+    CataloguesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

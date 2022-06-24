@@ -3,9 +3,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { CatalogueEntity } from '../../catalogues/entities/catalogue.entity';
 
 /*
     name: 'name',
@@ -75,4 +80,14 @@ export class ProductEntity {
     nullable: true,
   })
   deletedAt: Date;
+
+  @OneToOne(() => User, (user) => user.product, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.products)
+  @JoinColumn({ name: 'type_id' })
+  type: CatalogueEntity;
 }
