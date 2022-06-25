@@ -16,6 +16,59 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@auth/modules": [
+        "./src/modules/auth/auth.module"
+      ],
+      "@core/modules": [
+        "./src/modules/core"
+      ],
+      "@users/modules": [
+        "./src/modules/users/users.module"
+      ],
+      "@auth/decorators": [
+        "./src/modules/auth/decorators"
+      ],
+      "@auth/guards": [
+        "./src/modules/auth/guards"
+      ],
+      "@auth/dto": [
+        "./src/modules/auth/dto"
+      ],
+      "@core/dto": [
+        "./src/modules/core/dto"
+      ],
+      "@users/dto": [
+        "./src/modules/users/dto"
+      ],
+      "@auth/controllers": [
+        "./src/modules/auth/auth.controller"
+      ],
+      "@core/controllers": [
+        "./src/modules/core/controllers"
+      ],
+      "@users/controllers": [
+        "./src/modules/users/users.controller"
+      ],
+      "@auth/entities": [
+        "./src/modules/auth/entities"
+      ],
+      "@core/entities": [
+        "./src/modules/core/entities"
+      ],
+      "@users/entities": [
+        "./src/modules/users/entities"
+      ],
+      "@auth/services": [
+        "./src/modules/auth/auth.service"
+      ],
+      "@core/services": [
+        "./src/modules/core/services"
+      ],
+      "@users/services": [
+        "./src/modules/users/users.service"
+      ]
+    }
   }
 }

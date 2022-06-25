@@ -1,18 +1,15 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
+import { enviroments } from './enviroments';
+import { DatabasesModule } from './databases/databases.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabasesModule } from './databases/databases.module';
-import { ConfigModule } from '@nestjs/config';
-import { enviroments } from './enviroments';
+import { AuthModule } from '@auth/modules';
+import { CoreModule } from '@core/modules';
+import { UsersModule } from '@users/modules';
 import config from './config';
-import { UsersModule } from './modules/users/users.module';
-import * as Joi from 'joi';
-import { ProductsModule } from './modules/products/products.module';
-import { CategoriesModule } from './modules/categories/categories.module';
-import { AuthenticationsModule } from './modules/authentications/authentications.module';
-import { CataloguesModule } from './modules/catalogues/catalogues.module';
-import { StudentsModule } from './modules/students/students.module';
 
 @Module({
   imports: [
@@ -21,18 +18,14 @@ import { StudentsModule } from './modules/students/students.module';
       isGlobal: true,
       load: [config],
       validationSchema: Joi.object({
-        DB_NAME: Joi.string().required(),
-        DB_PORT: Joi.number().required(),
+        API_KEY: Joi.string().required(),
       }),
     }),
     HttpModule,
     DatabasesModule,
-    ProductsModule,
+    AuthModule,
+    CoreModule,
     UsersModule,
-    CategoriesModule,
-    AuthenticationsModule,
-    CataloguesModule,
-    StudentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

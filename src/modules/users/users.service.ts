@@ -1,17 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/users.dto';
+import { CreateUserDto } from '@users/dto';
+import { UserEntity } from '@users/entities';
+import * as Bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
   ) {}
 
-  getAll() {
+  async create(payload: CreateUserDto) {
+    const newUser = this.userRepository.create(payload);
+    newUser.password = await Bcrypt.hash(payload.password, 10);
+    const response = await this.userRepository.save(newUser);
+    return await this.userRepository.save(response);
+  }
+
+  async findAll() {
     return this.userRepository.find();
   }
 
@@ -28,17 +36,17 @@ export class UsersService {
     return user;
   }
 
-  async create(data: CreateUserDto) {
-    // const newUser = new User();
-    // newUser.name = data.name;
-    // newUser.lastname = data.lastname;
-    // newUser.birthdate = data.birthdate;
-    // newUser.age = data.age;
-    // newUser.married = data.married;
+  async findByUsername(username: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
 
-    const newUser = this.userRepository.create(data);
-    const response = await this.userRepository.save(newUser);
-    return await this.userRepository.save(response);
+    if (!user) {
+      throw new NotFoundException(`El usuario ${username} no existe`);
+    }
+    return user;
   }
 
   async update(id: number, data: any) {
@@ -51,7 +59,7 @@ export class UsersService {
     return this.userRepository.save(user);
   }
 
-  delete(id: number) {
+  async remove(id: number) {
     return this.userRepository.delete(id);
   }
 }

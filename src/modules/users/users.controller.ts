@@ -11,9 +11,9 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/users.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { UsersService } from '@users/services';
+import { CreateUserDto } from '@users/dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -23,14 +23,14 @@ export class UsersController {
   @ApiOperation({ summary: 'List of users' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  index(@Query() params: any) {
+  findAll(@Query() params: any) {
     const sortFields = params.sort
       ? params.sort.split(',').filter((sort) => sort != '')
       : null;
     const selectedFields = params.fields
       ? params.fields.split(',').filter((field) => field != '')
       : null;
-    const data = this.usersService.getAll();
+    const data = this.usersService.findAll();
     return {
       data,
       message: `index`,
@@ -63,8 +63,8 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async show(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.usersService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = this.usersService.findOne(id);
 
     return {
       data,
@@ -74,7 +74,7 @@ export class UsersController {
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: CreateUserDto) {
+  create(@Body() payload: CreateUserDto) {
     const data = this.usersService.create(payload);
 
     return {
@@ -94,7 +94,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  destroy(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseIntPipe) id: number) {
     return {
       data: true,
       message: `deleted ${id}`,
