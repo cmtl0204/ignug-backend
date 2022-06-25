@@ -12,8 +12,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { UsersService } from '@users/services';
-import { CreateUserDto } from '@users/dto';
+import { UsersService } from '@core/services';
+import { CreateUserDto } from '@core/dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -31,6 +31,8 @@ export class UsersController {
       ? params.fields.split(',').filter((field) => field != '')
       : null;
     const data = this.usersService.findAll();
+    return data;
+
     return {
       data,
       message: `index`,
@@ -65,7 +67,7 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id', ParseIntPipe) id: number) {
     const data = this.usersService.findOne(id);
-
+    return data;
     return {
       data,
       message: `show ${id}`,

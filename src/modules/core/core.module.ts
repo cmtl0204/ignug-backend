@@ -1,17 +1,24 @@
-import { Module } from '@nestjs/common';
-import { CataloguesController, StudentsController } from '@core/controllers';
-import { CataloguesService, StudentsService } from '@core/services';
+import { Global, Module } from '@nestjs/common';
+import {
+  CataloguesController,
+  StudentsController,
+  UsersController,
+} from '@core/controllers';
+import {
+  CataloguesService,
+  StudentsService,
+  UsersService,
+} from '@core/services';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CatalogueEntity, StudentEntity } from '@core/entities';
-import { UsersModule } from '@users/modules';
+import { CatalogueEntity, StudentEntity, UserEntity } from '@core/entities';
 
+@Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CatalogueEntity, StudentEntity]),
-    UsersModule,
+    TypeOrmModule.forFeature([CatalogueEntity, StudentEntity, UserEntity]),
   ],
-  controllers: [CataloguesController, StudentsController],
-  providers: [CataloguesService, StudentsService],
-  exports: [TypeOrmModule, CataloguesService, StudentsService],
+  controllers: [CataloguesController, StudentsController, UsersController],
+  providers: [CataloguesService, StudentsService, UsersService],
+  exports: [TypeOrmModule, CataloguesService, StudentsService, UsersService],
 })
 export class CoreModule {}

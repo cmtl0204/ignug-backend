@@ -18,56 +18,44 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@auth/modules": [
-        "./src/modules/auth/auth.module"
-      ],
-      "@core/modules": [
-        "./src/modules/core"
-      ],
-      "@users/modules": [
-        "./src/modules/users/users.module"
+      "@auth/controllers": [
+        "./src/modules/auth/auth.controller"
       ],
       "@auth/decorators": [
         "./src/modules/auth/decorators"
       ],
-      "@auth/guards": [
-        "./src/modules/auth/guards"
-      ],
       "@auth/dto": [
         "./src/modules/auth/dto"
-      ],
-      "@core/dto": [
-        "./src/modules/core/dto"
-      ],
-      "@users/dto": [
-        "./src/modules/users/dto"
-      ],
-      "@auth/controllers": [
-        "./src/modules/auth/auth.controller"
-      ],
-      "@core/controllers": [
-        "./src/modules/core/controllers"
-      ],
-      "@users/controllers": [
-        "./src/modules/users/users.controller"
       ],
       "@auth/entities": [
         "./src/modules/auth/entities"
       ],
-      "@core/entities": [
-        "./src/modules/core/entities"
+      "@auth/guards": [
+        "./src/modules/auth/guards"
       ],
-      "@users/entities": [
-        "./src/modules/users/entities"
+      "@auth/modules": [
+        "./src/modules/auth/auth.module"
       ],
       "@auth/services": [
         "./src/modules/auth/auth.service"
       ],
+      "@auth/strategies": [
+        "./src/modules/auth/strategies"
+      ],
+      "@core/controllers": [
+        "./src/modules/core/controllers"
+      ],
+      "@core/dto": [
+        "./src/modules/core/dto"
+      ],
+      "@core/entities": [
+        "./src/modules/core/entities"
+      ],
+      "@core/modules": [
+        "./src/modules/core"
+      ],
       "@core/services": [
         "./src/modules/core/services"
-      ],
-      "@users/services": [
-        "./src/modules/users/users.service"
       ]
     }
   }

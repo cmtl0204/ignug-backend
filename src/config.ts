@@ -10,5 +10,6 @@ export default registerAs('config', () => {
       username: process.env.DB_USER,
     },
     apiKey: process.env.API_KEY,
+    jwtSecret: process.env.JWT_SECRET,
   };
 });

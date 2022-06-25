@@ -1,20 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto } from '@users/dto';
-import { UserEntity } from '@users/entities';
 import * as Bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from '@core/dto';
+import { UserEntity } from '@core/entities';
+import { CataloguesService } from '@core/services';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
+    private catalogueService: CataloguesService,
   ) {}
 
   async create(payload: CreateUserDto) {
     const newUser = this.userRepository.create(payload);
-    newUser.password = await Bcrypt.hash(payload.password, 10);
+    newUser.bloodType = await this.catalogueService.findOne(
+      payload.bloodTypeId,
+    );
     const response = await this.userRepository.save(newUser);
     return await this.userRepository.save(response);
   }
@@ -37,16 +41,11 @@ export class UsersService {
   }
 
   async findByUsername(username: string) {
-    const user = await this.userRepository.findOne({
+    return await this.userRepository.findOne({
       where: {
         username,
       },
     });
-
-    if (!user) {
-      throw new NotFoundException(`El usuario ${username} no existe`);
-    }
-    return user;
   }
 
   async update(id: number, data: any) {

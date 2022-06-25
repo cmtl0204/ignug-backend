@@ -12,7 +12,4 @@ export class CatalogueEntity {
     comment: 'Nombre del producto',
   })
   name: string;
-
-  // @OneToMany(() => ProductEntity, (product) => product.type)
-  // products: ProductEntity[];
 }
