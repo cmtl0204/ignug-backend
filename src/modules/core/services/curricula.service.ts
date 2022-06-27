@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCurriculumDto,UpdateCurriculumDto } from '@Core.dto';
+import { CreateCurriculumDto,UpdateCurriculumDto } from '@core/dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CurriculumEntity } from '@core/entities';
