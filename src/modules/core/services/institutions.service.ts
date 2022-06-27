@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { CataloguesService } from '../catalogues/catalogues.service';
-import { CreateInstitutionDto } from './dto/create-institution.dto';
-import { UpdateInstitutionDto } from './dto/update-institution.dto';
-import { InstitutionEntity } from './entities/institution.entity';
+import { CreateInstitutionDto, UpdateInstitutionDto } from '@core/dto';
+import { CataloguesService } from '@core/services';
+import { InstitutionEntity } from '@core/entities';
 
 @Injectable()
 export class InstitutionsService {

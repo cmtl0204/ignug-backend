@@ -13,10 +13,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { CreateInstitutionDto } from './dto/create-institution.dto';
-import { UpdateInstitutionDto } from './dto/update-institution.dto';
-import { InstitutionEntity } from './entities/institution.entity';
-import { InstitutionsService } from './institutions.service';
+import { CreateInstitutionDto, UpdateInstitutionDto } from '@core/dto';
+import { InstitutionEntity } from '@core/entities';
+import { InstitutionsService } from '@core/services';
 
 @Controller('institutions')
 export class InstitutionsController {

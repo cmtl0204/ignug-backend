@@ -1,4 +1,4 @@
-import { CatalogueEntity } from 'src/modules/catalogues/entities/catalogue.entity';
+import { CatalogueEntity } from '@core/entities';
 import {
   Column,
   CreateDateColumn,
