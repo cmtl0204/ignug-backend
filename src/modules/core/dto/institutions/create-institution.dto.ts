@@ -8,7 +8,6 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { CatalogueEntity } from 'src/modules/catalogues/entities/catalogue.entity';
 
 export class CreateInstitutionDto {
   @IsNumber({}, { message: 'addressId debe ser un número' })
