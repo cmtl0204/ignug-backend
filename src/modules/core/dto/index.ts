@@ -12,5 +12,7 @@ export * from './students/create-student.dto';
 export * from './students/update-student.dto';
 export * from './subjects/create-subject.dto';
 export * from './subjects/update-subject.dto';
+export * from './teachers/create-teacher.dto';
+export * from './teachers/update-teacher.dto';
 export * from './users/create-user.dto';
 export * from './users/update-user.dto';
