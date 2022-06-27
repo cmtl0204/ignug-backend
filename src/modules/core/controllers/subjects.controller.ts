@@ -11,14 +11,16 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateSubjectDto } from './dto/create-subject.dto';
-import { UpdateSubjectDto } from './dto/update-subject.dto';
-import { SubjectsService } from 'src/subjects/subjects.service';
+import { ApiTags} from '@nestjs/swagger';
+import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
+import { SubjectsService } from '@core/services';
 
+
+@ApiTags('subjects')
 @Controller('subjects')
 export class SubjectsController {
   constructor(private subjectsService: SubjectsService) { }
+
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: CreateSubjectDto) {

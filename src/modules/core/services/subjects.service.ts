@@ -1,10 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CataloguesService } from 'src/catalogues/catalogues.service';
+import { CataloguesService } from '@core/services';
 import { Repository } from 'typeorm';
-import { CreateSubjectDto } from './dto/create-subject.dto';
-import { UpdateSubjectDto } from './dto/update-subject.dto';
-import { SubjectEntity } from './entities/subject.entity';
+import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
+import { SubjectEntity } from '@core/entities';
 
 @Injectable()
 export class SubjectsService {

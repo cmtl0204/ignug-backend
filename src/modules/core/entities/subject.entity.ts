@@ -1,5 +1,3 @@
-import { CatalogueEntity } from './catalogue.entity';
-import { CurriculumEntity } from './curriculum.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CatalogueEntity, CurriculumEntity  } from '@core/entities';
 
 @Entity('subjects')
 export class SubjectEntity {
