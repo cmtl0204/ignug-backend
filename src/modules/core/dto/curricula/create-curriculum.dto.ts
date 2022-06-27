@@ -1,5 +1,4 @@
 
-import { Type } from 'class-transformer';
 import {
   IsNumber,
   IsString,
@@ -10,14 +9,10 @@ import {
   MaxLength,
   IsPositive,
   IsOptional,
-  IsAlphanumeric,
-  IsEthereumAddress,
+
 } from 'class-validator';
-import { isExpression } from 'joi';
-import { IsNull } from 'typeorm';
 
 export class CreateCurriculumDto {
-
   @IsNumber() //fk
   @IsPositive()
   readonly careerId:number;
@@ -25,13 +20,14 @@ export class CreateCurriculumDto {
    @IsNumber() //fk
   @IsPositive()
    readonly stateId:number;
+
   @IsString()
   @MinLength(2,{message:' minimo 2 cacacteres'})
   @MaxLength(20, {message:' minimo 20 cacacteres'})
   readonly code:string;
 
   @IsDate()
-   @Type()
+   @type()
   @IsOptional()
   readonly startedAt: Date;
 
@@ -41,13 +37,13 @@ export class CreateCurriculumDto {
   readonly endedAt:Date;
 
   @IsString()
-  @MinLength(2)
-  @MaxLength(255)
+  @MinLength(2,{message:' minimo 2 cacacteres'})
+  @MaxLength(255,{message:' maximo 255 cacacteres'})
   readonly name:string;
 
   @IsString()
   @MinLength(2,{message:' minimo 2 cacacteres'})
-  @MaxLength(100,{message:' minimo 100 cacacteres'})
+  @MaxLength(100,{message:' maximo 100 cacacteres'})
   readonly description:string;
 
    @IsNumber()
@@ -56,8 +52,8 @@ export class CreateCurriculumDto {
    readonly weeksNumber:number;
 
   @IsString()
-  @MinLength(1)
-  @MaxLength(255)
+  @MinLength(1,{message:' minimo 1 cacacteres'})
+  @MaxLength(255,{message:' minimo255 cacacteres'})
   readonly resolutionNumber:string;
 
   @IsNumber()
