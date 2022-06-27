@@ -1,5 +1,5 @@
-import { CatalogueEntity } from 'src/catalogues/entities/catalogue.entity';
-import { CurriculumEntity } from 'src/curricula/entities/curriculum.entity';
+import { CatalogueEntity } from './catalogue.entity';
+import { CurriculumEntity } from './curriculum.entity';
 import {
   Column,
   CreateDateColumn,
