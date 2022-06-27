@@ -12,9 +12,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags,ApiOperation } from '@nestjs/swagger';
-import { CurriculaServic } from './curriculum.service';
-import { CreateCurriculumDto } from './dto/create-curriculum.dto';
-import { UpdateCurriculumDto } from './dto/update-curricula.dto';
+import { CurriculaServic } from '@core/services';
+import { CreateCurriculumDto,UpdateCurriculumDto } from '@core/dto';
 
 
 @Controller('curricula')

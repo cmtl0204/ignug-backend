@@ -1,4 +1,8 @@
-import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column, 
+  CreateDateColumn,
+  Entity, 
+  PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('curricula')
 export class CurriculumEntity {
