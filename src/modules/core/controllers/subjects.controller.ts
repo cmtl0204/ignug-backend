@@ -11,12 +11,10 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags} from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectsService } from '@core/services';
 
-
-@ApiTags('subjects')
 @Controller('subjects')
 export class SubjectsController {
   constructor(private subjectsService: SubjectsService) { }

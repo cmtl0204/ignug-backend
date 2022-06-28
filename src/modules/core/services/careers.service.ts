@@ -1,14 +1,11 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { CreateCareerDto} from './dto/create-career.dto';
-import {UpdateCareerDto } from './dto/update-career.dto';
-import { CareerEntity } from "./entities/career.entity";
+import { CreateCareerDto, UpdateCareerDto} from '@auth/dto';
+import { CareerEntity } from "@auth/entities";
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class CareersService {
-    careers:any[] = [];
-    id=1;
 
     constructor(
         @InjectRepository(CareerEntity)
