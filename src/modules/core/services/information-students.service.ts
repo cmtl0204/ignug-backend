@@ -1,27 +1,33 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { CreateInformationStudentDto } from './dtos/create-information-student.dto';
-import { UpdateInformationStudentDto } from './dtos/update-information-student.dto';
-import { InformationStudentEntity } from './entities/information-student.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateInformationStudentDto, UpdateInformationStudentDto } from '@core/dto';
+import { CataloguesService } from '@core/services';
+import { InformationStudentEntity } from '@core/entities';
 
 @Injectable()
 export class InformationStudentsService {
-
-    informationStudent: any[] = [];
-    id = 1;
-
     constructor(
       @InjectRepository(InformationStudentEntity)
       private informationStudentRepository: Repository<InformationStudentEntity>,
-
-    
+      private cataloguesService: CataloguesService,
     ) {}
   
     async create(payload: CreateInformationStudentDto) {
       const newInformationsStudent = this.informationStudentRepository.create(payload);
+      this.informationStudentRepository.create(payload);
+      newInformationsStudent.isBonusDevelopmentReceive =
+        await this.cataloguesService.findOne(payload.isBonusDevelopmentReceiveId);
+      newInformationsStudent.isAncestralLanguage =
+        await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+      newInformationsStudent.isDegreeSuperior =
+        await this.cataloguesService.findOne(payload.isDegreeSuperiorId);
+      newInformationsStudent.isDisability = await this.cataloguesService.findOne(
+        payload.isDisabilityId,
+      );
+      newInformationsStudent.isSubjectRepeat =
+        await this.cataloguesService.findOne(payload.isSubjectRepeatId);
       return await this.informationStudentRepository.save(newInformationsStudent);
-      
     }
   
     async delete(id: number) {

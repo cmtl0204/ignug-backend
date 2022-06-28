@@ -12,9 +12,8 @@ import {
     Query,
   } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateInformationStudentDto } from './dtos/create-information-student.dto';
-import { UpdateInformationStudentDto } from './dtos/update-information-student.dto';
-import { InformationStudentsService } from './information-students.service';
+import { InformationStudentsService } from '@core/services';
+import { CreateInformationStudentDto,  UpdateInformationStudentDto } from '@core/dto';
 
 @Controller('information-students')
 export class InformationStudentsController {
