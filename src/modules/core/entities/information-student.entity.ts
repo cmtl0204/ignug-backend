@@ -12,43 +12,34 @@ import {
 import { StudentEntity } from '@core/entities';
 import { CatalogueEntity } from '@core/entities';
 
-
 @Entity('information_students')
 export class InformationStudentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(
-    () => CatalogueEntity,
-    (catalogue) => catalogue.isBonusDevelopmentReceive,
-  )
+  @ManyToOne(() => CatalogueEntity)
   isBonusDevelopmentReceive: CatalogueEntity; //fk
+
   @ManyToOne(
     () => CatalogueEntity,
     (catalogue) => catalogue.isAncestralLanguage,
   )
   isAncestralLanguage: CatalogueEntity; //fk
-  @ManyToOne(
-    () => CatalogueEntity,
-    (catalogue) => catalogue.isDegreeSuperior,
-  )
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isDegreeSuperior)
   isDegreeSuperior: CatalogueEntity; //fk
-  @ManyToOne(
-    () => CatalogueEntity,
-    (catalogue) => catalogue.isDisability,
-  )
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isDisability)
   isDisability: CatalogueEntity; //fk
-  @ManyToOne(
-    () => CatalogueEntity,
-    (catalogue) => catalogue.isSubjectRepeat,
-  )
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isSubjectRepeat)
   isSubjectRepeat: CatalogueEntity; //fk
 
-  @Column('varchar', { 
+  @Column('varchar', {
     name: 'address',
     length: 1000,
     comment: 'La direccion donde reside el estudiante',
-   })
+  })
   address: string;
 
   @Column('varchar', {
@@ -72,144 +63,148 @@ export class InformationStudentEntity {
   })
   codanisNumber: string;
 
-  @Column('integer', { 
+  @Column('integer', {
     name: 'community',
-    comment: 'Las horas realizadas por parte del estudiante en integracion con la sociedad',
-   })
-   community: number;
+    comment:
+      'Las horas realizadas por parte del estudiante en integracion con la sociedad',
+  })
+  community: number;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'company_name',
     length: 255,
     comment: 'El nombre de la compania donde el estudiante trabaja',
-   })
-   companyName: string;
+  })
+  companyName: string;
 
-  @Column('varchar', { 
+  @Column('varchar', {
     name: 'contact_emergency_name',
     length: 255,
-    comment: 'Nombre del contacto de emergencia para informar sobre el estudiante',
-   })
-   contactEmergencyName: string;
+    comment:
+      'Nombre del contacto de emergencia para informar sobre el estudiante',
+  })
+  contactEmergencyName: string;
 
-  @Column('varchar', { 
+  @Column('varchar', {
     name: 'contact_emergency_kinship',
     length: 255,
-    comment: 'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
-   })
-   contactEmergencyKinship: string;
+    comment:
+      'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
+  })
+  contactEmergencyKinship: string;
 
-  @Column('varchar', { 
-    name: 'contact_emergency_phone', 
+  @Column('varchar', {
+    name: 'contact_emergency_phone',
     length: 255,
-    comment: 'Numeros de contacto de emergencia para informar sobre el estudiante',
-   })
-   contactEmergencyPhone: string;
+    comment:
+      'Numeros de contacto de emergencia para informar sobre el estudiante',
+  })
+  contactEmergencyPhone: string;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'degree_obtained_superior',
     length: 10,
     comment: 'obtuvo su grado superior si=1 , no= 2',
-   })
-   degreeObtainedSuperior: string;
+  })
+  degreeObtainedSuperior: string;
 
   @Column('varchar', {
     name: 'disability_type',
     length: 100,
     comment: 'Tipo de discapcidad que tiene el estudiante',
-   })
-   disabilityType: string;
- 
-  @Column('integer', { 
+  })
+  disabilityType: string;
+
+  @Column('integer', {
     name: 'disability_percentage',
     comment: 'El porcentaje de discapicidad que tiene el estudiante ',
-   })
-   disabilityPercentage: number;
+  })
+  disabilityPercentage: number;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'education_level_mother',
     length: 100,
     comment:
       'Nivel de formacion de ecuacion que tiene la madre 1 = Basico , 2 = Superior',
-   })
-   educationLevelMother: string;
+  })
+  educationLevelMother: string;
 
   @Column('varchar', {
     name: 'education_level_father',
     length: 100,
     comment:
       'Nivel de formacion de ecuacion que tiene la padre 1 = Basico , 2 = Superior',
-   })
-   educationLevelFather: string;
+  })
+  educationLevelFather: string;
 
-  @Column('integer', { 
+  @Column('integer', {
     name: 'economic_amount',
     comment: 'El monto de ayuda economica que el estudiante recibe',
-   })
-   economicAmount: number; 
+  })
+  economicAmount: number;
 
-   @Column('integer', { 
+  @Column('integer', {
     name: 'educational_amount',
     comment: 'El monto de credito que el estudiante tiene',
-   })
-   educationalAmount: number;
+  })
+  educationalAmount: number;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'economic_practice_sector',
     length: 20,
     comment: 'Sector economico que hizo las practicas el estudiante',
-   })
-   economicPracticeSector: string;
+  })
+  economicPracticeSector: string;
 
-  @Column('integer', { 
+  @Column('integer', {
     name: 'family_income',
     comment: 'La direccion donde reside el estudiante',
-   })
-   familyIncome: number;
+  })
+  familyIncome: number;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'financing_scholarship_type',
     length: 180,
     comment: 'recibi el estudiante un financiamiento si =1, no = 2',
-   })
-   financingScholarshipType: string;
+  })
+  financingScholarshipType: string;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'institution_practice_type',
     length: 100,
     comment: 'La institucion que hizo las practicas el estudiante',
   })
   institutionPracticeType: string;
 
-   @Column('varchar', { 
+  @Column('varchar', {
     name: 'is_lost_gratuity',
     length: 1,
     comment: 'Si el estudiante ah perdido la gratuidad en el instituto',
-   })
-   isLostGratuity: string;
+  })
+  isLostGratuity: string;
 
-
-   @Column('varchar', { 
+  @Column('varchar', {
     name: 'is_executed_practice',
     length: 1,
     comment: 'Si el estudiante ah realizado practicas = 1  , si no realizo = 2',
-   })
-   isExecutedPractice: string;
+  })
+  isExecutedPractice: string;
 
-  @Column('varchar', { 
+  @Column('varchar', {
     name: 'is_executed_community',
     length: 1,
-    comment: 'Si el estudiante ah realizado integracion con la sociedad = 1  , si no realizo = 2',
-   })
-   isExecutedCommunity: string;
+    comment:
+      'Si el estudiante ah realizado integracion con la sociedad = 1  , si no realizo = 2',
+  })
+  isExecutedCommunity: string;
 
-   @Column('integer', { 
+  @Column('integer', {
     name: 'members_house_number',
     comment: 'Numero de familiares con quien vive el estudiante',
-   })
-   membersHouseNumber: number;
+  })
+  membersHouseNumber: number;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'ocupation',
     length: 280,
     comment: ' ocupacion de la compañia donde el estudiante trabaja',
@@ -223,26 +218,26 @@ export class InformationStudentEntity {
   })
   phone: string;
 
-   @Column('integer', { 
+  @Column('integer', {
     name: 'practice_hours',
     comment: 'Las horas realizadas por parte del estudiante en pasantias',
-   })
-   practiceHours: number;
+  })
+  practiceHours: number;
 
-   @Column('varchar', { 
+  @Column('varchar', {
     name: 'postal_code',
     length: 100,
     comment: 'Codigo postal donde el estudiante reside',
-   })
-   postalCode: string;
+  })
+  postalCode: string;
 
-  @Column('integer', { 
+  @Column('integer', {
     name: 'scholarship_amount',
     comment: 'El monto de beca que el estudiante obtuvo',
-   })
-   scholarshipAmount: number;
+  })
+  scholarshipAmount: number;
 
-   @Column('varchar', {
+  @Column('varchar', {
     name: 'scholarship_reason1',
     length: 255,
     comment: 'Razon para que el estudiante pida una beca',
@@ -291,13 +286,13 @@ export class InformationStudentEntity {
   })
   scholarshipType: string;
 
-  @Column('integer', { 
+  @Column('integer', {
     name: 'tariff_scholarship_percentage',
     comment: 'El porcentaje de beca que cubre la institutcion el estudiante ',
-   })
-   tariffScholarshipPercentage: number;
+  })
+  tariffScholarshipPercentage: number;
 
-   @CreateDateColumn({
+  @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
@@ -318,9 +313,9 @@ export class InformationStudentEntity {
   })
   deletedAt: Date;
 
-/*
-  @OneToOne(() => StudentEntity, (student) => student.information_student)
-  @JoinColumn({name:'migratory_id'})
-  student: StudentEntity;
-*/  
+  /*
+    @OneToOne(() => StudentEntity, (student) => student.information_student)
+    @JoinColumn({name:'migratory_id'})
+    student: StudentEntity;
+  */
 }

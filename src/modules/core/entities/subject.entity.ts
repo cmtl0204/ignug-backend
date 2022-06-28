@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueEntity, CurriculumEntity  } from '@core/entities';
+import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
 @Entity('subjects')
 export class SubjectEntity {
@@ -102,5 +102,4 @@ export class SubjectEntity {
     comment: 'Horas del docente',
   })
   teacherHour: number;
-
 }

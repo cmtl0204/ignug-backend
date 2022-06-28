@@ -1,24 +1,27 @@
 import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param,
-    ParseIntPipe,
-    Post,
-    Put,
-    Query,
-  } from '@nestjs/common';
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { InformationStudentsService } from '@core/services';
-import { CreateInformationStudentDto,  UpdateInformationStudentDto } from '@core/dto';
+import {
+  CreateInformationStudentDto,
+  UpdateInformationStudentDto,
+} from '@core/dto';
 
 @Controller('information-students')
 export class InformationStudentsController {
-  constructor(private informationstudentsService:InformationStudentsService ) {}
-  
+  constructor(private informationstudentsService: InformationStudentsService) {}
+
   @Get('')
   @HttpCode(HttpStatus.OK)
   findAll(@Query() params: any) {
@@ -78,6 +81,3 @@ export class InformationStudentsController {
     // };
   }
 }
-
-
-  

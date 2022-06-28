@@ -51,6 +51,7 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({ summary: 'Filtrar usuarios' })
   @Get('filter')
   @HttpCode(HttpStatus.OK)
   filter(@Query() params: any) {

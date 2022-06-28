@@ -11,16 +11,14 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags,ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CurriculaServic } from '@core/services';
-import { CreateCurriculumDto,UpdateCurriculumDto } from '@core/dto';
-
+import { CreateCurriculumDto, UpdateCurriculumDto } from '@core/dto';
 
 @Controller('curricula')
 export class CurriculaController {
-  constructor(private curriculaService:CurriculaServic) {}
+  constructor(private curriculaService: CurriculaServic) {}
 
-  
   @Get('')
   @HttpCode(HttpStatus.OK)
   findAll(@Query() params: any) {
@@ -38,22 +36,22 @@ export class CurriculaController {
   findOne(@Param('id', ParseIntPipe) id: number) {
     const response = this.curriculaService.findOne(id);
 
-    return  response;
-  //   {
-  //     data: response,
-  //     message: `show`,
-  //   };
- }
+    return response;
+    //   {
+    //     data: response,
+    //     message: `show`,
+    //   };
+  }
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload:CreateCurriculumDto) {
+  create(@Body() payload: CreateCurriculumDto) {
     const response = this.curriculaService.create(payload);
-  return response;
-  
+    return response;
+
     //   return {
-  //     data: response,
-  //     message: `created`,
-  //   };
+    //     data: response,
+    //     message: `created`,
+    //   };
   }
 
   @Put(':id')
@@ -74,7 +72,7 @@ export class CurriculaController {
   @HttpCode(HttpStatus.CREATED)
   remove(@Param('id', ParseIntPipe) id: number) {
     const response = this.curriculaService.remove(id);
-     
+
     return response;
     // return {
     //   data: response,

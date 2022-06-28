@@ -7,4 +7,3 @@ export * from './students.controller';
 export * from './subjects.controller';
 export * from './teachers.controller';
 export * from './users.controller';
-

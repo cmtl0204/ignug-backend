@@ -14,10 +14,8 @@ export class TeachersService {
   constructor(
     @InjectRepository(TeacherEntity)
     private teacherRepository: Repository<TeacherEntity>,
-    private cataloguesService: CataloguesService
-
-  ) { }
-
+    private cataloguesService: CataloguesService,
+  ) {}
 
   async create(payload: CreateTeacherDto) {
     const newTeacher = this.teacherRepository.create(payload);
@@ -85,5 +83,4 @@ export class TeachersService {
 
     return this.teacherRepository.save(teacher);
   }
-
 }

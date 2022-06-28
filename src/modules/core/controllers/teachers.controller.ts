@@ -18,14 +18,14 @@ import { TeachersService } from '@core/services';
 
 @Controller('teachers')
 export class TeachersController {
-  constructor(private teachersService: TeachersService) { }
+  constructor(private teachersService: TeachersService) {}
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   store(@Body() payload: CreateTeacherDto) {
     const response = this.teachersService.create(payload);
     return {
-    data: response,
+      data: response,
       message: `created teacher`,
     };
   }

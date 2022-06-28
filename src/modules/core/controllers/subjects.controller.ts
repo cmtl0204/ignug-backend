@@ -17,7 +17,7 @@ import { SubjectsService } from '@core/services';
 
 @Controller('subjects')
 export class SubjectsController {
-  constructor(private subjectsService: SubjectsService) { }
+  constructor(private subjectsService: SubjectsService) {}
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
@@ -40,12 +40,11 @@ export class SubjectsController {
     return response;
   }
 
-
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateSubjectDto
+    @Body() payload: UpdateSubjectDto,
   ) {
     const response = this.subjectsService.update(id, payload);
     return response;

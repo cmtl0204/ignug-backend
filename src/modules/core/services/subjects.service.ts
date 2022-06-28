@@ -11,12 +11,12 @@ export class SubjectsService {
     @InjectRepository(SubjectEntity)
     private subjectRepository: Repository<SubjectEntity>,
     private catalogueService: CataloguesService,
-  ) { }
+  ) {}
 
   async create(payload: CreateSubjectDto) {
     const newSubject = this.subjectRepository.create(payload);
     newSubject.academicPeriod = await this.catalogueService.findOne(
-      payload.academicPeriodId
+      payload.academicPeriodId,
     );
     const response = await this.subjectRepository.save(newSubject);
     return await this.subjectRepository.save(response);
@@ -59,4 +59,3 @@ export class SubjectsService {
     return await this.subjectRepository.softDelete(id);
   }
 }
-

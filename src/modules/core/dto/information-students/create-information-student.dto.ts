@@ -4,17 +4,17 @@ import {
   IsPositive,
   MaxLength,
   Min,
-  Max, 
-  } from 'class-validator';
+  Max,
+} from 'class-validator';
 
-export class CreateInformationStudentDto{ 
+export class CreateInformationStudentDto {
   @IsNumber({}, { message: 'El campo debe ser un numero' })
   @IsPositive({ message: 'El campo debe ser un entero positivo' })
   readonly isBonusDevelopmentReceiveId: number; //fk
 
   @IsString({ message: 'Debe ser un string' })
-  @MaxLength(1000,{ message: 'Maximo 1000 caracteres' })
-  readonly address :string;
+  @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
+  readonly address: string;
 
   @IsString({ message: 'Se acepta solo string' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
@@ -23,9 +23,9 @@ export class CreateInformationStudentDto{
   @IsString({ message: 'Se acepta solo numero' })
   @MaxLength(100, { message: 'Maximo 100 caracteres' })
   readonly cellPhone: string;
- 
+
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(0,{ message: 'El número de digitos mínimo es 0.' })
+  @Min(0, { message: 'El número de digitos mínimo es 0.' })
   readonly community: number;
 
   @IsString({ message: 'Se acepta solo string' })
@@ -35,7 +35,7 @@ export class CreateInformationStudentDto{
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly contactEmergencyName: string;
- 
+
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly contactEmergencyKinship: string;
@@ -53,8 +53,8 @@ export class CreateInformationStudentDto{
   readonly differentiatedPension: string;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(0,{ message: 'El número de digito mínimo es 0.' })
-  @Max(100,{ message: 'Maximo 100 digito' })
+  @Min(0, { message: 'El número de digito mínimo es 0.' })
+  @Max(100, { message: 'Maximo 100 digito' })
   readonly disabilityPercentage: number;
 
   @IsString({ message: 'Se acepta solo string' })
@@ -62,7 +62,7 @@ export class CreateInformationStudentDto{
   readonly disabilityType: string;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(0,{ message: 'El número de digito mínimo es 0.' })
+  @Min(0, { message: 'El número de digito mínimo es 0.' })
   readonly educationalAmount: number;
 
   @IsString({ message: 'Se acepta string' })
@@ -74,7 +74,7 @@ export class CreateInformationStudentDto{
   readonly educationLevelFather: string;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(0,{ message: 'El número de digito mínimo es 0.' })
+  @Min(0, { message: 'El número de digito mínimo es 0.' })
   readonly economicAmount: number;
 
   @IsString({ message: 'Se acepta string' })
@@ -94,18 +94,18 @@ export class CreateInformationStudentDto{
 
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(1, { message: 'Maximo 1 caracter' })
-  readonly isExecutedCommunity : string;
+  readonly isExecutedCommunity: string;
 
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(1, { message: 'Maximo 1 caracter' })
-  readonly isLostGratuity : string;
+  readonly isLostGratuity: string;
 
   @IsString({ message: 'Se acepta string' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly institutionPracticeType: string;
-  
+
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(1,{ message: 'El número de digitos mínimo es 1.' })
+  @Min(1, { message: 'El número de digitos mínimo es 1.' })
   @Max(20, { message: 'Maximo 20 digitos' })
   readonly membersHouseNumber: number;
 
@@ -122,7 +122,7 @@ export class CreateInformationStudentDto{
   readonly postalCode: string;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(0,{ message: 'El número de digito mínimo es 0.' })
+  @Min(0, { message: 'El número de digito mínimo es 0.' })
   readonly practiceHours: number;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
@@ -157,11 +157,11 @@ export class CreateInformationStudentDto{
   readonly scholarshipType: string;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @Min(0,{ message: 'El número de digito mínimo es 0.' })
-  @Max(100,{ message: 'Maximo 100 digito' })
+  @Min(0, { message: 'El número de digito mínimo es 0.' })
+  @Max(100, { message: 'Maximo 100 digito' })
   readonly tariffScholarshipPercentage: number;
 
-   //@IsString()
+  //@IsString()
   //@MinLength(5)
   //@MaxLength(10)
   //@IsPositive()
@@ -179,24 +179,24 @@ export class CreateInformationStudentDto{
   // @IsNumber()
   // @IsPositive()
   // readonly : number;
-  // 
+  //
 
   /*
     @IsNumber({}, { message: 'Debe ser tipo numero' })
     @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
     readonly migratoryCategoryId : number;//fk
 */
-/*
+  /*
 @IsNumber({}, { message: 'Debe ser tipo numero' })
 @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
 readonly studentId:number; //fk student
 */
-/*
+  /*
 @IsNumber({}, { message: 'Debe ser tipo numero' })
 @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
 readonly civilStateId: number; //fk*/
 
-/*
+  /*
 @IsNumber({}, { message: 'Debe ser tipo numero' })
 @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
 readonly scopeCommunityId: number;//fk

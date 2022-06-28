@@ -7,12 +7,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   OneToOne,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('teacher')
 export class TeacherEntity {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -50,7 +49,7 @@ export class TeacherEntity {
   @JoinColumn({ name: 'username_id' })
   username: CatalogueEntity;
 
-//fin
+  //fin
   @Column('varchar', {
     name: 'academic_unit',
     length: 255,
@@ -188,6 +187,4 @@ export class TeacherEntity {
     nullable: true,
   })
   deletedAt: Date;
-
 }
-
