@@ -10,13 +10,11 @@ import { Body,
     Put, 
     Query } 
     from "@nestjs/common";
-import { CareersService } from './careers.service';
-import { CreateCareerDto} from './dto/create-career.dto';
-import {UpdateCareerDto } from './dto/update-career.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { CareersService } from '@auth/services';
+import { CreateCareerDto, UpdateCareerDto} from '@auth/dto';
 
-
-@Controller("careers")
+@Controller('careers')
 export class CareersController {
     constructor(private careersService: CareersService) {}
 
