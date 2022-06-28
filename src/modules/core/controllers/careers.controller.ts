@@ -11,8 +11,8 @@ import { Body,
     Query } 
     from "@nestjs/common";
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CareersService } from '@auth/services';
-import { CreateCareerDto, UpdateCareerDto} from '@auth/dto';
+import { CareersService } from '@core/services';
+import { CreateCareerDto, UpdateCareerDto} from '@core/dto';
 
 @Controller('careers')
 export class CareersController {
