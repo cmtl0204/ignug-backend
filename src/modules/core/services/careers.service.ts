@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { CreateCareerDto, UpdateCareerDto} from '@auth/dto';
-import { CareerEntity } from "@auth/entities";
+import { CreateCareerDto, UpdateCareerDto} from "@core/dto";
+import { CareerEntity } from "@core/entities";
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
