@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateTeacherDto } from './dto/create-teachers.dto';
-import { UpdateTeacherDto } from './dto/update-teachers.dto';
+import { CreateTeacherDto } from '@core/dto';
+import { UpdateTeacherDto } from '@core/dto';
 import { Repository } from 'typeorm';
-import { TeacherEntity } from './entities/teacher.entity';
+import { TeacherEntity } from '@core/entities';
+import { CataloguesService } from '@core/services';
 
 @Injectable()
 export class TeachersService {
@@ -13,12 +14,37 @@ export class TeachersService {
   constructor(
     @InjectRepository(TeacherEntity)
     private teacherRepository: Repository<TeacherEntity>,
+    private cataloguesService: CataloguesService
+
   ) { }
 
 
   async create(payload: CreateTeacherDto) {
     const newTeacher = this.teacherRepository.create(payload);
-
+    newTeacher.teachingLadder = await this.cataloguesService.findOne(
+      payload.teachingLadderId,
+    );
+    newTeacher.dedicationTime = await this.cataloguesService.findOne(
+      payload.dedicationTimeId,
+    );
+    newTeacher.higherEducation = await this.cataloguesService.findOne(
+      payload.higherEducationId,
+    );
+    newTeacher.countryHigherEducation = await this.cataloguesService.findOne(
+      payload.countryHigherEducationId,
+    );
+    newTeacher.scholarship = await this.cataloguesService.findOne(
+      payload.scholarshipId,
+    );
+    newTeacher.scholarshipType = await this.cataloguesService.findOne(
+      payload.scholarshipTypeId,
+    );
+    newTeacher.financingType = await this.cataloguesService.findOne(
+      payload.financingTypeId,
+    );
+    newTeacher.username = await this.cataloguesService.findOne(
+      payload.usernameId,
+    );
     return this.teacherRepository.save(newTeacher);
   }
 

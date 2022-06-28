@@ -1,5 +1,4 @@
-import { CataloguesService } from 'src/catalogue/catalogue.service';
-import { CatalogueEntity } from 'src/catalogue/entities/catalogue.entity';
+import { CatalogueEntity } from '@core/entities';
 import {
   Column,
   CreateDateColumn,
@@ -17,147 +16,178 @@ export class TeacherEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => CatalogueEntity, (catalogue) => catalogue.teacher, { nullable:false })
-  @JoinColumn({ name: 'teaching_ladder_id' })
-  catalogue: CatalogueEntity;
-  teachingLadderId: CataloguesService
-  /*
-  @Column('float')
-   teachingLadderId: number;
-  @Column( 'float' )
-   dedicationTimeId: number;
-  @Column( 'float' )
-   higherEducationId: number;
-  @Column( 'float' )
-   countryHigherEducationId: number;
-  @Column( 'float' )
-   scholarshipId: number;
-  @Column( 'float' )
-   scholarshipTypeId: number;
-  @Column( 'float' )
-   financingTypeId: number;*/
+  //fk
 
-   
-  @Column( 'varchar', {
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'teaching_ladder_id' })
+  teachingLadder: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'dedication_time_id' })
+  dedicationTime: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'higher_education_id' })
+  higherEducation: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'country_higher_education_id' })
+  countryHigherEducation: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'scholarship_id' })
+  scholarship: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'scholarship_type_id' })
+  scholarshipType: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'financing_type_id' })
+  financingType: CatalogueEntity;
+
+  @OneToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'username_id' })
+  username: CatalogueEntity;
+
+//fin
+  @Column('varchar', {
     name: 'academic_unit',
     length: 255,
-    comment: 'Academia unidad'
+    comment: 'Nombre de la unidad academica',
   })
-   academicUnit: string;
+  academicUnit: string;
 
-  @Column( 'integer', {
+  @Column('float', {
     name: 'administrative_hours',
-    comment: 'Horas administrativas'
+    unsigned: true,
+    comment: 'Horas dedicadas a la administracion al mes',
   })
-   administrativeHours: number;
+  administrativeHours: number;
 
-   @Column( 'integer', {
+  @Column('float', {
     name: 'class_hours',
-    comment: 'Horas de clases'
-  })   
+    unsigned: true,
+    comment: 'Total de horas de clase dadas',
+  })
   classHours: number;
 
-  @Column( 'integer', {
+  @Column('float', {
     name: 'community_hours',
-    comment: 'Horas de  comunidad'
-  })   
+    unsigned: true,
+    comment: 'Horas dedicadas a labores comunitarios',
+  })
   communityHours: number;
 
-  @Column( 'varchar', {
+  @Column('varchar', {
     name: 'degree_higher_education',
     length: 255,
-    comment: 'Educacion'
+    comment: 'Que grado de educación superior tiene el usuario',
   })
-   degreeHigherEducation: string;
+  degreeHigherEducation: string;
 
-     @Column('date', {
-      name: 'holidays',
-      comment: 'Fecha de salida',
-    })  
-     holidays: Date;
-
-    @Column('date', {
-      name: 'home_vacation',
-      comment: 'Fecha de vacaciones',
-    })   
-    homeVacation: Date;
-
-   @Column( 'integer', {
+  @Column('float', {
     name: 'hours_worked',
-    comment: 'Horas de trabajo'
-  })  
+    unsigned: true,
+    comment: 'Total de las horas trabajadas al mes',
+  })
   hoursWorked: number;
 
-     @Column( 'varchar', {
-      name: 'institution_higher_education',
-      length: 255,
-      comment: 'Institucion educativa'
-    })   
-    institutionHigherEducation: string;
+  @Column('date', {
+    name: 'holidays',
+    comment: 'Fecha de los dias festivos.',
+  })
+  holidays: Date;
 
-    @Column( 'varchar', {
-      name: 'other_hours',
-      length: 255,
-      comment: 'otras horas de trabajo'
-    })  
-     otherHours: string;
+  @Column('date', {
+    name: 'home_vacation',
+    comment: 'Fecha para las vacacines',
+  })
+  homeVacation: Date;
 
-   @Column( 'integer', {
+  @Column('varchar', {
+    name: 'institution_higher_education',
+    length: 255,
+    comment: 'Nombre de la institución de educación superior',
+  })
+  institutionHigherEducation: string;
+
+  @Column('float', {
+    name: 'investigation_hours',
+    unsigned: true,
+    comment: 'Horas de investigacion al mes',
+  })
+  investigationHours: number;
+
+  @Column('varchar', {
+    name: 'other_hours',
+    length: 255,
+    comment: 'Horas dedicadas a otras actividades',
+  })
+  otherHours: string;
+
+  @Column('float', {
     name: 'publications',
-    comment: 'Publicaciones'
-  })    
-   publications: number;
+    unsigned: true,
+    comment: '//revisar',
+  })
+  publications: number;
 
-  @Column( 'integer', {
+  @Column('float', {
     name: 'scholarship_amount',
-    comment: 'Horas de trabajo'
-  })    
-   scholarshipAmount: number;
+    unsigned: true,
+    comment: 'Precio de la beca a pagar',
+  })
+  scholarshipAmount: number;
 
-  @Column( 'integer', {
-    name: 'total_subjects',
-    comment: 'total de sujetos'
-  })     
+  @Column('float', {
+    name: 'tolta_subjects',
+    unsigned: true,
+    comment: 'Total de personas en la academia',
+  })
   totalSubjects: number;
 
-  @Column( 'varchar', {
+  @Column('varchar', {
     name: 'technical',
     length: 255,
-    comment: 'tenico'
-  })   
+    comment: 'nombre de la tecnica a usar',
+  })
   technical: string;
 
-  @Column( 'varchar', {
+  @Column('varchar', {
     name: 'technology',
     length: 255,
-    comment: 'tecnologia'
-  })  
-   technology: string;
+    comment: 'nombres de las salas de tecnologia',
+  })
+  technology: string;
 
-   @Column( 'integer', {
+  @Column('float', {
     name: 'total_publications',
-    comment: 'publicaciones totales'
-  })     
+    unsigned: true,
+    comment: 'Total de las publicaciones realizadas sata el momento',
+  })
   totalPublications: number;
 
-     @CreateDateColumn({
-      name: 'created_at',
-      type: 'timestamptz',
-      default: () => 'CURRENT_TIMESTAMP',
-    })
-    createdAt: Date;
-  
-    @UpdateDateColumn({
-      name: 'updated_at',
-      type: 'timestamptz',
-      default: () => 'CURRENT_TIMESTAMP',
-    })
-    updatedAt: Date;
-  
-    @DeleteDateColumn({
-      name: 'deleted_at',
-      type: 'timestamptz',
-      nullable: true,
-    })
-    deletedAt: Date;
-  }
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamptz',
+    nullable: true,
+  })
+  deletedAt: Date;
+
+}
+
