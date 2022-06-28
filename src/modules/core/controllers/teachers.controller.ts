@@ -12,9 +12,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateTeacherDto } from './dto/create-teacher.dto';
-import { UpdateTeacherDto } from './dto/update-teacher.dto';
-import { TeachersService } from 'src/teachers/teachers.service';
+import { CreateTeacherDto } from '@core/dto';
+import { UpdateTeacherDto } from '@core/dto';
+import { TeachersService } from '@core/services';
 
 @Controller('teachers')
 export class TeachersController {
@@ -24,34 +24,30 @@ export class TeachersController {
   @HttpCode(HttpStatus.CREATED)
   store(@Body() payload: CreateTeacherDto) {
     const response = this.teachersService.create(payload);
-    return response;
-    /*return {
-      data: response,
-      message: `created`,
-    };*/
+    return {
+    data: response,
+      message: `created teacher`,
+    };
   }
 
   @Get('')
   @HttpCode(HttpStatus.OK)
   index(@Query() params: any) {
     const response = this.teachersService.findAll();
-
-    return response;
-    /*return {
+    return {
       data: response,
       message: `index`,
-    };*/
+    };
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   show(@Param('id', ParseIntPipe) id: number) {
     const response = this.teachersService.findOne(id);
-    return response;
-    /*return {
+    return {
       data: response,
       message: `show`,
-    };*/
+    };
   }
 
   @Put(':id')
@@ -61,21 +57,19 @@ export class TeachersController {
     @Body() payload: UpdateTeacherDto,
   ) {
     const response = this.teachersService.update(id, payload);
-    return response;
-    /*return {
+    return {
       data: response,
       message: `updated ${id}`,
-    };*/
+    };
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   destroy(@Param('id', ParseIntPipe) id: number) {
     const response = this.teachersService.delete(id);
-    return response;
-    /*return {
+    return {
       data: response,
       message: `deleted`,
-    };*/
+    };
   }
 }
