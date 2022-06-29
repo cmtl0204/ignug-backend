@@ -1,55 +1,55 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CataloguesService } from '@core/services';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm/repository/Repository';
-import { InformationTeacherEntity } from '../entities/information-teacher.entity';
-import {
-  CreateInformationTeacherDto,
-  UpdateInformationTeacherDto,
-} from '@core/dto';
+import { Repository } from 'typeorm';
+import { InformationTeacherEntity } from '@core/entities';
+import { CreateInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
 
 @Injectable()
 export class InformationTeachersService {
+
   constructor(
     @InjectRepository(InformationTeacherEntity)
     private InformationTeacherRepository: Repository<InformationTeacherEntity>,
-    private cataloguesService: CataloguesService,
-  ) {}
+    private cataloguesService: CataloguesService
+
+  ) { }
+
 
   async create(payload: CreateInformationTeacherDto) {
-    const newTeacher = this.InformationTeacherRepository.create(payload);
-    newTeacher.teachingLadder = await this.cataloguesService.findOne(
+    const informationTeacher = this.InformationTeacherRepository.create(payload);
+    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
       payload.teachingLadderId,
     );
 
-    newTeacher.dedicationTime = await this.cataloguesService.findOne(
+    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
       payload.dedicationTimeId,
     );
 
-    newTeacher.higherEducation = await this.cataloguesService.findOne(
+    informationTeacher.higherEducation = await this.cataloguesService.findOne(
       payload.higherEducationId,
     );
 
-    newTeacher.countryHigherEducation = await this.cataloguesService.findOne(
+    informationTeacher.countryHigherEducation = await this.cataloguesService.findOne(
       payload.countryHigherEducationId,
     );
-    newTeacher.scholarship = await this.cataloguesService.findOne(
+    informationTeacher.scholarship = await this.cataloguesService.findOne(
       payload.scholarshipId,
     );
 
-    newTeacher.scholarshipType = await this.cataloguesService.findOne(
+    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
       payload.scholarshipTypeId,
     );
 
-    newTeacher.financingType = await this.cataloguesService.findOne(
+    informationTeacher.financingType = await this.cataloguesService.findOne(
       payload.financingTypeId,
     );
 
-    newTeacher.username = await this.cataloguesService.findOne(
+    informationTeacher.username = await this.cataloguesService.findOne(
       payload.usernameId,
     );
 
-    const response = await this.InformationTeacherRepository.save(newTeacher);
+    const response = await this.InformationTeacherRepository.save(informationTeacher);
     return this.InformationTeacherRepository.save(response);
   }
 
@@ -58,17 +58,19 @@ export class InformationTeachersService {
   }
 
   async findOne(id: number) {
-    const teacher = await this.InformationTeacherRepository.findOne({
+    const informationTeacher = await this.InformationTeacherRepository.findOne({
+      
       where: {
         id: id,
       },
+      
     });
 
-    if (teacher === null) {
+    if (informationTeacher === null) {
       throw new NotFoundException('El teacher no se encontro');
     }
 
-    return teacher;
+    return informationTeacher;
   }
 
   async remove(id: number) {
@@ -76,18 +78,22 @@ export class InformationTeachersService {
   }
 
   async update(id: number, payload: UpdateInformationTeacherDto) {
-    const teacher = await this.InformationTeacherRepository.findOne({
+    const informationTeacher = await this.InformationTeacherRepository.findOne({
+      
       where: {
         id: id,
       },
+      
     });
 
-    if (teacher === null) {
+    if (informationTeacher === null) {
       throw new NotFoundException('El docente no se encontro');
     }
+  
 
-    this.InformationTeacherRepository.merge(teacher, payload);
+    await this.InformationTeacherRepository.merge(informationTeacher, payload);
 
-    return this.InformationTeacherRepository.save(teacher);
+    return await this.InformationTeacherRepository.save(informationTeacher);
   }
+
 }

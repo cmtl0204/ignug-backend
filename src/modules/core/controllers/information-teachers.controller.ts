@@ -12,10 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  CreateInformationTeacherDto,
-  UpdateInformationTeacherDto,
-} from '@core/dto';
+import { CreateInformationTeacherDto, UpdateInformationTeacherDto} from '@core/dto';
 import { InformationTeachersService } from '@core/services';
 
 @ApiTags('information-teachers')
