@@ -47,6 +47,10 @@ export class InstitutionsService {
 
     if (institution === null)
       throw new NotFoundException('not found institution');
+    institution.address = await this.cataloguesService.findOne(
+      payload.addressId,
+    );
+    institution.state = await this.cataloguesService.findOne(payload.stateId);
     await this.institutionRepository.merge(institution, payload);
     return await this.institutionRepository.save(institution);
   }
