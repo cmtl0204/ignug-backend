@@ -18,18 +18,17 @@ export class InformationStudentEntity {
   id: number;
 
   @ManyToOne(() => CatalogueEntity)
-  isBonusDevelopmentReceive: CatalogueEntity; //fk
+  isBonusDevelopmentReceive: CatalogueEntity; 
   @ManyToOne(
-    () => CatalogueEntity,
-    (catalogue) => catalogue.isAncestralLanguage,
+    () => CatalogueEntity
   )
-  isAncestralLanguage: CatalogueEntity; //fk
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isDegreeSuperior)
-  isDegreeSuperior: CatalogueEntity; //fk
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isDisability)
-  isDisability: CatalogueEntity; //fk
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isSubjectRepeat)
-  isSubjectRepeat: CatalogueEntity; //fk
+  isAncestralLanguage: CatalogueEntity; 
+  @ManyToOne(() => CatalogueEntity)
+  isDegreeSuperior: CatalogueEntity; 
+  @ManyToOne(() => CatalogueEntity)
+  isDisability: CatalogueEntity; 
+  @ManyToOne(() => CatalogueEntity)
+  isSubjectRepeat: CatalogueEntity; 
   @Column('varchar', {
     name: 'address',
     length: 1000,
