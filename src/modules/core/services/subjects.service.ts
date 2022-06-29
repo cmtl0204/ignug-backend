@@ -19,13 +19,6 @@ export class SubjectsService {
     newSubject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriodId,
     );
-<<<<<<< HEAD
-    newSubject.state = await this.catalogueService.findOne(payload.stateId);
-    newSubject.type = await this.catalogueService.findOne(payload.typeId);
-    newSubject.curriculum = await this.curriculumService.findOne(
-      payload.curriculumId,
-    );
-=======
 
     newSubject.state = await this.catalogueService.findOne(payload.stateId);
 
@@ -35,7 +28,6 @@ export class SubjectsService {
       payload.curriculumId,
     );
 
->>>>>>> 9350dee7688935a42a07ba27fe29eb1a5b4ee2be
     return await this.subjectRepository.save(newSubject);
   }
 
@@ -70,13 +62,6 @@ export class SubjectsService {
     subject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriodId,
     );
-<<<<<<< HEAD
-    subject.state = await this.catalogueService.findOne(payload.stateId);
-    subject.type = await this.catalogueService.findOne(payload.typeId);
-    subject.curriculum = await this.curriculumService.findOne(
-      payload.curriculumId,
-    );
-=======
     
     subject.state = await this.catalogueService.findOne(payload.stateId);
 
@@ -86,7 +71,6 @@ export class SubjectsService {
       payload.curriculumId,
     );
 
->>>>>>> 9350dee7688935a42a07ba27fe29eb1a5b4ee2be
     this.subjectRepository.merge(subject, payload);
     return this.subjectRepository.save(subject);
   }
