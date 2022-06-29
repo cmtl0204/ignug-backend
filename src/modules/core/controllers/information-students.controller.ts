@@ -13,7 +13,9 @@ import {
 } from '@nestjs/common';
 
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+
 import { InformationStudentsService } from '@core/services';
+
 import {
   CreateInformationStudentDto,
   UpdateInformationStudentDto,

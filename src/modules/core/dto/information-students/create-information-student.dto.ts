@@ -177,25 +177,25 @@ export class CreateInformationStudentDto {
   // readonly : number;
   //
   /*
-    @IsNumber({}, { message: 'Debe ser tipo numero' })
-    @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-    readonly migratoryCategoryId : number;//fk
-*/
+      @IsNumber({}, { message: 'Debe ser tipo numero' })
+      @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
+      readonly migratoryCategoryId : number;//fk
+  */
   /*
-@IsNumber({}, { message: 'Debe ser tipo numero' })
-@IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-readonly studentId:number; //fk student
-*/
+  @IsNumber({}, { message: 'Debe ser tipo numero' })
+  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
+  readonly studentId:number; //fk student
+  */
   /*
-@IsNumber({}, { message: 'Debe ser tipo numero' })
-@IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-readonly civilStateId: number; //fk*/
+  @IsNumber({}, { message: 'Debe ser tipo numero' })
+  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
+  readonly civilStateId: number; //fk*/
 
   /*
-@IsNumber({}, { message: 'Debe ser tipo numero' })
-@IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-readonly scopeCommunityId: number;//fk
-@IsNumber({}, { message: 'Debe ser tipo numero' })
-@IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-readonly stateId: number; ///fk*/
+  @IsNumber({}, { message: 'Debe ser tipo numero' })
+  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
+  readonly scopeCommunityId: number;//fk
+  @IsNumber({}, { message: 'Debe ser tipo numero' })
+  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
+  readonly stateId: number; ///fk*/
 }
