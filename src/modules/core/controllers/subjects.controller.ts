@@ -27,11 +27,7 @@ export class SubjectsController {
     const response = this.subjectsService.create(payload);
     return response;
   }
-<<<<<<< HEAD
-
-=======
   
->>>>>>> 9350dee7688935a42a07ba27fe29eb1a5b4ee2be
   @ApiOperation({ summary: 'List of subjects' })
   @Get('')
   @HttpCode(HttpStatus.OK)
@@ -48,17 +44,6 @@ export class SubjectsController {
     return response;
   }
 
-<<<<<<< HEAD
-  @ApiOperation({ summary: 'Remove subjects' })
-  @Delete(':id')
-  @HttpCode(HttpStatus.CREATED)
-  remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.subjectsService.remove(id);
-    return response;
-  } 
-
-=======
->>>>>>> 9350dee7688935a42a07ba27fe29eb1a5b4ee2be
   @ApiOperation({ summary: 'Update subjects' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
@@ -69,8 +54,6 @@ export class SubjectsController {
     const response = this.subjectsService.update(id, payload);
     return response;
   }
-<<<<<<< HEAD
-=======
 
   @ApiOperation({ summary: 'Remove subjects' })
   @Delete(':id')
@@ -79,5 +62,4 @@ export class SubjectsController {
     const response = this.subjectsService.remove(id);
     return response;
   } 
->>>>>>> 9350dee7688935a42a07ba27fe29eb1a5b4ee2be
 }
