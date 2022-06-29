@@ -4,6 +4,7 @@ export * from './users.service';
 export * from './careers.service';
 export * from './curricula.service';
 export * from './information-students.service';
+export * from './information-te';
 export * from './institutions.service';
 export * from './students.service';
 export * from './subjects.service';

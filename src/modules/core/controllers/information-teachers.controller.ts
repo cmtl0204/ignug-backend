@@ -12,13 +12,16 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
+import {
+  CreateInformationTeacherDto,
+  UpdateInformationTeacherDto,
+} from '@core/dto';
 import { InformationTeachersService } from '@core/services';
 
 @ApiTags('information-teachers')
 @Controller('information-teachers')
 export class InformationTeachersController {
-  constructor(private informationTeachersService: InformationTeachersService) { }
+  constructor(private informationTeachersService: InformationTeachersService) {}
 
   @ApiOperation({ summary: 'Crea un nuevo docente' })
   @Post('')
@@ -68,6 +71,4 @@ export class InformationTeachersController {
       message: `updated ${id}`,
     };
   }
-
-
 }

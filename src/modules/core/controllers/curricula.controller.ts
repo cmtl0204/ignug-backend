@@ -12,9 +12,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateCurriculumDto} from '@core/dto';
+import { CreateCurriculumDto } from '@core/dto';
 import { CurriculaService } from '../services/curricula.service';
-import { UpdateCurriculumDto } from '../dto/curricula/update-curricula.dto';
+import { UpdateCurriculumDto } from '../dto/curricula/update-curriculum.dto';
 
 @ApiTags('curricula')
 @Controller('curricula')
@@ -43,7 +43,6 @@ export class CurriculaController {
     //     data: response,
     //     message: `show`,
     //   };
-
   }
 
   @ApiOperation({ summary: 'List of curricula' })

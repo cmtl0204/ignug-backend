@@ -1,6 +1,6 @@
 import {
-  Controller,
   Body,
+  Controller,
   Delete,
   Get,
   HttpCode,
@@ -11,63 +11,64 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
-import { InformationTeachersService } from '@core/services';
 
-@ApiTags('information-teachers')
-@Controller('information-teachers')
-export class InformationTeachersController {
-  constructor(private informationTeachersService: InformationTeachersService) { }
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { InformationStudentsService } from '@core/services';
+import {
+  CreateInformationStudentDto,
+  UpdateInformationStudentDto,
+} from '@core/dto';
 
-  @ApiOperation({ summary: 'Crea un nuevo docente' })
-  @Post('')
-  @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: CreateInformationTeacherDto) {
-    const response = this.informationTeachersService.create(payload);
-    return response;
-  }
+@ApiTags('information-students')
+@Controller('information-students')
+export class InformationStudentsController {
+  constructor(private informationstudentsService: InformationStudentsService) {}
 
-  @ApiOperation({ summary: 'Consulta los docentes' })
+  @ApiOperation({ summary: 'List of information students' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  index(@Query() params: any) {
-    const response = this.informationTeachersService.findAll();
+  findAll(@Query() params: any) {
+    const response = this.informationstudentsService.findAll();
+
     return response;
   }
 
-  @ApiOperation({ summary: 'Consulta un solo docente' })
+  @ApiOperation({ summary: 'View one information students' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  show(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationTeachersService.findOne(id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    const response = this.informationstudentsService.findOne(id);
+
     return response;
   }
 
-  @ApiOperation({ summary: 'Elimina un docente' })
-  @Delete(':id')
+  @ApiOperation({ summary: 'Create information students' })
+  @Post('')
   @HttpCode(HttpStatus.CREATED)
-  destroy(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationTeachersService.remove(id);
-    return {
-      data: response,
-      message: `deleted`,
-    };
+  create(@Body() payload: CreateInformationStudentDto) {
+    const response = this.informationstudentsService.create(payload);
+
+    return response;
   }
 
-  @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
+  @ApiOperation({ summary: 'Update information students' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateInformationTeacherDto,
+    @Body() payload: UpdateInformationStudentDto,
   ) {
-    const response = this.informationTeachersService.update(id, payload);
-    return {
-      data: response,
-      message: `updated ${id}`,
-    };
+    const response = this.informationstudentsService.update(id, payload);
+
+    return response;
   }
 
+  @ApiOperation({ summary: 'Remove information students' })
+  @Delete(':id')
+  @HttpCode(HttpStatus.CREATED)
+  delete(@Param('id', ParseIntPipe) id: number) {
+    const response = this.informationstudentsService.remove(id);
 
+    return response;
+  }
 }
