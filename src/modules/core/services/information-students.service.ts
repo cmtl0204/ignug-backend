@@ -1,99 +1,74 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CataloguesService } from '@core/services';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm/repository/Repository';
-import { InformationTeacherEntity } from '@core/entities';
-import { CreateInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
+import { Repository } from 'typeorm';
+import {
+  CreateInformationStudentDto,
+  UpdateInformationStudentDto,
+} from '@core/dto';
+import { CataloguesService } from '@core/services';
+import { InformationStudentEntity } from '@core/entities';
 
 @Injectable()
-export class InformationTeachersService {
-
+export class InformationStudentsService {
   constructor(
-    @InjectRepository(InformationTeacherEntity)
-    private InformationTeacherRepository: Repository<InformationTeacherEntity>,
-    private cataloguesService: CataloguesService
+    @InjectRepository(InformationStudentEntity)
+    private informationStudentRepository: Repository<InformationStudentEntity>,
+    private cataloguesService: CataloguesService,
+  ) {}
 
-  ) { }
-
-
-  async create(payload: CreateInformationTeacherDto) {
-    const informationTeacher = this.InformationTeacherRepository.create(payload);
-    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
-      payload.teachingLadderId,
+  async create(payload: CreateInformationStudentDto) {
+    const newInformationsStudent =
+      this.informationStudentRepository.create(payload);
+    this.informationStudentRepository.create(payload);
+    newInformationsStudent.isBonusDevelopmentReceive =
+      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceiveId);
+    newInformationsStudent.isAncestralLanguage =
+      await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+    newInformationsStudent.isDegreeSuperior =
+      await this.cataloguesService.findOne(payload.isDegreeSuperiorId);
+    newInformationsStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisabilityId,
     );
+    newInformationsStudent.isSubjectRepeat =
+      await this.cataloguesService.findOne(payload.isSubjectRepeatId);
+    return await this.informationStudentRepository.save(newInformationsStudent);
+  }
 
-    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
-      payload.dedicationTimeId,
-    );
-
-    informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducationId,
-    );
-
-    informationTeacher.countryHigherEducation = await this.cataloguesService.findOne(
-      payload.countryHigherEducationId,
-    );
-    informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarshipId,
-    );
-
-    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipTypeId,
-    );
-
-    informationTeacher.financingType = await this.cataloguesService.findOne(
-      payload.financingTypeId,
-    );
-
-    informationTeacher.username = await this.cataloguesService.findOne(
-      payload.usernameId,
-    );
-
-    const response = await this.InformationTeacherRepository.save(informationTeacher);
-    return this.InformationTeacherRepository.save(response);
+  async delete(id: number) {
+    return await this.informationStudentRepository.softDelete(id);
   }
 
   async findAll() {
-    return await this.InformationTeacherRepository.find();
+    return await this.informationStudentRepository.find();
   }
 
   async findOne(id: number) {
-    const informationTeacher = await this.InformationTeacherRepository.findOne({
-      
+    const informationStudent = await this.informationStudentRepository.findOne({
       where: {
         id: id,
       },
-      
     });
 
-    if (informationTeacher === null) {
-      throw new NotFoundException('El teacher no se encontro');
+    if (informationStudent === null) {
+      throw new NotFoundException('La informacion no se encontro');
     }
 
-    return informationTeacher;
+    return informationStudent;
   }
 
-  async remove(id: number) {
-    return this.InformationTeacherRepository.softDelete(id);
-  }
-
-  async update(id: number, payload: UpdateInformationTeacherDto) {
-    const informationTeacher = await this.InformationTeacherRepository.findOne({
-      
+  async update(id: number, payload: UpdateInformationStudentDto) {
+    const informationStudent = await this.informationStudentRepository.findOne({
       where: {
         id: id,
       },
-      
     });
 
-    if (informationTeacher === null) {
-      throw new NotFoundException('El docente no se encontro');
+    if (informationStudent === null) {
+      throw new NotFoundException('La informacion no se encontro');
     }
-  
 
-    await this.InformationTeacherRepository.merge(informationTeacher, payload);
+    this.informationStudentRepository.merge(informationStudent, payload);
 
-    return await this.InformationTeacherRepository.save(informationTeacher);
+    return this.informationStudentRepository.save(informationStudent);
   }
-
 }
