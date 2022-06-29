@@ -1,4 +1,5 @@
 import { CatalogueEntity } from '@core/entities';
+import { CareerEntity } from './career.entity';
 import {
   Column,
   CreateDateColumn,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -23,6 +25,10 @@ export class InstitutionEntity {
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
+
+  //relacion con la tabla career
+  @OneToMany(() => CareerEntity, (career) => career.institution)
+  careers: CareerEntity[];
 
   @Column('varchar', {
     name: 'acronym',

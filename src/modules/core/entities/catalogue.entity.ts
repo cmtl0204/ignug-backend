@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { CareerEntity } from './career.entity';
 
 @Entity('catalogues')
 export class CatalogueEntity {
@@ -12,4 +13,14 @@ export class CatalogueEntity {
     comment: 'Nombre del producto',
   })
   name: string;
+
+  //relacion con la tabla career
+  @OneToMany(() => CareerEntity, (career) => career.modality)
+  modalities: CareerEntity[];
+
+  @OneToMany(() => CareerEntity, (career) => career.state)
+  states: CareerEntity[];
+
+  @OneToMany(() => CareerEntity, (career) => career.type)
+  types: CareerEntity[];
 }
