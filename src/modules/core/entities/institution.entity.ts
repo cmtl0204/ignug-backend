@@ -20,7 +20,7 @@ export class InstitutionEntity {
   @JoinColumn({ name: 'address_id' })
   address: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.statesId)
+  @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
