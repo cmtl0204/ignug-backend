@@ -11,51 +11,49 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+
 import { InformationStudentsService } from '@core/services';
+
 import {
   CreateInformationStudentDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 
+@ApiTags('information-students')
 @Controller('information-students')
 export class InformationStudentsController {
   constructor(private informationstudentsService: InformationStudentsService) {}
 
+  @ApiOperation({ summary: 'List of information students' })
   @Get('')
   @HttpCode(HttpStatus.OK)
   findAll(@Query() params: any) {
     const response = this.informationstudentsService.findAll();
 
     return response;
-    // return {
-    //   data: response,
-    //   message: `index`,
-    // };
   }
 
+  @ApiOperation({ summary: 'View one information students' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id', ParseIntPipe) id: number) {
     const response = this.informationstudentsService.findOne(id);
+
     return response;
-    // return {
-    //   data: response,
-    //   message: `show`,
-    // };
   }
 
+  @ApiOperation({ summary: 'Create information students' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: CreateInformationStudentDto) {
     const response = this.informationstudentsService.create(payload);
+
     return response;
-    // return {
-    //   data: response,
-    //   message: `created`,
-    // };
   }
 
+  @ApiOperation({ summary: 'Update information students' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   update(
@@ -63,21 +61,16 @@ export class InformationStudentsController {
     @Body() payload: UpdateInformationStudentDto,
   ) {
     const response = this.informationstudentsService.update(id, payload);
+
     return response;
-    // return {
-    //   data: response,
-    //   message: `updated ${id}`,
-    // };
   }
 
+  @ApiOperation({ summary: 'Remove information students' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   delete(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationstudentsService.delete(id);
+    const response = this.informationstudentsService.remove(id);
+
     return response;
-    // return {
-    //   data: response,
-    //   message: `deleted`,
-    // };
   }
 }

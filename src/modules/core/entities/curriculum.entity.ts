@@ -1,6 +1,10 @@
 import { CareerEntity } from "@core/entities";
 import { CatalogueEntity} from "@core/entities";
+<<<<<<< HEAD
 import {Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+=======
+import {Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+>>>>>>> 983abfbd43a4793eb91fcf467050a76f1d99281b
 
 @Entity('curricula')
 export class CurriculumEntity {

@@ -19,22 +19,17 @@ export class InformationStudentEntity {
 
   @ManyToOne(() => CatalogueEntity)
   isBonusDevelopmentReceive: CatalogueEntity; //fk
-
   @ManyToOne(
     () => CatalogueEntity,
     (catalogue) => catalogue.isAncestralLanguage,
   )
   isAncestralLanguage: CatalogueEntity; //fk
-
   @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isDegreeSuperior)
   isDegreeSuperior: CatalogueEntity; //fk
-
   @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isDisability)
   isDisability: CatalogueEntity; //fk
-
   @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.isSubjectRepeat)
   isSubjectRepeat: CatalogueEntity; //fk
-
   @Column('varchar', {
     name: 'address',
     length: 1000,
