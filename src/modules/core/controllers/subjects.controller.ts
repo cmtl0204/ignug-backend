@@ -27,7 +27,7 @@ export class SubjectsController {
     const response = this.subjectsService.create(payload);
     return response;
   }
-  
+
   @ApiOperation({ summary: 'List of subjects' })
   @Get('')
   @HttpCode(HttpStatus.OK)
@@ -61,5 +61,5 @@ export class SubjectsController {
   remove(@Param('id', ParseIntPipe) id: number) {
     const response = this.subjectsService.remove(id);
     return response;
-  } 
+  }
 }

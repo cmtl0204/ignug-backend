@@ -18,17 +18,17 @@ export class InformationStudentEntity {
   id: number;
 
   @ManyToOne(() => CatalogueEntity)
-  isBonusDevelopmentReceive: CatalogueEntity; 
-  @ManyToOne(
-    () => CatalogueEntity
-  )
-  isAncestralLanguage: CatalogueEntity; 
+  isBonusDevelopmentReceive: CatalogueEntity;
+
   @ManyToOne(() => CatalogueEntity)
-  isDegreeSuperior: CatalogueEntity; 
+  isAncestralLanguage: CatalogueEntity;
+
   @ManyToOne(() => CatalogueEntity)
-  isDisability: CatalogueEntity; 
+  isDegreeSuperior: CatalogueEntity;
   @ManyToOne(() => CatalogueEntity)
-  isSubjectRepeat: CatalogueEntity; 
+  isDisability: CatalogueEntity;
+  @ManyToOne(() => CatalogueEntity)
+  isSubjectRepeat: CatalogueEntity;
   @Column('varchar', {
     name: 'address',
     length: 1000,
@@ -308,8 +308,8 @@ export class InformationStudentEntity {
   deletedAt: Date;
 
   /*
-    @OneToOne(() => StudentEntity, (student) => student.information_student)
-    @JoinColumn({name:'migratory_id'})
-    student: StudentEntity;
-  */
+      @OneToOne(() => StudentEntity, (student) => student.information_student)
+      @JoinColumn({name:'migratory_id'})
+      student: StudentEntity;
+    */
 }

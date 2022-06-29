@@ -11,7 +11,9 @@ import {
 
 export class CreateSubjectDto {
   @IsNumber({}, { message: 'El campo academicPeriodId debe ser un número' })
-  @IsPositive({message: 'El campo academicPeriodId debe ser un entero positivo'})
+  @IsPositive({
+    message: 'El campo academicPeriodId debe ser un entero positivo',
+  })
   readonly academicPeriodId: number;
 
   @IsNumber({}, { message: 'El campo curriculumId debe ser un número' })

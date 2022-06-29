@@ -52,7 +52,6 @@ export class SubjectEntity {
   })
   deletedAt: Date;
 
-
   @Column('int', {
     name: 'autonomous_hour',
     default: 0,

@@ -14,7 +14,7 @@ import {
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CareersService } from '@core/services';
 import { CreateCareerDto, UpdateCareerDto } from '@core/dto';
-@ApiTags('careers')	
+@ApiTags('careers')
 @Controller('careers')
 export class CareersController {
   constructor(private careersService: CareersService) {}

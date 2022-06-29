@@ -18,9 +18,13 @@ export class CareersService {
   async create(payload: CreateCareerDto) {
     const newCareer = this.careerRepository.create(payload);
 
-    newCareer.institution = await this.institutionService.findOne(payload.institutionId);
+    newCareer.institution = await this.institutionService.findOne(
+      payload.institutionId,
+    );
 
-    newCareer.modality = await this.CataloguesService.findOne(payload.modalityId);
+    newCareer.modality = await this.CataloguesService.findOne(
+      payload.modalityId,
+    );
 
     newCareer.state = await this.CataloguesService.findOne(payload.stateId);
 

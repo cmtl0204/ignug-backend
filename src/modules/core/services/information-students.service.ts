@@ -19,10 +19,10 @@ export class InformationStudentsService {
   ) {}
 
   async create(payload: CreateInformationStudentDto) {
-    const newInformationsStudent =
+    const newInformationStudent =
       this.informationStudentRepository.create(payload);
 
-    return await this.informationStudentRepository.save(newInformationsStudent);
+    return await this.informationStudentRepository.save(newInformationStudent);
   }
 
   async findAll() {

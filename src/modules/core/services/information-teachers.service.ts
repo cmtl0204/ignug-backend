@@ -3,18 +3,18 @@ import { CataloguesService } from '@core/services';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { InformationTeacherEntity } from '../entities/information-teacher.entity';
-import { CreateInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
+import {
+  CreateInformationTeacherDto,
+  UpdateInformationTeacherDto,
+} from '@core/dto';
 
 @Injectable()
 export class InformationTeachersService {
-
   constructor(
     @InjectRepository(InformationTeacherEntity)
     private InformationTeacherRepository: Repository<InformationTeacherEntity>,
-    private cataloguesService: CataloguesService
-
-  ) { }
-
+    private cataloguesService: CataloguesService,
+  ) {}
 
   async create(payload: CreateInformationTeacherDto) {
     const newTeacher = this.InformationTeacherRepository.create(payload);
@@ -90,5 +90,4 @@ export class InformationTeachersService {
 
     return this.InformationTeacherRepository.save(teacher);
   }
-
 }

@@ -96,19 +96,27 @@ export class CareerEntity {
   })
   deletedAt: Date;
 
-  @ManyToOne(() => InstitutionEntity, (institution) => institution.careers, {nullable: true})
+  @ManyToOne(() => InstitutionEntity, (institution) => institution.careers, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'institution_id' })
   institution: InstitutionEntity;
 
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.modalities, {nullable: true})
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.modalities, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'modality_id' })
   modality: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.states, {nullable: true})
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.states, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.types, {nullable: true})
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.types, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 }

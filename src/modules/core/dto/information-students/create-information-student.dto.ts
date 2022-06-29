@@ -11,13 +11,14 @@ export class CreateInformationStudentDto {
   @IsNumber({}, { message: 'El campo debe ser un numero' })
   @IsPositive({ message: 'El campo debe ser un entero positivo' })
   readonly isBonusDevelopmentReceiveId: number; //fk
+
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
   readonly address: string;
 
-  @IsString({ message: 'Se acepta solo string' })
-  @MaxLength(255, { message: 'Maximo 255 caracteres' })
-  readonly isAncestralLanguage: string;
+  @IsNumber({}, { message: 'El campo debe ser un numero' })
+  @IsPositive({ message: 'El campo debe ser un entero positivo' })
+  readonly isAncestralLanguageId: string;
 
   @IsString({ message: 'Se acepta solo numero' })
   @MaxLength(100, { message: 'Maximo 100 caracteres' })

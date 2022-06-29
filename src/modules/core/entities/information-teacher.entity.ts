@@ -7,15 +7,14 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('information-teachers')
 export class InformationTeacherEntity {
-
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'country_higher_education_id' })
   countryHigherEducation: CatalogueEntity;
@@ -91,14 +90,14 @@ export class InformationTeacherEntity {
   hoursWorked: number;
 
   @Column('date', {
-    nullable: true, 
+    nullable: true,
     name: 'holidays',
     comment: 'Fecha de los dias festivos.',
   })
   holidays: Date;
 
   @Column('date', {
-    nullable: true, 
+    nullable: true,
     name: 'home_vacation',
     comment: 'Fecha para las vacacines',
   })
@@ -187,5 +186,4 @@ export class InformationTeacherEntity {
     nullable: true,
   })
   deletedAt: Date;
-
 }

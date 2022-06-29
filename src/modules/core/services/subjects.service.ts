@@ -62,7 +62,7 @@ export class SubjectsService {
     subject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriodId,
     );
-    
+
     subject.state = await this.catalogueService.findOne(payload.stateId);
 
     subject.type = await this.catalogueService.findOne(payload.typeId);
