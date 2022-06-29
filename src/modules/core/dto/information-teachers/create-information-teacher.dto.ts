@@ -1,4 +1,5 @@
 import {
+  IsDate,
   IsDateString,
   IsNumber,
   IsOptional,
@@ -67,11 +68,11 @@ export class CreateInformationTeacherDto {
   readonly hoursWorked: number;
 
   @IsOptional({ message: 'El campo holidays es opcional.' })
-  @IsDateString({message: 'El campo holidays lleva las fechas de los dias festivos.' })
+  @IsDate({message: 'El campo holidays lleva las fechas de los dias festivos.' })
   readonly holidays: Date;
 
   @IsOptional({ message: 'El campo homeVacation es opcional.' })
-  @IsDateString({ message: 'El campo homeVacation es tipo fecha' })
+  @IsDate({ message: 'El campo homeVacation es tipo fecha' })
   readonly homeVacation: Date;
 
   @IsNumber({},{ message: 'El campo investigationHours tiene que ser númerico.' } )
