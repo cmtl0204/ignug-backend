@@ -1,9 +1,9 @@
-import { CareerEntity } from "../entities/career.entity";
-import { CatalogueEntity} from "../entities/catalogue.entity";
+import { CareerEntity } from "@core/entities";
+import { CatalogueEntity} from "@core/entities";
 import {Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('curricula')
-export class CurriculaEntity {
+export class CurriculumEntity {
 
 @PrimaryGeneratedColumn()
 id:number;
