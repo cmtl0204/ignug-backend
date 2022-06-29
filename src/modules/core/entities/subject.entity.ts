@@ -61,7 +61,7 @@ export class SubjectEntity {
 
   @Column('varchar', {
     name: 'code',
-    length: 50,
+    length: 100,
     comment: 'Código de la asignatura',
   })
   code: string;
