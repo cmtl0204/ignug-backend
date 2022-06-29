@@ -1,18 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCurriculumDto } from '../dto/curricula/create-curriculum.dto';
-import { UpdateCurriculumDto } from '../dto/curricula/update-curricula.dto';
+import { CreateCurriculumDto ,UpdateCurriculumDto} from '@core/dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-//import { CurriculaService } from '../services/';
-import { CurriculaEntity} from '../entities/curriculum.entity';
-import { CareersService } from './careers.service';
-import { CataloguesService } from './catalogues.service';
+import { CurriculumEntity} from '@core/entities';
+import { CareersService } from '@core/services';
+import { CataloguesService } from '@core/services';
 
  @Injectable()
 export class CurriculaService {
   constructor(
-      @InjectRepository (CurriculaEntity)
-      private curriculumRepository: Repository<CurriculaEntity>,
+      @InjectRepository (CurriculumEntity)
+      private curriculumRepository: Repository<CurriculumEntity>,
       private carrierService:CareersService,
       private catalogueService:CataloguesService
       

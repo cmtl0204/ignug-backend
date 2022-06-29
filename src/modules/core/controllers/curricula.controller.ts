@@ -13,8 +13,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateCurriculumDto} from '@core/dto';
-import { CurriculaService } from '../services/curricula.service';
-import { UpdateCurriculumDto } from '../dto/curricula/update-curricula.dto';
+import { CurriculaService } from '@core/services';
+import { UpdateCurriculumDto } from '@core/dto';
 
 @ApiTags('curricula')
 @Controller('curricula')
