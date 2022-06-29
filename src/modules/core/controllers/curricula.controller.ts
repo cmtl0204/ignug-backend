@@ -12,18 +12,20 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CurriculaServic } from '@core/services';
-import { CreateCurriculumDto, UpdateCurriculumDto } from '@core/dto';
+import { CreateCurriculumDto} from '@core/dto';
+import { CurriculaService } from '../services/curricula.service';
+import { UpdateCurriculumDto } from '../dto/curricula/update-curricula.dto';
 
+@ApiTags('curricula')
 @Controller('curricula')
 export class CurriculaController {
-  constructor(private curriculaService: CurriculaServic) {}
+  constructor(private curriculaService: CurriculaService) {}
 
+  @ApiOperation({ summary: 'List of curricula' })
   @Get('')
   @HttpCode(HttpStatus.OK)
   findAll(@Query() params: any) {
     const response = this.curriculaService.findAll();
-
     return response;
     // return {
     //   data: response,
@@ -31,17 +33,20 @@ export class CurriculaController {
     // };
   }
 
+  @ApiOperation({ summary: 'List of curricula' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id', ParseIntPipe) id: number) {
     const response = this.curriculaService.findOne(id);
-
     return response;
     //   {
     //     data: response,
     //     message: `show`,
     //   };
+
   }
+
+  @ApiOperation({ summary: 'List of curricula' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() payload: CreateCurriculumDto) {
@@ -53,7 +58,7 @@ export class CurriculaController {
     //     message: `created`,
     //   };
   }
-
+  @ApiOperation({ summary: 'actualiza la curricula' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   update(
@@ -67,7 +72,7 @@ export class CurriculaController {
     //   message: `updated ${id}`,
     // };
   }
-
+  @ApiOperation({ summary: 'Borrra una curricula' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   remove(@Param('id', ParseIntPipe) id: number) {
