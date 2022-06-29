@@ -17,10 +17,12 @@ import { CreateInstitutionDto, UpdateInstitutionDto } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
 import { InstitutionsService } from '@core/services';
 
+@ApiTags('institutions')
 @Controller('institutions')
 export class InstitutionsController {
   constructor(private instituteService: InstitutionsService) {}
 
+  @ApiOperation({ summary: 'crea un instituto' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateInstitutionDto): Promise<{
@@ -34,6 +36,7 @@ export class InstitutionsController {
     };
   }
 
+  @ApiOperation({ summary: 'obtiene una lista de todos los institutos' })
   @Get('')
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: any): Promise<{
@@ -47,6 +50,7 @@ export class InstitutionsController {
     };
   }
 
+  @ApiOperation({ summary: 'obtiene un instituto' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<{
@@ -60,6 +64,7 @@ export class InstitutionsController {
     };
   }
 
+  @ApiOperation({ summary: 'actualiza un instituto' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -76,6 +81,7 @@ export class InstitutionsController {
     };
   }
 
+  @ApiOperation({ summary: 'elimina un instituto' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number): Promise<{

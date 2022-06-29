@@ -1,87 +1,91 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { CareerEntity } from "../entities/career.entity";
+import { CatalogueEntity} from "../entities/catalogue.entity";
+import {Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('curricula')
-export class CurriculumEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class CurriculaEntity {
 
-  //  @Column('varchar', {
-  //     name: 'name',
-  //     length: 255,
-  //     default: 'SN',
-  //     comment: 'Nombre del producto',
-  //   })
-  //   career:number;
+@PrimaryGeneratedColumn()
+id:number;
 
-  @Column('varchar', {
+@ManyToOne(()=>CareerEntity,(career)=>career.curriculumId)
+career:CareerEntity 
+  
+@ManyToOne(()=>CatalogueEntity,(catalogue)=>catalogue.curriculumId)
+started:CatalogueEntity
+    
+@Column('varchar', {
     name: 'code',
     length: 255,
     default: 'SN',
     comment: 'Nombre del producto',
   })
-  code: string;
+code:string;
 
-  // @CreateDateColumn({
-  //   name: 'start_at',
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  //  started: Date;
-
-  @CreateDateColumn({
+@CreateDateColumn({
     name: 'ended_At',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
-    comment: 'Fecha de creacion de la carrera',
+    comment: 'Fecha de creacion de la carrera'
   })
-  endedAt: Date;
+endedAt:Date;
 
-  @CreateDateColumn({
-    name: 'started_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-    comment: 'Fecha de creacion de la carrera',
-  })
-  startedAt: Date;
+@CreateDateColumn({
+  name: 'started_at',
+  type: 'timestamptz',
+  default: () => 'CURRENT_TIMESTAMP',
+  comment: 'Fecha de creacion de la carrera'
+})
+startedAt: Date;
 
-  @Column('varchar', {
-    name: 'name',
-    length: 255,
-    default: 'SN',
-    comment: 'Nombre del producto',
-  })
-  name: string;
+@UpdateDateColumn({
+  name:"updated_at",
+  type:"timestamptz",
+  default: () => "CURRENT_TIMESTAMP",
+})
+updatedAT:Date;
 
-  @Column('varchar', {
+@DeleteDateColumn({
+  name:"deleted_at",
+  type:"timestamptz",
+  nullable:true,
+})
+deletedAT:Date;
+
+@Column('varchar', {
+  name: 'name',
+  length: 255,
+  default: 'SN',
+  comment: 'Nombre del producto',
+})
+   name:string;
+  
+   @Column('varchar', {
     name: 'description',
     length: 255,
     default: 'SN',
     comment: 'Nombre del producto',
   })
-  description: string;
-
-  @Column('float', {
-    name: 'weeks_Number',
+   description:string;
+  
+    @Column('float', {
+     name: 'weeks_Number',
     comment: 'Precio del producto',
-  })
-  weeksNumber: number;
-
+   })
+   weeksNumber:number;
+  
   @Column('varchar', {
     name: 'resolution_Number',
     length: 255,
     default: 'SN',
     comment: 'Nombre del producto',
   })
-  resolutionNumber: string;
+  resolutionNumber:string;
 
   @Column('float', {
-    name: 'periodic_Academic_Number',
-    comment: 'Precio del producto',
-  })
-  periodicAcademicNumber: number;
+  name: 'periodic_Academic_Number',
+  comment: 'Precio del producto',
+   })
+  periodicAcademicNumber:number;
+
 }

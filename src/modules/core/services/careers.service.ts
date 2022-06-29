@@ -3,13 +3,31 @@ import { Repository } from 'typeorm';
 import { CreateCareerDto, UpdateCareerDto } from '@core/dto';
 import { CareerEntity } from '@core/entities';
 import { InjectRepository } from '@nestjs/typeorm';
+import { InstitutionsService } from './institutions.service';
+import { CataloguesService } from './catalogues.service';
 
 @Injectable()
 export class CareersService {
   constructor(
     @InjectRepository(CareerEntity)
-    private readonly careerRepository: Repository<CareerEntity>,
+    private careerRepository: Repository<CareerEntity>,
+    private institutionService: InstitutionsService,
+    private CataloguesService: CataloguesService,
   ) {}
+
+  async create(payload: CreateCareerDto) {
+    const newCareer = this.careerRepository.create(payload);
+
+    newCareer.institution = await this.institutionService.findOne(payload.institutionId);
+
+    newCareer.modality = await this.CataloguesService.findOne(payload.modalityId);
+
+    newCareer.state = await this.CataloguesService.findOne(payload.stateId);
+
+    newCareer.type = await this.CataloguesService.findOne(payload.typeId);
+
+    return await this.careerRepository.save(newCareer);
+  }
 
   async findAll() {
     return await this.careerRepository.find();
@@ -26,11 +44,6 @@ export class CareersService {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
     return career;
-  }
-
-  async create(payload: CreateCareerDto) {
-    const newCareer = this.careerRepository.create(payload);
-    return await this.careerRepository.save(newCareer);
   }
 
   async update(id: number, payload: UpdateCareerDto) {
