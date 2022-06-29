@@ -1,9 +1,12 @@
+import { InstitutionEntity } from './institution.entity';
+import { CatalogueEntity } from './catalogue.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryColumn,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,15 +15,6 @@ import {
 export class CareerEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  // @Column('float')
-  // institution_id: number;
-
-  // @Column('float')
-  // state: number;
-
-  // @Column('float')
-  // type: number;
 
   @Column('varchar', {
     length: 10,
@@ -50,13 +44,6 @@ export class CareerEntity {
     name: 'logo',
   })
   logo: string;
-
-  @Column('varchar', {
-    length: 100,
-    comment: 'Modalidad de la carrera',
-    name: 'modality',
-  })
-  modality: string;
 
   @Column('varchar', {
     length: 255,
@@ -108,4 +95,20 @@ export class CareerEntity {
     comment: 'Fecha de eliminacion de la carrera',
   })
   deletedAt: Date;
+
+  @ManyToOne(() => InstitutionEntity, (institution) => institution.careers, {nullable: true})
+  @JoinColumn({ name: 'institution_id' })
+  institution: InstitutionEntity;
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.modalities, {nullable: true})
+  @JoinColumn({ name: 'modality_id' })
+  modality: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.states, {nullable: true})
+  @JoinColumn({ name: 'state_id' })
+  state: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.types, {nullable: true})
+  @JoinColumn({ name: 'type_id' })
+  type: CatalogueEntity;
 }

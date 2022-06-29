@@ -1,55 +1,53 @@
 import { CatalogueEntity } from '@core/entities';
 import {
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-  OneToOne,
   JoinColumn,
+  ManyToOne
 } from 'typeorm';
 
-@Entity('teacher')
-export class TeacherEntity {
+@Entity('information-teachers')
+export class InformationTeacherEntity {
+
   @PrimaryGeneratedColumn()
   id: number;
-
-  //fk
-
-  @OneToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'teaching_ladder_id' })
-  teachingLadder: CatalogueEntity;
-
-  @OneToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'dedication_time_id' })
-  dedicationTime: CatalogueEntity;
-
-  @OneToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'higher_education_id' })
-  higherEducation: CatalogueEntity;
-
-  @OneToOne(() => CatalogueEntity)
+  
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'country_higher_education_id' })
   countryHigherEducation: CatalogueEntity;
 
-  @OneToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'scholarship_id' })
-  scholarship: CatalogueEntity;
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'dedication_time_id' })
+  dedicationTime: CatalogueEntity;
 
-  @OneToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'scholarship_type_id' })
-  scholarshipType: CatalogueEntity;
-
-  @OneToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'financing_type_id' })
   financingType: CatalogueEntity;
 
-  @OneToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'higher_education_id' })
+  higherEducation: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'scholarship_id' })
+  scholarship: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'scholarship_type_id' })
+  scholarshipType: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'teaching_ladder_id' })
+  teachingLadder: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'username_id' })
   username: CatalogueEntity;
 
-  //fin
   @Column('varchar', {
     name: 'academic_unit',
     length: 255,
@@ -93,12 +91,14 @@ export class TeacherEntity {
   hoursWorked: number;
 
   @Column('date', {
+    nullable: true, 
     name: 'holidays',
     comment: 'Fecha de los dias festivos.',
   })
   holidays: Date;
 
   @Column('date', {
+    nullable: true, 
     name: 'home_vacation',
     comment: 'Fecha para las vacacines',
   })
@@ -128,7 +128,7 @@ export class TeacherEntity {
   @Column('float', {
     name: 'publications',
     unsigned: true,
-    comment: '//revisar',
+    comment: 'Revisar publicacion',
   })
   publications: number;
 
@@ -140,7 +140,7 @@ export class TeacherEntity {
   scholarshipAmount: number;
 
   @Column('float', {
-    name: 'tolta_subjects',
+    name: 'total_subjects',
     unsigned: true,
     comment: 'Total de personas en la academia',
   })
@@ -187,4 +187,5 @@ export class TeacherEntity {
     nullable: true,
   })
   deletedAt: Date;
+
 }
