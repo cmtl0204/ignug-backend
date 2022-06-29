@@ -15,6 +15,22 @@ export class SubjectEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'academic_period_id' })
+  academicPeriod: CatalogueEntity;
+
+  @ManyToOne(() => CurriculumEntity, { nullable: true })
+  @JoinColumn({ name: 'curriculum_id' })
+  curriculum: CurriculumEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'state_id' })
+  state: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'type_id' })
+  type: CatalogueEntity;
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
@@ -36,21 +52,6 @@ export class SubjectEntity {
   })
   deletedAt: Date;
 
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
-  @JoinColumn({ name: 'academic_period_id' })
-  academicPeriod: CatalogueEntity;
-
-  @ManyToOne(() => CurriculumEntity, { nullable: true })
-  @JoinColumn({ name: 'curriculum_id' })
-  curriculum: CurriculumEntity;
-
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
-  @JoinColumn({ name: 'state_id' })
-  state: CatalogueEntity;
-
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
-  @JoinColumn({ name: 'type_id' })
-  type: CatalogueEntity;
 
   @Column('int', {
     name: 'autonomous_hour',
@@ -61,7 +62,7 @@ export class SubjectEntity {
 
   @Column('varchar', {
     name: 'code',
-    length: 50,
+    length: 100,
     comment: 'Código de la asignatura',
   })
   code: string;

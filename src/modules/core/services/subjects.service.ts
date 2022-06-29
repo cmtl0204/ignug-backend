@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CataloguesService } from '@core/services';
+import { CataloguesService, CurriculaService } from '@core/services';
 import { Repository } from 'typeorm';
 import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
@@ -11,6 +11,7 @@ export class SubjectsService {
     @InjectRepository(SubjectEntity)
     private subjectRepository: Repository<SubjectEntity>,
     private catalogueService: CataloguesService,
+    private curriculumService: CurriculaService,
   ) {}
 
   async create(payload: CreateSubjectDto) {
@@ -18,8 +19,16 @@ export class SubjectsService {
     newSubject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriodId,
     );
-    const response = await this.subjectRepository.save(newSubject);
-    return await this.subjectRepository.save(response);
+
+    newSubject.state = await this.catalogueService.findOne(payload.stateId);
+
+    newSubject.type = await this.catalogueService.findOne(payload.typeId);
+
+    newSubject.curriculum = await this.curriculumService.findOne(
+      payload.curriculumId,
+    );
+
+    return await this.subjectRepository.save(newSubject);
   }
 
   async findAll() {
@@ -50,6 +59,17 @@ export class SubjectsService {
     if (subject === null) {
       throw new NotFoundException('La asignatura no se encontro');
     }
+    subject.academicPeriod = await this.catalogueService.findOne(
+      payload.academicPeriodId,
+    );
+    
+    subject.state = await this.catalogueService.findOne(payload.stateId);
+
+    subject.type = await this.catalogueService.findOne(payload.typeId);
+
+    subject.curriculum = await this.curriculumService.findOne(
+      payload.curriculumId,
+    );
 
     this.subjectRepository.merge(subject, payload);
     return this.subjectRepository.save(subject);
