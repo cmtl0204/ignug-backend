@@ -103,7 +103,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"autonomousHour\": 3,\r\n\"credit\": 2,\r\n\"name\": \"Fundamentos de Programación\",\r\n\"practicalHour\": 2,\r\n\"scale\": 1,\r\n\"teacherHour\": 1,\r\n\"academicPeriodId\": 1,\r\n\"curriculumId\": 1,\r\n\"stateId\": 1,\r\n\"typeId\": 1,\r\n\"code\": \"12345\"\r\n}\r\n",
+					"raw": "{\r\n\"autonomousHour\": 3,\r\n\"credit\": 1,\r\n\"name\": \"Fundamentos de Programacion\",\r\n\"practicalHour\": 2,\r\n\"scale\": 1,\r\n\"teacherHour\": 8,\r\n\"academicPeriodId\": 4,\r\n\"curriculumId\": 1,\r\n\"stateId\": 2,\r\n\"typeId\": 3,\r\n\"code\": \"12345\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -129,7 +129,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"autonomousHour\": 3,\r\n\"credit\": 2,\r\n\"name\": \"Fundamentos de Programación\",\r\n\"practicalHour\": 2,\r\n\"scale\": 1,\r\n\"teacherHour\": 1,\r\n\"academicPeriodId\": 1,\r\n\"curriculumId\": 2,\r\n\"stateId\": 1,\r\n\"typeId\": 1,\r\n\"code\": \"12345\"\r\n}\r\n",
+					"raw": "{\r\n\"autonomousHour\": 3,\r\n\"credit\": 1,\r\n\"name\": \"Fundamentos de Programacion\",\r\n\"practicalHour\": 2,\r\n\"scale\": 1,\r\n\"teacherHour\": 8,\r\n\"academicPeriodId\": 4,\r\n\"curriculumId\": 1,\r\n\"stateId\": 2,\r\n\"typeId\": 3,\r\n\"code\": \"12345\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -137,13 +137,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}/subjects/3",
+					"raw": "{{HOST}}/subjects/1",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
 						"subjects",
-						"3"
+						"1"
 					]
 				}
 			},
@@ -164,13 +164,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}/subjects/1",
+					"raw": "{{HOST}}/subjects/2",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
 						"subjects",
-						"1"
+						"2"
 					]
 				}
 			},
