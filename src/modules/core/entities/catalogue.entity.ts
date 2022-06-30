@@ -1,5 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CareerEntity } from './career.entity';
+import { InformationStudentEntity } from './information-student.entity';
 
 @Entity('catalogues')
 export class CatalogueEntity {
@@ -23,4 +24,33 @@ export class CatalogueEntity {
 
   @OneToMany(() => CareerEntity, (career) => career.type)
   types: CareerEntity[];
+
+  @OneToMany(
+    () => InformationStudentEntity,
+    (informationStudent) => informationStudent.isBonusDevelopmentReceive,
+  )
+  isBonusDevelopmentReceive: InformationStudentEntity[];
+
+  @OneToMany(
+    () => InformationStudentEntity,
+    (informationStudent) => informationStudent.isAncestralLanguage,
+  )
+  isAncestralLanguage: InformationStudentEntity[];
+  @OneToMany(
+    () => InformationStudentEntity,
+    (informationStudent) => informationStudent.isDisability,
+  )
+  isDisability: InformationStudentEntity[];
+
+  @OneToMany(
+    () => InformationStudentEntity,
+    (informationStudent) => informationStudent.isDegreeSuperior,
+  )
+  isDegreeSuperior: InformationStudentEntity[];
+
+  @OneToMany(
+    () => InformationStudentEntity,
+    (informationStudent) => informationStudent.isSubjectRepeat,
+  )
+  isSubjectRepeat: InformationStudentEntity[];
 }

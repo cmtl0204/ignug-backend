@@ -12,10 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  CreateInformationTeacherDto,
-  UpdateInformationTeacherDto,
-} from '@core/dto';
+import { CreateInformationTeacherDto, UpdateInformationTeacherDto} from '@core/dto';
 import { InformationTeachersService } from '@core/services';
 
 @ApiTags('information-teachers')
@@ -26,7 +23,7 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Crea un nuevo docente' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: CreateInformationTeacherDto) {
+  async create(@Body() payload: CreateInformationTeacherDto) {
     const response = this.informationTeachersService.create(payload);
     return response;
   }
@@ -34,7 +31,7 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Consulta los docentes' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  index(@Query() params: any) {
+  async findAll(@Query() params: any) {
     const response = this.informationTeachersService.findAll();
     return response;
   }
@@ -42,15 +39,15 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Consulta un solo docente' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  show(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     const response = this.informationTeachersService.findOne(id);
     return response;
   }
 
   @ApiOperation({ summary: 'Elimina un docente' })
   @Delete(':id')
-  @HttpCode(HttpStatus.CREATED)
-  destroy(@Param('id', ParseIntPipe) id: number) {
+  @HttpCode(HttpStatus.OK)
+  async remove(@Param('id', ParseIntPipe) id: number) {
     const response = this.informationTeachersService.remove(id);
     return {
       data: response,
@@ -61,11 +58,11 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInformationTeacherDto,
   ) {
-    const response = this.informationTeachersService.update(id, payload);
+    const response = await this.informationTeachersService.update(id, payload);
     return {
       data: response,
       message: `updated ${id}`,

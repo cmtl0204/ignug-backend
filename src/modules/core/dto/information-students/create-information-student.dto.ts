@@ -8,17 +8,31 @@ import {
 } from 'class-validator';
 
 export class CreateInformationStudentDto {
-  @IsNumber({}, { message: 'El campo debe ser un numero' })
-  @IsPositive({ message: 'El campo debe ser un entero positivo' })
-  readonly isBonusDevelopmentReceiveId: number; //fk
+  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
+  @IsPositive({message: 'is_ancestral_languageId debe ser un entero positivo',})
+  readonly isAncestralLanguageId: number;
+  @IsNumber({},{ message: 'isBonusDevelopmentReceiveId Tiene que ser de tipo numero' },)
+  @IsPositive({ message: 'isBonusDevelopmentReceiveId debe ser un entero positivo', })
+  readonly isBonusDevelopmentReceiveId: number;
+
+  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
+  @IsPositive({message: 'is_disabilityId debe ser un entero positivo',})
+  readonly isDisabilityId: number;
+
+  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
+  @IsPositive({message: 'is_degree_superiorId debe ser un entero positivo',})
+  readonly isDegreeSuperiorId: number;
+
+  @IsNumber({}, {message: 'Tiene que ser de tipo numero' })
+  @IsPositive({message: 'is_subject_repeatId debe ser un entero positivo',})
+  readonly isSubjectRepeatId: number;
+
+
 
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
   readonly address: string;
 
-  @IsNumber({}, { message: 'El campo debe ser un numero' })
-  @IsPositive({ message: 'El campo debe ser un entero positivo' })
-  readonly isAncestralLanguageId: string;
 
   @IsString({ message: 'Se acepta solo numero' })
   @MaxLength(100, { message: 'Maximo 100 caracteres' })
@@ -160,43 +174,4 @@ export class CreateInformationStudentDto {
   @Min(0, { message: 'El número de digito mínimo es 0.' })
   @Max(100, { message: 'Maximo 100 digito' })
   readonly tariffScholarshipPercentage: number;
-
-  //@IsString()
-  //@MinLength(5)
-  //@MaxLength(10)
-  //@IsPositive()
-  //readonly revenueDestination: string; //pendiente fk
-  // @IsNumber()
-  // @IsPositive()
-  // readonly isAncestralLanguageId: number; //fk
-  // isSubjectRepeat: CatalogueEntity; //fk
-  // @IsNumber()
-  // @IsPositive()
-  // readonly isDisability: number; //fk
-  // @IsNumber()
-  // @IsPositive()
-  // readonly : number;
-  //
-  /*
-      @IsNumber({}, { message: 'Debe ser tipo numero' })
-      @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-      readonly migratoryCategoryId : number;//fk
-  */
-  /*
-  @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-  readonly studentId:number; //fk student
-  */
-  /*
-  @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-  readonly civilStateId: number; //fk*/
-
-  /*
-  @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-  readonly scopeCommunityId: number;//fk
-  @IsNumber({}, { message: 'Debe ser tipo numero' })
-  @IsPositive({ message: 'El campo studentId debe ser entero positivo' })
-  readonly stateId: number; ///fk*/
 }
