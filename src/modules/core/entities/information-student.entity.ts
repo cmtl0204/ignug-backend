@@ -16,19 +16,29 @@ import { CatalogueEntity } from '@core/entities';
 export class InformationStudentEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ManyToOne(() => CatalogueEntity)
-  isBonusDevelopmentReceive: CatalogueEntity;
-
-  @ManyToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'is_ancestral_language' })
   isAncestralLanguage: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'is_bonus_development_receive' })
+  isBonusDevelopmentReceive: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'is_degree_superior' })
   isDegreeSuperior: CatalogueEntity;
-  @ManyToOne(() => CatalogueEntity)
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'is_disability' })
   isDisability: CatalogueEntity;
-  @ManyToOne(() => CatalogueEntity)
+
+  @OneToOne(() => StudentEntity)
+  student: StudentEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'is_subject_repeat' })
   isSubjectRepeat: CatalogueEntity;
+
   @Column('varchar', {
     name: 'address',
     length: 1000,
