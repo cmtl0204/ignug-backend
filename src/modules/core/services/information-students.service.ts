@@ -1,28 +1,43 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { Repository } from 'typeorm';
-
-import {
-  CreateInformationStudentDto,
-  UpdateInformationStudentDto,
-} from '@core/dto';
-
+import { CreateInformationStudentDto,UpdateInformationStudentDto,} from '@core/dto';
 import { InformationStudentEntity } from '@core/entities';
+import { CataloguesService } from './catalogues.service';
 
 @Injectable()
 export class InformationStudentsService {
   constructor(
     @InjectRepository(InformationStudentEntity)
     private informationStudentRepository: Repository<InformationStudentEntity>,
+    private cataloguesService: CataloguesService,
+
   ) {}
 
   async create(payload: CreateInformationStudentDto) {
-    const newInformationStudent =
+    const newInformationsStudent =
       this.informationStudentRepository.create(payload);
 
-    return await this.informationStudentRepository.save(newInformationStudent);
+    this.informationStudentRepository.create(payload);
+
+    newInformationsStudent.isBonusDevelopmentReceive =
+      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceiveId);
+
+    newInformationsStudent.isAncestralLanguage =
+      await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+
+    newInformationsStudent.isDegreeSuperior =
+      await this.cataloguesService.findOne(payload.isDegreeSuperiorId);
+
+    newInformationsStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisabilityId,
+    );
+
+
+    newInformationsStudent.isSubjectRepeat =
+      await this.cataloguesService.findOne(payload.isSubjectRepeatId);
+
+    return await this.informationStudentRepository.save(newInformationsStudent);
   }
 
   async findAll() {
@@ -51,12 +66,27 @@ export class InformationStudentsService {
     });
 
     if (informationStudent === null) {
-      throw new NotFoundException('La informacion no se encontro');
+      throw new NotFoundException(
+        'La informacion del estudiante no se encontro',
+      );
     }
+    informationStudent.isBonusDevelopmentReceive =
+      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceiveId);
+
+    informationStudent.isAncestralLanguage =
+      await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+    informationStudent.isDegreeSuperior = await this.cataloguesService.findOne(
+      payload.isDegreeSuperiorId,
+    );
+    informationStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisabilityId,
+    );
+    informationStudent.isSubjectRepeat = await this.cataloguesService.findOne(
+      payload.isSubjectRepeatId,
+    );
 
     this.informationStudentRepository.merge(informationStudent, payload);
-
-    return this.informationStudentRepository.save(informationStudent);
+    return  await this.informationStudentRepository.save(informationStudent);
   }
 
   async remove(id: number) {
