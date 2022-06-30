@@ -129,7 +129,7 @@ export class InformationTeachersService {
     informationTeacher.financingType = await this.cataloguesService.findOne(payload.financingTypeId);
     informationTeacher.username = await this.cataloguesService.findOne(payload.usernameId);
 
-     this.InformationTeacherRepository.merge(informationTeacher, payload);
+     await this.InformationTeacherRepository.merge(informationTeacher, payload);
     return  this.InformationTeacherRepository.save(informationTeacher);
   }
 
