@@ -10,5 +10,5 @@ export class CreateStudentDto {
 
   @IsNumber({}, { message: 'studentId Tiene que ser de tipo numero' })
   @IsPositive({ message: 'studentId debe ser un entero positivo' })
-  readonly studentId: number;
+  studentId: number;
 }

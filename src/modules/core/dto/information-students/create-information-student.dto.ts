@@ -11,6 +11,7 @@ export class CreateInformationStudentDto {
   @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
   @IsPositive({message: 'is_ancestral_languageId debe ser un entero positivo',})
   readonly isAncestralLanguageId: number;
+
   @IsNumber({},{ message: 'isBonusDevelopmentReceiveId Tiene que ser de tipo numero' },)
   @IsPositive({ message: 'isBonusDevelopmentReceiveId debe ser un entero positivo', })
   readonly isBonusDevelopmentReceiveId: number;
@@ -27,24 +28,29 @@ export class CreateInformationStudentDto {
   @IsPositive({message: 'is_subject_repeatId debe ser un entero positivo',})
   readonly isSubjectRepeatId: number;
 
-
-
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
   readonly address: string;
 
+  @IsString({ message: 'Debe ser un string' })
+  @MaxLength(255, { message: 'Maximo 255 caracteres' })
+  readonly ancestralLanguage: string;
 
   @IsString({ message: 'Se acepta solo numero' })
   @MaxLength(100, { message: 'Maximo 100 caracteres' })
   readonly cellPhone: string;
+
+  @IsString({ message: 'Se acepta solo string' })
+  @MaxLength(255, { message: 'Maximo 255 caracteres' })
+  readonly companyName: string;
 
   @IsNumber({}, { message: 'Debe ser tipo numero' })
   @Min(0, { message: 'El número de digitos mínimo es 0.' })
   readonly community: number;
 
   @IsString({ message: 'Se acepta solo string' })
-  @MaxLength(255, { message: 'Maximo 255 caracteres' })
-  readonly companyName: string;
+  @MaxLength(10, { message: 'Maximo 10 caracteres' })
+  readonly codanisNumber: string;
 
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })

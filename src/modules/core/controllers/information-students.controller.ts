@@ -66,11 +66,11 @@ export class InformationStudentsController {
   }
 
   @ApiOperation({ summary: 'Remove information students' })
-  @Delete(':id')
-  @HttpCode(HttpStatus.CREATED)
-  delete(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     const response = this.informationstudentsService.remove(id);
-
-    return response;
+    return {
+      data: response,
+      message: `deleted`,
+    };
   }
 }

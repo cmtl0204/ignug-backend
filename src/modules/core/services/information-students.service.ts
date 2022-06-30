@@ -75,12 +75,15 @@ export class InformationStudentsService {
 
     informationStudent.isAncestralLanguage =
       await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+
     informationStudent.isDegreeSuperior = await this.cataloguesService.findOne(
       payload.isDegreeSuperiorId,
     );
+
     informationStudent.isDisability = await this.cataloguesService.findOne(
       payload.isDisabilityId,
     );
+    
     informationStudent.isSubjectRepeat = await this.cataloguesService.findOne(
       payload.isSubjectRepeatId,
     );
