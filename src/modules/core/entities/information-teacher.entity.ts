@@ -1,4 +1,3 @@
-import { CatalogueEntity } from '@core/entities';
 import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,8 +8,9 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
+import { CatalogueEntity } from '@core/entities';
 
-@Entity('information-teachers')
+@Entity('information_teachers')
 export class InformationTeacherEntity {
   @PrimaryGeneratedColumn()
   id: number;

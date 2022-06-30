@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "c89123e8-c900-4a50-ad83-b349d39054a2",
+		"name": "informationTeachers",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19458771"
+	},
+	"item": [
+		{
+			"name": "store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"countryHigherEducationId\": 1,\r\n    \"dedicationTimeId\": 1,\r\n    \"financingTypeId\": 1,\r\n    \"higherEducationId\": 1,\r\n    \"scholarshipId\": 1,\r\n    \"scholarshipTypeId\": 1,\r\n    \"teachingLadderId\":2,\r\n    \"usernameId\": 2,\r\n    \"academicUnit\": \"academia mmm \",\r\n    \"administrativeHours\": 54,\r\n    \"classHours\": 5,\r\n    \"communityHours\": 34,\r\n    \"degreeHigherEducation\": \"unidad educativa\",\r\n    \"hoursWorked\": 10,\r\n    \"holidays\": \"04-04-2022\",\r\n    \"homeVacation\": \"2004-09-24\",\r\n    \"institutionHigherEducation\": \"institucion academica\",\r\n    \"investigationHours\": 50,\r\n    \"otherHours\": \"otras horas de trabajo\",\r\n    \"publications\": 26,\r\n    \"scholarshipAmount\": 12,\r\n    \"totalSubjects\": 30,\r\n    \"technical\": \"tecnico\",\r\n    \"technology\": \"tecnologia\",\r\n    \"totalPublications\": 26\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}information-teachers",
+					"host": [
+						"{{HOST}}information-teachers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindAll",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}information-teachers?academicUnit=academia&publications=2",
+					"host": [
+						"{{HOST}}information-teachers"
+					],
+					"query": [
+						{
+							"key": "academicUnit",
+							"value": "academia"
+						},
+						{
+							"key": "publications",
+							"value": "2"
+						},
+						{
+							"key": "fields",
+							"value": "name,technology",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "findOne",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}information-teachers/1",
+					"host": [
+						"{{HOST}}information-teachers"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"academicUnit\": \"academia yavirac \",\r\n        \"administrativeHours\": 54,\r\n        \"classHours\": 5,\r\n        \"communityHours\": 34,\r\n        \"degreeHigherEducation\": \"unidad educativa\",\r\n        \"hoursWorked\": 10,\r\n        \"holidays\": \"2017-06-07\",\r\n        \"homeVacation\": \"2004-09-24\",\r\n        \"institutionHigherEducation\": \"institucion academica\",\r\n        \"investigationHours\": 50,\r\n        \"otherHours\": \"otras horas de trabajo\",\r\n        \"publications\": 26,\r\n        \"scholarshipAmount\": 12,\r\n        \"totalSubjects\": 30,\r\n        \"technical\": \"tecnico\",\r\n        \"technology\": \"tecnologia\",\r\n        \"totalPublications\": 26\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}information-teachers/1",
+					"host": [
+						"{{HOST}}information-teachers"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}information-teachers/1",
+					"host": [
+						"{{HOST}}information-teachers"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
