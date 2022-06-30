@@ -9,23 +9,30 @@ import {
 
 export class CreateInformationStudentDto {
   @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({message: 'is_ancestral_languageId debe ser un entero positivo',})
+  @IsPositive({
+    message: 'is_ancestral_languageId debe ser un entero positivo',
+  })
   readonly isAncestralLanguageId: number;
 
-  @IsNumber({},{ message: 'isBonusDevelopmentReceiveId Tiene que ser de tipo numero' },)
-  @IsPositive({ message: 'isBonusDevelopmentReceiveId debe ser un entero positivo', })
+  @IsNumber(
+    {},
+    { message: 'isBonusDevelopmentReceiveId Tiene que ser de tipo numero' },
+  )
+  @IsPositive({
+    message: 'isBonusDevelopmentReceiveId debe ser un entero positivo',
+  })
   readonly isBonusDevelopmentReceiveId: number;
 
   @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({message: 'is_disabilityId debe ser un entero positivo',})
+  @IsPositive({ message: 'is_disabilityId debe ser un entero positivo' })
   readonly isDisabilityId: number;
 
   @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({message: 'is_degree_superiorId debe ser un entero positivo',})
+  @IsPositive({ message: 'is_degree_superiorId debe ser un entero positivo' })
   readonly isDegreeSuperiorId: number;
 
-  @IsNumber({}, {message: 'Tiene que ser de tipo numero' })
-  @IsPositive({message: 'is_subject_repeatId debe ser un entero positivo',})
+  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
+  @IsPositive({ message: 'is_subject_repeatId debe ser un entero positivo' })
   readonly isSubjectRepeatId: number;
 
   @IsString({ message: 'Debe ser un string' })

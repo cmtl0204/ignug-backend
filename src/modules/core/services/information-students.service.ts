@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateInformationStudentDto,UpdateInformationStudentDto,} from '@core/dto';
+import {
+  CreateInformationStudentDto,
+  UpdateInformationStudentDto,
+} from '@core/dto';
 import { InformationStudentEntity } from '@core/entities';
 import { CataloguesService } from './catalogues.service';
 
@@ -11,7 +14,6 @@ export class InformationStudentsService {
     @InjectRepository(InformationStudentEntity)
     private informationStudentRepository: Repository<InformationStudentEntity>,
     private cataloguesService: CataloguesService,
-
   ) {}
 
   async create(payload: CreateInformationStudentDto) {
@@ -32,7 +34,6 @@ export class InformationStudentsService {
     newInformationsStudent.isDisability = await this.cataloguesService.findOne(
       payload.isDisabilityId,
     );
-
 
     newInformationsStudent.isSubjectRepeat =
       await this.cataloguesService.findOne(payload.isSubjectRepeatId);
@@ -83,13 +84,13 @@ export class InformationStudentsService {
     informationStudent.isDisability = await this.cataloguesService.findOne(
       payload.isDisabilityId,
     );
-    
+
     informationStudent.isSubjectRepeat = await this.cataloguesService.findOne(
       payload.isSubjectRepeatId,
     );
 
     this.informationStudentRepository.merge(informationStudent, payload);
-    return  await this.informationStudentRepository.save(informationStudent);
+    return await this.informationStudentRepository.save(informationStudent);
   }
 
   async remove(id: number) {

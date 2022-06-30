@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as Bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '@core/dto';
-import { UserEntity } from '@core/entities';
+import { CreateUserDto } from '@auth/dto';
+import { UserEntity } from '@auth/entities';
 import { CataloguesService } from '@core/services';
+
+// import { CataloguesService } from '@core/services';
 
 @Injectable()
 export class UsersService {
@@ -40,25 +41,18 @@ export class UsersService {
     return user;
   }
 
-  async findByUsername(username: string) {
-    return await this.userRepository.findOne({
-      where: {
-        username,
-      },
-    });
-  }
-
   async update(id: number, data: any) {
     const user = await this.userRepository.findOne({
       where: {
-        id: 1,
+        id,
       },
     });
     this.userRepository.merge(user, data);
+
     return this.userRepository.save(user);
   }
 
   async remove(id: number) {
-    return this.userRepository.delete(id);
+    return this.userRepository.softDelete(id);
   }
 }

@@ -13,7 +13,7 @@ import { Request } from 'express';
 import { PublicRoute } from '@auth/decorators';
 import { JwtGuard, LoginGuard } from '@auth/guards';
 import { AuthService } from '@auth/services';
-import { UserEntity } from '@core/entities';
+import { UserEntity } from '@auth/entities';
 
 @ApiTags('auth')
 @UseGuards(JwtGuard)

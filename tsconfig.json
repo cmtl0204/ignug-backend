@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@auth/controllers": [
-        "./src/modules/auth/auth.controller"
+        "./src/modules/auth/controllers"
       ],
       "@auth/decorators": [
         "./src/modules/auth/decorators"
@@ -33,11 +33,14 @@
       "@auth/guards": [
         "./src/modules/auth/guards"
       ],
+      "@auth/models": [
+        "./src/modules/auth/models"
+      ],
       "@auth/modules": [
         "./src/modules/auth/auth.module"
       ],
       "@auth/services": [
-        "./src/modules/auth/auth.service"
+        "./src/modules/auth/services"
       ],
       "@auth/strategies": [
         "./src/modules/auth/strategies"

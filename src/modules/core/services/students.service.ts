@@ -4,20 +4,20 @@ import { Repository } from 'typeorm';
 import { CreateStudentDto, UpdateStudentDto } from '@core/dto';
 import { StudentEntity } from '@core/entities';
 import { InformationStudentsService } from './information-students.service';
-// import { UsersService } from '@core/services';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectRepository(StudentEntity)
-    private studentRepository: Repository<StudentEntity>, // private userService: UsersService,
+    private studentRepository: Repository<StudentEntity>,
     private informationStudentsService: InformationStudentsService,
   ) {}
 
   async create(payload: CreateStudentDto) {
     const newStudent = this.studentRepository.create(payload);
-    newStudent.student =
-      await this.informationStudentsService.findOne(payload.studentId);
+    newStudent.student = await this.informationStudentsService.findOne(
+      payload.studentId,
+    );
 
     return await this.studentRepository.save(newStudent);
   }

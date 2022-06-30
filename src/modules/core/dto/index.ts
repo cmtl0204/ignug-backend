@@ -14,5 +14,3 @@ export * from './subjects/create-subject.dto';
 export * from './subjects/update-subject.dto';
 export * from './information-teachers/create-information-teacher.dto';
 export * from './information-teachers/update-information-teacher.dto';
-export * from './users/create-user.dto';
-export * from './users/update-user.dto';

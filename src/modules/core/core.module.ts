@@ -8,7 +8,6 @@ import {
   StudentsController,
   SubjectsController,
   InformationTeachersController,
-  UsersController,
 } from '@core/controllers';
 import {
   CareersService,
@@ -19,7 +18,6 @@ import {
   StudentsService,
   SubjectsService,
   InformationTeachersService,
-  UsersService,
 } from '@core/services';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {
@@ -31,7 +29,6 @@ import {
   StudentEntity,
   SubjectEntity,
   InformationTeacherEntity,
-  UserEntity,
 } from '@core/entities';
 
 @Global()
@@ -46,7 +43,6 @@ import {
       StudentEntity,
       SubjectEntity,
       InformationTeacherEntity,
-      UserEntity,
     ]),
   ],
   controllers: [
@@ -58,7 +54,6 @@ import {
     StudentsController,
     SubjectsController,
     InformationTeachersController,
-    UsersController,
   ],
   providers: [
     CareersService,
@@ -69,7 +64,6 @@ import {
     StudentsService,
     SubjectsService,
     InformationTeachersService,
-    UsersService,
   ],
   exports: [
     TypeOrmModule,
@@ -81,7 +75,6 @@ import {
     StudentsService,
     SubjectsService,
     InformationTeachersService,
-    UsersService,
   ],
 })
 export class CoreModule {}
