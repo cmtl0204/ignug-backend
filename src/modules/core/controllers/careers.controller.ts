@@ -21,39 +21,54 @@ export class CareersController {
   @ApiOperation({ summary: 'Crea una nueva carrera' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateCareerDto) {
-    const response = this.careersService.create(payload);
-    return response;
+  async create(@Body() payload: CreateCareerDto) {
+    const data = await this.careersService.create(payload);
+    return {
+      data,
+      message: 'Carrera creada correctamente',
+    };
   }
   @ApiOperation({ summary: 'Busca todas las carreras' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  findAll(@Query() params: any) {
-    const response = this.careersService.findAll();
-    return response;
+  async findAll(@Query() params: any) {
+    const data = await this.careersService.findAll();
+    return {
+      data,
+      message: 'Carreras encontradas correctamente',
+    };
   }
   @ApiOperation({ summary: 'Filtra una carrera' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    const response = this.careersService.findOne(id);
-    return response;
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.careersService.findOne(id);
+    return {
+      data,
+      message: 'Carrera encontrada correctamente',
+    };
   }
   @ApiOperation({ summary: 'Actualiza una carrera' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateCareerDto,
   ) {
-    const response = this.careersService.update(id, payload);
-    return response;
+    const data = await this.careersService.update(id, payload);
+    return {
+      data,
+      message: 'Carrera actualizada correctamente',
+    };
   }
   @ApiOperation({ summary: 'Borra una carrera' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  delete(@Param('id', ParseIntPipe) id: number) {
-    const response = this.careersService.remove(id);
-    return response;
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.careersService.remove(id);
+    return {
+      data,
+      message: 'Carrera borrada correctamente',
+    };
   }
 }
