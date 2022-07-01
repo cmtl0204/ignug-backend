@@ -22,6 +22,18 @@ import { HttpExceptionFilter } from '../../../exceptions/http-exception.filter';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  @Post()
+  @UseFilters(HttpExceptionFilter)
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() payload: CreateUserDto) {
+    const data = this.usersService.create(payload);
+
+    return {
+      data,
+      message: 'created',
+    };
+  }
+
   @ApiOperation({ summary: 'List of users' })
   @Get('')
   @HttpCode(HttpStatus.OK)
@@ -74,18 +86,6 @@ export class UsersController {
     return {
       data,
       message: `show ${id}`,
-    };
-  }
-
-  @Post()
-  @UseFilters(HttpExceptionFilter)
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateUserDto) {
-    const data = this.usersService.create(payload);
-
-    return {
-      data,
-      message: 'created',
     };
   }
 
