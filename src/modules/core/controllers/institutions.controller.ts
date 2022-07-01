@@ -29,9 +29,9 @@ export class InstitutionsController {
     data: InstitutionEntity;
     message: string;
   }> {
-    const institution = await this.instituteService.create(payload);
+    const data = await this.instituteService.create(payload);
     return {
-      data: institution,
+      data: data,
       message: `created institution`,
     };
   }
@@ -43,9 +43,9 @@ export class InstitutionsController {
     data: InstitutionEntity[];
     message: string;
   }> {
-    const institutions = await this.instituteService.findAll();
+    const data = await this.instituteService.findAll();
     return {
-      data: institutions,
+      data,
       message: `all institutions`,
     };
   }
@@ -57,9 +57,9 @@ export class InstitutionsController {
     data: InstitutionEntity;
     message: string;
   }> {
-    const institution = await this.instituteService.findOne(id);
+    const data = await this.instituteService.findOne(id);
     return {
-      data: institution,
+      data,
       message: `show institution ${id}`,
     };
   }
@@ -74,9 +74,9 @@ export class InstitutionsController {
     data: InstitutionEntity;
     message: string;
   }> {
-    const institution = await this.instituteService.update(id, payload);
+    const data = await this.instituteService.update(id, payload);
     return {
-      data: institution,
+      data,
       message: `updated institution ${id}`,
     };
   }
@@ -88,9 +88,9 @@ export class InstitutionsController {
     data: DeleteResult;
     message: string;
   }> {
-    const institution = await this.instituteService.remove(id);
+    const data = await this.instituteService.remove(id);
     return {
-      data: institution,
+      data,
       message: `deleted institution ${id}`,
     };
   }
