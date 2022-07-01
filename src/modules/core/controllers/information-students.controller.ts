@@ -29,47 +29,59 @@ export class InformationStudentsController {
   @ApiOperation({ summary: 'List of information students' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  findAll(@Query() params: any) {
-    const response = this.informationstudentsService.findAll();
+  async findAll(@Query() params: any) {
+    const data = this.informationstudentsService.findAll();
 
-    return response;
+    return {
+      data,
+      message: `index`,
+    };
   }
 
   @ApiOperation({ summary: 'View one information students' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationstudentsService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = this.informationstudentsService.findOne(id);
 
-    return response;
+    return {
+      data,
+      message: `show ${id}`,
+    };
   }
 
   @ApiOperation({ summary: 'Create information students' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateInformationStudentDto) {
-    const response = this.informationstudentsService.create(payload);
+  async create(@Body() payload: CreateInformationStudentDto) {
+    const data = await this.informationstudentsService.create(payload);
 
-    return response;
+    return {
+      data,
+      message: 'created',
+    };
   }
 
   @ApiOperation({ summary: 'Update information students' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInformationStudentDto,
   ) {
-    const response = this.informationstudentsService.update(id, payload);
+    const data = await this.informationstudentsService.update(id, payload);
 
-    return response;
+    return {
+      data: data,
+      message: `updated ${id}`,
+    };
   }
 
   @ApiOperation({ summary: 'Remove information students' })
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationstudentsService.remove(id);
+    const data = await this.informationstudentsService.remove(id);
     return {
-      data: response,
+      data: data,
       message: `deleted`,
     };
   }
