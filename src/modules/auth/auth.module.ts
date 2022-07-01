@@ -11,7 +11,7 @@ import { LocalStrategy, JwtStrategy } from '@auth/strategies';
 
 @Module({
   imports: [
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forFeature([UserEntity]),
     JwtModule.registerAsync({
       inject: [config.KEY],

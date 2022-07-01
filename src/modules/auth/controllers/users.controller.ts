@@ -10,10 +10,12 @@ import {
   Post,
   Put,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
 import { CreateUserDto } from '@auth/dto';
+import { HttpExceptionFilter } from '../../../exceptions/http-exception.filter';
 
 @ApiTags('users')
 @Controller('users')
@@ -23,9 +25,8 @@ export class UsersController {
   @ApiOperation({ summary: 'List of users' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  findAll(@Query() params: any) {
-    const response = this.usersService.findAll();
-    return response;
+  async findAll(@Query() params: any) {
+    const data = await this.usersService.findAll();
     // const sortFields = params.sort
     //   ? params.sort.split(',').filter((sort) => sort != '')
     //   : null;
@@ -35,10 +36,10 @@ export class UsersController {
     // const data = this.usersService.findAll();
     // return data;
     //
-    // return {
-    //   data,
-    //   message: `index`,
-    // };
+    return {
+      data,
+      message: `index`,
+    };
   }
 
   @Get('catalogue')
@@ -68,36 +69,35 @@ export class UsersController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    const response = this.usersService.findOne(id);
-    return response;
-    // return {
-    //   data,
-    //   message: `show ${id}`,
-    // };
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = this.usersService.findOne(id);
+    return {
+      data,
+      message: `show ${id}`,
+    };
   }
 
-  @Post('')
+  @Post()
+  @UseFilters(HttpExceptionFilter)
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateUserDto) {
-    const response = this.usersService.create(payload);
-    return response;
+  async create(@Body() payload: CreateUserDto) {
+    const data = this.usersService.create(payload);
 
-    // return {
-    //   data,
-    //   message: 'created',
-    // };
+    return {
+      data,
+      message: 'created',
+    };
   }
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
-    const response = this.usersService.update(id, payload);
-    return response;
-    // return {
-    //   data: payload,
-    //   message: `updated ${id}`,
-    // };
+  async update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+    const data = this.usersService.update(id, payload);
+
+    return {
+      data: data,
+      message: `updated ${id}`,
+    };
   }
 
   @Delete(':id')

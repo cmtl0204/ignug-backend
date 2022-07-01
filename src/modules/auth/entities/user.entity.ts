@@ -12,7 +12,6 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
-import { Exclude } from 'class-transformer';
 import * as Bcrypt from 'bcrypt';
 
 @Entity('users')
@@ -80,7 +79,6 @@ export class UserEntity {
   })
   email: string;
 
-  @Exclude()
   @Column('timestamp', {
     name: 'email_verified_at',
     nullable: true,
@@ -91,8 +89,12 @@ export class UserEntity {
   @Column('varchar', { name: 'lastname', length: 255, comment: 'Apellidos' })
   lastname: string;
 
-  @Exclude()
-  @Column('varchar', { name: 'password', length: 100, comment: 'Contraseña' })
+  @Column('varchar', {
+    name: 'password',
+    length: 100,
+    select: false,
+    comment: 'Contraseña',
+  })
   password: string;
 
   @Column('boolean', {
@@ -110,10 +112,10 @@ export class UserEntity {
   })
   phone: string;
 
-  @Exclude()
   @Column('int', {
     name: 'max_attempts',
     default: 3,
+    select: false,
     comment:
       'Intentos máximos para errar la contraseña, si llega a cero el usuario se bloquea',
   })
