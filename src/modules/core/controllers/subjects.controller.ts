@@ -18,36 +18,45 @@ import { SubjectsService } from '@core/services';
 @ApiTags('subjects')
 @Controller('subjects')
 export class SubjectsController {
-  constructor(private subjectsService: SubjectsService) {}
+  constructor(private subjectsService: SubjectsService) { }
 
   @ApiOperation({ summary: 'Create subjects' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() payload: CreateSubjectDto) {
-    const response = this.subjectsService.create(payload);
-    return response;
+  async create(@Body() payload: CreateSubjectDto) {
+    const data = this.subjectsService.create(payload);
+    return {
+      data,
+      message: 'created',
+    };
   }
 
   @ApiOperation({ summary: 'List of subjects' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  findAll(@Query() params: any) {
-    const response = this.subjectsService.findAll();
-    return response;
+  async findAll(@Query() params: any) {
+    const data = this.subjectsService.findAll();
+    return {
+      data,
+      message: `index`,
+    };
   }
 
   @ApiOperation({ summary: 'View one subjects' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    const response = this.subjectsService.findOne(id);
-    return response;
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = this.subjectsService.findOne(id);
+    return {
+      data,
+      message: `show ${id}`,
+    };
   }
 
   @ApiOperation({ summary: 'Update subjects' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateSubjectDto,
   ) {
@@ -58,7 +67,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Remove subjects' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
     const response = this.subjectsService.remove(id);
     return response;
   }
