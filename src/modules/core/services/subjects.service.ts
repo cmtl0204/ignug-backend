@@ -38,7 +38,7 @@ export class SubjectsService {
   async findOne(id: number) {
     const subject = await this.subjectRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 
@@ -52,7 +52,7 @@ export class SubjectsService {
   async update(id: number, payload: UpdateSubjectDto) {
     const subject = await this.subjectRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 

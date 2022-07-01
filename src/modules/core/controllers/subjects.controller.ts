@@ -71,10 +71,7 @@ export class SubjectsController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = this.subjectsService.remove(id);
-    return {
-      data,
-      message: `deleted ${id}`,
-    };
+    const response = this.subjectsService.remove(id);
+    return response;
   }
 }
