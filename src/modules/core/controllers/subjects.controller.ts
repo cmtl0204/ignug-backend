@@ -60,15 +60,21 @@ export class SubjectsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateSubjectDto,
   ) {
-    const response = this.subjectsService.update(id, payload);
-    return response;
+    const data = this.subjectsService.update(id, payload);
+    return {
+      data: data,
+      message: `updated ${id}`,
+    };
   }
 
   @ApiOperation({ summary: 'Remove subjects' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.subjectsService.remove(id);
-    return response;
+    const data = this.subjectsService.remove(id);
+    return {
+      data,
+      message: `deleted ${id}`,
+    };
   }
 }
