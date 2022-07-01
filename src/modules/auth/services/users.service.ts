@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '@auth/dto';
+import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { CataloguesService } from '@core/services';
+import { QueryFailedError } from 'typeorm/browser';
 
 // import { CataloguesService } from '@core/services';
 
@@ -38,21 +39,38 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException();
     }
+
     return user;
   }
 
-  async update(id: number, data: any) {
+  async update(id: number, data: UpdateUserDto) {
     const user = await this.userRepository.findOne({
       where: {
         id,
       },
     });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
     this.userRepository.merge(user, data);
 
     return this.userRepository.save(user);
   }
 
   async remove(id: number) {
-    return this.userRepository.softDelete(id);
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    await this.userRepository.softDelete(id);
+    return true;
   }
 }

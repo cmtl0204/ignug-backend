@@ -5,7 +5,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { QueryFailedError } from 'typeorm';
+import { QueryFailedError } from 'typeorm/browser';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -19,7 +19,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     // const status = exception.getStatus();
 
     response.status(500).json({
-      statusCode: 500,
+      statusCode: 100,
       timestamp: new Date().toISOString(),
       path: request.url,
     });

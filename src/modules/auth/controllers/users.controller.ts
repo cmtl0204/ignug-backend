@@ -26,7 +26,7 @@ export class UsersController {
   @UseFilters(HttpExceptionFilter)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateUserDto) {
-    const data = this.usersService.create(payload);
+    const data = await this.usersService.create(payload);
 
     return {
       data,
@@ -82,7 +82,7 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = this.usersService.findOne(id);
+    const data = await this.usersService.findOne(id);
     return {
       data,
       message: `show ${id}`,
@@ -92,22 +92,22 @@ export class UsersController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
-    const data = this.usersService.update(id, payload);
+    const data = await this.usersService.update(id, payload);
 
     return {
       data: data,
-      message: `updated ${id}`,
+      message: `user updated ${id}`,
     };
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.usersService.remove(id);
-    return response;
-    // return {
-    //   data: true,
-    //   message: `deleted ${id}`,
-    // };
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const data = this.usersService.remove(id);
+
+    return {
+      data,
+      message: `user deleted ${id}`,
+    };
   }
 }
