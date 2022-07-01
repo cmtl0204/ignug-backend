@@ -27,36 +27,46 @@ export class InformationTeachersController {
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateInformationTeacherDto) {
-    const response = this.informationTeachersService.create(payload);
-    return response;
-  }
+    const data = await this.informationTeachersService.create(payload);
 
-  @ApiOperation({ summary: 'Consulta los docentes' })
-  @Get('')
-  @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any) {
-    const response = this.informationTeachersService.findAll();
-    return response;
-  }
-
-  @ApiOperation({ summary: 'Consulta un solo docente' })
-  @Get(':id')
-  @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationTeachersService.findOne(id);
-    return response;
+    return {
+      data,
+      message: `create`,
+    };  
   }
 
   @ApiOperation({ summary: 'Elimina un docente' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationTeachersService.remove(id);
+    const data = await this.informationTeachersService.remove(id);
     return {
-      data: response,
+      data,
       message: `deleted`,
     };
   }
+
+  @ApiOperation({ summary: 'Consulta los docentes' })
+  @Get('')
+  @HttpCode(HttpStatus.OK)
+  async findAll(@Query() params: any) {
+    const data = await this.informationTeachersService.findAll();
+    return {
+      data,
+      message: `findall`,
+    };  
+  }
+
+  @ApiOperation({ summary: 'Consulta un solo docente' })
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.informationTeachersService.findOne(id);
+    return {
+      data,
+      message: `show ${id}`,
+    };  }
+
 
   @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
   @Put(':id')
@@ -65,9 +75,9 @@ export class InformationTeachersController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInformationTeacherDto,
   ) {
-    const response = await this.informationTeachersService.update(id, payload);
+    const data = await this.informationTeachersService.update(id, payload);
     return {
-      data: response,
+      data,
       message: `updated ${id}`,
     };
   }
