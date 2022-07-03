@@ -10,7 +10,6 @@ import {
   Post,
   Put,
   Query,
-  UseFilters,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
