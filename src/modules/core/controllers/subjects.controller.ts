@@ -10,10 +10,12 @@ import {
   Post,
   Put,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectsService } from '@core/services';
+import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter';
 
 @ApiTags('subjects')
 @Controller('subjects')
@@ -21,7 +23,8 @@ export class SubjectsController {
   constructor(private subjectsService: SubjectsService) { }
 
   @ApiOperation({ summary: 'Create subjects' })
-  @Post('')
+  @Post()
+  @UseFilters(HttpExceptionFilter)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateSubjectDto) {
     const data = this.subjectsService.create(payload);
@@ -63,7 +66,7 @@ export class SubjectsController {
     const data = this.subjectsService.update(id, payload);
     return {
       data: data,
-      message: `updated ${id}`,
+      message: `subject updated ${id}`,
     };
   }
 
@@ -71,7 +74,10 @@ export class SubjectsController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.subjectsService.remove(id);
-    return response;
+    const data = this.subjectsService.remove(id);
+    return {
+      data,
+      message: `subject deleted ${id}`,
+    };
   }
 }
