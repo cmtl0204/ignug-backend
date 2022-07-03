@@ -4,7 +4,6 @@ import { CataloguesService, CurriculaService } from '@core/services';
 import { Repository } from 'typeorm';
 import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
-import { QueryFailedError } from 'typeorm/browser';
 
 @Injectable()
 export class SubjectsService {

@@ -15,7 +15,6 @@ import {
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectsService } from '@core/services';
-import { HttpExceptionFilter } from 'src/exceptions/http-exception.filter';
 
 @ApiTags('subjects')
 @Controller('subjects')
@@ -23,8 +22,7 @@ export class SubjectsController {
   constructor(private subjectsService: SubjectsService) { }
 
   @ApiOperation({ summary: 'Create subjects' })
-  @Post()
-  @UseFilters(HttpExceptionFilter)
+  @Post('')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateSubjectDto) {
     const data = this.subjectsService.create(payload);
