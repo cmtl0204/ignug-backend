@@ -106,7 +106,7 @@ export class UsersController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = this.usersService.remove(id);
+    const data = await this.usersService.remove(id);
 
     return {
       data,
