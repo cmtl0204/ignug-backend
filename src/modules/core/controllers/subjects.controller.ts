@@ -24,7 +24,7 @@ export class SubjectsController {
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateSubjectDto) {
-    const data = this.subjectsService.create(payload);
+    const data = await this.subjectsService.create(payload);
     return {
       data,
       message: 'created',
@@ -35,7 +35,7 @@ export class SubjectsController {
   @Get('')
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: any) {
-    const data = this.subjectsService.findAll();
+    const data = await this.subjectsService.findAll();
     return {
       data,
       message: `index`,
@@ -46,7 +46,7 @@ export class SubjectsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = this.subjectsService.findOne(id);
+    const data = await this.subjectsService.findOne(id);
     return {
       data,
       message: `show ${id}`,
@@ -60,10 +60,10 @@ export class SubjectsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateSubjectDto,
   ) {
-    const data = this.subjectsService.update(id, payload);
+    const data = await this.subjectsService.update(id, payload);
     return {
       data: data,
-      message: `updated ${id}`,
+      message: `subject updated ${id}`,
     };
   }
 
@@ -71,7 +71,10 @@ export class SubjectsController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
-    const response = this.subjectsService.remove(id);
-    return response;
+    const data = await this.subjectsService.remove(id);
+    return {
+      data,
+      message: `subject deleted ${id}`,
+    };
   }
 }

@@ -19,7 +19,6 @@ export class SubjectsService {
     newSubject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriodId,
     );
-
     newSubject.state = await this.catalogueService.findOne(payload.stateId);
 
     newSubject.type = await this.catalogueService.findOne(payload.typeId);
@@ -27,8 +26,8 @@ export class SubjectsService {
     newSubject.curriculum = await this.curriculumService.findOne(
       payload.curriculumId,
     );
-
-    return await this.subjectRepository.save(newSubject);
+    const response = await this.subjectRepository.save(newSubject);
+    return await this.subjectRepository.save(response);
   }
 
   async findAll() {
@@ -76,6 +75,17 @@ export class SubjectsService {
   }
 
   async remove(id: number) {
-    return await this.subjectRepository.softDelete(id);
+    const subject = await this.subjectRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (subject === null) {
+      throw new NotFoundException('La asignatura no se encontro');
+    }
+
+    await this.subjectRepository.softDelete(id);
+    return true;
   }
 }

@@ -26,11 +26,23 @@ import {
 export class InformationStudentsController {
   constructor(private informationstudentsService: InformationStudentsService) {}
 
+  @ApiOperation({ summary: 'Create information students' })
+  @Post('')
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() payload: CreateInformationStudentDto) {
+    const data = await this.informationstudentsService.create(payload);
+
+    return {
+      data,
+      message: 'created',
+    };
+  }
+
   @ApiOperation({ summary: 'List of information students' })
   @Get('')
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: any) {
-    const data = this.informationstudentsService.findAll();
+    const data = await this.informationstudentsService.findAll();
 
     return {
       data,
@@ -42,23 +54,11 @@ export class InformationStudentsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = this.informationstudentsService.findOne(id);
+    const data = await  this.informationstudentsService.findOne(id);
 
     return {
       data,
       message: `show ${id}`,
-    };
-  }
-
-  @ApiOperation({ summary: 'Create information students' })
-  @Post('')
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateInformationStudentDto) {
-    const data = await this.informationstudentsService.create(payload);
-
-    return {
-      data,
-      message: 'created',
     };
   }
 
@@ -82,7 +82,7 @@ export class InformationStudentsController {
     const data = await this.informationstudentsService.remove(id);
     return {
       data: data,
-      message: `deleted`,
+      message: `deleted ${id}`,
     };
   }
 }
