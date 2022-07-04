@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
 import * as Bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class UserEntity {
@@ -89,10 +90,10 @@ export class UserEntity {
   @Column('varchar', { name: 'lastname', length: 255, comment: 'Apellidos' })
   lastname: string;
 
+  @Exclude()
   @Column('varchar', {
     name: 'password',
     length: 100,
-    select: false,
     comment: 'Contraseña',
   })
   password: string;
@@ -112,10 +113,10 @@ export class UserEntity {
   })
   phone: string;
 
+  @Exclude()
   @Column('int', {
     name: 'max_attempts',
     default: 3,
-    select: false,
     comment:
       'Intentos máximos para errar la contraseña, si llega a cero el usuario se bloquea',
   })

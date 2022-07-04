@@ -10,24 +10,22 @@ import {
   Post,
   Put,
   Query,
-  UseFilters,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
 import { CreateUserDto } from '@auth/dto';
-import { HttpExceptionFilter } from '../../../exceptions/http-exception.filter';
-import { JwtGuard } from '@auth/guards';
+import { Roles } from '@auth/decorators';
+import { RoleEnum } from '@auth/enums';
+import { JwtGuard, RolesGuard } from '@auth/guards';
 
 @ApiTags('users')
-// @UseGuards(JwtGuard)
-@UseFilters(HttpExceptionFilter)
+// @UseGuards(JwtGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
-  @UseFilters(HttpExceptionFilter)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateUserDto) {
     const data = await this.usersService.create(payload);
@@ -39,7 +37,8 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'List of users' })
-  @Get('')
+  // @Roles(RoleEnum.ADMIN)
+  @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: any) {
     const data = await this.usersService.findAll();

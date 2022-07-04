@@ -18,6 +18,9 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@auth/constants": [
+        "./src/modules/auth/constants"
+      ],
       "@auth/controllers": [
         "./src/modules/auth/controllers"
       ],
@@ -29,6 +32,9 @@
       ],
       "@auth/entities": [
         "./src/modules/auth/entities"
+      ],
+      "@auth/enums": [
+        "./src/modules/auth/enums"
       ],
       "@auth/guards": [
         "./src/modules/auth/guards"
