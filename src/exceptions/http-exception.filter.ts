@@ -5,12 +5,14 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { QueryFailedError } from 'typeorm/browser';
+import { QueryFailedError } from 'typeorm';
+import { ExceptionHandler } from '@nestjs/core/errors/exception-handler';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(
-    exception: HttpException | Error | QueryFailedError,
+    exception: HttpException | Error | QueryFailedError | ExceptionsHandler,
     host: ArgumentsHost,
   ) {
     const ctx = host.switchToHttp();

@@ -11,13 +11,17 @@ import {
   Put,
   Query,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
 import { CreateUserDto } from '@auth/dto';
 import { HttpExceptionFilter } from '../../../exceptions/http-exception.filter';
+import { JwtGuard } from '@auth/guards';
 
 @ApiTags('users')
+// @UseGuards(JwtGuard)
+@UseFilters(HttpExceptionFilter)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
