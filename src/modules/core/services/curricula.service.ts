@@ -36,7 +36,7 @@ export class CurriculaService {
   async findOne(id: number) {
     const curriculum = await this.curriculumRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 
@@ -50,7 +50,7 @@ export class CurriculaService {
   async update(id: number, payload: UpdateCurriculumDto) {
     const curriculum = await this.curriculumRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 
