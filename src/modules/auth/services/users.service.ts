@@ -26,11 +26,12 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.userRepository.find({ relations: ['bloodType'] });
+    return this.userRepository.find({ relations: ['bloodType', 'gender'] });
   }
 
   async findOne(id: number) {
     const user = await this.userRepository.findOne({
+      relations: ['bloodType', 'gender'],
       where: {
         id,
       },
