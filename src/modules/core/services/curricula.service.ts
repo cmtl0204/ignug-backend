@@ -18,9 +18,7 @@ export class CurriculaService {
   async create(payload: CreateCurriculumDto) {
     const newCurriculum = this.curriculumRepository.create(payload);
     newCurriculum.career = await this.carrierService.findOne(payload.careerId);
-    newCurriculum.state = await this.catalogueService.findOne(
-      payload.stateId,
-    );
+    newCurriculum.state = await this.catalogueService.findOne(payload.stateId);
 
     return await this.curriculumRepository.save(newCurriculum);
   }
@@ -30,7 +28,9 @@ export class CurriculaService {
   }
 
   async findAll() {
-    return await this.curriculumRepository.find();
+    return await this.curriculumRepository.find({
+      relations: ['state', 'career'],
+    });
   }
 
   async findOne(id: number) {
