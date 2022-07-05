@@ -26,7 +26,7 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['bloodType'] });
   }
 
   async findOne(id: number) {
@@ -37,7 +37,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('usuario no encontrado');
     }
 
     return user;

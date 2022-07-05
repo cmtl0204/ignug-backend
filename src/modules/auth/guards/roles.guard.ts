@@ -25,9 +25,7 @@ export class RolesGuard implements CanActivate {
     const user = request.user as PayloadTokenModel;
     const isAuth = roles.some((role) => role === user.role);
     if (!isAuth) {
-      throw new ForbiddenException(
-        'No tiene permisos para realizar esta acción',
-      );
+      throw new ForbiddenException();
     }
     return isAuth;
   }

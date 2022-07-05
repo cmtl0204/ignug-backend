@@ -10,7 +10,7 @@ import { AppService } from './app.service';
 import { AuthModule } from '@auth/modules';
 import { CoreModule } from '@core/modules';
 import config from './config';
-import { HttpExceptionFilter } from './exceptions/http-exception.filter';
+import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
 
 @Module({
   imports: [
@@ -38,7 +38,7 @@ import { HttpExceptionFilter } from './exceptions/http-exception.filter';
     AppService,
     // {
     //   provide: APP_FILTER,
-    //   useClass: HttpExceptionFilter,
+    //   useClass: AllExceptionsFilter,
     // },
   ],
 })
