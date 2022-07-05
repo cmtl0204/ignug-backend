@@ -15,11 +15,11 @@ export class CurriculumEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => CareerEntity)
+  @ManyToOne(() => CareerEntity, (career) => career.curriculumId)
   career: CareerEntity;
 
-  @ManyToOne(() => CatalogueEntity)
-  started: CatalogueEntity;
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.curriculumId)
+  state: CatalogueEntity;
 
   @Column('varchar', {
     name: 'code',

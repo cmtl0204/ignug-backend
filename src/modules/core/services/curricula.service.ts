@@ -1,68 +1,97 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCurriculumDto, UpdateCurriculumDto } from '@core/dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CurriculumEntity } from '@core/entities';
-import { CareersService } from '@core/services';
-import { CataloguesService } from '@core/services';
+import { CareerEntity } from '@core/entities';
+import { CatalogueEntity } from '@core/entities';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Injectable()
-export class CurriculaService {
-  constructor(
-    @InjectRepository(CurriculumEntity)
-    private curriculumRepository: Repository<CurriculumEntity>,
-    private carrierService: CareersService,
-    private catalogueService: CataloguesService,
-  ) {}
+@Entity('curricula')
+export class CurriculumEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-  async create(payload: CreateCurriculumDto) {
-    const newCurriculum = this.curriculumRepository.create(payload);
-    newCurriculum.career = await this.carrierService.findOne(payload.careerId);
-    newCurriculum.started = await this.catalogueService.findOne(
-      payload.stateId,
-    );
+  @ManyToOne(() => CareerEntity, (career) => career.curriculumId)
+  career: CareerEntity;
 
-    return await this.curriculumRepository.save(newCurriculum);
-  }
+  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.curriculumId)
+  state: CatalogueEntity;
 
-  async remove(id: number) {
-    return await this.curriculumRepository.softDelete(id);
-  }
+  @Column('varchar', {
+    name: 'code',
+    length: 255,
+    default: 'SN',
+    comment: 'Nombre del producto',
+  })
+  code: string;
 
-  async findAll() {
-    return await this.curriculumRepository.find();
-  }
+  @CreateDateColumn({
+    name: 'ended_At',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    comment: 'Fecha de creacion de la carrera',
+  })
+  endedAt: Date;
 
-  async findOne(id: number) {
-    const curriculum = await this.curriculumRepository.findOne({
-      where: {
-        id,
-      },
-    });
+  @CreateDateColumn({
+    name: 'started_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+    comment: 'Fecha de creacion de la carrera',
+  })
+  startedAt: Date;
 
-    if (curriculum === null) {
-      throw new NotFoundException('El producto no se encontro');
-    }
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAT: Date;
 
-    return curriculum;
-  }
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamptz',
+    nullable: true,
+  })
+  deletedAT: Date;
 
-  async update(id: number, payload: UpdateCurriculumDto) {
-    const curriculum = await this.curriculumRepository.findOne({
-      where: {
-        id,
-      },
-    });
+  @Column('varchar', {
+    name: 'name',
+    length: 255,
+    default: 'SN',
+    comment: 'Nombre del producto',
+  })
+  name: string;
 
-    if (curriculum === null) {
-      throw new NotFoundException('El producto no se encontro');
-    }
+  @Column('varchar', {
+    name: 'description',
+    length: 255,
+    default: 'SN',
+    comment: 'Nombre del producto',
+  })
+  description: string;
 
-    curriculum.career = await this.carrierService.findOne(payload.careerId);
-    curriculum.started = await this.catalogueService.findOne(payload.stateId);
+  @Column('float', {
+    name: 'weeks_Number',
+    comment: 'Precio del producto',
+  })
+  weeksNumber: number;
 
-    this.curriculumRepository.merge(curriculum, payload);
+  @Column('varchar', {
+    name: 'resolution_Number',
+    length: 255,
+    default: 'SN',
+    comment: 'Nombre del producto',
+  })
+  resolutionNumber: string;
 
-    return this.curriculumRepository.save(curriculum);
-  }
+  @Column('float', {
+    name: 'periodic_Academic_Number',
+    comment: 'Precio del producto',
+  })
+  periodicAcademicNumber: number;
 }
