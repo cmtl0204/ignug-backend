@@ -1,97 +1,68 @@
-import { CareerEntity } from '@core/entities';
-import { CatalogueEntity } from '@core/entities';
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateCurriculumDto, UpdateCurriculumDto } from '@core/dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CurriculumEntity } from '@core/entities';
+import { CareersService } from '@core/services';
+import { CataloguesService } from '@core/services';
 
-@Entity('curricula')
-export class CurriculumEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Injectable()
+export class CurriculaService {
+  constructor(
+    @InjectRepository(CurriculumEntity)
+    private curriculumRepository: Repository<CurriculumEntity>,
+    private carrierService: CareersService,
+    private catalogueService: CataloguesService,
+  ) {}
 
-  @ManyToOne(() => CareerEntity, (career) => career.curriculumId)
-  career: CareerEntity;
+  async create(payload: CreateCurriculumDto) {
+    const newCurriculum = this.curriculumRepository.create(payload);
+    newCurriculum.career = await this.carrierService.findOne(payload.careerId);
+    newCurriculum.state = await this.catalogueService.findOne(
+      payload.stateId,
+    );
 
-  @ManyToOne(() => CatalogueEntity, (catalogue) => catalogue.curriculumId)
-  state: CatalogueEntity;
+    return await this.curriculumRepository.save(newCurriculum);
+  }
 
-  @Column('varchar', {
-    name: 'code',
-    length: 255,
-    default: 'SN',
-    comment: 'Nombre del producto',
-  })
-  code: string;
+  async remove(id: number) {
+    return await this.curriculumRepository.softDelete(id);
+  }
 
-  @CreateDateColumn({
-    name: 'ended_At',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-    comment: 'Fecha de creacion de la carrera',
-  })
-  endedAt: Date;
+  async findAll() {
+    return await this.curriculumRepository.find();
+  }
 
-  @CreateDateColumn({
-    name: 'started_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-    comment: 'Fecha de creacion de la carrera',
-  })
-  startedAt: Date;
+  async findOne(id: number) {
+    const curriculum = await this.curriculumRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-  @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updatedAT: Date;
+    if (curriculum === null) {
+      throw new NotFoundException('El producto no se encontro');
+    }
 
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    type: 'timestamptz',
-    nullable: true,
-  })
-  deletedAT: Date;
+    return curriculum;
+  }
 
-  @Column('varchar', {
-    name: 'name',
-    length: 255,
-    default: 'SN',
-    comment: 'Nombre del producto',
-  })
-  name: string;
+  async update(id: number, payload: UpdateCurriculumDto) {
+    const curriculum = await this.curriculumRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-  @Column('varchar', {
-    name: 'description',
-    length: 255,
-    default: 'SN',
-    comment: 'Nombre del producto',
-  })
-  description: string;
+    if (curriculum === null) {
+      throw new NotFoundException('El producto no se encontro');
+    }
 
-  @Column('float', {
-    name: 'weeks_Number',
-    comment: 'Precio del producto',
-  })
-  weeksNumber: number;
+    curriculum.career = await this.carrierService.findOne(payload.careerId);
+    curriculum.state = await this.catalogueService.findOne(payload.stateId);
 
-  @Column('varchar', {
-    name: 'resolution_Number',
-    length: 255,
-    default: 'SN',
-    comment: 'Nombre del producto',
-  })
-  resolutionNumber: string;
+    this.curriculumRepository.merge(curriculum, payload);
 
-  @Column('float', {
-    name: 'periodic_Academic_Number',
-    comment: 'Precio del producto',
-  })
-  periodicAcademicNumber: number;
+    return this.curriculumRepository.save(curriculum);
+  }
 }
