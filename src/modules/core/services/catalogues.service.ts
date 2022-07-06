@@ -21,9 +21,7 @@ export class CataloguesService {
   }
 
   async findAll() {
-    return await this.repository.find({
-      relations: ['user'],
-    });
+    return await this.repository.find();
   }
 
   async findOne(id: number) {

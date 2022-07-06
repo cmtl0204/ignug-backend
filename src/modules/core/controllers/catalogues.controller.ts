@@ -22,8 +22,12 @@ export class CataloguesController {
   }
 
   @Get()
-  findAll() {
-    return this.cataloguesService.findAll();
+  async findAll() {
+    const data = await this.cataloguesService.findAll();
+    return {
+      data,
+      message: 'Datos consultados',
+    };
   }
 
   @Get(':id')
