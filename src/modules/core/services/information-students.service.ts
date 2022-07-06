@@ -41,7 +41,16 @@ export class InformationStudentsService {
   }
 
   async findAll() {
-    return await this.informationStudentRepository.find();
+    return await this.informationStudentRepository.find({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+        'student',
+      ],
+    });
   }
 
   async findOne(id: number) {
