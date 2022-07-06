@@ -3,21 +3,22 @@ import { CataloguesService } from '@core/services';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { InformationTeacherEntity } from '@core/entities';
-import { CreateInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
+import {
+  CreateInformationTeacherDto,
+  UpdateInformationTeacherDto,
+} from '@core/dto';
 
 @Injectable()
 export class InformationTeachersService {
-
   constructor(
     @InjectRepository(InformationTeacherEntity)
     private InformationTeacherRepository: Repository<InformationTeacherEntity>,
-    private cataloguesService: CataloguesService
-
-  ) { }
-
+    private cataloguesService: CataloguesService,
+  ) {}
 
   async create(payload: CreateInformationTeacherDto) {
-    const informationTeacher = this.InformationTeacherRepository.create(payload);
+    const informationTeacher =
+      this.InformationTeacherRepository.create(payload);
     informationTeacher.teachingLadder = await this.cataloguesService.findOne(
       payload.teachingLadderId,
     );
@@ -30,9 +31,8 @@ export class InformationTeachersService {
       payload.higherEducationId,
     );
 
-    informationTeacher.countryHigherEducation = await this.cataloguesService.findOne(
-      payload.countryHigherEducationId,
-    );
+    informationTeacher.countryHigherEducation =
+      await this.cataloguesService.findOne(payload.countryHigherEducationId);
     informationTeacher.scholarship = await this.cataloguesService.findOne(
       payload.scholarshipId,
     );
@@ -49,7 +49,9 @@ export class InformationTeachersService {
       payload.usernameId,
     );
 
-    const response = await this.InformationTeacherRepository.save(informationTeacher);
+    const response = await this.InformationTeacherRepository.save(
+      informationTeacher,
+    );
     return this.InformationTeacherRepository.save(response);
   }
 
@@ -59,11 +61,9 @@ export class InformationTeachersService {
 
   async findOne(id: number) {
     const informationTeacher = await this.InformationTeacherRepository.findOne({
-      
       where: {
         id: id,
       },
-      
     });
 
     if (informationTeacher === null) {
@@ -79,21 +79,69 @@ export class InformationTeachersService {
 
   async update(id: number, payload: UpdateInformationTeacherDto) {
     const informationTeacher = await this.InformationTeacherRepository.findOne({
-      
       where: {
         id: id,
       },
-      
     });
 
     if (informationTeacher === null) {
       throw new NotFoundException('El docente no se encontro');
     }
-  
+    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
+      payload.teachingLadderId,
+    );
+
+    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
+      payload.dedicationTimeId,
+    );
+
+    informationTeacher.higherEducation = await this.cataloguesService.findOne(
+      payload.higherEducationId,
+    );
+
+    informationTeacher.countryHigherEducation =
+      await this.cataloguesService.findOne(payload.countryHigherEducationId);
+    informationTeacher.scholarship = await this.cataloguesService.findOne(
+      payload.scholarshipId,
+    );
+
+    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
+      payload.scholarshipTypeId,
+    );
+
+    informationTeacher.financingType = await this.cataloguesService.findOne(
+      payload.financingTypeId,
+    );
+
+    informationTeacher.username = await this.cataloguesService.findOne(
+      payload.usernameId,
+    );
+
+    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
+      payload.teachingLadderId,
+    );
+    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
+      payload.dedicationTimeId,
+    );
+    informationTeacher.higherEducation = await this.cataloguesService.findOne(
+      payload.higherEducationId,
+    );
+    informationTeacher.countryHigherEducation =
+      await this.cataloguesService.findOne(payload.countryHigherEducationId);
+    informationTeacher.scholarship = await this.cataloguesService.findOne(
+      payload.scholarshipId,
+    );
+    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
+      payload.scholarshipTypeId,
+    );
+    informationTeacher.financingType = await this.cataloguesService.findOne(
+      payload.financingTypeId,
+    );
+    informationTeacher.username = await this.cataloguesService.findOne(
+      payload.usernameId,
+    );
 
     await this.InformationTeacherRepository.merge(informationTeacher, payload);
-
-    return await this.InformationTeacherRepository.save(informationTeacher);
+    return this.InformationTeacherRepository.save(informationTeacher);
   }
-
 }

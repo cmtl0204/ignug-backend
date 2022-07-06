@@ -316,10 +316,4 @@ export class InformationStudentEntity {
     nullable: true,
   })
   deletedAt: Date;
-
-  /*
-      @OneToOne(() => StudentEntity, (student) => student.information_student)
-      @JoinColumn({name:'migratory_id'})
-      student: StudentEntity;
-    */
 }

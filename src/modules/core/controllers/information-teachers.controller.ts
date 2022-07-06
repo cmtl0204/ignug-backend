@@ -12,7 +12,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateInformationTeacherDto, UpdateInformationTeacherDto} from '@core/dto';
+import {
+  CreateInformationTeacherDto,
+  UpdateInformationTeacherDto,
+} from '@core/dto';
 import { InformationTeachersService } from '@core/services';
 
 @ApiTags('information-teachers')
@@ -23,48 +26,58 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Crea un nuevo docente' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  store(@Body() payload: CreateInformationTeacherDto) {
-    const response = this.informationTeachersService.create(payload);
-    return response;
+  async create(@Body() payload: CreateInformationTeacherDto) {
+    const data = await this.informationTeachersService.create(payload);
+
+    return {
+      data,
+      message: `create`,
+    };  
+  }
+
+  @ApiOperation({ summary: 'Elimina un docente' })
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.informationTeachersService.remove(id);
+    return {
+      data,
+      message: `deleted`,
+    };
   }
 
   @ApiOperation({ summary: 'Consulta los docentes' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  index(@Query() params: any) {
-    const response = this.informationTeachersService.findAll();
-    return response;
+  async findAll(@Query() params: any) {
+    const data = await this.informationTeachersService.findAll();
+    return {
+      data,
+      message: `findall`,
+    };  
   }
 
   @ApiOperation({ summary: 'Consulta un solo docente' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  show(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationTeachersService.findOne(id);
-    return response;
-  }
-
-  @ApiOperation({ summary: 'Elimina un docente' })
-  @Delete(':id')
-  @HttpCode(HttpStatus.CREATED)
-  destroy(@Param('id', ParseIntPipe) id: number) {
-    const response = this.informationTeachersService.remove(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const data = await this.informationTeachersService.findOne(id);
     return {
-      data: response,
-      message: `deleted`,
-    };
-  }
+      data,
+      message: `show ${id}`,
+    };  }
+
 
   @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInformationTeacherDto,
   ) {
-    const response = this.informationTeachersService.update(id, payload);
+    const data = await this.informationTeachersService.update(id, payload);
     return {
-      data: response,
+      data,
       message: `updated ${id}`,
     };
   }

@@ -1,10 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as Bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '@core/dto';
-import { UserEntity } from '@core/entities';
+import { CreateUserDto, UpdateUserDto } from '@auth/dto';
+import { UserEntity } from '@auth/entities';
 import { CataloguesService } from '@core/services';
+import { QueryFailedError } from 'typeorm/browser';
+
+// import { CataloguesService } from '@core/services';
 
 @Injectable()
 export class UsersService {
@@ -24,10 +26,25 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({ relations: ['bloodType', 'gender'] });
   }
 
   async findOne(id: number) {
+    const user = await this.userRepository.findOne({
+      relations: ['bloodType', 'gender'],
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('usuario no encontrado');
+    }
+
+    return user;
+  }
+
+  async update(id: number, data: UpdateUserDto) {
     const user = await this.userRepository.findOne({
       where: {
         id,
@@ -35,30 +52,26 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException();
+      throw new NotFoundException('Usuario no encontrado');
     }
-    return user;
-  }
 
-  async findByUsername(username: string) {
-    return await this.userRepository.findOne({
-      where: {
-        username,
-      },
-    });
-  }
-
-  async update(id: number, data: any) {
-    const user = await this.userRepository.findOne({
-      where: {
-        id: 1,
-      },
-    });
     this.userRepository.merge(user, data);
+
     return this.userRepository.save(user);
   }
 
   async remove(id: number) {
-    return this.userRepository.delete(id);
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    await this.userRepository.softDelete(id);
+    return true;
   }
 }

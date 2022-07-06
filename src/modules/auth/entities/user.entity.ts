@@ -12,8 +12,8 @@ import {
   BeforeUpdate,
 } from 'typeorm';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
-import { Exclude } from 'class-transformer';
 import * as Bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 
 @Entity('users')
 export class UserEntity {
@@ -80,7 +80,6 @@ export class UserEntity {
   })
   email: string;
 
-  @Exclude()
   @Column('timestamp', {
     name: 'email_verified_at',
     nullable: true,
@@ -92,7 +91,11 @@ export class UserEntity {
   lastname: string;
 
   @Exclude()
-  @Column('varchar', { name: 'password', length: 100, comment: 'Contraseña' })
+  @Column('varchar', {
+    name: 'password',
+    length: 100,
+    comment: 'Contraseña',
+  })
   password: string;
 
   @Column('boolean', {

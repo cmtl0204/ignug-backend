@@ -13,7 +13,10 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'login') {
     const user = await this.authService.login(username, password);
 
     if (!user) {
-      throw new UnauthorizedException('Usuario y/o clave incorrecto');
+      throw new UnauthorizedException(
+        'Usuario y/o clave incorrecto',
+        'Acceso Denegado',
+      );
     }
 
     return user;

@@ -18,9 +18,7 @@ export class CurriculaService {
   async create(payload: CreateCurriculumDto) {
     const newCurriculum = this.curriculumRepository.create(payload);
     newCurriculum.career = await this.carrierService.findOne(payload.careerId);
-    newCurriculum.started = await this.catalogueService.findOne(
-      payload.stateId,
-    );
+    newCurriculum.state = await this.catalogueService.findOne(payload.stateId);
 
     return await this.curriculumRepository.save(newCurriculum);
   }
@@ -30,13 +28,15 @@ export class CurriculaService {
   }
 
   async findAll() {
-    return await this.curriculumRepository.find();
+    return await this.curriculumRepository.find({
+      relations: ['state', 'career'],
+    });
   }
 
   async findOne(id: number) {
     const curriculum = await this.curriculumRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 
@@ -50,7 +50,7 @@ export class CurriculaService {
   async update(id: number, payload: UpdateCurriculumDto) {
     const curriculum = await this.curriculumRepository.findOne({
       where: {
-        id: id,
+        id,
       },
     });
 
@@ -59,7 +59,7 @@ export class CurriculaService {
     }
 
     curriculum.career = await this.carrierService.findOne(payload.careerId);
-    curriculum.started = await this.catalogueService.findOne(payload.stateId);
+    curriculum.state = await this.catalogueService.findOne(payload.stateId);
 
     this.curriculumRepository.merge(curriculum, payload);
 
