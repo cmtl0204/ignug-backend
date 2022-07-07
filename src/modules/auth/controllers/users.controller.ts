@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
-import { CreateUserDto } from '@auth/dto';
+import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { Roles } from '@auth/decorators';
 import { RoleEnum } from '@auth/enums';
 import { JwtGuard, RolesGuard } from '@auth/guards';
@@ -94,7 +94,10 @@ export class UsersController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateUserDto,
+  ) {
     const data = await this.usersService.update(id, payload);
 
     return {
