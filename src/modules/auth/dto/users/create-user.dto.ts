@@ -2,11 +2,11 @@ import {
   IsString,
   IsBoolean,
   IsPositive,
-  IsDateString,
   IsOptional,
   IsNotEmpty,
   MinLength,
   IsEmail,
+  IsDate,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -35,7 +35,7 @@ export class CreateUserDto {
   readonly sexId: number;
 
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   readonly birthdate: Date;
 
   @IsNotEmpty()
