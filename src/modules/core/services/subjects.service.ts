@@ -31,7 +31,7 @@ export class SubjectsService {
   }
 
   async findAll() {
-    return await this.subjectRepository.find();
+    return await this.subjectRepository.find({relations: ['academicPeriod', 'curriculum', 'state', 'type']});
   }
 
   async findOne(id: number) {
