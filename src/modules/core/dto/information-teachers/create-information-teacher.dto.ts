@@ -6,57 +6,35 @@ import {
   IsString,
   MaxLength,
   Min,
+  IsNotEmpty
 } from 'class-validator';
+import { CatalogueEntity } from '@core/entities';
 
 export class CreateInformationTeacherDto {
-  @IsNumber(
-    {},
-    { message: 'El campo countryHigherEducationId tiene que ser númerico.' },
-  )
-  @IsPositive({
-    message: 'El campo countryHigherEducationId tiene que ser positivo.',
-  })
-  readonly countryHigherEducationId: number;
 
-  @IsNumber(
-    {},
-    { message: 'El campo dedicationTimeId tiene que ser númerico.' },
-  )
-  @IsPositive({ message: 'El campo dedicationTimeId tiene que ser positivo.' })
-  readonly dedicationTimeId: number;
+  @IsNotEmpty()
+  readonly countryHigherEducation: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo financingTypeId tiene que ser númerico.' })
-  @IsPositive({ message: 'El campo financingTypeId tiene que ser positivo.' })
-  readonly financingTypeId: number;
+  @IsNotEmpty()
+  readonly dedicationTime: CatalogueEntity;
 
-  @IsNumber(
-    {},
-    { message: 'El campo higherEducationId tiene que ser númerico.' },
-  )
-  @IsPositive({ message: 'El campo higherEducationId tiene que ser positivo.' })
-  readonly higherEducationId: number;
+  @IsNotEmpty()
+  readonly financingType: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo scholarshipId tiene que ser númerico.' })
-  @IsPositive({ message: 'El campo scholarshipId tiene que ser positivo.' })
-  readonly scholarshipId: number;
+  @IsNotEmpty()
+  readonly higherEducation: CatalogueEntity;
 
-  @IsNumber(
-    {},
-    { message: 'El campo scholarshipTypeId tiene que ser númerico.' },
-  )
-  @IsPositive({ message: 'El campo scholarshipTypeId tiene que ser positivo.' })
-  readonly scholarshipTypeId: number;
+  @IsNotEmpty()
+  readonly scholarship: CatalogueEntity;
 
-  @IsNumber(
-    {},
-    { message: 'El campo teachingLadderId tiene que ser númerico.' },
-  )
-  @IsPositive({ message: 'El campo teachingLadderId tiene que ser positivo.' })
-  readonly teachingLadderId: number;
+  @IsNotEmpty()
+  readonly scholarshipType: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo username tiene que ser númerico.' })
-  @IsPositive({ message: 'El campo username tiene que ser positivo.' })
-  readonly usernameId: number;
+  @IsNotEmpty()
+  readonly teachingLadder: CatalogueEntity;
+  
+  @IsNotEmpty()
+  readonly username: CatalogueEntity;
 
   @IsString({ message: 'academicUnit debe ser un texto' })
   @MaxLength(255, { message: 'Debe tener como Maximo 255 caracteres academia' })
