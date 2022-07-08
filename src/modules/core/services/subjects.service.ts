@@ -17,14 +17,14 @@ export class SubjectsService {
   async create(payload: CreateSubjectDto) {
     const newSubject = this.subjectRepository.create(payload);
     newSubject.academicPeriod = await this.catalogueService.findOne(
-      payload.academicPeriodId,
+      payload.academicPeriod.id,
     );
-    newSubject.state = await this.catalogueService.findOne(payload.stateId);
+    newSubject.state = await this.catalogueService.findOne(payload.state.id);
 
-    newSubject.type = await this.catalogueService.findOne(payload.typeId);
+    newSubject.type = await this.catalogueService.findOne(payload.type.id);
 
     newSubject.curriculum = await this.curriculumService.findOne(
-      payload.curriculumId,
+      payload.curriculum.id,
     );
     const response = await this.subjectRepository.save(newSubject);
     return await this.subjectRepository.save(response);
@@ -61,15 +61,15 @@ export class SubjectsService {
       throw new NotFoundException('La asignatura no se encontro');
     }
     subject.academicPeriod = await this.catalogueService.findOne(
-      payload.academicPeriodId,
+      payload.academicPeriod.id,
     );
 
-    subject.state = await this.catalogueService.findOne(payload.stateId);
+    subject.state = await this.catalogueService.findOne(payload.state.id);
 
-    subject.type = await this.catalogueService.findOne(payload.typeId);
+    subject.type = await this.catalogueService.findOne(payload.type.id);
 
     subject.curriculum = await this.curriculumService.findOne(
-      payload.curriculumId,
+      payload.curriculum.id,
     );
 
     this.subjectRepository.merge(subject, payload);
