@@ -16,10 +16,10 @@ export class InstitutionsService {
   async create(payload: CreateInstitutionDto): Promise<InstitutionEntity> {
     const newInstitution = this.institutionRepository.create(payload);
     newInstitution.address = await this.cataloguesService.findOne(
-      payload.addressId,
+      payload.address.id,
     );
     newInstitution.state = await this.cataloguesService.findOne(
-      payload.stateId,
+      payload.state.id,
     );
     return await this.institutionRepository.save(newInstitution);
   }
@@ -48,9 +48,9 @@ export class InstitutionsService {
     if (institution === null)
       throw new NotFoundException('not found institution');
     institution.address = await this.cataloguesService.findOne(
-      payload.addressId,
+      payload.address.id,
     );
-    institution.state = await this.cataloguesService.findOne(payload.stateId);
+    institution.state = await this.cataloguesService.findOne(payload.state.id);
     await this.institutionRepository.merge(institution, payload);
     return await this.institutionRepository.save(institution);
   }
