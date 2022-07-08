@@ -12,16 +12,16 @@ import { CatalogueEntity } from '../../entities/catalogue.entity';
 import { CurriculumEntity } from '../../entities/curriculum.entity';
 
 export class CreateSubjectDto {
-  @IsNotEmpty( { message: 'academicPeriod no debe estar vacío' })
+  @IsNotEmpty( { message: 'El campo academicPeriod no debe estar vacío' })
   readonly academicPeriod: CatalogueEntity;
 
-  @IsNotEmpty({ message: 'curriculum no debe estar vacío' })
+  @IsNotEmpty({ message: 'El campo curriculum no debe estar vacío' })
   readonly curriculum: CurriculumEntity;
 
-  @IsOptional({ message: 'state es opcional' })
+  @IsOptional({ message: 'El campo state es opcional' })
   readonly state: CatalogueEntity;
 
-  @IsOptional({ message: 'type es opcional' })
+  @IsOptional({ message: 'El campo type es opcional' })
   readonly type: CatalogueEntity;
 
   @IsNumber({}, { message: 'El campo autonomousHours debe ser un número' })
