@@ -6,27 +6,23 @@ import {
   Min,
   MinLength,
   IsOptional,
-  IsPositive,
+  IsNotEmpty,
 } from 'class-validator';
+import { CatalogueEntity } from '../../entities/catalogue.entity';
+import { CurriculumEntity } from '../../entities/curriculum.entity';
 
 export class CreateSubjectDto {
-  @IsNumber({}, { message: 'El campo academicPeriodId debe ser un número' })
-  @IsPositive({
-    message: 'El campo academicPeriodId debe ser un entero positivo',
-  })
-  readonly academicPeriodId: number;
+  @IsNotEmpty( { message: 'academicPeriod no debe estar vacío' })
+  readonly academicPeriod: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo curriculumId debe ser un número' })
-  @IsPositive({ message: 'El campo curriculumId debe ser un entero positivo' })
-  readonly curriculumId: number;
+  @IsNotEmpty({ message: 'curriculum no debe estar vacío' })
+  readonly curriculum: CurriculumEntity;
 
-  @IsNumber({}, { message: 'El campo stateId debe ser un número' })
-  @IsPositive({ message: 'El campo stateId debe ser un entero positivo' })
-  readonly stateId: number;
+  @IsOptional({ message: 'state es opcional' })
+  readonly state: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo typeId debe ser un número' })
-  @IsPositive({ message: 'El campo typeId debe ser un entero positivo' })
-  readonly typeId: number;
+  @IsOptional({ message: 'type es opcional' })
+  readonly type: CatalogueEntity;
 
   @IsNumber({}, { message: 'El campo autonomousHours debe ser un número' })
   @Min(0, { message: 'El número mínimo del campo autonomousHours debe ser 0' })
