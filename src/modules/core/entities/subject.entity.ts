@@ -14,7 +14,7 @@ import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 export class SubjectEntity {
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @CreateDateColumn({
     name: 'created_at',
     type: 'timestamptz',
@@ -52,7 +52,6 @@ export class SubjectEntity {
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 
-  
   @Column('int', {
     name: 'autonomous_hour',
     default: 0,

@@ -14,10 +14,11 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
-import { CreateUserDto, UpdateUserDto } from '@auth/dto';
+import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { Roles } from '@auth/decorators';
 import { RoleEnum } from '@auth/enums';
 import { JwtGuard, RolesGuard } from '@auth/guards';
+import { PaginationDto } from '../../core/dto/pagination/pagination.dto';
 
 @ApiTags('users')
 // @UseGuards(JwtGuard, RolesGuard)
@@ -40,8 +41,8 @@ export class UsersController {
   // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any) {
-    const data = await this.usersService.findAll();
+  async findAll(@Query() params: FilterUserDto) {
+    const data = await this.usersService.findAll(params);
     // const sortFields = params.sort
     //   ? params.sort.split(',').filter((sort) => sort != '')
     //   : null;

@@ -18,7 +18,7 @@ import { SubjectsService } from '@core/services';
 @ApiTags('subjects')
 @Controller('subjects')
 export class SubjectsController {
-  constructor(private subjectsService: SubjectsService) { }
+  constructor(private subjectsService: SubjectsService) {}
 
   @ApiOperation({ summary: 'Create subjects' })
   @Post('')

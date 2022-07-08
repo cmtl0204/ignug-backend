@@ -7,10 +7,14 @@ import {
   BadRequestException,
   UnauthorizedException,
   ForbiddenException,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
-import { ResponseHttpModel } from './response-http.model';
+import {
+  ErrorResponseHttpModel,
+  ResponseHttpModel,
+} from './response-http.model';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -18,46 +22,48 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    const responseHttpModel: ResponseHttpModel = {
-      statusCode: 500,
-      message: 'Server Error',
+    const errorResponseHttpModel: ErrorResponseHttpModel = {
+      data: null,
       error: 'Server Error',
+      message: 'Server Error',
+      statusCode: 500,
     };
-
-    console.log(exception);
+    let status = 500;
 
     if (exception instanceof HttpException) {
-      const { message } = exception.getResponse() as ResponseHttpModel;
-      if (exception instanceof BadRequestException) {
-        responseHttpModel.error = 'Bad Request';
-        responseHttpModel.message = message;
+      const { message } = exception.getResponse() as ErrorResponseHttpModel;
+      status = exception.getStatus();
+
+      if (exception instanceof UnprocessableEntityException) {
+        errorResponseHttpModel.error = 'Bad Request';
+        errorResponseHttpModel.message = message;
       }
 
       if (exception instanceof UnauthorizedException) {
-        responseHttpModel.error = 'Unauthorized';
-        responseHttpModel.message = 'You do not have authorization.';
+        errorResponseHttpModel.error = 'Unauthorized';
+        errorResponseHttpModel.message = 'You do not have authorization.';
       }
 
       if (exception instanceof NotFoundException) {
-        responseHttpModel.error = 'Route/Model not found';
-        responseHttpModel.message = message;
+        errorResponseHttpModel.error = 'Route/Model not found';
+        errorResponseHttpModel.message = message;
       }
 
       if (exception instanceof ForbiddenException) {
-        responseHttpModel.error = 'Forbidden';
-        responseHttpModel.message = message;
+        errorResponseHttpModel.error = 'Forbidden';
+        errorResponseHttpModel.message = message;
       }
 
-      responseHttpModel.statusCode = exception.getStatus();
+      errorResponseHttpModel.statusCode = exception.getStatus();
     }
 
     if (exception instanceof QueryFailedError) {
-      console.log(exception);
-      responseHttpModel.statusCode = 400;
-      responseHttpModel.error = '';
-      responseHttpModel.message = '';
+      status = 400;
+      errorResponseHttpModel.statusCode = parseInt(exception.driverError.code);
+      errorResponseHttpModel.error = exception.name;
+      errorResponseHttpModel.message = exception.driverError.detail;
     }
 
-    response.status(responseHttpModel.statusCode).json(responseHttpModel);
+    response.status(status).json(errorResponseHttpModel);
   }
 }

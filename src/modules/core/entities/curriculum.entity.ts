@@ -15,7 +15,7 @@ export class CurriculumEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => CareerEntity) 
+  @ManyToOne(() => CareerEntity)
   career: CareerEntity;
 
   @ManyToOne(() => CatalogueEntity)

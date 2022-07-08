@@ -3,3 +3,10 @@ export interface ResponseHttpModel {
   error: string;
   statusCode: number;
 }
+
+export interface ErrorResponseHttpModel {
+  data: null;
+  error: string;
+  message: string | string[];
+  statusCode: number;
+}

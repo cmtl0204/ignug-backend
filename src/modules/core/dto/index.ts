@@ -8,6 +8,7 @@ export * from './information-students/create-information-student.dto';
 export * from './information-students/update-information-student.dto';
 export * from './institutions/create-institution.dto';
 export * from './institutions/update-institution.dto';
+export * from './pagination/pagination.dto';
 export * from './students/create-student.dto';
 export * from './students/update-student.dto';
 export * from './subjects/create-subject.dto';
