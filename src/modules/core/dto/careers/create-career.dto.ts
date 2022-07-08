@@ -1,3 +1,4 @@
+import { InstitutionEntity, CatalogueEntity } from '@core/entities';
 import {
   IsString,
   MaxLength,
@@ -11,16 +12,16 @@ import {
 
 export class CreateCareerDto {
   @IsNotEmpty({message: 'El nombre es requerido'})
-  readonly institution: number;
+  readonly institution: InstitutionEntity;
 
-  @IsOptional({message: 'La modalidad es opcional'})
-  readonly modality: number;
+  @IsNotEmpty({message: 'La modalidad es requerido'})
+  readonly modality: CatalogueEntity;
 
-  @IsOptional({message: 'El estado es opcional'})
-  readonly state: number;
+  @IsNotEmpty({message: 'El estado es requerido'})
+  readonly state: CatalogueEntity;
 
   @IsOptional({message: 'El tipo es opcional'})
-  readonly type: number;
+  readonly type: CatalogueEntity;
 
   @IsString({ message: 'El campo acronym debe ser un string' })
   @MinLength(2, { message: 'El acronimo debe tener al menos 2 caracteres' })
