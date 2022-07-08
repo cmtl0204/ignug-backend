@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateUserDto, UpdateUserDto } from '@auth/dto';
+import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { CataloguesService } from '@core/services';
 
@@ -22,7 +22,23 @@ export class UsersService {
     return await this.userRepository.save(response);
   }
 
-  async findAll() {
+  async findAll(params?: FilterUserDto) {
+    //Pagination
+    if (params.limit && params.offset) {
+      return this.pagination(params.limit, params.offset);
+    }
+
+    //Filter by search
+    if (params.search) {
+      return this.filter(params);
+    }
+
+    //Other Filters
+    if (params) {
+      return this.filterByBirthdate(params.birthdate);
+    }
+
+    //All
     return this.userRepository.find({ relations: ['bloodType', 'gender'] });
   }
 
@@ -70,5 +86,44 @@ export class UsersService {
 
     await this.userRepository.softDelete(id);
     return true;
+  }
+
+  pagination(limit: number, offset: number) {
+    return this.userRepository.find({
+      relations: ['bloodType', 'gender'],
+      take: limit,
+      skip: offset,
+    });
+  }
+
+  filter(params: FilterUserDto) {
+    const where: FindOptionsWhere<UserEntity>[] = [];
+
+    const { search } = params;
+
+    if (search) {
+      where.push({ lastname: ILike(`%${search}%`) });
+      where.push({ name: ILike(`%${search}%`) });
+      where.push({ username: ILike(`%${search}%`) });
+    }
+
+    return this.userRepository.find({
+      relations: ['bloodType', 'gender'],
+      where,
+    });
+  }
+
+  filterByBirthdate(birthdate: Date) {
+    const where: FindOptionsWhere<UserEntity> = {};
+    console.log(birthdate);
+    if (birthdate) {
+      where.birthdate = LessThan(birthdate);
+    }
+
+    console.log(where);
+    return this.userRepository.find({
+      relations: ['bloodType', 'gender'],
+      where,
+    });
   }
 }
