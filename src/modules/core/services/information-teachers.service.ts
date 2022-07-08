@@ -20,33 +20,35 @@ export class InformationTeachersService {
     const informationTeacher =
       this.InformationTeacherRepository.create(payload);
     informationTeacher.teachingLadder = await this.cataloguesService.findOne(
-      payload.teachingLadderId,
+      payload.teachingLadder.id,
     );
 
     informationTeacher.dedicationTime = await this.cataloguesService.findOne(
-      payload.dedicationTimeId,
+      payload.dedicationTime.id,
     );
 
     informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducationId,
+      payload.higherEducation.id,
     );
 
     informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(payload.countryHigherEducationId);
+      await this.cataloguesService.findOne(
+        payload.countryHigherEducation.id
+        );
     informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarshipId,
+      payload.scholarship.id,
     );
 
     informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipTypeId,
+      payload.scholarshipType.id,
     );
 
     informationTeacher.financingType = await this.cataloguesService.findOne(
-      payload.financingTypeId,
+      payload.financingType.id,
     );
 
     informationTeacher.username = await this.cataloguesService.findOne(
-      payload.usernameId,
+      payload.username.id,
     );
 
     const response = await this.InformationTeacherRepository.save(
@@ -99,57 +101,61 @@ export class InformationTeachersService {
       throw new NotFoundException('El docente no se encontro');
     }
     informationTeacher.teachingLadder = await this.cataloguesService.findOne(
-      payload.teachingLadderId,
+      payload.teachingLadder.id,
     );
 
     informationTeacher.dedicationTime = await this.cataloguesService.findOne(
-      payload.dedicationTimeId,
+      payload.dedicationTime.id,
     );
 
     informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducationId,
+      payload.higherEducation.id,
     );
 
     informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(payload.countryHigherEducationId);
+      await this.cataloguesService.findOne(
+        payload.countryHigherEducation.id
+        );
     informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarshipId,
+      payload.scholarship.id,
     );
 
     informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipTypeId,
+      payload.scholarshipType.id,
     );
 
     informationTeacher.financingType = await this.cataloguesService.findOne(
-      payload.financingTypeId,
+      payload.financingType.id,
     );
 
     informationTeacher.username = await this.cataloguesService.findOne(
-      payload.usernameId,
+      payload.username.id,
     );
 
     informationTeacher.teachingLadder = await this.cataloguesService.findOne(
-      payload.teachingLadderId,
+      payload.teachingLadder.id,
     );
     informationTeacher.dedicationTime = await this.cataloguesService.findOne(
-      payload.dedicationTimeId,
+      payload.dedicationTime.id,
     );
     informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducationId,
+      payload.higherEducation.id,
     );
     informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(payload.countryHigherEducationId);
+      await this.cataloguesService.findOne(
+        payload.countryHigherEducation.id
+        );
     informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarshipId,
+      payload.scholarship.id,
     );
     informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipTypeId,
+      payload.scholarshipType.id,
     );
     informationTeacher.financingType = await this.cataloguesService.findOne(
-      payload.financingTypeId,
+      payload.financingType.id,
     );
     informationTeacher.username = await this.cataloguesService.findOne(
-      payload.usernameId,
+      payload.username.id,
     );
 
     await this.InformationTeacherRepository.merge(informationTeacher, payload);
