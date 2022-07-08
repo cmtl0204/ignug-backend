@@ -6,24 +6,21 @@ import {
   Min,
   IsPositive,
   IsOptional,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class CreateCareerDto {
-  @IsNumber({}, { message: 'El campo institutionId debe ser un numero' })
-  @IsPositive({ message: 'El campo institutionId debe ser un numero positivo' })
-  readonly institutionId: number;
+  @IsNotEmpty({message: 'El nombre es requerido'})
+  readonly institution: number;
 
-  @IsNumber({}, { message: 'El campo modalityId debe ser un numero' })
-  @IsPositive({ message: 'El campo modalityId debe ser un numero positivo' })
-  readonly modalityId: number;
+  @IsOptional({message: 'La modalidad es opcional'})
+  readonly modality: number;
 
-  @IsNumber({}, { message: 'El campo stateId debe ser un numero' })
-  @IsPositive({ message: 'El campo stateId debe ser un numero positivo' })
-  readonly stateId: number;
+  @IsOptional({message: 'El estado es opcional'})
+  readonly state: number;
 
-  @IsNumber({}, { message: 'El campo typeId debe ser un numero' })
-  @IsPositive({ message: 'El campo typeId debe ser un numero positivo' })
-  readonly typeId: number;
+  @IsOptional({message: 'El tipo es opcional'})
+  readonly type: number;
 
   @IsString({ message: 'El campo acronym debe ser un string' })
   @MinLength(2, { message: 'El acronimo debe tener al menos 2 caracteres' })
