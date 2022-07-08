@@ -54,7 +54,7 @@ export class InformationStudentsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await  this.informationstudentsService.findOne(id);
+    const data = await this.informationstudentsService.findOne(id);
 
     return {
       data,

@@ -11,7 +11,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateInformationTeacherDto} from '@core/dto';
+import { CreateInformationTeacherDto } from '@core/dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InformationTeachersService } from '@core/services';
 
@@ -29,7 +29,7 @@ export class InformationTeachersController {
     return {
       data,
       message: `created`,
-    };  
+    };
   }
 
   @ApiOperation({ summary: 'Consulta los docentes' })
@@ -46,7 +46,7 @@ export class InformationTeachersController {
     return {
       data,
       message: `index`,
-    };  
+    };
   }
 
   @Get('catalogue')
@@ -82,7 +82,7 @@ export class InformationTeachersController {
     return {
       data,
       message: `show ${id}`,
-    };  
+    };
   }
 
   @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
@@ -106,6 +106,4 @@ export class InformationTeachersController {
       message: `informationTeacher deleted ${id}`,
     };
   }
-
- 
 }

@@ -56,16 +56,18 @@ export class InformationTeachersService {
   }
 
   async findAll() {
-    return await this.InformationTeacherRepository.find({relations:[
-      'countryHigherEducation',
-      'dedicationTime',
-      'financingType',
-      'higherEducation',
-      'scholarship',
-      'scholarshipType',
-      'teachingLadder',
-      'username'
-        ]});
+    return await this.InformationTeacherRepository.find({
+      relations: [
+        'countryHigherEducation',
+        'dedicationTime',
+        'financingType',
+        'higherEducation',
+        'scholarship',
+        'scholarshipType',
+        'teachingLadder',
+        'username',
+      ],
+    });
   }
 
   async findOne(id: number) {

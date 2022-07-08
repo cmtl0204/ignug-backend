@@ -5,6 +5,7 @@ import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { CataloguesService } from '@core/services';
 import { QueryFailedError } from 'typeorm/browser';
+import * as Bcrypt from 'bcrypt';
 
 // import { CataloguesService } from '@core/services';
 

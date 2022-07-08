@@ -24,8 +24,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       error: 'Server Error',
     };
 
-    console.log(exception);
-
     if (exception instanceof HttpException) {
       const { message } = exception.getResponse() as ResponseHttpModel;
       if (exception instanceof BadRequestException) {

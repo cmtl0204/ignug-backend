@@ -23,12 +23,12 @@ export class CurriculaController {
   @ApiOperation({ summary: 'List of curricula' })
   @Get('')
   @HttpCode(HttpStatus.OK)
- async findAll(@Query() params: any) {
+  async findAll(@Query() params: any) {
     const data = await this.curriculaService.findAll();
-    return{
-    data,
-       message: `index`,
-   };
+    return {
+      data,
+      message: `index`,
+    };
   }
 
   @ApiOperation({ summary: 'List of curricula' })
@@ -37,10 +37,9 @@ export class CurriculaController {
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const response = await this.curriculaService.findOne(id);
     return {
-   
-     data: response,
-         message: `show`,
-     };
+      data: response,
+      message: `show`,
+    };
   }
 
   @ApiOperation({ summary: 'List of curricula' })
@@ -50,8 +49,8 @@ export class CurriculaController {
     const response = await this.curriculaService.create(payload);
     return {
       data: response,
-     message: `created`,
-   };
+      message: `created`,
+    };
   }
   @ApiOperation({ summary: 'actualiza la curricula' })
   @Put(':id')
@@ -71,9 +70,9 @@ export class CurriculaController {
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
     const response = await this.curriculaService.remove(id);
-     return {
-     data: response,
-     message: `deleted`,
-     };
+    return {
+      data: response,
+      message: `deleted`,
+    };
   }
 }
