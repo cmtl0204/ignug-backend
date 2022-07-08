@@ -11,6 +11,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
+      errorHttpStatusCode: 422,
+      stopAtFirstError: true,
       whitelist: true,
       forbidNonWhitelisted: true,
       transformOptions: {

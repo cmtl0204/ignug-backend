@@ -8,11 +8,11 @@ import {
   IsEmail,
   IsDate,
 } from 'class-validator';
+import { CatalogueEntity } from '@core/entities';
 
 export class CreateUserDto {
   @IsOptional()
-  @IsPositive()
-  readonly bloodTypeId: number;
+  readonly bloodType: CatalogueEntity;
 
   @IsOptional()
   @IsPositive()
@@ -39,7 +39,7 @@ export class CreateUserDto {
   readonly birthdate: Date;
 
   @IsNotEmpty()
-  @IsEmail()
+  @IsEmail({ message: 'debe ser un correo electrónico' })
   readonly email: string;
 
   @IsNotEmpty()
@@ -66,4 +66,8 @@ export class CreateUserDto {
   @IsString()
   @MinLength(5)
   readonly username: string;
+
+  messageProperty(message: string): string {
+    return `La propiedad $property ${message}`;
+  }
 }

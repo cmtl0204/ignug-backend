@@ -4,10 +4,6 @@ import { Repository } from 'typeorm';
 import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { CataloguesService } from '@core/services';
-import { QueryFailedError } from 'typeorm/browser';
-import * as Bcrypt from 'bcrypt';
-
-// import { CataloguesService } from '@core/services';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +16,7 @@ export class UsersService {
   async create(payload: CreateUserDto) {
     const newUser = this.userRepository.create(payload);
     newUser.bloodType = await this.catalogueService.findOne(
-      payload.bloodTypeId,
+      payload.bloodType.id,
     );
     const response = await this.userRepository.save(newUser);
     return await this.userRepository.save(response);
@@ -39,7 +35,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('usuario no encontrado');
+      throw new NotFoundException('User not found');
     }
 
     return user;
@@ -53,7 +49,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('Usuario no encontrado');
+      throw new NotFoundException('User not found');
     }
 
     this.userRepository.merge(user, data);
@@ -69,7 +65,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('Usuario no encontrado');
+      throw new NotFoundException('User not found');
     }
 
     await this.userRepository.softDelete(id);
