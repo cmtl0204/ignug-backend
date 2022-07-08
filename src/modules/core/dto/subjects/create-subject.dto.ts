@@ -35,7 +35,7 @@ export class CreateSubjectDto {
 
   @IsNumber({}, { message: 'El campo credit debe ser un número' })
   @Min(0, { message: 'El número mínimo del campo credit debe ser 0' })
-  @IsOptional()
+  @IsOptional({ message: 'credit es opcional' })
   readonly credit: number;
 
   @IsString({ message: 'El campo name debe ser un string' })
