@@ -1,39 +1,31 @@
 import {
   IsNumber,
   IsString,
-  IsPositive,
+  IsNotEmpty,
   MaxLength,
   Min,
   Max,
 } from 'class-validator';
+import { CatalogueEntity } from '@core/entities';
+
 
 export class CreateInformationStudentDto {
-  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({
-    message: 'is_ancestral_languageId debe ser un entero positivo',
-  })
-  readonly isAncestralLanguageId: number;
+  
+  @IsNotEmpty()
+  readonly isAncestralLanguage: CatalogueEntity;
 
-  @IsNumber(
-    {},
-    { message: 'isBonusDevelopmentReceiveId Tiene que ser de tipo numero' },
-  )
-  @IsPositive({
-    message: 'isBonusDevelopmentReceiveId debe ser un entero positivo',
-  })
-  readonly isBonusDevelopmentReceiveId: number;
+  @IsNotEmpty()
+  readonly isBonusDevelopmentReceive: CatalogueEntity;
 
-  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({ message: 'is_disabilityId debe ser un entero positivo' })
-  readonly isDisabilityId: number;
+  
+  @IsNotEmpty()
+  readonly isDisabilityId: CatalogueEntity;
 
-  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({ message: 'is_degree_superiorId debe ser un entero positivo' })
-  readonly isDegreeSuperiorId: number;
+  @IsNotEmpty()
+  readonly isDegreeSuperior: CatalogueEntity;
 
-  @IsNumber({}, { message: 'Tiene que ser de tipo numero' })
-  @IsPositive({ message: 'is_subject_repeatId debe ser un entero positivo' })
-  readonly isSubjectRepeatId: number;
+  @IsNotEmpty()
+  readonly isSubjectRepeat: CatalogueEntity;
 
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
