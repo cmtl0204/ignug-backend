@@ -19,7 +19,7 @@ export class CreateInformationStudentDto {
 
   
   @IsNotEmpty()
-  readonly isDisabilityId: CatalogueEntity;
+  readonly isDisability: CatalogueEntity;
 
   @IsNotEmpty()
   readonly isDegreeSuperior: CatalogueEntity;
@@ -49,7 +49,7 @@ export class CreateInformationStudentDto {
 
   @IsString({ message: 'Se acepta solo string' })
   @MaxLength(10, { message: 'Maximo 10 caracteres' })
-  readonly codanisNumber: string;
+  readonly conadisNumber: string;
 
   @IsString({ message: 'Debe ser un string' })
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
