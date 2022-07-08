@@ -8,16 +8,13 @@ import {
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 
-
 export class CreateInformationStudentDto {
-  
   @IsNotEmpty()
   readonly isAncestralLanguage: CatalogueEntity;
 
   @IsNotEmpty()
   readonly isBonusDevelopmentReceive: CatalogueEntity;
 
-  
   @IsNotEmpty()
   readonly isDisabilityId: CatalogueEntity;
 

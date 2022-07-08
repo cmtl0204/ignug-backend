@@ -3,6 +3,10 @@ import { IsDate, IsOptional, IsString } from 'class-validator';
 
 export class FilterUserDto extends PaginationDto {
   @IsOptional()
+  @IsDate()
+  readonly birthdate: Date;
+
+  @IsOptional()
   @IsString()
   readonly email: string;
 
@@ -17,8 +21,4 @@ export class FilterUserDto extends PaginationDto {
   @IsOptional()
   @IsString()
   readonly username: string;
-
-  @IsOptional()
-  @IsDate()
-  readonly birthdate: Date;
 }
