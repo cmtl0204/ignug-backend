@@ -16,23 +16,23 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsPositive()
-  readonly ethnicOriginId: number;
+  readonly ethnicOrigin: CatalogueEntity;
 
   @IsOptional()
   @IsPositive()
-  readonly identificationTypeId: number;
+  readonly identificationType: CatalogueEntity;
 
   @IsOptional()
   @IsPositive()
-  readonly genderId: number;
+  readonly gender: CatalogueEntity;
 
   @IsOptional()
   @IsPositive()
-  readonly maritalStatusId: number;
+  readonly maritalStatus: CatalogueEntity;
 
   @IsOptional()
   @IsPositive()
-  readonly sexId: number;
+  readonly sex: CatalogueEntity;
 
   @IsOptional()
   @IsDate()
