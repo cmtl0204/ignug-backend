@@ -14,11 +14,11 @@ import { CareerEntity } from '../../entities/career.entity';
 export class CreateCurriculumDto {
   @IsNumber({}, { message: 'es un number' }) //fk
   @IsPositive({ message: ' caracter es positivo' })
-  readonly careerId: CareerEntity;
+  readonly career: CareerEntity;
 
   @IsNumber({}, { message: 'es un number' }) //fk
   @IsPositive({ message: 'caracter es positivo' })
-  readonly stateId: CareerEntity;
+  readonly state: CareerEntity;
 
   @IsString({ message: ' caracter tipo string' })
   @MinLength(2, { message: ' minimo 2 cacacteres' })
