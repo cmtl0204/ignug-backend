@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsPositive,
@@ -8,15 +9,14 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { CatalogueEntity } from '../../entities/catalogue.entity';
 
 export class CreateInstitutionDto {
-  @IsNumber({}, { message: 'addressId debe ser un número' })
-  @IsPositive({ message: 'addressId debe ser un entero positivo' })
-  readonly addressId: number;
+  @IsNotEmpty({ message: 'address no debe estar vacío' })
+  readonly address: CatalogueEntity;
 
-  @IsNumber({}, { message: 'stateId debe ser un número' })
-  @IsPositive({ message: 'stateId debe ser un entero positivo' })
-  readonly stateId: number;
+  @IsNotEmpty({ message: 'address no debe estar vacío' })
+  readonly state: CatalogueEntity;
 
   @IsString({ message: 'Acronym debe ser texto' })
   @MinLength(2, { message: 'Acronym debe tener mínimo 2 caracteres' })
