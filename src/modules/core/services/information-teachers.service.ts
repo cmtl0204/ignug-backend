@@ -32,9 +32,7 @@ export class InformationTeachersService {
     );
 
     informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(
-        payload.countryHigherEducation.id
-        );
+      await this.cataloguesService.findOne(payload.countryHigherEducation.id);
     informationTeacher.scholarship = await this.cataloguesService.findOne(
       payload.scholarship.id,
     );
@@ -113,9 +111,7 @@ export class InformationTeachersService {
     );
 
     informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(
-        payload.countryHigherEducation.id
-        );
+      await this.cataloguesService.findOne(payload.countryHigherEducation.id);
     informationTeacher.scholarship = await this.cataloguesService.findOne(
       payload.scholarship.id,
     );
@@ -142,9 +138,7 @@ export class InformationTeachersService {
       payload.higherEducation.id,
     );
     informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(
-        payload.countryHigherEducation.id
-        );
+      await this.cataloguesService.findOne(payload.countryHigherEducation.id);
     informationTeacher.scholarship = await this.cataloguesService.findOne(
       payload.scholarship.id,
     );

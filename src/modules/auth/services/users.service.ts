@@ -33,7 +33,7 @@ export class UsersService {
       return this.filter(params);
     }
 
-    //Other Filters
+    //Other filters
     if (params) {
       return this.filterByBirthdate(params.birthdate);
     }

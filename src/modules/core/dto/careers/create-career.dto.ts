@@ -11,16 +11,16 @@ import {
 } from 'class-validator';
 
 export class CreateCareerDto {
-  @IsNotEmpty({message: 'El nombre es requerido'})
+  @IsNotEmpty({ message: 'El nombre es requerido' })
   readonly institution: InstitutionEntity;
 
-  @IsNotEmpty({message: 'La modalidad es requerido'})
+  @IsNotEmpty({ message: 'La modalidad es requerido' })
   readonly modality: CatalogueEntity;
 
-  @IsNotEmpty({message: 'El estado es requerido'})
+  @IsNotEmpty({ message: 'El estado es requerido' })
   readonly state: CatalogueEntity;
 
-  @IsOptional({message: 'El tipo es opcional'})
+  @IsOptional({ message: 'El tipo es opcional' })
   readonly type: CatalogueEntity;
 
   @IsString({ message: 'El campo acronym debe ser un string' })
