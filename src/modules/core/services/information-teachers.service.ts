@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CataloguesService } from '@core/services';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { InformationTeacherEntity } from '@core/entities';
 import {
   CreateInformationTeacherDto,
   UpdateInformationTeacherDto,
+  FilterInformationTeacherDto
 } from '@core/dto';
 
 @Injectable()
@@ -57,7 +58,17 @@ export class InformationTeachersService {
     return this.InformationTeacherRepository.save(response);
   }
 
-  async findAll() {
+  async findAll(params?: FilterInformationTeacherDto) {
+
+        //Pagination
+        if (params.limit && params.offset) {
+          return this.pagination(params.limit, params.offset);
+        }
+    
+        //Filter by search
+        if (params.search) {
+          return this.filter(params);
+        }
     return await this.InformationTeacherRepository.find({
       relations: [
         'countryHigherEducation',
@@ -160,5 +171,52 @@ export class InformationTeachersService {
 
     await this.InformationTeacherRepository.merge(informationTeacher, payload);
     return this.InformationTeacherRepository.save(informationTeacher);
+  }
+
+  pagination(limit: number, offset: number) {
+    return this.InformationTeacherRepository.find({
+      relations: [
+        'countryHigherEducation',
+        'dedicationTime',
+        'financingType',
+        'higherEducation',
+        'scholarship',
+        'scholarshipType',
+        'teachingLadder',
+        'username',
+      ],
+            take: limit,
+      skip: offset,
+    });
+  }
+
+  filter(params: FilterInformationTeacherDto) {
+    const where: FindOptionsWhere<InformationTeacherEntity>[] = [];
+
+    const { search } = params;
+
+    if (search) {
+      where.push({ academicUnit: ILike(`%${search}%`) });
+      where.push({ degreeHigherEducation: ILike(`%${search}%`) });
+      where.push({ institutionHigherEducation: ILike(`%${search}%`) });
+      where.push({ otherHours: ILike(`%${search}%`) });
+      where.push({ technical: ILike(`%${search}%`) });
+      where.push({ technology: ILike(`%${search}%`) });
+
+    }
+
+    return this.InformationTeacherRepository.find({
+      relations: [
+        'countryHigherEducation',
+        'dedicationTime',
+        'financingType',
+        'higherEducation',
+        'scholarship',
+        'scholarshipType',
+        'teachingLadder',
+        'username',
+      ],
+            where,
+    });
   }
 }
