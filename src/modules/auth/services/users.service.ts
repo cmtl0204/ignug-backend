@@ -24,7 +24,7 @@ export class UsersService {
 
   async findAll(params?: FilterUserDto) {
     //Pagination
-    if (params.limit && params.offset) {
+    if (params.limit > 0 && params.offset >= 0) {
       return this.pagination(params.limit, params.offset);
     }
 
@@ -33,7 +33,7 @@ export class UsersService {
       return this.filter(params);
     }
 
-    //Other Filters
+    //Other filters
     if (params) {
       return this.filterByBirthdate(params.birthdate);
     }
@@ -91,6 +91,9 @@ export class UsersService {
   pagination(limit: number, offset: number) {
     return this.userRepository.find({
       relations: ['bloodType', 'gender'],
+      order: {
+        id: 'ASC',
+      },
       take: limit,
       skip: offset,
     });
@@ -115,12 +118,11 @@ export class UsersService {
 
   filterByBirthdate(birthdate: Date) {
     const where: FindOptionsWhere<UserEntity> = {};
-    console.log(birthdate);
+
     if (birthdate) {
       where.birthdate = LessThan(birthdate);
     }
 
-    console.log(where);
     return this.userRepository.find({
       relations: ['bloodType', 'gender'],
       where,

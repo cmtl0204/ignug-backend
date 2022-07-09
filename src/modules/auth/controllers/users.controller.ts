@@ -43,15 +43,7 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterUserDto) {
     const data = await this.usersService.findAll(params);
-    // const sortFields = params.sort
-    //   ? params.sort.split(',').filter((sort) => sort != '')
-    //   : null;
-    // const selectedFields = params.fields
-    //   ? params.fields.split(',').filter((field) => field != '')
-    //   : null;
-    // const data = this.usersService.findAll();
-    // return data;
-    //
+
     return {
       data,
       message: `index`,
@@ -68,19 +60,6 @@ export class UsersController {
       data: 'data',
       message: `catalogue`,
     };
-  }
-
-  @ApiOperation({ summary: 'Filtrar usuarios' })
-  @Get('filter')
-  @HttpCode(HttpStatus.OK)
-  filter(@Query() params: any) {
-    // const search = params.search
-    //   ? params.search.split(',').filter((search) => search != '')
-    //   : null;
-    // return {
-    //   data: 'data',
-    //   message: `filter`,
-    // };
   }
 
   @Get(':id')

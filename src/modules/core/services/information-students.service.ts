@@ -23,16 +23,18 @@ export class InformationStudentsService {
     this.informationStudentRepository.create(payload);
 
     newInformationStudent.isBonusDevelopmentReceive =
-      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceive.id);
+      await this.cataloguesService.findOne(
+        payload.isBonusDevelopmentReceive.id,
+      );
 
-      newInformationStudent.isAncestralLanguage =
+    newInformationStudent.isAncestralLanguage =
       await this.cataloguesService.findOne(payload.isAncestralLanguage.id);
 
-      newInformationStudent.isDegreeSuperior =
+    newInformationStudent.isDegreeSuperior =
       await this.cataloguesService.findOne(payload.isDegreeSuperior.id);
 
-      newInformationStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisability.id
+    newInformationStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisability.id,
     );
 
     newInformationStudent.isSubjectRepeat =
@@ -81,7 +83,9 @@ export class InformationStudentsService {
       );
     }
     informationStudent.isBonusDevelopmentReceive =
-      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceive.id);
+      await this.cataloguesService.findOne(
+        payload.isBonusDevelopmentReceive.id,
+      );
 
     informationStudent.isAncestralLanguage =
       await this.cataloguesService.findOne(payload.isAncestralLanguage.id);

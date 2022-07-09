@@ -17,10 +17,8 @@ export class CurriculaService {
 
   async create(payload: CreateCurriculumDto) {
     const newCurriculum = this.curriculumRepository.create(payload);
-    newCurriculum.career = await this.carrierService.findOne(
-      payload.career.id);
-    newCurriculum.state = await this.catalogueService.findOne(
-      payload.state.id);
+    newCurriculum.career = await this.carrierService.findOne(payload.career.id);
+    newCurriculum.state = await this.catalogueService.findOne(payload.state.id);
 
     return await this.curriculumRepository.save(newCurriculum);
   }

@@ -12,7 +12,7 @@ import { CatalogueEntity } from '../../entities/catalogue.entity';
 import { CurriculumEntity } from '../../entities/curriculum.entity';
 
 export class CreateSubjectDto {
-  @IsNotEmpty( { message: 'El campo academicPeriod no debe estar vacío' })
+  @IsNotEmpty({ message: 'El campo academicPeriod no debe estar vacío' })
   readonly academicPeriod: CatalogueEntity;
 
   @IsNotEmpty({ message: 'El campo curriculum no debe estar vacío' })

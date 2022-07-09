@@ -6,12 +6,11 @@ import {
   IsString,
   MaxLength,
   Min,
-  IsNotEmpty
+  IsNotEmpty,
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 
 export class CreateInformationTeacherDto {
-
   @IsNotEmpty()
   readonly countryHigherEducation: CatalogueEntity;
 
@@ -32,7 +31,7 @@ export class CreateInformationTeacherDto {
 
   @IsNotEmpty()
   readonly teachingLadder: CatalogueEntity;
-  
+
   @IsNotEmpty()
   readonly username: CatalogueEntity;
 
