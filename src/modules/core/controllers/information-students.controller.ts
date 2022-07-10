@@ -18,6 +18,7 @@ import { InformationStudentsService } from '@core/services';
 
 import {
   CreateInformationStudentDto,
+  FilterInformationStudentDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 
@@ -39,11 +40,17 @@ export class InformationStudentsController {
   }
 
   @ApiOperation({ summary: 'List of information students' })
-  @Get('')
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any) {
-    const data = await this.informationstudentsService.findAll();
-
+  async findAll(@Query() params: FilterInformationStudentDto) {
+    const data = await this.informationstudentsService.findAll(params);
+    //const sortFields = params.sort
+    // ? params.sort.split(',').filter((sort) => sort != '')
+    //: null;
+    //const selectedFields = params.fields
+    // ? params.fields.split(',').filter((field) => field != '')
+    // : null;
+    //const data = await this.informationTeachersService.findAll();
     return {
       data,
       message: `index`,

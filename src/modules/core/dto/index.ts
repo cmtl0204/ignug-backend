@@ -6,6 +6,7 @@ export * from './curricula/create-curriculum.dto';
 export * from './curricula/update-curriculum.dto';
 export * from './information-students/create-information-student.dto';
 export * from './information-students/update-information-student.dto';
+export * from './information-students/filter-information-student.dto';
 export * from './institutions/create-institution.dto';
 export * from './institutions/update-institution.dto';
 export * from './pagination/pagination.dto';
