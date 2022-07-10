@@ -19,16 +19,16 @@ export class CareersService {
     const newCareer = this.careerRepository.create(payload);
 
     newCareer.institution = await this.institutionService.findOne(
-      payload.institutionId,
+      payload.institution.id,
     );
 
     newCareer.modality = await this.CataloguesService.findOne(
-      payload.modalityId,
+      payload.modality.id,
     );
 
-    newCareer.state = await this.CataloguesService.findOne(payload.stateId);
+    newCareer.state = await this.CataloguesService.findOne(payload.state.id);
 
-    newCareer.type = await this.CataloguesService.findOne(payload.typeId);
+    newCareer.type = await this.CataloguesService.findOne(payload.type.id);
 
     return await this.careerRepository.save(newCareer);
   }

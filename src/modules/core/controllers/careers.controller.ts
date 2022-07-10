@@ -14,6 +14,7 @@ import {
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CareersService } from '@core/services';
 import { CreateCareerDto, UpdateCareerDto } from '@core/dto';
+
 @ApiTags('careers')
 @Controller('careers')
 export class CareersController {
@@ -28,6 +29,7 @@ export class CareersController {
       message: 'Carrera creada correctamente',
     };
   }
+
   @ApiOperation({ summary: 'Busca todas las carreras' })
   @Get('')
   @HttpCode(HttpStatus.OK)
@@ -38,6 +40,7 @@ export class CareersController {
       message: 'Carreras encontradas correctamente',
     };
   }
+
   @ApiOperation({ summary: 'Filtra una carrera' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
@@ -48,6 +51,7 @@ export class CareersController {
       message: 'Carrera encontrada correctamente',
     };
   }
+
   @ApiOperation({ summary: 'Actualiza una carrera' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
@@ -61,6 +65,7 @@ export class CareersController {
       message: 'Carrera actualizada correctamente',
     };
   }
+
   @ApiOperation({ summary: 'Borra una carrera' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)

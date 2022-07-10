@@ -17,28 +17,30 @@ export class InformationStudentsService {
   ) {}
 
   async create(payload: CreateInformationStudentDto) {
-    const newInformationsStudent =
+    const newInformationStudent =
       this.informationStudentRepository.create(payload);
 
     this.informationStudentRepository.create(payload);
 
-    newInformationsStudent.isBonusDevelopmentReceive =
-      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceiveId);
+    newInformationStudent.isBonusDevelopmentReceive =
+      await this.cataloguesService.findOne(
+        payload.isBonusDevelopmentReceive.id,
+      );
 
-    newInformationsStudent.isAncestralLanguage =
-      await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+    newInformationStudent.isAncestralLanguage =
+      await this.cataloguesService.findOne(payload.isAncestralLanguage.id);
 
-    newInformationsStudent.isDegreeSuperior =
-      await this.cataloguesService.findOne(payload.isDegreeSuperiorId);
+    newInformationStudent.isDegreeSuperior =
+      await this.cataloguesService.findOne(payload.isDegreeSuperior.id);
 
-    newInformationsStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisabilityId,
+    newInformationStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisability.id,
     );
 
-    newInformationsStudent.isSubjectRepeat =
-      await this.cataloguesService.findOne(payload.isSubjectRepeatId);
+    newInformationStudent.isSubjectRepeat =
+      await this.cataloguesService.findOne(payload.isSubjectRepeat.id);
 
-    return await this.informationStudentRepository.save(newInformationsStudent);
+    return await this.informationStudentRepository.save(newInformationStudent);
   }
 
   async findAll() {
@@ -81,21 +83,23 @@ export class InformationStudentsService {
       );
     }
     informationStudent.isBonusDevelopmentReceive =
-      await this.cataloguesService.findOne(payload.isBonusDevelopmentReceiveId);
+      await this.cataloguesService.findOne(
+        payload.isBonusDevelopmentReceive.id,
+      );
 
     informationStudent.isAncestralLanguage =
-      await this.cataloguesService.findOne(payload.isAncestralLanguageId);
+      await this.cataloguesService.findOne(payload.isAncestralLanguage.id);
 
     informationStudent.isDegreeSuperior = await this.cataloguesService.findOne(
-      payload.isDegreeSuperiorId,
+      payload.isDegreeSuperior.id,
     );
 
     informationStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisabilityId,
+      payload.isDisability.id,
     );
 
     informationStudent.isSubjectRepeat = await this.cataloguesService.findOne(
-      payload.isSubjectRepeatId,
+      payload.isSubjectRepeat.id,
     );
 
     this.informationStudentRepository.merge(informationStudent, payload);

@@ -1,3 +1,4 @@
+import { InstitutionEntity, CatalogueEntity } from '@core/entities';
 import {
   IsString,
   MaxLength,
@@ -6,24 +7,21 @@ import {
   Min,
   IsPositive,
   IsOptional,
+  IsNotEmpty,
 } from 'class-validator';
 
 export class CreateCareerDto {
-  @IsNumber({}, { message: 'El campo institutionId debe ser un numero' })
-  @IsPositive({ message: 'El campo institutionId debe ser un numero positivo' })
-  readonly institutionId: number;
+  @IsNotEmpty({ message: 'El nombre es requerido' })
+  readonly institution: InstitutionEntity;
 
-  @IsNumber({}, { message: 'El campo modalityId debe ser un numero' })
-  @IsPositive({ message: 'El campo modalityId debe ser un numero positivo' })
-  readonly modalityId: number;
+  @IsNotEmpty({ message: 'La modalidad es requerido' })
+  readonly modality: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo stateId debe ser un numero' })
-  @IsPositive({ message: 'El campo stateId debe ser un numero positivo' })
-  readonly stateId: number;
+  @IsNotEmpty({ message: 'El estado es requerido' })
+  readonly state: CatalogueEntity;
 
-  @IsNumber({}, { message: 'El campo typeId debe ser un numero' })
-  @IsPositive({ message: 'El campo typeId debe ser un numero positivo' })
-  readonly typeId: number;
+  @IsOptional({ message: 'El tipo es opcional' })
+  readonly type: CatalogueEntity;
 
   @IsString({ message: 'El campo acronym debe ser un string' })
   @MinLength(2, { message: 'El acronimo debe tener al menos 2 caracteres' })

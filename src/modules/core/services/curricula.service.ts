@@ -17,8 +17,8 @@ export class CurriculaService {
 
   async create(payload: CreateCurriculumDto) {
     const newCurriculum = this.curriculumRepository.create(payload);
-    newCurriculum.career = await this.carrierService.findOne(payload.careerId);
-    newCurriculum.state = await this.catalogueService.findOne(payload.stateId);
+    newCurriculum.career = await this.carrierService.findOne(payload.career.id);
+    newCurriculum.state = await this.catalogueService.findOne(payload.state.id);
 
     return await this.curriculumRepository.save(newCurriculum);
   }
@@ -58,8 +58,8 @@ export class CurriculaService {
       throw new NotFoundException('El producto no se encontro');
     }
 
-    curriculum.career = await this.carrierService.findOne(payload.careerId);
-    curriculum.state = await this.catalogueService.findOne(payload.stateId);
+    curriculum.career = await this.carrierService.findOne(payload.career.id);
+    curriculum.state = await this.catalogueService.findOne(payload.state.id);
 
     this.curriculumRepository.merge(curriculum, payload);
 
