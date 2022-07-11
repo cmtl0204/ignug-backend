@@ -14,10 +14,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Roles } from '@auth/decorators';
-import { RoleEnum } from '@auth/enums';
-import { JwtGuard, RolesGuard } from '@auth/guards';
-import { ResponseHttpModel } from '../../../exceptions/response-http.model';
+import { ResponseHttpModel } from '@exceptions';
 import { CataloguesService } from '@core/services';
 import {
   CreateCatalogueDto,
