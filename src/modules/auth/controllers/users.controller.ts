@@ -7,29 +7,33 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
-import { Roles } from '@auth/decorators';
-import { RoleEnum } from '@auth/enums';
-import { JwtGuard, RolesGuard } from '@auth/guards';
-import { PaginationDto } from '../../core/dto/pagination/pagination.dto';
+import { Auth, PublicRoute } from '@auth/decorators';
+import { ResponseHttpModel } from '@exceptions';
+import { AppResource, AppRoles } from '../../../app.roles';
+import { UserEntity } from '@auth/entities';
 
 @ApiTags('users')
-// @UseGuards(JwtGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  // @Auth({ possession: 'any', action: 'create', resource: AppResource.USER })
+  @ApiOperation({ summary: 'Create User' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateUserDto) {
-    const data = await this.usersService.create(payload);
+    const data = await this.usersService.create({
+      ...payload,
+      roles: [AppRoles.ADMIN],
+    });
 
     return {
       data,
@@ -37,31 +41,32 @@ export class UsersController {
     };
   }
 
+  @ApiOperation({ summary: 'Catalogue of Users' })
+  @Get('catalogue')
+  @HttpCode(HttpStatus.OK)
+  async catalogue() {
+    const response = await this.usersService.catalogue();
+    return {
+      data: response.data,
+      message: `catalogue`,
+      title: `Catalogue`,
+    } as ResponseHttpModel;
+  }
+
   @ApiOperation({ summary: 'List of users' })
   // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterUserDto) {
-    const data = await this.usersService.findAll(params);
-
+    const response = await this.usersService.findAll(params);
     return {
-      data,
+      data: response.data,
+      pagination: response.pagination,
       message: `index`,
     };
   }
 
-  @Get('catalogue')
-  @HttpCode(HttpStatus.OK)
-  catalogue(@Query() params: any) {
-    const selectedFields = params.fields
-      ? params.fields.split(',').filter((field) => field != '')
-      : null;
-    return {
-      data: 'data',
-      message: `catalogue`,
-    };
-  }
-
+  @ApiOperation({ summary: 'Find User' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number) {
@@ -69,9 +74,11 @@ export class UsersController {
     return {
       data,
       message: `show ${id}`,
-    };
+      title: `Success`,
+    } as ResponseHttpModel;
   }
 
+  @ApiOperation({ summary: 'Update User' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -82,10 +89,12 @@ export class UsersController {
 
     return {
       data: data,
-      message: `user updated ${id}`,
-    };
+      message: `User updated ${id}`,
+      title: `Updated`,
+    } as ResponseHttpModel;
   }
 
+  @ApiOperation({ summary: 'Remove User' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
@@ -93,7 +102,21 @@ export class UsersController {
 
     return {
       data,
-      message: `user deleted ${id}`,
-    };
+      message: `User deleted ${id}`,
+      title: `Deleted`,
+    } as ResponseHttpModel;
+  }
+
+  @ApiOperation({ summary: 'Remove All Users' })
+  @Patch('remove-all')
+  @HttpCode(HttpStatus.CREATED)
+  async removeAll(@Body() payload: UserEntity[]) {
+    const data = await this.usersService.removeAll(payload);
+
+    return {
+      data,
+      message: `Users deleted`,
+      title: `Deleted`,
+    } as ResponseHttpModel;
   }
 }

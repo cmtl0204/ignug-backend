@@ -9,8 +9,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from '@auth/modules';
 import { CoreModule } from '@core/modules';
-import config from './config';
-import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
+import config from './config/config';
+import { AccessControlModule } from 'nest-access-control';
+import { roles } from './app.roles';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
     }),
     HttpModule,
     DatabasesModule,
+    AccessControlModule.forRoles(roles),
     AuthModule,
     CoreModule,
   ],
