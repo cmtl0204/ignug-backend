@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOptionsWhere, ILike, LessThan, In } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
-import { CataloguesService } from '@core/services';
 import { PaginationDto } from '@core/dto';
+import { CataloguesService } from '@core/services';
 
 @Injectable()
 export class UsersService {
@@ -42,7 +42,7 @@ export class UsersService {
     }
 
     //Other filters
-    if (params) {
+    if (params.birthdate) {
       return this.filterByBirthdate(params.birthdate);
     }
 
@@ -101,7 +101,7 @@ export class UsersService {
 
     if (search) {
       search = search.trim();
-      page = 1;
+      page = 0;
       where = [];
       where.push({ lastname: ILike(`%${search}%`) });
       where.push({ name: ILike(`%${search}%`) });

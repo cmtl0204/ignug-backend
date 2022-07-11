@@ -58,6 +58,9 @@ export class CareerEntity {
   })
   resolutionNumber: number;
 
+  @Column('simple-array', { comment: '' })
+  roles: string[];
+
   @Column('varchar', {
     length: 255,
     comment: 'Nombre corto de la carrera',

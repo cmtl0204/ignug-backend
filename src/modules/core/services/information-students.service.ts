@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere,ILike, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateInformationStudentDto,
   FilterInformationStudentDto,
@@ -45,28 +45,25 @@ export class InformationStudentsService {
   }
 
   async findAll(params?: FilterInformationStudentDto) {
-
     //Pagination
-    if (params.limit && params.offset) {
-      return this.pagination(params.limit, params.offset);
-    }
+    // if (params.limit && params.offset) {
+    //   return this.pagination(params.limit, params.offset);
+    // }
 
     //Filter by search
     if (params.search) {
       return this.filter(params);
     }
     return await this.informationStudentRepository.find({
-    relations: [
+      relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
         'isDegreeSuperior',
         'isDisability',
         'isSubjectRepeat',
-
       ],
     });
   }
-
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
@@ -131,8 +128,8 @@ export class InformationStudentsService {
         'isDisability',
         'isSubjectRepeat',
       ],
-            take: limit,
-            skip: offset,
+      take: limit,
+      skip: offset,
     });
   }
 
@@ -148,7 +145,6 @@ export class InformationStudentsService {
       where.push({ companyName: ILike(`%${search}%`) });
       where.push({ contactEmergencyName: ILike(`%${search}%`) });
       where.push({ conadisNumber: ILike(`%${search}%`) });
-
     }
 
     return this.informationStudentRepository.find({
@@ -159,7 +155,7 @@ export class InformationStudentsService {
         'isDisability',
         'isSubjectRepeat',
       ],
-            where,
+      where,
     });
   }
 }

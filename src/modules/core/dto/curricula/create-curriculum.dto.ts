@@ -9,16 +9,15 @@ import {
   IsPositive,
   IsOptional,
   IsNotEmpty,
-
 } from 'class-validator';
 import { CareerEntity } from '../../entities/career.entity';
 
 export class CreateCurriculumDto {
   @IsNotEmpty()
-  readonly career: CareerEntity;//fk
+  readonly career: CareerEntity; //fk
 
   @IsNotEmpty()
-  readonly state: CareerEntity;//fk
+  readonly state: CareerEntity; //fk
 
   @IsString({ message: ' caracter tipo string' })
   @MinLength(2, { message: ' minimo 2 cacacteres' })
