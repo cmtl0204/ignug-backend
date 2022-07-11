@@ -1,5 +1,6 @@
 import { CareerEntity } from '@core/entities';
 import { CatalogueEntity } from '@core/entities';
+import { IsOptional } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -15,7 +16,7 @@ export class CurriculumEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => CareerEntity)
+  @ManyToOne(() => CareerEntity,)
   career: CareerEntity;
 
   @ManyToOne(() => CatalogueEntity)
@@ -75,23 +76,23 @@ export class CurriculumEntity {
   })
   description: string;
 
-  @Column('float', {
-    name: 'weeks_Number',
-    comment: 'Precio del producto',
-  })
-  weeksNumber: number;
-
   @Column('varchar', {
     name: 'resolution_Number',
     length: 255,
     default: 'SN',
-    comment: 'Nombre del producto',
+    comment: 'Numero de resolucion',
   })
   resolutionNumber: string;
 
   @Column('float', {
     name: 'periodic_Academic_Number',
-    comment: 'Precio del producto',
+    comment: 'numero de periodo academmico',
   })
   periodicAcademicNumber: number;
+
+  @Column('float', {
+    name: 'weeks_Number',
+    comment: 'Numeros de semanas',
+  })
+  weeksNumber: number;
 }
