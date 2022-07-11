@@ -32,8 +32,8 @@ export class SubjectsService {
 
   async findAll(params?:FilterSubjectDto) {
     //Pagination
-    if (params.limit && params.offset) {
-      return this.pagination(params.limit, params.offset);
+    if (params.limit && params.page) {
+      return this.pagination(params.limit, params.page);
     }
 
     //Filter by search
