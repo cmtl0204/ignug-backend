@@ -29,7 +29,7 @@ export class CareersController {
       message: 'Carrera creada correctamente',
     };
   }
-  
+
   @ApiOperation({ summary: 'Busca todas las carreras' })
   @Get('')
   @HttpCode(HttpStatus.OK)
@@ -40,7 +40,7 @@ export class CareersController {
       message: 'Carreras encontradas correctamente',
     };
   }
-  
+
   @ApiOperation({ summary: 'Filtra una carrera' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
@@ -51,7 +51,7 @@ export class CareersController {
       message: 'Carrera encontrada correctamente',
     };
   }
-  
+
   @ApiOperation({ summary: 'Actualiza una carrera' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
@@ -65,7 +65,7 @@ export class CareersController {
       message: 'Carrera actualizada correctamente',
     };
   }
-  
+
   @ApiOperation({ summary: 'Borra una carrera' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
