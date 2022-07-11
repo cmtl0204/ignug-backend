@@ -8,6 +8,7 @@ import {
   IsPositive,
   IsOptional,
   IsNotEmpty,
+  IsArray,
 } from 'class-validator';
 
 export class CreateCareerDto {
@@ -50,6 +51,10 @@ export class CreateCareerDto {
   @IsNumber({}, { message: 'El campo resolutionNumber debe ser un numero' })
   @Min(0, { message: 'El numero de resolucion debe ser mayor o igual a 0' })
   readonly resolutionNumber: number;
+
+  @IsNotEmpty()
+  @IsArray()
+  readonly roles: string[];
 
   @IsString({ message: 'El campo shortName debe ser un string' })
   @MinLength(1, { message: 'El nombre corto debe tener al menos 1 caracter' })

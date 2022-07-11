@@ -1,6 +1,7 @@
 export * from './pagination/pagination.dto';
 export * from './careers/create-career.dto';
 export * from './careers/update-career.dto';
+export * from './careers/filter-career.dto';
 export * from './catalogues/create-catalogue.dto';
 export * from './catalogues/update-catalogue.dto';
 export * from './catalogues/filter-catalogue.dto';
