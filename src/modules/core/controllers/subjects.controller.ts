@@ -12,7 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
+import { CreateSubjectDto, UpdateSubjectDto, FilterSubjectDto} from '@core/dto';
 import { SubjectsService } from '@core/services';
 
 @ApiTags('subjects')
@@ -32,10 +32,17 @@ export class SubjectsController {
   }
 
   @ApiOperation({ summary: 'List of subjects' })
-  @Get('')
+  @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any) {
-    const data = await this.subjectsService.findAll();
+  async findAll(@Query() params: FilterSubjectDto) {
+    const data = await this.subjectsService.findAll(params)
+     //const sortFields = params.sort
+    // ? params.sort.split(',').filter((sort) => sort != '')
+    //: null;
+    //const selectedFields = params.fields
+    // ? params.fields.split(',').filter((field) => field != '')
+    // : null;
+    //const data = await this.subjectsService.findAll();
     return {
       data,
       message: `index`,

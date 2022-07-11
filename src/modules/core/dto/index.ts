@@ -12,6 +12,7 @@ export * from './pagination/pagination.dto';
 export * from './students/create-student.dto';
 export * from './students/update-student.dto';
 export * from './subjects/create-subject.dto';
+export * from './subjects/filter-subject.dto';
 export * from './subjects/update-subject.dto';
 export * from './information-teachers/create-information-teacher.dto';
 export * from './information-teachers/update-information-teacher.dto';

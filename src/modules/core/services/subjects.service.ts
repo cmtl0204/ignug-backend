@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CataloguesService, CurriculaService } from '@core/services';
-import { Repository } from 'typeorm';
-import { CreateSubjectDto, UpdateSubjectDto } from '@core/dto';
+import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
+import { CreateSubjectDto, UpdateSubjectDto, FilterSubjectDto} from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 
 @Injectable()
@@ -30,9 +30,24 @@ export class SubjectsService {
     return await this.subjectRepository.save(response);
   }
 
-  async findAll() {
+  async findAll(params?:FilterSubjectDto) {
+    //Pagination
+    if (params.limit && params.offset) {
+      return this.pagination(params.limit, params.offset);
+    }
+
+    //Filter by search
+    if (params.search) {
+      return this.filter(params);
+    }
+
     return await this.subjectRepository.find({
-      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
+      relations: [
+        'academicPeriod', 
+        'curriculum', 
+        'state', 
+        'type'
+      ],
     });
   }
 
@@ -73,7 +88,7 @@ export class SubjectsService {
     );
 
     this.subjectRepository.merge(subject, payload);
-    return this.subjectRepository.save(subject);
+    return await this.subjectRepository.save(subject);
   }
 
   async remove(id: number) {
@@ -89,5 +104,78 @@ export class SubjectsService {
 
     await this.subjectRepository.softDelete(id);
     return true;
+  }
+
+  pagination(limit: number, offset: number) {
+    return this.subjectRepository.find({
+      relations: [
+        'academicPeriod', 
+        'curriculum', 
+        'state', 
+        'type'
+      ],      
+      take: limit,
+      skip: offset,
+    });
+  }
+
+  filter(params: FilterSubjectDto) {
+    const where: FindOptionsWhere<SubjectEntity>[] = [];
+
+    const { search } = params;
+
+    if (search) {
+      where.push({ code: ILike(`%${search}%`) });
+      where.push({ name: ILike(`%${search}%`) });
+    }
+
+    return this.subjectRepository.find({
+      relations: [
+        'academicPeriod', 
+        'curriculum', 
+        'state', 
+        'type'
+      ],    
+      where,
+    });
+  }
+
+  
+  filterByScale(scale: number) {
+    const where: FindOptionsWhere<SubjectEntity> = {};
+    console.log(scale);
+    if (scale) {
+      where.scale = LessThan(scale);
+    }
+
+    console.log(where);
+    return this.subjectRepository.find({
+      relations: [
+        'academicPeriod', 
+        'curriculum', 
+        'state', 
+        'type'
+      ],    
+      where,
+    });
+  }
+
+  filterByCode(code: string) {
+    const where: FindOptionsWhere<SubjectEntity> = {};
+    console.log(code);
+    if (code) {
+      where.code = LessThan(code);
+    }
+
+    console.log(where);
+    return this.subjectRepository.find({
+      relations: [
+        'academicPeriod', 
+        'curriculum', 
+        'state', 
+        'type'
+      ],    
+      where,
+    });
   }
 }
