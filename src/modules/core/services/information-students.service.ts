@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere,ILike, Repository } from 'typeorm';
 import {
   CreateInformationStudentDto,
+  FilterInformationStudentDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 import { InformationStudentEntity } from '@core/entities';
@@ -43,18 +44,29 @@ export class InformationStudentsService {
     return await this.informationStudentRepository.save(newInformationStudent);
   }
 
-  async findAll() {
+  async findAll(params?: FilterInformationStudentDto) {
+
+    //Pagination
+    if (params.limit && params.offset) {
+      return this.pagination(params.limit, params.offset);
+    }
+
+    //Filter by search
+    if (params.search) {
+      return this.filter(params);
+    }
     return await this.informationStudentRepository.find({
-      relations: [
+    relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
         'isDegreeSuperior',
         'isDisability',
         'isSubjectRepeat',
-        'student',
+
       ],
     });
   }
+
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
@@ -108,5 +120,46 @@ export class InformationStudentsService {
 
   async remove(id: number) {
     return await this.informationStudentRepository.delete(id);
+  }
+
+  pagination(limit: number, offset: number) {
+    return this.informationStudentRepository.find({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+            take: limit,
+            skip: offset,
+    });
+  }
+
+  filter(params: FilterInformationStudentDto) {
+    const where: FindOptionsWhere<InformationStudentEntity>[] = [];
+
+    const { search } = params;
+
+    if (search) {
+      where.push({ address: ILike(`%${search}%`) });
+      where.push({ ancestralLanguage: ILike(`%${search}%`) });
+      where.push({ cellPhone: ILike(`%${search}%`) });
+      where.push({ companyName: ILike(`%${search}%`) });
+      where.push({ contactEmergencyName: ILike(`%${search}%`) });
+      where.push({ conadisNumber: ILike(`%${search}%`) });
+
+    }
+
+    return this.informationStudentRepository.find({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+            where,
+    });
   }
 }
