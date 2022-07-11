@@ -1,8 +1,7 @@
 import { PaginationDto } from '@core/dto';
-import { IsDate, IsOptional, IsString,IsNumber } from 'class-validator';
+import { IsDate, IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class FilterInformationTeacherDto extends PaginationDto {
-
   @IsOptional()
   @IsString()
   readonly academicUnit: string;
@@ -23,9 +22,7 @@ export class FilterInformationTeacherDto extends PaginationDto {
   @IsString()
   readonly technical: string;
 
-
   @IsOptional()
   @IsString()
-   readonly technology: string;
-
+  readonly technology: string;
 }

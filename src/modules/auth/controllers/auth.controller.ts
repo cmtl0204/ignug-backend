@@ -1,19 +1,20 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { PublicRoute } from '@auth/decorators';
+import { PublicRoute, User } from '@auth/decorators';
 import { JwtGuard, LoginGuard } from '@auth/guards';
 import { AuthService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
+import { LoginDto } from '@auth/dto';
 
 @ApiTags('auth')
 @UseGuards(JwtGuard)
@@ -25,11 +26,11 @@ export class AuthController {
   @Post('login')
   @UseGuards(LoginGuard)
   @HttpCode(HttpStatus.CREATED)
-  login(@Req() req: Request) {
-    return this.authService.generateJwt(req.user as UserEntity);
+  login(@Body() payload: LoginDto, @User() user: UserEntity) {
+    return this.authService.generateJwt(user);
   }
 
-  @Post('logout')
+  @Get('logout')
   @HttpCode(HttpStatus.CREATED)
   logout(@Req() req: Request) {
     return 'finish';

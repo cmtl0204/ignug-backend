@@ -1,14 +1,16 @@
-import { IsOptional, IsPositive, Min } from 'class-validator';
+import { IsPositive, IsString } from 'class-validator';
 
 export class PaginationDto {
   @IsPositive()
-  @IsOptional()
   limit: number;
 
-  @IsOptional()
-  @Min(0)
-  offset: number;
+  @IsPositive()
+  page: number;
 
-  @IsOptional()
+  @IsString()
   search: string;
+
+  static getOffset(limit: number, page: number): number {
+    return (page - 1) * limit;
+  }
 }

@@ -6,7 +6,7 @@ import { InformationTeacherEntity } from '@core/entities';
 import {
   CreateInformationTeacherDto,
   UpdateInformationTeacherDto,
-  FilterInformationTeacherDto
+  FilterInformationTeacherDto,
 } from '@core/dto';
 
 @Injectable()
@@ -57,16 +57,15 @@ export class InformationTeachersService {
   }
 
   async findAll(params?: FilterInformationTeacherDto) {
+    //Pagination
+    if (params.limit && params.page) {
+      return this.pagination(params.limit, params.page);
+    }
 
-        //Pagination
-        if (params.limit && params.offset) {
-          return this.pagination(params.limit, params.offset);
-        }
-    
-        //Filter by search
-        if (params.search) {
-          return this.filter(params);
-        }
+    //Filter by search
+    if (params.search) {
+      return this.filter(params);
+    }
     return await this.InformationTeacherRepository.find({
       relations: [
         'countryHigherEducation',
@@ -179,7 +178,7 @@ export class InformationTeachersService {
         'teachingLadder',
         'username',
       ],
-            take: limit,
+      take: limit,
       skip: offset,
     });
   }
@@ -196,7 +195,6 @@ export class InformationTeachersService {
       where.push({ otherHours: ILike(`%${search}%`) });
       where.push({ technical: ILike(`%${search}%`) });
       where.push({ technology: ILike(`%${search}%`) });
-
     }
 
     return this.InformationTeacherRepository.find({
@@ -210,7 +208,7 @@ export class InformationTeachersService {
         'teachingLadder',
         'username',
       ],
-            where,
+      where,
     });
   }
 }

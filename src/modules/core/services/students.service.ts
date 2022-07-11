@@ -1,40 +1,117 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateStudentDto, UpdateStudentDto } from '@core/dto';
+import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
+import {
+  CreateCatalogueDto,
+  FilterStudentDto,
+  PaginationDto,
+  UpdateStudentDto,
+} from '@core/dto';
 import { StudentEntity } from '@core/entities';
-import { InformationStudentsService } from './information-students.service';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @InjectRepository(StudentEntity)
-    private studentRepository: Repository<StudentEntity>,
-    private informationStudentsService: InformationStudentsService,
+    private repository: Repository<StudentEntity>,
   ) {}
 
-  async create(payload: CreateStudentDto) {
-    const newStudent = this.studentRepository.create(payload);
-    newStudent.student = await this.informationStudentsService.findOne(
-      payload.studentId,
-    );
+  async create(payload: CreateCatalogueDto) {
+    const newStudent = this.repository.create(payload);
 
-    return await this.studentRepository.save(newStudent);
+    const studentCreated = await this.repository.save(newStudent);
+
+    return await this.repository.save(studentCreated);
   }
 
-  findAll() {
-    return `This action returns all students`;
+  async catalogue() {
+    const data = await this.repository.findAndCount({
+      take: 1000,
+    });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} student`;
+  async findAll(params?: FilterStudentDto) {
+    //Pagination & Filter by search
+    if (params) {
+      return await this.paginateAndFilter(params);
+    }
+
+    //All
+    const data = await this.repository.findAndCount();
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+  async findOne(id: number) {
+    const student = await this.repository.findOne({
+      where: { id },
+    });
+
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    return student;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} student`;
+  async update(id: number, payload: UpdateStudentDto) {
+    const student = await this.repository.findOneBy({ id });
+
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    this.repository.merge(student, payload);
+
+    return this.repository.save(student);
+  }
+
+  async remove(id: number) {
+    const student = await this.repository.findOneBy({ id });
+
+    if (!student) {
+      throw new NotFoundException('Student not found');
+    }
+
+    await this.repository.softDelete(id);
+    return true;
+  }
+
+  async removeAll(payload: any) {
+    const students = await this.repository.findBy({ id: In(payload.ids) });
+
+    for (const student of students) {
+      await this.repository.softDelete(student.id);
+    }
+
+    return true;
+  }
+
+  private async paginateAndFilter(params: FilterStudentDto) {
+    let where:
+      | FindOptionsWhere<StudentEntity>
+      | FindOptionsWhere<StudentEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
+
+    if (search) {
+      search = search.trim();
+      page = 1;
+      where = [];
+      where.push({ name: ILike(`%${search}%`) });
+    }
+
+    const data = await this.repository.findAndCount({
+      relations: ['bloodType', 'gender'],
+      where,
+      take: limit,
+      // skip: PaginationDto.getOffset(limit, page),
+      skip: 0,
+    });
+
+    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
   }
 }

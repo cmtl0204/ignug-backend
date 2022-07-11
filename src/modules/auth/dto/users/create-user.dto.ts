@@ -7,6 +7,7 @@ import {
   MinLength,
   IsEmail,
   IsDate,
+  IsArray,
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 
@@ -63,11 +64,11 @@ export class CreateUserDto {
   readonly name: string;
 
   @IsNotEmpty()
+  @IsArray()
+  readonly roles: string[];
+
+  @IsNotEmpty()
   @IsString()
   @MinLength(5)
   readonly username: string;
-
-  messageProperty(message: string): string {
-    return `La propiedad $property ${message}`;
-  }
 }
