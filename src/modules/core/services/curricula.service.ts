@@ -46,7 +46,7 @@ export class CurriculaService {
     if (params.name) return await this.filterByName(params.name);
 
     // All
-    return await this.pagination(params.limit ?? 15, params.offset ?? 0);
+    // return await this.pagination(params.limit ?? 15, params.offset ?? 0);
   }
 
   async findOne(id: number) {

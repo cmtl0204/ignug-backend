@@ -12,7 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateSubjectDto, UpdateSubjectDto, FilterSubjectDto} from '@core/dto';
+import {
+  CreateSubjectDto,
+  UpdateSubjectDto,
+  FilterSubjectDto,
+} from '@core/dto';
 import { SubjectsService } from '@core/services';
 
 @ApiTags('subjects')
@@ -35,8 +39,8 @@ export class SubjectsController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterSubjectDto) {
-    const data = await this.subjectsService.findAll(params)
-     //const sortFields = params.sort
+    const data = await this.subjectsService.findAll(params);
+    //const sortFields = params.sort
     // ? params.sort.split(',').filter((sort) => sort != '')
     //: null;
     //const selectedFields = params.fields

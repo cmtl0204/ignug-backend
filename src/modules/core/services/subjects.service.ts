@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CataloguesService, CurriculaService } from '@core/services';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
-import { CreateSubjectDto, UpdateSubjectDto, FilterSubjectDto} from '@core/dto';
+import {
+  CreateSubjectDto,
+  UpdateSubjectDto,
+  FilterSubjectDto,
+} from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 
 @Injectable()
@@ -30,7 +34,7 @@ export class SubjectsService {
     return await this.subjectRepository.save(response);
   }
 
-  async findAll(params?:FilterSubjectDto) {
+  async findAll(params?: FilterSubjectDto) {
     //Pagination
     if (params.limit && params.page) {
       return this.pagination(params.limit, params.page);
@@ -42,12 +46,7 @@ export class SubjectsService {
     }
 
     return await this.subjectRepository.find({
-      relations: [
-        'academicPeriod', 
-        'curriculum', 
-        'state', 
-        'type'
-      ],
+      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
     });
   }
 
@@ -108,12 +107,7 @@ export class SubjectsService {
 
   pagination(limit: number, offset: number) {
     return this.subjectRepository.find({
-      relations: [
-        'academicPeriod', 
-        'curriculum', 
-        'state', 
-        'type'
-      ],      
+      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       take: limit,
       skip: offset,
     });
@@ -130,17 +124,11 @@ export class SubjectsService {
     }
 
     return this.subjectRepository.find({
-      relations: [
-        'academicPeriod', 
-        'curriculum', 
-        'state', 
-        'type'
-      ],    
+      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
     });
   }
 
-  
   filterByScale(scale: number) {
     const where: FindOptionsWhere<SubjectEntity> = {};
     console.log(scale);
@@ -150,12 +138,7 @@ export class SubjectsService {
 
     console.log(where);
     return this.subjectRepository.find({
-      relations: [
-        'academicPeriod', 
-        'curriculum', 
-        'state', 
-        'type'
-      ],    
+      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
     });
   }
@@ -169,12 +152,7 @@ export class SubjectsService {
 
     console.log(where);
     return this.subjectRepository.find({
-      relations: [
-        'academicPeriod', 
-        'curriculum', 
-        'state', 
-        'type'
-      ],    
+      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
     });
   }

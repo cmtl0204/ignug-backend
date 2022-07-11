@@ -1,4 +1,3 @@
-
 import { IsOptional } from 'class-validator';
 import { PaginationDto } from '../pagination/pagination.dto';
 
@@ -20,5 +19,4 @@ export class FilterCurriculumDto extends PaginationDto {
 
   @IsOptional({ message: 'address no debe estar vacío' })
   readonly weeksNumber: number;
-
 }

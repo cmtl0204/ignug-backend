@@ -29,7 +29,7 @@ export class CataloguesService {
       take: 1000,
     });
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { pagination: { totalItems: data[1], limit: 1000 }, data: data[0] };
   }
 
   async findAll(params?: FilterCatalogueDto) {
@@ -99,7 +99,7 @@ export class CataloguesService {
 
     if (search) {
       search = search.trim();
-      page = 1;
+      page = 0;
       where = [];
       where.push({ name: ILike(`%${search}%`) });
     }

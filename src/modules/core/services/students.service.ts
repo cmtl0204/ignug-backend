@@ -99,7 +99,7 @@ export class StudentsService {
 
     if (search) {
       search = search.trim();
-      page = 1;
+      page = 0;
       where = [];
       where.push({ name: ILike(`%${search}%`) });
     }
@@ -108,8 +108,7 @@ export class StudentsService {
       relations: ['bloodType', 'gender'],
       where,
       take: limit,
-      // skip: PaginationDto.getOffset(limit, page),
-      skip: 0,
+      skip: PaginationDto.getOffset(limit, page),
     });
 
     return { pagination: { limit, totalItems: data[1] }, data: data[0] };
