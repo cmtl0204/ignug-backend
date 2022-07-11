@@ -4,6 +4,7 @@ export * from './catalogues/create-catalogue.dto';
 export * from './catalogues/update-catalogue.dto';
 export * from './curricula/create-curriculum.dto';
 export * from './curricula/update-curriculum.dto';
+export * from './curricula/Filter-curriculum.dto';
 export * from './information-students/create-information-student.dto';
 export * from './information-students/update-information-student.dto';
 export * from './information-students/filter-information-student.dto';
@@ -17,3 +18,4 @@ export * from './subjects/update-subject.dto';
 export * from './information-teachers/create-information-teacher.dto';
 export * from './information-teachers/update-information-teacher.dto';
 export * from './information-teachers/filter-information-teacher.dto';
+
