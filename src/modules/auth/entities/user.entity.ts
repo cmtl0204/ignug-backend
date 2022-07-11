@@ -41,6 +41,9 @@ export class UserEntity {
   })
   deletedAt: Date;
 
+  @Column('simple-array', { comment: '' })
+  roles: string[];
+
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'blood_type_id' })
   bloodType: CatalogueEntity;

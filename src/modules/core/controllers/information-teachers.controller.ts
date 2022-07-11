@@ -11,12 +11,16 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateInformationTeacherDto } from '@core/dto';
+import {
+  CreateInformationTeacherDto,
+  UpdateInformationTeacherDto,
+  FilterInformationTeacherDto,
+} from '@core/dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InformationTeachersService } from '@core/services';
 
 @ApiTags('information-teachers')
-@Controller('informationTeachers')
+@Controller('information-teachers')
 export class InformationTeachersController {
   constructor(private informationTeachersService: InformationTeachersService) {}
 
@@ -35,14 +39,15 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Consulta los docentes' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any) {
-    const sortFields = params.sort
-      ? params.sort.split(',').filter((sort) => sort != '')
-      : null;
-    const selectedFields = params.fields
-      ? params.fields.split(',').filter((field) => field != '')
-      : null;
-    const data = await this.informationTeachersService.findAll();
+  async findAll(@Query() params: FilterInformationTeacherDto) {
+    const data = await this.informationTeachersService.findAll(params);
+    //const sortFields = params.sort
+    // ? params.sort.split(',').filter((sort) => sort != '')
+    //: null;
+    //const selectedFields = params.fields
+    // ? params.fields.split(',').filter((field) => field != '')
+    // : null;
+    //const data = await this.informationTeachersService.findAll();
     return {
       data,
       message: `index`,
@@ -88,7 +93,10 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateInformationTeacherDto,
+  ) {
     const data = await this.informationTeachersService.update(id, payload);
     return {
       data,
