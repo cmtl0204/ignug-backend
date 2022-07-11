@@ -7,6 +7,7 @@ export * from './curricula/update-curriculum.dto';
 export * from './information-students/create-information-student.dto';
 export * from './information-students/update-information-student.dto';
 export * from './institutions/create-institution.dto';
+export * from './institutions/filter-institution.dto';
 export * from './institutions/update-institution.dto';
 export * from './pagination/pagination.dto';
 export * from './students/create-student.dto';

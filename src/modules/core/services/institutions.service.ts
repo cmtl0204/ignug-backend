@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DeleteResult,
+  Equal,
   FindOptionsWhere,
   ILike,
-  LessThan,
+  Not,
   Repository,
 } from 'typeorm';
 import { CreateInstitutionDto, UpdateInstitutionDto } from '@core/dto';
@@ -31,11 +32,15 @@ export class InstitutionsService {
     return await this.institutionRepository.save(newInstitution);
   }
 
-  async findAll(params?: FilterInstitutionDto): Promise<InstitutionEntity[]> {
-    if (params.limit && params.offset) {
-      return this.pagination(params.limit, params.offset);
-    }
-    return await this.institutionRepository.find();
+  async findAll(params?: FilterInstitutionDto) {
+    // Filter by search
+    if (params.search) return await this.filter(params);
+
+    // Other filters
+    if (params.email) return await this.filterByEmail(params.email);
+
+    // All
+    return await this.pagination(params.limit ?? 3, params.offset ?? 0);
   }
 
   async findOne(id: number): Promise<InstitutionEntity> {
@@ -69,12 +74,17 @@ export class InstitutionsService {
     return await this.institutionRepository.softDelete(id);
   }
 
-  pagination(limit: number, offset: number) {
-    return this.institutionRepository.find({
-      relations: ['bloodType', 'gender'],
+  async pagination(limit: number, offset: number) {
+    const data = await this.institutionRepository.find({
+      relations: ['address', 'state'],
+      order: {
+        id: 'ASC',
+      },
       take: limit,
       skip: offset,
     });
+    const totalItems = await this.institutionRepository.count();
+    return { data, totalItems };
   }
 
   filter(params: FilterInstitutionDto) {
@@ -98,21 +108,28 @@ export class InstitutionsService {
     }
 
     return this.institutionRepository.find({
-      relations: ['bloodType', 'gender'],
+      relations: ['address', 'state'],
       where,
     });
   }
 
-  filterByBirthdate(birthdate: Date) {
+  filterByEmail(email: string) {
     const where: FindOptionsWhere<InstitutionEntity> = {};
-    console.log(birthdate);
-    if (birthdate) {
-      // where.birthdate = LessThan(birthdate);
+    if (email) {
+      // where.email = Not(email);
     }
-
-    console.log(where);
     return this.institutionRepository.find({
-      relations: ['bloodType', 'gender'],
+      relations: ['address', 'state'],
+      where,
+    });
+  }
+  filterByWeb(web: string) {
+    const where: FindOptionsWhere<InstitutionEntity> = {};
+    if (web) {
+      where.email = Equal(web);
+    }
+    return this.institutionRepository.find({
+      relations: ['address', 'state'],
       where,
     });
   }

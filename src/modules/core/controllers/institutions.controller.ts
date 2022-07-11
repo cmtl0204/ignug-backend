@@ -13,7 +13,11 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { CreateInstitutionDto, UpdateInstitutionDto } from '@core/dto';
+import {
+  CreateInstitutionDto,
+  FilterInstitutionDto,
+  UpdateInstitutionDto,
+} from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
 import { InstitutionsService } from '@core/services';
 
@@ -39,11 +43,8 @@ export class InstitutionsController {
   @ApiOperation({ summary: 'obtiene una lista de todos los institutos' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any): Promise<{
-    data: InstitutionEntity[];
-    message: string;
-  }> {
-    const data = await this.instituteService.findAll();
+  async findAll(@Query() params: FilterInstitutionDto) {
+    const data = await this.instituteService.findAll(params);
     return {
       data,
       message: `all institutions`,
