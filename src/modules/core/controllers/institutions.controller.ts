@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -20,14 +21,15 @@ import {
 } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
 import { InstitutionsService } from '@core/services';
+import { ResponseHttpModel } from '@exceptions';
 
 @ApiTags('institutions')
 @Controller('institutions')
 export class InstitutionsController {
   constructor(private instituteService: InstitutionsService) {}
 
-  @ApiOperation({ summary: 'crea un instituto' })
-  @Post('')
+  @ApiOperation({ summary: 'create Institution' })
+  @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateInstitutionDto): Promise<{
     data: InstitutionEntity;
@@ -40,8 +42,8 @@ export class InstitutionsController {
     };
   }
 
-  @ApiOperation({ summary: 'obtiene una lista de todos los institutos' })
-  @Get('')
+  @ApiOperation({ summary: 'get all institutions' })
+  @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterInstitutionDto) {
     const data = await this.instituteService.findAll(params);
@@ -51,7 +53,7 @@ export class InstitutionsController {
     };
   }
 
-  @ApiOperation({ summary: 'obtiene un instituto' })
+  @ApiOperation({ summary: 'get institution' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<{
@@ -65,7 +67,7 @@ export class InstitutionsController {
     };
   }
 
-  @ApiOperation({ summary: 'actualiza un instituto' })
+  @ApiOperation({ summary: 'update institution' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -82,7 +84,7 @@ export class InstitutionsController {
     };
   }
 
-  @ApiOperation({ summary: 'elimina un instituto' })
+  @ApiOperation({ summary: 'delete institution' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number): Promise<{
@@ -94,5 +96,18 @@ export class InstitutionsController {
       data,
       message: `deleted institution ${id}`,
     };
+  }
+
+  @ApiOperation({ summary: 'remove all institutos' })
+  @Patch('remove-all')
+  @HttpCode(HttpStatus.CREATED)
+  async removeAll(@Body() payload: InstitutionEntity[]) {
+    const data = await this.instituteService.removeAll(payload);
+
+    return {
+      data,
+      message: `Users deleted`,
+      title: `Deleted`,
+    } as ResponseHttpModel;
   }
 }
