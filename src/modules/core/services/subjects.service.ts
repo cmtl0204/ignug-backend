@@ -1,7 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import {CreateSubjectDto, UpdateSubjectDto, FilterSubjectDto} from '@core/dto';
+import {
+  CreateSubjectDto,
+  UpdateSubjectDto,
+  FilterSubjectDto,
+} from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService, CurriculaService } from '@core/services';
@@ -44,7 +48,7 @@ export class SubjectsService {
   }
 
   async findAll(params?: FilterSubjectDto) {
-   //Pagination & Filter by search
+    //Pagination & Filter by search
     if (params) {
       return await this.paginateAndFilter(params);
     }
@@ -69,7 +73,7 @@ export class SubjectsService {
   async findOne(id: number) {
     const subject = await this.subjectRepository.findOne({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
-      where: {id},
+      where: { id },
     });
 
     if (!subject) {
@@ -100,7 +104,7 @@ export class SubjectsService {
 
     this.subjectRepository.merge(subject, payload);
 
-    return  this.subjectRepository.save(subject);
+    return this.subjectRepository.save(subject);
   }
 
   async remove(id: number) {
@@ -118,7 +122,9 @@ export class SubjectsService {
   }
 
   private async paginateAndFilter(params: FilterSubjectDto) {
-    let where: FindOptionsWhere<SubjectEntity> | FindOptionsWhere<SubjectEntity>[];
+    let where:
+      | FindOptionsWhere<SubjectEntity>
+      | FindOptionsWhere<SubjectEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -172,7 +178,6 @@ export class SubjectsService {
       where.scale = LessThan(scale);
     }
 
-    
     const data = await this.subjectRepository.findAndCount({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
     });

@@ -27,12 +27,15 @@ export class UsersService {
   }
 
   async catalogue() {
-    const data = await this.userRepository.findAndCount({
+    const response = await this.userRepository.findAndCount({
       relations: ['bloodType', 'gender'],
       take: 1000,
     });
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return {
+      pagination: { totalItems: response[1], limit: 10 },
+      data: response[0],
+    };
   }
 
   async findAll(params?: FilterUserDto) {
@@ -51,7 +54,7 @@ export class UsersService {
       relations: ['bloodType', 'gender'],
     });
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
   async findOne(id: number) {
@@ -90,7 +93,7 @@ export class UsersService {
   }
 
   async removeAll(payload: UserEntity[]) {
-    return await this.userRepository.softRemove(payload);
+    return { data: await this.userRepository.softRemove(payload) };
   }
 
   private async paginateAndFilter(params: FilterUserDto) {
@@ -108,14 +111,17 @@ export class UsersService {
       where.push({ username: ILike(`%${search}%`) });
     }
 
-    const data = await this.userRepository.findAndCount({
+    const response = await this.userRepository.findAndCount({
       relations: ['bloodType', 'gender'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
-    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+    return {
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
+    };
   }
 
   private async filterByBirthdate(birthdate: Date) {
@@ -125,11 +131,14 @@ export class UsersService {
       where.birthdate = LessThan(birthdate);
     }
 
-    const data = await this.userRepository.findAndCount({
+    const response = await this.userRepository.findAndCount({
       relations: ['bloodType', 'gender'],
       where,
     });
 
-    return { pagination: { limit: 10, totalItems: data[1] }, data: data[0] };
+    return {
+      data: response[0],
+      pagination: { limit: 10, totalItems: response[1] },
+    };
   }
 }

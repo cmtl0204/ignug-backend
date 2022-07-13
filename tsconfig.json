@@ -66,6 +66,9 @@
       "@core/services": [
         "./src/modules/core/services"
       ],
+      "@config": [
+        "./src/config"
+      ],
       "@interceptors": [
         "./src/interceptors"
       ],

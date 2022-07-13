@@ -11,7 +11,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@exceptions';
@@ -23,7 +22,6 @@ import {
 } from '@core/dto';
 
 @ApiTags('catalogues')
-// @UseGuards(JwtGuard, RolesGuard)
 @Controller('catalogues')
 export class CataloguesController {
   constructor(private catalogueService: CataloguesService) {}
@@ -99,7 +97,7 @@ export class CataloguesController {
       data,
       message: `Catalogue deleted ${id}`,
       title: `Deleted`,
-    } as ResponseHttpModel;
+    };
   }
 
   @Patch('remove-all')
@@ -111,6 +109,6 @@ export class CataloguesController {
       data,
       message: `Catalogues deleted`,
       title: `Deleted`,
-    } as ResponseHttpModel;
+    };
   }
 }

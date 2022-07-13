@@ -14,10 +14,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { SubjectsService } from '@core/services';
-import { CreateSubjectDto, FilterSubjectDto, UpdateSubjectDto } from '@core/dto';
+import {
+  CreateSubjectDto,
+  FilterSubjectDto,
+  UpdateSubjectDto,
+} from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { ResponseHttpModel } from '@exceptions';
-
 
 @ApiTags('subjects')
 @Controller('subjects')
@@ -56,7 +59,7 @@ export class SubjectsController {
       data,
       message: `show ${id}`,
       title: `Success`,
-    }as ResponseHttpModel;
+    } as ResponseHttpModel;
   }
 
   @ApiOperation({ summary: 'Update Subject' })
@@ -67,7 +70,7 @@ export class SubjectsController {
     @Body() payload: UpdateSubjectDto,
   ) {
     const data = await this.subjectsService.update(id, payload);
-    
+
     return {
       data: data,
       message: `Subject updated ${id}`,
@@ -80,7 +83,7 @@ export class SubjectsController {
   @HttpCode(HttpStatus.CREATED)
   async remove(@Param('id', ParseIntPipe) id: number) {
     const data = await this.subjectsService.remove(id);
-   
+
     return {
       data,
       message: `Subject deleted ${id}`,

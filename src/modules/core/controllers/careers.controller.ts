@@ -71,7 +71,7 @@ export class CareersController {
       data,
       message: `Mostrando ${id}`,
       title: `Success`,
-    }as ResponseHttpModel;
+    } as ResponseHttpModel;
   }
 
   @ApiOperation({ summary: 'Actualiza una carrera' })
@@ -86,7 +86,7 @@ export class CareersController {
       data,
       message: `Actualizada la carrera ${id}`,
       title: `Updated`,
-    }as ResponseHttpModel;
+    } as ResponseHttpModel;
   }
 
   @ApiOperation({ summary: 'Borra una carrera' })
@@ -98,7 +98,7 @@ export class CareersController {
       data,
       message: `Eliminada la carrera ${id}`,
       title: `Deleted`,
-    }as ResponseHttpModel;
+    } as ResponseHttpModel;
   }
 
   @ApiOperation({ summary: 'Remove All Users' })

@@ -11,68 +11,70 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
-import { Roles } from '@auth/decorators';
-import { RoleEnum } from '@auth/enums';
-import { JwtGuard, RolesGuard } from '@auth/guards';
-import { ResponseHttpModel } from '../../../exceptions/response-http.model';
+import { ResponseHttpModel } from '@exceptions';
+import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { StudentsService } from '@core/services';
 import { FilterStudentDto } from '@core/dto';
+import { StudentEntity } from '@core/entities';
 
 @ApiTags('students')
-// @UseGuards(JwtGuard, RolesGuard)
 @Controller('students')
 export class StudentsController {
   constructor(private studentService: StudentsService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateUserDto) {
-    const data = await this.studentService.create(payload);
+  async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.studentService.create(payload);
 
     return {
-      data,
-      message: 'created',
+      data: serviceResponse,
+      message: 'student created',
+      title: 'Created',
     };
   }
 
   @ApiOperation({ summary: 'List all users' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
-  async catalogue() {
-    const response = await this.studentService.catalogue();
+  async catalogue(): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.studentService.catalogue();
+
     return {
-      data: response.data,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: `catalogue`,
       title: `Catalogue`,
-    } as ResponseHttpModel;
+    };
   }
 
   @ApiOperation({ summary: 'List of users' })
   // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterStudentDto) {
-    const response = await this.studentService.findAll(params);
+  async findAll(@Query() params: FilterStudentDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.studentService.findAll(params);
     return {
-      data: response.data,
-      pagination: response.pagination,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: `index`,
+      title: `index`,
     };
   }
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.studentService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.studentService.findOne(id);
     return {
-      data,
+      data: serviceResponse,
       message: `show ${id}`,
       title: `Success`,
-    } as ResponseHttpModel;
+    };
   }
 
   @Put(':id')
@@ -80,37 +82,39 @@ export class StudentsController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
-  ) {
-    const data = await this.studentService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.studentService.update(id, payload);
 
     return {
-      data: data,
+      data: serviceResponse,
       message: `User updated ${id}`,
       title: `Updated`,
-    } as ResponseHttpModel;
+    };
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.studentService.remove(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.studentService.remove(id);
 
     return {
-      data,
+      data: serviceResponse,
       message: `User deleted ${id}`,
       title: `Deleted`,
-    } as ResponseHttpModel;
+    };
   }
 
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: number[]) {
-    const data = await this.studentService.removeAll(payload);
+  async removeAll(@Body() payload: StudentEntity[]) {
+    const serviceResponse = await this.studentService.removeAll(payload);
 
     return {
-      data,
+      data: serviceResponse,
       message: `Users deleted`,
       title: `Deleted`,
-    } as ResponseHttpModel;
+    };
   }
 }

@@ -75,18 +75,11 @@ export class StudentsService {
       throw new NotFoundException('Student not found');
     }
 
-    await this.repository.softDelete(id);
-    return true;
+    return await this.repository.softRemove(student);
   }
 
-  async removeAll(payload: any) {
-    const students = await this.repository.findBy({ id: In(payload.ids) });
-
-    for (const student of students) {
-      await this.repository.softDelete(student.id);
-    }
-
-    return true;
+  async removeAll(payload: StudentEntity[]) {
+    return this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(params: FilterStudentDto) {

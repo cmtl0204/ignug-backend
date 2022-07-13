@@ -20,9 +20,8 @@ export class ResponseHttpInterceptor<T>
     next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((data) => {
-        console.log(data);
-        return { data };
+      map((response) => {
+        return { data: response.data, pagination: response.pagination };
       }),
     );
   }

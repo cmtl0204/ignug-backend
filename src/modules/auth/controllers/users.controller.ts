@@ -15,9 +15,8 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UsersService } from '@auth/services';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
-import { Auth, PublicRoute } from '@auth/decorators';
 import { ResponseHttpModel } from '@exceptions';
-import { AppResource, AppRoles } from '../../../app.roles';
+import { AppRoles } from '../../../app.roles';
 import { UserEntity } from '@auth/entities';
 
 @ApiTags('users')
@@ -29,50 +28,56 @@ export class UsersController {
   @ApiOperation({ summary: 'Create User' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateUserDto) {
-    const data = await this.usersService.create({
+  async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.create({
       ...payload,
       roles: [AppRoles.ADMIN],
     });
 
     return {
-      data,
-      message: 'created',
+      data: serviceResponse,
+      message: 'user created',
+      title: 'Created',
     };
   }
 
   @ApiOperation({ summary: 'Catalogue of Users' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
-  async catalogue() {
-    const response = await this.usersService.catalogue();
+  async catalogue(): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.catalogue();
+
     return {
-      data: response.data,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: `catalogue`,
       title: `Catalogue`,
-    } as ResponseHttpModel;
+    };
   }
 
   @ApiOperation({ summary: 'List of users' })
-  // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterUserDto) {
-    const response = await this.usersService.findAll(params);
+  async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.findAll(params);
+
     return {
-      data: response.data,
-      pagination: response.pagination,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: `index`,
+      title: 'Success',
     };
   }
 
   @ApiOperation({ summary: 'Find User' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.usersService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.findOne(id);
     return {
-      data,
+      data: serviceResponse,
       message: `show ${id}`,
       title: `Success`,
     } as ResponseHttpModel;
@@ -84,11 +89,11 @@ export class UsersController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
-  ) {
-    const data = await this.usersService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.update(id, payload);
 
     return {
-      data: data,
+      data: serviceResponse,
       message: `User updated ${id}`,
       title: `Updated`,
     } as ResponseHttpModel;
@@ -97,26 +102,28 @@ export class UsersController {
   @ApiOperation({ summary: 'Remove User' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.usersService.remove(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.remove(id);
 
     return {
-      data,
+      data: serviceResponse,
       message: `User deleted ${id}`,
       title: `Deleted`,
-    } as ResponseHttpModel;
+    };
   }
 
   @ApiOperation({ summary: 'Remove All Users' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: UserEntity[]) {
-    const data = await this.usersService.removeAll(payload);
+  async removeAll(@Body() payload: UserEntity[]): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.removeAll(payload);
 
     return {
-      data,
+      data: serviceResponse.data,
       message: `Users deleted`,
       title: `Deleted`,
-    } as ResponseHttpModel;
+    };
   }
 }

@@ -1,12 +1,7 @@
 import { PaginationDto } from '@core/dto';
-import {
-  IsString,
-  IsNumber,
-  IsOptional,
-} from 'class-validator';
+import { IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class FilterCareerDto extends PaginationDto {
-
   @IsString({ message: 'El campo acronym debe ser un string' })
   @IsOptional()
   readonly acronym: string;

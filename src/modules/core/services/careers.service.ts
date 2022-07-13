@@ -18,12 +18,7 @@ export class CareersService {
 
   async catalogue() {
     const data = await this.careerRepository.findAndCount({
-      relations: [
-      'institution',
-      'modality',
-      'state',
-      'type'
-      ],
+      relations: ['institution', 'modality', 'state', 'type'],
       take: 1000,
     });
 
@@ -40,13 +35,9 @@ export class CareersService {
       payload.modality.id,
     );
 
-    newCareer.state = await this.CataloguesService.findOne(
-      payload.state.id
-    );
+    newCareer.state = await this.CataloguesService.findOne(payload.state.id);
 
-    newCareer.type = await this.CataloguesService.findOne(
-      payload.type.id
-    );
+    newCareer.type = await this.CataloguesService.findOne(payload.type.id);
     return await this.careerRepository.save(newCareer);
   }
 
@@ -57,12 +48,7 @@ export class CareersService {
     }
     //All
     const data = await this.careerRepository.findAndCount({
-      relations: [
-        'institution',
-        'modality',
-        'state',
-        'type',
-      ]
+      relations: ['institution', 'modality', 'state', 'type'],
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -83,7 +69,7 @@ export class CareersService {
   }
 
   async update(id: number, payload: UpdateCareerDto) {
-    const career = await this.careerRepository.findOneBy({id});
+    const career = await this.careerRepository.findOneBy({ id });
     if (career === null) {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
@@ -92,7 +78,7 @@ export class CareersService {
   }
 
   async remove(id: number) {
-    const career= await this.careerRepository.findOneBy({id});
+    const career = await this.careerRepository.findOneBy({ id });
     if (career === null) {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
@@ -105,7 +91,9 @@ export class CareersService {
   }
 
   private async paginateAndFilter(params: FilterCareerDto) {
-    let where: FindOptionsWhere<CareerEntity> | FindOptionsWhere<CareerEntity>[];
+    let where:
+      | FindOptionsWhere<CareerEntity>
+      | FindOptionsWhere<CareerEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;

@@ -67,7 +67,7 @@ export class InformationStudentsService {
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
-       relations: [
+      relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
         'isDegreeSuperior',
@@ -129,7 +129,9 @@ export class InformationStudentsService {
   }
 
   private async paginateAndFilter(params: FilterInformationStudentDto) {
-    let where: FindOptionsWhere<InformationStudentEntity> | FindOptionsWhere<InformationStudentEntity>[];
+    let where:
+      | FindOptionsWhere<InformationStudentEntity>
+      | FindOptionsWhere<InformationStudentEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;

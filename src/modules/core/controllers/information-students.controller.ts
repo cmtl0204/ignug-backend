@@ -108,6 +108,6 @@ export class InformationStudentsController {
       data,
       message: `InformationStudents deleted`,
       title: `Deleted`,
-    } 
+    };
   }
 }
