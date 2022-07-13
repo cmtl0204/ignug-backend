@@ -53,23 +53,21 @@ export class InformationStudentsService {
         'isDegreeSuperior',
         'isDisability',
         'isSubjectRepeat',
-      ],      
+      ],
       take: 1000,
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-
-  async findAll(params?:FilterInformationStudentDto,
-    ) {
+  async findAll(params?: FilterInformationStudentDto) {
     //Pagination & Filter by search
-     if (params) {
-       return await this.paginateAndFilter(params);
-     }
- 
-     //All
-     const data = await this.informationStudentRepository.findAndCount({
+    if (params) {
+      return await this.paginateAndFilter(params);
+    }
+
+    //All
+    const data = await this.informationStudentRepository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -77,10 +75,10 @@ export class InformationStudentsService {
         'isDisability',
         'isSubjectRepeat',
       ],
-     });
- 
-     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
-   }
+    });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+  }
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
@@ -181,6 +179,3 @@ export class InformationStudentsService {
     return { pagination: { limit, totalItems: data[1] }, data: data[0] };
   }
 }
-
-
-
