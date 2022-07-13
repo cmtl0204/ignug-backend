@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import {
   CreateInformationStudentDto,
   FilterInformationStudentDto,
@@ -45,13 +45,7 @@ export class InformationStudentsService {
     return await this.informationStudentRepository.save(newInformationStudent);
   }
 
-  async findAll(params?: FilterInformationStudentDto) {
-    //Pagination & Filter by search
-    if (params) {
-      return await this.paginateAndFilter(params);
-    }
-
-    //All
+  async catalogue() {
     const data = await this.informationStudentRepository.findAndCount({
       relations: [
         'isAncestralLanguage',
@@ -59,11 +53,34 @@ export class InformationStudentsService {
         'isDegreeSuperior',
         'isDisability',
         'isSubjectRepeat',
-      ],
+      ],      
+      take: 1000,
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
+
+
+  async findAll(params?:FilterInformationStudentDto,
+    ) {
+    //Pagination & Filter by search
+     if (params) {
+       return await this.paginateAndFilter(params);
+     }
+ 
+     //All
+     const data = await this.informationStudentRepository.findAndCount({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+     });
+ 
+     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+   }
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
@@ -162,3 +179,6 @@ export class InformationStudentsService {
     return { pagination: { limit, totalItems: data[1] }, data: data[0] };
   }
 }
+
+
+
