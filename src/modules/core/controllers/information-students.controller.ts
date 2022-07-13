@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -21,6 +22,7 @@ import {
   FilterInformationStudentDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
+import { InformationStudentEntity } from '@core/entities';
 
 @ApiTags('information-students')
 @Controller('information-students')
@@ -43,7 +45,7 @@ export class InformationStudentsController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterInformationStudentDto) {
-    const data = await this.informationstudentsService.findAll(params);
+    const response = await this.informationstudentsService.findAll(params);
     //const sortFields = params.sort
     // ? params.sort.split(',').filter((sort) => sort != '')
     //: null;
@@ -52,7 +54,8 @@ export class InformationStudentsController {
     // : null;
     //const data = await this.informationTeachersService.findAll();
     return {
-      data,
+      data: response.data,
+      pagination: response.pagination,
       message: `index`,
     };
   }
@@ -85,11 +88,26 @@ export class InformationStudentsController {
   }
 
   @ApiOperation({ summary: 'Remove information students' })
+  @Delete(':id')
+  @HttpCode(HttpStatus.OK)
   async remove(@Param('id', ParseIntPipe) id: number) {
     const data = await this.informationstudentsService.remove(id);
     return {
-      data: data,
-      message: `deleted ${id}`,
+      data,
+      message: `informationStudent deleted ${id}`,
     };
+  }
+
+  @ApiOperation({ summary: 'Remove All Users' })
+  @Patch('remove-all')
+  @HttpCode(HttpStatus.CREATED)
+  async removeAll(@Body() payload: InformationStudentEntity[]) {
+    const data = await this.informationstudentsService.removeAll(payload);
+
+    return {
+      data,
+      message: `InformationStudents deleted`,
+      title: `Deleted`,
+    } 
   }
 }

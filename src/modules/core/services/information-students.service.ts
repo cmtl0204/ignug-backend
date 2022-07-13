@@ -4,6 +4,7 @@ import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateInformationStudentDto,
   FilterInformationStudentDto,
+  PaginationDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 import { InformationStudentEntity } from '@core/entities';
@@ -45,16 +46,13 @@ export class InformationStudentsService {
   }
 
   async findAll(params?: FilterInformationStudentDto) {
-    //Pagination
-    // if (params.limit && params.offset) {
-    //   return this.pagination(params.limit, params.offset);
-    // }
-
-    //Filter by search
-    if (params.search) {
-      return this.filter(params);
+    //Pagination & Filter by search
+    if (params) {
+      return await this.paginateAndFilter(params);
     }
-    return await this.informationStudentRepository.find({
+
+    //All
+    const data = await this.informationStudentRepository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -63,13 +61,20 @@ export class InformationStudentsService {
         'isSubjectRepeat',
       ],
     });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
-      where: {
-        id: id,
-      },
+       relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+      where: { id },
     });
 
     if (informationStudent === null) {
@@ -116,29 +121,23 @@ export class InformationStudentsService {
   }
 
   async remove(id: number) {
-    return await this.informationStudentRepository.delete(id);
+    return await this.informationStudentRepository.softDelete(id);
   }
 
-  pagination(limit: number, offset: number) {
-    return this.informationStudentRepository.find({
-      relations: [
-        'isAncestralLanguage',
-        'isBonusDevelopmentReceive',
-        'isDegreeSuperior',
-        'isDisability',
-        'isSubjectRepeat',
-      ],
-      take: limit,
-      skip: offset,
-    });
+  async removeAll(payload: InformationStudentEntity[]) {
+    return await this.informationStudentRepository.softRemove(payload);
   }
 
-  filter(params: FilterInformationStudentDto) {
-    const where: FindOptionsWhere<InformationStudentEntity>[] = [];
-
-    const { search } = params;
+  private async paginateAndFilter(params: FilterInformationStudentDto) {
+    let where: FindOptionsWhere<InformationStudentEntity> | FindOptionsWhere<InformationStudentEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
 
     if (search) {
+      search = search.trim();
+      page = 0;
+      where = [];
       where.push({ address: ILike(`%${search}%`) });
       where.push({ ancestralLanguage: ILike(`%${search}%`) });
       where.push({ cellPhone: ILike(`%${search}%`) });
@@ -147,7 +146,7 @@ export class InformationStudentsService {
       where.push({ conadisNumber: ILike(`%${search}%`) });
     }
 
-    return this.informationStudentRepository.find({
+    const data = await this.informationStudentRepository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -156,6 +155,10 @@ export class InformationStudentsService {
         'isSubjectRepeat',
       ],
       where,
+      take: limit,
+      skip: PaginationDto.getOffset(limit, page),
     });
+
+    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
   }
 }
