@@ -37,13 +37,6 @@ export class InformationTeachersController {
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterInformationTeacherDto) {
     const data = await this.informationTeachersService.findAll(params);
-    //const sortFields = params.sort
-    // ? params.sort.split(',').filter((sort) => sort != '')
-    //: null;
-    //const selectedFields = params.fields
-    // ? params.fields.split(',').filter((field) => field != '')
-    // : null;
-    //const data = await this.informationTeachersService.findAll();
     return {
       data,
       message: `index`,
