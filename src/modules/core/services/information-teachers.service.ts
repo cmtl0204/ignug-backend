@@ -11,14 +11,13 @@ import {
 } from '@core/dto';
 import { ServiceResponseHttpModel } from '../../root/models/service-response-http.model';
 
-
 @Injectable()
 export class InformationTeachersService {
   constructor(
     @InjectRepository(InformationTeacherEntity)
     private InformationTeacherRepository: Repository<InformationTeacherEntity>,
     private cataloguesService: CataloguesService,
-  ) { }
+  ) {}
 
   async create(payload: CreateInformationTeacherDto) {
     const informationTeacher =
@@ -116,7 +115,8 @@ export class InformationTeachersService {
         'scholarshipType',
         'teachingLadder',
         'username',
-      ], where: { id },
+      ],
+      where: { id },
     });
 
     if (!informationTeacher) {
@@ -129,7 +129,7 @@ export class InformationTeachersService {
   async update(id: number, payload: UpdateInformationTeacherDto) {
     const informationTeacher = await this.InformationTeacherRepository.findOne({
       where: {
-        id
+        id,
       },
     });
 
@@ -195,23 +195,34 @@ export class InformationTeachersService {
   }
 
   async remove(id: number): Promise<ServiceResponseHttpModel> {
-    const informationTeacher = await this.InformationTeacherRepository.findOneBy({ id });
+    const informationTeacher =
+      await this.InformationTeacherRepository.findOneBy({ id });
 
     if (!informationTeacher) {
       throw new NotFoundException('InformationTeacher not found');
     }
 
-    return { data: await this.InformationTeacherRepository.softRemove(informationTeacher) };
+    return {
+      data: await this.InformationTeacherRepository.softRemove(
+        informationTeacher,
+      ),
+    };
   }
 
-  async removeAll(payload: InformationTeacherEntity[]): Promise<ServiceResponseHttpModel> {
-    return { data: await this.InformationTeacherRepository.softRemove(payload) };
+  async removeAll(
+    payload: InformationTeacherEntity[],
+  ): Promise<ServiceResponseHttpModel> {
+    return {
+      data: await this.InformationTeacherRepository.softRemove(payload),
+    };
   }
 
   private async paginateAndFilter(
     params: FilterInformationTeacherDto,
   ): Promise<ServiceResponseHttpModel> {
-    let where: FindOptionsWhere<InformationTeacherEntity> | FindOptionsWhere<InformationTeacherEntity>[];
+    let where:
+      | FindOptionsWhere<InformationTeacherEntity>
+      | FindOptionsWhere<InformationTeacherEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -279,4 +290,3 @@ export class InformationTeachersService {
     };
   }
 }
-

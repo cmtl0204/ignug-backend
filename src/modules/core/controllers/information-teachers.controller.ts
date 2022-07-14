@@ -113,8 +113,12 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Remueve todos los informationTeachers' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: InformationTeacherEntity[]): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationTeachersService.removeAll(payload);
+  async removeAll(
+    @Body() payload: InformationTeacherEntity[],
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.removeAll(
+      payload,
+    );
 
     return {
       data: serviceResponse.data,

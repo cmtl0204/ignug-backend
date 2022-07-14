@@ -5,7 +5,7 @@ import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService } from '@core/services';
-import { ServiceResponseHttpModel } from '../../root/models/service-response-http.model';
+import { ServiceResponseHttpModel } from '@root/models';
 
 @Injectable()
 export class UsersService {
@@ -24,7 +24,7 @@ export class UsersService {
 
     const userCreated = await this.userRepository.save(newUser);
 
-    return { data: await this.userRepository.save(userCreated) };
+    return { data: userCreated };
   }
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -40,8 +40,8 @@ export class UsersService {
   }
 
   async findAll(params?: FilterUserDto): Promise<ServiceResponseHttpModel> {
-    //Pagination & Filter by search
-    if (params) {
+    //Pagination & Filter by Search
+    if (params.limit && params.page) {
       return await this.paginateAndFilter(params);
     }
 
@@ -82,8 +82,9 @@ export class UsersService {
     }
 
     this.userRepository.merge(user, payload);
+    const userUpdated = await this.userRepository.save(user);
 
-    return { data: await this.userRepository.save(user) };
+    return { data: userUpdated };
   }
 
   async remove(id: number): Promise<ServiceResponseHttpModel> {
@@ -93,11 +94,15 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    return { data: await this.userRepository.softRemove(user) };
+    const userDeleted = await this.userRepository.save(user);
+
+    return { data: userDeleted };
   }
 
   async removeAll(payload: UserEntity[]): Promise<ServiceResponseHttpModel> {
-    return { data: await this.userRepository.softRemove(payload) };
+    const usersDeleted = await this.userRepository.softRemove(payload);
+
+    return { data: usersDeleted };
   }
 
   private async paginateAndFilter(

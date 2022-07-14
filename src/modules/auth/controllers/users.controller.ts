@@ -19,7 +19,7 @@ import { UsersService } from '@auth/services';
 import { ResponseHttpModel } from '@root/models';
 import { AppRoles } from '../../../app.roles';
 
-@ApiTags('users')
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -36,7 +36,7 @@ export class UsersController {
 
     return {
       data: serviceResponse.data,
-      message: 'user created',
+      message: 'User created',
       title: 'Created',
     };
   }
@@ -76,6 +76,7 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: number,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.usersService.findOne(id);
+
     return {
       data: serviceResponse.data,
       message: `show ${id}`,
@@ -93,7 +94,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.update(id, payload);
 
     return {
-      data: serviceResponse,
+      data: serviceResponse.data,
       message: `User updated ${id}`,
       title: `Updated`,
     };

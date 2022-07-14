@@ -11,9 +11,9 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm';
-import { CatalogueEntity, StudentEntity } from '@core/entities';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
+import { CatalogueEntity, StudentEntity } from '@core/entities';
 
 @Entity('users')
 export class UserEntity {
@@ -43,6 +43,9 @@ export class UserEntity {
 
   @Column('simple-array', { comment: '' })
   roles: string[];
+
+  @OneToOne(() => StudentEntity, (student) => student.user)
+  student: StudentEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'blood_type_id' })
@@ -129,7 +132,7 @@ export class UserEntity {
   name: string;
 
   @Column('timestamp', {
-    name: 'suspended',
+    name: 'suspended_at',
     nullable: true,
     comment: 'Fecha de la ultima suspension del usuario',
   })
@@ -141,9 +144,6 @@ export class UserEntity {
     comment: 'Nombre de usuario para ingreso al sistema',
   })
   username: string;
-
-  @OneToOne(() => StudentEntity, (student) => student.user)
-  student: StudentEntity;
 
   @BeforeInsert()
   @BeforeUpdate()

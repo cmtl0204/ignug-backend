@@ -16,38 +16,38 @@ export class CreateUserDto {
   readonly bloodType: CatalogueEntity;
 
   @IsOptional()
-  @IsPositive()
+  @IsPositive({ message: 'El campo ethnicOrigin debe ser positivo' })
   readonly ethnicOrigin: CatalogueEntity;
 
   @IsOptional()
-  @IsPositive()
+  @IsPositive({ message: 'El campo identificationType debe ser positivo' })
   readonly identificationType: CatalogueEntity;
 
   @IsOptional()
-  @IsPositive()
+  @IsPositive({ message: 'El campo gender debe ser positivo' })
   readonly gender: CatalogueEntity;
 
   @IsOptional()
-  @IsPositive()
+  @IsPositive({ message: 'El campo maritalStatus debe ser positivo' })
   readonly maritalStatus: CatalogueEntity;
 
   @IsOptional()
-  @IsPositive()
+  @IsPositive({ message: 'El campo sex debe ser positivo' })
   readonly sex: CatalogueEntity;
 
   @IsOptional()
-  @IsDate()
+  @IsDate({ message: 'El campo birthdate debe ser una fecha válida' })
   readonly birthdate: Date;
 
-  @IsNotEmpty()
-  @IsEmail({ message: 'debe ser un correo electrónico' })
+  @IsNotEmpty({ message: 'El campo email es obligatorio' })
+  @IsEmail({ message: 'El campo email debe ser un correo electrónico' })
   readonly email: string;
 
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'El campo lastname es obligatorio' })
+  @IsString({ message: 'El campo lastname debe ser un string' })
   readonly lastname: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'El campo password es obligatorio' })
   @IsString()
   readonly password: string;
 
