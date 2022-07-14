@@ -11,6 +11,10 @@ export class FilterInformationTeacherDto extends PaginationDto {
   readonly degreeHigherEducation: string;
 
   @IsOptional()
+  @IsDate()
+  readonly holidays: Date;
+
+  @IsOptional()
   @IsString()
   readonly institutionHigherEducation: string;
 

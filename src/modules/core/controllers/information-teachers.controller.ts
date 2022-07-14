@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   ParseIntPipe,
   Post,
   Put,
@@ -18,6 +19,8 @@ import {
 } from '@core/dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InformationTeachersService } from '@core/services';
+import { ResponseHttpModel } from '@root/models';
+import { InformationTeacherEntity } from '../entities/information-teacher.entity';
 
 @ApiTags('information-teachers')
 @Controller('information-teachers')
@@ -105,6 +108,18 @@ export class InformationTeachersController {
     return {
       data,
       message: `informationTeacher deleted ${id}`,
+    };
+  }
+  @ApiOperation({ summary: 'Remueve todos los informationTeachers' })
+  @Patch('remove-all')
+  @HttpCode(HttpStatus.CREATED)
+  async removeAll(@Body() payload: InformationTeacherEntity[]): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.removeAll(payload);
+
+    return {
+      data: serviceResponse.data,
+      message: `Users deleted`,
+      title: `Deleted`,
     };
   }
 }

@@ -7,7 +7,10 @@ import {
   CreateInformationTeacherDto,
   UpdateInformationTeacherDto,
   FilterInformationTeacherDto,
+  PaginationDto,
 } from '@core/dto';
+import { ServiceResponseHttpModel } from '../../root/models/service-response-http.model';
+
 
 @Injectable()
 export class InformationTeachersService {
@@ -15,7 +18,7 @@ export class InformationTeachersService {
     @InjectRepository(InformationTeacherEntity)
     private InformationTeacherRepository: Repository<InformationTeacherEntity>,
     private cataloguesService: CataloguesService,
-  ) {}
+  ) { }
 
   async create(payload: CreateInformationTeacherDto) {
     const informationTeacher =
@@ -56,17 +59,38 @@ export class InformationTeachersService {
     return this.InformationTeacherRepository.save(response);
   }
 
+  async catalogue(): Promise<ServiceResponseHttpModel> {
+    const response = await this.InformationTeacherRepository.findAndCount({
+      relations: [
+        'countryHigherEducation',
+        'dedicationTime',
+        'financingType',
+        'higherEducation',
+        'scholarship',
+        'scholarshipType',
+        'teachingLadder',
+        'username',
+      ],
+      take: 1000,
+    });
+
+    return {
+      pagination: { totalItems: response[1], limit: 10 },
+      data: response[0],
+    };
+  }
+
   async findAll(params?: FilterInformationTeacherDto) {
     //Pagination
-    if (params.limit && params.page) {
-      return this.pagination(params.limit, params.page);
+    if (params) {
+      return await this.paginateAndFilter(params);
     }
 
-    //Filter by search
-    if (params.search) {
-      return this.filter(params);
+    //Other filters
+    if (params.holidays) {
+      return this.filterByHolidays(params.holidays);
     }
-    return await this.InformationTeacherRepository.find({
+    const data = await this.InformationTeacherRepository.findAndCount({
       relations: [
         'countryHigherEducation',
         'dedicationTime',
@@ -78,30 +102,34 @@ export class InformationTeachersService {
         'username',
       ],
     });
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ServiceResponseHttpModel> {
     const informationTeacher = await this.InformationTeacherRepository.findOne({
-      where: {
-        id: id,
-      },
+      relations: [
+        'countryHigherEducation',
+        'dedicationTime',
+        'financingType',
+        'higherEducation',
+        'scholarship',
+        'scholarshipType',
+        'teachingLadder',
+        'username',
+      ], where: { id },
     });
 
-    if (informationTeacher === null) {
-      throw new NotFoundException('El teacher no se encontro');
+    if (!informationTeacher) {
+      throw new NotFoundException('InformationTeacher not found');
     }
 
-    return informationTeacher;
-  }
-
-  async remove(id: number) {
-    return this.InformationTeacherRepository.softDelete(id);
+    return { data: informationTeacher };
   }
 
   async update(id: number, payload: UpdateInformationTeacherDto) {
     const informationTeacher = await this.InformationTeacherRepository.findOne({
       where: {
-        id: id,
+        id
       },
     });
 
@@ -166,8 +194,41 @@ export class InformationTeachersService {
     return this.InformationTeacherRepository.save(informationTeacher);
   }
 
-  pagination(limit: number, offset: number) {
-    return this.InformationTeacherRepository.find({
+  async remove(id: number): Promise<ServiceResponseHttpModel> {
+    const informationTeacher = await this.InformationTeacherRepository.findOneBy({ id });
+
+    if (!informationTeacher) {
+      throw new NotFoundException('InformationTeacher not found');
+    }
+
+    return { data: await this.InformationTeacherRepository.softRemove(informationTeacher) };
+  }
+
+  async removeAll(payload: InformationTeacherEntity[]): Promise<ServiceResponseHttpModel> {
+    return { data: await this.InformationTeacherRepository.softRemove(payload) };
+  }
+
+  private async paginateAndFilter(
+    params: FilterInformationTeacherDto,
+  ): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<InformationTeacherEntity> | FindOptionsWhere<InformationTeacherEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
+
+    if (search) {
+      search = search.trim();
+      page = 0;
+      where = [];
+      where.push({ academicUnit: ILike(`%${search}%`) });
+      where.push({ degreeHigherEducation: ILike(`%${search}%`) });
+      where.push({ institutionHigherEducation: ILike(`%${search}%`) });
+      where.push({ otherHours: ILike(`%${search}%`) });
+      where.push({ technical: ILike(`%${search}%`) });
+      where.push({ technology: ILike(`%${search}%`) });
+    }
+
+    const response = await this.InformationTeacherRepository.findAndCount({
       relations: [
         'countryHigherEducation',
         'dedicationTime',
@@ -178,26 +239,27 @@ export class InformationTeachersService {
         'teachingLadder',
         'username',
       ],
+      where,
       take: limit,
-      skip: offset,
+      skip: PaginationDto.getOffset(limit, page),
     });
+
+    return {
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
+    };
   }
 
-  filter(params: FilterInformationTeacherDto) {
-    const where: FindOptionsWhere<InformationTeacherEntity>[] = [];
+  private async filterByHolidays(
+    holidays: Date,
+  ): Promise<ServiceResponseHttpModel> {
+    const where: FindOptionsWhere<InformationTeacherEntity> = {};
 
-    const { search } = params;
-
-    if (search) {
-      where.push({ academicUnit: ILike(`%${search}%`) });
-      where.push({ degreeHigherEducation: ILike(`%${search}%`) });
-      where.push({ institutionHigherEducation: ILike(`%${search}%`) });
-      where.push({ otherHours: ILike(`%${search}%`) });
-      where.push({ technical: ILike(`%${search}%`) });
-      where.push({ technology: ILike(`%${search}%`) });
+    if (holidays) {
+      where.holidays = LessThan(holidays);
     }
 
-    return this.InformationTeacherRepository.find({
+    const response = await this.InformationTeacherRepository.findAndCount({
       relations: [
         'countryHigherEducation',
         'dedicationTime',
@@ -210,5 +272,11 @@ export class InformationTeachersService {
       ],
       where,
     });
+
+    return {
+      data: response[0],
+      pagination: { limit: 10, totalItems: response[1] },
+    };
   }
 }
+
