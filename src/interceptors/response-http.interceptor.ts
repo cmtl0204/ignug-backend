@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ResponseHttpModel } from '@exceptions';
 
 export interface Response<T> {
   data: T;

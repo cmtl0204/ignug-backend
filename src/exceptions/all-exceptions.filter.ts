@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
-import { ErrorResponseHttpModel } from './response-http.model';
+import { ErrorResponseHttpModel } from '@root/models';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {

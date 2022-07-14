@@ -5,6 +5,7 @@ import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService } from '@core/services';
+import { ServiceResponseHttpModel } from '../../root/models/service-response-http.model';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +15,7 @@ export class UsersService {
     private catalogueService: CataloguesService,
   ) {}
 
-  async create(payload: CreateUserDto) {
+  async create(payload: CreateUserDto): Promise<ServiceResponseHttpModel> {
     const newUser = this.userRepository.create(payload);
 
     newUser.bloodType = await this.catalogueService.findOne(
@@ -23,10 +24,10 @@ export class UsersService {
 
     const userCreated = await this.userRepository.save(newUser);
 
-    return await this.userRepository.save(userCreated);
+    return { data: await this.userRepository.save(userCreated) };
   }
 
-  async catalogue() {
+  async catalogue(): Promise<ServiceResponseHttpModel> {
     const response = await this.userRepository.findAndCount({
       relations: ['bloodType', 'gender'],
       take: 1000,
@@ -38,7 +39,7 @@ export class UsersService {
     };
   }
 
-  async findAll(params?: FilterUserDto) {
+  async findAll(params?: FilterUserDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params) {
       return await this.paginateAndFilter(params);
@@ -57,7 +58,7 @@ export class UsersService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ServiceResponseHttpModel> {
     const user = await this.userRepository.findOne({
       relations: ['bloodType', 'gender'],
       where: { id },
@@ -67,10 +68,13 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    return user;
+    return { data: user };
   }
 
-  async update(id: number, payload: UpdateUserDto) {
+  async update(
+    id: number,
+    payload: UpdateUserDto,
+  ): Promise<ServiceResponseHttpModel> {
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
@@ -79,24 +83,26 @@ export class UsersService {
 
     this.userRepository.merge(user, payload);
 
-    return await this.userRepository.save(user);
+    return { data: await this.userRepository.save(user) };
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<ServiceResponseHttpModel> {
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    return await this.userRepository.softRemove(user);
+    return { data: await this.userRepository.softRemove(user) };
   }
 
-  async removeAll(payload: UserEntity[]) {
+  async removeAll(payload: UserEntity[]): Promise<ServiceResponseHttpModel> {
     return { data: await this.userRepository.softRemove(payload) };
   }
 
-  private async paginateAndFilter(params: FilterUserDto) {
+  private async paginateAndFilter(
+    params: FilterUserDto,
+  ): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[];
     where = {};
     let { page, search } = params;
@@ -124,7 +130,9 @@ export class UsersService {
     };
   }
 
-  private async filterByBirthdate(birthdate: Date) {
+  private async filterByBirthdate(
+    birthdate: Date,
+  ): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<UserEntity> = {};
 
     if (birthdate) {

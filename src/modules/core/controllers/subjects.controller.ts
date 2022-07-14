@@ -20,7 +20,7 @@ import {
   UpdateSubjectDto,
 } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
-import { ResponseHttpModel } from '@exceptions';
+import { ResponseHttpModel } from '@root/models';
 
 @ApiTags('subjects')
 @Controller('subjects')

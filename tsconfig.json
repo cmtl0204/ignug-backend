@@ -74,6 +74,9 @@
       ],
       "@exceptions": [
         "./src/exceptions"
+      ],
+      "@root/models": [
+        "./src/modules/root/models"
       ]
     }
   }

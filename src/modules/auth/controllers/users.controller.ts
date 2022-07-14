@@ -13,11 +13,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UsersService } from '@auth/services';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
-import { ResponseHttpModel } from '@exceptions';
-import { AppRoles } from '../../../app.roles';
 import { UserEntity } from '@auth/entities';
+import { UsersService } from '@auth/services';
+import { ResponseHttpModel } from '@root/models';
+import { AppRoles } from '../../../app.roles';
 
 @ApiTags('users')
 @Controller('users')
@@ -35,7 +35,7 @@ export class UsersController {
     });
 
     return {
-      data: serviceResponse,
+      data: serviceResponse.data,
       message: 'user created',
       title: 'Created',
     };
@@ -77,10 +77,10 @@ export class UsersController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.usersService.findOne(id);
     return {
-      data: serviceResponse,
+      data: serviceResponse.data,
       message: `show ${id}`,
       title: `Success`,
-    } as ResponseHttpModel;
+    };
   }
 
   @ApiOperation({ summary: 'Update User' })
@@ -108,7 +108,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.remove(id);
 
     return {
-      data: serviceResponse,
+      data: serviceResponse.data,
       message: `User deleted ${id}`,
       title: `Deleted`,
     };

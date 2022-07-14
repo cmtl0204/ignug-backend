@@ -13,7 +13,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ResponseHttpModel } from '@exceptions';
+import { ResponseHttpModel } from '@root/models';
 import { CataloguesService } from '@core/services';
 import {
   CreateCatalogueDto,
