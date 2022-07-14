@@ -79,7 +79,7 @@ export class UsersService {
 
     this.userRepository.merge(user, payload);
 
-    return this.userRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   async remove(id: number) {

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ResponseHttpModel } from '@exceptions';
 
 export interface Response<T> {
   data: T;
@@ -21,7 +22,12 @@ export class ResponseHttpInterceptor<T>
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((response) => {
-        return { data: response.data, pagination: response.pagination };
+        return {
+          data: response.data,
+          pagination: response.pagination,
+          message: response.message,
+          title: response.title,
+        };
       }),
     );
   }

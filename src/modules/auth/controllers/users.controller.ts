@@ -96,7 +96,7 @@ export class UsersController {
       data: serviceResponse,
       message: `User updated ${id}`,
       title: `Updated`,
-    } as ResponseHttpModel;
+    };
   }
 
   @ApiOperation({ summary: 'Remove User' })
