@@ -13,7 +13,11 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CurriculaService } from '@core/services';
-import { UpdateCurriculumDto, CreateCurriculumDto } from '@core/dto';
+import {
+  UpdateCurriculumDto,
+  CreateCurriculumDto,
+  FilterCurriculumDto,
+} from '@core/dto';
 
 @ApiTags('curricula')
 @Controller('curricula')
@@ -23,8 +27,8 @@ export class CurriculaController {
   @ApiOperation({ summary: 'List of curricula' })
   @Get('')
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: any) {
-    const data = await this.curriculaService.findAll();
+  async findAll(@Query() params: FilterCurriculumDto) {
+    const data = await this.curriculaService.findAll(params);
     return {
       data,
       message: `index`,

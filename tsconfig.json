@@ -65,6 +65,18 @@
       ],
       "@core/services": [
         "./src/modules/core/services"
+      ],
+      "@config": [
+        "./src/config"
+      ],
+      "@interceptors": [
+        "./src/interceptors"
+      ],
+      "@exceptions": [
+        "./src/exceptions"
+      ],
+      "@root/models": [
+        "./src/modules/root/models"
       ]
     }
   }

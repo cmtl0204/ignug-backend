@@ -61,11 +61,11 @@ export class InformationStudentEntity {
   cellPhone: string;
 
   @Column('varchar', {
-    name: 'codanis_number',
+    name: 'conadis_number',
     length: 10,
     comment: 'Numero que tiene el carnet del conais',
   })
-  codanisNumber: string;
+  conadisNumber: string;
 
   @Column('integer', {
     name: 'community',

@@ -45,7 +45,6 @@ export class CreateInformationStudentDto {
   readonly community: number;
 
   @IsString({ message: 'Se acepta solo string' })
-  @MaxLength(10, { message: 'Maximo 10 caracteres' })
   readonly conadisNumber: string;
 
   @IsString({ message: 'Debe ser un string' })

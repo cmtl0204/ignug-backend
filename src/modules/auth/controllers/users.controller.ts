@@ -7,93 +7,123 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UsersService } from '@auth/services';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
-import { Roles } from '@auth/decorators';
-import { RoleEnum } from '@auth/enums';
-import { JwtGuard, RolesGuard } from '@auth/guards';
-import { PaginationDto } from '../../core/dto/pagination/pagination.dto';
+import { UserEntity } from '@auth/entities';
+import { UsersService } from '@auth/services';
+import { ResponseHttpModel } from '@root/models';
+import { AppRoles } from '../../../app.roles';
 
 @ApiTags('users')
-// @UseGuards(JwtGuard, RolesGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
+  // @Auth({ possession: 'any', action: 'create', resource: AppResource.USER })
+  @ApiOperation({ summary: 'Create User' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateUserDto) {
-    const data = await this.usersService.create(payload);
+  async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.create({
+      ...payload,
+      roles: [AppRoles.ADMIN],
+    });
 
     return {
-      data,
-      message: 'created',
+      data: serviceResponse.data,
+      message: 'user created',
+      title: 'Created',
+    };
+  }
+
+  @ApiOperation({ summary: 'Catalogue of Users' })
+  @Get('catalogue')
+  @HttpCode(HttpStatus.OK)
+  async catalogue(): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.catalogue();
+
+    return {
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: `catalogue`,
+      title: `Catalogue`,
     };
   }
 
   @ApiOperation({ summary: 'List of users' })
-  // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterUserDto) {
-    const data = await this.usersService.findAll(params);
+  async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.findAll(params);
 
     return {
-      data,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: `index`,
+      title: 'Success',
     };
   }
 
-  @Get('catalogue')
-  @HttpCode(HttpStatus.OK)
-  catalogue(@Query() params: any) {
-    const selectedFields = params.fields
-      ? params.fields.split(',').filter((field) => field != '')
-      : null;
-    return {
-      data: 'data',
-      message: `catalogue`,
-    };
-  }
-
+  @ApiOperation({ summary: 'Find User' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.usersService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.findOne(id);
     return {
-      data,
+      data: serviceResponse.data,
       message: `show ${id}`,
+      title: `Success`,
     };
   }
 
+  @ApiOperation({ summary: 'Update User' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateUserDto,
-  ) {
-    const data = await this.usersService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.update(id, payload);
 
     return {
-      data: data,
-      message: `user updated ${id}`,
+      data: serviceResponse,
+      message: `User updated ${id}`,
+      title: `Updated`,
     };
   }
 
+  @ApiOperation({ summary: 'Remove User' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.usersService.remove(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.remove(id);
 
     return {
-      data,
-      message: `user deleted ${id}`,
+      data: serviceResponse.data,
+      message: `User deleted ${id}`,
+      title: `Deleted`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Remove All Users' })
+  @Patch('remove-all')
+  @HttpCode(HttpStatus.CREATED)
+  async removeAll(@Body() payload: UserEntity[]): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.removeAll(payload);
+
+    return {
+      data: serviceResponse.data,
+      message: `Users deleted`,
+      title: `Deleted`,
     };
   }
 }

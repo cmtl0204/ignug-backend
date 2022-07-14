@@ -4,17 +4,13 @@ import {
   ArgumentsHost,
   HttpException,
   NotFoundException,
-  BadRequestException,
   UnauthorizedException,
   ForbiddenException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
-import {
-  ErrorResponseHttpModel,
-  ResponseHttpModel,
-} from './response-http.model';
+import { ErrorResponseHttpModel } from '@root/models';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -23,7 +19,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const errorResponseHttpModel: ErrorResponseHttpModel = {
-      data: null,
       error: 'Server Error',
       message: 'Server Error',
       statusCode: 500,

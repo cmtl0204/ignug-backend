@@ -1,7 +1,7 @@
 import { Module, Global } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import config from '../config';
+import config from '../config/config';
 
 const API_KEY = '12345634';
 const API_KEY_PROD = 'PROD1212121SA';
@@ -16,7 +16,7 @@ const API_KEY_PROD = 'PROD1212121SA';
           configService.database;
         return {
           type: 'postgres',
-          synchronize: true,
+          synchronize: false,
           autoLoadEntities: true,
           host,
           port,

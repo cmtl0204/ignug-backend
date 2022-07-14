@@ -1,11 +1,11 @@
 export interface ResponseHttpModel {
+  data: object;
   message: string | string[];
-  error: string;
-  statusCode: number;
+  title: string;
+  pagination?: any;
 }
 
 export interface ErrorResponseHttpModel {
-  data: null;
   error: string;
   message: string | string[];
   statusCode: number;

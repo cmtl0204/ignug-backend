@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import {
   CreateInformationStudentDto,
+  FilterInformationStudentDto,
+  PaginationDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 import { InformationStudentEntity } from '@core/entities';
@@ -43,24 +45,51 @@ export class InformationStudentsService {
     return await this.informationStudentRepository.save(newInformationStudent);
   }
 
-  async findAll() {
-    return await this.informationStudentRepository.find({
+  async catalogue() {
+    const data = await this.informationStudentRepository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
         'isDegreeSuperior',
         'isDisability',
         'isSubjectRepeat',
-        'student',
+      ],
+      take: 1000,
+    });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+  }
+
+  async findAll(params?: FilterInformationStudentDto) {
+    //Pagination & Filter by search
+    if (params) {
+      return await this.paginateAndFilter(params);
+    }
+
+    //All
+    const data = await this.informationStudentRepository.findAndCount({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
       ],
     });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
   async findOne(id: number) {
     const informationStudent = await this.informationStudentRepository.findOne({
-      where: {
-        id: id,
-      },
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+      where: { id },
     });
 
     if (informationStudent === null) {
@@ -107,6 +136,46 @@ export class InformationStudentsService {
   }
 
   async remove(id: number) {
-    return await this.informationStudentRepository.delete(id);
+    return await this.informationStudentRepository.softDelete(id);
+  }
+
+  async removeAll(payload: InformationStudentEntity[]) {
+    return await this.informationStudentRepository.softRemove(payload);
+  }
+
+  private async paginateAndFilter(params: FilterInformationStudentDto) {
+    let where:
+      | FindOptionsWhere<InformationStudentEntity>
+      | FindOptionsWhere<InformationStudentEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
+
+    if (search) {
+      search = search.trim();
+      page = 0;
+      where = [];
+      where.push({ address: ILike(`%${search}%`) });
+      where.push({ ancestralLanguage: ILike(`%${search}%`) });
+      where.push({ cellPhone: ILike(`%${search}%`) });
+      where.push({ companyName: ILike(`%${search}%`) });
+      where.push({ contactEmergencyName: ILike(`%${search}%`) });
+      where.push({ conadisNumber: ILike(`%${search}%`) });
+    }
+
+    const data = await this.informationStudentRepository.findAndCount({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+      where,
+      take: limit,
+      skip: PaginationDto.getOffset(limit, page),
+    });
+
+    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
   }
 }

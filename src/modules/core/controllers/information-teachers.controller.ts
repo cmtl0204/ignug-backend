@@ -11,7 +11,11 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateInformationTeacherDto,UpdateInformationTeacherDto ,FilterInformationTeacherDto} from '@core/dto';
+import {
+  CreateInformationTeacherDto,
+  UpdateInformationTeacherDto,
+  FilterInformationTeacherDto,
+} from '@core/dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InformationTeachersService } from '@core/services';
 
@@ -82,7 +86,10 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(@Param('id', ParseIntPipe) id: number, @Body() payload: UpdateInformationTeacherDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateInformationTeacherDto,
+  ) {
     const data = await this.informationTeachersService.update(id, payload);
     return {
       data,
