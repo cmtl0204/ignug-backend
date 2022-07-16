@@ -7,6 +7,8 @@ export default registerAs('config', () => {
       host: process.env.DB_HOST,
       password: process.env.DB_PASSWORD,
       port: parseInt(process.env.DB_PORT, 10),
+      schemaAuth: process.env.DB_SCHEMA_AUTH,
+      schemaCore: process.env.DB_SCHEMA_CORE,
       username: process.env.DB_USER,
     },
     apiKey: process.env.API_KEY,

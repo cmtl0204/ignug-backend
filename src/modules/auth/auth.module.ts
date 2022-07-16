@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import config from '../../config/config';
 import { AuthController, UsersController } from '@auth/controllers';
-import { UserEntity } from '@auth/entities';
 import { AuthService, UsersService } from '@auth/services';
 import { LocalStrategy, JwtStrategy } from '@auth/strategies';
+import { authProviders } from '@auth/providers';
+import { DatabaseModule } from '@database';
 
 @Module({
   imports: [
+    DatabaseModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    TypeOrmModule.forFeature([UserEntity]),
     JwtModule.registerAsync({
       inject: [config.KEY],
       useFactory: (configService: ConfigType<typeof config>) => {
@@ -26,7 +26,13 @@ import { LocalStrategy, JwtStrategy } from '@auth/strategies';
     }),
   ],
   controllers: [AuthController, UsersController],
-  providers: [AuthService, JwtStrategy, LocalStrategy, UsersService],
-  exports: [AuthService, UsersService],
+  providers: [
+    ...authProviders,
+    JwtStrategy,
+    LocalStrategy,
+    AuthService,
+    UsersService,
+  ],
+  exports: [UsersService],
 })
 export class AuthModule {}

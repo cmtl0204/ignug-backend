@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { CatalogueEntity } from '@core/entities';
 
-@Entity('information_teachers')
+@Entity('information_teachers', { schema: 'core' })
 export class InformationTeacherEntity {
   @PrimaryGeneratedColumn()
   id: number;

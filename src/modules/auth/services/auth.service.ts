@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { UserEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity) private repository: Repository<UserEntity>,
+    @Inject(RepositoryEnum.USER_REPOSITORY)
+    private repository: Repository<UserEntity>,
     private jwtService: JwtService,
   ) {}
 

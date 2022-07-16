@@ -1,5 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
 import {
   CreateCatalogueDto,
@@ -8,11 +7,12 @@ import {
   UpdateCatalogueDto,
 } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class CataloguesService {
   constructor(
-    @InjectRepository(CatalogueEntity)
+    @Inject(RepositoryEnum.CATALOGUE_REPOSITORY)
     private repository: Repository<CatalogueEntity>,
   ) {}
 

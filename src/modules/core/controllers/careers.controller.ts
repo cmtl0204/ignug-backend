@@ -16,7 +16,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CareersService } from '@core/services';
 import { CreateCareerDto, UpdateCareerDto, FilterCareerDto } from '@core/dto';
 import { AppRoles } from '../../../app.roles';
-import { ResponseHttpModel } from '@root/models';
+import { ResponseHttpModel } from '@shared/models';
 import { CareerEntity } from '@core/entities';
 
 @ApiTags('careers')

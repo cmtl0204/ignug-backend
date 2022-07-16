@@ -31,7 +31,7 @@ async function bootstrap() {
     new ResponseHttpInterceptor(),
   );
 
-  app.useGlobalFilters(new AllExceptionsFilter());
+  // app.useGlobalFilters(new AllExceptionsFilter());
 
   const documentBuilder = new DocumentBuilder()
     .setTitle('API IGNUG')

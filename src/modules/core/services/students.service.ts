@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
 import {
@@ -8,11 +8,12 @@ import {
   UpdateStudentDto,
 } from '@core/dto';
 import { StudentEntity } from '@core/entities';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class StudentsService {
   constructor(
-    @InjectRepository(StudentEntity)
+    @Inject(RepositoryEnum.STUDENT_REPOSITORY)
     private repository: Repository<StudentEntity>,
   ) {}
 

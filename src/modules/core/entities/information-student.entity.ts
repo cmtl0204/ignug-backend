@@ -12,7 +12,7 @@ import {
 import { StudentEntity } from '@core/entities';
 import { CatalogueEntity } from '@core/entities';
 
-@Entity('information_students')
+@Entity('information_students', { schema: 'core' })
 export class InformationStudentEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -32,8 +32,8 @@ export class InformationStudentEntity {
   @JoinColumn({ name: 'is_disability' })
   isDisability: CatalogueEntity;
 
-  @OneToOne(() => StudentEntity)
-  student: StudentEntity;
+  // @OneToOne(() => StudentEntity)
+  // student: StudentEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_subject_repeat' })

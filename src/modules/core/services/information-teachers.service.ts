@@ -9,7 +9,7 @@ import {
   FilterInformationTeacherDto,
   PaginationDto,
 } from '@core/dto';
-import { ServiceResponseHttpModel } from '../../root/models/service-response-http.model';
+import { ServiceResponseHttpModel } from '../../shared/models/service-response-http.model';
 
 @Injectable()
 export class InformationTeachersService {

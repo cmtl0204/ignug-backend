@@ -19,7 +19,7 @@ import {
 } from '@core/dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InformationTeachersService } from '@core/services';
-import { ResponseHttpModel } from '@root/models';
+import { ResponseHttpModel } from '@shared/models';
 import { InformationTeacherEntity } from '../entities/information-teacher.entity';
 
 @ApiTags('information-teachers')

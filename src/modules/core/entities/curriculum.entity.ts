@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('curricula')
+@Entity('curricula', { schema: 'core' })
 export class CurriculumEntity {
   @PrimaryGeneratedColumn()
   id: number;

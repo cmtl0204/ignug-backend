@@ -8,14 +8,14 @@ import {
 import { UserEntity } from '@auth/entities';
 import { InformationStudentEntity } from '@core/entities';
 
-@Entity('students')
+@Entity('students', { schema: 'core' })
 export class StudentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => InformationStudentEntity)
-  @JoinColumn({ name: 'student' })
-  student: InformationStudentEntity;
+  // @OneToOne(() => InformationStudentEntity)
+  // @JoinColumn({ name: 'student' })
+  // student: InformationStudentEntity;
 
   @Column('varchar', { name: 'name', comment: 'Nombre del estudiante' })
   name: string;

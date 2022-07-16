@@ -16,7 +16,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { UsersService } from '@auth/services';
-import { ResponseHttpModel } from '@root/models';
+import { ResponseHttpModel } from '@shared/models';
 import { AppRoles } from '../../../app.roles';
 
 @ApiTags('Users')

@@ -15,7 +15,7 @@ import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
 
-@Entity('users')
+@Entity('users', { schema: 'auth' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -41,7 +41,7 @@ export class UserEntity {
   })
   deletedAt: Date;
 
-  @Column('simple-array', { comment: '' })
+  @Column('simple-array', { comment: '', nullable: true })
   roles: string[];
 
   @OneToOne(() => StudentEntity, (student) => student.user)

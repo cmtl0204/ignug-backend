@@ -1,16 +1,16 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService } from '@core/services';
-import { ServiceResponseHttpModel } from '@root/models';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(UserEntity)
+    @Inject(RepositoryEnum.USER_REPOSITORY)
     private userRepository: Repository<UserEntity>,
     private catalogueService: CataloguesService,
   ) {}
@@ -41,7 +41,7 @@ export class UsersService {
 
   async findAll(params?: FilterUserDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by Search
-    if (params.limit && params.page) {
+    if (params.limit > 0 && params.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 
@@ -52,7 +52,7 @@ export class UsersService {
 
     //All
     const data = await this.userRepository.findAndCount({
-      relations: ['bloodType', 'gender'],
+      relations: ['bloodType'],
     });
 
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
@@ -123,7 +123,7 @@ export class UsersService {
     }
 
     const response = await this.userRepository.findAndCount({
-      relations: ['bloodType', 'gender'],
+      relations: ['bloodType'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

@@ -21,7 +21,7 @@ import {
 } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
 import { InstitutionsService } from '@core/services';
-import { ResponseHttpModel } from '@root/models';
+import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('institutions')
 @Controller('institutions')
