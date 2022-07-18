@@ -55,6 +55,7 @@ export class CareerEntity {
   @Column('float', {
     comment: 'Numero de resolucion de la carrera',
     name: 'resolution_number',
+    default: 0,
   })
   resolutionNumber: number;
 

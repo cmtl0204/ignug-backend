@@ -52,8 +52,8 @@ export class CreateCareerDto {
   @Min(0, { message: 'El numero de resolucion debe ser mayor o igual a 0' })
   readonly resolutionNumber: number;
 
-  @IsNotEmpty()
-  @IsArray()
+  @IsNotEmpty({ message: 'El campo roles debe ser obligatorio' })
+  @IsArray({ message: 'El campo roles debe ser un array' })
   readonly roles: string[];
 
   @IsString({ message: 'El campo shortName debe ser un string' })

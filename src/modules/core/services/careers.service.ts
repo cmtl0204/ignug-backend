@@ -1,30 +1,35 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
-import { CreateCareerDto, UpdateCareerDto, FilterCareerDto } from '@core/dto';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Repository, FindOptionsWhere, ILike, MoreThan} from 'typeorm';
+import { CreateCareerDto, UpdateCareerDto, FilterCareerDto, PaginationDto} from '@core/dto';
 import { CareerEntity } from '@core/entities';
-import { InjectRepository } from '@nestjs/typeorm';
-import { InstitutionsService } from './institutions.service';
-import { CataloguesService } from './catalogues.service';
-import { PaginationDto } from '../dto/pagination/pagination.dto';
+import { InstitutionsService, CataloguesService} from '@core/services';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class CareersService {
   constructor(
-    @InjectRepository(CareerEntity)
+    @Inject(RepositoryEnum.CAREER_REPOSITORY)
     private careerRepository: Repository<CareerEntity>,
     private institutionService: InstitutionsService,
     private CataloguesService: CataloguesService,
   ) {}
 
-  async catalogue() {
-    const data = await this.careerRepository.findAndCount({
+  async catalogue(): Promise<ServiceResponseHttpModel> {
+    const response = await this.careerRepository.findAndCount({
       relations: ['institution', 'modality', 'state', 'type'],
       take: 1000,
     });
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { 
+      pagination: { 
+        totalItems: response[1], limit: 10 
+      }, 
+      data: response[0] 
+    };
   }
-  async create(payload: CreateCareerDto) {
+
+  async create(payload: CreateCareerDto): Promise<ServiceResponseHttpModel> {
     const newCareer = this.careerRepository.create(payload);
 
     newCareer.institution = await this.institutionService.findOne(
@@ -35,17 +40,30 @@ export class CareersService {
       payload.modality.id,
     );
 
-    newCareer.state = await this.CataloguesService.findOne(payload.state.id);
+    newCareer.state = await this.CataloguesService.findOne(
+      payload.state.id
+    );
 
-    newCareer.type = await this.CataloguesService.findOne(payload.type.id);
-    return await this.careerRepository.save(newCareer);
+    newCareer.type = await this.CataloguesService.findOne(
+      payload.type.id
+    );
+
+    const careerCreated = await this.careerRepository.save(newCareer);
+    
+    return {data: careerCreated};
   }
 
-  async findAll(params?: FilterCareerDto) {
+  async findAll(params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params) {
+    if (params.limit > 0 && params.page >= 0) {
       return await this.paginateAndFilter(params);
     }
+
+    //Filter by search
+    if (params.resolutionNumber) {
+      return await this.filterByResolutionNumber(params.resolutionNumber);
+    }
+
     //All
     const data = await this.careerRepository.findAndCount({
       relations: ['institution', 'modality', 'state', 'type'],
@@ -54,43 +72,48 @@ export class CareersService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ServiceResponseHttpModel> {
     const career = await this.careerRepository.findOne({
       relations: ['institution', 'modality', 'state', 'type'],
       where: {
-        id: id,
+        id
       },
     });
 
-    if (career === null) {
+    if (!career) {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
-    return career;
+    return { data: career };
   }
 
-  async update(id: number, payload: UpdateCareerDto) {
+  async update(id: number, payload: UpdateCareerDto): Promise<ServiceResponseHttpModel> {
     const career = await this.careerRepository.findOneBy({ id });
-    if (career === null) {
+    if (!career) {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
     this.careerRepository.merge(career, payload);
-    return await this.careerRepository.save(career);
+    const careerUpdated = await this.careerRepository.save(career);
+    return { data: careerUpdated };
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<ServiceResponseHttpModel> {
     const career = await this.careerRepository.findOneBy({ id });
-    if (career === null) {
+    
+    if (!career) {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
 
-    return await this.careerRepository.softRemove(career);
+    const careerDeleted = await this.careerRepository.softRemove(career);
+    
+    return { data: careerDeleted };
   }
 
-  async removeAll(payload: CareerEntity[]) {
-    return await this.careerRepository.softRemove(payload);
+  async removeAll(payload: CareerEntity[]): Promise<ServiceResponseHttpModel> {
+    const careersDeleted = await this.careerRepository.softRemove(payload);
+    return { data: careersDeleted };
   }
 
-  private async paginateAndFilter(params: FilterCareerDto) {
+  private async paginateAndFilter(params: FilterCareerDto): Promise<ServiceResponseHttpModel> {
     let where:
       | FindOptionsWhere<CareerEntity>
       | FindOptionsWhere<CareerEntity>[];
@@ -100,25 +123,46 @@ export class CareersService {
 
     if (search) {
       search = search.trim();
-      page = 1;
+      page = 0;
       where = [];
       where.push({ acronym: ILike(`%${search}%`) });
       where.push({ code: ILike(`%${search}%`) });
       where.push({ codeSniese: ILike(`%${search}%`) });
       where.push({ logo: ILike(`%${search}%`) });
       where.push({ name: ILike(`%${search}%`) });
-      //where.push({ resolutionNumber: ILike(`%${search}%`) });
       where.push({ shortName: ILike(`%${search}%`) });
       where.push({ title: ILike(`%${search}%`) });
+
     }
 
-    const data = await this.careerRepository.findAndCount({
-      relations: ['bloodType', 'gender'],
+    const response = await this.careerRepository.findAndCount({
+      relations: ['institution', 'modality', 'state', 'type'],	
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
-    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+    return { 
+      pagination: { limit, totalItems: response[1] },
+      data: response[0] 
+    };
+  }
+
+  private async filterByResolutionNumber(resolutionNumber: number): Promise<ServiceResponseHttpModel>{
+    const where: FindOptionsWhere<CareerEntity> = {};
+
+    if (resolutionNumber) {
+      where.resolutionNumber = MoreThan(resolutionNumber);
+    }
+
+    const response = await this.careerRepository.findAndCount({
+      relations: ['institution', 'modality', 'state', 'type'],
+      where,
+    });
+
+    return {
+      pagination: { totalItems: response[1], limit: 10 },
+      data: response[0]
+    };
   }
 }
