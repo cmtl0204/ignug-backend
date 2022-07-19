@@ -58,9 +58,9 @@ export class UsersController {
   @ApiOperation({ summary: 'List of users' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {
+  async findAll(@Query() params: FilterUserDto) {
     const serviceResponse = await this.usersService.findAll(params);
-
+    return serviceResponse.data;
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
