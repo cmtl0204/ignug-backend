@@ -72,11 +72,10 @@ export class UsersController {
   @ApiOperation({ summary: 'Find User' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    //: Promise<ResponseHttpModel>
     const serviceResponse = await this.usersService.findOne(id);
-
+    return serviceResponse.data;
     return {
       data: serviceResponse.data,
       message: `show ${id}`,
