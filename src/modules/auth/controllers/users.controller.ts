@@ -31,7 +31,7 @@ export class UsersController {
   async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.usersService.create({
       ...payload,
-      roles: [AppRoles.ADMIN],
+      // roles: [AppRoles.ADMIN],
     });
 
     return {

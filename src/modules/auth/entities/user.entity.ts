@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
+import { format } from 'date-fns';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
 
 @Entity('users', { schema: 'auth' })
@@ -92,6 +93,15 @@ export class UserEntity {
     comment: 'Correo Electronico',
   })
   emailVerifiedAt: Date;
+
+  @Column('varchar', {
+    name: 'identification',
+    length: 255,
+    unique: true,
+    nullable: true,
+    comment: 'Numero de documento puede ser la cedula',
+  })
+  identification: string;
 
   @Column('varchar', { name: 'lastname', length: 255, comment: 'Apellidos' })
   lastname: string;

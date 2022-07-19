@@ -1,5 +1,5 @@
 export interface ResponseHttpModel {
-  data: object;
+  data: object | boolean;
   message: string | string[];
   title: string;
   pagination?: any;

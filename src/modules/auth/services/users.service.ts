@@ -1,9 +1,14 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
+import {
+  CreateUserDto,
+  FilterUserDto,
+  ReadUserDto,
+  UpdateUserDto,
+} from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
-import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { RepositoryEnum } from '@shared/enums';
 
@@ -12,30 +17,21 @@ export class UsersService {
   constructor(
     @Inject(RepositoryEnum.USER_REPOSITORY)
     private userRepository: Repository<UserEntity>,
-    private catalogueService: CataloguesService,
   ) {}
 
   async create(payload: CreateUserDto): Promise<ServiceResponseHttpModel> {
     const newUser = this.userRepository.create(payload);
-
-    newUser.bloodType = await this.catalogueService.findOne(
-      payload.bloodType.id,
-    );
-
     const userCreated = await this.userRepository.save(newUser);
 
-    return { data: userCreated };
+    return { data: plainToInstance(ReadUserDto, userCreated) };
   }
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
-    const response = await this.userRepository.findAndCount({
-      relations: ['bloodType', 'gender'],
-      take: 1000,
-    });
+    const response = await this.userRepository.findAndCount({ take: 1000 });
 
     return {
-      pagination: { totalItems: response[1], limit: 10 },
       data: response[0],
+      pagination: { totalItems: response[1], limit: 10 },
     };
   }
 
@@ -51,24 +47,22 @@ export class UsersService {
     }
 
     //All
-    const data = await this.userRepository.findAndCount({
-      relations: ['bloodType'],
-    });
+    const response = await this.userRepository.findAndCount();
 
-    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
+    return {
+      data: plainToInstance(ReadUserDto, response[0]),
+      pagination: { totalItems: response[1], limit: 10 },
+    };
   }
 
   async findOne(id: number): Promise<ServiceResponseHttpModel> {
-    const user = await this.userRepository.findOne({
-      relations: ['bloodType', 'gender'],
-      where: { id },
-    });
+    const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    return { data: user };
+    return { data: plainToInstance(ReadUserDto, user) };
   }
 
   async update(
@@ -84,7 +78,7 @@ export class UsersService {
     this.userRepository.merge(user, payload);
     const userUpdated = await this.userRepository.save(user);
 
-    return { data: userUpdated };
+    return { data: plainToInstance(ReadUserDto, userUpdated) };
   }
 
   async remove(id: number): Promise<ServiceResponseHttpModel> {
@@ -94,14 +88,13 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    const userDeleted = await this.userRepository.save(user);
+    const userDeleted = await this.userRepository.softRemove(user);
 
-    return { data: userDeleted };
+    return { data: plainToInstance(ReadUserDto, userDeleted) };
   }
 
   async removeAll(payload: UserEntity[]): Promise<ServiceResponseHttpModel> {
     const usersDeleted = await this.userRepository.softRemove(payload);
-
     return { data: usersDeleted };
   }
 
@@ -117,20 +110,20 @@ export class UsersService {
       search = search.trim();
       page = 0;
       where = [];
+      where.push({ identification: ILike(`%${search}%`) });
       where.push({ lastname: ILike(`%${search}%`) });
       where.push({ name: ILike(`%${search}%`) });
       where.push({ username: ILike(`%${search}%`) });
     }
 
     const response = await this.userRepository.findAndCount({
-      relations: ['bloodType'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
     return {
-      data: response[0],
+      data: plainToInstance(ReadUserDto, response[0]),
       pagination: { limit, totalItems: response[1] },
     };
   }
@@ -144,13 +137,10 @@ export class UsersService {
       where.birthdate = LessThan(birthdate);
     }
 
-    const response = await this.userRepository.findAndCount({
-      relations: ['bloodType', 'gender'],
-      where,
-    });
+    const response = await this.userRepository.findAndCount({ where });
 
     return {
-      data: response[0],
+      data: plainToInstance(ReadUserDto, response[0]),
       pagination: { limit: 10, totalItems: response[1] },
     };
   }
