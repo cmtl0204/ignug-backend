@@ -1,5 +1,4 @@
 import { CatalogueEntity } from '@core/entities';
-import { CareerEntity } from './career.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +6,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,6 +16,24 @@ export class InstitutionEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+  })
+  createAt: Date;
+
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamptz',
+  })
+  updateAt: Date;
+
+  @DeleteDateColumn({
+    name: 'delete_at',
+    type: 'timestamptz',
+  })
+  deleteAt: Date;
+
   @OneToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'address_id' })
   address: CatalogueEntity;
@@ -25,10 +41,6 @@ export class InstitutionEntity {
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
-
-  //relacion con la tabla career
-  @OneToMany(() => CareerEntity, (career) => career.institution)
-  careers: CareerEntity[];
 
   @Column('varchar', {
     name: 'acronym',
@@ -119,22 +131,4 @@ export class InstitutionEntity {
     comment: 'web donde localizar al instituto',
   })
   web: string;
-
-  @CreateDateColumn({
-    name: 'create_at',
-    type: 'timestamptz',
-  })
-  createAt: Date;
-
-  @UpdateDateColumn({
-    name: 'update_at',
-    type: 'timestamptz',
-  })
-  updateAt: Date;
-
-  @DeleteDateColumn({
-    name: 'delete_at',
-    type: 'timestamptz',
-  })
-  deleteAt: Date;
 }

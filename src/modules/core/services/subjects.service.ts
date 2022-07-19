@@ -1,30 +1,32 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import {
   CreateSubjectDto,
-  UpdateSubjectDto,
   FilterSubjectDto,
+  UpdateSubjectDto,
 } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService, CurriculaService } from '@core/services';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class SubjectsService {
   constructor(
-    @InjectRepository(SubjectEntity)
+    @Inject(RepositoryEnum.SUBJECT_REPOSITORY)
     private subjectRepository: Repository<SubjectEntity>,
     private catalogueService: CataloguesService,
     private curriculumService: CurriculaService,
   ) {}
 
-  async create(payload: CreateSubjectDto) {
+  async create(payload: CreateSubjectDto): Promise<ServiceResponseHttpModel> {
     const newSubject = this.subjectRepository.create(payload);
 
     newSubject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriod.id,
     );
+
     newSubject.state = await this.catalogueService.findOne(payload.state.id);
 
     newSubject.type = await this.catalogueService.findOne(payload.type.id);
@@ -35,31 +37,18 @@ export class SubjectsService {
 
     const subjectCreated = await this.subjectRepository.save(newSubject);
 
-    return await this.subjectRepository.save(subjectCreated);
+    return { data: subjectCreated };
   }
 
-  async catalogue() {
-    const data = await this.subjectRepository.findAndCount({
-      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
-      take: 1000,
-    });
-
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
-  }
-
-  async findAll(params?: FilterSubjectDto) {
+  async findAll(params?: FilterSubjectDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params) {
+    if (params.limit > 0 && params.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 
     //Other filters
-    if (params.scale) {
-      return this.filterByScale(params.scale);
-    }
-
-    if (params.code) {
-      return this.filterByCode(params.code);
+    if (params.autonomousHour) {
+      return this.filterByAutonomousHour(params.autonomousHour);
     }
 
     //All
@@ -67,10 +56,10 @@ export class SubjectsService {
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
     });
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ServiceResponseHttpModel> {
     const subject = await this.subjectRepository.findOne({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where: { id },
@@ -80,10 +69,13 @@ export class SubjectsService {
       throw new NotFoundException('Subject not found');
     }
 
-    return subject;
+    return { data: subject };
   }
 
-  async update(id: number, payload: UpdateSubjectDto) {
+  async update(
+    id: number,
+    payload: UpdateSubjectDto,
+  ): Promise<ServiceResponseHttpModel> {
     const subject = await this.subjectRepository.findOneBy({ id });
 
     if (!subject) {
@@ -103,25 +95,31 @@ export class SubjectsService {
     );
 
     this.subjectRepository.merge(subject, payload);
+    const subjectUpdated = await this.subjectRepository.save(subject);
 
-    return this.subjectRepository.save(subject);
+    return { data: subjectUpdated };
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<ServiceResponseHttpModel> {
     const subject = await this.subjectRepository.findOneBy({ id });
 
     if (!subject) {
       throw new NotFoundException('Subject not found');
     }
+    const subjectDeleted = await this.subjectRepository.save(subject);
 
-    return await this.subjectRepository.softRemove(subject);
+    return { data: subjectDeleted };
   }
 
-  async removeAll(payload: SubjectEntity[]) {
-    return await this.subjectRepository.softRemove(payload);
+  async removeAll(payload: SubjectEntity[]): Promise<ServiceResponseHttpModel> {
+    const subjectsDeleted = await this.subjectRepository.softRemove(payload);
+
+    return { data: subjectsDeleted };
   }
 
-  private async paginateAndFilter(params: FilterSubjectDto) {
+  private async paginateAndFilter(
+    params: FilterSubjectDto,
+  ): Promise<ServiceResponseHttpModel> {
     let where:
       | FindOptionsWhere<SubjectEntity>
       | FindOptionsWhere<SubjectEntity>[];
@@ -137,66 +135,36 @@ export class SubjectsService {
       where.push({ name: ILike(`%${search}%`) });
     }
 
-    const data = await this.subjectRepository.findAndCount({
+    const response = await this.subjectRepository.findAndCount({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
-    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+    return {
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
+    };
   }
 
-  pagination(limit: number, offset: number) {
-    return this.subjectRepository.find({
-      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
-      take: limit,
-      skip: offset,
-    });
-  }
-
-  filter(params: FilterSubjectDto) {
-    const where: FindOptionsWhere<SubjectEntity>[] = [];
-
-    const { search } = params;
-
-    if (search) {
-      where.push({ code: ILike(`%${search}%`) });
-      where.push({ name: ILike(`%${search}%`) });
-    }
-
-    return this.subjectRepository.find({
-      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
-      where,
-    });
-  }
-
-  private async filterByScale(scale: number) {
+  private async filterByAutonomousHour(
+    autonomousHour: number,
+  ): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<SubjectEntity> = {};
 
-    if (scale) {
-      where.scale = LessThan(scale);
+    if (autonomousHour) {
+      where.autonomousHour = LessThan(autonomousHour);
     }
 
-    const data = await this.subjectRepository.findAndCount({
-      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
-    });
-
-    return { pagination: { limit: 10, totalItems: data[1] }, data: data[0] };
-  }
-
-  private async filterByCode(code: string) {
-    const where: FindOptionsWhere<SubjectEntity> = {};
-
-    if (code) {
-      where.code = LessThan(code);
-    }
-
-    const data = await this.subjectRepository.findAndCount({
+    const response = await this.subjectRepository.findAndCount({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
     });
 
-    return { pagination: { limit: 10, totalItems: data[1] }, data: data[0] };
+    return {
+      data: response[0],
+      pagination: { limit: 10, totalItems: response[1] },
+    };
   }
 }

@@ -1,87 +1,72 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CataloguesService } from '@core/services';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import { InformationTeacherEntity } from '@core/entities';
 import {
   CreateInformationTeacherDto,
-  UpdateInformationTeacherDto,
   FilterInformationTeacherDto,
-  PaginationDto,
+  UpdateInformationTeacherDto,
 } from '@core/dto';
-import { ServiceResponseHttpModel } from '../../shared/models/service-response-http.model';
+import { InformationTeacherEntity } from '@core/entities';
+import { PaginationDto } from '@core/dto';
+import { CataloguesService } from '@core/services';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class InformationTeachersService {
   constructor(
-    @InjectRepository(InformationTeacherEntity)
+    @Inject(RepositoryEnum.INFORMATION_TEACHER_REPOSITORY)
     private InformationTeacherRepository: Repository<InformationTeacherEntity>,
-    private cataloguesService: CataloguesService,
+    private catalogueService: CataloguesService,
   ) {}
 
-  async create(payload: CreateInformationTeacherDto) {
-    const informationTeacher =
+  async create(
+    payload: CreateInformationTeacherDto,
+  ): Promise<ServiceResponseHttpModel> {
+    const newInformationTeacher =
       this.InformationTeacherRepository.create(payload);
-    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
-      payload.teachingLadder.id,
-    );
 
-    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
+    newInformationTeacher.countryHigherEducation =
+      await this.catalogueService.findOne(payload.countryHigherEducation.id);
+
+    newInformationTeacher.dedicationTime = await this.catalogueService.findOne(
       payload.dedicationTime.id,
     );
 
-    informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducation.id,
-    );
-
-    informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(payload.countryHigherEducation.id);
-    informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarship.id,
-    );
-
-    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipType.id,
-    );
-
-    informationTeacher.financingType = await this.cataloguesService.findOne(
+    newInformationTeacher.financingType = await this.catalogueService.findOne(
       payload.financingType.id,
     );
 
-    informationTeacher.username = await this.cataloguesService.findOne(
-      payload.username.id,
+    newInformationTeacher.higherEducation = await this.catalogueService.findOne(
+      payload.higherEducation.id,
     );
 
-    const response = await this.InformationTeacherRepository.save(
-      informationTeacher,
+    newInformationTeacher.scholarship = await this.catalogueService.findOne(
+      payload.scholarship.id,
     );
-    return this.InformationTeacherRepository.save(response);
+
+    newInformationTeacher.scholarshipType = await this.catalogueService.findOne(
+      payload.scholarshipType.id,
+    );
+
+    newInformationTeacher.teachingLadder = await this.catalogueService.findOne(
+      payload.teachingLadder.id,
+    );
+
+    // newInformationTeacher.username = await this.catalogueService.findOne(
+    //   payload.username.id,
+    // );
+
+    const informationTeacherCreated =
+      await this.InformationTeacherRepository.save(newInformationTeacher);
+
+    return { data: informationTeacherCreated };
   }
 
-  async catalogue(): Promise<ServiceResponseHttpModel> {
-    const response = await this.InformationTeacherRepository.findAndCount({
-      relations: [
-        'countryHigherEducation',
-        'dedicationTime',
-        'financingType',
-        'higherEducation',
-        'scholarship',
-        'scholarshipType',
-        'teachingLadder',
-        'username',
-      ],
-      take: 1000,
-    });
-
-    return {
-      pagination: { totalItems: response[1], limit: 10 },
-      data: response[0],
-    };
-  }
-
-  async findAll(params?: FilterInformationTeacherDto) {
+  async findAll(
+    params?: FilterInformationTeacherDto,
+  ): Promise<ServiceResponseHttpModel> {
     //Pagination
-    if (params) {
+    if (params.limit && params.page) {
       return await this.paginateAndFilter(params);
     }
 
@@ -126,72 +111,52 @@ export class InformationTeachersService {
     return { data: informationTeacher };
   }
 
-  async update(id: number, payload: UpdateInformationTeacherDto) {
-    const informationTeacher = await this.InformationTeacherRepository.findOne({
-      where: {
-        id,
-      },
-    });
+  async update(
+    id: number,
+    payload: UpdateInformationTeacherDto,
+  ): Promise<ServiceResponseHttpModel> {
+    const informationTeacher =
+      await this.InformationTeacherRepository.findOneBy({ id });
 
-    if (informationTeacher === null) {
-      throw new NotFoundException('El docente no se encontro');
+    if (!informationTeacher) {
+      throw new NotFoundException('Information teacher not found');
     }
-    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
-      payload.teachingLadder.id,
-    );
+    informationTeacher.countryHigherEducation =
+      await this.catalogueService.findOne(payload.countryHigherEducation.id);
 
-    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
+    informationTeacher.dedicationTime = await this.catalogueService.findOne(
       payload.dedicationTime.id,
     );
 
-    informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducation.id,
-    );
-
-    informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(payload.countryHigherEducation.id);
-    informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarship.id,
-    );
-
-    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipType.id,
-    );
-
-    informationTeacher.financingType = await this.cataloguesService.findOne(
+    informationTeacher.financingType = await this.catalogueService.findOne(
       payload.financingType.id,
     );
 
-    informationTeacher.username = await this.cataloguesService.findOne(
-      payload.username.id,
+    informationTeacher.higherEducation = await this.catalogueService.findOne(
+      payload.higherEducation.id,
     );
 
-    informationTeacher.teachingLadder = await this.cataloguesService.findOne(
+    informationTeacher.scholarship = await this.catalogueService.findOne(
+      payload.scholarship.id,
+    );
+
+    informationTeacher.scholarshipType = await this.catalogueService.findOne(
+      payload.scholarshipType.id,
+    );
+
+    informationTeacher.teachingLadder = await this.catalogueService.findOne(
       payload.teachingLadder.id,
     );
-    informationTeacher.dedicationTime = await this.cataloguesService.findOne(
-      payload.dedicationTime.id,
-    );
-    informationTeacher.higherEducation = await this.cataloguesService.findOne(
-      payload.higherEducation.id,
-    );
-    informationTeacher.countryHigherEducation =
-      await this.cataloguesService.findOne(payload.countryHigherEducation.id);
-    informationTeacher.scholarship = await this.cataloguesService.findOne(
-      payload.scholarship.id,
-    );
-    informationTeacher.scholarshipType = await this.cataloguesService.findOne(
-      payload.scholarshipType.id,
-    );
-    informationTeacher.financingType = await this.cataloguesService.findOne(
-      payload.financingType.id,
-    );
-    informationTeacher.username = await this.cataloguesService.findOne(
-      payload.username.id,
-    );
 
-    await this.InformationTeacherRepository.merge(informationTeacher, payload);
-    return this.InformationTeacherRepository.save(informationTeacher);
+    // informationTeacher.username = await this.catalogueService.findOne(
+    //   payload.username.id,
+    // );
+
+    this.InformationTeacherRepository.merge(informationTeacher, payload);
+    const informationTeacherUpdated =
+      await this.InformationTeacherRepository.save(informationTeacher);
+
+    return { data: informationTeacherUpdated };
   }
 
   async remove(id: number): Promise<ServiceResponseHttpModel> {
@@ -199,22 +164,22 @@ export class InformationTeachersService {
       await this.InformationTeacherRepository.findOneBy({ id });
 
     if (!informationTeacher) {
-      throw new NotFoundException('InformationTeacher not found');
+      throw new NotFoundException('information teacher not found');
     }
 
-    return {
-      data: await this.InformationTeacherRepository.softRemove(
-        informationTeacher,
-      ),
-    };
+    const informationTeacherDeleted =
+      await this.InformationTeacherRepository.save(informationTeacher);
+
+    return { data: informationTeacherDeleted };
   }
 
   async removeAll(
     payload: InformationTeacherEntity[],
   ): Promise<ServiceResponseHttpModel> {
-    return {
-      data: await this.InformationTeacherRepository.softRemove(payload),
-    };
+    const informationTeachersDeleted =
+      await this.InformationTeacherRepository.softRemove(payload);
+
+    return { data: informationTeachersDeleted };
   }
 
   private async paginateAndFilter(

@@ -1,5 +1,5 @@
+import { IsDate, IsOptional, IsString } from 'class-validator';
 import { PaginationDto } from '@core/dto';
-import { IsDate, IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class FilterInformationTeacherDto extends PaginationDto {
   @IsOptional()

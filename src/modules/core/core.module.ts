@@ -19,16 +19,6 @@ import {
   SubjectsService,
   InformationTeachersService,
 } from '@core/services';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  CareerEntity,
-  CatalogueEntity,
-  CurriculumEntity,
-  InformationStudentEntity,
-  InstitutionEntity,
-  SubjectEntity,
-  InformationTeacherEntity,
-} from '@core/entities';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
 
@@ -38,33 +28,34 @@ import { coreProviders } from '@core/providers';
   controllers: [
     CareersController,
     CataloguesController,
-    // CurriculaController,
-    // InformationStudentsController,
-    // InformationTeachersController,
-    // InstitutionsController,
+    CurriculaController,
+    InformationStudentsController,
+    InformationTeachersController,
+    InstitutionsController,
     StudentsController,
-    // SubjectsController,
+    SubjectsController,
   ],
   providers: [
     ...coreProviders,
     CareersService,
     CataloguesService,
-    // CurriculaService,
-    // InformationStudentsService,
-    // InstitutionsService,
+    CurriculaService,
+    InformationStudentsService,
+    InformationTeachersService,
+    InstitutionsService,
     StudentsService,
-    // SubjectsService,
-    // InformationTeachersService,
+    SubjectsService,
   ],
   exports: [
+    ...coreProviders,
     CareersService,
     CataloguesService,
-    // CurriculaService,
-    // InformationStudentsService,
-    // InformationTeachersService,
-    // InstitutionsService,
-    // SubjectsService,
+    CurriculaService,
+    InformationStudentsService,
+    InformationTeachersService,
+    InstitutionsService,
     StudentsService,
+    SubjectsService,
   ],
 })
 export class CoreModule {}

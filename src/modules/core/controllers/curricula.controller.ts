@@ -7,76 +7,115 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CurriculaService } from '@core/services';
 import {
   UpdateCurriculumDto,
   CreateCurriculumDto,
   FilterCurriculumDto,
 } from '@core/dto';
+import { CurriculumEntity } from '@core/entities';
+import { CurriculaService } from '@core/services';
+import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('curricula')
+@ApiTags('Curricula')
 @Controller('curricula')
 export class CurriculaController {
   constructor(private curriculaService: CurriculaService) {}
 
-  @ApiOperation({ summary: 'List of curricula' })
-  @Get('')
-  @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterCurriculumDto) {
-    const data = await this.curriculaService.findAll(params);
+  @ApiOperation({ summary: 'Create Curriculum' })
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(
+    @Body() payload: CreateCurriculumDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculaService.create(payload);
+
     return {
-      data,
-      message: `index`,
+      data: serviceResponse.data,
+      message: 'The curriculum was created',
+      title: 'Curriculum Created',
     };
   }
 
-  @ApiOperation({ summary: 'List of curricula' })
+  @ApiOperation({ summary: 'Find All Curricula' })
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async findAll(
+    @Query() params: FilterCurriculumDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculaService.findAll(params);
+
+    return {
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: 'Find all curricula',
+      title: 'Success',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find Curriculum' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const response = await this.curriculaService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculaService.findOne(id);
+
     return {
-      data: response,
-      message: `show`,
+      data: serviceResponse.data,
+      message: 'Find curriculum',
+      title: `Success`,
     };
   }
 
-  @ApiOperation({ summary: 'List of curricula' })
-  @Post('')
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateCurriculumDto) {
-    const response = await this.curriculaService.create(payload);
-    return {
-      data: response,
-      message: `created`,
-    };
-  }
-  @ApiOperation({ summary: 'actualiza la curricula' })
+  @ApiOperation({ summary: 'Update Curriculum' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateCurriculumDto,
-  ) {
-    const response = await this.curriculaService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculaService.update(id, payload);
+
     return {
-      data: response,
-      message: `updated ${id}`,
+      data: serviceResponse.data,
+      message: 'The curriculum was updated',
+      title: 'Curriculum Updated',
     };
   }
-  @ApiOperation({ summary: 'Borrra una curricula' })
+
+  @ApiOperation({ summary: 'Delete Curriculum' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const response = await this.curriculaService.remove(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculaService.remove(id);
+
     return {
-      data: response,
-      message: `deleted`,
+      data: serviceResponse.data,
+      message: 'The curriculum was deleted',
+      title: `Curriculum Deleted`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Delete All Curricula' })
+  @Patch('remove-all')
+  @HttpCode(HttpStatus.CREATED)
+  async removeAll(
+    @Body() payload: CurriculumEntity[],
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculaService.removeAll(payload);
+
+    return {
+      data: serviceResponse.data,
+      message: 'The curricula was deleted',
+      title: 'Curricula Deleted',
     };
   }
 }

@@ -1,6 +1,6 @@
 import {
-  Controller,
   Body,
+  Controller,
   Delete,
   Get,
   HttpCode,
@@ -12,105 +12,105 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateInformationTeacherDto,
-  UpdateInformationTeacherDto,
   FilterInformationTeacherDto,
+  UpdateInformationTeacherDto,
 } from '@core/dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { InformationTeachersService } from '@core/services';
+import { InformationTeacherEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
-import { InformationTeacherEntity } from '../entities/information-teacher.entity';
+import { InformationTeachersService } from '@core/services';
 
-@ApiTags('information-teachers')
+@ApiTags('Information Teachers')
 @Controller('information-teachers')
 export class InformationTeachersController {
   constructor(private informationTeachersService: InformationTeachersService) {}
 
-  @ApiOperation({ summary: 'Crea un nuevo docente' })
+  @ApiOperation({ summary: 'Create Information Teacher' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateInformationTeacherDto) {
-    const data = await this.informationTeachersService.create(payload);
+  async create(
+    @Body() payload: CreateInformationTeacherDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.create(
+      payload,
+    );
 
     return {
-      data,
-      message: `created`,
+      data: serviceResponse.data,
+      message: 'Information Teacher Created',
+      title: 'Information Teacher Created',
     };
   }
 
-  @ApiOperation({ summary: 'Consulta los docentes' })
+  @ApiOperation({ summary: 'Find All Information Teachers' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterInformationTeacherDto) {
-    const data = await this.informationTeachersService.findAll(params);
+  async findAll(
+    @Query() params: FilterInformationTeacherDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.findAll(
+      params,
+    );
     return {
-      data,
-      message: `index`,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: 'Find All Information Teachers',
+      title: 'Success',
     };
   }
 
-  @Get('catalogue')
-  @HttpCode(HttpStatus.OK)
-  catalogue(@Query() params: any) {
-    const selectedFields = params.fields
-      ? params.fields.split(',').filter((field) => field != '')
-      : null;
-    return {
-      data: 'data',
-      message: `catalogue`,
-    };
-  }
-
-  @ApiOperation({ summary: 'Filtrar usuarios' })
-  @Get('filter')
-  @HttpCode(HttpStatus.OK)
-  filter(@Query() params: any) {
-    const search = params.search
-      ? params.search.split(',').filter((search) => search != '')
-      : null;
-    return {
-      data: 'data',
-      message: `filter`,
-    };
-  }
-
-  @ApiOperation({ summary: 'Consulta un solo docente' })
+  @ApiOperation({ summary: 'Find Information Teacher' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.informationTeachersService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.findOne(id);
+
     return {
-      data,
-      message: `show ${id}`,
+      data: serviceResponse.data,
+      message: 'FInd Information Teacher',
+      title: `Success`,
     };
   }
 
-  @ApiOperation({ summary: 'Actualiza un la informacion del docente' })
+  @ApiOperation({ summary: 'Update Information Teacher' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInformationTeacherDto,
-  ) {
-    const data = await this.informationTeachersService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.update(
+      id,
+      payload,
+    );
+
     return {
-      data,
-      message: `informationTeacher updated ${id}`,
+      data: serviceResponse.data,
+      message: 'The information teacher was updated',
+      title: `Information Teacher Updated`,
     };
   }
 
-  @ApiOperation({ summary: 'Elimina un docente' })
+  @ApiOperation({ summary: 'Delete Information Teacher' })
   @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.informationTeachersService.remove(id);
+  @HttpCode(HttpStatus.CREATED)
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.remove(id);
+
     return {
-      data,
-      message: `informationTeacher deleted ${id}`,
+      data: serviceResponse.data,
+      message: `The information teacher was deleted`,
+      title: `Information Teacher Deleted`,
     };
   }
-  @ApiOperation({ summary: 'Remueve todos los informationTeachers' })
+
+  @ApiOperation({ summary: 'Delete All Information Teachers' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(
@@ -122,8 +122,8 @@ export class InformationTeachersController {
 
     return {
       data: serviceResponse.data,
-      message: `Users deleted`,
-      title: `Deleted`,
+      message: `The information teachers was deleted`,
+      title: `Information Teachers Deleted`,
     };
   }
 }

@@ -1,28 +1,27 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
-  DeleteResult,
-  Equal,
-  FindOptionsWhere,
-  ILike,
-  Not,
-  Repository,
-} from 'typeorm';
-import { CreateInstitutionDto, UpdateInstitutionDto } from '@core/dto';
-import { CataloguesService } from '@core/services';
+  CreateInstitutionDto,
+  FilterInstitutionDto,
+  PaginationDto,
+  UpdateInstitutionDto,
+} from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
-import { FilterInstitutionDto } from '../dto/institutions/filter-institution.dto';
-import { PaginationDto } from '@core/dto';
+import { CataloguesService } from '@core/services';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class InstitutionsService {
   constructor(
-    @InjectRepository(InstitutionEntity)
+    @Inject(RepositoryEnum.INSTITUTION_REPOSITORY)
     private institutionRepository: Repository<InstitutionEntity>,
     private cataloguesService: CataloguesService,
   ) {}
 
-  async create(payload: CreateInstitutionDto): Promise<InstitutionEntity> {
+  async create(
+    payload: CreateInstitutionDto,
+  ): Promise<ServiceResponseHttpModel> {
     const newInstitution = this.institutionRepository.create(payload);
     newInstitution.address = await this.cataloguesService.findOne(
       payload.address.id,
@@ -30,61 +29,80 @@ export class InstitutionsService {
     newInstitution.state = await this.cataloguesService.findOne(
       payload.state.id,
     );
-    return await this.institutionRepository.save(newInstitution);
+    const institutionCreated = await this.institutionRepository.save(
+      newInstitution,
+    );
+    return { data: institutionCreated };
   }
 
-  async findAll(params?: FilterInstitutionDto) {
+  async findAll(
+    params?: FilterInstitutionDto,
+  ): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params) {
+    if (params.limit > 0 && params.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 
     //Other filters
-    if (params.email) {
-      return this.filterByNotEmail(params.email);
-    }
+    // if (params.numberStudents) {
+    //   return await this.filterByNumberStudents(params.numberStudents);
+    // }
 
     //All
     const data = await this.institutionRepository.findAndCount({
       relations: ['address', 'state'],
     });
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number): Promise<InstitutionEntity> {
+  async findOne(id: number): Promise<any> {
     const institution = await this.institutionRepository.findOne({
+      relations: ['address', 'state'],
       where: { id },
     });
-    if (institution === null)
-      throw new NotFoundException('not found institution');
+    if (!institution) throw new NotFoundException('Institution not found');
     return institution;
   }
 
   async update(
     id: number,
     payload: UpdateInstitutionDto,
-  ): Promise<InstitutionEntity> {
+  ): Promise<ServiceResponseHttpModel> {
     const institution = await this.institutionRepository.findOneBy({ id });
 
-    if (institution === null)
-      throw new NotFoundException('not found institution');
+    if (!institution) throw new NotFoundException('Institution not found');
+
     institution.address = await this.cataloguesService.findOne(
       payload.address.id,
     );
     institution.state = await this.cataloguesService.findOne(payload.state.id);
-    await this.institutionRepository.merge(institution, payload);
-    return await this.institutionRepository.save(institution);
+    this.institutionRepository.merge(institution, payload);
+    const institutionUpdated = await this.institutionRepository.save(
+      institution,
+    );
+    return { data: institutionUpdated };
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    return await this.institutionRepository.softDelete(id);
+  async remove(id: number): Promise<ServiceResponseHttpModel> {
+    const institution = await this.institutionRepository.findOneBy({ id });
+    if (!institution) throw new NotFoundException('Institution not found');
+
+    const institutionDeleted = await this.institutionRepository.softDelete(id);
+    return { data: institutionDeleted };
   }
 
-  async removeAll(payload: InstitutionEntity[]) {
-    return await this.institutionRepository.softRemove(payload);
+  async removeAll(
+    payload: InstitutionEntity[],
+  ): Promise<ServiceResponseHttpModel> {
+    const institutionsDeleted = await this.institutionRepository.softRemove(
+      payload,
+    );
+    return { data: institutionsDeleted };
   }
 
-  private async paginateAndFilter(params: FilterInstitutionDto) {
+  private async paginateAndFilter(
+    params: FilterInstitutionDto,
+  ): Promise<ServiceResponseHttpModel> {
     let where:
       | FindOptionsWhere<InstitutionEntity>
       | FindOptionsWhere<InstitutionEntity>[];
@@ -110,38 +128,16 @@ export class InstitutionsService {
       where.push({ web: ILike(`%${search}`) });
     }
 
-    const data = await this.institutionRepository.findAndCount({
+    const response = await this.institutionRepository.findAndCount({
       relations: ['address', 'state'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
-    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
-  }
-
-  async filterByNotEmail(email: string) {
-    const where: FindOptionsWhere<InstitutionEntity> = {};
-    if (email) where.email = Not(email);
-    const data = await this.institutionRepository.findAndCount({
-      relations: ['address', 'state'],
-      where,
-    });
     return {
-      pagination: { limit: 10, totalItems: data[1] },
-      data: data[0],
-    };
-  }
-  async filterByWeb(web: string) {
-    const where: FindOptionsWhere<InstitutionEntity> = {};
-    if (web) where.email = Equal(web);
-    const data = await this.institutionRepository.findAndCount({
-      relations: ['address', 'state'],
-      where,
-    });
-    return {
-      pagination: { limit: 10, totalItems: data[1] },
-      data: data[0],
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
     };
   }
 }

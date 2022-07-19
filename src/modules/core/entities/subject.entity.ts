@@ -1,16 +1,16 @@
 import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
-@Entity('subjects', { schema: 'core' })
+@Entity('subjects')
 export class SubjectEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -36,15 +36,15 @@ export class SubjectEntity {
   })
   deletedAt: Date;
 
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @ManyToOne(() => CatalogueEntity, { nullable: false })
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
 
-  @ManyToOne(() => CurriculumEntity, { nullable: true })
+  @ManyToOne(() => CurriculumEntity, { nullable: false })
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;
 
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @ManyToOne(() => CatalogueEntity, { nullable: false })
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 

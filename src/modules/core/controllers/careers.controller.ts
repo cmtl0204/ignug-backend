@@ -17,14 +17,13 @@ import { CreateCareerDto, UpdateCareerDto, FilterCareerDto } from '@core/dto';
 import { CareersService } from '@core/services';
 import { CareerEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
-import { AppRoles } from '../../../app.roles';
 
-@ApiTags('careers')
+@ApiTags('Careers')
 @Controller('careers')
 export class CareersController {
   constructor(private careersService: CareersService) {}
 
-  @ApiOperation({ summary: 'Catalogue of Users' })
+  @ApiOperation({ summary: 'Catalogue Careers' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
@@ -33,78 +32,83 @@ export class CareersController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: `catalogue`,
+      message: `Catalogue Careers`,
       title: `Catalogue`,
     };
   }
 
-  @ApiOperation({ summary: 'Crea una nueva carrera' })
+  @ApiOperation({ summary: 'Create Career' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateCareerDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.create({
-      ...payload,
-      roles: [AppRoles.ADMIN],
-    });
+    const serviceResponse = await this.careersService.create(payload);
 
     return {
       data: serviceResponse.data,
-      message: 'Career created',
-      title: 'Created',
+      message: 'Career was created',
+      title: 'Career Created',
     };
   }
 
-  @ApiOperation({ summary: 'Busca todas las carreras' })
+  @ApiOperation({ summary: 'Find All Careers' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterCareerDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.findAll(params);
+
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: 'Carreras encontradas correctamente',
+      message: 'Find all careers',
       title: 'Success',
     };
   }
 
-  @ApiOperation({ summary: 'Filtra una carrera' })
+  @ApiOperation({ summary: 'Find Career' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<ResponseHttpModel> {
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.findOne(id);
-    
+
     return {
       data: serviceResponse.data,
-      message: `Carrera encontrada correctamente`,
+      message: `Find career`,
       title: `Success`,
     };
   }
 
-  @ApiOperation({ summary: 'Actualiza una carrera' })
+  @ApiOperation({ summary: 'Update Career' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(@Param('id', ParseIntPipe) id: number, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() payload: UpdateCareerDto,
+  ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.update(id, payload);
     return {
       data: serviceResponse.data,
-      message: `Carrera actualizada correctamente`,
-      title: `Updated`,
+      message: `Career was updated`,
+      title: `Career Updated`,
     };
   }
 
-  @ApiOperation({ summary: 'Borra una carrera' })
+  @ApiOperation({ summary: 'Delete Career' })
   @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<ResponseHttpModel> {
+  @HttpCode(HttpStatus.CREATED)
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.remove(id);
     return {
       data: serviceResponse.data,
-      message: `Carrera eliminada correctamente`,
-      title: `Deleted`,
+      message: `Career was deleted`,
+      title: `Career Deleted`,
     };
   }
 
-  @ApiOperation({ summary: 'Borra todas las carreras' })
+  @ApiOperation({ summary: 'Delete All Careers' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(@Body() payload: CareerEntity[]): Promise<ResponseHttpModel> {
@@ -112,8 +116,8 @@ export class CareersController {
 
     return {
       data: serviceResponse.data,
-      message: `Carreras eliminadas correctamente`,
-      title: `Deleted`,
+      message: `Careers was deleted`,
+      title: `Careers Deleted`,
     };
   }
 }

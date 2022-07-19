@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 
-export class CreateInformationStudentDto {
+export class InformationStudentDto {
   @IsNotEmpty()
   readonly isExecutedPractice: CatalogueEntity;
 

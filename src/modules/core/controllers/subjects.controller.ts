@@ -12,8 +12,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { SubjectsService } from '@core/services';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateSubjectDto,
   FilterSubjectDto,
@@ -21,45 +20,53 @@ import {
 } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
+import { SubjectsService } from '@core/services';
 
-@ApiTags('subjects')
+@ApiTags('Subjects')
 @Controller('subjects')
 export class SubjectsController {
   constructor(private subjectsService: SubjectsService) {}
 
-  @ApiOperation({ summary: 'Create subjects' })
-  @Post('')
+  @ApiOperation({ summary: 'Create Subject' })
+  @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateSubjectDto) {
-    const data = await this.subjectsService.create(payload);
+  async create(@Body() payload: CreateSubjectDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.subjectsService.create(payload);
+
     return {
-      data,
-      message: 'created',
+      data: serviceResponse.data,
+      message: 'Subject was created',
+      title: 'Subject Created',
     };
   }
 
-  @ApiOperation({ summary: 'List of subjects' })
+  @ApiOperation({ summary: 'Find All Subjects' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterSubjectDto) {
-    const response = await this.subjectsService.findAll(params);
+  async findAll(@Query() params: FilterSubjectDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.subjectsService.findAll(params);
+
     return {
-      data: response.data,
-      pagination: response.pagination,
-      message: `index`,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: 'Find all subjects',
+      title: 'success',
     };
   }
 
   @ApiOperation({ summary: 'Find Subject' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.subjectsService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.subjectsService.findOne(id);
+
     return {
-      data,
-      message: `show ${id}`,
+      data: serviceResponse.data,
+      message: `Find subject`,
       title: `Success`,
-    } as ResponseHttpModel;
+    };
   }
 
   @ApiOperation({ summary: 'Update Subject' })
@@ -69,38 +76,42 @@ export class SubjectsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateSubjectDto,
   ) {
-    const data = await this.subjectsService.update(id, payload);
+    const serviceResponse = await this.subjectsService.update(id, payload);
 
     return {
-      data: data,
-      message: `Subject updated ${id}`,
-      title: `Updated`,
-    } as ResponseHttpModel;
+      data: serviceResponse.data,
+      message: 'Subject was updated',
+      title: 'Subject Updated',
+    };
   }
 
-  @ApiOperation({ summary: 'Remove Subject' })
+  @ApiOperation({ summary: 'Delete Subject' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.subjectsService.remove(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.subjectsService.remove(id);
 
     return {
-      data,
-      message: `Subject deleted ${id}`,
-      title: `Deleted`,
-    } as ResponseHttpModel;
+      data: serviceResponse.data,
+      message: 'Subject was deleted',
+      title: 'Subject Deleted',
+    };
   }
 
-  @ApiOperation({ summary: 'Remove All SubjectS' })
+  @ApiOperation({ summary: 'Delete All Subjects' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: SubjectEntity[]) {
-    const data = await this.subjectsService.removeAll(payload);
+  async removeAll(
+    @Body() payload: SubjectEntity[],
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.subjectsService.removeAll(payload);
 
     return {
-      data,
-      message: `Subjects deleted`,
-      title: `Deleted`,
-    } as ResponseHttpModel;
+      data: serviceResponse.data,
+      message: 'Subjects was deleted',
+      title: 'Subjects Deleted',
+    };
   }
 }

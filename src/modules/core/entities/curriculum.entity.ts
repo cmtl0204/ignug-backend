@@ -1,6 +1,3 @@
-import { CareerEntity } from '@core/entities';
-import { CatalogueEntity } from '@core/entities';
-import { IsOptional } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -10,25 +7,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CareerEntity, CatalogueEntity } from '@core/entities';
 
 @Entity('curricula', { schema: 'core' })
 export class CurriculumEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ManyToOne(() => CareerEntity)
-  career: CareerEntity;
-
-  @ManyToOne(() => CatalogueEntity)
-  state: CatalogueEntity;
-
-  @Column('varchar', {
-    name: 'code',
-    length: 255,
-    default: 'SN',
-    comment: 'Nombre del producto',
-  })
-  code: string;
 
   @CreateDateColumn({
     name: 'ended_At',
@@ -59,6 +43,20 @@ export class CurriculumEntity {
     nullable: true,
   })
   deletedAT: Date;
+
+  @ManyToOne(() => CareerEntity, { nullable: false })
+  career: CareerEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: false })
+  state: CatalogueEntity;
+
+  @Column('varchar', {
+    name: 'code',
+    length: 255,
+    default: 'SN',
+    comment: 'Nombre del producto',
+  })
+  code: string;
 
   @Column('varchar', {
     name: 'name',

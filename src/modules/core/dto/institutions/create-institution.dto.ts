@@ -1,7 +1,6 @@
 import {
   IsEmail,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsPositive,
   IsString,
@@ -9,7 +8,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { CatalogueEntity } from '../../entities/catalogue.entity';
+import { CatalogueEntity } from '@core/entities';
 
 export class CreateInstitutionDto {
   @IsNotEmpty({ message: 'address no debe estar vacío' })
@@ -55,6 +54,9 @@ export class CreateInstitutionDto {
   @IsString({ message: 'name debe ser texto' })
   @MaxLength(255, { message: 'name debe tener máximo 255 caracteres' })
   readonly name: string;
+
+  @IsPositive({ message: 'numberStudents debe ser un número positivo' })
+  readonly numberStudents: number;
 
   @IsString({ message: 'phone debe ser texto' })
   @MinLength(5, { message: 'phone debe tener mínimo 5 caracteres' })

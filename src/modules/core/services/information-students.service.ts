@@ -1,39 +1,45 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { InformationStudentEntity } from '@core/entities';
 import {
   CreateInformationStudentDto,
   FilterInformationStudentDto,
   PaginationDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
-import { InformationStudentEntity } from '@core/entities';
 import { CataloguesService } from './catalogues.service';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class InformationStudentsService {
   constructor(
-    @InjectRepository(InformationStudentEntity)
+    @Inject(RepositoryEnum.INFORMATION_STUDENT_REPOSITORY)
     private informationStudentRepository: Repository<InformationStudentEntity>,
     private cataloguesService: CataloguesService,
   ) {}
 
-  async create(payload: CreateInformationStudentDto) {
+  async create(
+    payload: CreateInformationStudentDto,
+  ): Promise<ServiceResponseHttpModel> {
     const newInformationStudent =
       this.informationStudentRepository.create(payload);
 
     this.informationStudentRepository.create(payload);
 
-    newInformationStudent.isBonusDevelopmentReceive =
-      await this.cataloguesService.findOne(
-        payload.isBonusDevelopmentReceive.id,
-      );
+    newInformationStudent.isExecutedPractice =
+      await this.cataloguesService.findOne(payload.isExecutedPractice.id);
 
-    newInformationStudent.isAncestralLanguage =
-      await this.cataloguesService.findOne(payload.isAncestralLanguage.id);
+    newInformationStudent.isExecutedCommunity =
+      await this.cataloguesService.findOne(payload.isExecutedCommunity.id);
 
-    newInformationStudent.isDegreeSuperior =
-      await this.cataloguesService.findOne(payload.isDegreeSuperior.id);
+    newInformationStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisability.id,
+    );
+
+    newInformationStudent.isLostGratuity = await this.cataloguesService.findOne(
+      payload.isLostGratuity.id,
+    );
 
     newInformationStudent.isDisability = await this.cataloguesService.findOne(
       payload.isDisability.id,
@@ -42,28 +48,23 @@ export class InformationStudentsService {
     newInformationStudent.isSubjectRepeat =
       await this.cataloguesService.findOne(payload.isSubjectRepeat.id);
 
-    return await this.informationStudentRepository.save(newInformationStudent);
+    const informationStudentCreated =
+      await this.informationStudentRepository.save(newInformationStudent);
+
+    return { data: informationStudentCreated };
   }
 
-  async catalogue() {
-    const data = await this.informationStudentRepository.findAndCount({
-      relations: [
-        'isAncestralLanguage',
-        'isBonusDevelopmentReceive',
-        'isDegreeSuperior',
-        'isDisability',
-        'isSubjectRepeat',
-      ],
-      take: 1000,
-    });
-
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
-  }
-
-  async findAll(params?: FilterInformationStudentDto) {
+  async findAll(
+    params?: FilterInformationStudentDto,
+  ): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params) {
       return await this.paginateAndFilter(params);
+    }
+
+    //Other filters
+    if (params.community) {
+      return this.filterByCommunity(params.community);
     }
 
     //All
@@ -77,10 +78,10 @@ export class InformationStudentsService {
       ],
     });
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ServiceResponseHttpModel> {
     const informationStudent = await this.informationStudentRepository.findOne({
       relations: [
         'isAncestralLanguage',
@@ -96,31 +97,33 @@ export class InformationStudentsService {
       throw new NotFoundException('La informacion no se encontro');
     }
 
-    return informationStudent;
+    return { data: informationStudent };
   }
 
-  async update(id: number, payload: UpdateInformationStudentDto) {
-    const informationStudent = await this.informationStudentRepository.findOne({
-      where: {
-        id: id,
-      },
-    });
+  async update(
+    id: number,
+    payload: UpdateInformationStudentDto,
+  ): Promise<ServiceResponseHttpModel> {
+    const informationStudent =
+      await this.informationStudentRepository.findOneBy({ id });
 
     if (informationStudent === null) {
       throw new NotFoundException(
         'La informacion del estudiante no se encontro',
       );
     }
-    informationStudent.isBonusDevelopmentReceive =
-      await this.cataloguesService.findOne(
-        payload.isBonusDevelopmentReceive.id,
-      );
+    informationStudent.isExecutedPractice =
+      await this.cataloguesService.findOne(payload.isExecutedPractice.id);
 
-    informationStudent.isAncestralLanguage =
-      await this.cataloguesService.findOne(payload.isAncestralLanguage.id);
+    informationStudent.isExecutedCommunity =
+      await this.cataloguesService.findOne(payload.isExecutedCommunity.id);
 
-    informationStudent.isDegreeSuperior = await this.cataloguesService.findOne(
-      payload.isDegreeSuperior.id,
+    informationStudent.isDisability = await this.cataloguesService.findOne(
+      payload.isDisability.id,
+    );
+
+    informationStudent.isLostGratuity = await this.cataloguesService.findOne(
+      payload.isLostGratuity.id,
     );
 
     informationStudent.isDisability = await this.cataloguesService.findOne(
@@ -132,18 +135,38 @@ export class InformationStudentsService {
     );
 
     this.informationStudentRepository.merge(informationStudent, payload);
-    return await this.informationStudentRepository.save(informationStudent);
+    const informationStudentUpdated =
+      await this.informationStudentRepository.save(informationStudent);
+
+    return { data: informationStudentUpdated };
   }
 
-  async remove(id: number) {
-    return await this.informationStudentRepository.softDelete(id);
+  async remove(id: number): Promise<ServiceResponseHttpModel> {
+    const informationStudent =
+      await this.informationStudentRepository.findOneBy({ id });
+
+    if (!informationStudent) {
+      throw new NotFoundException('Information Student not found');
+    }
+
+    const informationStudentDeleted =
+      await this.informationStudentRepository.save(informationStudent);
+
+    return { data: informationStudentDeleted };
   }
 
-  async removeAll(payload: InformationStudentEntity[]) {
-    return await this.informationStudentRepository.softRemove(payload);
+  async removeAll(
+    payload: InformationStudentEntity[],
+  ): Promise<ServiceResponseHttpModel> {
+    const informationStudentsDeleted =
+      await this.informationStudentRepository.softRemove(payload);
+
+    return { data: informationStudentsDeleted };
   }
 
-  private async paginateAndFilter(params: FilterInformationStudentDto) {
+  private async paginateAndFilter(
+    params: FilterInformationStudentDto,
+  ): Promise<ServiceResponseHttpModel> {
     let where:
       | FindOptionsWhere<InformationStudentEntity>
       | FindOptionsWhere<InformationStudentEntity>[];
@@ -156,14 +179,13 @@ export class InformationStudentsService {
       page = 0;
       where = [];
       where.push({ address: ILike(`%${search}%`) });
-      where.push({ ancestralLanguage: ILike(`%${search}%`) });
-      where.push({ cellPhone: ILike(`%${search}%`) });
-      where.push({ companyName: ILike(`%${search}%`) });
       where.push({ contactEmergencyName: ILike(`%${search}%`) });
-      where.push({ conadisNumber: ILike(`%${search}%`) });
+      where.push({ contactEmergencyKinship: ILike(`%${search}%`) });
+      where.push({ contactEmergencyPhone: ILike(`%${search}%`) });
+      where.push({ postalCode: ILike(`%${search}%`) });
     }
 
-    const data = await this.informationStudentRepository.findAndCount({
+    const response = await this.informationStudentRepository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -176,6 +198,35 @@ export class InformationStudentsService {
       skip: PaginationDto.getOffset(limit, page),
     });
 
-    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+    return {
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
+    };
+  }
+
+  private async filterByCommunity(
+    community: number,
+  ): Promise<ServiceResponseHttpModel> {
+    const where: FindOptionsWhere<InformationStudentEntity> = {};
+
+    if (community) {
+      where.community = LessThan(community);
+    }
+
+    const response = await this.informationStudentRepository.findAndCount({
+      relations: [
+        'isAncestralLanguage',
+        'isBonusDevelopmentReceive',
+        'isDegreeSuperior',
+        'isDisability',
+        'isSubjectRepeat',
+      ],
+      where,
+    });
+
+    return {
+      data: response[0],
+      pagination: { limit: 10, totalItems: response[1] },
+    };
   }
 }

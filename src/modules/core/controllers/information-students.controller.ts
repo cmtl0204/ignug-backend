@@ -14,17 +14,16 @@ import {
 } from '@nestjs/common';
 
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-
-import { InformationStudentsService } from '@core/services';
-
 import {
   CreateInformationStudentDto,
   FilterInformationStudentDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 import { InformationStudentEntity } from '@core/entities';
+import { InformationStudentsService } from '@core/services';
+import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('information-students')
+@ApiTags('Information-students')
 @Controller('information-students')
 export class InformationStudentsController {
   constructor(private informationstudentsService: InformationStudentsService) {}
@@ -32,43 +31,48 @@ export class InformationStudentsController {
   @ApiOperation({ summary: 'Create information students' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateInformationStudentDto) {
-    const data = await this.informationstudentsService.create(payload);
+  async create(
+    @Body() payload: CreateInformationStudentDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationstudentsService.create(
+      payload,
+    );
 
     return {
-      data,
+      data: serviceResponse.data,
       message: 'created',
+      title: 'Created',
     };
   }
 
   @ApiOperation({ summary: 'List of information students' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterInformationStudentDto) {
-    const response = await this.informationstudentsService.findAll(params);
-    //const sortFields = params.sort
-    // ? params.sort.split(',').filter((sort) => sort != '')
-    //: null;
-    //const selectedFields = params.fields
-    // ? params.fields.split(',').filter((field) => field != '')
-    // : null;
-    //const data = await this.informationTeachersService.findAll();
+  async findAll(
+    @Query() params: FilterInformationStudentDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationstudentsService.findAll(
+      params,
+    );
     return {
-      data: response.data,
-      pagination: response.pagination,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: `index`,
+      title: 'Success',
     };
   }
 
   @ApiOperation({ summary: 'View one information students' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.informationstudentsService.findOne(id);
-
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationstudentsService.findOne(id);
     return {
-      data,
+      data: serviceResponse.data,
       message: `show ${id}`,
+      title: `Success`,
     };
   }
 
@@ -78,35 +82,46 @@ export class InformationStudentsController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInformationStudentDto,
-  ) {
-    const data = await this.informationstudentsService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationstudentsService.update(
+      id,
+      payload,
+    );
 
     return {
-      data: data,
-      message: `updated ${id}`,
+      data: serviceResponse.data,
+      message: `Information Student  updated ${id}`,
+      title: `Updated`,
     };
   }
 
   @ApiOperation({ summary: 'Remove information students' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  async remove(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.informationstudentsService.remove(id);
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationstudentsService.remove(id);
     return {
-      data,
-      message: `informationStudent deleted ${id}`,
+      data: serviceResponse.data,
+      message: `Information Student deleted ${id}`,
+      title: `Deleted`,
     };
   }
 
-  @ApiOperation({ summary: 'Remove All Users' })
+  @ApiOperation({ summary: 'Remove All Information Students' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: InformationStudentEntity[]) {
-    const data = await this.informationstudentsService.removeAll(payload);
+  async removeAll(
+    @Body() payload: InformationStudentEntity[],
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationstudentsService.removeAll(
+      payload,
+    );
 
     return {
-      data,
-      message: `InformationStudents deleted`,
+      data: serviceResponse.data,
+      message: `Information Students deleted`,
       title: `Deleted`,
     };
   }

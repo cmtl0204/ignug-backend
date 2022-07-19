@@ -1,5 +1,3 @@
-import { InstitutionEntity } from './institution.entity';
-import { CatalogueEntity } from './catalogue.entity';
 import {
   Column,
   CreateDateColumn,
@@ -10,71 +8,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CatalogueEntity, InstitutionEntity } from '@core/entities';
 
 @Entity('careers', { schema: 'core' })
 export class CareerEntity {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column('varchar', {
-    length: 10,
-    comment: 'Acronimo de la carrera',
-    name: 'acronym',
-  })
-  acronym: string;
-
-  @Column('varchar', {
-    length: 50,
-    comment: 'Codigo de la carrera',
-    name: 'code',
-  })
-  code: string;
-
-  @Column('varchar', {
-    length: 50,
-    comment: 'Codigo sniese de la carrera',
-    name: 'code_sniese',
-  })
-  codeSniese: string;
-
-  @Column('varchar', {
-    length: 100,
-    nullable: true,
-    comment: 'Logo de la carrera',
-    name: 'logo',
-  })
-  logo: string;
-
-  @Column('varchar', {
-    length: 255,
-    comment: 'Nombre de la carrera',
-    name: 'name',
-  })
-  name: string;
-
-  @Column('float', {
-    comment: 'Numero de resolucion de la carrera',
-    name: 'resolution_number',
-    default: 0,
-  })
-  resolutionNumber: number;
-
-  @Column('simple-array', { comment: '' })
-  roles: string[];
-
-  @Column('varchar', {
-    length: 255,
-    comment: 'Nombre corto de la carrera',
-    name: 'short_name',
-  })
-  shortName: string;
-
-  @Column('varchar', {
-    length: 255,
-    comment: 'Titulo de la carrera',
-    name: 'title',
-  })
-  title: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -123,4 +62,53 @@ export class CareerEntity {
   })
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+
+  @Column('varchar', {
+    name: 'acronym',
+    comment: 'Acronimo de la carrera Ej. DS, MKT, GN',
+  })
+  acronym: string;
+
+  @Column('varchar', {
+    name: 'code',
+    comment: 'Codigo de la carrera',
+  })
+  code: string;
+
+  @Column('varchar', {
+    comment: 'Codigo sniese de la carrera',
+    name: 'code_sniese',
+  })
+  codeSniese: string;
+
+  @Column('varchar', {
+    name: 'degree',
+    comment: 'Titulo que otorga la carrera',
+  })
+  degree: string;
+
+  @Column('varchar', {
+    name: 'logo',
+    nullable: true,
+    comment: 'Logo de la carrera',
+  })
+  logo: string;
+
+  @Column('varchar', {
+    name: 'name',
+    comment: 'Nombre de la carrera',
+  })
+  name: string;
+
+  @Column('float', {
+    comment: 'Numero de resolucion de la carrera',
+    name: 'resolution_number',
+  })
+  resolutionNumber: string;
+
+  @Column('varchar', {
+    name: 'short_name',
+    comment: 'Nombre corto de la carrera',
+  })
+  shortName: string;
 }

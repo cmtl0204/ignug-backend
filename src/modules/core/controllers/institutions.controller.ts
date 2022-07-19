@@ -12,8 +12,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { DeleteResult } from 'typeorm';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateInstitutionDto,
   FilterInstitutionDto,
@@ -23,91 +22,95 @@ import { InstitutionEntity } from '@core/entities';
 import { InstitutionsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('institutions')
+@ApiTags('Institutions')
 @Controller('institutions')
 export class InstitutionsController {
   constructor(private instituteService: InstitutionsService) {}
 
-  @ApiOperation({ summary: 'create Institution' })
+  @ApiOperation({ summary: 'Create Institution' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateInstitutionDto): Promise<{
-    data: InstitutionEntity;
-    message: string;
-  }> {
-    const data = await this.instituteService.create(payload);
+  async create(
+    @Body() payload: CreateInstitutionDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.create(payload);
     return {
-      data: data,
-      message: `created institution`,
+      data: serviceResponse.data,
+      message: `Institution was created`,
+      title: 'Institution Created',
     };
   }
 
-  @ApiOperation({ summary: 'get all institutions' })
+  @ApiOperation({ summary: 'Find All Institutions' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterInstitutionDto) {
-    const data = await this.instituteService.findAll(params);
+  async findAll(
+    @Query() params: FilterInstitutionDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.findAll(params);
     return {
-      data,
-      message: `all institutions`,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: `Find all institutions`,
+      title: 'Success',
     };
   }
 
-  @ApiOperation({ summary: 'get institution' })
+  @ApiOperation({ summary: 'Find Institution' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<{
-    data: InstitutionEntity;
-    message: string;
-  }> {
-    const data = await this.instituteService.findOne(id);
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.findOne(id);
     return {
-      data,
-      message: `show institution ${id}`,
+      data: serviceResponse.data,
+      message: 'Find Institution',
+      title: `Success`,
     };
   }
 
-  @ApiOperation({ summary: 'update institution' })
+  @ApiOperation({ summary: 'Update Institution' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() payload: UpdateInstitutionDto,
-  ): Promise<{
-    data: InstitutionEntity;
-    message: string;
-  }> {
-    const data = await this.instituteService.update(id, payload);
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.update(id, payload);
     return {
-      data,
-      message: `updated institution ${id}`,
+      data: serviceResponse.data,
+      message: 'Institution was updated',
+      title: `Institution Updated`,
     };
   }
 
-  @ApiOperation({ summary: 'delete institution' })
+  @ApiOperation({ summary: 'Delete Institution' })
   @Delete(':id')
-  @HttpCode(HttpStatus.OK)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<{
-    data: DeleteResult;
-    message: string;
-  }> {
-    const data = await this.instituteService.remove(id);
+  @HttpCode(HttpStatus.CREATED)
+  async remove(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.remove(id);
     return {
-      data,
-      message: `deleted institution ${id}`,
+      data: serviceResponse.data,
+      message: 'Institution was deleted',
+      title: 'Institution Deleted',
     };
   }
 
-  @ApiOperation({ summary: 'remove all institutos' })
+  @ApiOperation({ summary: 'Delete All Institutions' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: InstitutionEntity[]) {
-    const data = await this.instituteService.removeAll(payload);
+  async removeAll(
+    @Body() payload: InstitutionEntity[],
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.removeAll(payload);
 
     return {
-      data,
-      message: `Users deleted`,
-      title: `Deleted`,
-    } as ResponseHttpModel;
+      data: serviceResponse.data,
+      message: 'Institutions was deleted',
+      title: 'Institutions Deleted',
+    };
   }
 }
