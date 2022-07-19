@@ -36,7 +36,7 @@ import { coreProviders } from '@core/providers';
 @Module({
   imports: [DatabaseModule],
   controllers: [
-    // CareersController,
+    CareersController,
     CataloguesController,
     // CurriculaController,
     // InformationStudentsController,
@@ -47,7 +47,7 @@ import { coreProviders } from '@core/providers';
   ],
   providers: [
     ...coreProviders,
-    // CareersService,
+    CareersService,
     CataloguesService,
     // CurriculaService,
     // InformationStudentsService,
@@ -57,7 +57,7 @@ import { coreProviders } from '@core/providers';
     // InformationTeachersService,
   ],
   exports: [
-    // CareersService,
+    CareersService,
     CataloguesService,
     // CurriculaService,
     // InformationStudentsService,
