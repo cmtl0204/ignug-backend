@@ -20,6 +20,7 @@ import {
   FilterCatalogueDto,
   UpdateCatalogueDto,
 } from '@core/dto';
+import { CatalogueEntity } from '@core/entities';
 
 @ApiTags('catalogues')
 @Controller('catalogues')
@@ -102,7 +103,7 @@ export class CataloguesController {
 
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: number[]) {
+  async removeAll(@Body() payload: CatalogueEntity[]) {
     const data = await this.catalogueService.removeAll(payload);
 
     return {

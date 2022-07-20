@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import {
   CreateCatalogueDto,
   FilterCatalogueDto,
@@ -8,6 +8,10 @@ import {
 } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
 import { RepositoryEnum } from '@shared/enums';
+import { FilterUserDto, ReadUserDto } from '@auth/dto';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { UserEntity } from '@auth/entities';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CataloguesService {
@@ -19,9 +23,7 @@ export class CataloguesService {
   async create(payload: CreateCatalogueDto) {
     const newCatalogue = this.repository.create(payload);
 
-    const catalogueCreated = await this.repository.save(newCatalogue);
-
-    return await this.repository.save(catalogueCreated);
+    return await this.repository.save(newCatalogue);
   }
 
   async catalogue() {
@@ -41,7 +43,7 @@ export class CataloguesService {
     //All
     const data = await this.repository.findAndCount();
 
-    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
   async findOne(id: number) {
@@ -79,20 +81,13 @@ export class CataloguesService {
     return true;
   }
 
-  async removeAll(payload: any) {
-    const catalogues = await this.repository.findBy({ id: In(payload.ids) });
-
-    for (const catalogue of catalogues) {
-      await this.repository.softDelete(catalogue.id);
-    }
-
-    return true;
+  async removeAll(payload: CatalogueEntity[]) {
+    const usersDeleted = await this.repository.softRemove(payload);
+    return { data: usersDeleted };
   }
 
   private async paginateAndFilter(params: FilterCatalogueDto) {
-    let where:
-      | FindOptionsWhere<CatalogueEntity>
-      | FindOptionsWhere<CatalogueEntity>[];
+    let where: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -104,12 +99,15 @@ export class CataloguesService {
       where.push({ name: ILike(`%${search}%`) });
     }
 
-    const data = await this.repository.findAndCount({
+    const response = await this.repository.findAndCount({
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
-    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+    return {
+      data: plainToInstance(ReadUserDto, response[0]),
+      pagination: { limit, totalItems: response[1] },
+    };
   }
 }

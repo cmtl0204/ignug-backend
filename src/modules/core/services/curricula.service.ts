@@ -7,7 +7,11 @@ import {
   PaginationDto,
 } from '@core/dto';
 import { CurriculumEntity } from '@core/entities';
-import { CareersService, CataloguesService } from '@core/services';
+import {
+  CareersService,
+  CataloguesService,
+  InstitutionsService,
+} from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { RepositoryEnum } from '@shared/enums';
 
@@ -17,6 +21,7 @@ export class CurriculaService {
     @Inject(RepositoryEnum.CURRICULUM_REPOSITORY)
     private curriculumRepository: Repository<CurriculumEntity>,
     private careerService: CareersService,
+    private institutionsService: InstitutionsService,
     private catalogueService: CataloguesService,
   ) {}
 

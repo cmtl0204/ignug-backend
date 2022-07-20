@@ -16,7 +16,7 @@ export class CareersService {
   constructor(
     @Inject(RepositoryEnum.CAREER_REPOSITORY)
     private careerRepository: Repository<CareerEntity>,
-    // private institutionService: InstitutionsService,
+    private institutionService: InstitutionsService,
     private cataloguesService: CataloguesService,
   ) {}
 

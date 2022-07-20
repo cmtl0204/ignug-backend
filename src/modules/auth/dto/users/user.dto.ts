@@ -10,7 +10,6 @@ import {
   IsDate,
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
-import { Exclude } from 'class-transformer';
 
 export class UserDto {
   @IsOptional()

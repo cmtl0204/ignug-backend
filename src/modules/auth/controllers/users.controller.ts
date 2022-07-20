@@ -58,9 +58,9 @@ export class UsersController {
   @ApiOperation({ summary: 'List of users' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterUserDto) {
+  async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.usersService.findAll(params);
-    return serviceResponse.data;
+
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
@@ -72,10 +72,11 @@ export class UsersController {
   @ApiOperation({ summary: 'Find User' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    //: Promise<ResponseHttpModel>
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.usersService.findOne(id);
-    return serviceResponse.data;
+
     return {
       data: serviceResponse.data,
       message: `show ${id}`,
