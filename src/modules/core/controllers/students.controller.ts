@@ -16,7 +16,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
 import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { StudentsService } from '@core/services';
-import { FilterStudentDto } from '@core/dto';
+import { CreateStudentDto, FilterStudentDto } from '@core/dto';
 import { StudentEntity } from '@core/entities';
 
 @ApiTags('students')
@@ -26,7 +26,7 @@ export class StudentsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
+  async create(@Body() payload: CreateStudentDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.studentService.create(payload);
 
     return {

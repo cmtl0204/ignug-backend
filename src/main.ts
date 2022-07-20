@@ -28,10 +28,10 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(app.get(Reflector)),
-    // new ResponseHttpInterceptor(),
+    new ResponseHttpInterceptor(),
   );
 
-  // app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   const documentBuilder = new DocumentBuilder()
     .setTitle('API IGNUG')

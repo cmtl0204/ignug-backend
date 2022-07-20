@@ -6,3 +6,7 @@ export enum CatalogueTypeEnum {
   MARITAL_STATUS = 'MARITAL_STATUS',
   SEX = 'SEX',
 }
+
+export enum CatalogueStateEnum {
+  ACTIVE = 'ACTIVE',
+}

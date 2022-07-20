@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueTypeEnum } from '@shared/enums';
+import { CatalogueTypeEnum, CatalogueStateEnum } from '@shared/enums';
 
 @Entity('catalogues', { schema: 'core' })
 export class CatalogueEntity {
@@ -63,11 +63,12 @@ export class CatalogueEntity {
   })
   name: string;
 
-  @Column('varchar', {
+  @Column('enum', {
     name: 'state',
+    enum: CatalogueStateEnum,
     comment: 'Nombre del producto',
   })
-  state: string;
+  state: CatalogueStateEnum;
 
   @Column('enum', {
     name: 'type',

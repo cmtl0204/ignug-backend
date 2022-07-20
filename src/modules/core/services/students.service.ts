@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
 import {
   CreateCatalogueDto,
+  CreateStudentDto,
   FilterStudentDto,
   PaginationDto,
   UpdateStudentDto,
@@ -17,7 +18,7 @@ export class StudentsService {
     private repository: Repository<StudentEntity>,
   ) {}
 
-  async create(payload: CreateCatalogueDto) {
+  async create(payload: CreateStudentDto) {
     const newStudent = this.repository.create(payload);
 
     const studentCreated = await this.repository.save(newStudent);
