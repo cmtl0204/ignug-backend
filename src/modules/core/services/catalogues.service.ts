@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateCatalogueDto,
   FilterCatalogueDto,
@@ -8,8 +8,7 @@ import {
 } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
 import { RepositoryEnum } from '@shared/enums';
-import { FilterUserDto, ReadUserDto } from '@auth/dto';
-import { ServiceResponseHttpModel } from '@shared/models';
+import { ReadUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { plainToInstance } from 'class-transformer';
 
@@ -39,6 +38,8 @@ export class CataloguesService {
     if (params) {
       return await this.paginateAndFilter(params);
     }
+
+    // Filter By Type
 
     //All
     const data = await this.repository.findAndCount();

@@ -13,7 +13,6 @@ import {
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
-import { format } from 'date-fns';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
 
 @Entity('users', { schema: 'auth' })
