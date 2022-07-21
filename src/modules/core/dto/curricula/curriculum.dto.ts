@@ -1,11 +1,7 @@
 import {
-  IsNumber,
   IsString,
   MinLength,
   IsDate,
-  Min,
-  Max,
-  MaxLength,
   IsPositive,
   IsOptional,
   IsNotEmpty,

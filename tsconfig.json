@@ -89,6 +89,9 @@
       ],
       "@shared/models": [
         "./src/modules/shared/models"
+      ],
+      "@shared/validation": [
+        "./src/modules/shared/validation"
       ]
     }
   }

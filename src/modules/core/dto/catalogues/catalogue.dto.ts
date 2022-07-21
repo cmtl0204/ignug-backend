@@ -1,23 +1,27 @@
-import { IsOptional, IsString, MinLength } from 'class-validator';
+import { IsString, MinLength } from 'class-validator-multi-lang';
 import { CatalogueStateEnum, CatalogueTypeEnum } from '@shared/enums';
+import {
+  messageIsNotEmpty,
+  messageIsString,
+  messageMinLength,
+} from '@shared/validation';
+import { IsNotEmpty } from 'class-validator';
 
 export class CatalogueDto {
-  @IsOptional()
-  readonly id: number;
-
-  @IsString()
+  @IsNotEmpty(messageIsNotEmpty())
+  @IsString(messageIsString())
   readonly code: string;
 
-  @IsString()
-  @MinLength(5, { message: '$property' })
+  @IsString(messageIsString())
+  @MinLength(5, messageMinLength())
   readonly description: string;
 
-  @IsString()
+  @IsString(messageIsString())
   readonly name: string;
 
-  @IsString()
+  @IsString(messageIsString())
   readonly state: CatalogueStateEnum;
 
-  @IsString()
+  @IsString(messageIsString())
   readonly type: CatalogueTypeEnum;
 }

@@ -3,53 +3,55 @@ import {
   IsString,
   MaxLength,
   MinLength,
-  IsNumber,
-  Min,
   IsOptional,
   IsNotEmpty,
-  IsArray,
 } from 'class-validator';
+import {
+  messageIsNotEmpty,
+  messageIsString,
+  messageMaxLength,
+  messageMinLength,
+} from '@shared/validation';
 
 export class CareerDto {
-  @IsNotEmpty({ message: 'El nombre es requerido' })
+  @IsNotEmpty(messageIsNotEmpty())
   readonly institution: InstitutionEntity;
 
-  @IsNotEmpty({ message: 'La modalidad es requerido' })
+  @IsNotEmpty(messageIsNotEmpty())
   readonly modality: CatalogueEntity;
 
-  @IsNotEmpty({ message: 'El estado es requerido' })
+  @IsNotEmpty(messageIsNotEmpty())
   readonly state: CatalogueEntity;
 
-  @IsOptional({ message: 'El tipo es opcional' })
+  @IsOptional()
   readonly type: CatalogueEntity;
 
-  @IsString({ message: 'El campo acronym debe ser un string' })
-  @MinLength(3, { message: 'El acronimo debe tener al menos 3 caracteres' })
-  @MaxLength(10, { message: 'El acronimo no puede tener más de 10 caracteres' })
+  @IsString(messageIsString())
+  @MinLength(3, messageMinLength())
+  @MaxLength(10, messageMaxLength())
   readonly acronym: string;
 
-  @IsString({ message: 'El campo code debe ser un string' })
-  @MinLength(3, { message: 'El codigo debe tener al menos 3 caracter' })
-  @MaxLength(20, { message: 'El codigo no puede tener más de 20 caracteres' })
+  @IsString(messageIsString())
+  @MinLength(3, messageMinLength())
+  @MaxLength(20, messageMaxLength())
   readonly code: string;
 
-  @IsString({ message: 'El campo codeSniese debe ser un string' })
+  @IsString(messageIsString())
   readonly codeSniese: string;
 
-  @IsString({ message: 'El campo degree debe ser un string' })
+  @IsString(messageIsString())
   readonly degree: string;
 
   @IsOptional()
-  @IsString({ message: 'El campo logo debe ser un string' })
+  @IsString(messageIsString())
   readonly logo: string;
 
-  @IsString({ message: 'El campo name debe ser un string' })
-  @MinLength(1, { message: 'El nombre debe tener al menos 1 caracter' })
+  @IsString(messageIsString())
   readonly name: string;
 
-  @IsString({ message: 'El campo resolutionNumber debe ser un string' })
+  @IsString(messageIsString())
   readonly resolutionNumber: string;
 
-  @IsString({ message: 'El campo shortName debe ser un string' })
+  @IsString(messageIsString())
   readonly shortName: string;
 }
