@@ -26,6 +26,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let status = 500;
 
     if (exception instanceof HttpException) {
+      console.log('http');
       const { message } = exception.getResponse() as ErrorResponseHttpModel;
       status = exception.getStatus();
 
@@ -54,9 +55,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (exception instanceof QueryFailedError) {
       status = 400;
-      errorResponseHttpModel.statusCode = parseInt(exception.driverError.code);
-      errorResponseHttpModel.error = exception.name;
-      errorResponseHttpModel.message = exception.driverError.detail;
+      errorResponseHttpModel.statusCode = exception.driverError.code || 400;
+      errorResponseHttpModel.error = exception.name || 'QueryFailedError';
+      errorResponseHttpModel.message =
+        exception.driverError.detail || 'Query Error';
     }
 
     response.status(status).json(errorResponseHttpModel);

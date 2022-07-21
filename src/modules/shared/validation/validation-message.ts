@@ -25,3 +25,9 @@ export function messageMaxLength() {
       'La propiedad $property debe ser menor o igual a $constraint1 caracteres',
   };
 }
+
+export function messageIsEnum() {
+  return {
+    message: 'La propiedad $property debe ser un valor de enum válido',
+  };
+}

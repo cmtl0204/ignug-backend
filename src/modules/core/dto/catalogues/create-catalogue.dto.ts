@@ -1,6 +1,4 @@
 import { CatalogueDto } from '@core/dto';
-import { readFileSync } from 'fs';
-import { Validator } from 'class-validator-multi-lang';
 
 export class CreateCatalogueDto extends CatalogueDto {}
 

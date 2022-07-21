@@ -1,11 +1,11 @@
-import { IsString, MinLength } from 'class-validator-multi-lang';
+import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { CatalogueStateEnum, CatalogueTypeEnum } from '@shared/enums';
 import {
+  messageIsEnum,
   messageIsNotEmpty,
   messageIsString,
   messageMinLength,
 } from '@shared/validation';
-import { IsNotEmpty } from 'class-validator';
 
 export class CatalogueDto {
   @IsNotEmpty(messageIsNotEmpty())
@@ -19,7 +19,7 @@ export class CatalogueDto {
   @IsString(messageIsString())
   readonly name: string;
 
-  @IsString(messageIsString())
+  @IsEnum(CatalogueStateEnum, messageIsEnum())
   readonly state: CatalogueStateEnum;
 
   @IsString(messageIsString())
