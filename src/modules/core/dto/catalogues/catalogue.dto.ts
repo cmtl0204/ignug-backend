@@ -1,4 +1,4 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 import { CatalogueStateEnum, CatalogueTypeEnum } from '@shared/enums';
 
 export class CatalogueDto {
@@ -9,6 +9,7 @@ export class CatalogueDto {
   readonly code: string;
 
   @IsString()
+  @MinLength(5, { message: '$property' })
   readonly description: string;
 
   @IsString()
