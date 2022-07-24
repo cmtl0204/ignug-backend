@@ -7,51 +7,51 @@ import {
   IsNotEmpty,
 } from 'class-validator';
 import {
-  messageIsNotEmpty,
-  messageIsString,
-  messageMaxLength,
-  messageMinLength,
+  isNotEmptyValidationOptions,
+  isStringValidationOptions,
+  maxLengthValidationOptions,
+  minLengthValidationOptions,
 } from '@shared/validation';
 
 export class CareerDto {
-  @IsNotEmpty(messageIsNotEmpty())
+  @IsNotEmpty(isNotEmptyValidationOptions())
   readonly institution: InstitutionEntity;
 
-  @IsNotEmpty(messageIsNotEmpty())
+  @IsNotEmpty(isNotEmptyValidationOptions())
   readonly modality: CatalogueEntity;
 
-  @IsNotEmpty(messageIsNotEmpty())
+  @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 
   @IsOptional()
   readonly type: CatalogueEntity;
 
-  @IsString(messageIsString())
-  @MinLength(3, messageMinLength())
-  @MaxLength(10, messageMaxLength())
+  @IsString(isStringValidationOptions())
+  @MinLength(3, minLengthValidationOptions())
+  @MaxLength(10, maxLengthValidationOptions())
   readonly acronym: string;
 
-  @IsString(messageIsString())
-  @MinLength(3, messageMinLength())
-  @MaxLength(20, messageMaxLength())
+  @IsString(isStringValidationOptions())
+  @MinLength(3, minLengthValidationOptions())
+  @MaxLength(20, maxLengthValidationOptions())
   readonly code: string;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly codeSniese: string;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly degree: string;
 
   @IsOptional()
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly logo: string;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly name: string;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly resolutionNumber: string;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly shortName: string;
 }

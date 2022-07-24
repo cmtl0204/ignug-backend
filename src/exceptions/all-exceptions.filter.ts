@@ -37,7 +37,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
       if (exception instanceof UnauthorizedException) {
         errorResponseHttpModel.error = 'Unauthorized';
-        errorResponseHttpModel.message = 'You do not have authorization.';
+        errorResponseHttpModel.message = 'Wrong username and/or password.';
       }
 
       if (exception instanceof NotFoundException) {

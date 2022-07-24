@@ -4,7 +4,7 @@
   "$property is not a valid decimal number.": "$property no es un número decimal válido.",
   "$property must be a BIC or SWIFT code": "$property debe ser un código BIC o SWIFT",
   "$property must be a boolean string": "$property debe ser una cadena booleana",
-  "$property must be a boolean value": "$property debe ser un valor booleano",
+
   "$property must be a BTC address": "$property debe ser una dirección BTC",
   "$property must be a credit card": "$property debe ser una tarjeta de crédito",
   "$property must be a currency": "$property debe ser una moneda",
@@ -45,7 +45,7 @@
   "$property must be a valid representation of military time in the format HH:MM": "$property debe ser una representación válida del tiempo militar en el formato HH:MM",
   "$property must be an array": "$property debe ser un array",
   "$property must be an EAN (European Article Number)": "$property debe ser un EAN (número de artículo europeo)",
-  "$property must be an email": "$property debe ser un correo electrónico",
+
   "$property must be an Ethereum address": "$property debe ser una dirección de Ethereum",
   "$property must be an IBAN": "$property debe ser un IBAN",
   "$property must be an instance of $constraint1name": "$property debe ser una instancia de $constraint1name",

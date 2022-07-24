@@ -3,11 +3,10 @@ import { UserDto } from '@auth/dto';
 
 export class CreateUserDto extends PickType(UserDto, [
   'email',
+  'lastname',
+  'name',
   'password',
   'passwordChanged',
-  'name',
-  'lastname',
-  'username',
   'roles',
-  'bloodType',
+  'username',
 ]) {}

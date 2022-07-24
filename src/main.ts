@@ -33,6 +33,8 @@ async function bootstrap() {
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
+  app.setGlobalPrefix('api/v1');
+
   const documentBuilder = new DocumentBuilder()
     .setTitle('API IGNUG')
     .setDescription('App description')

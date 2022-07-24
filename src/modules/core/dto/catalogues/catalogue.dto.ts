@@ -1,27 +1,27 @@
 import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { CatalogueStateEnum, CatalogueTypeEnum } from '@shared/enums';
 import {
-  messageIsEnum,
-  messageIsNotEmpty,
-  messageIsString,
-  messageMinLength,
+  isEnumValidationOptions,
+  isNotEmptyValidationOptions,
+  isStringValidationOptions,
+  minLengthValidationOptions,
 } from '@shared/validation';
 
 export class CatalogueDto {
-  @IsNotEmpty(messageIsNotEmpty())
-  @IsString(messageIsString())
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsString(isStringValidationOptions())
   readonly code: string;
 
-  @IsString(messageIsString())
-  @MinLength(5, messageMinLength())
+  @IsString(isStringValidationOptions())
+  @MinLength(5, minLengthValidationOptions())
   readonly description: string;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly name: string;
 
-  @IsEnum(CatalogueStateEnum, messageIsEnum())
+  @IsEnum(CatalogueStateEnum, isEnumValidationOptions())
   readonly state: CatalogueStateEnum;
 
-  @IsString(messageIsString())
+  @IsString(isStringValidationOptions())
   readonly type: CatalogueTypeEnum;
 }

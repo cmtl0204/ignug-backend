@@ -1,11 +1,15 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  isNotEmptyValidationOptions,
+  isStringValidationOptions,
+} from '@shared/validation';
 
 export class LoginDto {
-  @IsString()
-  @IsNotEmpty()
+  @IsString(isStringValidationOptions())
+  @IsNotEmpty(isNotEmptyValidationOptions())
   username: string;
 
-  @IsString()
+  @IsString(isStringValidationOptions())
   @IsNotEmpty()
   password: string;
 }

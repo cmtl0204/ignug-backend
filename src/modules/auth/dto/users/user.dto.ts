@@ -9,6 +9,14 @@ import {
   MaxLength,
   IsDate,
 } from 'class-validator';
+import {
+  isBooleanValidationOptions,
+  isEmailValidationOptions,
+  isNotEmptyValidationOptions,
+  isStringValidationOptions,
+  maxLengthValidationOptions,
+  minLengthValidationOptions,
+} from '@shared/validation';
 import { CatalogueEntity } from '@core/entities';
 
 export class UserDto {
@@ -29,81 +37,54 @@ export class UserDto {
 
   @IsOptional()
   readonly sex: CatalogueEntity;
+
   @IsOptional()
-  @IsDate({ message: 'El campo birthdate debe ser una fecha válida' })
+  @IsDate(isNotEmptyValidationOptions())
   readonly birthdate: Date;
 
-  @IsNotEmpty({ message: 'El campo identification es obligatorio' })
-  @IsString({ message: 'El campo identification debe ser un string' })
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsString(isStringValidationOptions())
   readonly identification: string;
 
-  @IsNotEmpty({ message: 'El campo email es obligatorio' })
-  @IsEmail({ message: 'El campo email debe ser un correo electrónico' })
-  @MaxLength(150, {
-    message: 'El campo email debe contener máximo 150 caracteres',
-  })
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsEmail({}, isEmailValidationOptions())
+  @MaxLength(150, maxLengthValidationOptions())
   readonly email: string;
 
-  @IsNotEmpty({ message: 'El campo email es obligatorio' })
-  @IsEmail({ message: 'El campo email debe ser un correo electrónico' })
-  @MaxLength(150, {
-    message: 'El campo email debe contener máximo 150 caracteres',
-  })
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsEmail(isEmailValidationOptions())
+  @MaxLength(150, maxLengthValidationOptions())
   readonly emailVerifiedAt: string;
 
-  @IsNotEmpty({ message: 'El campo lastname es obligatorio' })
-  @IsString({ message: 'El campo lastname debe ser un string' })
-  @MinLength(1, {
-    message: 'El campo lastname debe contener al menos 1 caracteres',
-  })
-  @MaxLength(100, {
-    message: 'El campo lastname debe contener máximo 100 caracteres',
-  })
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsString(isStringValidationOptions())
   readonly lastname: string;
 
-  @IsNotEmpty({ message: 'El campo password es obligatorio' })
+  @IsNotEmpty(isNotEmptyValidationOptions())
   @IsString()
-  @MinLength(8, {
-    message: 'El campo password debe contener al menos 8 caracteres',
-  })
-  @MaxLength(32, {
-    message: 'El campo password debe contener máximo 32 caracteres',
-  })
+  @MinLength(8, minLengthValidationOptions())
+  @MaxLength(32, minLengthValidationOptions())
   readonly password: string;
 
   @IsOptional()
-  @IsBoolean({
-    message: 'El campo passwordChanged debe ser de tipo booleano',
-  })
+  @IsBoolean(isBooleanValidationOptions())
   readonly passwordChanged: boolean;
 
   @IsOptional()
-  @MaxLength(20, {
-    message: 'El campo phone debe contener máximo 20 caracteres',
-  })
+  @MaxLength(20, minLengthValidationOptions())
   readonly phone: string;
 
-  @IsNotEmpty()
-  @IsString()
-  @MinLength(1, {
-    message: 'El campo password debe contener al menos 8 caracteres',
-  })
-  @MaxLength(100, {
-    message: 'El campo password debe contener máximo 20 caracteres',
-  })
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsString(isStringValidationOptions())
   readonly name: string;
 
-  @IsNotEmpty()
+  @IsNotEmpty(isNotEmptyValidationOptions())
   @IsArray()
   readonly roles: string[];
 
-  @IsNotEmpty()
+  @IsNotEmpty(isNotEmptyValidationOptions())
   @IsString()
-  @MinLength(5, {
-    message: 'El campo username debe contener al menos 5 caracteres',
-  })
-  @MaxLength(20, {
-    message: 'El campo username debe contener máximo 20 caracteres',
-  })
+  @MinLength(5, minLengthValidationOptions())
+  @MaxLength(20, maxLengthValidationOptions())
   readonly username: string;
 }
