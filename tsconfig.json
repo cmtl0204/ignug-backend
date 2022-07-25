@@ -54,6 +54,9 @@
       "@auth/strategies": [
         "./src/modules/auth/strategies"
       ],
+      "@common/modules": [
+        "./src/modules/common"
+      ],
       "@core/controllers": [
         "./src/modules/core/controllers"
       ],
@@ -85,13 +88,13 @@
         "./src/exceptions"
       ],
       "@shared/enums": [
-        "./src/modules/shared/enums"
+        "./src/shared/enums"
       ],
       "@shared/models": [
-        "./src/modules/shared/models"
+        "./src/shared/models"
       ],
       "@shared/validation": [
-        "./src/modules/shared/validation"
+        "./src/shared/validation"
       ]
     }
   }

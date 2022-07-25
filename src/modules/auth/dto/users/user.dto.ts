@@ -71,6 +71,11 @@ export class UserDto {
   readonly passwordChanged: boolean;
 
   @IsOptional()
+  @IsEmail({}, isEmailValidationOptions())
+  @MaxLength(150, maxLengthValidationOptions())
+  readonly personalEmail: string;
+
+  @IsOptional()
   @MaxLength(20, minLengthValidationOptions())
   readonly phone: string;
 

@@ -69,13 +69,13 @@ export class UsersService {
     id: number,
     payload: UpdateUserDto,
   ): Promise<ServiceResponseHttpModel> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.preload({ id, ...payload });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    this.userRepository.merge(user, payload);
+    // this.userRepository.merge(user, payload);
     const userUpdated = await this.userRepository.save(user);
 
     return { data: plainToInstance(ReadUserDto, userUpdated) };

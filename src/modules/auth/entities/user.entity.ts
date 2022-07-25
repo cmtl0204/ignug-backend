@@ -80,7 +80,7 @@ export class UserEntity {
 
   @Column('varchar', {
     name: 'email',
-    length: 255,
+    length: 150,
     unique: true,
     comment: 'Correo Electronico',
   })
@@ -89,7 +89,7 @@ export class UserEntity {
   @Column('timestamp', {
     name: 'email_verified_at',
     nullable: true,
-    comment: 'Correo Electronico',
+    comment: 'Verificacion de correo',
   })
   emailVerifiedAt: Date;
 
@@ -119,6 +119,14 @@ export class UserEntity {
     comment: 'true: ya cambió la contraseña y False:no',
   })
   passwordChanged: boolean;
+
+  @Column('varchar', {
+    name: 'personal_email',
+    length: 150,
+    nullable: true,
+    comment: 'Correo Electronico Personal',
+  })
+  personalEmail: string;
 
   @Column('varchar', {
     name: 'phone',

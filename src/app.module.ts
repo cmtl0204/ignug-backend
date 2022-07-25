@@ -11,6 +11,7 @@ import { CoreModule } from '@core/modules';
 import config from './config/config';
 import { AccessControlModule } from 'nest-access-control';
 import { roles } from './app.roles';
+import { CommonModule } from '@common/modules';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { roles } from './app.roles';
     DatabasesModule,
     AccessControlModule.forRoles(roles),
     AuthModule,
+    CommonModule,
     CoreModule,
   ],
   controllers: [AppController],

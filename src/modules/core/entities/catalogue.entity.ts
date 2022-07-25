@@ -57,6 +57,13 @@ export class CatalogueEntity {
   })
   description: string;
 
+  @Column('boolean', {
+    name: 'is_visible',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   @Column('varchar', {
     name: 'name',
     comment: 'Nombre del producto',

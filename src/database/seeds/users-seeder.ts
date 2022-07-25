@@ -21,7 +21,6 @@ export class UsersSeeder {
       roles: ['ADMIN'],
       username: 'user1',
     });
-
     users.forEach((user) => {
       this.usersService.create(user);
     });
