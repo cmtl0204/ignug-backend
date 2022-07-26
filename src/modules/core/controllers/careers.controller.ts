@@ -6,7 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -68,7 +68,7 @@ export class CareersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.findOne(id);
 
@@ -83,7 +83,7 @@ export class CareersController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateCareerDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.update(id, payload);
@@ -98,7 +98,7 @@ export class CareersController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.remove(id);
     return {

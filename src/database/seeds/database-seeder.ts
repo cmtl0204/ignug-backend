@@ -7,9 +7,7 @@ export class DatabaseSeeder {
   constructor(
     private cataloguesSeeder: CataloguesSeeder,
     private usersSeeder: UsersSeeder,
-  ) {
-    this.run();
-  }
+  ) {}
 
   run() {
     this.cataloguesSeeder.run();

@@ -6,7 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -60,7 +60,7 @@ export class InstitutionsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.findOne(id);
     return {
@@ -74,7 +74,7 @@ export class InstitutionsController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateInstitutionDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.update(id, payload);
@@ -89,7 +89,7 @@ export class InstitutionsController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.remove(id);
     return {

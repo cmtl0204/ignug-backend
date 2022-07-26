@@ -5,38 +5,34 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Put,
-  Req,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { Request } from 'express';
-import { PublicRoute, User } from '@auth/decorators';
-import { JwtGuard, LoginGuard } from '@auth/guards';
+import { Auth, PublicRoute, User } from '@auth/decorators';
 import { AuthService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
-import { LoginDto, UpdateProfileDto } from '@auth/dto';
-import { PasswordChangeDto } from '@auth/dto';
+import {
+  LoginDto,
+  PasswordChangeDto,
+  UpdateUserInformationDto,
+  UpdateProfileDto,
+} from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
-import { UpdateUserInformationDto } from '@auth/dto';
 
-@ApiTags('auth')
-// @UseGuards(JwtGuard)
+@ApiTags('Auth')
+@Auth()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Login' })
   @PublicRoute()
   @Post('login')
-  @UseGuards(LoginGuard)
   @HttpCode(HttpStatus.CREATED)
-  async login(
-    @Body() payload: LoginDto,
-    @User() user: UserEntity,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = this.authService.generateJwt(user);
+  async login(@Body() payload: LoginDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.authService.login(payload);
 
     return {
       data: serviceResponse.data,
@@ -45,10 +41,11 @@ export class AuthController {
     };
   }
 
+  @ApiOperation({ summary: 'Change Password' })
   @Put(':id/change-password')
   @HttpCode(HttpStatus.CREATED)
   async changePassword(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: PasswordChangeDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.authService.changePassword(id, payload);
@@ -60,27 +57,26 @@ export class AuthController {
     };
   }
 
-  @ApiOperation({ summary: 'Profile User' })
-  @Get(':id/profile')
+  @ApiOperation({ summary: 'Find Profile' })
+  @Get('profile')
   @HttpCode(HttpStatus.OK)
-  async findProfile(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.authService.findProfile(id);
+  async findProfile(@User() user: UserEntity): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.authService.findProfile(user.id);
 
     return {
       data: serviceResponse.data,
-      message: `profile ${id}`,
+      message: `profile`,
       title: `Success`,
     };
   }
 
-  @Get(':id/user-information')
+  @ApiOperation({ summary: 'Find User Information' })
+  @Get('user-information')
   @HttpCode(HttpStatus.CREATED)
   async findUserInformation(
-    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.authService.findUserInformation(id);
+    const serviceResponse = await this.authService.findUserInformation(user.id);
 
     return {
       data: serviceResponse.data,
@@ -89,13 +85,17 @@ export class AuthController {
     };
   }
 
-  @Put(':id/profile')
+  @ApiOperation({ summary: 'Update Profile' })
+  @Put('profile')
   @HttpCode(HttpStatus.CREATED)
   async updateProfile(
-    @Param('id', ParseIntPipe) id: number,
+    @User() user: UserEntity,
     @Body() payload: UpdateProfileDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.authService.updateProfile(id, payload);
+    const serviceResponse = await this.authService.updateProfile(
+      user.id,
+      payload,
+    );
 
     return {
       data: serviceResponse.data,
@@ -104,10 +104,11 @@ export class AuthController {
     };
   }
 
-  @Put(':id/user-information')
+  @ApiOperation({ summary: 'Update User Information' })
+  @Put('user-information')
   @HttpCode(HttpStatus.CREATED)
   async updateUserInformation(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateUserInformationDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.authService.updateUserInformation(
@@ -122,9 +123,16 @@ export class AuthController {
     };
   }
 
-  @Post('logout')
+  @ApiOperation({ summary: 'Refresh Token' })
+  @Get('refresh-token')
   @HttpCode(HttpStatus.CREATED)
-  logout(@Req() req: Request) {
-    // return req.logOut(() => true);
+  refreshToken(@User() user: UserEntity) {
+    const serviceResponse = this.authService.refreshToken(user);
+
+    return {
+      data: serviceResponse.data,
+      message: 'Correct Access',
+      title: 'Welcome',
+    };
   }
 }

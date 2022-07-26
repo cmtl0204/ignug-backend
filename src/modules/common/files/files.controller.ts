@@ -19,7 +19,6 @@ export class FilesController {
     }),
   )
   async upload(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
     return 'hola';
     return file;
   }

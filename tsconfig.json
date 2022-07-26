@@ -78,6 +78,9 @@
       "@config": [
         "./src/config"
       ],
+      "@config/module": [
+        "./src/config"
+      ],
       "@database": [
         "./src/database"
       ],

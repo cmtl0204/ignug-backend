@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
@@ -12,6 +13,7 @@ import { UserEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
 import { RepositoryEnum } from '@shared/enums';
 import {
+  LoginDto,
   PasswordChangeDto,
   ReadProfileDto,
   ReadUserInformationDto,
@@ -28,7 +30,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async changePassword(id: number, payload: PasswordChangeDto) {
+  async changePassword(id: string, payload: PasswordChangeDto) {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
@@ -52,27 +54,23 @@ export class AuthService {
     return { data: true };
   }
 
-  async login(username: string, password: string) {
-    const user = await this.findByUsername(username);
+  async login(payload: LoginDto) {
+    const user = await this.findByUsername(payload.username);
 
-    if (user) {
-      return this.checkPassword(password, user);
+    if (!user || !(await this.checkPassword(payload.password, user))) {
+      throw new UnauthorizedException('Wrong username and/or password.');
     }
 
-    return null;
-  }
-
-  async logout(id: number) {
-    const user = await this.repository.findOneBy({ id });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
+    if (user.suspendedAt) {
+      throw new UnauthorizedException('User is suspended.');
     }
 
-    return { data: true };
+    const accessToken = this.generateJwt(user);
+
+    return { data: { accessToken, user } };
   }
 
-  async findProfile(id: number): Promise<ServiceResponseHttpModel> {
+  async findProfile(id: string): Promise<ServiceResponseHttpModel> {
     const user = await this.repository.findOne({
       where: { id },
       relations: {
@@ -92,7 +90,7 @@ export class AuthService {
     return { data: plainToInstance(ReadProfileDto, user) };
   }
 
-  async findUserInformation(id: number): Promise<ServiceResponseHttpModel> {
+  async findUserInformation(id: string): Promise<ServiceResponseHttpModel> {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
@@ -103,7 +101,7 @@ export class AuthService {
   }
 
   async updateUserInformation(
-    id: number,
+    id: string,
     payload: UpdateUserInformationDto,
   ): Promise<ServiceResponseHttpModel> {
     const user = await this.repository.findOneBy({ id });
@@ -119,7 +117,7 @@ export class AuthService {
   }
 
   async updateProfile(
-    id: number,
+    id: string,
     payload: UpdateProfileDto,
   ): Promise<ServiceResponseHttpModel> {
     const user = await this.repository.findOneBy({ id });
@@ -129,19 +127,21 @@ export class AuthService {
     }
 
     this.repository.merge(user, payload);
+
     const profileUpdated = await this.repository.save(user);
 
     return { data: plainToInstance(ReadProfileDto, profileUpdated) };
   }
 
-  generateJwt(user: UserEntity) {
-    const payload: PayloadTokenModel = { role: 'admin', sub: user.id };
-    return {
-      data: {
-        accessToken: this.jwtService.sign(payload),
-        user,
-      },
-    };
+  refreshToken(user: UserEntity) {
+    const accessToken = this.generateJwt(user);
+
+    return { data: { accessToken, user } };
+  }
+
+  private generateJwt(user: UserEntity) {
+    const payload: PayloadTokenModel = { id: user.id, role: 'admin' };
+    return this.jwtService.sign(payload);
   }
 
   private async findByUsername(username: string) {
@@ -154,7 +154,7 @@ export class AuthService {
 
   private async checkPassword(passwordCompare: string, user: UserEntity) {
     const { password, ...userRest } = user;
-    const isMatch = await Bcrypt.compare(passwordCompare, password);
+    const isMatch = Bcrypt.compareSync(passwordCompare, password);
 
     if (isMatch) {
       userRest.maxAttempts = 3;
@@ -165,6 +165,7 @@ export class AuthService {
     userRest.maxAttempts =
       userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0;
     await this.repository.save(userRest);
+
     return null;
   }
 }

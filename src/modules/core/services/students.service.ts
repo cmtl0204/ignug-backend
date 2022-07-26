@@ -46,7 +46,7 @@ export class StudentsService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const student = await this.repository.findOne({
       where: { id },
     });
@@ -58,7 +58,7 @@ export class StudentsService {
     return student;
   }
 
-  async update(id: number, payload: UpdateStudentDto) {
+  async update(id: string, payload: UpdateStudentDto) {
     const student = await this.repository.findOneBy({ id });
 
     if (!student) {
@@ -70,7 +70,7 @@ export class StudentsService {
     return this.repository.save(student);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const student = await this.repository.findOneBy({ id });
 
     if (!student) {

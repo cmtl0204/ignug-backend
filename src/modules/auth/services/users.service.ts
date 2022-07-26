@@ -55,7 +55,7 @@ export class UsersService {
     };
   }
 
-  async findOne(id: number): Promise<ServiceResponseHttpModel> {
+  async findOne(id: string): Promise<ServiceResponseHttpModel> {
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
@@ -66,7 +66,7 @@ export class UsersService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: UpdateUserDto,
   ): Promise<ServiceResponseHttpModel> {
     const user = await this.userRepository.preload({ id, ...payload });
@@ -81,7 +81,7 @@ export class UsersService {
     return { data: plainToInstance(ReadUserDto, userUpdated) };
   }
 
-  async remove(id: number): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ServiceResponseHttpModel> {
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {

@@ -13,8 +13,8 @@ import { CatalogueEntity, StudentEntity } from '@core/entities';
 
 @Entity('information_students', { schema: 'core' })
 export class InformationStudentEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({
     name: 'created_at',

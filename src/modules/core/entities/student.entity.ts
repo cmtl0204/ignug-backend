@@ -10,8 +10,8 @@ import { InformationStudentEntity } from '@core/entities';
 
 @Entity('students', { schema: 'core' })
 export class StudentEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   // @OneToOne(() => InformationStudentEntity)
   // @JoinColumn({ name: 'student' })

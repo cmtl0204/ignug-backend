@@ -12,8 +12,8 @@ import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
 @Entity('subjects', { schema: 'core' })
 export class SubjectEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({
     name: 'created_at',

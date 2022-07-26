@@ -1,11 +1,16 @@
 import { NestFactory, Reflector } from '@nestjs/core';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import {
+  ClassSerializerInterceptor,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder, ApiBearerAuth } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from '@exceptions';
 import { ResponseHttpInterceptor } from '@interceptors';
-import { setDefaultUser } from './config/default-user';
-import config from './config/config';
+import { Auth } from '@auth/decorators';
+import { JwtGuard } from '@auth/guards';
+import { ACGuard, UseRoles } from 'nest-access-control';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -45,7 +50,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 
 bootstrap();

@@ -6,7 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -23,10 +23,10 @@ import { InformationStudentEntity } from '@core/entities';
 import { InformationStudentsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('Information-students')
+@ApiTags('Information Students')
 @Controller('information-students')
 export class InformationStudentsController {
-  constructor(private informationstudentsService: InformationStudentsService) {}
+  constructor(private informationStudentsService: InformationStudentsService) {}
 
   @ApiOperation({ summary: 'Create information students' })
   @Post('')
@@ -34,7 +34,7 @@ export class InformationStudentsController {
   async create(
     @Body() payload: CreateInformationStudentDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationstudentsService.create(
+    const serviceResponse = await this.informationStudentsService.create(
       payload,
     );
 
@@ -51,7 +51,7 @@ export class InformationStudentsController {
   async findAll(
     @Query() params: FilterInformationStudentDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationstudentsService.findAll(
+    const serviceResponse = await this.informationStudentsService.findAll(
       params,
     );
     return {
@@ -66,9 +66,9 @@ export class InformationStudentsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationstudentsService.findOne(id);
+    const serviceResponse = await this.informationStudentsService.findOne(id);
     return {
       data: serviceResponse.data,
       message: `show ${id}`,
@@ -80,10 +80,10 @@ export class InformationStudentsController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateInformationStudentDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationstudentsService.update(
+    const serviceResponse = await this.informationStudentsService.update(
       id,
       payload,
     );
@@ -99,9 +99,9 @@ export class InformationStudentsController {
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationstudentsService.remove(id);
+    const serviceResponse = await this.informationStudentsService.remove(id);
     return {
       data: serviceResponse.data,
       message: `Information Student deleted ${id}`,
@@ -115,7 +115,7 @@ export class InformationStudentsController {
   async removeAll(
     @Body() payload: InformationStudentEntity[],
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationstudentsService.removeAll(
+    const serviceResponse = await this.informationStudentsService.removeAll(
       payload,
     );
 

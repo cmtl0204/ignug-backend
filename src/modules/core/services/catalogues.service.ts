@@ -49,7 +49,7 @@ export class CataloguesService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const catalogue = await this.repository.findOne({
       where: { id },
     });
@@ -61,7 +61,7 @@ export class CataloguesService {
     return catalogue;
   }
 
-  async update(id: number, payload: UpdateCatalogueDto) {
+  async update(id: string, payload: UpdateCatalogueDto) {
     const catalogue = await this.repository.findOneBy({ id });
 
     if (!catalogue) {
@@ -73,7 +73,7 @@ export class CataloguesService {
     return this.repository.save(catalogue);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const catalogue = await this.repository.findOneBy({ id });
 
     if (!catalogue) {

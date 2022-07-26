@@ -58,7 +58,7 @@ export class CurriculaService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number): Promise<any> {
+  async findOne(id: string): Promise<any> {
     const curriculum = await this.curriculumRepository.findOne({
       relations: ['career', 'state'],
       where: {
@@ -73,7 +73,7 @@ export class CurriculaService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: UpdateCurriculumDto,
   ): Promise<ServiceResponseHttpModel> {
     const curriculum = await this.curriculumRepository.findOne({
@@ -97,7 +97,7 @@ export class CurriculaService {
     };
   }
 
-  async remove(id: number): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ServiceResponseHttpModel> {
     const curriculum = await this.curriculumRepository.findOne({
       relations: ['career', 'state'],
       where: {

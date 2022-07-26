@@ -6,7 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -14,12 +14,15 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
-import { CreateUserDto, UpdateUserDto } from '@auth/dto';
 import { StudentsService } from '@core/services';
-import { CreateStudentDto, FilterStudentDto } from '@core/dto';
+import {
+  CreateStudentDto,
+  FilterStudentDto,
+  UpdateStudentDto,
+} from '@core/dto';
 import { StudentEntity } from '@core/entities';
 
-@ApiTags('students')
+@ApiTags('Students')
 @Controller('students')
 export class StudentsController {
   constructor(private studentService: StudentsService) {}
@@ -67,7 +70,7 @@ export class StudentsController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.studentService.findOne(id);
     return {
@@ -80,8 +83,8 @@ export class StudentsController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateUserDto,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() payload: UpdateStudentDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.studentService.update(id, payload);
 
@@ -95,7 +98,7 @@ export class StudentsController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.studentService.remove(id);
 

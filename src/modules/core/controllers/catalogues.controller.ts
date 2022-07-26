@@ -6,7 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -66,7 +66,7 @@ export class CataloguesController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
     const data = await this.catalogueService.findOne(id);
     return {
       data,
@@ -78,7 +78,7 @@ export class CataloguesController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateCatalogueDto,
   ) {
     const data = await this.catalogueService.update(id, payload);
@@ -92,7 +92,7 @@ export class CataloguesController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
     const data = await this.catalogueService.remove(id);
 
     return {

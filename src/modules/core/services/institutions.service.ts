@@ -55,7 +55,7 @@ export class InstitutionsService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number): Promise<any> {
+  async findOne(id: string): Promise<any> {
     const institution = await this.institutionRepository.findOne({
       relations: ['address', 'state'],
       where: { id },
@@ -65,7 +65,7 @@ export class InstitutionsService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: UpdateInstitutionDto,
   ): Promise<ServiceResponseHttpModel> {
     const institution = await this.institutionRepository.findOneBy({ id });
@@ -83,7 +83,7 @@ export class InstitutionsService {
     return { data: institutionUpdated };
   }
 
-  async remove(id: number): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ServiceResponseHttpModel> {
     const institution = await this.institutionRepository.findOneBy({ id });
     if (!institution) throw new NotFoundException('Institution not found');
 

@@ -2,10 +2,10 @@ import { Global, Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import config from '../../config/config';
+import { config } from '@config';
 import { AuthController, UsersController } from '@auth/controllers';
 import { AuthService, UsersService } from '@auth/services';
-import { LocalStrategy, JwtStrategy } from '@auth/strategies';
+import { JwtStrategy } from '@auth/strategies';
 import { authProviders } from '@auth/providers';
 import { DatabaseModule } from '@database';
 
@@ -27,13 +27,7 @@ import { DatabaseModule } from '@database';
     }),
   ],
   controllers: [AuthController, UsersController],
-  providers: [
-    ...authProviders,
-    JwtStrategy,
-    LocalStrategy,
-    AuthService,
-    UsersService,
-  ],
+  providers: [...authProviders, JwtStrategy, AuthService, UsersService],
   exports: [UsersService],
 })
 export class AuthModule {}

@@ -17,8 +17,8 @@ import { CatalogueEntity, StudentEntity } from '@core/entities';
 
 @Entity('users', { schema: 'auth' })
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({
     name: 'created_at',
@@ -169,5 +169,13 @@ export class UserEntity {
       return;
     }
     this.password = await Bcrypt.hash(this.password, 10);
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async checkBirthdate() {
+    if (!this.birthdate) {
+      return;
+    }
   }
 }

@@ -89,7 +89,7 @@ export class InformationTeachersService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number): Promise<ServiceResponseHttpModel> {
+  async findOne(id: string): Promise<ServiceResponseHttpModel> {
     const informationTeacher = await this.InformationTeacherRepository.findOne({
       relations: [
         'countryHigherEducation',
@@ -112,7 +112,7 @@ export class InformationTeachersService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: UpdateInformationTeacherDto,
   ): Promise<ServiceResponseHttpModel> {
     const informationTeacher =
@@ -159,7 +159,7 @@ export class InformationTeachersService {
     return { data: informationTeacherUpdated };
   }
 
-  async remove(id: number): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ServiceResponseHttpModel> {
     const informationTeacher =
       await this.InformationTeacherRepository.findOneBy({ id });
 

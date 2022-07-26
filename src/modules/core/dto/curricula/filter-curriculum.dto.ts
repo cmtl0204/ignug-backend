@@ -1,5 +1,5 @@
 import { IsOptional } from 'class-validator';
-import { PaginationDto } from '../pagination/pagination.dto';
+import { PaginationDto } from '@core/dto';
 
 export class FilterCurriculumDto extends PaginationDto {
   @IsOptional({ message: 'code no debe estar vacío' })

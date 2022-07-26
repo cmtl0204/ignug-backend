@@ -13,8 +13,8 @@ import {
 
 @Entity('institutions', { schema: 'core' })
 export class InstitutionEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({
     name: 'create_at',

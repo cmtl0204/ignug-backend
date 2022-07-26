@@ -1,5 +1,5 @@
 import { ConfigType } from '@nestjs/config';
-import config from './config';
+import { config } from '@config';
 import { getRepository } from 'typeorm';
 import { UserEntity } from '@auth/entities';
 

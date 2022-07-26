@@ -6,9 +6,9 @@ export class StudentDto {
 
   @IsNumber({}, { message: 'El campo userId debe ser un numero' })
   @IsPositive({ message: 'El campo userId debe ser un entero positivo' })
-  userId: number;
+  userid: string;
 
   @IsNumber({}, { message: 'studentId Tiene que ser de tipo numero' })
   @IsPositive({ message: 'studentId debe ser un entero positivo' })
-  studentId: number;
+  studentid: string;
 }

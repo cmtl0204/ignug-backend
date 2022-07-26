@@ -81,7 +81,7 @@ export class InformationStudentsService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: number): Promise<ServiceResponseHttpModel> {
+  async findOne(id: string): Promise<ServiceResponseHttpModel> {
     const informationStudent = await this.informationStudentRepository.findOne({
       relations: [
         'isAncestralLanguage',
@@ -101,7 +101,7 @@ export class InformationStudentsService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: UpdateInformationStudentDto,
   ): Promise<ServiceResponseHttpModel> {
     const informationStudent =
@@ -141,7 +141,7 @@ export class InformationStudentsService {
     return { data: informationStudentUpdated };
   }
 
-  async remove(id: number): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ServiceResponseHttpModel> {
     const informationStudent =
       await this.informationStudentRepository.findOneBy({ id });
 

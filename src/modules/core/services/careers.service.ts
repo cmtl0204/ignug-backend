@@ -71,7 +71,7 @@ export class CareersService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: number): Promise<any> {
+  async findOne(id: string): Promise<any> {
     const career = await this.careerRepository.findOne({
       relations: ['institution', 'modality', 'state', 'type'],
       where: {
@@ -86,7 +86,7 @@ export class CareersService {
   }
 
   async update(
-    id: number,
+    id: string,
     payload: UpdateCareerDto,
   ): Promise<ServiceResponseHttpModel> {
     const career = await this.careerRepository.findOneBy({ id });
@@ -98,7 +98,7 @@ export class CareersService {
     return { data: careerUpdated };
   }
 
-  async remove(id: number): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ServiceResponseHttpModel> {
     const career = await this.careerRepository.findOneBy({ id });
 
     if (!career) {

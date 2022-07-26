@@ -12,8 +12,8 @@ import { CatalogueTypeEnum, CatalogueStateEnum } from '@shared/enums';
 
 @Entity('catalogues', { schema: 'core' })
 export class CatalogueEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @CreateDateColumn({
     name: 'created_at',

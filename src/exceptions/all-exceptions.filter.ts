@@ -7,6 +7,7 @@ import {
   UnauthorizedException,
   ForbiddenException,
   UnprocessableEntityException,
+  BadRequestException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
@@ -26,9 +27,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let status = 500;
 
     if (exception instanceof HttpException) {
-      console.log('http');
       const { message } = exception.getResponse() as ErrorResponseHttpModel;
       status = exception.getStatus();
+
+      errorResponseHttpModel.error = 'Server Error';
+      errorResponseHttpModel.message = message;
+
+      if (exception instanceof BadRequestException) {
+        errorResponseHttpModel.error = 'Bad Request';
+        errorResponseHttpModel.message = message;
+      }
 
       if (exception instanceof UnprocessableEntityException) {
         errorResponseHttpModel.error = 'Bad Request';
@@ -37,7 +45,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
       if (exception instanceof UnauthorizedException) {
         errorResponseHttpModel.error = 'Unauthorized';
-        errorResponseHttpModel.message = 'Wrong username and/or password.';
+        errorResponseHttpModel.message =
+          message ?? 'You do not have authorization.';
       }
 
       if (exception instanceof NotFoundException) {

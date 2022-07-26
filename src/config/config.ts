@@ -1,6 +1,6 @@
 import { registerAs } from '@nestjs/config';
 
-export default registerAs('config', () => {
+export const config = registerAs('config', () => {
   return {
     database: {
       database: process.env.DB_NAME,

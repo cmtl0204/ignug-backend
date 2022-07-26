@@ -7,7 +7,7 @@ import {
   HttpStatus,
   Param,
   Patch,
-  ParseIntPipe,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -65,7 +65,7 @@ export class InformationTeachersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationTeachersService.findOne(id);
 
@@ -80,7 +80,7 @@ export class InformationTeachersController {
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateInformationTeacherDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationTeachersService.update(
@@ -99,7 +99,7 @@ export class InformationTeachersController {
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationTeachersService.remove(id);
 

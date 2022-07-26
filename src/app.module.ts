@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
+import { AccessControlModule } from 'nest-access-control';
 import * as Joi from 'joi';
-import { enviroments } from './enviroments';
-import { DatabasesModule } from './databases/databases.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { roles } from './app.roles';
+import { enviroments } from './enviroments';
+import { config } from '@config';
 import { AuthModule } from '@auth/modules';
 import { CoreModule } from '@core/modules';
-import config from './config/config';
-import { AccessControlModule } from 'nest-access-control';
-import { roles } from './app.roles';
 import { CommonModule } from '@common/modules';
 
 @Module({
@@ -30,19 +29,12 @@ import { CommonModule } from '@common/modules';
       }),
     }),
     HttpModule,
-    DatabasesModule,
     AccessControlModule.forRoles(roles),
-    AuthModule,
     CommonModule,
+    AuthModule,
     CoreModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: AllExceptionsFilter,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}
