@@ -20,9 +20,9 @@ import {
   UpdateProfileDto,
 } from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
+import { AppResource } from '@auth/roles';
 
 @ApiTags('Auth')
-@Auth()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -41,7 +41,21 @@ export class AuthController {
     };
   }
 
+  @ApiOperation({ summary: 'Roles' })
+  @Get('roles')
+  @HttpCode(HttpStatus.CREATED)
+  async getRoles(): Promise<ResponseHttpModel> {
+    const serviceResponse = this.authService.getRoles();
+
+    return {
+      data: serviceResponse.data,
+      message: 'Available roles',
+      title: 'Roles',
+    };
+  }
+
   @ApiOperation({ summary: 'Change Password' })
+  @Auth()
   @Put(':id/change-password')
   @HttpCode(HttpStatus.CREATED)
   async changePassword(
@@ -58,6 +72,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Find Profile' })
+  @Auth()
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   async findProfile(@User() user: UserEntity): Promise<ResponseHttpModel> {
@@ -71,6 +86,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Find User Information' })
+  @Auth()
   @Get('user-information')
   @HttpCode(HttpStatus.CREATED)
   async findUserInformation(
@@ -86,6 +102,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Update Profile' })
+  @Auth()
   @Put('profile')
   @HttpCode(HttpStatus.CREATED)
   async updateProfile(
@@ -105,10 +122,11 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Update User Information' })
+  @Auth()
   @Put('user-information')
   @HttpCode(HttpStatus.CREATED)
   async updateUserInformation(
-    @Param('id', ParseUUIDPipe) id: string,
+    @User('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateUserInformationDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.authService.updateUserInformation(
@@ -124,6 +142,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Refresh Token' })
+  @Auth()
   @Get('refresh-token')
   @HttpCode(HttpStatus.CREATED)
   refreshToken(@User() user: UserEntity) {
@@ -132,7 +151,7 @@ export class AuthController {
     return {
       data: serviceResponse.data,
       message: 'Correct Access',
-      title: 'Welcome',
+      title: 'Refresh Token',
     };
   }
 }

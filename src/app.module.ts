@@ -5,7 +5,7 @@ import { AccessControlModule } from 'nest-access-control';
 import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { roles } from './app.roles';
+import { roles } from './modules/auth/roles/app.roles';
 import { enviroments } from './enviroments';
 import { config } from '@config';
 import { AuthModule } from '@auth/modules';

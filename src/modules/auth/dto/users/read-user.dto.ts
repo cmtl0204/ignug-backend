@@ -10,10 +10,22 @@ export class ReadUserDto extends UserDto {
   readonly email;
 
   @Expose()
+  readonly activatedAt;
+
+  @Expose()
   readonly lastname;
 
   @Expose()
+  readonly maxAttempts;
+
+  @Expose()
   readonly name;
+
+  @Expose()
+  readonly roles;
+
+  @Expose()
+  readonly suspendedAt;
 
   @Expose()
   readonly username;

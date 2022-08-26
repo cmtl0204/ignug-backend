@@ -11,6 +11,7 @@ import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { RepositoryEnum } from '@shared/enums';
+import { MAX_ATTEMPTS } from '@auth/constants';
 
 @Injectable()
 export class UsersService {
@@ -47,7 +48,9 @@ export class UsersService {
     }
 
     //All
-    const response = await this.userRepository.findAndCount();
+    const response = await this.userRepository.findAndCount({
+      order: { updatedAt: 'DESC' },
+    });
 
     return {
       data: plainToInstance(ReadUserDto, response[0]),
@@ -56,7 +59,10 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<ServiceResponseHttpModel> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.userRepository.findOne({
+      where: { id },
+      select: { password: false },
+    });
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -76,6 +82,21 @@ export class UsersService {
     }
 
     // this.userRepository.merge(user, payload);
+    const userUpdated = await this.userRepository.save(user);
+
+    return { data: plainToInstance(ReadUserDto, userUpdated) };
+  }
+
+  async reactivate(id: string): Promise<ServiceResponseHttpModel> {
+    const user = (await this.findOne(id)).data as UserEntity;
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.suspendedAt = null;
+    user.maxAttempts = MAX_ATTEMPTS;
+
     const userUpdated = await this.userRepository.save(user);
 
     return { data: plainToInstance(ReadUserDto, userUpdated) };
@@ -120,6 +141,9 @@ export class UsersService {
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
+      order: {
+        updatedAt: 'DESC',
+      },
     });
 
     return {
@@ -143,5 +167,19 @@ export class UsersService {
       data: plainToInstance(ReadUserDto, response[0]),
       pagination: { limit: 10, totalItems: response[1] },
     };
+  }
+
+  async suspend(id: string): Promise<ServiceResponseHttpModel> {
+    const user = (await this.findOne(id)).data as UserEntity;
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.suspendedAt = new Date();
+
+    const userUpdated = await this.userRepository.save(user);
+
+    return { data: plainToInstance(ReadUserDto, userUpdated) };
   }
 }

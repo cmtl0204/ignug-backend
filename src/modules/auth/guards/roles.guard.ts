@@ -21,12 +21,19 @@ export class RolesGuard implements CanActivate {
       ROLES_KEY,
       context.getHandler(),
     );
+
+    if (!roles) return true;
+
+    if (roles.length === 0) return true;
+
     const request = context.switchToHttp().getRequest();
     const user = request.user as PayloadTokenModel;
     const isAuth = roles.some((role) => role === user.role);
+
     if (!isAuth) {
       throw new ForbiddenException();
     }
-    return isAuth;
+
+    return true;
   }
 }

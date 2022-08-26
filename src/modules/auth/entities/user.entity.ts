@@ -71,6 +71,13 @@ export class UserEntity {
   @JoinColumn({ name: 'sex_id' })
   sex: CatalogueEntity;
 
+  @Column('timestamptz', {
+    name: 'activated_at',
+    nullable: true,
+    comment: 'Fecha de ultimo login',
+  })
+  activatedAt: Date;
+
   @Column('date', {
     name: 'birthdate',
     nullable: true,
@@ -177,5 +184,14 @@ export class UserEntity {
     if (!this.birthdate) {
       return;
     }
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async setRoles() {
+    if (!this.roles) {
+      return;
+    }
+    this.roles = this.roles.map((role: string) => role.toLowerCase());
   }
 }

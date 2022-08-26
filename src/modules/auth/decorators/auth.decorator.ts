@@ -6,7 +6,7 @@ import { ACGuard, Role, UseRoles } from 'nest-access-control';
 export function Auth(...roles: Role[]) {
   return applyDecorators(
     UseGuards(JwtGuard, ACGuard),
-    ApiBearerAuth(),
     UseRoles(...roles),
+    ApiBearerAuth(),
   );
 }

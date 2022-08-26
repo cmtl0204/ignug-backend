@@ -20,7 +20,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: PayloadTokenModel) {
+  async validate(payload: PayloadTokenModel): Promise<UserEntity> {
     const serviceResponse = await this.userService.findOne(payload.id);
     const user = serviceResponse.data as UserEntity;
 
@@ -29,7 +29,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     if (user.suspendedAt) throw new UnauthorizedException('User is suspended.');
 
     if (user.maxAttempts === 0)
-      throw new UnauthorizedException('User is suspended.');
+      throw new UnauthorizedException(
+        'User exceeded the maximum number of attempts allowed.',
+      );
 
     return user;
   }

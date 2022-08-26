@@ -17,22 +17,20 @@ import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { UsersService } from '@auth/services';
 import { ResponseHttpModel } from '@shared/models';
-import { AppRoles } from '../../../app.roles';
+import { AppResource } from '@auth/roles';
+import { Auth } from '@auth/decorators';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  // @Auth({ possession: 'any', action: 'create', resource: AppResource.USER })
-  @ApiOperation({ summary: 'Create User' })
+  @ApiOperation({ summary: 'Create One' })
+  @Auth({ possession: 'any', action: 'create', resource: AppResource.ADMIN })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.usersService.create({
-      ...payload,
-      // roles: [AppRoles.ADMIN],
-    });
+    const serviceResponse = await this.usersService.create(payload);
 
     return {
       data: serviceResponse.data,
@@ -41,7 +39,7 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'Catalogue of Users' })
+  @ApiOperation({ summary: 'Catalogue' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
@@ -55,7 +53,8 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'List of users' })
+  @ApiOperation({ summary: 'Find All' })
+  @Auth({ possession: 'any', action: 'read', resource: AppResource.ADMIN })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {
@@ -69,7 +68,8 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'Find User' })
+  @ApiOperation({ summary: 'Find One' })
+  @Auth({ possession: 'any', action: 'read', resource: AppResource.ADMIN })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -84,7 +84,8 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'Update User' })
+  @ApiOperation({ summary: 'Update One' })
+  @Auth({ possession: 'any', action: 'update', resource: AppResource.ADMIN })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -100,7 +101,24 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'Remove User' })
+  @ApiOperation({ summary: 'Reactivate' })
+  @Auth({ possession: 'any', action: 'update', resource: AppResource.ADMIN })
+  @Put(':id/reactivate')
+  @HttpCode(HttpStatus.CREATED)
+  async reactivate(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.reactivate(id);
+
+    return {
+      data: serviceResponse.data,
+      message: `User reactivated ${id}`,
+      title: `Reactivated`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Remove One' })
+  @Auth({ possession: 'any', action: 'delete', resource: AppResource.ADMIN })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
@@ -115,7 +133,8 @@ export class UsersController {
     };
   }
 
-  @ApiOperation({ summary: 'Remove All Users' })
+  @ApiOperation({ summary: 'Remove All' })
+  @Auth({ possession: 'any', action: 'delete', resource: AppResource.ADMIN })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(@Body() payload: UserEntity[]): Promise<ResponseHttpModel> {
@@ -125,6 +144,22 @@ export class UsersController {
       data: serviceResponse.data,
       message: `Users deleted`,
       title: `Deleted`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Suspend One' })
+  @Auth({ possession: 'any', action: 'update', resource: AppResource.ADMIN })
+  @Put(':id/suspend')
+  @HttpCode(HttpStatus.CREATED)
+  async suspend(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.usersService.suspend(id);
+
+    return {
+      data: serviceResponse.data,
+      message: `User suspended ${id}`,
+      title: `Suspended`,
     };
   }
 }

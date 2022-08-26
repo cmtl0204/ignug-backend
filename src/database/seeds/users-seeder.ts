@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '@auth/dto';
 import { UsersService } from '@auth/services';
+import { roles } from '@auth/roles';
 
 @Injectable()
 export class UsersSeeder {
@@ -18,7 +19,7 @@ export class UsersSeeder {
       name: 'Juan',
       password: '12345678',
       passwordChanged: false,
-      roles: ['ADMIN'],
+      roles: roles.getRoles(),
       username: 'user1',
     });
     users.forEach((user) => {

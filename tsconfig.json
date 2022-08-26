@@ -48,6 +48,9 @@
       "@auth/providers": [
         "./src/modules/auth/providers"
       ],
+      "@auth/roles": [
+        "./src/modules/auth/roles"
+      ],
       "@auth/services": [
         "./src/modules/auth/services"
       ],

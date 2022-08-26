@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Inject,
   Injectable,
@@ -21,12 +22,15 @@ import {
   UpdateUserInformationDto,
 } from '@auth/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
+import { roles } from '@auth/roles';
+import { UsersService } from '@auth/services';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(RepositoryEnum.USER_REPOSITORY)
     private repository: Repository<UserEntity>,
+    private readonly userService: UsersService,
     private jwtService: JwtService,
   ) {}
 
@@ -40,11 +44,11 @@ export class AuthService {
     const isMatchPassword = await this.checkPassword(payload.oldPassword, user);
 
     if (!isMatchPassword) {
-      throw new ForbiddenException('The old password is not match.');
+      throw new BadRequestException('The old password is not match.');
     }
 
     if (payload.confirmationPassword !== payload.newPassword) {
-      throw new ForbiddenException('The passwords do not match.');
+      throw new BadRequestException('The passwords do not match.');
     }
 
     user.password = payload.newPassword;
@@ -57,13 +61,21 @@ export class AuthService {
   async login(payload: LoginDto) {
     const user = await this.findByUsername(payload.username);
 
+    if (user && user.maxAttempts === 0)
+      throw new UnauthorizedException(
+        'User exceeded the maximum number of attempts allowed.',
+      );
+
+    if (user && user.suspendedAt)
+      throw new UnauthorizedException('User is suspended.');
+
     if (!user || !(await this.checkPassword(payload.password, user))) {
       throw new UnauthorizedException('Wrong username and/or password.');
     }
 
-    if (user.suspendedAt) {
-      throw new UnauthorizedException('User is suspended.');
-    }
+    user.activatedAt = new Date();
+    const { password, ...userRest } = user;
+    await this.repository.save(userRest);
 
     const accessToken = this.generateJwt(user);
 
@@ -100,11 +112,17 @@ export class AuthService {
     return { data: plainToInstance(ReadUserInformationDto, user) };
   }
 
+  getRoles(): ServiceResponseHttpModel {
+    const availableRoles = roles.getRoles();
+    availableRoles.sort();
+    return { data: availableRoles };
+  }
+
   async updateUserInformation(
     id: string,
     payload: UpdateUserInformationDto,
   ): Promise<ServiceResponseHttpModel> {
-    const user = await this.repository.findOneBy({ id });
+    const user = (await this.userService.findOne(id)).data as UserEntity;
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -141,15 +159,16 @@ export class AuthService {
 
   private generateJwt(user: UserEntity) {
     const payload: PayloadTokenModel = { id: user.id, role: 'admin' };
+
     return this.jwtService.sign(payload);
   }
 
-  private async findByUsername(username: string) {
-    return await this.repository.findOne({
+  private async findByUsername(username: string): Promise<UserEntity> {
+    return (await this.repository.findOne({
       where: {
         username,
       },
-    });
+    })) as UserEntity;
   }
 
   private async checkPassword(passwordCompare: string, user: UserEntity) {
