@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
-import { AccessControlModule } from 'nest-access-control';
 import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { roles } from './modules/auth/roles/app.roles';
 import { enviroments } from './enviroments';
 import { config } from '@config';
 import { AuthModule } from '@auth/modules';
@@ -29,7 +27,6 @@ import { CommonModule } from '@common/modules';
       }),
     }),
     HttpModule,
-    AccessControlModule.forRoles(roles),
     CommonModule,
     AuthModule,
     CoreModule,

@@ -7,37 +7,37 @@ import { CreateCatalogueDto } from '@core/dto';
 export class CataloguesSeeder {
   constructor(private catalogueService: CataloguesService) {}
 
-  run() {
-    this.createAcademicPeriodCatalogues();
-    this.createBloodTypeCatalogues();
-    this.createCareerModalityCatalogues();
-    this.createDisabilityTypeCatalogues();
-    this.createEducationLevelCatalogues();
-    this.createEthnicOriginCatalogues();
-    this.createIdentificationTypeCatalogues();
-    this.createInstitutionPracticesTypeCatalogues();
-    this.createGenderCatalogues();
-    this.createMaritalStatusCatalogues();
-    this.createProjectScopeCatalogues();
-    this.createRegistrationTypeCatalogues();
-    this.createScholarshipReason1Catalogues();
-    this.createScholarshipReason2Catalogues();
-    this.createScholarshipReason3Catalogues();
-    this.createScholarshipReason4Catalogues();
-    this.createScholarshipReason5Catalogues();
-    this.createScholarshipReason6Catalogues();
-    this.createScholarshipTypeCatalogues();
-    this.createScholarshipFundingTypeCatalogues();
-    this.createSchoolDayCatalogues();
-    this.createSchoolTypeCatalogues();
-    this.createSexCatalogues();
-    this.createStudentIncomeForCatalogues();
-    this.createStudentOccupationCatalogues();
-    this.createYesNoCatalogues();
-    this.createYesNoNACatalogues();
+  async run() {
+    await this.createAcademicPeriodCatalogues();
+    await this.createBloodTypeCatalogues();
+    await this.createCareerModalityCatalogues();
+    await this.createDisabilityTypeCatalogues();
+    await this.createEducationLevelCatalogues();
+    await this.createEthnicOriginCatalogues();
+    await this.createIdentificationTypeCatalogues();
+    await this.createInstitutionPracticesTypeCatalogues();
+    await this.createGenderCatalogues();
+    await this.createMaritalStatusCatalogues();
+    await this.createProjectScopeCatalogues();
+    await this.createRegistrationTypeCatalogues();
+    await this.createScholarshipReason1Catalogues();
+    await this.createScholarshipReason2Catalogues();
+    await this.createScholarshipReason3Catalogues();
+    await this.createScholarshipReason4Catalogues();
+    await this.createScholarshipReason5Catalogues();
+    await this.createScholarshipReason6Catalogues();
+    await this.createScholarshipTypeCatalogues();
+    await this.createScholarshipFundingTypeCatalogues();
+    await this.createSchoolDayCatalogues();
+    await this.createSchoolTypeCatalogues();
+    await this.createSexCatalogues();
+    await this.createStudentIncomeForCatalogues();
+    await this.createStudentOccupationCatalogues();
+    await this.createYesNoCatalogues();
+    await this.createYesNoNACatalogues();
   }
 
-  createAcademicPeriodCatalogues() {
+  async createAcademicPeriodCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -82,12 +82,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.ACADEMIC_PERIOD,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createBloodTypeCatalogues() {
+  async createBloodTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -146,12 +146,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.BLOOD_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createCareerModalityCatalogues() {
+  async createCareerModalityCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -196,12 +196,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.CAREER_MODALITY,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createDisabilityTypeCatalogues() {
+  async createDisabilityTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -253,12 +253,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.DISABILITY_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createEducationLevelCatalogues() {
+  async createEducationLevelCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -331,12 +331,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.EDUCATION_LEVEL,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createEthnicOriginCatalogues() {
+  async createEthnicOriginCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -402,12 +402,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.ETHNIC_ORIGIN,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createIdentificationTypeCatalogues() {
+  async createIdentificationTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -424,12 +424,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.IDENTIFICATION_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createInstitutionPracticesTypeCatalogues() {
+  async createInstitutionPracticesTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -467,12 +467,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createGenderCatalogues() {
+  async createGenderCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -489,12 +489,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.GENDER,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createMaritalStatusCatalogues() {
+  async createMaritalStatusCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -532,12 +532,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.MARITAL_STATUS,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createProjectScopeCatalogues() {
+  async createProjectScopeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -575,12 +575,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.PROJECT_SCOPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createRegistrationTypeCatalogues() {
+  async createRegistrationTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -603,12 +603,12 @@ export class CataloguesSeeder {
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueTypeEnum.REGISTRATION_TYPE,
     });
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipReason1Catalogues() {
+  async createScholarshipReason1Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -625,12 +625,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_REASON_1,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipReason2Catalogues() {
+  async createScholarshipReason2Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -647,12 +647,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_REASON_2,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipReason3Catalogues() {
+  async createScholarshipReason3Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -669,12 +669,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_REASON_3,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipReason4Catalogues() {
+  async createScholarshipReason4Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -691,12 +691,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_REASON_4,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipReason5Catalogues() {
+  async createScholarshipReason5Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -713,12 +713,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_REASON_5,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipReason6Catalogues() {
+  async createScholarshipReason6Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -735,12 +735,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_REASON_6,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipTypeCatalogues() {
+  async createScholarshipTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -764,12 +764,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createScholarshipFundingTypeCatalogues() {
+  async createScholarshipFundingTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -800,12 +800,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createSchoolDayCatalogues() {
+  async createSchoolDayCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -836,12 +836,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOOL_DAY,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createSchoolTypeCatalogues() {
+  async createSchoolTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -886,12 +886,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SCHOOL_TYPE,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createSexCatalogues() {
+  async createSexCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -908,12 +908,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.SEX,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createStudentIncomeForCatalogues() {
+  async createStudentIncomeForCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -944,12 +944,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createStudentOccupationCatalogues() {
+  async createStudentOccupationCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -966,12 +966,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.STUDENT_OCCUPATION,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createYesNoCatalogues() {
+  async createYesNoCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -988,12 +988,12 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.YES_NO,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 
-  createYesNoNACatalogues() {
+  async createYesNoNACatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -1017,8 +1017,8 @@ export class CataloguesSeeder {
       type: CatalogueTypeEnum.YES_NO_NA,
     });
 
-    catalogues.forEach((catalogue) => {
-      this.catalogueService.create(catalogue);
-    });
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
   }
 }

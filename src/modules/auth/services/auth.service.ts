@@ -22,7 +22,6 @@ import {
   UpdateUserInformationDto,
 } from '@auth/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { roles } from '@auth/roles';
 import { UsersService } from '@auth/services';
 
 @Injectable()
@@ -74,8 +73,9 @@ export class AuthService {
     }
 
     user.activatedAt = new Date();
-    const { password, ...userRest } = user;
-    await this.repository.save(userRest);
+    const { password, roles, ...userRest } = user;
+
+    await this.repository.update(userRest.id, userRest);
 
     const accessToken = this.generateJwt(user);
 
@@ -110,12 +110,6 @@ export class AuthService {
     }
 
     return { data: plainToInstance(ReadUserInformationDto, user) };
-  }
-
-  getRoles(): ServiceResponseHttpModel {
-    const availableRoles = roles.getRoles();
-    availableRoles.sort();
-    return { data: availableRoles };
   }
 
   async updateUserInformation(

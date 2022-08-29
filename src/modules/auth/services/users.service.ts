@@ -38,7 +38,7 @@ export class UsersService {
 
   async findAll(params?: FilterUserDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by Search
-    if (params.limit > 0 && params.page >= 0) {
+    if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 

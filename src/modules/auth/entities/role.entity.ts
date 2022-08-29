@@ -7,10 +7,16 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { MenuEntity } from './menu.entity';
+import { PermissionEntity } from './permission.entity';
+import { UserEntity } from './user.entity';
 
 @Entity('roles', { schema: 'auth' })
-export class UserEntity {
+export class RoleEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -34,6 +40,30 @@ export class UserEntity {
     nullable: true,
   })
   deletedAt: Date;
+
+  @ManyToMany(() => MenuEntity)
+  @JoinTable({
+    name: 'menu_role',
+    joinColumn: { name: 'role_id' },
+    inverseJoinColumn: { name: 'menu_id' },
+  })
+  menus: MenuEntity[];
+
+  @ManyToMany(() => PermissionEntity)
+  @JoinTable({
+    name: 'permission_role',
+    joinColumn: { name: 'role_id' },
+    inverseJoinColumn: { name: 'permission_id' },
+  })
+  permissions: PermissionEntity[];
+
+  @ManyToMany(() => UserEntity, (user) => user.roles)
+  @JoinTable({
+    name: 'role_user',
+    joinColumn: { name: 'role_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
+  users: UserEntity[];
 
   @Column('varchar', {
     name: 'code',

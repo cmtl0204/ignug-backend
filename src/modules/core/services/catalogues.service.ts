@@ -37,7 +37,7 @@ export class CataloguesService {
 
   async findAll(params?: FilterCatalogueDto) {
     //Pagination & Filter by search
-    if (params) {
+    if (params.limit > 0 && params.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 

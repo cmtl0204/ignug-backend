@@ -2,22 +2,21 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
-  OneToOne,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  ManyToOne,
+  ManyToMany,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
-import * as Bcrypt from 'bcrypt';
-import { Exclude } from 'class-transformer';
-import { CatalogueEntity, StudentEntity } from '@core/entities';
 import { MenuTypeEnum } from '../enums/menu.enum';
+import { RoleEntity } from '@auth/entities';
 
 @Entity('menus', { schema: 'auth' })
-export class UserEntity {
+export class MenuEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -42,43 +41,63 @@ export class UserEntity {
   })
   deletedAt: Date;
 
+  @ManyToOne(() => MenuEntity, (category) => category.children)
+  @JoinColumn({ name: 'parent_id' })
+  parent: MenuEntity;
+
+  @OneToMany(() => MenuEntity, (category) => category.parent)
+  children: MenuEntity[];
+
+  @ManyToMany(() => RoleEntity)
+  roles: RoleEntity[];
+
   @Column('varchar', {
-    name: 'name',
-    length: 150,
+    name: 'code',
     unique: true,
-    comment: 'Nombre del rol',
+    comment: 'Codigo unico',
   })
-  name: string;
+  code: string;
 
   @Column('varchar', {
     name: 'icon',
-    length: 150,
-    unique: true,
     comment: 'Icono',
   })
   icon: string;
 
+  @Column('boolean', {
+    name: 'is_visible',
+    comment: 'True=es visible, False=no es visible para el usuario final',
+  })
+  isVisible: boolean;
+
+  @Column('varchar', {
+    name: 'label',
+    unique: true,
+    comment: 'Nombre del menu',
+  })
+  label: string;
+
   @Column('varchar', {
     name: 'router_link',
     unique: true,
-    comment: 'Nombre del rol',
+    nullable: true,
+    comment: 'Nombre de la ruta',
   })
   routerLink: string;
 
   @Column('enum', {
     name: 'type',
     enum: MenuTypeEnum,
-    unique: true,
     comment: 'Tipo de menu',
   })
   type: MenuTypeEnum;
 
   @BeforeInsert()
   @BeforeUpdate()
-  async setName() {
-    if (!this.name) {
+  async setCode() {
+    if (!this.code) {
       return;
     }
-    this.name = this.name.toLowerCase().trim();
+    this.code = this.code.toLowerCase().trim();
   }
 }

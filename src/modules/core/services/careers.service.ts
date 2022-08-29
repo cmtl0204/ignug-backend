@@ -57,7 +57,7 @@ export class CareersService {
 
   async findAll(params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params.limit > 0 && params.page >= 0) {
+    if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 

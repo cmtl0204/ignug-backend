@@ -10,10 +10,12 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  ManyToMany,
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
+import { RoleEntity } from './role.entity';
 
 @Entity('users', { schema: 'auth' })
 export class UserEntity {
@@ -41,8 +43,8 @@ export class UserEntity {
   })
   deletedAt: Date;
 
-  @Column('simple-array', { comment: '', nullable: true })
-  roles: string[];
+  @ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
+  roles: RoleEntity[];
 
   @OneToOne(() => StudentEntity, (student) => student.user)
   student: StudentEntity;
@@ -184,14 +186,5 @@ export class UserEntity {
     if (!this.birthdate) {
       return;
     }
-  }
-
-  @BeforeInsert()
-  @BeforeUpdate()
-  async setRoles() {
-    if (!this.roles) {
-      return;
-    }
-    this.roles = this.roles.map((role: string) => role.toLowerCase());
   }
 }

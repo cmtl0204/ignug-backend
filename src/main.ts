@@ -1,16 +1,9 @@
 import { NestFactory, Reflector } from '@nestjs/core';
-import {
-  ClassSerializerInterceptor,
-  UseGuards,
-  ValidationPipe,
-} from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder, ApiBearerAuth } from '@nestjs/swagger';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from '@exceptions';
 import { ResponseHttpInterceptor } from '@interceptors';
-import { Auth } from '@auth/decorators';
-import { JwtGuard } from '@auth/guards';
-import { ACGuard, UseRoles } from 'nest-access-control';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

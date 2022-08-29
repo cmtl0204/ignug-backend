@@ -17,7 +17,6 @@ import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { UsersService } from '@auth/services';
 import { ResponseHttpModel } from '@shared/models';
-import { AppResource } from '@auth/roles';
 import { Auth } from '@auth/decorators';
 
 @ApiTags('Users')
@@ -26,7 +25,7 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Create One' })
-  @Auth({ possession: 'any', action: 'create', resource: AppResource.ADMIN })
+  @Auth()
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateUserDto): Promise<ResponseHttpModel> {
@@ -54,7 +53,6 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Find All' })
-  @Auth({ possession: 'any', action: 'read', resource: AppResource.ADMIN })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {
@@ -69,7 +67,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Find One' })
-  @Auth({ possession: 'any', action: 'read', resource: AppResource.ADMIN })
+  @Auth()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -85,7 +83,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Update One' })
-  @Auth({ possession: 'any', action: 'update', resource: AppResource.ADMIN })
+  @Auth()
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -102,7 +100,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Reactivate' })
-  @Auth({ possession: 'any', action: 'update', resource: AppResource.ADMIN })
+  @Auth()
   @Put(':id/reactivate')
   @HttpCode(HttpStatus.CREATED)
   async reactivate(
@@ -118,7 +116,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Remove One' })
-  @Auth({ possession: 'any', action: 'delete', resource: AppResource.ADMIN })
+  @Auth()
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
@@ -134,7 +132,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Remove All' })
-  @Auth({ possession: 'any', action: 'delete', resource: AppResource.ADMIN })
+  @Auth()
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(@Body() payload: UserEntity[]): Promise<ResponseHttpModel> {
@@ -148,7 +146,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Suspend One' })
-  @Auth({ possession: 'any', action: 'update', resource: AppResource.ADMIN })
+  @Auth()
   @Put(':id/suspend')
   @HttpCode(HttpStatus.CREATED)
   async suspend(

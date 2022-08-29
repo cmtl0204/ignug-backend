@@ -3,6 +3,7 @@
 </p>
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
@@ -60,7 +61,8 @@ $ npm run test:cov
 
 ## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If
+you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
@@ -71,3 +73,36 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+## 1. Entity
+
+- Name: ExampleEntity (singular)
+- Include in index
+
+## 2. Provider
+
+- Add RepositoryEnum in shared/enums/repository
+- Include in index
+
+## 3. DTO
+
+- Names:
+    - Create a directory in plural (examples)
+        - examples/base-example.dto (singular)
+        - examples/create-example.dto (singular)
+        - examples/filter-example.dto (singular)
+        - examples/read-example.dto (singular)
+        - examples/update-example.dto (singular)
+- Include in index
+
+## 4. Service
+
+- Name: ExamplesService (plural)
+- - Add in module
+- Include in index
+
+## 5. Controller
+
+- Name: ExamplesController (plural)
+- Add in module
+- Include in index

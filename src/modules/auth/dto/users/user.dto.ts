@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   MinLength,
   IsEmail,
-  IsArray,
   MaxLength,
   IsDate,
 } from 'class-validator';
@@ -18,6 +17,7 @@ import {
   minLengthValidationOptions,
 } from '@shared/validation';
 import { CatalogueEntity } from '@core/entities';
+import { RoleEntity } from '@auth/entities';
 
 export class UserDto {
   @IsOptional()
@@ -84,12 +84,11 @@ export class UserDto {
   readonly name: string;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
-  @IsArray()
-  readonly roles: string[];
+  readonly roles: any;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   @IsString()
   @MinLength(5, minLengthValidationOptions())
-  @MaxLength(20, maxLengthValidationOptions())
+  @MaxLength(100, maxLengthValidationOptions())
   readonly username: string;
 }

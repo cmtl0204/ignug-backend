@@ -20,7 +20,6 @@ import {
   UpdateProfileDto,
 } from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
-import { AppResource } from '@auth/roles';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -38,19 +37,6 @@ export class AuthController {
       data: serviceResponse.data,
       message: 'Correct Access',
       title: 'Welcome',
-    };
-  }
-
-  @ApiOperation({ summary: 'Roles' })
-  @Get('roles')
-  @HttpCode(HttpStatus.CREATED)
-  async getRoles(): Promise<ResponseHttpModel> {
-    const serviceResponse = this.authService.getRoles();
-
-    return {
-      data: serviceResponse.data,
-      message: 'Available roles',
-      title: 'Roles',
     };
   }
 
