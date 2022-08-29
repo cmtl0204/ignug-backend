@@ -13,7 +13,7 @@ export * from './catalogues/filter-catalogue.dto';
 export * from './curricula/curriculum.dto';
 export * from './curricula/create-curriculum.dto';
 export * from './curricula/update-curriculum.dto';
-export * from './curricula/Filter-curriculum.dto';
+export * from './curricula/filter-curriculum.dto';
 
 export * from './information-students/information-student.dto';
 export * from './information-students/create-information-student.dto';
