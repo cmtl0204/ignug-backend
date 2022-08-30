@@ -36,11 +36,13 @@ export class MenusService {
   }
 
   async getMenusForSidebar(): Promise<ServiceResponseHttpModel> {
-    const response = await this.repository.find({
+    let response = await this.repository.find({
       where: { parent: IsNull() },
       relations: { children: true, parent: true },
     });
-    console.log(response);
+
+    response = response.filter((element) => element.parent === null);
+
     return {
       data: response,
     };

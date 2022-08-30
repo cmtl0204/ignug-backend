@@ -46,7 +46,7 @@ export class MenusSeeder {
         code: 'users',
         icon: 'pi pi-users',
         isVisible: true,
-        label: 'Ususarios',
+        label: 'Usuarios',
         routerLink: '/administration/users',
         type: MenuTypeEnum.LEFT_SIDE,
         parent: administratorMenu,
