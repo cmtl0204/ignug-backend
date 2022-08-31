@@ -57,3 +57,11 @@ export function isBooleanValidationOptions(
     message: 'La propiedad $property debe ser un valor booleano',
   };
 }
+
+export function isNumberValidationOptions(
+  validationOptions?: ValidationOptions,
+) {
+  return {
+    message: 'La propiedad $property debe ser un número',
+  };
+}
