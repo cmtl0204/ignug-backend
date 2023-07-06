@@ -14,8 +14,8 @@ import {
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
+import { RoleEntity } from '@auth/entities';
 import { CatalogueEntity, StudentEntity, TeacherEntity } from '@core/entities';
-import { RoleEntity } from './role.entity';
 
 @Entity('users', { schema: 'auth' })
 export class UserEntity {
@@ -43,6 +43,7 @@ export class UserEntity {
   })
   deletedAt: Date;
 
+  /** Inverse Relationship **/
   @ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
   roles: RoleEntity[];
 
@@ -52,6 +53,7 @@ export class UserEntity {
   @OneToOne(() => TeacherEntity, (teacher) => teacher.user, { eager: true })
   teacher: TeacherEntity;
 
+  /** Relationship **/
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'blood_type_id' })
   bloodType: CatalogueEntity;
@@ -61,12 +63,12 @@ export class UserEntity {
   ethnicOrigin: CatalogueEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
-  @JoinColumn({ name: 'identification_type_id' })
-  identificationType: CatalogueEntity;
-
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'gender_id' })
   gender: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'identification_type_id' })
+  identificationType: CatalogueEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'marital_status_id' })
@@ -76,104 +78,120 @@ export class UserEntity {
   @JoinColumn({ name: 'sex_id' })
   sex: CatalogueEntity;
 
-  @Column('timestamptz', {
+  /** Columns **/
+  @Column({
     name: 'activated_at',
+    type: 'timestamptz',
     nullable: true,
     comment: 'Fecha de ultimo login',
   })
   activatedAt: Date;
 
-  @Column('date', {
-    name: 'birthdate',
-    nullable: true,
-    comment: 'Fecha de nacimiento',
-  })
-  birthdate: Date;
-
-  @Column('varchar', {
+  @Column({
     name: 'email',
-    length: 150,
+    type: 'varchar',
     unique: true,
     comment: 'Correo Electronico',
   })
   email: string;
 
-  @Column('timestamp', {
+  @Column({
+    name: 'birthdate',
+    type: 'date',
+    nullable: true,
+    comment: 'Fecha de nacimiento',
+  })
+  birthdate: Date;
+
+  @Column({
     name: 'email_verified_at',
+    type: 'timestamp',
     nullable: true,
     comment: 'Verificacion de correo',
   })
   emailVerifiedAt: Date;
 
-  @Column('varchar', {
+  @Column({
     name: 'identification',
-    length: 255,
+    type: 'varchar',
     unique: true,
     nullable: true,
     comment: 'Numero de documento puede ser la cedula',
   })
   identification: string;
 
-  @Column('varchar', { name: 'lastname', length: 255, comment: 'Apellidos' })
+  @Column({
+    name: 'lastname',
+    type: 'varchar',
+    comment: 'Apellidos',
+  })
   lastname: string;
 
   @Exclude()
-  @Column('varchar', {
+  @Column({
     name: 'password',
-    length: 100,
+    type: 'varchar',
     comment: 'Contraseña',
   })
   password: string;
 
-  @Column('boolean', {
+  @Column({
     name: 'password_changed',
+    type: 'boolean',
     default: false,
     comment: 'true: ya cambió la contraseña y False:no',
   })
   passwordChanged: boolean;
 
-  @Column('varchar', {
+  @Column({
     name: 'personal_email',
-    length: 150,
+    type: 'varchar',
     nullable: true,
     comment: 'Correo Electronico Personal',
   })
   personalEmail: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'phone',
-    length: 20,
+    type: 'varchar',
     nullable: true,
     comment: 'Teléfono',
   })
   phone: string;
 
   @Exclude()
-  @Column('int', {
+  @Column({
     name: 'max_attempts',
+    type: 'int',
     default: 3,
     comment:
       'Intentos máximos para errar la contraseña, si llega a cero el usuario se bloquea',
   })
   maxAttempts: number;
 
-  @Column('varchar', { name: 'name', length: 255, comment: 'Nombres' })
+  @Column({
+    name: 'name',
+    type: 'varchar',
+    comment: 'Nombres del usuario',
+  })
   name: string;
 
-  @Column('timestamp', {
+  @Column({
     name: 'suspended_at',
+    type: 'timestamp',
     nullable: true,
     comment: 'Fecha de la ultima suspension del usuario',
   })
   suspendedAt: Date;
 
-  @Column('varchar', {
+  @Column({
     name: 'username',
-    length: 100,
+    type: 'varchar',
     comment: 'Nombre de usuario para ingreso al sistema',
   })
   username: string;
 
+  /** Before Actions **/
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {
@@ -189,5 +207,14 @@ export class UserEntity {
     if (!this.birthdate) {
       return;
     }
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async setEmail() {
+    if (!this.email) {
+      return;
+    }
+    this.email = this.email.toLowerCase().trim();
   }
 }

@@ -7,13 +7,10 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  OneToMany,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { MenuEntity } from './menu.entity';
-import { PermissionEntity } from './permission.entity';
-import { UserEntity } from './user.entity';
+import { MenuEntity, PermissionEntity, UserEntity } from '@auth/entities';
 
 @Entity('roles', { schema: 'auth' })
 export class RoleEntity {
@@ -41,6 +38,16 @@ export class RoleEntity {
   })
   deletedAt: Date;
 
+  /** Inverse Relationship **/
+  @ManyToMany(() => UserEntity, (user) => user.roles)
+  @JoinTable({
+    name: 'role_user',
+    joinColumn: { name: 'role_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
+  users: UserEntity[];
+
+  /** Relationship **/
   @ManyToMany(() => MenuEntity)
   @JoinTable({
     name: 'menu_role',
@@ -57,30 +64,24 @@ export class RoleEntity {
   })
   permissions: PermissionEntity[];
 
-  @ManyToMany(() => UserEntity, (user) => user.roles)
-  @JoinTable({
-    name: 'role_user',
-    joinColumn: { name: 'role_id' },
-    inverseJoinColumn: { name: 'user_id' },
-  })
-  users: UserEntity[];
-
-  @Column('varchar', {
+  /** Columns **/
+  @Column({
     name: 'code',
-    length: 150,
+    type: 'varchar',
     unique: true,
     comment: 'Codigo del rol',
   })
   code: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'name',
-    length: 150,
+    type: 'varchar',
     unique: true,
     comment: 'Nombre del rol',
   })
   name: string;
 
+  /** Before Actions **/
   @BeforeInsert()
   @BeforeUpdate()
   async setCode() {

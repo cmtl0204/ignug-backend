@@ -34,7 +34,7 @@ export class AuthController {
     const serviceResponse = await this.authService.login(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Correct Access',
       title: 'Welcome',
     };

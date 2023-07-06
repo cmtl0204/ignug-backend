@@ -12,7 +12,7 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { MenuTypeEnum } from '../enums/menu.enum';
+import { MenuTypeEnum } from '@auth/enums';
 import { RoleEntity } from '@auth/entities';
 
 @Entity('menus', { schema: 'auth' })
@@ -41,6 +41,7 @@ export class MenuEntity {
   })
   deletedAt: Date;
 
+  /** Relationship **/
   @ManyToOne(() => MenuEntity, (category) => category.children)
   @JoinColumn({ name: 'parent_id' })
   parent: MenuEntity;
@@ -51,47 +52,54 @@ export class MenuEntity {
   @ManyToMany(() => RoleEntity)
   roles: RoleEntity[];
 
-  @Column('varchar', {
+  /** Columns **/
+  @Column({
     name: 'code',
+    type: 'varchar',
     unique: true,
     comment: 'Codigo unico',
   })
   code: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'icon',
+    type: 'varchar',
     comment: 'Icono',
   })
   icon: string;
 
-  @Column('boolean', {
+  @Column({
     name: 'is_visible',
+    type: 'boolean',
     comment: 'True=es visible, False=no es visible para el usuario final',
   })
   isVisible: boolean;
 
-  @Column('varchar', {
+  @Column({
     name: 'label',
+    type: 'varchar',
     unique: true,
     comment: 'Nombre del menu',
   })
   label: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'router_link',
-    unique: true,
+    type: 'varchar',
     nullable: true,
     comment: 'Nombre de la ruta',
   })
   routerLink: string;
 
-  @Column('enum', {
+  @Column({
     name: 'type',
+    type: 'enum',
     enum: MenuTypeEnum,
     comment: 'Tipo de menu',
   })
   type: MenuTypeEnum;
 
+  /** Before Actions **/
   @BeforeInsert()
   @BeforeUpdate()
   async setCode() {

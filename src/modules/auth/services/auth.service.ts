@@ -80,7 +80,7 @@ export class AuthService {
 
     const accessToken = this.generateJwt(user);
 
-    return { data: { accessToken, user } };
+    return { accessToken, user };
   }
 
   async findProfile(id: string): Promise<ServiceResponseHttpModel> {

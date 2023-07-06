@@ -12,11 +12,6 @@ export class AppController {
     private databaseSeeder: DatabaseSeeder,
   ) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Get('init')
   async init(): Promise<ResponseHttpModel> {
     await this.databaseSeeder.run();

@@ -13,14 +13,17 @@ export class TeacherEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @OneToOne(() => InformationStudentEntity)
-  // @JoinColumn({ name: 'student' })
-  // student: InformationStudentEntity;
+  /** Inverse Relationship **/
+  @OneToOne(() => InformationStudentEntity)
+  @JoinColumn({ name: 'student' })
+  student: InformationStudentEntity;
 
-  @Column('varchar', { name: 'name', comment: 'Nombre del estudiante' })
-  name: string;
-
+  /** Relationship **/
   @OneToOne(() => UserEntity, (user) => user.student)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+
+  /** Columns **/
+  @Column({ name: 'name', type: 'varchar', comment: 'Nombre del estudiante' })
+  name: string;
 }

@@ -6,10 +6,8 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   ManyToMany,
-  JoinTable,
-  JoinColumn,
 } from 'typeorm';
-import { RoleEntity } from './role.entity';
+import { RoleEntity } from '@auth/entities';
 
 @Entity('permissions', { schema: 'auth' })
 export class PermissionEntity {
@@ -37,12 +35,14 @@ export class PermissionEntity {
   })
   deletedAt: Date;
 
+  /** Relationship **/
   @ManyToMany(() => RoleEntity)
   roles: RoleEntity[];
 
-  @Column('varchar', {
+  /** Columns **/
+  @Column({
     name: 'name',
-    length: 150,
+    type: 'varchar',
     unique: true,
     comment: 'Nombre del permiso',
   })

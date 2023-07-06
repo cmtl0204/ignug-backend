@@ -34,6 +34,7 @@ export class InstitutionEntity {
   })
   deleteAt: Date;
 
+  /** Relationship **/
   @OneToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'address_id' })
   address: CatalogueEntity;
@@ -42,91 +43,93 @@ export class InstitutionEntity {
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
-  @Column('varchar', {
+  /** Columns **/
+  @Column({
     name: 'acronym',
-    length: 50,
+    type: 'varchar',
     default: 'none',
-    nullable: false,
-    unique: false,
     comment: 'abreviatura del nombre del instituto',
   })
   acronym: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'cellphone',
+    type: 'varchar',
     nullable: true,
-    length: 50,
     comment: 'teléfono móvil directo de contacto con el instituto',
   })
   cellphone: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'code',
-    length: 50,
+    type: 'varchar',
     comment: 'código único para identificar al instituto',
   })
   code: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'code_sniese',
-    length: 50,
+    type: 'varchar',
     comment: 'code_sniese designado al instituto',
   })
   codeSniese: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'denomination',
-    length: 255,
+    type: 'varchar',
     comment: 'denomination para referirse al instituto',
   })
   denomination: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'email',
+    type: 'varchar',
     nullable: true,
     comment: 'email para contactar al instituto',
   })
   email: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'logo',
+    type: 'varchar',
     nullable: true,
     comment: 'logo que identifica al instituto',
   })
   logo: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'name',
-    length: 255,
+    type: 'varchar',
     comment: 'nombre designado para el instituto',
   })
   name: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'phone',
+    type: 'varchar',
     nullable: true,
-    length: 20,
     comment: 'teléfono directo de contacto con el instituto',
   })
   phone: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'short_name',
-    length: 255,
+    type: 'varchar',
     comment: 'nombre corto designado para el instituto',
   })
   shortName: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'slogan',
+    type: 'varchar',
     nullable: true,
-    length: 1000,
     comment: 'slogan que describe al instituto',
   })
   slogan: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'web',
+    type: 'varchar',
     nullable: true,
     comment: 'web donde localizar al instituto',
   })

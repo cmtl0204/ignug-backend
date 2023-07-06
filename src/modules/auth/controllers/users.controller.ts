@@ -33,7 +33,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.create(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'User created',
       title: 'Created',
     };
@@ -78,7 +78,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.findOne(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `show ${id}`,
       title: `Success`,
     };
@@ -95,7 +95,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.update(id, payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `User updated ${id}`,
       title: `Updated`,
     };

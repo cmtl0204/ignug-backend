@@ -52,52 +52,58 @@ export class SubjectEntity {
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 
-  @Column('int', {
+  @Column({
     name: 'autonomous_hour',
+    type: 'int',
     default: 0,
     comment: 'Hora autónoma de la asignatura',
   })
   autonomousHour: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'code',
+    type: 'varchar',
     length: 100,
     comment: 'Código de la asignatura',
   })
   code: string;
 
-  @Column('float', {
-    name: 'credit',
+  @Column({
+    name: 'float',
+    type: 'varchar',
     nullable: true,
     default: 0,
     comment: 'Creditos de la asignatura',
   })
   credit: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'name',
-    length: 255,
+    type: 'varchar',
     default: 'SN',
     comment: 'Nombre de la asignatura',
   })
   name: string;
 
-  @Column('int', {
+  @Column({
     name: 'practical_hour',
+    type: 'int',
     default: 0,
     comment: 'Horas prácticas de la asignatura',
   })
   practicalHour: number;
 
-  @Column('int', {
+  @Column({
     name: 'scale',
+    type: 'int',
     default: 0,
     comment: 'ponderable de la asignatura',
   })
   scale: number;
 
-  @Column('int', {
+  @Column({
     name: 'teacher_hour',
+    type: 'int',
     default: 0,
     comment: 'Horas del docente',
   })
