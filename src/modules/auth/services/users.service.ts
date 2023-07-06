@@ -20,11 +20,11 @@ export class UsersService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  async create(payload: CreateUserDto): Promise<ServiceResponseHttpModel> {
+  async create(payload: CreateUserDto): Promise<ReadUserDto> {
     const newUser = this.userRepository.create(payload);
     const userCreated = await this.userRepository.save(newUser);
 
-    return { data: plainToInstance(ReadUserDto, userCreated) };
+    return plainToInstance(ReadUserDto, userCreated);
   }
 
   async catalogue(): Promise<ServiceResponseHttpModel> {

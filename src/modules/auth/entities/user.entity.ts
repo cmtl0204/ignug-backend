@@ -14,7 +14,7 @@ import {
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
-import { CatalogueEntity, StudentEntity } from '@core/entities';
+import { CatalogueEntity, StudentEntity, TeacherEntity } from '@core/entities';
 import { RoleEntity } from './role.entity';
 
 @Entity('users', { schema: 'auth' })
@@ -46,8 +46,11 @@ export class UserEntity {
   @ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
   roles: RoleEntity[];
 
-  @OneToOne(() => StudentEntity, (student) => student.user)
+  @OneToOne(() => StudentEntity, (student) => student.user, { eager: true })
   student: StudentEntity;
+
+  @OneToOne(() => TeacherEntity, (teacher) => teacher.user, { eager: true })
+  teacher: TeacherEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'blood_type_id' })

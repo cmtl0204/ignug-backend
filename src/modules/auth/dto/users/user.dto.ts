@@ -52,7 +52,7 @@ export class UserDto {
   readonly email: string;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
-  @IsEmail(isEmailValidationOptions())
+  @IsEmail({}, isEmailValidationOptions())
   @MaxLength(150, maxLengthValidationOptions())
   readonly emailVerifiedAt: string;
 

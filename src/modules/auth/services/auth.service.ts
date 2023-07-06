@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   async login(payload: LoginDto) {
-    const user = await this.findByUsername(payload.username);
+    const user: UserEntity = await this.findByUsername(payload.username);
 
     if (user && user.maxAttempts === 0)
       throw new UnauthorizedException(
@@ -73,7 +73,8 @@ export class AuthService {
     }
 
     user.activatedAt = new Date();
-    const { password, roles, ...userRest } = user;
+    // Include foreign keys
+    const { password, student, teacher, roles, ...userRest } = user;
 
     await this.repository.update(userRest.id, userRest);
 

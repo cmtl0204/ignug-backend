@@ -79,7 +79,7 @@ Nest is [MIT licensed](LICENSE).
 - Name: ExampleEntity (singular)
 - Include in index
 
-## 2. Provider
+## 2. Providers
 
 - Add RepositoryEnum in shared/enums/repository
 - Include in index
@@ -93,16 +93,16 @@ Nest is [MIT licensed](LICENSE).
         - examples/filter-example.dto (singular)
         - examples/read-example.dto (singular)
         - examples/update-example.dto (singular)
-- Include in index
+- Include in index (the order is important)
 
-## 4. Service
+## 4. Services
 
 - Name: ExamplesService (plural)
 - - Add in module
-- Include in index
+- Include in index (the order is important)
 
-## 5. Controller
+## 5. Controllers
 
 - Name: ExamplesController (plural)
 - Add in module
-- Include in index
+- Include in index (the order is important)

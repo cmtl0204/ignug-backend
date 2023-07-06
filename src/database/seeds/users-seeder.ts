@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '@auth/dto';
 import { RolesService, UsersService } from '@auth/services';
-import { RoleEntity } from '@auth/entities';
+import { RoleEntity, UserEntity } from '@auth/entities';
 import { RoleEnum } from '@auth/enums';
+import { StudentsService } from '@core/services';
 
 @Injectable()
 export class UsersSeeder {
   constructor(
     private rolesService: RolesService,
     private usersService: UsersService,
+    private studentsService: StudentsService,
   ) {}
 
   async run() {
@@ -77,7 +79,8 @@ export class UsersSeeder {
     );
 
     for (const user of users) {
-      await this.usersService.create(user);
+      const userCrated = await this.usersService.create(user);
+      await this.studentsService.create({ name: 'as', user: userCrated });
     }
   }
 }

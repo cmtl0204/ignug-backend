@@ -18,6 +18,7 @@ import { UserEntity } from '@auth/entities';
 import { UsersService } from '@auth/services';
 import { ResponseHttpModel } from '@shared/models';
 import { Auth } from '@auth/decorators';
+import { RoleEnum } from '@auth/enums';
 
 @ApiTags('Users')
 @Controller('users')
@@ -53,6 +54,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'Find All' })
+  @Auth(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterUserDto): Promise<ResponseHttpModel> {

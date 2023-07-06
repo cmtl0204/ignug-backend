@@ -23,7 +23,7 @@ import {
 import { CatalogueEntity } from '@core/entities';
 import { CatalogueTypeEnum } from '@shared/enums';
 
-@ApiTags('catalogues')
+@ApiTags('Catalogues')
 @Controller('catalogues')
 export class CataloguesController {
   constructor(private catalogueService: CataloguesService) {}

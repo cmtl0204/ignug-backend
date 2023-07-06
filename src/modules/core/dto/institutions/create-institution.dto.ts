@@ -43,7 +43,7 @@ export class CreateInstitutionDto {
   @MaxLength(255, { message: 'denomination debe tener máximo 255 caracteres' })
   readonly denomination: string;
 
-  @IsEmail({ message: 'email debe ser un email' })
+  @IsEmail({}, { message: 'email debe ser un email' })
   @IsOptional({ message: 'email es opcional' })
   readonly email: string;
 
@@ -76,6 +76,6 @@ export class CreateInstitutionDto {
 
   @IsString({ message: 'web debe ser texto' })
   @IsOptional({ message: 'web es opcional' })
-  @IsUrl({ message: 'web debe ser una url válida' })
+  @IsUrl({}, { message: 'web debe ser una url válida' })
   readonly web: string;
 }

@@ -36,7 +36,7 @@ export class InstitutionDto {
   readonly denomination: string;
 
   @IsOptional()
-  @IsEmail({ message: 'email debe ser un email' })
+  @IsEmail({}, { message: 'email debe ser un email' })
   readonly email: string;
 
   @IsOptional()
@@ -59,6 +59,6 @@ export class InstitutionDto {
 
   @IsOptional({ message: 'web es opcional' })
   @IsString({ message: 'web debe ser texto' })
-  @IsUrl({ message: 'web debe ser una url válida' })
+  @IsUrl({}, { message: 'web debe ser una url válida' })
   readonly web: string;
 }

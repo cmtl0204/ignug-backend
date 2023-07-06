@@ -37,7 +37,7 @@ export class CataloguesSeeder {
     await this.createYesNoNACatalogues();
   }
 
-  async createAcademicPeriodCatalogues() {
+  async createAcademicPeriodCatalogues(): Promise<void> {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',

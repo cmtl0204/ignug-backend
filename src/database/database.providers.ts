@@ -19,8 +19,8 @@ export const databaseProviders = [
         database,
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         // entities: [User, StudentEntity, CatalogueEntity],
-        // migrations: ['src/database/migrations/*.ts'],
-        // migrationsTableName: 'migrations',
+        migrations: ['src/database/migrations/*.ts'],
+        migrationsTableName: 'migrations',
         // dropSchema: true,
         synchronize: true,
       });

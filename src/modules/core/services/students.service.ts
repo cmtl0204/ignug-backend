@@ -10,16 +10,22 @@ import {
 } from '@core/dto';
 import { StudentEntity } from '@core/entities';
 import { RepositoryEnum } from '@shared/enums';
+import { UsersService } from '@auth/services';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class StudentsService {
   constructor(
     @Inject(RepositoryEnum.STUDENT_REPOSITORY)
     private repository: Repository<StudentEntity>,
+    private usersService: UsersService,
   ) {}
 
   async create(payload: CreateStudentDto) {
-    const newStudent = this.repository.create(payload);
+    const newStudent: StudentEntity = this.repository.create(payload);
+
+    newStudent.user = (await this.usersService.findOne(payload.user.id))
+      .data as UserEntity;
 
     const studentCreated = await this.repository.save(newStudent);
 
