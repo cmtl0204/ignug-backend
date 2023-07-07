@@ -8,6 +8,7 @@ import {
   InstitutionEntity,
   StudentEntity,
   SubjectEntity,
+  TeacherEntity,
 } from '@core/entities';
 import { DataSourceEnum, RepositoryEnum } from '@shared/enums';
 
@@ -58,6 +59,12 @@ export const coreProviders = [
     provide: RepositoryEnum.SUBJECT_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(SubjectEntity),
+    inject: [DataSourceEnum.PG_DATA_SOURCE],
+  },
+  {
+    provide: RepositoryEnum.TEACHER_REPOSITORY,
+    useFactory: (dataSource: DataSource) =>
+      dataSource.getRepository(TeacherEntity),
     inject: [DataSourceEnum.PG_DATA_SOURCE],
   },
 ];

@@ -1,5 +1,6 @@
 import { Exclude, Expose } from 'class-transformer';
 import { UserDto } from '@auth/dto';
+import { TeacherDto } from '../../../core/dto/teachers/teacher.dto';
 
 @Exclude()
 export class ReadUserInformationDto extends UserDto {
@@ -17,4 +18,7 @@ export class ReadUserInformationDto extends UserDto {
 
   @Expose()
   readonly username;
+
+  @Expose()
+  readonly teacher;
 }

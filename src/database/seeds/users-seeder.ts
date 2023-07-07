@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from '@auth/dto';
 import { RolesService, UsersService } from '@auth/services';
-import { RoleEntity, UserEntity } from '@auth/entities';
+import { RoleEntity } from '@auth/entities';
 import { RoleEnum } from '@auth/enums';
-import { StudentsService } from '@core/services';
+import { StudentsService, TeachersService } from '@core/services';
 
 @Injectable()
 export class UsersSeeder {
@@ -11,6 +11,7 @@ export class UsersSeeder {
     private rolesService: RolesService,
     private usersService: UsersService,
     private studentsService: StudentsService,
+    private teachersService: TeachersService,
   ) {}
 
   async run() {
@@ -81,6 +82,7 @@ export class UsersSeeder {
     for (const user of users) {
       const userCrated = await this.usersService.create(user);
       await this.studentsService.create({ name: 'as', user: userCrated });
+      await this.teachersService.create({ name: 'as', user: userCrated });
     }
   }
 }

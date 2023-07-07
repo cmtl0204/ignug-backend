@@ -65,7 +65,7 @@ export class AuthController {
     const serviceResponse = await this.authService.findProfile(user.id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `profile`,
       title: `Success`,
     };
@@ -74,14 +74,14 @@ export class AuthController {
   @ApiOperation({ summary: 'Find User Information' })
   @Auth()
   @Get('user-information')
-  @HttpCode(HttpStatus.CREATED)
+  @HttpCode(HttpStatus.OK)
   async findUserInformation(
     @User() user: UserEntity,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.authService.findUserInformation(user.id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The user information was updated',
       title: 'User Information Updated',
     };
@@ -121,7 +121,7 @@ export class AuthController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The user information was updated',
       title: 'User Information Updated',
     };

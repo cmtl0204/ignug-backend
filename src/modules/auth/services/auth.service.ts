@@ -83,7 +83,7 @@ export class AuthService {
     return { accessToken, user };
   }
 
-  async findProfile(id: string): Promise<ServiceResponseHttpModel> {
+  async findProfile(id: string): Promise<ReadProfileDto> {
     const user = await this.repository.findOne({
       where: { id },
       relations: {
@@ -100,23 +100,23 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    return { data: plainToInstance(ReadProfileDto, user) };
+    return plainToInstance(ReadProfileDto, user);
   }
 
-  async findUserInformation(id: string): Promise<ServiceResponseHttpModel> {
+  async findUserInformation(id: string): Promise<ReadUserInformationDto> {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    return { data: plainToInstance(ReadUserInformationDto, user) };
+    return plainToInstance(ReadUserInformationDto, user);
   }
 
   async updateUserInformation(
     id: string,
     payload: UpdateUserInformationDto,
-  ): Promise<ServiceResponseHttpModel> {
+  ): Promise<ReadUserInformationDto> {
     const user = (await this.userService.findOne(id)).data as UserEntity;
 
     if (!user) {
@@ -126,7 +126,7 @@ export class AuthService {
     this.repository.merge(user, payload);
     const userUpdated = await this.repository.save(user);
 
-    return { data: plainToInstance(ReadUserInformationDto, userUpdated) };
+    return plainToInstance(ReadUserInformationDto, userUpdated);
   }
 
   async updateProfile(
