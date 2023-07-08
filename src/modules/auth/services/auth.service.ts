@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { UserEntity } from '@auth/entities';
+import { RoleEntity, UserEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
 import { RepositoryEnum } from '@shared/enums';
 import {
@@ -33,7 +33,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async changePassword(id: string, payload: PasswordChangeDto) {
+  async changePassword(
+    id: string,
+    payload: PasswordChangeDto,
+  ): Promise<boolean> {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
@@ -54,10 +57,10 @@ export class AuthService {
 
     await this.repository.save(user);
 
-    return { data: true };
+    return true;
   }
 
-  async login(payload: LoginDto) {
+  async login(payload: LoginDto): Promise<ServiceResponseHttpModel> {
     const user: UserEntity = await this.findByUsername(payload.username);
 
     if (user && user.maxAttempts === 0)
@@ -78,9 +81,9 @@ export class AuthService {
 
     await this.repository.update(userRest.id, userRest);
 
-    const accessToken = this.generateJwt(user);
+    const accessToken = this.generateJwt(user, 'admin');
 
-    return { accessToken, user };
+    return { data: { accessToken, user } };
   }
 
   async findProfile(id: string): Promise<ReadProfileDto> {
@@ -117,7 +120,7 @@ export class AuthService {
     id: string,
     payload: UpdateUserInformationDto,
   ): Promise<ReadUserInformationDto> {
-    const user = (await this.userService.findOne(id)).data as UserEntity;
+    const user = await this.userService.findOne(id);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -132,7 +135,7 @@ export class AuthService {
   async updateProfile(
     id: string,
     payload: UpdateProfileDto,
-  ): Promise<ServiceResponseHttpModel> {
+  ): Promise<ReadProfileDto> {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
@@ -143,17 +146,17 @@ export class AuthService {
 
     const profileUpdated = await this.repository.save(user);
 
-    return { data: plainToInstance(ReadProfileDto, profileUpdated) };
+    return plainToInstance(ReadProfileDto, profileUpdated);
   }
 
-  refreshToken(user: UserEntity) {
-    const accessToken = this.generateJwt(user);
+  refreshToken(user: UserEntity): ServiceResponseHttpModel {
+    const accessToken = this.generateJwt(user, 'admin');
 
     return { data: { accessToken, user } };
   }
 
-  private generateJwt(user: UserEntity) {
-    const payload: PayloadTokenModel = { id: user.id, role: 'admin' };
+  private generateJwt(user: UserEntity, role: string): string {
+    const payload: PayloadTokenModel = { id: user.id, role };
 
     return this.jwtService.sign(payload);
   }
@@ -166,7 +169,10 @@ export class AuthService {
     })) as UserEntity;
   }
 
-  private async checkPassword(passwordCompare: string, user: UserEntity) {
+  private async checkPassword(
+    passwordCompare: string,
+    user: UserEntity,
+  ): Promise<null | UserEntity> {
     const { password, ...userRest } = user;
     const isMatch = Bcrypt.compareSync(passwordCompare, password);
 

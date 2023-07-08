@@ -25,8 +25,7 @@ export class TeachersService {
   async create(payload: CreateTeacherDto) {
     const newTeacher = this.repository.create(payload);
 
-    newTeacher.user = (await this.usersService.findOne(payload.user.id))
-      .data as UserEntity;
+    newTeacher.user = await this.usersService.findOne(payload.user.id);
 
     const teacherCreated = await this.repository.save(newTeacher);
 

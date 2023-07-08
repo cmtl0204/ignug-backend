@@ -141,7 +141,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.removeAll(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Users deleted`,
       title: `Deleted`,
     };
@@ -157,7 +157,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.suspend(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `User suspended ${id}`,
       title: `Suspended`,
     };

@@ -34,7 +34,7 @@ export class AuthController {
     const serviceResponse = await this.authService.login(payload);
 
     return {
-      data: serviceResponse,
+      data: serviceResponse.data,
       message: 'Correct Access',
       title: 'Welcome',
     };
@@ -51,7 +51,7 @@ export class AuthController {
     const serviceResponse = await this.authService.changePassword(id, payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The password was changed',
       title: 'Password Changed',
     };
@@ -101,7 +101,7 @@ export class AuthController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The profile was updated',
       title: 'Profile Updated',
     };

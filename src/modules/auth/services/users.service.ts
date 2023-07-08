@@ -58,7 +58,7 @@ export class UsersService {
     };
   }
 
-  async findOne(id: string): Promise<ServiceResponseHttpModel> {
+  async findOne(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { id },
       select: { password: false },
@@ -68,7 +68,7 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
 
-    return { data: plainToInstance(ReadUserDto, user) };
+    return user;
   }
 
   async update(
@@ -88,7 +88,7 @@ export class UsersService {
   }
 
   async reactivate(id: string): Promise<ServiceResponseHttpModel> {
-    const user = (await this.findOne(id)).data as UserEntity;
+    const user = await this.findOne(id);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -114,9 +114,9 @@ export class UsersService {
     return { data: plainToInstance(ReadUserDto, userDeleted) };
   }
 
-  async removeAll(payload: UserEntity[]): Promise<ServiceResponseHttpModel> {
+  async removeAll(payload: UserEntity[]): Promise<UserEntity> {
     const usersDeleted = await this.userRepository.softRemove(payload);
-    return { data: usersDeleted };
+    return usersDeleted[0];
   }
 
   private async paginateAndFilter(
@@ -169,8 +169,8 @@ export class UsersService {
     };
   }
 
-  async suspend(id: string): Promise<ServiceResponseHttpModel> {
-    const user = (await this.findOne(id)).data as UserEntity;
+  async suspend(id: string): Promise<ReadUserDto> {
+    const user = await this.findOne(id);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -180,6 +180,6 @@ export class UsersService {
 
     const userUpdated = await this.userRepository.save(user);
 
-    return { data: plainToInstance(ReadUserDto, userUpdated) };
+    return plainToInstance(ReadUserDto, userUpdated);
   }
 }
