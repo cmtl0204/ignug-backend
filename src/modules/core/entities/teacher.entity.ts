@@ -6,7 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { InformationStudentEntity } from '@core/entities';
+import {
+  InformationStudentEntity,
+  InformationTeacherEntity,
+} from '@core/entities';
 
 @Entity('teachers', { schema: 'core' })
 export class TeacherEntity {
@@ -16,7 +19,7 @@ export class TeacherEntity {
   /** Inverse Relationship **/
   @OneToOne(() => InformationStudentEntity)
   @JoinColumn({ name: 'student' })
-  student: InformationStudentEntity;
+  informationTeacherEntity: InformationTeacherEntity;
 
   /** Relationship **/
   @OneToOne(() => UserEntity, (user) => user.student)

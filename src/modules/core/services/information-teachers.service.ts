@@ -199,7 +199,6 @@ export class InformationTeachersService {
       where.push({ academicUnit: ILike(`%${search}%`) });
       where.push({ degreeHigherEducation: ILike(`%${search}%`) });
       where.push({ institutionHigherEducation: ILike(`%${search}%`) });
-      where.push({ otherHours: ILike(`%${search}%`) });
       where.push({ technical: ILike(`%${search}%`) });
       where.push({ technology: ILike(`%${search}%`) });
     }

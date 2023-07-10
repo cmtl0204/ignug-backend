@@ -61,7 +61,16 @@ export class AuthService {
   }
 
   async login(payload: LoginDto): Promise<ServiceResponseHttpModel> {
-    const user: UserEntity = await this.findByUsername(payload.username);
+    const user: UserEntity = (await this.repository.findOne({
+      where: {
+        username: payload.username,
+      },
+      relations: {
+        roles: true,
+        teacher: true,
+        student: true,
+      },
+    })) as UserEntity;
 
     if (user && user.maxAttempts === 0)
       throw new UnauthorizedException(

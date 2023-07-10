@@ -37,7 +37,9 @@ export class InformationStudentEntity {
   })
   deletedAt: Date;
 
-  @OneToOne(() => StudentEntity)
+  /** Relationship **/
+  @OneToOne(() => StudentEntity, (student) => student.informationStudent)
+  @JoinColumn({ name: 'teacher_id' })
   student: StudentEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
@@ -60,102 +62,112 @@ export class InformationStudentEntity {
   @JoinColumn({ name: 'is_subject_repeat' })
   isSubjectRepeat: CatalogueEntity;
 
-  @Column('varchar', {
+  /** Columns **/
+  @Column({
     name: 'address',
-    length: 1000,
+    type: 'text',
     comment: 'La direccion donde reside el estudiante',
   })
   address: string;
 
-  @Column('integer', {
+  @Column({
     name: 'community',
+    type: 'int',
     comment:
       'Las horas realizadas por parte del estudiante en integracion con la sociedad',
   })
   community: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'contact_emergency_name',
-    length: 255,
+    type: 'varchar',
     comment:
       'Nombre del contacto de emergencia para informar sobre el estudiante',
   })
   contactEmergencyName: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'contact_emergency_kinship',
-    length: 255,
+    type: 'varchar',
     comment:
       'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
   })
   contactEmergencyKinship: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'contact_emergency_phone',
-    length: 255,
+    type: 'varchar',
     comment:
       'Numeros de contacto de emergencia para informar sobre el estudiante',
   })
   contactEmergencyPhone: string;
 
-  @Column('integer', {
+  @Column({
     name: 'disability_percentage',
+    type: 'float',
     comment: 'El porcentaje de discapicidad que tiene el estudiante ',
   })
   disabilityPercentage: number;
 
-  @Column('integer', {
+  @Column({
     name: 'economic_amount',
+    type: 'float',
     comment: 'El monto de ayuda economica que el estudiante recibe',
   })
   economicAmount: number;
 
-  @Column('integer', {
+  @Column({
     name: 'educational_amount',
+    type: 'float',
     comment: 'El monto de credito que el estudiante tiene',
   })
   educationalAmount: number;
 
-  @Column('integer', {
+  @Column({
     name: 'family_income',
+    type: 'float',
     comment: 'La direccion donde reside el estudiante',
   })
   familyIncome: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'financing_scholarship_type',
-    length: 180,
-    comment: 'recibi el estudiante un financiamiento si =1, no = 2',
+    type: 'varchar',
+    comment: 'Recibe el estudiante un financiamiento si =1, no = 2',
   })
   financingScholarshipType: string;
 
-  @Column('integer', {
+  @Column({
     name: 'members_house_number',
+    type: 'int',
     comment: 'Numero de familiares con quien vive el estudiante',
   })
   membersHouseNumber: number;
 
-  @Column('integer', {
+  @Column({
     name: 'practice_hours',
+    type: 'int',
     comment: 'Las horas realizadas por parte del estudiante en pasantias',
   })
   practiceHours: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'postal_code',
-    length: 100,
+    type: 'varchar',
     comment: 'Codigo postal donde el estudiante reside',
   })
   postalCode: string;
 
-  @Column('integer', {
+  @Column({
     name: 'scholarship_amount',
+    type: 'float',
     comment: 'El monto de beca que el estudiante obtuvo',
   })
   scholarshipAmount: number;
 
-  @Column('integer', {
+  @Column({
     name: 'tariff_scholarship_percentage',
+    type: 'float',
     comment: 'El porcentaje de beca que cubre la institutcion el estudiante ',
   })
   tariffScholarshipPercentage: number;

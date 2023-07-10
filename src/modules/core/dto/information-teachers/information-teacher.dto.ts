@@ -94,14 +94,14 @@ export class InformationTeacherDto {
 
   @IsOptional()
   @IsString({ message: 'otherHours debe ser un texto' })
-  readonly otherHours: string;
+  readonly otherHours: number;
 
   @IsOptional()
   @IsNumber({}, { message: 'El campo publications tiene que ser númerico.' })
   @Min(1, {
     message: 'El número de caracteres mínimo es 0 en el campo publications.',
   })
-  readonly publications: number;
+  readonly publications: string;
 
   @IsOptional()
   @IsNumber(

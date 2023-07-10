@@ -44,13 +44,13 @@ export class UserEntity {
   deletedAt: Date;
 
   /** Inverse Relationship **/
-  @ManyToMany(() => RoleEntity, (role) => role.users, { eager: true })
+  @ManyToMany(() => RoleEntity, (role) => role.users)
   roles: RoleEntity[];
 
-  @OneToOne(() => StudentEntity, (student) => student.user, { eager: true })
+  @OneToOne(() => StudentEntity, (student) => student.user)
   student: StudentEntity;
 
-  @OneToOne(() => TeacherEntity, (teacher) => teacher.user, { eager: true })
+  @OneToOne(() => TeacherEntity, (teacher) => teacher.user)
   teacher: TeacherEntity;
 
   /** Relationship **/

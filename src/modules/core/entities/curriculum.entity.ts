@@ -50,46 +50,48 @@ export class CurriculumEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: false })
   state: CatalogueEntity;
 
-  @Column('varchar', {
+  @Column({
     name: 'code',
-    length: 255,
+    type: 'varchar',
     default: 'SN',
-    comment: 'Nombre del producto',
+    comment: 'Codigo de la malla',
   })
   code: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'name',
-    length: 255,
+    type: 'varchar',
     default: 'SN',
-    comment: 'Nombre del producto',
+    comment: 'Nombre de la malla',
   })
   name: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'description',
-    length: 255,
+    type: 'varchar',
     default: 'SN',
-    comment: 'Nombre del producto',
+    comment: 'Descripcion de la mall',
   })
   description: string;
 
-  @Column('varchar', {
-    name: 'resolution_Number',
-    length: 255,
+  @Column({
+    name: 'resolution_number',
+    type: 'varchar',
     default: 'SN',
     comment: 'Numero de resolucion',
   })
   resolutionNumber: string;
 
-  @Column('float', {
-    name: 'periodic_Academic_Number',
-    comment: 'numero de periodo academmico',
+  @Column({
+    name: 'periodic_academic_number',
+    type: 'int',
+    comment: 'numero de periodos academmicos',
   })
   periodicAcademicNumber: number;
 
-  @Column('float', {
+  @Column({
     name: 'weeks_Number',
+    type: 'int',
     comment: 'Numeros de semanas',
   })
   weeksNumber: number;

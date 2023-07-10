@@ -63,51 +63,59 @@ export class CareerEntity {
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 
-  @Column('varchar', {
+  @Column({
     name: 'acronym',
+    type: 'varchar',
     comment: 'Acronimo de la carrera Ej. DS, MKT, GN',
   })
   acronym: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'code',
+    type: 'varchar',
     comment: 'Codigo de la carrera',
   })
   code: string;
 
-  @Column('varchar', {
+  @Column({
     comment: 'Codigo sniese de la carrera',
+    type: 'varchar',
     name: 'code_sniese',
   })
   codeSniese: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'degree',
+    type: 'varchar',
     comment: 'Titulo que otorga la carrera',
   })
   degree: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'logo',
+    type: 'varchar',
     nullable: true,
     comment: 'Logo de la carrera',
   })
   logo: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'name',
+    type: 'varchar',
     comment: 'Nombre de la carrera',
   })
   name: string;
 
-  @Column('float', {
+  @Column({
     comment: 'Numero de resolucion de la carrera',
+    type: 'varchar',
     name: 'resolution_number',
   })
   resolutionNumber: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'short_name',
+    type: 'varchar',
     comment: 'Nombre corto de la carrera',
   })
   shortName: string;

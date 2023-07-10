@@ -16,7 +16,7 @@ export class StudentEntity {
   /** Inverse Relationship **/
   @OneToOne(() => InformationStudentEntity)
   @JoinColumn({ name: 'student' })
-  student: InformationStudentEntity;
+  informationStudent: InformationStudentEntity;
 
   /** Relationship **/
   @OneToOne(() => UserEntity, (user) => user.student)

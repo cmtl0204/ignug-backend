@@ -5,10 +5,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueEntity } from '@core/entities';
+import { CatalogueEntity, TeacherEntity } from '@core/entities';
 
 @Entity('information_teachers', { schema: 'core' })
 export class InformationTeacherEntity {
@@ -35,6 +36,11 @@ export class InformationTeacherEntity {
     nullable: true,
   })
   deletedAt: Date;
+
+  /** Relationship **/
+  @OneToOne(() => TeacherEntity, (teacher) => teacher.informationTeacherEntity)
+  @JoinColumn({ name: 'teacher_id' })
+  teacher: TeacherEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'country_higher_education_id' })
@@ -64,126 +70,134 @@ export class InformationTeacherEntity {
   @JoinColumn({ name: 'teaching_ladder_id' })
   teachingLadder: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
-  @JoinColumn({ name: 'username_id' })
-  username: CatalogueEntity;
-
-  @Column('varchar', {
+  /** Columns **/
+  @Column({
     name: 'academic_unit',
-    length: 255,
+    type: 'varchar',
     comment: 'Nombre de la unidad academica',
   })
   academicUnit: string;
 
-  @Column('float', {
+  @Column({
     name: 'administrative_hours',
+    type: 'float',
     unsigned: true,
     comment: 'Horas dedicadas a la administracion al mes',
   })
   administrativeHours: number;
 
-  @Column('float', {
+  @Column({
     name: 'class_hours',
+    type: 'float',
     unsigned: true,
     comment: 'Total de horas de clase dadas',
   })
   classHours: number;
 
-  @Column('float', {
+  @Column({
     name: 'community_hours',
+    type: 'float',
     unsigned: true,
     comment: 'Horas dedicadas a labores comunitarios',
   })
   communityHours: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'degree_higher_education',
-    length: 255,
+    type: 'varchar',
     comment: 'Que grado de educación superior tiene el usuario',
   })
   degreeHigherEducation: string;
 
-  @Column('float', {
+  @Column({
     name: 'hours_worked',
+    type: 'float',
     unsigned: true,
     comment: 'Total de las horas trabajadas al mes',
   })
   hoursWorked: number;
 
-  @Column('date', {
+  @Column({
     nullable: true,
+    type: 'date',
     name: 'holidays',
     comment: 'Fecha de los dias festivos.',
   })
   holidays: Date;
 
-  @Column('date', {
+  @Column({
     nullable: true,
+    type: 'date',
     name: 'home_vacation',
     comment: 'Fecha para las vacacines',
   })
   homeVacation: Date;
 
-  @Column('varchar', {
+  @Column({
     name: 'institution_higher_education',
-    length: 255,
+    type: 'varchar',
     comment: 'Nombre de la institución de educación superior',
   })
   institutionHigherEducation: string;
 
-  @Column('float', {
+  @Column({
     name: 'investigation_hours',
+    type: 'float',
     unsigned: true,
     comment: 'Horas de investigacion al mes',
   })
   investigationHours: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'other_hours',
-    length: 255,
+    type: 'float',
     comment: 'Horas dedicadas a otras actividades',
   })
-  otherHours: string;
+  otherHours: number;
 
-  @Column('float', {
+  @Column({
     name: 'publications',
+    type: 'varchar',
     unsigned: true,
     comment: 'Revisar publicacion',
   })
-  publications: number;
+  publications: string;
 
-  @Column('float', {
+  @Column({
     name: 'scholarship_amount',
+    type: 'float',
     unsigned: true,
     comment: 'Precio de la beca a pagar',
   })
   scholarshipAmount: number;
 
-  @Column('float', {
+  @Column({
     name: 'total_subjects',
+    type: 'int',
     unsigned: true,
     comment: 'Total de personas en la academia',
   })
   totalSubjects: number;
 
-  @Column('varchar', {
+  @Column({
     name: 'technical',
-    length: 255,
+    type: 'varchar',
     comment: 'nombre de la tecnica a usar',
   })
   technical: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'technology',
-    length: 255,
+    type: 'varchar',
     comment: 'nombres de las salas de tecnologia',
   })
   technology: string;
 
-  @Column('float', {
+  @Column({
     name: 'total_publications',
+    type: 'int',
     unsigned: true,
-    comment: 'Total de las publicaciones realizadas sata el momento',
+    comment: 'Total de las publicaciones realizadas hasta el momento',
   })
   totalPublications: number;
 }

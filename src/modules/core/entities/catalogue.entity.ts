@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueTypeEnum, CatalogueStateEnum } from '@shared/enums';
+import { CatalogueTypeEnum } from '@shared/enums';
 
 @Entity('catalogues', { schema: 'core' })
 export class CatalogueEntity {
@@ -47,40 +47,37 @@ export class CatalogueEntity {
 
   @Column('varchar', {
     name: 'code',
-    comment: 'Nombre del producto',
+    comment: 'Codigo del catalogo',
   })
   code: string;
 
-  @Column('varchar', {
+  @Column({
     name: 'description',
-    comment: 'Nombre del producto',
+    type: 'varchar',
+    comment: 'Descripcion del catalogo',
   })
   description: string;
 
-  @Column('boolean', {
+  @Column({
     name: 'is_visible',
+    type: 'boolean',
     default: true,
     comment: 'true=visible, false=no visible',
   })
   isVisible: boolean;
 
-  @Column('varchar', {
+  @Column({
     name: 'name',
-    comment: 'Nombre del producto',
+    type: 'varchar',
+    comment: 'Nombre del catalogo',
   })
   name: string;
 
-  @Column('enum', {
-    name: 'state',
-    enum: CatalogueStateEnum,
-    comment: 'Nombre del producto',
-  })
-  state: CatalogueStateEnum;
-
-  @Column('enum', {
+  @Column({
     name: 'type',
+    type: 'enum',
     enum: CatalogueTypeEnum,
-    comment: 'Nombre del producto',
+    comment: 'Tipo de menu',
   })
   type: CatalogueTypeEnum;
 }

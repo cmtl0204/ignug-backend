@@ -36,6 +36,7 @@ export class SubjectEntity {
   })
   deletedAt: Date;
 
+  /** Relationship **/
   @ManyToOne(() => CatalogueEntity, { nullable: false })
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
@@ -52,6 +53,7 @@ export class SubjectEntity {
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 
+  /** Columns **/
   @Column({
     name: 'autonomous_hour',
     type: 'int',
@@ -63,14 +65,13 @@ export class SubjectEntity {
   @Column({
     name: 'code',
     type: 'varchar',
-    length: 100,
     comment: 'Código de la asignatura',
   })
   code: string;
 
   @Column({
-    name: 'float',
-    type: 'varchar',
+    name: 'credits',
+    type: 'int',
     nullable: true,
     default: 0,
     comment: 'Creditos de la asignatura',
@@ -95,7 +96,7 @@ export class SubjectEntity {
 
   @Column({
     name: 'scale',
-    type: 'int',
+    type: 'float',
     default: 0,
     comment: 'ponderable de la asignatura',
   })
