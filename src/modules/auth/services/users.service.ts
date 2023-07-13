@@ -61,6 +61,7 @@ export class UsersService {
   async findOne(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: { id },
+      relations: { roles: true },
       select: { password: false },
     });
 
@@ -139,6 +140,7 @@ export class UsersService {
 
     const response = await this.userRepository.findAndCount({
       where,
+      relations: { roles: true },
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
       order: {
