@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Inject,
   Injectable,
   NotFoundException,
@@ -10,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { RoleEntity, UserEntity } from '@auth/entities';
+import { UserEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
 import { RepositoryEnum } from '@shared/enums';
 import {
