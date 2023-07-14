@@ -84,6 +84,13 @@ export class MenuEntity {
   label: string;
 
   @Column({
+    name: 'order',
+    type: 'integer',
+    comment: 'Orden del menu',
+  })
+  order: string;
+
+  @Column({
     name: 'router_link',
     type: 'varchar',
     nullable: true,

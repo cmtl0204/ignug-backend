@@ -34,6 +34,7 @@ export class UsersSeeder {
     users.push(
       {
         email: 'admin@gmail.com',
+        identification: '123456781',
         lastname: 'Perez',
         name: 'Admin',
         password: '12345678',
@@ -43,6 +44,7 @@ export class UsersSeeder {
       },
       {
         email: 'teacher@gmail.com',
+        identification: '123456782',
         lastname: 'Perez',
         name: 'Teacher',
         password: '12345678',
@@ -52,6 +54,7 @@ export class UsersSeeder {
       },
       {
         email: 'coordinator_administrative@gmail.com',
+        identification: '123456783',
         lastname: 'Perez',
         name: 'Coordinator Administrative',
         password: '12345678',
@@ -61,6 +64,7 @@ export class UsersSeeder {
       },
       {
         email: 'coordinator_career@gmail.com',
+        identification: '123456784',
         lastname: 'Perez',
         name: 'Coordinator Career',
         password: '12345678',
@@ -70,6 +74,7 @@ export class UsersSeeder {
       },
       {
         email: 'rector@gmail.com',
+        identification: '123456785',
         lastname: 'Perez',
         name: 'Rector',
         password: '12345678',
@@ -81,8 +86,8 @@ export class UsersSeeder {
 
     for (const user of users) {
       const userCrated = await this.usersService.create(user);
-      await this.studentsService.create({ name: 'as', user: userCrated });
-      await this.teachersService.create({ name: 'as', user: userCrated });
+      await this.studentsService.create({ name: 'Juan', user: userCrated });
+      await this.teachersService.create({ name: 'Luis', user: userCrated });
     }
   }
 }

@@ -17,9 +17,10 @@ export class MenusSeeder {
     menus.push(
       {
         code: 'profile',
-        icon: 'pi pi-user',
+        icon: 'pi pi-id-card',
         isVisible: true,
         label: 'Perfil',
+        order: 1,
         routerLink: '/profile',
         type: MenuTypeEnum.LEFT_SIDE,
       },
@@ -28,6 +29,7 @@ export class MenusSeeder {
         icon: 'pi pi-users',
         isVisible: true,
         label: 'Administrador',
+        order: 2,
         type: MenuTypeEnum.LEFT_SIDE,
       },
     );
@@ -35,6 +37,7 @@ export class MenusSeeder {
     for (const menu of menus) {
       await this.menusService.create(menu);
     }
+
     menus = [];
     const menusAll = (await this.menusService.findAll()).data as MenuEntity[];
     const administratorMenu = menusAll.find(
@@ -47,6 +50,7 @@ export class MenusSeeder {
         icon: 'pi pi-users',
         isVisible: true,
         label: 'Usuarios',
+        order: 1,
         routerLink: '/administration/users',
         type: MenuTypeEnum.LEFT_SIDE,
         parent: administratorMenu,
@@ -56,6 +60,7 @@ export class MenusSeeder {
         icon: 'pi pi-bars',
         isVisible: true,
         label: 'Menus',
+        order: 2,
         routerLink: '/administration/menus',
         type: MenuTypeEnum.LEFT_SIDE,
         parent: administratorMenu,

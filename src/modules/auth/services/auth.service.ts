@@ -80,7 +80,9 @@ export class AuthService {
       throw new UnauthorizedException('User is suspended.');
 
     if (!user || !(await this.checkPassword(payload.password, user))) {
-      throw new UnauthorizedException('Wrong username and/or password.');
+      throw new UnauthorizedException(
+        `Wrong username and/or password, ${user.maxAttempts} attempts remaining`,
+      );
     }
 
     user.activatedAt = new Date();

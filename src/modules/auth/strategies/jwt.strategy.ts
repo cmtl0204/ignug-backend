@@ -29,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     if (user.maxAttempts === 0)
       throw new UnauthorizedException(
-        'User exceeded the maximum number of attempts allowed.',
+        'User exceeded the maximum number of attempts allowed. (jwt)',
       );
 
     return user;
