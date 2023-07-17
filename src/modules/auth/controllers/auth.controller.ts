@@ -16,15 +16,20 @@ import { UserEntity } from '@auth/entities';
 import {
   LoginDto,
   PasswordChangeDto,
-  UpdateUserInformationDto,
   UpdateProfileDto,
+  UpdateUserInformationDto,
 } from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
+import { MailService } from '../../common/mail/mail.service';
+import { TemplateEnum } from '@shared/enums';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private readonly nodemailerService: MailService,
+  ) {}
 
   @ApiOperation({ summary: 'Login' })
   @PublicRoute()
@@ -136,6 +141,23 @@ export class AuthController {
 
     return {
       data: serviceResponse.data,
+      message: 'Correct Access',
+      title: 'Refresh Token',
+    };
+  }
+
+  @ApiOperation({ summary: 'Send Email' })
+  @Get('send-email')
+  @HttpCode(HttpStatus.CREATED)
+  async sendEmail() {
+    const response = await this.nodemailerService.sendMail(
+      ['ctamyo@gmail.com'],
+      'asd',
+      TemplateEnum.TEST,
+    );
+
+    return {
+      data: response,
       message: 'Correct Access',
       title: 'Refresh Token',
     };

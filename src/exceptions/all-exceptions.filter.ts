@@ -12,6 +12,7 @@ import {
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 import { ErrorResponseHttpModel } from '@shared/models';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -68,6 +69,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
       errorResponseHttpModel.error = exception.name || 'QueryFailedError';
       errorResponseHttpModel.message =
         exception.driverError.detail || 'Query Error';
+    }
+    console.log(typeof exception);
+    if (exception instanceof ExceptionsHandler) {
+      status = 400;
+      console.log(exception);
+      // errorResponseHttpModel.statusCode = exception..code || 400;
+      // errorResponseHttpModel.error = exception.name || 'QueryFailedError';
+      // errorResponseHttpModel.message =
+      //   exception.driverError.detail || 'Query Error';
     }
 
     response.status(status).json(errorResponseHttpModel);

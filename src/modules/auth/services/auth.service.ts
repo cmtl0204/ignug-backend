@@ -25,6 +25,8 @@ import { UsersService } from '@auth/services';
 
 @Injectable()
 export class AuthService {
+  private readonly MAX_ATTEMPTS = 3;
+
   constructor(
     @Inject(RepositoryEnum.USER_REPOSITORY)
     private repository: Repository<UserEntity>,
@@ -71,24 +73,30 @@ export class AuthService {
       },
     })) as UserEntity;
 
-    if (user && user.maxAttempts === 0)
+    if (user && user?.suspendedAt)
+      throw new UnauthorizedException('User is suspended.');
+
+    if (user && user?.maxAttempts === 0)
       throw new UnauthorizedException(
         'User exceeded the maximum number of attempts allowed.',
       );
 
-    if (user && user.suspendedAt)
-      throw new UnauthorizedException('User is suspended.');
+    if (user && !(await this.checkPassword(payload.password, user))) {
+      const attempts = user.maxAttempts - 1;
+      throw new UnauthorizedException(
+        `Wrong username and/or password, ${attempts} attempts remaining`,
+      );
+    }
 
     if (!user || !(await this.checkPassword(payload.password, user))) {
-      throw new UnauthorizedException(
-        `Wrong username and/or password, ${user.maxAttempts} attempts remaining`,
-      );
+      throw new UnauthorizedException(`Wrong username and/or password`);
     }
 
     user.activatedAt = new Date();
     // Include foreign keys
     const { password, student, teacher, roles, ...userRest } = user;
 
+    userRest.maxAttempts = this.MAX_ATTEMPTS;
     await this.repository.update(userRest.id, userRest);
 
     const accessToken = this.generateJwt(user, 'admin');

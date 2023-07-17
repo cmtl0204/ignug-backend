@@ -18,11 +18,13 @@ import { JwtStrategy } from '@auth/strategies';
 import { authProviders } from '@auth/providers';
 import { DatabaseModule } from '@database';
 import { MenusController } from './controllers/menus.controller';
+import { CommonModule } from '@common/modules';
 
 @Global()
 @Module({
   imports: [
     DatabaseModule,
+    CommonModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       inject: [config.KEY],

@@ -106,3 +106,5 @@ Nest is [MIT licensed](LICENSE).
 - Name: ExamplesController (plural)
 - Add in module
 - Include in index (the order is important)
+
+"assets": [{ "include": "mail/templates/**/*", "outDir": "dist/src" }]
