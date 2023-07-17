@@ -38,7 +38,7 @@ export class InformationTeacherEntity {
   deletedAt: Date;
 
   /** Relationship **/
-  @OneToOne(() => TeacherEntity, (teacher) => teacher.informationTeacherEntity)
+  @OneToOne(() => TeacherEntity, (teacher) => teacher.informationTeacher)
   @JoinColumn({ name: 'teacher_id' })
   teacher: TeacherEntity;
 

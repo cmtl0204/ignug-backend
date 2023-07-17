@@ -85,7 +85,7 @@ export class CurriculumEntity {
   @Column({
     name: 'periodic_academic_number',
     type: 'int',
-    comment: 'numero de periodos academmicos',
+    comment: 'numero de periodos academicos',
   })
   periodicAcademicNumber: number;
 

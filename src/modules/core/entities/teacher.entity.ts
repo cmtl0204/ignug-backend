@@ -17,9 +17,9 @@ export class TeacherEntity {
   id: string;
 
   /** Inverse Relationship **/
-  @OneToOne(() => InformationStudentEntity)
-  @JoinColumn({ name: 'student' })
-  informationTeacherEntity: InformationTeacherEntity;
+  @OneToOne(() => InformationTeacherEntity)
+  @JoinColumn({ name: 'teacher' })
+  informationTeacher: InformationTeacherEntity;
 
   /** Relationship **/
   @OneToOne(() => UserEntity, (user) => user.student)
