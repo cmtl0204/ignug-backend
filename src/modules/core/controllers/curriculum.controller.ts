@@ -19,13 +19,13 @@ import {
   FilterCurriculumDto,
 } from '@core/dto';
 import { CurriculumEntity } from '@core/entities';
-import { CurriculaService } from '@core/services';
+import { CurriculumsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('Curricula')
-@Controller('curricula')
-export class CurriculaController {
-  constructor(private curriculaService: CurriculaService) {}
+@ApiTags('Curriculum')
+@Controller('curriculum')
+export class CurriculumController {
+  constructor(private curriculumsService: CurriculumsService) {}
 
   @ApiOperation({ summary: 'Create Curriculum' })
   @Post()
@@ -33,27 +33,27 @@ export class CurriculaController {
   async create(
     @Body() payload: CreateCurriculumDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.curriculaService.create(payload);
+    const serviceResponse = await this.curriculumsService.create(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The curriculum was created',
       title: 'Curriculum Created',
     };
   }
 
-  @ApiOperation({ summary: 'Find All Curricula' })
+  @ApiOperation({ summary: 'Find All Curriculum' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
     @Query() params: FilterCurriculumDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.curriculaService.findAll(params);
+    const serviceResponse = await this.curriculumsService.findAll(params);
 
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: 'Find all curricula',
+      message: 'Find all curriculums',
       title: 'Success',
     };
   }
@@ -64,10 +64,10 @@ export class CurriculaController {
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.curriculaService.findOne(id);
+    const serviceResponse = await this.curriculumsService.findOne(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Find curriculum',
       title: `Success`,
     };
@@ -80,10 +80,10 @@ export class CurriculaController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateCurriculumDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.curriculaService.update(id, payload);
+    const serviceResponse = await this.curriculumsService.update(id, payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The curriculum was updated',
       title: 'Curriculum Updated',
     };
@@ -95,27 +95,27 @@ export class CurriculaController {
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.curriculaService.remove(id);
+    const serviceResponse = await this.curriculumsService.remove(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The curriculum was deleted',
       title: `Curriculum Deleted`,
     };
   }
 
-  @ApiOperation({ summary: 'Delete All Curricula' })
+  @ApiOperation({ summary: 'Delete All Curriculum' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(
     @Body() payload: CurriculumEntity[],
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.curriculaService.removeAll(payload);
+    const serviceResponse = await this.curriculumsService.removeAll(payload);
 
     return {
-      data: serviceResponse.data,
-      message: 'The curricula was deleted',
-      title: 'Curricula Deleted',
+      data: serviceResponse,
+      message: 'The curriculum was deleted',
+      title: 'Curriculum Deleted',
     };
   }
 }

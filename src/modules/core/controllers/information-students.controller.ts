@@ -39,7 +39,7 @@ export class InformationStudentsController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'created',
       title: 'Created',
     };
@@ -70,7 +70,7 @@ export class InformationStudentsController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationStudentsService.findOne(id);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `show ${id}`,
       title: `Success`,
     };
@@ -89,7 +89,7 @@ export class InformationStudentsController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Information Student  updated ${id}`,
       title: `Updated`,
     };
@@ -103,7 +103,7 @@ export class InformationStudentsController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationStudentsService.remove(id);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Information Student deleted ${id}`,
       title: `Deleted`,
     };
@@ -120,7 +120,7 @@ export class InformationStudentsController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Information Students deleted`,
       title: `Deleted`,
     };

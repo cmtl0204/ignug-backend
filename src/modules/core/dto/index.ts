@@ -10,10 +10,10 @@ export * from './catalogues/create-catalogue.dto';
 export * from './catalogues/update-catalogue.dto';
 export * from './catalogues/filter-catalogue.dto';
 
-export * from './curricula/curriculum.dto';
-export * from './curricula/create-curriculum.dto';
-export * from './curricula/update-curriculum.dto';
-export * from './curricula/filter-curriculum.dto';
+export * from './curriculum/curriculum.dto';
+export * from './curriculum/create-curriculum.dto';
+export * from './curriculum/update-curriculum.dto';
+export * from './curriculum/filter-curriculum.dto';
 
 export * from './information-students/information-student.dto';
 export * from './information-students/create-information-student.dto';

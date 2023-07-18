@@ -24,12 +24,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}/curricula",
+					"raw": "{{HOST}}/curriculum",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"curricula"
+						"curriculum"
 					]
 				}
 			},
@@ -50,12 +50,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}/curricula/1",
+					"raw": "{{HOST}}/curriculum/1",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"curricula",
+						"curriculum",
 						"1"
 					]
 				}
@@ -77,12 +77,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}/curricula/2",
+					"raw": "{{HOST}}/curriculum/2",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"curricula",
+						"curriculum",
 						"2"
 					]
 				}
@@ -95,12 +95,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{HOST}}/curricula/1",
+					"raw": "{{HOST}}/curriculum/1",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"curricula",
+						"curriculum",
 						"1"
 					]
 				}
@@ -122,12 +122,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{HOST}}/curricula",
+					"raw": "{{HOST}}/curriculum",
 					"host": [
 						"{{HOST}}"
 					],
 					"path": [
-						"curricula"
+						"curriculum"
 					]
 				}
 			},

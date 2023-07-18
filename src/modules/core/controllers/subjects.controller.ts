@@ -34,7 +34,7 @@ export class SubjectsController {
     const serviceResponse = await this.subjectsService.create(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Subject was created',
       title: 'Subject Created',
     };
@@ -63,7 +63,7 @@ export class SubjectsController {
     const serviceResponse = await this.subjectsService.findOne(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Find subject`,
       title: `Success`,
     };
@@ -79,7 +79,7 @@ export class SubjectsController {
     const serviceResponse = await this.subjectsService.update(id, payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Subject was updated',
       title: 'Subject Updated',
     };
@@ -94,7 +94,7 @@ export class SubjectsController {
     const serviceResponse = await this.subjectsService.remove(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Subject was deleted',
       title: 'Subject Deleted',
     };
@@ -109,7 +109,7 @@ export class SubjectsController {
     const serviceResponse = await this.subjectsService.removeAll(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Subjects was deleted',
       title: 'Subjects Deleted',
     };

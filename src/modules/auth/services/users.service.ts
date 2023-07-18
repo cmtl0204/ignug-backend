@@ -72,23 +72,20 @@ export class UsersService {
     return user;
   }
 
-  async update(
-    id: string,
-    payload: UpdateUserDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async update(id: string, payload: UpdateUserDto): Promise<ReadUserDto> {
     const user = await this.userRepository.preload({ id, ...payload });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    // this.userRepository.merge(user, payload);
+    this.userRepository.merge(user, payload);
     const userUpdated = await this.userRepository.save(user);
 
-    return { data: plainToInstance(ReadUserDto, userUpdated) };
+    return plainToInstance(ReadUserDto, userUpdated);
   }
 
-  async reactivate(id: string): Promise<ServiceResponseHttpModel> {
+  async reactivate(id: string): Promise<ReadUserDto> {
     const user = await this.findOne(id);
 
     if (!user) {
@@ -100,10 +97,10 @@ export class UsersService {
 
     const userUpdated = await this.userRepository.save(user);
 
-    return { data: plainToInstance(ReadUserDto, userUpdated) };
+    return plainToInstance(ReadUserDto, userUpdated);
   }
 
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
+  async remove(id: string): Promise<ReadUserDto> {
     const user = await this.userRepository.findOneBy({ id });
 
     if (!user) {
@@ -112,7 +109,7 @@ export class UsersService {
 
     const userDeleted = await this.userRepository.softRemove(user);
 
-    return { data: plainToInstance(ReadUserDto, userDeleted) };
+    return plainToInstance(ReadUserDto, userDeleted);
   }
 
   async removeAll(payload: UserEntity[]): Promise<UserEntity> {

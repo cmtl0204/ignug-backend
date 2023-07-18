@@ -44,7 +44,7 @@ export class CareersController {
     const serviceResponse = await this.careersService.create(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Career was created',
       title: 'Career Created',
     };
@@ -73,7 +73,7 @@ export class CareersController {
     const serviceResponse = await this.careersService.findOne(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Find career`,
       title: `Success`,
     };
@@ -88,7 +88,7 @@ export class CareersController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.update(id, payload);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Career was updated`,
       title: `Career Updated`,
     };
@@ -102,7 +102,7 @@ export class CareersController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.remove(id);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Career was deleted`,
       title: `Career Deleted`,
     };
@@ -115,7 +115,7 @@ export class CareersController {
     const serviceResponse = await this.careersService.removeAll(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Careers was deleted`,
       title: `Careers Deleted`,
     };

@@ -37,6 +37,14 @@ export class InformationTeacherEntity {
   })
   deletedAt: Date;
 
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   /** Relationship **/
   @OneToOne(() => TeacherEntity, (teacher) => teacher.informationTeacher)
   @JoinColumn({ name: 'teacher_id' })

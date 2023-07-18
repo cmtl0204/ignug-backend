@@ -111,7 +111,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.reactivate(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `User reactivated ${id}`,
       title: `Reactivated`,
     };
@@ -127,7 +127,7 @@ export class UsersController {
     const serviceResponse = await this.usersService.remove(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `User deleted ${id}`,
       title: `Deleted`,
     };

@@ -1,8 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike } from 'typeorm';
 import {
-  CreateCatalogueDto,
   CreateStudentDto,
   FilterStudentDto,
   PaginationDto,
@@ -11,7 +9,6 @@ import {
 import { StudentEntity } from '@core/entities';
 import { RepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
-import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class StudentsService {
@@ -21,7 +18,7 @@ export class StudentsService {
     private usersService: UsersService,
   ) {}
 
-  async create(payload: CreateStudentDto) {
+  async create(payload: CreateStudentDto): Promise<StudentEntity> {
     const newStudent: StudentEntity = this.repository.create(payload);
 
     newStudent.user = await this.usersService.findOne(payload.user.id);

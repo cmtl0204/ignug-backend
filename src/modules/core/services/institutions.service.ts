@@ -15,24 +15,19 @@ import { RepositoryEnum } from '@shared/enums';
 export class InstitutionsService {
   constructor(
     @Inject(RepositoryEnum.INSTITUTION_REPOSITORY)
-    private institutionRepository: Repository<InstitutionEntity>,
+    private repository: Repository<InstitutionEntity>,
     private cataloguesService: CataloguesService,
   ) {}
 
-  async create(
-    payload: CreateInstitutionDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const newInstitution = this.institutionRepository.create(payload);
+  async create(payload: CreateInstitutionDto): Promise<InstitutionEntity> {
+    const newInstitution = this.repository.create(payload);
     newInstitution.address = await this.cataloguesService.findOne(
       payload.address.id,
     );
     newInstitution.state = await this.cataloguesService.findOne(
       payload.state.id,
     );
-    const institutionCreated = await this.institutionRepository.save(
-      newInstitution,
-    );
-    return { data: institutionCreated };
+    return await this.repository.save(newInstitution);
   }
 
   async findAll(
@@ -49,26 +44,27 @@ export class InstitutionsService {
     // }
 
     //All
-    const data = await this.institutionRepository.findAndCount({
+    const data = await this.repository.findAndCount({
       relations: ['address', 'state'],
     });
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: string): Promise<any> {
-    const institution = await this.institutionRepository.findOne({
+  async findOne(id: string): Promise<InstitutionEntity> {
+    const institution = await this.repository.findOne({
       relations: ['address', 'state'],
       where: { id },
     });
     if (!institution) throw new NotFoundException('Institution not found');
+
     return institution;
   }
 
   async update(
     id: string,
     payload: UpdateInstitutionDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const institution = await this.institutionRepository.findOneBy({ id });
+  ): Promise<InstitutionEntity> {
+    const institution = await this.repository.findOneBy({ id });
 
     if (!institution) throw new NotFoundException('Institution not found');
 
@@ -76,28 +72,22 @@ export class InstitutionsService {
       payload.address.id,
     );
     institution.state = await this.cataloguesService.findOne(payload.state.id);
-    this.institutionRepository.merge(institution, payload);
-    const institutionUpdated = await this.institutionRepository.save(
-      institution,
-    );
-    return { data: institutionUpdated };
+
+    this.repository.merge(institution, payload);
+
+    return await this.repository.save(institution);
   }
 
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
-    const institution = await this.institutionRepository.findOneBy({ id });
+  async remove(id: string): Promise<InstitutionEntity> {
+    const institution = await this.repository.findOneBy({ id });
+
     if (!institution) throw new NotFoundException('Institution not found');
 
-    const institutionDeleted = await this.institutionRepository.softDelete(id);
-    return { data: institutionDeleted };
+    return await this.repository.softRemove(institution);
   }
 
-  async removeAll(
-    payload: InstitutionEntity[],
-  ): Promise<ServiceResponseHttpModel> {
-    const institutionsDeleted = await this.institutionRepository.softRemove(
-      payload,
-    );
-    return { data: institutionsDeleted };
+  async removeAll(payload: InstitutionEntity[]): Promise<InstitutionEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(
@@ -128,7 +118,7 @@ export class InstitutionsService {
       where.push({ web: ILike(`%${search}`) });
     }
 
-    const response = await this.institutionRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['address', 'state'],
       where,
       take: limit,

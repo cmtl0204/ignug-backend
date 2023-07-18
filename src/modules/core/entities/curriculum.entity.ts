@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { CareerEntity, CatalogueEntity } from '@core/entities';
 
-@Entity('curricula', { schema: 'core' })
+@Entity('curriculum', { schema: 'core' })
 export class CurriculumEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -43,6 +43,14 @@ export class CurriculumEntity {
     nullable: true,
   })
   deletedAT: Date;
+
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
 
   @ManyToOne(() => CareerEntity, { nullable: false })
   career: CareerEntity;

@@ -7,7 +7,7 @@ import {
 } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
-import { CataloguesService, CurriculaService } from '@core/services';
+import { CataloguesService, CurriculumsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { RepositoryEnum } from '@shared/enums';
 
@@ -15,13 +15,13 @@ import { RepositoryEnum } from '@shared/enums';
 export class SubjectsService {
   constructor(
     @Inject(RepositoryEnum.SUBJECT_REPOSITORY)
-    private subjectRepository: Repository<SubjectEntity>,
+    private repository: Repository<SubjectEntity>,
     private catalogueService: CataloguesService,
-    private curriculumService: CurriculaService,
+    private curriculumService: CurriculumsService,
   ) {}
 
-  async create(payload: CreateSubjectDto): Promise<ServiceResponseHttpModel> {
-    const newSubject = this.subjectRepository.create(payload);
+  async create(payload: CreateSubjectDto): Promise<SubjectEntity> {
+    const newSubject = this.repository.create(payload);
 
     newSubject.academicPeriod = await this.catalogueService.findOne(
       payload.academicPeriod.id,
@@ -35,9 +35,7 @@ export class SubjectsService {
       payload.curriculum.id,
     );
 
-    const subjectCreated = await this.subjectRepository.save(newSubject);
-
-    return { data: subjectCreated };
+    return await this.repository.save(newSubject);
   }
 
   async findAll(params?: FilterSubjectDto): Promise<ServiceResponseHttpModel> {
@@ -52,15 +50,15 @@ export class SubjectsService {
     }
 
     //All
-    const data = await this.subjectRepository.findAndCount({
+    const data = await this.repository.findAndCount({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
     });
 
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: string): Promise<ServiceResponseHttpModel> {
-    const subject = await this.subjectRepository.findOne({
+  async findOne(id: string): Promise<SubjectEntity> {
+    const subject = await this.repository.findOne({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where: { id },
     });
@@ -69,14 +67,11 @@ export class SubjectsService {
       throw new NotFoundException('Subject not found');
     }
 
-    return { data: subject };
+    return subject;
   }
 
-  async update(
-    id: string,
-    payload: UpdateSubjectDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const subject = await this.subjectRepository.findOneBy({ id });
+  async update(id: string, payload: UpdateSubjectDto): Promise<SubjectEntity> {
+    const subject = await this.repository.findOneBy({ id });
 
     if (!subject) {
       throw new NotFoundException('Subject not found');
@@ -94,27 +89,23 @@ export class SubjectsService {
       payload.curriculum.id,
     );
 
-    this.subjectRepository.merge(subject, payload);
-    const subjectUpdated = await this.subjectRepository.save(subject);
+    this.repository.merge(subject, payload);
 
-    return { data: subjectUpdated };
+    return await this.repository.save(subject);
   }
 
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
-    const subject = await this.subjectRepository.findOneBy({ id });
+  async remove(id: string): Promise<SubjectEntity> {
+    const subject = await this.repository.findOneBy({ id });
 
     if (!subject) {
       throw new NotFoundException('Subject not found');
     }
-    const subjectDeleted = await this.subjectRepository.save(subject);
 
-    return { data: subjectDeleted };
+    return await this.repository.save(subject);
   }
 
-  async removeAll(payload: SubjectEntity[]): Promise<ServiceResponseHttpModel> {
-    const subjectsDeleted = await this.subjectRepository.softRemove(payload);
-
-    return { data: subjectsDeleted };
+  async removeAll(payload: SubjectEntity[]): Promise<SubjectEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(
@@ -135,7 +126,7 @@ export class SubjectsService {
       where.push({ name: ILike(`%${search}%`) });
     }
 
-    const response = await this.subjectRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
       take: limit,
@@ -157,7 +148,7 @@ export class SubjectsService {
       where.autonomousHour = LessThan(autonomousHour);
     }
 
-    const response = await this.subjectRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['academicPeriod', 'curriculum', 'state', 'type'],
       where,
     });

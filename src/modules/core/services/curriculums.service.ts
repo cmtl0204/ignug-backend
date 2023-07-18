@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import {
   CreateCurriculumDto,
-  UpdateCurriculumDto,
   FilterCurriculumDto,
   PaginationDto,
+  UpdateCurriculumDto,
 } from '@core/dto';
 import { CurriculumEntity } from '@core/entities';
 import {
@@ -16,27 +16,22 @@ import { ServiceResponseHttpModel } from '@shared/models';
 import { RepositoryEnum } from '@shared/enums';
 
 @Injectable()
-export class CurriculaService {
+export class CurriculumsService {
   constructor(
     @Inject(RepositoryEnum.CURRICULUM_REPOSITORY)
-    private curriculumRepository: Repository<CurriculumEntity>,
+    private repository: Repository<CurriculumEntity>,
     private careerService: CareersService,
     private institutionsService: InstitutionsService,
     private catalogueService: CataloguesService,
   ) {}
 
-  async create(
-    payload: CreateCurriculumDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const newCurriculum = this.curriculumRepository.create(payload);
+  async create(payload: CreateCurriculumDto): Promise<CurriculumEntity> {
+    const newCurriculum = this.repository.create(payload);
+
     newCurriculum.career = await this.careerService.findOne(payload.career.id);
     newCurriculum.state = await this.catalogueService.findOne(payload.state.id);
-    const curriculumCreated = await this.curriculumRepository.save(
-      newCurriculum,
-    );
-    return {
-      data: curriculumCreated,
-    };
+
+    return await this.repository.save(newCurriculum);
   }
 
   async findAll(
@@ -51,15 +46,15 @@ export class CurriculaService {
       return await this.filterByWeeksNumber(params.weeksNumber);
 
     //All
-    const data = await this.curriculumRepository.findAndCount({
+    const data = await this.repository.findAndCount({
       relations: ['career', 'state'],
     });
 
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: string): Promise<any> {
-    const curriculum = await this.curriculumRepository.findOne({
+  async findOne(id: string): Promise<CurriculumEntity> {
+    const curriculum = await this.repository.findOne({
       relations: ['career', 'state'],
       where: {
         id,
@@ -69,14 +64,15 @@ export class CurriculaService {
     if (!curriculum) {
       throw new NotFoundException('El producto no se encontro');
     }
+
     return curriculum;
   }
 
   async update(
     id: string,
     payload: UpdateCurriculumDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const curriculum = await this.curriculumRepository.findOne({
+  ): Promise<CurriculumEntity> {
+    const curriculum = await this.repository.findOne({
       relations: ['career', 'state'],
       where: {
         id,
@@ -86,41 +82,27 @@ export class CurriculaService {
     if (!curriculum) {
       throw new NotFoundException('El producto no se encontro');
     }
+
     curriculum.career = await this.careerService.findOne(payload.career.id);
     curriculum.state = await this.catalogueService.findOne(payload.state.id);
 
-    this.curriculumRepository.merge(curriculum, payload);
+    this.repository.merge(curriculum, payload);
 
-    const curriculumUpdated = await this.curriculumRepository.save(curriculum);
-    return {
-      data: curriculumUpdated,
-    };
+    return await this.repository.save(curriculum);
   }
 
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
-    const curriculum = await this.curriculumRepository.findOne({
-      relations: ['career', 'state'],
-      where: {
-        id,
-      },
-    });
+  async remove(id: string): Promise<CurriculumEntity> {
+    const curriculum = await this.repository.findOneBy({ id });
 
     if (!curriculum) {
-      throw new NotFoundException('El producto no se encontro');
+      throw new NotFoundException('La malla curricular no se encontró');
     }
-    const curriculumDeleted = await this.curriculumRepository.softDelete(id);
-    return {
-      data: curriculumDeleted,
-    };
+
+    return await this.repository.softRemove(curriculum);
   }
 
-  async removeAll(
-    payload: CurriculumEntity[],
-  ): Promise<ServiceResponseHttpModel> {
-    const curriculaDeleted = await this.curriculumRepository.softRemove(
-      payload,
-    );
-    return { data: curriculaDeleted };
+  async removeAll(payload: CurriculumEntity[]): Promise<CurriculumEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(
@@ -143,7 +125,7 @@ export class CurriculaService {
       where.push({ resolutionNumber: ILike(`%${search}%`) });
     }
 
-    const response = await this.curriculumRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['career', 'state'],
       where,
       take: limit,
@@ -165,7 +147,7 @@ export class CurriculaService {
       where.weeksNumber = LessThan(weeksNumber);
     }
 
-    const response = await this.curriculumRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['career', 'state'],
       where,
     });

@@ -39,14 +39,23 @@ export class CatalogueEntity {
   })
   deletedAt: Date;
 
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   @ManyToOne(() => CatalogueEntity, (category) => category.children)
   parent: CatalogueEntity;
 
   @OneToMany(() => CatalogueEntity, (category) => category.parent)
   children: CatalogueEntity[];
 
-  @Column('varchar', {
+  @Column({
     name: 'code',
+    type: 'varchar',
     comment: 'Codigo del catalogo',
   })
   code: string;
@@ -57,14 +66,6 @@ export class CatalogueEntity {
     comment: 'Descripcion del catalogo',
   })
   description: string;
-
-  @Column({
-    name: 'is_visible',
-    type: 'boolean',
-    default: true,
-    comment: 'true=visible, false=no visible',
-  })
-  isVisible: boolean;
 
   @Column({
     name: 'name',

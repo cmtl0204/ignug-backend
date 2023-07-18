@@ -34,6 +34,14 @@ export class InstitutionEntity {
   })
   deleteAt: Date;
 
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   /** Relationship **/
   @OneToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'address_id' })

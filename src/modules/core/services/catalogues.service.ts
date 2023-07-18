@@ -11,6 +11,7 @@ import { CatalogueTypeEnum, RepositoryEnum } from '@shared/enums';
 import { ReadUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { plainToInstance } from 'class-transformer';
+import { ServiceResponseHttpModel } from '@shared/models';
 
 @Injectable()
 export class CataloguesService {
@@ -19,13 +20,13 @@ export class CataloguesService {
     private repository: Repository<CatalogueEntity>,
   ) {}
 
-  async create(payload: CreateCatalogueDto) {
+  async create(payload: CreateCatalogueDto): Promise<CatalogueEntity> {
     const newCatalogue = this.repository.create(payload);
 
     return await this.repository.save(newCatalogue);
   }
 
-  async catalogue(type: CatalogueTypeEnum) {
+  async catalogue(type: CatalogueTypeEnum): Promise<ServiceResponseHttpModel> {
     const data = await this.repository.findAndCount({
       where: { type },
       order: { name: 1 },
@@ -35,7 +36,9 @@ export class CataloguesService {
     return { pagination: { totalItems: data[1], limit: 1000 }, data: data[0] };
   }
 
-  async findAll(params?: FilterCatalogueDto) {
+  async findAll(
+    params?: FilterCatalogueDto,
+  ): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params.limit > 0 && params.page >= 0) {
       return await this.paginateAndFilter(params);
@@ -73,20 +76,18 @@ export class CataloguesService {
     return this.repository.save(catalogue);
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<CatalogueEntity> {
     const catalogue = await this.repository.findOneBy({ id });
 
     if (!catalogue) {
       throw new NotFoundException('Catalogue not found');
     }
 
-    await this.repository.softDelete(id);
-    return true;
+    return await this.repository.softRemove(catalogue);
   }
 
-  async removeAll(payload: CatalogueEntity[]) {
-    const usersDeleted = await this.repository.softRemove(payload);
-    return { data: usersDeleted };
+  async removeAll(payload: CatalogueEntity[]): Promise<CatalogueEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(params: FilterCatalogueDto) {

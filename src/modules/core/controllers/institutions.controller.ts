@@ -35,7 +35,7 @@ export class InstitutionsController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.create(payload);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `Institution was created`,
       title: 'Institution Created',
     };
@@ -64,7 +64,7 @@ export class InstitutionsController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.findOne(id);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Find Institution',
       title: `Success`,
     };
@@ -79,7 +79,7 @@ export class InstitutionsController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.update(id, payload);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Institution was updated',
       title: `Institution Updated`,
     };
@@ -93,7 +93,7 @@ export class InstitutionsController {
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.instituteService.remove(id);
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Institution was deleted',
       title: 'Institution Deleted',
     };
@@ -108,7 +108,7 @@ export class InstitutionsController {
     const serviceResponse = await this.instituteService.removeAll(payload);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Institutions was deleted',
       title: 'Institutions Deleted',
     };

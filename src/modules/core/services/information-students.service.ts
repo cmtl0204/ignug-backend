@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import { InformationStudentEntity } from '@core/entities';
 import {
   CreateInformationStudentDto,
@@ -15,17 +15,14 @@ import { RepositoryEnum } from '@shared/enums';
 export class InformationStudentsService {
   constructor(
     @Inject(RepositoryEnum.INFORMATION_STUDENT_REPOSITORY)
-    private informationStudentRepository: Repository<InformationStudentEntity>,
+    private repository: Repository<InformationStudentEntity>,
     private cataloguesService: CataloguesService,
   ) {}
 
   async create(
     payload: CreateInformationStudentDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const newInformationStudent =
-      this.informationStudentRepository.create(payload);
-
-    this.informationStudentRepository.create(payload);
+  ): Promise<InformationStudentEntity> {
+    const newInformationStudent = this.repository.create(payload);
 
     newInformationStudent.isExecutedPractice =
       await this.cataloguesService.findOne(payload.isExecutedPractice.id);
@@ -48,10 +45,7 @@ export class InformationStudentsService {
     newInformationStudent.isSubjectRepeat =
       await this.cataloguesService.findOne(payload.isSubjectRepeat.id);
 
-    const informationStudentCreated =
-      await this.informationStudentRepository.save(newInformationStudent);
-
-    return { data: informationStudentCreated };
+    return await this.repository.save(newInformationStudent);
   }
 
   async findAll(
@@ -68,7 +62,7 @@ export class InformationStudentsService {
     }
 
     //All
-    const data = await this.informationStudentRepository.findAndCount({
+    const data = await this.repository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -81,8 +75,8 @@ export class InformationStudentsService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: string): Promise<ServiceResponseHttpModel> {
-    const informationStudent = await this.informationStudentRepository.findOne({
+  async findOne(id: string): Promise<InformationStudentEntity> {
+    const informationStudent = await this.repository.findOne({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -97,15 +91,14 @@ export class InformationStudentsService {
       throw new NotFoundException('La informacion no se encontro');
     }
 
-    return { data: informationStudent };
+    return informationStudent;
   }
 
   async update(
     id: string,
     payload: UpdateInformationStudentDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const informationStudent =
-      await this.informationStudentRepository.findOneBy({ id });
+  ): Promise<InformationStudentEntity> {
+    const informationStudent = await this.repository.findOneBy({ id });
 
     if (informationStudent === null) {
       throw new NotFoundException(
@@ -134,34 +127,25 @@ export class InformationStudentsService {
       payload.isSubjectRepeat.id,
     );
 
-    this.informationStudentRepository.merge(informationStudent, payload);
-    const informationStudentUpdated =
-      await this.informationStudentRepository.save(informationStudent);
+    this.repository.merge(informationStudent, payload);
 
-    return { data: informationStudentUpdated };
+    return await this.repository.save(informationStudent);
   }
 
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
-    const informationStudent =
-      await this.informationStudentRepository.findOneBy({ id });
+  async remove(id: string): Promise<InformationStudentEntity> {
+    const informationStudent = await this.repository.findOneBy({ id });
 
     if (!informationStudent) {
       throw new NotFoundException('Information Student not found');
     }
 
-    const informationStudentDeleted =
-      await this.informationStudentRepository.save(informationStudent);
-
-    return { data: informationStudentDeleted };
+    return await this.repository.save(informationStudent);
   }
 
   async removeAll(
     payload: InformationStudentEntity[],
-  ): Promise<ServiceResponseHttpModel> {
-    const informationStudentsDeleted =
-      await this.informationStudentRepository.softRemove(payload);
-
-    return { data: informationStudentsDeleted };
+  ): Promise<InformationStudentEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(
@@ -185,7 +169,7 @@ export class InformationStudentsService {
       where.push({ postalCode: ILike(`%${search}%`) });
     }
 
-    const response = await this.informationStudentRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',
@@ -213,7 +197,7 @@ export class InformationStudentsService {
       where.community = LessThan(community);
     }
 
-    const response = await this.informationStudentRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: [
         'isAncestralLanguage',
         'isBonusDevelopmentReceive',

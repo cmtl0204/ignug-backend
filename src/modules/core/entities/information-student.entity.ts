@@ -37,9 +37,17 @@ export class InformationStudentEntity {
   })
   deletedAt: Date;
 
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   /** Relationship **/
   @OneToOne(() => StudentEntity, (student) => student.informationStudent)
-  @JoinColumn({ name: 'teacher_id' })
+  @JoinColumn({ name: 'student_id' })
   student: StudentEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })

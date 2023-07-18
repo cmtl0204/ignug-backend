@@ -36,6 +36,14 @@ export class SubjectEntity {
   })
   deletedAt: Date;
 
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   /** Relationship **/
   @ManyToOne(() => CatalogueEntity, { nullable: false })
   @JoinColumn({ name: 'academic_period_id' })
@@ -76,7 +84,7 @@ export class SubjectEntity {
     default: 0,
     comment: 'Creditos de la asignatura',
   })
-  credit: number;
+  credits: number;
 
   @Column({
     name: 'name',

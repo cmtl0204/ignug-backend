@@ -38,7 +38,7 @@ export class InformationTeachersController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'Information Teacher Created',
       title: 'Information Teacher Created',
     };
@@ -70,7 +70,7 @@ export class InformationTeachersController {
     const serviceResponse = await this.informationTeachersService.findOne(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'FInd Information Teacher',
       title: `Success`,
     };
@@ -89,7 +89,7 @@ export class InformationTeachersController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: 'The information teacher was updated',
       title: `Information Teacher Updated`,
     };
@@ -104,7 +104,7 @@ export class InformationTeachersController {
     const serviceResponse = await this.informationTeachersService.remove(id);
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `The information teacher was deleted`,
       title: `Information Teacher Deleted`,
     };
@@ -121,7 +121,7 @@ export class InformationTeachersController {
     );
 
     return {
-      data: serviceResponse.data,
+      data: serviceResponse,
       message: `The information teachers was deleted`,
       title: `Information Teachers Deleted`,
     };

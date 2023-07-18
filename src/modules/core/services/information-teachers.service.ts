@@ -15,15 +15,14 @@ import { RepositoryEnum } from '@shared/enums';
 export class InformationTeachersService {
   constructor(
     @Inject(RepositoryEnum.INFORMATION_TEACHER_REPOSITORY)
-    private InformationTeacherRepository: Repository<InformationTeacherEntity>,
+    private repository: Repository<InformationTeacherEntity>,
     private catalogueService: CataloguesService,
   ) {}
 
   async create(
     payload: CreateInformationTeacherDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const newInformationTeacher =
-      this.InformationTeacherRepository.create(payload);
+  ): Promise<InformationTeacherEntity> {
+    const newInformationTeacher = this.repository.create(payload);
 
     newInformationTeacher.countryHigherEducation =
       await this.catalogueService.findOne(payload.countryHigherEducation.id);
@@ -52,14 +51,7 @@ export class InformationTeachersService {
       payload.teachingLadder.id,
     );
 
-    // newInformationTeacher.username = await this.catalogueService.findOne(
-    //   payload.username.id,
-    // );
-
-    const informationTeacherCreated =
-      await this.InformationTeacherRepository.save(newInformationTeacher);
-
-    return { data: informationTeacherCreated };
+    return await this.repository.save(newInformationTeacher);
   }
 
   async findAll(
@@ -74,7 +66,7 @@ export class InformationTeachersService {
     if (params.holidays) {
       return this.filterByHolidays(params.holidays);
     }
-    const data = await this.InformationTeacherRepository.findAndCount({
+    const data = await this.repository.findAndCount({
       relations: [
         'countryHigherEducation',
         'dedicationTime',
@@ -89,8 +81,8 @@ export class InformationTeachersService {
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: string): Promise<ServiceResponseHttpModel> {
-    const informationTeacher = await this.InformationTeacherRepository.findOne({
+  async findOne(id: string): Promise<InformationTeacherEntity> {
+    const informationTeacher = await this.repository.findOne({
       relations: [
         'countryHigherEducation',
         'dedicationTime',
@@ -108,15 +100,14 @@ export class InformationTeachersService {
       throw new NotFoundException('InformationTeacher not found');
     }
 
-    return { data: informationTeacher };
+    return informationTeacher;
   }
 
   async update(
     id: string,
     payload: UpdateInformationTeacherDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const informationTeacher =
-      await this.InformationTeacherRepository.findOneBy({ id });
+  ): Promise<InformationTeacherEntity> {
+    const informationTeacher = await this.repository.findOneBy({ id });
 
     if (!informationTeacher) {
       throw new NotFoundException('Information teacher not found');
@@ -148,38 +139,25 @@ export class InformationTeachersService {
       payload.teachingLadder.id,
     );
 
-    // informationTeacher.username = await this.catalogueService.findOne(
-    //   payload.username.id,
-    // );
+    this.repository.merge(informationTeacher, payload);
 
-    this.InformationTeacherRepository.merge(informationTeacher, payload);
-    const informationTeacherUpdated =
-      await this.InformationTeacherRepository.save(informationTeacher);
-
-    return { data: informationTeacherUpdated };
+    return await this.repository.save(informationTeacher);
   }
 
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
-    const informationTeacher =
-      await this.InformationTeacherRepository.findOneBy({ id });
+  async remove(id: string): Promise<InformationTeacherEntity> {
+    const informationTeacher = await this.repository.findOneBy({ id });
 
     if (!informationTeacher) {
       throw new NotFoundException('information teacher not found');
     }
 
-    const informationTeacherDeleted =
-      await this.InformationTeacherRepository.save(informationTeacher);
-
-    return { data: informationTeacherDeleted };
+    return await this.repository.save(informationTeacher);
   }
 
   async removeAll(
     payload: InformationTeacherEntity[],
-  ): Promise<ServiceResponseHttpModel> {
-    const informationTeachersDeleted =
-      await this.InformationTeacherRepository.softRemove(payload);
-
-    return { data: informationTeachersDeleted };
+  ): Promise<InformationTeacherEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(
@@ -203,7 +181,7 @@ export class InformationTeachersService {
       where.push({ technology: ILike(`%${search}%`) });
     }
 
-    const response = await this.InformationTeacherRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: [
         'countryHigherEducation',
         'dedicationTime',
@@ -234,7 +212,7 @@ export class InformationTeachersService {
       where.holidays = LessThan(holidays);
     }
 
-    const response = await this.InformationTeacherRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: [
         'countryHigherEducation',
         'dedicationTime',

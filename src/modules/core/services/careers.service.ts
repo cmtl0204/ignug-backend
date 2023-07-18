@@ -1,13 +1,13 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateCareerDto,
-  UpdateCareerDto,
   FilterCareerDto,
   PaginationDto,
+  UpdateCareerDto,
 } from '@core/dto';
 import { CareerEntity } from '@core/entities';
-import { InstitutionsService, CataloguesService } from '@core/services';
+import { CataloguesService, InstitutionsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { RepositoryEnum } from '@shared/enums';
 
@@ -15,13 +15,13 @@ import { RepositoryEnum } from '@shared/enums';
 export class CareersService {
   constructor(
     @Inject(RepositoryEnum.CAREER_REPOSITORY)
-    private careerRepository: Repository<CareerEntity>,
+    private repository: Repository<CareerEntity>,
     private institutionService: InstitutionsService,
     private cataloguesService: CataloguesService,
   ) {}
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
-    const response = await this.careerRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['institution', 'modality', 'state', 'type'],
       take: 1000,
     });
@@ -35,12 +35,12 @@ export class CareersService {
     };
   }
 
-  async create(payload: CreateCareerDto): Promise<ServiceResponseHttpModel> {
-    const newCareer = this.careerRepository.create(payload);
+  async create(payload: CreateCareerDto): Promise<CareerEntity> {
+    const newCareer = this.repository.create(payload);
 
-    // newCareer.institution = await this.institutionService.findOne(
-    //   payload.institution.id,
-    // );
+    newCareer.institution = await this.institutionService.findOne(
+      payload.institution.id,
+    );
 
     newCareer.modality = await this.cataloguesService.findOne(
       payload.modality.id,
@@ -50,9 +50,7 @@ export class CareersService {
 
     newCareer.type = await this.cataloguesService.findOne(payload.type.id);
 
-    const careerCreated = await this.careerRepository.save(newCareer);
-
-    return { data: careerCreated };
+    return await this.repository.save(newCareer);
   }
 
   async findAll(params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
@@ -64,15 +62,15 @@ export class CareersService {
     //Filter by other field
 
     //All
-    const data = await this.careerRepository.findAndCount({
+    const data = await this.repository.findAndCount({
       relations: ['institution', 'modality', 'state', 'type'],
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: string): Promise<any> {
-    const career = await this.careerRepository.findOne({
+  async findOne(id: string): Promise<CareerEntity> {
+    const career = await this.repository.findOne({
       relations: ['institution', 'modality', 'state', 'type'],
       where: {
         id,
@@ -80,39 +78,36 @@ export class CareersService {
     });
 
     if (!career) {
-      throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
+      throw new NotFoundException(`La carrera con id:  ${id} no se encontró`);
     }
-    return { data: career };
+
+    return career;
   }
 
-  async update(
-    id: string,
-    payload: UpdateCareerDto,
-  ): Promise<ServiceResponseHttpModel> {
-    const career = await this.careerRepository.findOneBy({ id });
-    if (!career) {
-      throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
-    }
-    this.careerRepository.merge(career, payload);
-    const careerUpdated = await this.careerRepository.save(career);
-    return { data: careerUpdated };
-  }
-
-  async remove(id: string): Promise<ServiceResponseHttpModel> {
-    const career = await this.careerRepository.findOneBy({ id });
+  async update(id: string, payload: UpdateCareerDto): Promise<CareerEntity> {
+    const career = await this.repository.findOneBy({ id });
 
     if (!career) {
       throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
     }
 
-    const careerDeleted = await this.careerRepository.softRemove(career);
+    this.repository.merge(career, payload);
 
-    return { data: careerDeleted };
+    return await this.repository.save(career);
   }
 
-  async removeAll(payload: CareerEntity[]): Promise<ServiceResponseHttpModel> {
-    const careersDeleted = await this.careerRepository.softRemove(payload);
-    return { data: careersDeleted };
+  async remove(id: string): Promise<CareerEntity> {
+    const career = await this.repository.findOneBy({ id });
+
+    if (!career) {
+      throw new NotFoundException(`La carrera con id:  ${id} no se encontro`);
+    }
+
+    return await this.repository.softRemove(career);
+  }
+
+  async removeAll(payload: CareerEntity[]): Promise<CareerEntity[]> {
+    return await this.repository.softRemove(payload);
   }
 
   private async paginateAndFilter(
@@ -138,7 +133,7 @@ export class CareersService {
       where.push({ degree: ILike(`%${search}%`) });
     }
 
-    const response = await this.careerRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       relations: ['institution', 'modality', 'state', 'type'],
       where,
       take: limit,

@@ -1,17 +1,9 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindOptionsWhere, ILike, In } from 'typeorm';
-import {
-  CreateCatalogueDto,
-  CreateStudentDto,
-  FilterStudentDto,
-  PaginationDto,
-  UpdateStudentDto,
-} from '@core/dto';
+import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { FilterStudentDto, PaginationDto, UpdateStudentDto } from '@core/dto';
 import { StudentEntity, TeacherEntity } from '@core/entities';
 import { RepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
-import { UserEntity } from '@auth/entities';
 import { CreateTeacherDto } from '../dto/teachers/create-teacher.dto';
 
 @Injectable()
@@ -52,19 +44,19 @@ export class TeachersService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: string) {
-    const student = await this.repository.findOne({
+  async findOne(id: string): Promise<TeacherEntity> {
+    const teacher = await this.repository.findOne({
       where: { id },
     });
 
-    if (!student) {
+    if (!teacher) {
       throw new NotFoundException('Student not found');
     }
 
-    return student;
+    return teacher;
   }
 
-  async update(id: string, payload: UpdateStudentDto) {
+  async update(id: string, payload: UpdateStudentDto): Promise<TeacherEntity> {
     const student = await this.repository.findOneBy({ id });
 
     if (!student) {
@@ -76,7 +68,7 @@ export class TeachersService {
     return this.repository.save(student);
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<TeacherEntity> {
     const student = await this.repository.findOneBy({ id });
 
     if (!student) {
@@ -86,7 +78,7 @@ export class TeachersService {
     return await this.repository.softRemove(student);
   }
 
-  async removeAll(payload: StudentEntity[]) {
+  async removeAll(payload: StudentEntity[]): Promise<TeacherEntity[]> {
     return this.repository.softRemove(payload);
   }
 
