@@ -94,7 +94,7 @@ export class TeachersService {
       search = search.trim();
       page = 0;
       where = [];
-      where.push({ name: ILike(`%${search}%`) });
+      // where.push({ name: ILike(`%${search}%`) });
     }
 
     const data = await this.repository.findAndCount({

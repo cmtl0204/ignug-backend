@@ -41,6 +41,14 @@ export class MenuEntity {
   })
   deletedAt: Date;
 
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
+
   /** Relationship **/
   @ManyToOne(() => MenuEntity, (category) => category.children)
   @JoinColumn({ name: 'parent_id' })
@@ -67,13 +75,6 @@ export class MenuEntity {
     comment: 'Icono',
   })
   icon: string;
-
-  @Column({
-    name: 'is_visible',
-    type: 'boolean',
-    comment: 'True=es visible, False=no es visible para el usuario final',
-  })
-  isVisible: boolean;
 
   @Column({
     name: 'label',

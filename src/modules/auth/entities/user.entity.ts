@@ -11,11 +11,17 @@ import {
   BeforeInsert,
   BeforeUpdate,
   ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { RoleEntity } from '@auth/entities';
-import { CatalogueEntity, StudentEntity, TeacherEntity } from '@core/entities';
+import {
+  CareerEntity,
+  CatalogueEntity,
+  StudentEntity,
+  TeacherEntity,
+} from '@core/entities';
 
 @Entity('users', { schema: 'auth' })
 export class UserEntity {
@@ -44,6 +50,9 @@ export class UserEntity {
   deletedAt: Date;
 
   /** Inverse Relationship **/
+  @ManyToMany(() => CareerEntity, (career) => career.users)
+  careers: CareerEntity[];
+
   @ManyToMany(() => RoleEntity, (role) => role.users)
   roles: RoleEntity[];
 

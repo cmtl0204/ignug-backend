@@ -10,11 +10,15 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueEntity, InstitutionEntity } from '@core/entities';
+import {
+  CareerEntity,
+  CatalogueEntity,
+  InstitutionEntity,
+} from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
-@Entity('careers', { schema: 'core' })
-export class CareerEntity {
+@Entity('school_periods', { schema: 'core' })
+export class SchoolPeriodEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -50,21 +54,13 @@ export class CareerEntity {
   })
   isVisible: boolean;
 
-  @ManyToMany(() => UserEntity)
-  @JoinTable({ name: 'career_user' })
-  users: UserEntity[];
+  @ManyToMany(() => CareerEntity)
+  @JoinTable({ name: 'career_school_period' })
+  careers: CareerEntity[];
 
-  @ManyToOne(() => InstitutionEntity, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'institution_id' })
-  institution: InstitutionEntity;
-
-  @ManyToOne(() => CatalogueEntity, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'modality_id' })
-  modality: CatalogueEntity;
+  @ManyToMany(() => InstitutionEntity)
+  @JoinTable({ name: 'institution_school_period' })
+  institutions: InstitutionEntity[];
 
   @ManyToOne(() => CatalogueEntity, {
     nullable: true,
@@ -72,16 +68,10 @@ export class CareerEntity {
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'type_id' })
-  type: CatalogueEntity;
-
   @Column({
     name: 'acronym',
     type: 'varchar',
-    comment: 'Acronimo de la carrera Ej. DS, MKT, GN',
+    comment: 'Acronimo del periodo lectivo',
   })
   acronym: string;
 
