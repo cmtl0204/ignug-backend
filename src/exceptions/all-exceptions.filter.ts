@@ -13,6 +13,7 @@ import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 import { ErrorResponseHttpModel } from '@shared/models';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
+import { Type } from 'class-transformer';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -70,14 +71,27 @@ export class AllExceptionsFilter implements ExceptionFilter {
       errorResponseHttpModel.message =
         exception.driverError.detail || 'Query Error';
     }
-    console.log(typeof exception);
+
     if (exception instanceof ExceptionsHandler) {
       status = 400;
-      console.log(exception);
       // errorResponseHttpModel.statusCode = exception..code || 400;
       // errorResponseHttpModel.error = exception.name || 'QueryFailedError';
       // errorResponseHttpModel.message =
       //   exception.driverError.detail || 'Query Error';
+    }
+
+    if (exception instanceof Error) {
+      status = 400;
+      errorResponseHttpModel.statusCode = 400;
+      errorResponseHttpModel.error = exception?.name || 'Error';
+      errorResponseHttpModel.message = exception?.message || 'Error';
+    }
+
+    if (exception instanceof TypeError) {
+      status = 400;
+      errorResponseHttpModel.statusCode = 500;
+      errorResponseHttpModel.error = 'TypeError';
+      errorResponseHttpModel.message = 'Internal Server Error';
     }
 
     response.status(status).json(errorResponseHttpModel);

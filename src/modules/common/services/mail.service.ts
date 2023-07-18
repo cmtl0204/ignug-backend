@@ -1,23 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { catchError } from 'rxjs';
 import { join } from 'path';
-import { TemplateEnum } from '@shared/enums';
+import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
+import { ConfigType } from '@nestjs/config';
+import { config } from '@config';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    @Inject(config.KEY) private configService: ConfigType<typeof config>,
+  ) {}
 
-  async sendMail(to: string[], subject: string, template: TemplateEnum) {
+  async sendMail(
+    to: string[] | string,
+    subject: MailSubjectEnum,
+    template: MailTemplateEnum,
+  ) {
     return await this.mailerService
       .sendMail({
         to,
-        from: 'noreply@gmail.com',
+        from: `${this.configService.mail.fromName} - ${this.configService.mail.from}`,
         subject,
         template,
         attachments: [
           {
-            path: join(__dirname, 'templates', 'test.hbs'),
+            path: join('resources', 'temps', 'test.hbs'),
             filename: 'test2.hbs',
             contentDisposition: 'attachment',
           },
@@ -25,11 +34,9 @@ export class MailService {
       })
       .then(
         (response) => {
-          console.log(response);
           return { accepted: response.accepted, rejected: response.rejected };
         },
         catchError((error) => {
-          console.log(error);
           return error;
         }),
       );

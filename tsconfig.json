@@ -54,8 +54,23 @@
       "@auth/strategies": [
         "./src/modules/auth/strategies"
       ],
+      "@common/controllers": [
+        "./src/modules/common/controllers"
+      ],
+      "@common/dto": [
+        "./src/modules/common/dto"
+      ],
+      "@common/entities": [
+        "./src/modules/common/entities"
+      ],
       "@common/modules": [
         "./src/modules/common"
+      ],
+      "@common/providers": [
+        "./src/modules/common/providers"
+      ],
+      "@common/services": [
+        "./src/modules/common/services"
       ],
       "@core/controllers": [
         "./src/modules/core/controllers"
@@ -93,8 +108,14 @@
       "@shared/enums": [
         "./src/shared/enums"
       ],
+      "@shared/helpers": [
+        "./src/shared/helpers"
+      ],
       "@shared/models": [
         "./src/shared/models"
+      ],
+      "@shared/pipes": [
+        "./src/shared/pipes"
       ],
       "@shared/validation": [
         "./src/shared/validation"

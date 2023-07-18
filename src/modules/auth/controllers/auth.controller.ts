@@ -8,6 +8,8 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth, PublicRoute, User } from '@auth/decorators';
@@ -20,8 +22,9 @@ import {
   UpdateUserInformationDto,
 } from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
-import { MailService } from '../../common/mail/mail.service';
-import { TemplateEnum } from '@shared/enums';
+import { MailService } from '@common/services';
+import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -151,15 +154,19 @@ export class AuthController {
   @HttpCode(HttpStatus.CREATED)
   async sendEmail() {
     const response = await this.nodemailerService.sendMail(
-      ['ctamyo@gmail.com'],
-      'asd',
-      TemplateEnum.TEST,
+      'ctamyo@gmail.com',
+      MailSubjectEnum.RESET_PASSWORD,
+      MailTemplateEnum.TEST,
     );
 
     return {
       data: response,
-      message: 'Correct Access',
-      title: 'Refresh Token',
+      message: 'Email Sent',
+      title: 'Email',
     };
   }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {}
 }

@@ -9,6 +9,7 @@ import { config } from '@config';
 import { AuthModule } from '@auth/modules';
 import { CoreModule } from '@core/modules';
 import { CommonModule } from '@common/modules';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CommonModule } from '@common/modules';
         MAIL_DIR_TEMPLATE: Joi.string().required(),
       }),
     }),
+    MulterModule.register({ dest: './uploads' }),
     HttpModule,
     CommonModule,
     AuthModule,
