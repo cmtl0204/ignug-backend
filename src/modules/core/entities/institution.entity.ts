@@ -18,19 +18,19 @@ export class InstitutionEntity {
 
   @CreateDateColumn({
     name: 'create_at',
-    type: 'timestamptz',
+    type: 'timestamp',
   })
   createAt: Date;
 
   @UpdateDateColumn({
     name: 'update_at',
-    type: 'timestamptz',
+    type: 'timestamp',
   })
   updateAt: Date;
 
   @DeleteDateColumn({
     name: 'delete_at',
-    type: 'timestamptz',
+    type: 'timestamp',
   })
   deleteAt: Date;
 

@@ -18,21 +18,21 @@ export class InformationStudentEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestamp',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestamp',
   })
   updateAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
   })
   deletedAt: Date;

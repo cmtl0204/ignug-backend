@@ -1,9 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { FileEntity } from '@common/entities';
 import { RepositoryEnum } from '@shared/enums';
 import * as path from 'path';
 import { join } from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class FilesService {
@@ -12,8 +13,8 @@ export class FilesService {
     private repository: Repository<FileEntity>,
   ) {}
 
-  async upload(file: Express.Multer.File, id: string) {
-    const filePath = `uploads/${new Date().getFullYear()}-${new Date().getMonth()}/${
+  async uploadFile(file: Express.Multer.File, id: string) {
+    const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${
       file.filename
     }`;
     const payload = {
@@ -23,6 +24,7 @@ export class FilesService {
       originalName: file.originalname,
       path: filePath,
       size: file.size,
+      type: 'user',
     };
 
     const newFile = this.repository.create(payload);
@@ -30,7 +32,39 @@ export class FilesService {
     return await this.repository.save(newFile);
   }
 
-  async download(id: string) {
+  async uploadFiles(files: Array<Express.Multer.File>, id: string) {
+    files.forEach((file) => {
+      const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${
+        file.filename
+      }`;
+      const payload = {
+        fileableId: id,
+        fileName: file.filename,
+        extension: path.extname(file.originalname),
+        originalName: file.originalname,
+        path: filePath,
+        size: file.size,
+        type: 'user',
+      };
+
+      const newFile = this.repository.create(payload);
+
+      this.repository.save(newFile);
+    });
+  }
+
+  async findOne(id: string): Promise<FileEntity> {
     return await this.repository.findOneBy({ id });
+  }
+
+  async getPath(id: string): Promise<string> {
+    const file = await this.findOne(id);
+
+    const path = `${join(process.cwd())}/src/resources/${file?.path}`;
+
+    if (!fs.existsSync(path)) {
+      throw new NotFoundException('File not found');
+    }
+    return path;
   }
 }

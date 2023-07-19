@@ -3,13 +3,10 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { FileTypeEnum } from '@shared/enums';
 
 @Entity('files', { schema: 'core' })
 export class FileEntity {
@@ -18,7 +15,7 @@ export class FileEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     comment: 'Fecha de creacion de la carrera',
   })
@@ -26,7 +23,7 @@ export class FileEntity {
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
     comment: 'Fecha de actualizacion de la carrera',
   })
@@ -34,7 +31,7 @@ export class FileEntity {
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
     comment: 'Fecha de eliminacion de la carrera',
   })
@@ -89,4 +86,11 @@ export class FileEntity {
     comment: 'Size file in bytes',
   })
   size: number;
+
+  @Column({
+    name: 'type',
+    type: 'varchar',
+    comment: '',
+  })
+  type: string;
 }

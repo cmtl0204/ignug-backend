@@ -16,21 +16,21 @@ export class PermissionEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
   })
   deletedAt: Date;

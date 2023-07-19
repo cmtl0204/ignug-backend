@@ -9,7 +9,7 @@
     "deleteOutDir": true,
     "assets": [
       "**/*.hbs",
-      "./uploads/**/*.*"
+      "./resources/uploads/**/*.*"
     ],
     "watchAssets": true
   }

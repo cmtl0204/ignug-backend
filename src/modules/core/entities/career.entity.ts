@@ -20,23 +20,23 @@ export class CareerEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
     comment: 'Fecha de creacion de la carrera',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
     comment: 'Fecha de actualizacion de la carrera',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
     comment: 'Fecha de eliminacion de la carrera',
   })

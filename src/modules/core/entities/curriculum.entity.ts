@@ -16,30 +16,30 @@ export class CurriculumEntity {
 
   @CreateDateColumn({
     name: 'ended_At',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
     comment: 'Fecha de creacion de la carrera',
   })
   endedAt: Date;
 
   @CreateDateColumn({
     name: 'started_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
     comment: 'Fecha de creacion de la carrera',
   })
   startedAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestamp',
   })
   updatedAT: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
   })
   deletedAT: Date;

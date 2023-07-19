@@ -17,23 +17,23 @@ export class CatalogueEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
     comment: 'Fecha de creacion del registro',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
     comment: 'Fecha de actualizacion de la ultima actualizacion del registro',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
     comment: 'Fecha de eliminacion del registro',
   })
@@ -76,9 +76,8 @@ export class CatalogueEntity {
 
   @Column({
     name: 'type',
-    type: 'enum',
-    enum: CatalogueTypeEnum,
+    type: 'varchar',
     comment: 'Tipo de menu',
   })
-  type: CatalogueTypeEnum;
+  type: string;
 }

@@ -22,21 +22,21 @@ export class MenuEntity {
 
   @CreateDateColumn({
     name: 'created_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     name: 'updated_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
   @DeleteDateColumn({
     name: 'deleted_at',
-    type: 'timestamptz',
+    type: 'timestamp',
     nullable: true,
   })
   deletedAt: Date;
@@ -101,11 +101,10 @@ export class MenuEntity {
 
   @Column({
     name: 'type',
-    type: 'enum',
-    enum: MenuTypeEnum,
+    type: 'varchar',
     comment: 'Tipo de menu',
   })
-  type: MenuTypeEnum;
+  type: string;
 
   /** Before Actions **/
   @BeforeInsert()
