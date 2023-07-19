@@ -10,25 +10,25 @@ import {
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { RepositoryEnum } from '@shared/enums';
+import { AuthRepositoryEnum } from '@shared/enums';
 import { MAX_ATTEMPTS } from '@auth/constants';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(RepositoryEnum.USER_REPOSITORY)
-    private userRepository: Repository<UserEntity>,
+    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+    private repository: Repository<UserEntity>,
   ) {}
 
   async create(payload: CreateUserDto): Promise<ReadUserDto> {
-    const newUser = this.userRepository.create(payload);
-    const userCreated = await this.userRepository.save(newUser);
+    const newUser = this.repository.create(payload);
+    const userCreated = await this.repository.save(newUser);
 
     return plainToInstance(ReadUserDto, userCreated);
   }
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
-    const response = await this.userRepository.findAndCount({ take: 1000 });
+    const response = await this.repository.findAndCount({ take: 1000 });
 
     return {
       data: response[0],
@@ -48,7 +48,7 @@ export class UsersService {
     }
 
     //All
-    const response = await this.userRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       order: { updatedAt: 'DESC' },
     });
 
@@ -59,7 +59,7 @@ export class UsersService {
   }
 
   async findOne(id: string): Promise<UserEntity> {
-    const user = await this.userRepository.findOne({
+    const user = await this.repository.findOne({
       where: { id },
       relations: { roles: true },
       select: { password: false },
@@ -73,14 +73,14 @@ export class UsersService {
   }
 
   async update(id: string, payload: UpdateUserDto): Promise<ReadUserDto> {
-    const user = await this.userRepository.preload({ id, ...payload });
+    const user = await this.repository.preload({ id, ...payload });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    this.userRepository.merge(user, payload);
-    const userUpdated = await this.userRepository.save(user);
+    this.repository.merge(user, payload);
+    const userUpdated = await this.repository.save(user);
 
     return plainToInstance(ReadUserDto, userUpdated);
   }
@@ -95,25 +95,25 @@ export class UsersService {
     user.suspendedAt = null;
     user.maxAttempts = MAX_ATTEMPTS;
 
-    const userUpdated = await this.userRepository.save(user);
+    const userUpdated = await this.repository.save(user);
 
     return plainToInstance(ReadUserDto, userUpdated);
   }
 
   async remove(id: string): Promise<ReadUserDto> {
-    const user = await this.userRepository.findOneBy({ id });
+    const user = await this.repository.findOneBy({ id });
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const userDeleted = await this.userRepository.softRemove(user);
+    const userDeleted = await this.repository.softRemove(user);
 
     return plainToInstance(ReadUserDto, userDeleted);
   }
 
   async removeAll(payload: UserEntity[]): Promise<UserEntity> {
-    const usersDeleted = await this.userRepository.softRemove(payload);
+    const usersDeleted = await this.repository.softRemove(payload);
     return usersDeleted[0];
   }
 
@@ -135,7 +135,7 @@ export class UsersService {
       where.push({ username: ILike(`%${search}%`) });
     }
 
-    const response = await this.userRepository.findAndCount({
+    const response = await this.repository.findAndCount({
       where,
       relations: { roles: true },
       take: limit,
@@ -160,7 +160,7 @@ export class UsersService {
       where.birthdate = LessThan(birthdate);
     }
 
-    const response = await this.userRepository.findAndCount({ where });
+    const response = await this.repository.findAndCount({ where });
 
     return {
       data: plainToInstance(ReadUserDto, response[0]),
@@ -177,7 +177,7 @@ export class UsersService {
 
     user.suspendedAt = new Date();
 
-    const userUpdated = await this.userRepository.save(user);
+    const userUpdated = await this.repository.save(user);
 
     return plainToInstance(ReadUserDto, userUpdated);
   }

@@ -30,6 +30,11 @@ export * from './institutions/create-institution.dto';
 export * from './institutions/update-institution.dto';
 export * from './institutions/filter-institution.dto';
 
+export * from './school-periods/school-period.dto';
+export * from './school-periods/create-school-period.dto';
+export * from './school-periods/filter-school-period.dto';
+export * from './school-periods/update-school-period.dto';
+
 export * from './students/student.dto';
 export * from './students/create-student.dto';
 export * from './students/update-student.dto';
@@ -39,3 +44,8 @@ export * from './subjects/subject.dto';
 export * from './subjects/create-subject.dto';
 export * from './subjects/filter-subject.dto';
 export * from './subjects/update-subject.dto';
+
+export * from './events/event.dto';
+export * from './events/create-event.dto';
+export * from './events/filter-event.dto';
+export * from './events/update-event.dto';

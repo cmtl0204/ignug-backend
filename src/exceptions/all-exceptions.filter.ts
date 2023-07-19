@@ -80,20 +80,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       //   exception.driverError.detail || 'Query Error';
     }
 
-    if (exception instanceof Error) {
-      status = 400;
-      errorResponseHttpModel.statusCode = 400;
-      errorResponseHttpModel.error = exception?.name || 'Error';
-      errorResponseHttpModel.message = exception?.message || 'Error';
-    }
-
-    if (exception instanceof TypeError) {
-      status = 400;
-      errorResponseHttpModel.statusCode = 500;
-      errorResponseHttpModel.error = 'TypeError';
-      errorResponseHttpModel.message = 'Internal Server Error';
-    }
-
     response.status(status).json(errorResponseHttpModel);
   }
 }

@@ -4,7 +4,7 @@ import { Repository, FindOptionsWhere, ILike } from 'typeorm';
 import { RoleEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { RepositoryEnum } from '@shared/enums';
+import { AuthRepositoryEnum } from '@shared/enums';
 import {
   CreateRoleDto,
   FilterRoleDto,
@@ -15,7 +15,7 @@ import {
 @Injectable()
 export class RolesService {
   constructor(
-    @Inject(RepositoryEnum.ROLE_REPOSITORY)
+    @Inject(AuthRepositoryEnum.ROLE_REPOSITORY)
     private repository: Repository<RoleEntity>,
   ) {}
 

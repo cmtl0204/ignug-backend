@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { FileTypeEnum } from '@shared/enums';
 
 @Entity('files', { schema: 'core' })
 export class FileEntity {
@@ -46,18 +45,18 @@ export class FileEntity {
   isVisible: boolean;
 
   @Column({
+    name: 'model_id',
+    type: 'varchar',
+    comment: 'Foreign Key de cualquier otra entidad',
+  })
+  modelId: string;
+
+  @Column({
     name: 'extension',
     type: 'varchar',
     comment: 'Extension ex. .pdf, .xlsx',
   })
   extension: string;
-
-  @Column({
-    name: 'fileable_id',
-    type: 'varchar',
-    comment: 'Foreign Key',
-  })
-  fileableId: string;
 
   @Column({
     name: 'file_name',

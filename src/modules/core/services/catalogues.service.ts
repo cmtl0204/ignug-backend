@@ -7,7 +7,7 @@ import {
   UpdateCatalogueDto,
 } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
-import { CatalogueTypeEnum, RepositoryEnum } from '@shared/enums';
+import { CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { ReadUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { plainToInstance } from 'class-transformer';
@@ -16,7 +16,7 @@ import { ServiceResponseHttpModel } from '@shared/models';
 @Injectable()
 export class CataloguesService {
   constructor(
-    @Inject(RepositoryEnum.CATALOGUE_REPOSITORY)
+    @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY)
     private repository: Repository<CatalogueEntity>,
   ) {}
 

@@ -4,7 +4,7 @@ import { Repository, FindOptionsWhere, ILike, Equal, IsNull } from 'typeorm';
 import { MenuEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { RepositoryEnum } from '@shared/enums';
+import { AuthRepositoryEnum } from '@shared/enums';
 import {
   CreateMenuDto,
   FilterMenuDto,
@@ -15,7 +15,7 @@ import {
 @Injectable()
 export class MenusService {
   constructor(
-    @Inject(RepositoryEnum.MENU_REPOSITORY)
+    @Inject(AuthRepositoryEnum.MENU_REPOSITORY)
     private repository: Repository<MenuEntity>,
   ) {}
 

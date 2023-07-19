@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueTypeEnum } from '@shared/enums';
 
 @Entity('catalogues', { schema: 'core' })
 export class CatalogueEntity {

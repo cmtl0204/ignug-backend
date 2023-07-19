@@ -9,12 +9,12 @@ import {
 import { InstitutionEntity } from '@core/entities';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { RepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class InstitutionsService {
   constructor(
-    @Inject(RepositoryEnum.INSTITUTION_REPOSITORY)
+    @Inject(CoreRepositoryEnum.INSTITUTION_REPOSITORY)
     private repository: Repository<InstitutionEntity>,
     private cataloguesService: CataloguesService,
   ) {}

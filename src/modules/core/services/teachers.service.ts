@@ -1,15 +1,15 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { Repository, FindOptionsWhere } from 'typeorm';
 import { FilterStudentDto, PaginationDto, UpdateStudentDto } from '@core/dto';
 import { StudentEntity, TeacherEntity } from '@core/entities';
-import { RepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
 import { CreateTeacherDto } from '../dto/teachers/create-teacher.dto';
 
 @Injectable()
 export class TeachersService {
   constructor(
-    @Inject(RepositoryEnum.TEACHER_REPOSITORY)
+    @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY)
     private repository: Repository<TeacherEntity>,
     private usersService: UsersService,
   ) {}

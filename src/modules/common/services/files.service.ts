@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { FileEntity } from '@common/entities';
-import { RepositoryEnum } from '@shared/enums';
+import { CommonRepositoryEnum } from '@shared/enums';
 import * as path from 'path';
 import { join } from 'path';
 import * as fs from 'fs';
@@ -9,16 +9,16 @@ import * as fs from 'fs';
 @Injectable()
 export class FilesService {
   constructor(
-    @Inject(RepositoryEnum.FILE_REPOSITORY)
+    @Inject(CommonRepositoryEnum.FILE_REPOSITORY)
     private repository: Repository<FileEntity>,
   ) {}
 
-  async uploadFile(file: Express.Multer.File, id: string) {
+  async uploadFile(file: Express.Multer.File, modelId: string) {
     const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${
       file.filename
     }`;
     const payload = {
-      fileableId: id,
+      modelId,
       fileName: file.filename,
       extension: path.extname(file.originalname),
       originalName: file.originalname,
@@ -32,13 +32,13 @@ export class FilesService {
     return await this.repository.save(newFile);
   }
 
-  async uploadFiles(files: Array<Express.Multer.File>, id: string) {
+  async uploadFiles(files: Array<Express.Multer.File>, modelId: string) {
     files.forEach((file) => {
       const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${
         file.filename
       }`;
       const payload = {
-        fileableId: id,
+        modelId,
         fileName: file.filename,
         extension: path.extname(file.originalname),
         originalName: file.originalname,

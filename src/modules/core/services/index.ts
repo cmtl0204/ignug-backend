@@ -8,3 +8,5 @@ export * from './information-students.service';
 export * from './information-teachers.service';
 export * from './subjects.service';
 export * from './teachers.service';
+export * from './school-periods.service';
+export * from './events.service';

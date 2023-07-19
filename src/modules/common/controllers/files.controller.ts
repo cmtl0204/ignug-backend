@@ -13,14 +13,17 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { FilesService } from '@common/services';
 import { getFileName, fileFilter } from '@shared/helpers';
-import { ResponseHttpModel, ServiceResponseHttpModel } from '@shared/models';
+import { ResponseHttpModel } from '@shared/models';
 import { join } from 'path';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
-  @Post('upload/:id')
+  @ApiOperation({ summary: 'Upload File' })
+  @Post('upload/:modelId')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -35,13 +38,13 @@ export class FilesController {
   )
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('modelId', ParseUUIDPipe) modelId: string,
   ): Promise<ResponseHttpModel> {
-    const response = await this.filesService.uploadFile(file, id);
+    const response = await this.filesService.uploadFile(file, modelId);
     return { data: response, message: 'Upload File', title: 'Upload' };
   }
-
-  @Post('uploads/:id')
+  @ApiOperation({ summary: 'Upload Files' })
+  @Post('uploads/:modelId')
   @UseInterceptors(
     FilesInterceptor('files[]', 10, {
       storage: diskStorage({
@@ -56,13 +59,13 @@ export class FilesController {
   )
   async uploadFiles(
     @UploadedFiles() files: Array<Express.Multer.File>,
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('modelId', ParseUUIDPipe) modelId: string,
   ): Promise<ResponseHttpModel> {
-    await this.filesService.uploadFiles(files, id);
+    await this.filesService.uploadFiles(files, modelId);
 
     return { data: null, message: 'Upload Files', title: 'Upload' };
   }
-
+  @ApiOperation({ summary: 'Download File' })
   @Get('download/:id')
   async download(
     @Param('id', ParseUUIDPipe) id: string,

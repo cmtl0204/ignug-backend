@@ -11,7 +11,7 @@ import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { UserEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
-import { RepositoryEnum } from '@shared/enums';
+import { AuthRepositoryEnum } from '@shared/enums';
 import {
   LoginDto,
   PasswordChangeDto,
@@ -28,7 +28,7 @@ export class AuthService {
   private readonly MAX_ATTEMPTS = 3;
 
   constructor(
-    @Inject(RepositoryEnum.USER_REPOSITORY)
+    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
     private repository: Repository<UserEntity>,
     private readonly userService: UsersService,
     private jwtService: JwtService,

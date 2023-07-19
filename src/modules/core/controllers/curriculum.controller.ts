@@ -22,12 +22,12 @@ import { CurriculumEntity } from '@core/entities';
 import { CurriculumsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('Curriculum')
+@ApiTags('Curriculums')
 @Controller('curriculum')
 export class CurriculumController {
   constructor(private curriculumsService: CurriculumsService) {}
 
-  @ApiOperation({ summary: 'Create Curriculum' })
+  @ApiOperation({ summary: 'Create' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(

@@ -7,13 +7,13 @@ import {
   UpdateStudentDto,
 } from '@core/dto';
 import { StudentEntity } from '@core/entities';
-import { RepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
 
 @Injectable()
 export class StudentsService {
   constructor(
-    @Inject(RepositoryEnum.STUDENT_REPOSITORY)
+    @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
     private repository: Repository<StudentEntity>,
     private usersService: UsersService,
   ) {}

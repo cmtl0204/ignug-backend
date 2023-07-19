@@ -7,3 +7,5 @@ export * from './institution.entity';
 export * from './student.entity';
 export * from './subject.entity';
 export * from './teacher.entity';
+export * from './school-period.entity';
+export * from './event.entity';

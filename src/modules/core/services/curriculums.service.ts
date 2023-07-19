@@ -13,12 +13,12 @@ import {
   InstitutionsService,
 } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { RepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class CurriculumsService {
   constructor(
-    @Inject(RepositoryEnum.CURRICULUM_REPOSITORY)
+    @Inject(CoreRepositoryEnum.CURRICULUM_REPOSITORY)
     private repository: Repository<CurriculumEntity>,
     private careerService: CareersService,
     private institutionsService: InstitutionsService,

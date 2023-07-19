@@ -1,4 +1,6 @@
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -10,12 +12,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import {
-  CareerEntity,
-  CatalogueEntity,
-  InstitutionEntity,
-} from '@core/entities';
-import { UserEntity } from '@auth/entities';
+import { CareerEntity, CatalogueEntity } from '@core/entities';
+import { format } from 'date-fns';
 
 @Entity('school_periods', { schema: 'core' })
 export class SchoolPeriodEntity {
@@ -26,7 +24,7 @@ export class SchoolPeriodEntity {
     name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_timestamp',
-    comment: 'Fecha de creacion de la carrera',
+    comment: 'Fecha de creacion del registro',
   })
   createdAt: Date;
 
@@ -34,7 +32,7 @@ export class SchoolPeriodEntity {
     name: 'updated_at',
     type: 'timestamp',
     default: () => 'CURRENT_timestamp',
-    comment: 'Fecha de actualizacion de la carrera',
+    comment: 'Fecha de actualizacion del registro',
   })
   updatedAt: Date;
 
@@ -42,7 +40,7 @@ export class SchoolPeriodEntity {
     name: 'deleted_at',
     type: 'timestamp',
     nullable: true,
-    comment: 'Fecha de eliminacion de la carrera',
+    comment: 'Fecha de eliminacion del registro',
   })
   deletedAt: Date;
 
@@ -54,74 +52,98 @@ export class SchoolPeriodEntity {
   })
   isVisible: boolean;
 
+  /** Relationship **/
   @ManyToMany(() => CareerEntity)
   @JoinTable({ name: 'career_school_period' })
   careers: CareerEntity[];
 
-  @ManyToMany(() => InstitutionEntity)
-  @JoinTable({ name: 'institution_school_period' })
-  institutions: InstitutionEntity[];
-
-  @ManyToOne(() => CatalogueEntity, {
-    nullable: true,
-  })
+  @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
-  @Column({
-    name: 'acronym',
-    type: 'varchar',
-    comment: 'Acronimo del periodo lectivo',
-  })
-  acronym: string;
-
+  /** Columns **/
   @Column({
     name: 'code',
     type: 'varchar',
-    comment: 'Codigo de la carrera',
+    comment: 'Codigo del periodo',
   })
   code: string;
 
   @Column({
-    comment: 'Codigo sniese de la carrera',
+    comment: 'Codigo sniese, suelen manejar diferente',
     type: 'varchar',
+    nullable: true,
     name: 'code_sniese',
   })
   codeSniese: string;
 
   @Column({
-    name: 'degree',
-    type: 'varchar',
-    comment: 'Titulo que otorga la carrera',
-  })
-  degree: string;
-
-  @Column({
-    name: 'logo',
-    type: 'varchar',
-    nullable: true,
-    comment: 'Logo de la carrera',
-  })
-  logo: string;
-
-  @Column({
     name: 'name',
     type: 'varchar',
-    comment: 'Nombre de la carrera',
+    comment: 'Nombre Ej. Abril 2023 - Octubre 2023',
   })
   name: string;
 
   @Column({
-    comment: 'Numero de resolucion de la carrera',
-    type: 'varchar',
-    name: 'resolution_number',
-  })
-  resolutionNumber: string;
-
-  @Column({
     name: 'short_name',
     type: 'varchar',
-    comment: 'Nombre corto de la carrera',
+    comment: 'Nombre corto Ej. 2023-1',
   })
   shortName: string;
+
+  @Column({
+    name: 'started_at',
+    type: 'timestamp without time zone',
+    comment: 'Fecha Inicio Periodo',
+  })
+  startedAt: Date;
+
+  @Column({
+    name: 'ended_at',
+    type: 'date',
+    comment: 'Fecha Fin Periodo',
+  })
+  endedAt: Date;
+
+  @Column({
+    name: 'ordinary_started_at',
+    type: 'date',
+    comment: 'Fecha Inicio Periodo Ordinario',
+  })
+  ordinaryStartedAt: Date;
+
+  @Column({
+    name: 'ordinary_ended_at',
+    type: 'date',
+    comment: 'Fecha Fin Periodo Ordinario',
+  })
+  ordinaryEndedAt: Date;
+
+  @Column({
+    name: 'extra_ordinary_started_at',
+    type: 'date',
+    comment: 'Fecha Inicio Periodo Extraordinario',
+  })
+  extraOrdinaryStartedAt: Date;
+
+  @Column({
+    name: 'extra_ordinary_ended_at',
+    type: 'date',
+    comment: 'Fecha Fin Periodo Extraordinario',
+  })
+  extraOrdinaryEndedAt: Date;
+
+  @Column({
+    name: 'especial_started_at',
+    type: 'date',
+    comment: 'Fecha Inicio Periodo Especial',
+  })
+  especialStartedAt: Date;
+
+  @Column({
+    name: 'especial_ended_at',
+    type: 'date',
+    comment: 'Fecha Fin Periodo Especial',
+  })
+  especialEndedAt: Date;
 }

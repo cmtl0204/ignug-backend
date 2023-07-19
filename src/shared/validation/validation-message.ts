@@ -27,6 +27,14 @@ export function isNotEmptyValidationOptions(
   };
 }
 
+export function isEmptyValidationOptions(
+  validationOptions?: ValidationOptions,
+) {
+  return {
+    message: 'La propiedad $property debe estar vacía',
+  };
+}
+
 export function maxLengthValidationOptions(
   validationOptions?: ValidationOptions,
 ) {
@@ -63,5 +71,11 @@ export function isNumberValidationOptions(
 ) {
   return {
     message: 'La propiedad $property debe ser un número',
+  };
+}
+
+export function isDateValidationOptions(validationOptions?: ValidationOptions) {
+  return {
+    message: 'La propiedad $property debe ser una fecha válida',
   };
 }

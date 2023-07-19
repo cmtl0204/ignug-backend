@@ -3,68 +3,82 @@ import {
   CareerEntity,
   CatalogueEntity,
   CurriculumEntity,
+  EventEntity,
   InformationStudentEntity,
   InformationTeacherEntity,
   InstitutionEntity,
+  SchoolPeriodEntity,
   StudentEntity,
   SubjectEntity,
   TeacherEntity,
 } from '@core/entities';
-import { ConfigEnum, RepositoryEnum } from '@shared/enums';
+import { ConfigEnum, CoreRepositoryEnum } from '@shared/enums';
 
 export const coreProviders = [
   {
-    provide: RepositoryEnum.CAREER_REPOSITORY,
+    provide: CoreRepositoryEnum.CAREER_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(CareerEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.CATALOGUE_REPOSITORY,
+    provide: CoreRepositoryEnum.CATALOGUE_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(CatalogueEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.CURRICULUM_REPOSITORY,
+    provide: CoreRepositoryEnum.CURRICULUM_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(CurriculumEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.INFORMATION_STUDENT_REPOSITORY,
+    provide: CoreRepositoryEnum.INFORMATION_STUDENT_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(InformationStudentEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.INFORMATION_TEACHER_REPOSITORY,
+    provide: CoreRepositoryEnum.INFORMATION_TEACHER_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(InformationTeacherEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.INSTITUTION_REPOSITORY,
+    provide: CoreRepositoryEnum.INSTITUTION_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(InstitutionEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.STUDENT_REPOSITORY,
+    provide: CoreRepositoryEnum.STUDENT_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(StudentEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.SUBJECT_REPOSITORY,
+    provide: CoreRepositoryEnum.SUBJECT_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(SubjectEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: RepositoryEnum.TEACHER_REPOSITORY,
+    provide: CoreRepositoryEnum.TEACHER_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(TeacherEntity),
+    inject: [ConfigEnum.PG_DATA_SOURCE],
+  },
+  {
+    provide: CoreRepositoryEnum.SCHOOL_PERIOD_REPOSITORY,
+    useFactory: (dataSource: DataSource) =>
+      dataSource.getRepository(SchoolPeriodEntity),
+    inject: [ConfigEnum.PG_DATA_SOURCE],
+  },
+  {
+    provide: CoreRepositoryEnum.EVENT_REPOSITORY,
+    useFactory: (dataSource: DataSource) =>
+      dataSource.getRepository(EventEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
 ];
