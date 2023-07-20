@@ -22,6 +22,7 @@ export class FilterCareerDto extends PaginationDto {
   @IsOptional()
   readonly name: string;
 
+  @IsOptional()
   @IsNumber({}, { message: 'El campo resolutionNumber debe ser un numero' })
   readonly resolutionNumber: number;
 

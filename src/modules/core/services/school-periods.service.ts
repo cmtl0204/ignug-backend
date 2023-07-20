@@ -72,6 +72,16 @@ export class SchoolPeriodsService {
     return entity;
   }
 
+  async hide(id: string): Promise<SchoolPeriodEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
   async update(
     id: string,
     payload: UpdateSchoolPeriodDto,
@@ -84,6 +94,16 @@ export class SchoolPeriodsService {
 
     this.repository.merge(entity, payload);
 
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<SchoolPeriodEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
     return await this.repository.save(entity);
   }
 

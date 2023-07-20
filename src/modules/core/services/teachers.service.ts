@@ -98,7 +98,7 @@ export class TeachersService {
     }
 
     const data = await this.repository.findAndCount({
-      relations: ['bloodType', 'gender'],
+      relations: { user: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

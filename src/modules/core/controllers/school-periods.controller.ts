@@ -52,7 +52,7 @@ export class SchoolPeriodsController {
     return {
       data: serviceResponse,
       message: 'Periodo Lectivo creado',
-      title: 'Creación',
+      title: 'Creado',
     };
   }
 
@@ -87,6 +87,21 @@ export class SchoolPeriodsController {
     };
   }
 
+  @ApiOperation({ summary: 'Hide' })
+  @Patch(':id/hide')
+  @HttpCode(HttpStatus.CREATED)
+  async hide(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.schoolPeriodsService.hide(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Oculto`,
+      title: `Ocultado`,
+    };
+  }
+
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
@@ -98,7 +113,22 @@ export class SchoolPeriodsController {
     return {
       data: serviceResponse,
       message: `Periodo Lectivo Actualizado`,
-      title: `Actualización`,
+      title: `Actualizado`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Hide' })
+  @Patch(':id/reactivate')
+  @HttpCode(HttpStatus.CREATED)
+  async reactivate(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.schoolPeriodsService.reactivate(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Reactivado`,
+      title: `Reactivado`,
     };
   }
 
@@ -112,7 +142,7 @@ export class SchoolPeriodsController {
     return {
       data: serviceResponse,
       message: `Periodo Lectivo Eliminado`,
-      title: `Eliminación`,
+      title: `Eliminado`,
     };
   }
 
@@ -127,7 +157,7 @@ export class SchoolPeriodsController {
     return {
       data: serviceResponse,
       message: `Periodos Lectivos Eliminados`,
-      title: `Eliminaciones`,
+      title: `Eliminados`,
     };
   }
 }

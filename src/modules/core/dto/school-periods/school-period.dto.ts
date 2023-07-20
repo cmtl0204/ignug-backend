@@ -6,8 +6,10 @@ import {
   IsOptional,
   IsNotEmpty,
   IsDate,
+  IsBoolean,
 } from 'class-validator';
 import {
+  isBooleanValidationOptions,
   isDateValidationOptions,
   isNotEmptyValidationOptions,
   isStringValidationOptions,
@@ -24,6 +26,10 @@ export class SchoolPeriodDto {
   @IsOptional()
   @IsString(isStringValidationOptions())
   readonly codeSniese: string;
+
+  @IsOptional()
+  @IsBoolean(isBooleanValidationOptions())
+  readonly isVisible: boolean;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   @IsString(isStringValidationOptions())

@@ -1,6 +1,4 @@
 import {
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -13,7 +11,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CareerEntity, CatalogueEntity } from '@core/entities';
-import { format } from 'date-fns';
 
 @Entity('school_periods', { schema: 'core' })
 export class SchoolPeriodEntity {
@@ -93,7 +90,7 @@ export class SchoolPeriodEntity {
 
   @Column({
     name: 'started_at',
-    type: 'timestamp without time zone',
+    type: 'date',
     comment: 'Fecha Inicio Periodo',
   })
   startedAt: Date;

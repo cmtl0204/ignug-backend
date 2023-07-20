@@ -1,6 +1,6 @@
 export * from './careers.controller';
 export * from './catalogues.controller';
-export * from './curriculum.controller';
+export * from './curriculums.controller';
 export * from './information-students.controller';
 export * from './institutions.controller';
 export * from './students.controller';

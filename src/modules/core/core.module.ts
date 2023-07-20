@@ -2,7 +2,7 @@ import { Global, Module } from '@nestjs/common';
 import {
   CareersController,
   CataloguesController,
-  CurriculumController,
+  CurriculumsController,
   InformationStudentsController,
   InstitutionsController,
   SchoolPeriodsController,
@@ -24,6 +24,7 @@ import {
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
+import { TeachersController } from './controllers/teachers.controller';
 
 @Global()
 @Module({
@@ -31,13 +32,14 @@ import { coreProviders } from '@core/providers';
   controllers: [
     CareersController,
     CataloguesController,
-    CurriculumController,
+    CurriculumsController,
     InformationStudentsController,
     InformationTeachersController,
     InstitutionsController,
     SchoolPeriodsController,
     StudentsController,
     SubjectsController,
+    TeachersController,
   ],
   providers: [
     ...coreProviders,

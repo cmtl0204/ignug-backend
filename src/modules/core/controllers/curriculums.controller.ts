@@ -23,8 +23,8 @@ import { CurriculumsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Curriculums')
-@Controller('curriculum')
-export class CurriculumController {
+@Controller('curriculums')
+export class CurriculumsController {
   constructor(private curriculumsService: CurriculumsService) {}
 
   @ApiOperation({ summary: 'Create' })
