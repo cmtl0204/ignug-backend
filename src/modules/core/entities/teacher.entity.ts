@@ -56,6 +56,4 @@ export class TeacherEntity {
   user: UserEntity;
 
   /** Columns **/
-  @Column({ name: 'name', type: 'varchar', comment: 'Nombre del estudiante' })
-  name: string;
 }

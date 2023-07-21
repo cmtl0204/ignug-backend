@@ -42,7 +42,7 @@ export class InstitutionEntity {
   })
   isVisible: boolean;
 
-  /** Relationship **/
+  /** Foreign Key **/
   @OneToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'address_id' })
   address: CatalogueEntity;

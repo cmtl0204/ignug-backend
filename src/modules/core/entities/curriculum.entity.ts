@@ -52,12 +52,14 @@ export class CurriculumEntity {
   })
   isVisible: boolean;
 
+  /** Foreign Key **/
   @ManyToOne(() => CareerEntity, { nullable: false })
   career: CareerEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: false })
   state: CatalogueEntity;
 
+  /** Columns **/
   @Column({
     name: 'code',
     type: 'varchar',

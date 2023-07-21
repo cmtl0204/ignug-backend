@@ -50,10 +50,12 @@ export class CareerEntity {
   })
   isVisible: boolean;
 
+  /** Inverse Relationship **/
   @ManyToMany(() => UserEntity)
   @JoinTable({ name: 'career_user' })
   users: UserEntity[];
 
+  /** Foreign Key **/
   @ManyToOne(() => InstitutionEntity, {
     nullable: true,
   })
@@ -78,6 +80,7 @@ export class CareerEntity {
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 
+  /** Columns **/
   @Column({
     name: 'acronym',
     type: 'varchar',
