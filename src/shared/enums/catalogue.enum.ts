@@ -1,4 +1,4 @@
-export enum CatalogueTypeEnum {
+export enum CatalogueCoreTypeEnum {
   ACADEMIC_PERIOD = 'ACADEMIC_PERIOD',
   BLOOD_TYPE = 'BLOOD_TYPE',
   CAREER_MODALITY = 'CAREER_MODALITY',
@@ -26,6 +26,7 @@ export enum CatalogueTypeEnum {
   SEX = 'SEX',
   YES_NO = 'YES_NO',
   YES_NO_NA = 'YES_NO_NA',
+  SCHOOL_PERIOD_STATE = 'SCHOOL_PERIOD_STATE',
 }
 
 export enum CatalogueStateEnum {

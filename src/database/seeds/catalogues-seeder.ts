@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CataloguesService } from '@core/services';
-import { CatalogueStateEnum, CatalogueTypeEnum } from '@shared/enums';
+import { CatalogueStateEnum, CatalogueCoreTypeEnum } from '@shared/enums';
 import { CreateCatalogueDto } from '@core/dto';
 
 @Injectable()
@@ -35,6 +35,7 @@ export class CataloguesSeeder {
     await this.createStudentOccupationCatalogues();
     await this.createYesNoCatalogues();
     await this.createYesNoNACatalogues();
+    await this.createSchoolPeriodStateCatalogues();
   }
 
   async createAcademicPeriodCatalogues(): Promise<void> {
@@ -44,42 +45,42 @@ export class CataloguesSeeder {
       description: 'Periodo academico',
       name: '1ro',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+      type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
     catalogues.push({
       code: '2',
       description: 'Periodo academico',
       name: '1do',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+      type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
     catalogues.push({
       code: '3',
       description: 'Periodo academico',
       name: '3ro',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+      type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
     catalogues.push({
       code: '4',
       description: 'Periodo academico',
       name: '4to',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+      type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
     catalogues.push({
       code: '5',
       description: 'Periodo academico',
       name: '5to',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+      type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
     catalogues.push({
       code: '6',
       description: 'Periodo academico',
       name: '6to',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+      type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
 
     for (const catalogue of catalogues) {
@@ -94,56 +95,56 @@ export class CataloguesSeeder {
       description: 'tipo de sangre',
       name: 'A+',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'tipo de sangre',
       name: 'A-',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'tipo de sangre',
       name: 'B+',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '4',
       description: 'tipo de sangre',
       name: 'B-',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '5',
       description: 'tipo de sangre',
       name: 'AB+',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '6',
       description: 'tipo de sangre',
       name: 'AB-',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '7',
       description: 'tipo de sangre',
       name: 'O+',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
     catalogues.push({
       code: '8',
       description: 'tipo de sangre',
       name: 'O-',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.BLOOD_TYPE,
+      type: CatalogueCoreTypeEnum.BLOOD_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -158,42 +159,42 @@ export class CataloguesSeeder {
       description: 'Modalidad de carrera',
       name: 'Presencial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.CAREER_MODALITY,
+      type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
       code: '2',
       description: 'Modalidad de carrera',
       name: 'Semi-Presencial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.CAREER_MODALITY,
+      type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
       code: '3',
       description: 'Modalidad de carrera',
       name: 'Disntacia',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.CAREER_MODALITY,
+      type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
       code: '4',
       description: 'Modalidad de carrera',
       name: 'Dual',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.CAREER_MODALITY,
+      type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
       code: '5',
       description: 'Modalidad de carrera',
       name: 'Línea',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.CAREER_MODALITY,
+      type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
       code: '6',
       description: 'Modalidad de carrera',
       name: 'Híbrida',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.CAREER_MODALITY,
+      type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
 
     for (const catalogue of catalogues) {
@@ -208,49 +209,49 @@ export class CataloguesSeeder {
       description: 'tipo de discapacidad',
       name: 'Intelectual',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'tipo de discapacidad',
       name: 'Física',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'tipo de discapacidad',
       name: 'Visual',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
     catalogues.push({
       code: '4',
       description: 'tipo de discapacidad',
       name: 'Auditiva',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
     catalogues.push({
       code: '5',
       description: 'tipo de discapacidad',
       name: 'Mental',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
     catalogues.push({
       code: '6',
       description: 'tipo de discapacidad',
       name: 'Otra',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
     catalogues.push({
       code: '7',
       description: 'tipo de discapacidad',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.DISABILITY_TYPE,
+      type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -265,70 +266,70 @@ export class CataloguesSeeder {
       description: 'Nivel de formación',
       name: 'Centro de Alfabetización',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '2',
       description: 'Nivel de formación',
       name: 'Jardín de infantes',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '3',
       description: 'Nivel de formación',
       name: 'Primaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '4',
       description: 'Nivel de formación',
       name: 'Educación Básica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '5',
       description: 'Nivel de formación',
       name: 'Secundaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '6',
       description: 'Nivel de formación',
       name: 'Educación Media',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '7',
       description: 'Nivel de formación',
       name: 'Superior no Universitaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '8',
       description: 'Nivel de formación',
       name: 'Superior Universitaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '9',
       description: 'Nivel de formación',
       name: 'Posgrado',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
     catalogues.push({
       code: '10',
       description: 'Nivel de formación',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.EDUCATION_LEVEL,
+      type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
     });
 
     for (const catalogue of catalogues) {
@@ -343,63 +344,63 @@ export class CataloguesSeeder {
       description: 'etnia',
       name: 'Indígena',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '2',
       description: 'tipo de sangre',
       name: 'Afroecuatoriano',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '3',
       description: 'tipo de sangre',
       name: 'Negro',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '4',
       description: 'tipo de sangre',
       name: 'Mulato',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '5',
       description: 'tipo de sangre',
       name: 'Montuvio',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '6',
       description: 'tipo de sangre',
       name: 'Mestizo',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '7',
       description: 'tipo de sangre',
       name: 'Blanco',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '8',
       description: 'tipo de sangre',
       name: 'Otro',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
     catalogues.push({
       code: '9',
       description: 'tipo de sangre',
       name: 'No registra',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.ETHNIC_ORIGIN,
+      type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
     });
 
     for (const catalogue of catalogues) {
@@ -414,14 +415,14 @@ export class CataloguesSeeder {
       description: 'tipo de identificacion',
       name: 'Cédula',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.IDENTIFICATION_TYPE,
+      type: CatalogueCoreTypeEnum.IDENTIFICATION_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'tipo de identificacion',
       name: 'Pasaporte',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.IDENTIFICATION_TYPE,
+      type: CatalogueCoreTypeEnum.IDENTIFICATION_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -436,35 +437,35 @@ export class CataloguesSeeder {
       description: 'tipo de institucion practicas',
       name: 'Pública',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
+      type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'tipo de institucion practicas',
       name: 'Privada',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
+      type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'tipo de institucion practicas',
       name: 'ONG',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
+      type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
     });
     catalogues.push({
       code: '4',
       description: 'tipo de institucion practicas',
       name: 'Otro',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
+      type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
     });
     catalogues.push({
       code: '5',
       description: 'tipo de institucion practicas',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
+      type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -479,14 +480,14 @@ export class CataloguesSeeder {
       description: 'genero',
       name: 'Masculino',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.GENDER,
+      type: CatalogueCoreTypeEnum.GENDER,
     });
     catalogues.push({
       code: '2',
       description: 'tipo de identificacion',
       name: 'Femenino',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.GENDER,
+      type: CatalogueCoreTypeEnum.GENDER,
     });
 
     for (const catalogue of catalogues) {
@@ -501,35 +502,35 @@ export class CataloguesSeeder {
       description: 'estado civil',
       name: 'Soltero/a',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.MARITAL_STATUS,
+      type: CatalogueCoreTypeEnum.MARITAL_STATUS,
     });
     catalogues.push({
       code: '2',
       description: 'estado civil',
       name: 'Casado/a',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.MARITAL_STATUS,
+      type: CatalogueCoreTypeEnum.MARITAL_STATUS,
     });
     catalogues.push({
       code: '3',
       description: 'estado civil',
       name: 'Divorciado/a',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.MARITAL_STATUS,
+      type: CatalogueCoreTypeEnum.MARITAL_STATUS,
     });
     catalogues.push({
       code: '4',
       description: 'estado civil',
       name: 'Unión libre',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.MARITAL_STATUS,
+      type: CatalogueCoreTypeEnum.MARITAL_STATUS,
     });
     catalogues.push({
       code: '5',
       description: 'estado civil',
       name: 'Viudo/a',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.MARITAL_STATUS,
+      type: CatalogueCoreTypeEnum.MARITAL_STATUS,
     });
 
     for (const catalogue of catalogues) {
@@ -544,35 +545,35 @@ export class CataloguesSeeder {
       description: 'Alcance del proyecto de vinculacion',
       name: 'Nacional',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.PROJECT_SCOPE,
+      type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
     });
     catalogues.push({
       code: '2',
       description: 'Alcance del proyecto de vinculacion',
       name: 'Provincial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.PROJECT_SCOPE,
+      type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
     });
     catalogues.push({
       code: '3',
       description: 'Alcance del proyecto de vinculacion',
       name: 'Cantonal',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.PROJECT_SCOPE,
+      type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
     });
     catalogues.push({
       code: '4',
       description: 'Alcance del proyecto de vinculacion',
       name: 'Parrolquial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.PROJECT_SCOPE,
+      type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
     });
     catalogues.push({
       code: '5',
       description: 'Alcance del proyecto de vinculacion',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.PROJECT_SCOPE,
+      type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
     });
 
     for (const catalogue of catalogues) {
@@ -587,21 +588,21 @@ export class CataloguesSeeder {
       description: 'Tipo de matricula',
       name: 'Ordinaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.REGISTRATION_TYPE,
+      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'Tipo de matricula',
       name: 'Extraordinaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.REGISTRATION_TYPE,
+      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'Tipo de matricula',
       name: 'Especial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.REGISTRATION_TYPE,
+      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
     });
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);
@@ -615,14 +616,14 @@ export class CataloguesSeeder {
       description: 'Primera razón de la beca',
       name: 'Socioeconómica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_1,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_1,
     });
     catalogues.push({
       code: '2',
       description: 'Primera razón de la beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_1,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_1,
     });
 
     for (const catalogue of catalogues) {
@@ -637,14 +638,14 @@ export class CataloguesSeeder {
       description: 'Segunda razón de la beca',
       name: 'Excelencia Académica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_2,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_2,
     });
     catalogues.push({
       code: '2',
       description: 'Segunda razón de la beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_2,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_2,
     });
 
     for (const catalogue of catalogues) {
@@ -659,14 +660,14 @@ export class CataloguesSeeder {
       description: 'Tercera razón de la beca',
       name: 'Deportista',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_3,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_3,
     });
     catalogues.push({
       code: '2',
       description: 'Tercera razón de la beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_3,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_3,
     });
 
     for (const catalogue of catalogues) {
@@ -681,14 +682,14 @@ export class CataloguesSeeder {
       description: 'Cuarta razón de la beca',
       name: 'Pueblos y Nacionalidades',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_4,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_4,
     });
     catalogues.push({
       code: '2',
       description: 'Cuarta razón de la beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_4,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_4,
     });
 
     for (const catalogue of catalogues) {
@@ -703,14 +704,14 @@ export class CataloguesSeeder {
       description: 'Quinta razón de la beca',
       name: 'Discapacidad',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_5,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_5,
     });
     catalogues.push({
       code: '2',
       description: 'Quinta razón de la beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_5,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_5,
     });
 
     for (const catalogue of catalogues) {
@@ -725,14 +726,14 @@ export class CataloguesSeeder {
       description: 'Sexta razón de la beca',
       name: 'Otra',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_6,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_6,
     });
     catalogues.push({
       code: '2',
       description: 'Sexta razón de la beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_REASON_6,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON_6,
     });
 
     for (const catalogue of catalogues) {
@@ -747,21 +748,21 @@ export class CataloguesSeeder {
       description: 'Tipo de beca',
       name: 'Total',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'Tipo de beca',
       name: 'Parcial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'Tipo de beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -776,28 +777,28 @@ export class CataloguesSeeder {
       description: 'Tipo de financiamento de beca',
       name: 'Fondos propios',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'Tipo de financiamento de beca',
       name: 'Transferencia del Estado',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'Tipo de financiamento de beca',
       name: 'Donaciones',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
     });
     catalogues.push({
       code: '4',
       description: 'Tipo de financiamento de beca',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -812,28 +813,28 @@ export class CataloguesSeeder {
       description: 'Jornada',
       name: 'Matutina',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
     catalogues.push({
       code: '2',
       description: 'Jornada',
       name: 'Vespertina',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
     catalogues.push({
       code: '3',
       description: 'Jornada',
       name: 'Nocturna',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
     catalogues.push({
       code: '4',
       description: 'Jornada',
       name: 'Intensiva',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
 
     for (const catalogue of catalogues) {
@@ -848,42 +849,42 @@ export class CataloguesSeeder {
       description: 'Tipo de colegio',
       name: 'Fiscal',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'Tipo de colegio',
       name: 'Fiscomisional',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'Tipo de colegio',
       name: 'Particular',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
     });
     catalogues.push({
       code: '4',
       description: 'Tipo de colegio',
       name: 'Minicipal',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
     });
     catalogues.push({
       code: '5',
       description: 'Tipo de colegio',
       name: 'Extranjero',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
     });
     catalogues.push({
       code: '6',
       description: 'Tipo de colegio',
       name: 'No registra',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SCHOOL_TYPE,
+      type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
     });
 
     for (const catalogue of catalogues) {
@@ -898,14 +899,14 @@ export class CataloguesSeeder {
       description: 'sexo',
       name: 'Hombre',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SEX,
+      type: CatalogueCoreTypeEnum.SEX,
     });
     catalogues.push({
       code: '2',
       description: 'sexo',
       name: 'Mujer',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.SEX,
+      type: CatalogueCoreTypeEnum.SEX,
     });
 
     for (const catalogue of catalogues) {
@@ -920,28 +921,28 @@ export class CataloguesSeeder {
       description: 'Para que emplea sus ingresos',
       name: 'Financiar sus estudios',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
+      type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
     });
     catalogues.push({
       code: '2',
       description: 'Para que emplea sus ingresos',
       name: 'Para mantener a su hogar',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
+      type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
     });
     catalogues.push({
       code: '3',
       description: 'Para que emplea sus ingresos',
       name: 'Gastos personales',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
+      type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
     });
     catalogues.push({
       code: '4',
       description: 'Para que emplea sus ingresos',
       name: 'No aplica',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
+      type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
     });
 
     for (const catalogue of catalogues) {
@@ -956,14 +957,14 @@ export class CataloguesSeeder {
       description: 'Ocupacion del estudiante',
       name: 'Solo estudia',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.STUDENT_OCCUPATION,
+      type: CatalogueCoreTypeEnum.STUDENT_OCCUPATION,
     });
     catalogues.push({
       code: '2',
       description: 'Ocupacion del estudiante',
       name: 'Trabaja y estudia',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.STUDENT_OCCUPATION,
+      type: CatalogueCoreTypeEnum.STUDENT_OCCUPATION,
     });
 
     for (const catalogue of catalogues) {
@@ -978,14 +979,14 @@ export class CataloguesSeeder {
       description: 'Si o No',
       name: 'Si',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.YES_NO,
+      type: CatalogueCoreTypeEnum.YES_NO,
     });
     catalogues.push({
       code: '2',
       description: 'Si o No',
       name: 'No',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.YES_NO,
+      type: CatalogueCoreTypeEnum.YES_NO,
     });
 
     for (const catalogue of catalogues) {
@@ -1000,21 +1001,44 @@ export class CataloguesSeeder {
       description: 'Si, No y No aplica',
       name: 'Si',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.YES_NO_NA,
+      type: CatalogueCoreTypeEnum.YES_NO_NA,
     });
     catalogues.push({
       code: '2',
       description: 'Si, No y No aplica',
       name: 'No',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.YES_NO_NA,
+      type: CatalogueCoreTypeEnum.YES_NO_NA,
     });
     catalogues.push({
       code: '3',
       description: 'Si, No y No aplica',
       name: 'No apliaca',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueTypeEnum.YES_NO_NA,
+      type: CatalogueCoreTypeEnum.YES_NO_NA,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createSchoolPeriodStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'actual',
+      description: 'Periodo Lectivo Actual',
+      name: 'ACTUAL',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE,
+    });
+
+    catalogues.push({
+      code: 'historical',
+      description: 'Periodo Lectivo Histórico',
+      name: 'HISTÓRICO',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE,
     });
 
     for (const catalogue of catalogues) {

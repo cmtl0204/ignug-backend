@@ -7,7 +7,7 @@ import {
   UpdateCatalogueDto,
 } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
-import { CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import { CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { ReadUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { plainToInstance } from 'class-transformer';
@@ -26,7 +26,9 @@ export class CataloguesService {
     return await this.repository.save(newCatalogue);
   }
 
-  async catalogue(type: CatalogueTypeEnum): Promise<ServiceResponseHttpModel> {
+  async catalogue(
+    type: CatalogueCoreTypeEnum,
+  ): Promise<ServiceResponseHttpModel> {
     const data = await this.repository.findAndCount({
       where: { type },
       order: { name: 1 },
