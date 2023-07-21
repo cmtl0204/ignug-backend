@@ -7,12 +7,12 @@ import {
 
 export class EventDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly modelId: string;
+  readonly isVisible: boolean;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly name: CatalogueEntity;
 
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly schoolPeriod: SchoolPeriodEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())

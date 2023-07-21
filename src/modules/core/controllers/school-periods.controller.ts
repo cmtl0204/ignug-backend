@@ -117,7 +117,7 @@ export class SchoolPeriodsController {
     };
   }
 
-  @ApiOperation({ summary: 'Hide' })
+  @ApiOperation({ summary: 'Reactivate' })
   @Patch(':id/reactivate')
   @HttpCode(HttpStatus.CREATED)
   async reactivate(

@@ -1,5 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
+import { Equal, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateEventDto,
   FilterEventDto,
@@ -7,10 +7,10 @@ import {
   UpdateEventDto,
 } from '@core/dto';
 
-import {CataloguesService, SchoolPeriodsService} from '@core/services';
+import { CataloguesService, SchoolPeriodsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
-import { EventEntity } from '@core/entities';
+import { EventEntity, SchoolPeriodEntity } from '@core/entities';
 
 @Injectable()
 export class EventsService {
@@ -23,7 +23,7 @@ export class EventsService {
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
     const response = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { name: true, state: true },
       take: 1000,
     });
 
@@ -36,9 +36,12 @@ export class EventsService {
     };
   }
 
-  async create(payload: CreateEventDto): Promise<EventEntity> {
-    const schoolPeriodActual =
+  async create(modelId: string, payload: CreateEventDto): Promise<EventEntity> {
     const newEntity = this.repository.create(payload);
+    newEntity.schoolPeriod =
+      await this.schoolPeriodsService.actualSchoolPeriod();
+    newEntity.modelId = modelId;
+
     return await this.repository.save(newEntity);
   }
 
@@ -52,7 +55,27 @@ export class EventsService {
 
     //All
     const data = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { name: true, state: true },
+    });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+  }
+
+  async findByModel(
+    modelId: string,
+    params?: FilterEventDto,
+  ): Promise<ServiceResponseHttpModel> {
+    //Pagination & Filter by search
+    if (params?.limit > 0 && params?.page >= 0) {
+      return await this.paginateAndFilterByModel(modelId, params);
+    }
+
+    //Filter by other field
+
+    //All
+    const data = await this.repository.findAndCount({
+      where: { modelId },
+      relations: { name: true, state: true },
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -60,7 +83,7 @@ export class EventsService {
 
   async findOne(id: string): Promise<EventEntity> {
     const entity = await this.repository.findOne({
-      relations: ['state'],
+      relations: { name: true, state: true },
       where: {
         id,
       },
@@ -115,7 +138,7 @@ export class EventsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { name: true, state: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
@@ -125,5 +148,61 @@ export class EventsService {
       data: response[0],
       pagination: { limit, totalItems: response[1] },
     };
+  }
+
+  private async paginateAndFilterByModel(
+    modelId: string,
+    params: FilterEventDto,
+  ): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<EventEntity> | FindOptionsWhere<EventEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
+
+    where = [];
+
+    where.push({ modelId: Equal(modelId) });
+    if (search) {
+      search = search.trim();
+      page = 0;
+      where = [];
+      where.push({
+        description: ILike(`%${search}%`),
+        modelId: Equal(modelId),
+      });
+    }
+
+    console.log(where);
+    const response = await this.repository.findAndCount({
+      relations: { name: true, state: true },
+      where,
+      take: limit,
+      skip: PaginationDto.getOffset(limit, page),
+    });
+
+    return {
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
+    };
+  }
+
+  async hide(id: string): Promise<EventEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<EventEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
+    return await this.repository.save(entity);
   }
 }

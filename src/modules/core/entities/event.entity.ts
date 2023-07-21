@@ -54,13 +54,13 @@ export class EventEntity {
     type: 'varchar',
     comment: 'Foreign Key de cualquier otra entidad',
   })
-  model: any;
+  modelId: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'name_id' })
   name: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity)
+  @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
 
@@ -78,7 +78,7 @@ export class EventEntity {
 
   @Column({
     name: 'ended_at',
-    type: 'timestamp',
+    type: 'date',
     comment: 'Fecha Inicio Evento',
   })
   endedAt: Date;
@@ -92,7 +92,7 @@ export class EventEntity {
 
   @Column({
     name: 'started_at',
-    type: 'timestamp',
+    type: 'date',
     comment: 'Fecha Inicio Evento',
   })
   startedAt: Date;

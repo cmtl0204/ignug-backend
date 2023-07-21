@@ -38,10 +38,13 @@ export class EventsController {
   }
 
   @ApiOperation({ summary: 'Create' })
-  @Post()
+  @Post(':modelId')
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateEventDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventsService.create(payload);
+  async create(
+    @Param('modelId', ParseUUIDPipe) modelId: string,
+    @Body() payload: CreateEventDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.eventsService.create(modelId, payload);
 
     return {
       data: serviceResponse,
@@ -55,6 +58,26 @@ export class EventsController {
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterEventDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.findAll(params);
+
+    return {
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: 'Find all',
+      title: 'Success',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find By Model' })
+  @Get('models/:modelId')
+  @HttpCode(HttpStatus.OK)
+  async findByModel(
+    @Param('modelId', ParseUUIDPipe) modelId: string,
+    @Query() params: FilterEventDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.eventsService.findByModel(
+      modelId,
+      params,
+    );
 
     return {
       data: serviceResponse.data,
@@ -118,6 +141,35 @@ export class EventsController {
       data: serviceResponse,
       message: `Eventos Eiminados`,
       title: `Eliminaciones`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Hide' })
+  @Patch(':id/hide')
+  @HttpCode(HttpStatus.CREATED)
+  async hide(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.eventsService.hide(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Oculto`,
+      title: `Ocultado`,
+    };
+  }
+  @ApiOperation({ summary: 'Reactivate' })
+  @Patch(':id/reactivate')
+  @HttpCode(HttpStatus.CREATED)
+  async reactivate(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.eventsService.reactivate(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Reactivado`,
+      title: `Reactivado`,
     };
   }
 }
