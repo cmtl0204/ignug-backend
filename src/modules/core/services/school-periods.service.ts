@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import {
   CreateSchoolPeriodDto,
@@ -9,7 +14,11 @@ import {
 import { SchoolPeriodEntity } from '@core/entities';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
+import {
+  CatalogueCoreSchoolPeriodStateEnum,
+  CoreRepositoryEnum,
+  MessageEnum,
+} from '@shared/enums';
 
 @Injectable()
 export class SchoolPeriodsService {
@@ -21,7 +30,7 @@ export class SchoolPeriodsService {
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
     const response = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { state: true },
       take: 1000,
     });
 
@@ -51,7 +60,8 @@ export class SchoolPeriodsService {
 
     //All
     const data = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { state: true },
+      order: { state: { code: 'desc' }, startedAt: 'desc' },
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -59,7 +69,7 @@ export class SchoolPeriodsService {
 
   async findOne(id: string): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOne({
-      relations: ['state'],
+      relations: { state: true },
       where: {
         id,
       },
@@ -138,8 +148,9 @@ export class SchoolPeriodsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['state'],
+      relations: { state: true },
       where,
+      order: { state: { code: 'desc' }, startedAt: 'desc' },
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
@@ -167,6 +178,49 @@ export class SchoolPeriodsService {
       throw new NotFoundException(MessageEnum.NOT_FOUND);
     }
     entity.isVisible = true;
+    return await this.repository.save(entity);
+  }
+
+  async open(id: string): Promise<SchoolPeriodEntity> {
+    const entity = await this.findOne(id);
+    const entities = (await this.findAll()).data as SchoolPeriodEntity[];
+    const existOpenSchoolPeriod = entities.find(
+      (entity) => entity.state.code === CatalogueCoreSchoolPeriodStateEnum.OPEN,
+    );
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+
+    if (entity.state.code === CatalogueCoreSchoolPeriodStateEnum.OPEN) {
+      throw new BadRequestException(MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD);
+    }
+    if (existOpenSchoolPeriod) {
+      throw new BadRequestException(
+        `${MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD} (${existOpenSchoolPeriod.name})`,
+      );
+    }
+
+    entity.state = await this.cataloguesService.findByCode(
+      CatalogueCoreSchoolPeriodStateEnum.OPEN,
+    );
+    return await this.repository.save(entity);
+  }
+
+  async close(id: string): Promise<SchoolPeriodEntity> {
+    const entity = await this.findOne(id);
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+
+    if (entity.state.code === CatalogueCoreSchoolPeriodStateEnum.CLOSE) {
+      throw new BadRequestException(MessageEnum.EXISTS_CLOSE_SCHOOL_PERIOD);
+    }
+
+    entity.state = await this.cataloguesService.findByCode(
+      CatalogueCoreSchoolPeriodStateEnum.CLOSE,
+    );
     return await this.repository.save(entity);
   }
 }

@@ -4,5 +4,9 @@ import { PaginationDto } from '@core/dto';
 export class FilterCatalogueDto extends PaginationDto {
   @IsOptional()
   @IsString()
+  readonly code: string;
+
+  @IsOptional()
+  @IsString()
   readonly name: string;
 }

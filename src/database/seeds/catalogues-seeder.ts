@@ -1026,17 +1026,17 @@ export class CataloguesSeeder {
   async createSchoolPeriodStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'actual',
+      code: 'open',
       description: 'Periodo Lectivo Actual',
-      name: 'ACTUAL',
+      name: 'ABIERTO',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE,
     });
 
     catalogues.push({
-      code: 'historical',
+      code: 'close',
       description: 'Periodo Lectivo Histórico',
-      name: 'HISTÓRICO',
+      name: 'CERRADO',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE,
     });

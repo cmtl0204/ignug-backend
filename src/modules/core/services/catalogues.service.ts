@@ -66,6 +66,18 @@ export class CataloguesService {
     return catalogue;
   }
 
+  async findByCode(code: string) {
+    const catalogue = await this.repository.findOne({
+      where: { code },
+    });
+
+    if (!catalogue) {
+      throw new NotFoundException('Catalogue not found');
+    }
+
+    return catalogue;
+  }
+
   async update(id: string, payload: UpdateCatalogueDto) {
     const catalogue = await this.repository.findOneBy({ id });
 

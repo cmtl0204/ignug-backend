@@ -51,7 +51,7 @@ export class SchoolPeriodsController {
 
     return {
       data: serviceResponse,
-      message: 'Periodo Lectivo creado',
+      message: 'Periodo Lectivo Creado',
       title: 'Creado',
     };
   }
@@ -158,6 +158,36 @@ export class SchoolPeriodsController {
       data: serviceResponse,
       message: `Periodos Lectivos Eliminados`,
       title: `Eliminados`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Open' })
+  @Patch(':id/open')
+  @HttpCode(HttpStatus.CREATED)
+  async open(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.schoolPeriodsService.open(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Abierto`,
+      title: `Abierto`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Close' })
+  @Patch(':id/close')
+  @HttpCode(HttpStatus.CREATED)
+  async close(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.schoolPeriodsService.close(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Cerrado`,
+      title: `Cerrado`,
     };
   }
 }
