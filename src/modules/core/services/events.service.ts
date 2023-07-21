@@ -7,7 +7,7 @@ import {
   UpdateEventDto,
 } from '@core/dto';
 
-import { CataloguesService } from '@core/services';
+import {CataloguesService, SchoolPeriodsService} from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { EventEntity } from '@core/entities';
@@ -18,6 +18,7 @@ export class EventsService {
     @Inject(CoreRepositoryEnum.EVENT_REPOSITORY)
     private repository: Repository<EventEntity>,
     private cataloguesService: CataloguesService,
+    private schoolPeriodsService: SchoolPeriodsService,
   ) {}
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -36,6 +37,7 @@ export class EventsService {
   }
 
   async create(payload: CreateEventDto): Promise<EventEntity> {
+    const schoolPeriodActual =
     const newEntity = this.repository.create(payload);
     return await this.repository.save(newEntity);
   }

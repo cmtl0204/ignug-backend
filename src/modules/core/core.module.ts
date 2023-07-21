@@ -9,6 +9,8 @@ import {
   StudentsController,
   SubjectsController,
   InformationTeachersController,
+  EventsController,
+  TeachersController,
 } from '@core/controllers';
 import {
   CareersService,
@@ -21,10 +23,10 @@ import {
   SubjectsService,
   InformationTeachersService,
   TeachersService,
+  EventsService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
-import { TeachersController } from './controllers/teachers.controller';
 
 @Global()
 @Module({
@@ -33,6 +35,7 @@ import { TeachersController } from './controllers/teachers.controller';
     CareersController,
     CataloguesController,
     CurriculumsController,
+    EventsController,
     InformationStudentsController,
     InformationTeachersController,
     InstitutionsController,
@@ -46,6 +49,7 @@ import { TeachersController } from './controllers/teachers.controller';
     CareersService,
     CataloguesService,
     CurriculumsService,
+    EventsService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,
@@ -59,6 +63,7 @@ import { TeachersController } from './controllers/teachers.controller';
     CareersService,
     CataloguesService,
     CurriculumsService,
+    EventsService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,

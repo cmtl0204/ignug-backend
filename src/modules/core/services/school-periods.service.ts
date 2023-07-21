@@ -72,6 +72,21 @@ export class SchoolPeriodsService {
     return entity;
   }
 
+  async actualSchoolPeriod(): Promise<SchoolPeriodEntity> {
+    const entity = await this.repository.findOne({
+      relations: ['state'],
+      where: {
+        state: { code: 'ACTUAL' },
+      },
+    });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+
+    return entity;
+  }
+
   async hide(id: string): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOneBy({ id });
 

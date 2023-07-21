@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 import { PaginationDto } from '@core/dto';
 
 export class FilterEventDto extends PaginationDto {
@@ -21,9 +21,6 @@ export class FilterEventDto extends PaginationDto {
   @IsString({ message: 'El campo name debe ser un string' })
   @IsOptional()
   readonly name: string;
-
-  @IsNumber({}, { message: 'El campo resolutionNumber debe ser un numero' })
-  readonly resolutionNumber: number;
 
   @IsString({ message: 'El campo shortName debe ser un string' })
   @IsOptional()

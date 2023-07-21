@@ -8,3 +8,4 @@ export * from './subjects.controller';
 export * from './information-teachers.controller';
 export * from './school-periods.controller';
 export * from './events.controller';
+export * from './teachers.controller';

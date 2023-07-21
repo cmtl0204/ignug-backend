@@ -54,7 +54,7 @@ export class EventEntity {
     type: 'varchar',
     comment: 'Foreign Key de cualquier otra entidad',
   })
-  modelId: string;
+  model: any;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'name_id' })

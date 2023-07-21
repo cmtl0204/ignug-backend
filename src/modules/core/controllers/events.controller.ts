@@ -18,16 +18,16 @@ import { EventsService } from '@core/services';
 import { EventEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
 
-@ApiTags('School Period')
-@Controller('school_periods')
+@ApiTags('Events')
+@Controller('events')
 export class EventsController {
-  constructor(private eventssService: EventsService) {}
+  constructor(private eventsService: EventsService) {}
 
   @ApiOperation({ summary: 'Catalogue' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.catalogue();
+    const serviceResponse = await this.eventsService.catalogue();
 
     return {
       data: serviceResponse.data,
@@ -41,7 +41,7 @@ export class EventsController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateEventDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.create(payload);
+    const serviceResponse = await this.eventsService.create(payload);
 
     return {
       data: serviceResponse,
@@ -54,7 +54,7 @@ export class EventsController {
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterEventDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.findAll(params);
+    const serviceResponse = await this.eventsService.findAll(params);
 
     return {
       data: serviceResponse.data,
@@ -70,7 +70,7 @@ export class EventsController {
   async findOne(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.findOne(id);
+    const serviceResponse = await this.eventsService.findOne(id);
 
     return {
       data: serviceResponse,
@@ -86,7 +86,7 @@ export class EventsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() payload: UpdateEventDto,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.update(id, payload);
+    const serviceResponse = await this.eventsService.update(id, payload);
     return {
       data: serviceResponse,
       message: `Evento Actualizado`,
@@ -100,7 +100,7 @@ export class EventsController {
   async remove(
     @Param('id', ParseUUIDPipe) id: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.remove(id);
+    const serviceResponse = await this.eventsService.remove(id);
     return {
       data: serviceResponse,
       message: `Evento Eliminado`,
@@ -112,7 +112,7 @@ export class EventsController {
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(@Body() payload: EventEntity[]): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventssService.removeAll(payload);
+    const serviceResponse = await this.eventsService.removeAll(payload);
 
     return {
       data: serviceResponse,
