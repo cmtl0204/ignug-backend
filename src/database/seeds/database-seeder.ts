@@ -29,7 +29,7 @@ export class DatabaseSeeder {
       const path = `${join(process.cwd())}/src/resources/uploads/${i}`;
       fs.mkdir(path, (err) => {
         if (err) {
-          console.log(err);
+          // console.log(err);
         }
         // console.log('Created Directory Year');
       });
@@ -38,7 +38,7 @@ export class DatabaseSeeder {
         const path = `${join(process.cwd())}/src/resources/uploads/${i}/${j}`;
         fs.mkdir(path, (err) => {
           if (err) {
-            console.log(err);
+            // console.log(err);
           }
           // console.log('Created Directory Month');
         });

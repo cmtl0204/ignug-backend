@@ -12,7 +12,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   CreateSchoolPeriodDto,
   FilterSchoolPeriodDto,
@@ -21,13 +21,17 @@ import {
 import { SchoolPeriodsService } from '@core/services';
 import { SchoolPeriodEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
+import { Auth, Roles } from '@auth/decorators';
+import { RoleEnum } from '@auth/enums';
 
 @ApiTags('School Period')
 @Controller('school-periods')
+@Auth()
 export class SchoolPeriodsController {
   constructor(private schoolPeriodsService: SchoolPeriodsService) {}
 
   @ApiOperation({ summary: 'Catalogue' })
+  @Roles(RoleEnum.GUEST)
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
@@ -57,6 +61,7 @@ export class SchoolPeriodsController {
   }
 
   @ApiOperation({ summary: 'Find All' })
+  @Roles(RoleEnum.GUEST)
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(

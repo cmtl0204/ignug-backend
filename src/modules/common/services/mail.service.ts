@@ -5,6 +5,7 @@ import { join } from 'path';
 import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
 import { ConfigType } from '@nestjs/config';
 import { config } from '@config';
+import { environments } from '../../../environments';
 
 @Injectable()
 export class MailService {
@@ -17,6 +18,7 @@ export class MailService {
     to: string[] | string,
     subject: MailSubjectEnum,
     template: MailTemplateEnum,
+    data: any = null,
   ) {
     return await this.mailerService
       .sendMail({
@@ -24,13 +26,17 @@ export class MailService {
         from: `${this.configService.mail.fromName} - ${this.configService.mail.from}`,
         subject,
         template,
-        attachments: [
-          {
-            path: join('resources', 'temps', 'test.hbs'),
-            filename: 'test2.hbs',
-            contentDisposition: 'attachment',
-          },
-        ],
+        context: {
+          data,
+          system: environments.appName,
+        },
+        // attachments: [
+        //   {
+        //     path: join('resources', 'temps', 'test.hbs'),
+        //     filename: 'test2.hbs',
+        //     contentDisposition: 'attachment',
+        //   },
+        // ],
       })
       .then(
         (response) => {

@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environments } from '../environments';
 
 export interface Response<T> {
   data: T;
@@ -26,6 +27,7 @@ export class ResponseHttpInterceptor<T>
           pagination: response.pagination,
           message: response.message,
           title: response.title,
+          version: environments.version,
         };
       }),
     );

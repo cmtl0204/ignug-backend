@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from '@exceptions';
 import { ResponseHttpInterceptor } from '@interceptors';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -34,10 +35,12 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1');
 
+  app.useStaticAssets(path.join(__dirname, 'resources/public'));
+
   const documentBuilder = new DocumentBuilder()
     .setTitle('API IGNUG')
     .setDescription('App description')
-    .setVersion('2')
+    .setVersion('3')
     .addBearerAuth()
     .build();
 

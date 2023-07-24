@@ -6,6 +6,7 @@ import {
   HttpStatus,
   Param,
   ParseUUIDPipe,
+  Patch,
   Post,
   Put,
   UploadedFile,
@@ -18,10 +19,11 @@ import { UserEntity } from '@auth/entities';
 import {
   LoginDto,
   PasswordChangeDto,
+  ReadUserDto,
   UpdateProfileDto,
   UpdateUserInformationDto,
 } from '@auth/dto';
-import { ResponseHttpModel } from '@shared/models';
+import { ResponseHttpModel, ServiceResponseHttpModel } from '@shared/models';
 import { MailService } from '@common/services';
 import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -166,7 +168,45 @@ export class AuthController {
     };
   }
 
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {}
+  @Get('transactional-codes/:username/request')
+  @HttpCode(HttpStatus.OK)
+  async requestTransactionalCode(
+    @Param('username') username: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.authService.requestTransactionalCode(
+      username,
+    );
+
+    return {
+      data: serviceResponse.data,
+      message: `Su código fue enviado a ${serviceResponse.data}`,
+      title: 'Código Enviado',
+    };
+  }
+
+  @Get('transactional-codes/:token/verify')
+  @HttpCode(HttpStatus.OK)
+  async verifyTransactionalCode(
+    @Param('token') token: string,
+  ): Promise<ResponseHttpModel> {
+    await this.authService.verifyTransactionalCode(token);
+
+    return {
+      data: null,
+      message: `Por favor ingrese su nueva contraseña`,
+      title: 'Código Válido',
+    };
+  }
+
+  @Patch('reset-passwords')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(@Body() payload: any): Promise<ResponseHttpModel> {
+    await this.authService.resetPassword(payload);
+
+    return {
+      data: null,
+      message: `Por favor inicie sesión`,
+      title: 'Contraseña Reseteada',
+    };
+  }
 }

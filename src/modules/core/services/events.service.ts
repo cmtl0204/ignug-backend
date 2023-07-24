@@ -172,7 +172,6 @@ export class EventsService {
       });
     }
 
-    console.log(where);
     const response = await this.repository.findAndCount({
       relations: { name: true, state: true },
       where,

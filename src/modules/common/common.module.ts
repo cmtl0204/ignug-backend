@@ -1,13 +1,13 @@
 import { Global, Module } from '@nestjs/common';
-import { FilesController } from './controllers/files.controller';
-import { FilesService } from './services/files.service';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { FilesController } from '@common/controllers';
+import { FilesService } from '@common/services';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { config } from '@config';
 import { ConfigType } from '@nestjs/config';
 import { join } from 'path';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { commonProviders } from '@common/providers';
-import { MailService } from './services/mail.service';
+import { MailService } from '@common/services';
 
 @Global()
 @Module({
@@ -27,7 +27,13 @@ import { MailService } from './services/mail.service';
           from: configService.mail.from,
         },
         template: {
-          dir: join(__dirname, 'mail', `./${configService.mail.dir}`),
+          // dir: join(__dirname, 'mail', `./${configService.mail.dir}`),
+          dir: join(
+            process.cwd(),
+            'src/resources/mails',
+            `./${configService.mail.dir}`,
+          ),
+
           adapter: new HandlebarsAdapter(),
           options: {
             static: true,

@@ -1,4 +1,4 @@
 export interface ServiceResponseHttpModel {
-  data: object;
+  data: any;
   pagination?: any;
 }

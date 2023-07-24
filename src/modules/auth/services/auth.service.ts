@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Inject,
   Injectable,
   NotFoundException,
@@ -9,9 +10,18 @@ import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { UserEntity } from '@auth/entities';
+import { add, isBefore } from 'date-fns';
+import {
+  UserEntity,
+  TransactionalCodeEntity,
+  RoleEntity,
+} from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
-import { AuthRepositoryEnum } from '@shared/enums';
+import {
+  AuthRepositoryEnum,
+  MailSubjectEnum,
+  MailTemplateEnum,
+} from '@shared/enums';
 import {
   LoginDto,
   PasswordChangeDto,
@@ -22,6 +32,7 @@ import {
 } from '@auth/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { UsersService } from '@auth/services';
+import { MailService } from '@common/services';
 
 @Injectable()
 export class AuthService {
@@ -30,8 +41,11 @@ export class AuthService {
   constructor(
     @Inject(AuthRepositoryEnum.USER_REPOSITORY)
     private repository: Repository<UserEntity>,
+    @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY)
+    private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
     private readonly userService: UsersService,
     private jwtService: JwtService,
+    private readonly nodemailerService: MailService,
   ) {}
 
   async changePassword(
@@ -74,22 +88,22 @@ export class AuthService {
     })) as UserEntity;
 
     if (user && user?.suspendedAt)
-      throw new UnauthorizedException('User is suspended.');
+      throw new UnauthorizedException('Su usuario se encuentra suspendido');
 
     if (user && user?.maxAttempts === 0)
       throw new UnauthorizedException(
-        'User exceeded the maximum number of attempts allowed.',
+        'Ha excedido el número máximo de intentos permitidos',
       );
 
     if (user && !(await this.checkPassword(payload.password, user))) {
       const attempts = user.maxAttempts - 1;
       throw new UnauthorizedException(
-        `Wrong username and/or password, ${attempts} attempts remaining`,
+        `Usuario y/o contraseña no válidos, ${attempts} intentos restantes`,
       );
     }
 
     if (!user || !(await this.checkPassword(payload.password, user))) {
-      throw new UnauthorizedException(`Wrong username and/or password`);
+      throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
     }
 
     user.activatedAt = new Date();
@@ -99,7 +113,7 @@ export class AuthService {
     userRest.maxAttempts = this.MAX_ATTEMPTS;
     await this.repository.update(userRest.id, userRest);
 
-    const accessToken = this.generateJwt(user, 'admin');
+    const accessToken = this.generateJwt(user);
 
     return { data: { accessToken, user } };
   }
@@ -168,14 +182,115 @@ export class AuthService {
   }
 
   refreshToken(user: UserEntity): ServiceResponseHttpModel {
-    const accessToken = this.generateJwt(user, 'admin');
+    const accessToken = this.generateJwt(user);
 
     return { data: { accessToken, user } };
   }
 
-  private generateJwt(user: UserEntity, role: string): string {
-    const payload: PayloadTokenModel = { id: user.id, role };
+  async requestTransactionalCode(
+    username: string,
+  ): Promise<ServiceResponseHttpModel> {
+    const user = await this.repository.findOne({
+      where: { username },
+    });
 
+    if (!user) {
+      throw new NotFoundException({
+        error: 'Usuario no encontrado',
+        message: 'Intente de nuevo',
+      });
+    }
+    const randomNumber = Math.random();
+    const token = randomNumber.toString().substring(2, 8);
+
+    await this.nodemailerService.sendMail(
+      user.email,
+      MailSubjectEnum.RESET_PASSWORD,
+      MailTemplateEnum.TRANSACTIONAL_CODE,
+      { token, user },
+    );
+
+    const payload = { username: user.username, token, type: 'password_reset' };
+
+    await this.transactionalCodeRepository.save(payload);
+
+    const value = user.email;
+    const chars = 3; // Cantidad de caracters visibles
+
+    const email = value.replace(
+      /[a-z0-9\-_.]+@/gi,
+      (c) =>
+        c.substr(0, chars) +
+        c
+          .split('')
+          .slice(chars, -1)
+          .map((v) => '*')
+          .join('') +
+        '@',
+    );
+
+    return { data: email };
+  }
+
+  async verifyTransactionalCode(
+    token: string,
+  ): Promise<ServiceResponseHttpModel> {
+    const transactionalCode = await this.transactionalCodeRepository.findOne({
+      where: { token },
+    });
+
+    if (!transactionalCode) {
+      throw new BadRequestException({
+        message: 'Código Transaccional no válido',
+        error: 'Error',
+      });
+    }
+
+    if (transactionalCode.isUsed) {
+      throw new BadRequestException({
+        message: 'El código ya fue usado',
+        error: 'Error',
+      });
+    }
+    const maxDate = add(transactionalCode.createdAt, { minutes: 10 });
+
+    if (isBefore(maxDate, new Date())) {
+      throw new BadRequestException({
+        message: 'El código ha expirado',
+        error: 'Error',
+      });
+    }
+
+    transactionalCode.isUsed = true;
+
+    await this.transactionalCodeRepository.save(transactionalCode);
+
+    return { data: true };
+  }
+
+  async resetPassword(payload: any): Promise<ServiceResponseHttpModel> {
+    const user = await this.repository.findOne({
+      where: { username: payload.username },
+    });
+
+    if (!user) {
+      throw new NotFoundException({
+        message: 'Intente de nuevo',
+        error: 'Usuario no encontrado',
+      });
+    }
+
+    user.maxAttempts = this.MAX_ATTEMPTS;
+    user.password = payload.newPassword;
+    user.passwordChanged = true;
+
+    await this.repository.save(user);
+
+    return { data: true };
+  }
+
+  private generateJwt(user: UserEntity): string {
+    const payload: PayloadTokenModel = { id: user.id };
     return this.jwtService.sign(payload);
   }
 

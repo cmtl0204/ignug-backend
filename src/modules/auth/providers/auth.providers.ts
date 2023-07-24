@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import {
   MenuEntity,
+  TransactionalCodeEntity,
   PermissionEntity,
   RoleEntity,
   UserEntity,
@@ -30,6 +31,12 @@ export const authProviders = [
     provide: AuthRepositoryEnum.USER_REPOSITORY,
     useFactory: (dataSource: DataSource) =>
       dataSource.getRepository(UserEntity),
+    inject: [ConfigEnum.PG_DATA_SOURCE],
+  },
+  {
+    provide: AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY,
+    useFactory: (dataSource: DataSource) =>
+      dataSource.getRepository(TransactionalCodeEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
 ];

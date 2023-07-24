@@ -7,8 +7,8 @@ import {
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '@auth/constants';
-import { PayloadTokenModel } from '@auth/models';
 import { RoleEnum } from '@auth/enums';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -22,14 +22,21 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
     );
 
+    console.log('user.roles', roles);
     if (!roles) return true;
 
     if (roles.length === 0) return true;
 
     const request = context.switchToHttp().getRequest();
-    const user = request.user as PayloadTokenModel;
-    const isAuth = roles.some((role) => role === user.role);
+    const user = request.user as UserEntity;
+    console.log('user.roles', user.roles);
+    console.log('roles', roles);
+    const isAuth = roles.some((role) => {
+      return user.roles.some((roleUser) => roleUser.code === role);
+    });
 
+    console.log(user);
+    console.log(isAuth);
     if (!isAuth) {
       throw new ForbiddenException();
     }

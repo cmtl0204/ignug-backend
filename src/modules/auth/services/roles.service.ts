@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { Repository, FindOptionsWhere, ILike } from 'typeorm';
-import { RoleEntity } from '@auth/entities';
+import { MenuEntity, RoleEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { AuthRepositoryEnum } from '@shared/enums';
@@ -24,6 +24,10 @@ export class RolesService {
     const roleCreated = await this.repository.save(newRole);
 
     return { data: plainToInstance(ReadRoleDto, roleCreated) };
+  }
+
+  async createMenus(role: RoleEntity): Promise<RoleEntity> {
+    return await this.repository.save(role);
   }
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -65,6 +69,16 @@ export class RolesService {
     }
 
     return { data: plainToInstance(ReadRoleDto, role) };
+  }
+
+  async findByCode(code: string): Promise<RoleEntity> {
+    const role = await this.repository.findOneBy({ code });
+
+    if (!role) {
+      throw new NotFoundException('Role not found');
+    }
+
+    return role;
   }
 
   async update(

@@ -22,11 +22,15 @@ export class RolesSeeder {
         name: 'Docente',
       },
       {
-        code: 'coordinator_administrative',
+        code: 'student',
+        name: 'Estudiante',
+      },
+      {
+        code: 'coordinator-administrative',
         name: 'Coordinador Administrativo',
       },
       {
-        code: 'coordinator_career',
+        code: 'coordinator-career',
         name: 'Coordinador Carrera',
       },
       {

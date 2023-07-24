@@ -13,7 +13,7 @@ import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 import { ErrorResponseHttpModel } from '@shared/models';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
-import { Type } from 'class-transformer';
+import { environments } from '../environments';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -25,39 +25,41 @@ export class AllExceptionsFilter implements ExceptionFilter {
       error: 'Server Error',
       message: 'Server Error',
       statusCode: 500,
+      version: environments.version,
     };
     let status = 500;
 
     if (exception instanceof HttpException) {
-      const { message } = exception.getResponse() as ErrorResponseHttpModel;
+      const { message, error } =
+        exception.getResponse() as ErrorResponseHttpModel;
       status = exception.getStatus();
 
       errorResponseHttpModel.error = 'Server Error';
       errorResponseHttpModel.message = message;
 
       if (exception instanceof BadRequestException) {
-        errorResponseHttpModel.error = 'Bad Request';
+        errorResponseHttpModel.error = error || 'Bad Request';
         errorResponseHttpModel.message = message;
       }
 
       if (exception instanceof UnprocessableEntityException) {
-        errorResponseHttpModel.error = 'Bad Request';
+        errorResponseHttpModel.error = error || 'Bad Request';
         errorResponseHttpModel.message = message;
       }
 
       if (exception instanceof UnauthorizedException) {
-        errorResponseHttpModel.error = 'Unauthorized';
+        errorResponseHttpModel.error = error || 'Unauthorized';
         errorResponseHttpModel.message =
           message ?? 'You do not have authorization.';
       }
 
       if (exception instanceof NotFoundException) {
-        errorResponseHttpModel.error = 'Route/Model not found';
+        errorResponseHttpModel.error = error || 'Route/Model not found';
         errorResponseHttpModel.message = message;
       }
 
       if (exception instanceof ForbiddenException) {
-        errorResponseHttpModel.error = 'Forbidden';
+        errorResponseHttpModel.error = error || 'Forbidden';
         errorResponseHttpModel.message = message;
       }
 

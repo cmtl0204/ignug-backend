@@ -3,9 +3,10 @@ export enum MailEnum {
 }
 
 export enum MailSubjectEnum {
-  RESET_PASSWORD = 'Reset Password',
+  RESET_PASSWORD = 'Solicitud de Restablecimiento de Contraseña',
 }
 
 export enum MailTemplateEnum {
-  TEST = 'test',
+  TEST = 'auth/transactional-code',
+  TRANSACTIONAL_CODE = 'auth/transactional-code',
 }

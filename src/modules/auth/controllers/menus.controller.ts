@@ -66,6 +66,21 @@ export class MenusController {
     };
   }
 
+  @ApiOperation({ summary: 'Menus for sidebar' })
+  @Get('roles/:roleId')
+  @HttpCode(HttpStatus.OK)
+  async getMenusByRole(
+    @Param('roleId') roleId: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.menusService.getMenusByRole(roleId);
+
+    return {
+      data: serviceResponse.data,
+      message: `catalogue`,
+      title: `Catalogue`,
+    };
+  }
+
   @ApiOperation({ summary: 'Find All' })
   @Get()
   @HttpCode(HttpStatus.OK)

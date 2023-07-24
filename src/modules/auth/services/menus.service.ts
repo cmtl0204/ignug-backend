@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { Repository, FindOptionsWhere, ILike, Equal, IsNull } from 'typeorm';
-import { MenuEntity } from '@auth/entities';
+import { Repository, FindOptionsWhere, ILike, IsNull } from 'typeorm';
+import { MenuEntity, RoleEntity, UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { AuthRepositoryEnum } from '@shared/enums';
@@ -11,12 +11,15 @@ import {
   ReadMenuDto,
   UpdateMenuDto,
 } from '@auth/dto';
+import { tr } from 'date-fns/locale';
 
 @Injectable()
 export class MenusService {
   constructor(
     @Inject(AuthRepositoryEnum.MENU_REPOSITORY)
     private repository: Repository<MenuEntity>,
+    @Inject(AuthRepositoryEnum.ROLE_REPOSITORY)
+    private roleRepository: Repository<RoleEntity>,
   ) {}
 
   async create(payload: CreateMenuDto): Promise<ServiceResponseHttpModel> {
@@ -36,15 +39,26 @@ export class MenusService {
   }
 
   async getMenusForSidebar(): Promise<ServiceResponseHttpModel> {
-    let response = await this.repository.find({
+    const response = await this.repository.find({
       where: { parent: IsNull() },
       relations: { children: true, parent: true },
     });
 
-    response = response.filter((element) => element.parent === null);
+    // response = response.filter((element) => element.parent === null);
 
     return {
       data: response,
+    };
+  }
+
+  async getMenusByRole(roleId: string): Promise<ServiceResponseHttpModel> {
+    const role = await this.roleRepository.findOne({
+      where: { id: roleId, menus: { parent: null } },
+      relations: { menus: { parent: true, children: { children: true } } },
+    });
+
+    return {
+      data: role.menus,
     };
   }
 
@@ -65,7 +79,7 @@ export class MenusService {
     });
 
     return {
-      data: plainToInstance(ReadMenuDto, response[0]),
+      data: response[0],
       pagination: { totalItems: response[1], limit: 10 },
     };
   }
