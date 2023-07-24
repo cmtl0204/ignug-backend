@@ -23,18 +23,6 @@ export class SubjectsService {
   async create(payload: CreateSubjectDto): Promise<SubjectEntity> {
     const newSubject = this.repository.create(payload);
 
-    newSubject.academicPeriod = await this.catalogueService.findOne(
-      payload.academicPeriod.id,
-    );
-
-    newSubject.state = await this.catalogueService.findOne(payload.state.id);
-
-    newSubject.type = await this.catalogueService.findOne(payload.type.id);
-
-    newSubject.curriculum = await this.curriculumService.findOne(
-      payload.curriculum.id,
-    );
-
     return await this.repository.save(newSubject);
   }
 
@@ -76,18 +64,6 @@ export class SubjectsService {
     if (!subject) {
       throw new NotFoundException('Subject not found');
     }
-
-    subject.academicPeriod = await this.catalogueService.findOne(
-      payload.academicPeriod.id,
-    );
-
-    subject.state = await this.catalogueService.findOne(payload.state.id);
-
-    subject.type = await this.catalogueService.findOne(payload.type.id);
-
-    subject.curriculum = await this.curriculumService.findOne(
-      payload.curriculum.id,
-    );
 
     this.repository.merge(subject, payload);
 

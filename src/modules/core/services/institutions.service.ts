@@ -21,12 +21,7 @@ export class InstitutionsService {
 
   async create(payload: CreateInstitutionDto): Promise<InstitutionEntity> {
     const newInstitution = this.repository.create(payload);
-    newInstitution.address = await this.cataloguesService.findOne(
-      payload.address.id,
-    );
-    newInstitution.state = await this.cataloguesService.findOne(
-      payload.state.id,
-    );
+
     return await this.repository.save(newInstitution);
   }
 
@@ -67,11 +62,6 @@ export class InstitutionsService {
     const institution = await this.repository.findOneBy({ id });
 
     if (!institution) throw new NotFoundException('Institution not found');
-
-    institution.address = await this.cataloguesService.findOne(
-      payload.address.id,
-    );
-    institution.state = await this.cataloguesService.findOne(payload.state.id);
 
     this.repository.merge(institution, payload);
 

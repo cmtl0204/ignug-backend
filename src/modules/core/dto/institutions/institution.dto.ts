@@ -9,24 +9,26 @@ import {
   MinLength,
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
+import {
+  isNotEmptyValidationOptions,
+  isStringValidationOptions,
+  minLengthValidationOptions,
+} from '@shared/validation';
 
 export class InstitutionDto {
-  @IsNotEmpty({ message: 'address no debe estar vacío' })
-  readonly address: CatalogueEntity;
-
-  @IsNotEmpty({ message: 'address no debe estar vacío' })
+  @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 
-  @IsString({ message: 'Acronym debe ser texto' })
-  @MinLength(3, { message: 'Acronym debe tener mínimo 2 caracteres' })
+  @IsString(isStringValidationOptions())
+  @MinLength(3, minLengthValidationOptions())
   readonly acronym: string;
 
   @IsOptional()
-  @IsString({ message: 'Cellphone debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly cellphone: string;
 
-  @IsString({ message: 'Code debe ser texto' })
-  @MinLength(3, { message: 'Code debe tener mínimo 1 caracter' })
+  @IsString(isStringValidationOptions())
+  @MinLength(3, minLengthValidationOptions())
   readonly code: string;
 
   @IsString({ message: 'codeSniese debe ser texto' })
@@ -38,6 +40,9 @@ export class InstitutionDto {
   @IsOptional()
   @IsEmail({}, { message: 'email debe ser un email' })
   readonly email: string;
+
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly isVisible: boolean;
 
   @IsOptional()
   @IsString({ message: 'logo debe ser texto' })

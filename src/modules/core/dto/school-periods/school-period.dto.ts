@@ -1,8 +1,6 @@
 import { CatalogueEntity } from '@core/entities';
 import {
   IsString,
-  MaxLength,
-  MinLength,
   IsOptional,
   IsNotEmpty,
   IsDate,

@@ -27,7 +27,7 @@ import { SubjectsService } from '@core/services';
 export class SubjectsController {
   constructor(private subjectsService: SubjectsService) {}
 
-  @ApiOperation({ summary: 'Create Subject' })
+  @ApiOperation({ summary: 'Create' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() payload: CreateSubjectDto): Promise<ResponseHttpModel> {
@@ -40,7 +40,7 @@ export class SubjectsController {
     };
   }
 
-  @ApiOperation({ summary: 'Find All Subjects' })
+  @ApiOperation({ summary: 'Find All' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterSubjectDto): Promise<ResponseHttpModel> {
@@ -54,7 +54,7 @@ export class SubjectsController {
     };
   }
 
-  @ApiOperation({ summary: 'Find Subject' })
+  @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -69,7 +69,7 @@ export class SubjectsController {
     };
   }
 
-  @ApiOperation({ summary: 'Update Subject' })
+  @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -85,7 +85,7 @@ export class SubjectsController {
     };
   }
 
-  @ApiOperation({ summary: 'Delete Subject' })
+  @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
@@ -100,7 +100,7 @@ export class SubjectsController {
     };
   }
 
-  @ApiOperation({ summary: 'Delete All Subjects' })
+  @ApiOperation({ summary: 'Delete All' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(

@@ -38,18 +38,6 @@ export class CareersService {
   async create(payload: CreateCareerDto): Promise<CareerEntity> {
     const newCareer = this.repository.create(payload);
 
-    newCareer.institution = await this.institutionService.findOne(
-      payload.institution.id,
-    );
-
-    newCareer.modality = await this.cataloguesService.findOne(
-      payload.modality.id,
-    );
-
-    newCareer.state = await this.cataloguesService.findOne(payload.state.id);
-
-    newCareer.type = await this.cataloguesService.findOne(payload.type.id);
-
     return await this.repository.save(newCareer);
   }
 

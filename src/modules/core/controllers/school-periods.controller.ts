@@ -31,7 +31,7 @@ export class SchoolPeriodsController {
   constructor(private schoolPeriodsService: SchoolPeriodsService) {}
 
   @ApiOperation({ summary: 'Catalogue' })
-  @Roles(RoleEnum.GUEST)
+  @Roles(RoleEnum.COORDINATOR_CAREER)
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
@@ -61,7 +61,7 @@ export class SchoolPeriodsController {
   }
 
   @ApiOperation({ summary: 'Find All' })
-  @Roles(RoleEnum.GUEST)
+  @Roles(RoleEnum.COORDINATOR_CAREER)
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
