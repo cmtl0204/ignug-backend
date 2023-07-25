@@ -46,8 +46,10 @@ export class StudentEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @OneToOne(() => InformationStudentEntity)
-  @JoinColumn({ name: 'student' })
+  @OneToOne(
+    () => InformationStudentEntity,
+    (informationStudentEntity) => informationStudentEntity.student,
+  )
   informationStudent: InformationStudentEntity;
 
   /** Relationship **/

@@ -74,6 +74,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'address',
     type: 'text',
+    nullable: true,
     comment: 'La direccion donde reside el estudiante',
   })
   address: string;
@@ -81,6 +82,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'community',
     type: 'int',
+    nullable: true,
     comment:
       'Las horas realizadas por parte del estudiante en integracion con la sociedad',
   })
@@ -89,6 +91,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'contact_emergency_name',
     type: 'varchar',
+    nullable: true,
     comment:
       'Nombre del contacto de emergencia para informar sobre el estudiante',
   })
@@ -97,6 +100,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'contact_emergency_kinship',
     type: 'varchar',
+    nullable: true,
     comment:
       'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
   })
@@ -105,6 +109,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'contact_emergency_phone',
     type: 'varchar',
+    nullable: true,
     comment:
       'Numeros de contacto de emergencia para informar sobre el estudiante',
   })
@@ -113,6 +118,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'disability_percentage',
     type: 'float',
+    nullable: true,
     comment: 'El porcentaje de discapicidad que tiene el estudiante ',
   })
   disabilityPercentage: number;
@@ -120,6 +126,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'economic_amount',
     type: 'float',
+    nullable: true,
     comment: 'El monto de ayuda economica que el estudiante recibe',
   })
   economicAmount: number;
@@ -127,6 +134,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'educational_amount',
     type: 'float',
+    nullable: true,
     comment: 'El monto de credito que el estudiante tiene',
   })
   educationalAmount: number;
@@ -134,6 +142,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'family_income',
     type: 'float',
+    nullable: true,
     comment: 'La direccion donde reside el estudiante',
   })
   familyIncome: number;
@@ -141,6 +150,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'financing_scholarship_type',
     type: 'varchar',
+    nullable: true,
     comment: 'Recibe el estudiante un financiamiento si =1, no = 2',
   })
   financingScholarshipType: string;
@@ -148,6 +158,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'members_house_number',
     type: 'int',
+    nullable: true,
     comment: 'Numero de familiares con quien vive el estudiante',
   })
   membersHouseNumber: number;
@@ -155,6 +166,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'practice_hours',
     type: 'int',
+    nullable: true,
     comment: 'Las horas realizadas por parte del estudiante en pasantias',
   })
   practiceHours: number;
@@ -162,6 +174,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'postal_code',
     type: 'varchar',
+    nullable: true,
     comment: 'Codigo postal donde el estudiante reside',
   })
   postalCode: string;
@@ -169,6 +182,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'scholarship_amount',
     type: 'float',
+    nullable: true,
     comment: 'El monto de beca que el estudiante obtuvo',
   })
   scholarshipAmount: number;
@@ -176,6 +190,7 @@ export class InformationStudentEntity {
   @Column({
     name: 'tariff_scholarship_percentage',
     type: 'float',
+    nullable: true,
     comment: 'El porcentaje de beca que cubre la institutcion el estudiante ',
   })
   tariffScholarshipPercentage: number;

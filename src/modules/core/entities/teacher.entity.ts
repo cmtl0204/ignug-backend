@@ -9,7 +9,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { InformationTeacherEntity } from '@core/entities';
+import {
+  InformationStudentEntity,
+  InformationTeacherEntity,
+} from '@core/entities';
 
 @Entity('teachers', { schema: 'core' })
 export class TeacherEntity {
@@ -46,8 +49,10 @@ export class TeacherEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @OneToOne(() => InformationTeacherEntity)
-  @JoinColumn({ name: 'teacher' })
+  @OneToOne(
+    () => InformationTeacherEntity,
+    (informationTeacher) => informationTeacher.teacher,
+  )
   informationTeacher: InformationTeacherEntity;
 
   /** Relationship **/

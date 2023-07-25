@@ -27,18 +27,6 @@ import { StudentEntity } from '@core/entities';
 export class StudentsController {
   constructor(private studentService: StudentsService) {}
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateStudentDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.studentService.create(payload);
-
-    return {
-      data: serviceResponse,
-      message: 'student created',
-      title: 'Created',
-    };
-  }
-
   @ApiOperation({ summary: 'List all users' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)

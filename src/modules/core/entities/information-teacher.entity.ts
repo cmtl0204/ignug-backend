@@ -82,6 +82,7 @@ export class InformationTeacherEntity {
   @Column({
     name: 'academic_unit',
     type: 'varchar',
+    nullable: true,
     comment: 'Nombre de la unidad academica',
   })
   academicUnit: string;
@@ -90,6 +91,7 @@ export class InformationTeacherEntity {
     name: 'administrative_hours',
     type: 'float',
     unsigned: true,
+    nullable: true,
     comment: 'Horas dedicadas a la administracion al mes',
   })
   administrativeHours: number;
@@ -98,6 +100,7 @@ export class InformationTeacherEntity {
     name: 'class_hours',
     type: 'float',
     unsigned: true,
+    nullable: true,
     comment: 'Total de horas de clase dadas',
   })
   classHours: number;
@@ -106,6 +109,7 @@ export class InformationTeacherEntity {
     name: 'community_hours',
     type: 'float',
     unsigned: true,
+    nullable: true,
     comment: 'Horas dedicadas a labores comunitarios',
   })
   communityHours: number;
@@ -113,6 +117,7 @@ export class InformationTeacherEntity {
   @Column({
     name: 'degree_higher_education',
     type: 'varchar',
+    nullable: true,
     comment: 'Que grado de educación superior tiene el usuario',
   })
   degreeHigherEducation: string;
@@ -121,22 +126,23 @@ export class InformationTeacherEntity {
     name: 'hours_worked',
     type: 'float',
     unsigned: true,
+    nullable: true,
     comment: 'Total de las horas trabajadas al mes',
   })
   hoursWorked: number;
 
   @Column({
-    nullable: true,
     type: 'date',
     name: 'holidays',
+    nullable: true,
     comment: 'Fecha de los dias festivos.',
   })
   holidays: Date;
 
   @Column({
-    nullable: true,
-    type: 'date',
     name: 'home_vacation',
+    type: 'date',
+    nullable: true,
     comment: 'Fecha para las vacacines',
   })
   homeVacation: Date;
@@ -144,6 +150,7 @@ export class InformationTeacherEntity {
   @Column({
     name: 'institution_higher_education',
     type: 'varchar',
+    nullable: true,
     comment: 'Nombre de la institución de educación superior',
   })
   institutionHigherEducation: string;
@@ -152,6 +159,7 @@ export class InformationTeacherEntity {
     name: 'investigation_hours',
     type: 'float',
     unsigned: true,
+    nullable: true,
     comment: 'Horas de investigacion al mes',
   })
   investigationHours: number;
@@ -159,6 +167,7 @@ export class InformationTeacherEntity {
   @Column({
     name: 'other_hours',
     type: 'float',
+    nullable: true,
     comment: 'Horas dedicadas a otras actividades',
   })
   otherHours: number;
@@ -167,6 +176,7 @@ export class InformationTeacherEntity {
     name: 'publications',
     type: 'varchar',
     unsigned: true,
+    nullable: true,
     comment: 'Revisar publicacion',
   })
   publications: string;
@@ -175,6 +185,7 @@ export class InformationTeacherEntity {
     name: 'scholarship_amount',
     type: 'float',
     unsigned: true,
+    nullable: true,
     comment: 'Precio de la beca a pagar',
   })
   scholarshipAmount: number;
@@ -183,6 +194,7 @@ export class InformationTeacherEntity {
     name: 'total_subjects',
     type: 'int',
     unsigned: true,
+    nullable: true,
     comment: 'Total de personas en la academia',
   })
   totalSubjects: number;
@@ -190,6 +202,7 @@ export class InformationTeacherEntity {
   @Column({
     name: 'technical',
     type: 'varchar',
+    nullable: true,
     comment: 'nombre de la tecnica a usar',
   })
   technical: string;
@@ -197,6 +210,7 @@ export class InformationTeacherEntity {
   @Column({
     name: 'technology',
     type: 'varchar',
+    nullable: true,
     comment: 'nombres de las salas de tecnologia',
   })
   technology: string;
@@ -205,6 +219,7 @@ export class InformationTeacherEntity {
     name: 'total_publications',
     type: 'int',
     unsigned: true,
+    nullable: true,
     comment: 'Total de las publicaciones realizadas hasta el momento',
   })
   totalPublications: number;

@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import {
-  CreateStudentDto,
+  FilterSchoolPeriodDto,
   FilterStudentDto,
   PaginationDto,
   UpdateStudentDto,
@@ -9,6 +9,9 @@ import {
 import { StudentEntity } from '@core/entities';
 import { CoreRepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
+import { InformationStudentsService } from './information-students.service';
+import { ServiceResponseHttpModel } from '@shared/models';
+import { tr } from 'date-fns/locale';
 
 @Injectable()
 export class StudentsService {
@@ -16,17 +19,8 @@ export class StudentsService {
     @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
     private repository: Repository<StudentEntity>,
     private usersService: UsersService,
+    private informationStudentsService: InformationStudentsService,
   ) {}
-
-  async create(payload: CreateStudentDto): Promise<StudentEntity> {
-    const newStudent: StudentEntity = this.repository.create(payload);
-
-    newStudent.user = await this.usersService.findOne(payload.user.id);
-
-    const studentCreated = await this.repository.save(newStudent);
-
-    return await this.repository.save(studentCreated);
-  }
 
   async catalogue() {
     const data = await this.repository.findAndCount({
@@ -36,20 +30,25 @@ export class StudentsService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findAll(params?: FilterStudentDto) {
+  async findAll(params?: FilterStudentDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params) {
+    if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 
+    //Filter by other field
+
     //All
-    const data = await this.repository.findAndCount();
+    const data = await this.repository.findAndCount({
+      relations: { user: true, informationStudent: true },
+    });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
   async findOne(id: string) {
     const student = await this.repository.findOne({
+      relations: { user: true, informationStudent: true },
       where: { id },
     });
 
@@ -60,7 +59,7 @@ export class StudentsService {
     return student;
   }
 
-  async update(id: string, payload: UpdateStudentDto) {
+  async update(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
     const student = await this.repository.findOneBy({ id });
 
     if (!student) {
@@ -69,7 +68,25 @@ export class StudentsService {
 
     this.repository.merge(student, payload);
 
-    return this.repository.save(student);
+    await this.repository.save(student);
+
+    await this.usersService.update(payload.user.id, payload.user);
+
+    console.log(payload.informationStudent);
+
+    payload.informationStudent.student = await this.repository.save(student);
+
+    if (payload.informationStudent?.id) {
+      await this.informationStudentsService.update(
+        payload.informationStudent.id,
+        payload.informationStudent,
+      );
+    } else {
+      const { id, ...informationStudentRest } = payload.informationStudent;
+      await this.informationStudentsService.create(informationStudentRest);
+    }
+
+    return student;
   }
 
   async remove(id: string) {
@@ -102,7 +119,7 @@ export class StudentsService {
     }
 
     const data = await this.repository.findAndCount({
-      relations: { user: true },
+      relations: { user: true, informationStudent: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import {
   CreateUserDto,
   FilterUserDto,
@@ -20,11 +20,9 @@ export class UsersService {
     private repository: Repository<UserEntity>,
   ) {}
 
-  async create(payload: CreateUserDto): Promise<ReadUserDto> {
+  async create(payload: CreateUserDto): Promise<UserEntity> {
     const newUser = this.repository.create(payload);
-    const userCreated = await this.repository.save(newUser);
-
-    return plainToInstance(ReadUserDto, userCreated);
+    return await this.repository.save(newUser);
   }
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -72,7 +70,20 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, payload: UpdateUserDto): Promise<ReadUserDto> {
+  async findByUsername(username: string): Promise<UserEntity> {
+    const user = await this.repository.findOne({
+      where: { username },
+      select: { password: false },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
+  }
+
+  async update(id: string, payload: UpdateUserDto): Promise<UserEntity> {
     const user = await this.repository.preload({ id, ...payload });
 
     if (!user) {
@@ -80,9 +91,8 @@ export class UsersService {
     }
 
     this.repository.merge(user, payload);
-    const userUpdated = await this.repository.save(user);
 
-    return plainToInstance(ReadUserDto, userUpdated);
+    return await this.repository.save(user);
   }
 
   async reactivate(id: string): Promise<ReadUserDto> {

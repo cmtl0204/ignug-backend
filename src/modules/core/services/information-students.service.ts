@@ -24,27 +24,6 @@ export class InformationStudentsService {
   ): Promise<InformationStudentEntity> {
     const newInformationStudent = this.repository.create(payload);
 
-    newInformationStudent.isExecutedPractice =
-      await this.cataloguesService.findOne(payload.isExecutedPractice.id);
-
-    newInformationStudent.isExecutedCommunity =
-      await this.cataloguesService.findOne(payload.isExecutedCommunity.id);
-
-    newInformationStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisability.id,
-    );
-
-    newInformationStudent.isLostGratuity = await this.cataloguesService.findOne(
-      payload.isLostGratuity.id,
-    );
-
-    newInformationStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisability.id,
-    );
-
-    newInformationStudent.isSubjectRepeat =
-      await this.cataloguesService.findOne(payload.isSubjectRepeat.id);
-
     return await this.repository.save(newInformationStudent);
   }
 

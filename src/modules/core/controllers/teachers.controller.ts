@@ -21,6 +21,7 @@ import {
   UpdateStudentDto,
 } from '@core/dto';
 import { StudentEntity } from '@core/entities';
+import { CreateTeacherDto } from '../dto/teachers/create-teacher.dto';
 
 @ApiTags('Teachers')
 @Controller('teachers')
@@ -29,7 +30,7 @@ export class TeachersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateStudentDto): Promise<ResponseHttpModel> {
+  async create(@Body() payload: CreateTeacherDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.teachersService.create(payload);
 
     return {
