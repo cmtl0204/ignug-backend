@@ -10,12 +10,16 @@ import {
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 import {
+  isEmailValidationOptions,
   isNotEmptyValidationOptions,
   isStringValidationOptions,
   minLengthValidationOptions,
 } from '@shared/validation';
 
 export class InstitutionDto {
+  /* @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly address: CatalogueEntity; */
+
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 
@@ -31,39 +35,39 @@ export class InstitutionDto {
   @MinLength(3, minLengthValidationOptions())
   readonly code: string;
 
-  @IsString({ message: 'codeSniese debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly codeSniese: string;
 
-  @IsString({ message: 'denomination debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly denomination: string;
 
   @IsOptional()
-  @IsEmail({}, { message: 'email debe ser un email' })
+  @IsEmail({}, isEmailValidationOptions())
   readonly email: string;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly isVisible: boolean;
 
   @IsOptional()
-  @IsString({ message: 'logo debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly logo: string;
 
-  @IsString({ message: 'name debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly name: string;
 
   @IsOptional({ message: 'phone es opcional' })
-  @IsString({ message: 'phone debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly phone: string;
 
-  @IsString({ message: 'shortName debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly shortName: string;
 
   @IsOptional({ message: 'slogan es opcional' })
-  @IsString({ message: 'slogan debe ser texto' })
+  @IsString(isStringValidationOptions())
   readonly slogan: string;
 
   @IsOptional({ message: 'web es opcional' })
-  @IsString({ message: 'web debe ser texto' })
+  @IsString(isStringValidationOptions())
   @IsUrl({}, { message: 'web debe ser una url válida' })
   readonly web: string;
 }
