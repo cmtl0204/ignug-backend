@@ -84,27 +84,6 @@ export class InformationStudentsService {
         'La informacion del estudiante no se encontro',
       );
     }
-    informationStudent.isExecutedPractice =
-      await this.cataloguesService.findOne(payload.isExecutedPractice.id);
-
-    informationStudent.isExecutedCommunity =
-      await this.cataloguesService.findOne(payload.isExecutedCommunity.id);
-
-    informationStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisability.id,
-    );
-
-    informationStudent.isLostGratuity = await this.cataloguesService.findOne(
-      payload.isLostGratuity.id,
-    );
-
-    informationStudent.isDisability = await this.cataloguesService.findOne(
-      payload.isDisability.id,
-    );
-
-    informationStudent.isSubjectRepeat = await this.cataloguesService.findOne(
-      payload.isSubjectRepeat.id,
-    );
 
     this.repository.merge(informationStudent, payload);
 
