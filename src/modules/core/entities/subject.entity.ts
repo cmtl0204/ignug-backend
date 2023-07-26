@@ -45,7 +45,7 @@ export class SubjectEntity {
   isVisible: boolean;
 
   /** Relationship **/
-  @ManyToOne(() => CatalogueEntity, { nullable: false })
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
 
@@ -53,7 +53,7 @@ export class SubjectEntity {
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;
 
-  @ManyToOne(() => CatalogueEntity, { nullable: false })
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
