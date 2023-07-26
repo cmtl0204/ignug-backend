@@ -1,28 +1,29 @@
 import { IsString, IsNumber, IsOptional } from 'class-validator';
 import { PaginationDto } from '@core/dto';
+import { isNumberValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class FilterInformationStudentDto extends PaginationDto {
   @IsOptional()
-  @IsNumber()
+  @IsNumber({}, isNumberValidationOptions())
   readonly community: number;
 
   @IsOptional()
-  @IsString()
+  @IsString(isStringValidationOptions())
   readonly address: string;
 
   @IsOptional()
-  @IsString()
+  @IsString(isStringValidationOptions())
   readonly contactEmergencyName: string;
 
   @IsOptional()
-  @IsString()
+  @IsString(isStringValidationOptions())
   readonly contactEmergencyKinship: string;
 
   @IsOptional()
-  @IsString()
+  @IsString(isStringValidationOptions())
   readonly contactEmergencyPhone: string;
 
   @IsOptional()
-  @IsString()
+  @IsString(isStringValidationOptions())
   readonly postalCode: string;
 }
