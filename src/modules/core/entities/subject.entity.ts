@@ -49,7 +49,7 @@ export class SubjectEntity {
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
 
-  @ManyToOne(() => CurriculumEntity, { nullable: false })
+  @ManyToOne(() => CurriculumEntity, { nullable: true })
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;
 

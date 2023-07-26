@@ -11,16 +11,13 @@ import {
 import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
 export class SubjectDto {
-  @IsNotEmpty({ message: 'El campo academicPeriod es obligatorio' })
+  @IsOptional()
   readonly academicPeriod: CatalogueEntity;
 
-  @IsNotEmpty({ message: 'El campo curriculum es obligatorio' })
-  readonly curriculum: CurriculumEntity;
-
-  @IsNotEmpty({ message: 'El campo state es obligatorio' })
+  @IsOptional()
   readonly state: CatalogueEntity;
 
-  @IsNotEmpty({ message: 'El campo state es obligatorio' })
+  @IsOptional()
   readonly type: CatalogueEntity;
 
   @IsNumber({}, { message: 'El campo autonomousHours debe ser un número' })
@@ -34,7 +31,10 @@ export class SubjectDto {
   @IsOptional()
   @IsNumber({}, { message: 'El campo credit debe ser un número' })
   @Min(0, { message: 'El campo credit debe tener mínimo 0' })
-  readonly credit: number;
+  readonly credits: number;
+
+  @IsNotEmpty()
+  readonly isVisible: boolean;
 
   @IsString({ message: 'El campo name debe ser un string' })
   readonly name: string;
