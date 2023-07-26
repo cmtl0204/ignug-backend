@@ -1,6 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import {
+  CreateStudentDto,
   FilterSchoolPeriodDto,
   FilterStudentDto,
   PaginationDto,
@@ -126,5 +127,10 @@ export class StudentsService {
     });
 
     return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+  }
+
+  async create(payload: any): Promise<any> {
+    const newEntity = this.repository.create(payload);
+    return await this.repository.save(newEntity);
   }
 }
