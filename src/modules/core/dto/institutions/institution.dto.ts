@@ -17,9 +17,6 @@ import {
 } from '@shared/validation';
 
 export class InstitutionDto {
-  /* @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly address: CatalogueEntity; */
-
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 

@@ -37,12 +37,12 @@ export class CurriculumsController {
 
     return {
       data: serviceResponse,
-      message: 'The curriculum was created',
-      title: 'Curriculum Created',
+      message: 'Malla curricular creada',
+      title: 'Creado',
     };
   }
 
-  @ApiOperation({ summary: 'Find All Curriculum' })
+  @ApiOperation({ summary: 'Find All' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
@@ -53,12 +53,12 @@ export class CurriculumsController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: 'Find all curriculums',
+      message: 'Find all',
       title: 'Success',
     };
   }
 
-  @ApiOperation({ summary: 'Find Curriculum' })
+  @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -68,12 +68,12 @@ export class CurriculumsController {
 
     return {
       data: serviceResponse,
-      message: 'Find curriculum',
+      message: 'Find One',
       title: `Success`,
     };
   }
 
-  @ApiOperation({ summary: 'Update Curriculum' })
+  @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -84,12 +84,12 @@ export class CurriculumsController {
 
     return {
       data: serviceResponse,
-      message: 'The curriculum was updated',
-      title: 'Curriculum Updated',
+      message: 'Malla curricular actualizada',
+      title: 'Actualizado',
     };
   }
 
-  @ApiOperation({ summary: 'Delete Curriculum' })
+  @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
@@ -99,12 +99,12 @@ export class CurriculumsController {
 
     return {
       data: serviceResponse,
-      message: 'The curriculum was deleted',
-      title: `Curriculum Deleted`,
+      message: 'Malla curricular eliminada',
+      title: `Eliminado`,
     };
   }
 
-  @ApiOperation({ summary: 'Delete All Curriculum' })
+  @ApiOperation({ summary: 'Delete All' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(
@@ -114,8 +114,8 @@ export class CurriculumsController {
 
     return {
       data: serviceResponse,
-      message: 'The curriculum was deleted',
-      title: 'Curriculum Deleted',
+      message: 'Mallas curriculares eliminadas',
+      title: 'Eliminadas',
     };
   }
 }
