@@ -7,10 +7,13 @@ import {
   IsNotEmpty,
 } from 'class-validator';
 import { CareerEntity, CatalogueEntity } from '@core/entities';
-import { isNotEmptyValidationOptions, isStringValidationOptions, minLengthValidationOptions } from '@shared/validation';
+import {
+  isNotEmptyValidationOptions,
+  isStringValidationOptions,
+  minLengthValidationOptions,
+} from '@shared/validation';
 
 export class CurriculumDto {
-
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 

@@ -13,7 +13,6 @@ import {
   isNotEmptyValidationOptions,
 } from '@shared/validation';
 
-
 export class InformationStudentDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly isExecutedPractice: CatalogueEntity;
