@@ -27,7 +27,7 @@ import { StudentEntity } from '@core/entities';
 export class StudentsController {
   constructor(private studentService: StudentsService) {}
 
-  @ApiOperation({ summary: 'List all users' })
+  @ApiOperation({ summary: 'Lista de todos los usuarios' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
@@ -36,12 +36,12 @@ export class StudentsController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: `catalogue`,
-      title: `Catalogue`,
+      message: `Catálogo`,
+      title: `Catálogo`,
     };
   }
 
-  @ApiOperation({ summary: 'List of users' })
+  @ApiOperation({ summary: 'Lista de usuarios' })
   // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
@@ -64,7 +64,7 @@ export class StudentsController {
     return {
       data: serviceResponse,
       message: `show ${id}`,
-      title: `Success`,
+      title: `Éxito`,
     };
   }
 
@@ -78,8 +78,8 @@ export class StudentsController {
 
     return {
       data: serviceResponse,
-      message: `User updated ${id}`,
-      title: `Updated`,
+      message: `Usuario actualizado ${id}`,
+      title: `Actualizado`,
     };
   }
 
@@ -92,8 +92,8 @@ export class StudentsController {
 
     return {
       data: serviceResponse,
-      message: `User deleted ${id}`,
-      title: `Deleted`,
+      message: `Usuario eliminado ${id}`,
+      title: `Eliminado`,
     };
   }
 
@@ -104,8 +104,8 @@ export class StudentsController {
 
     return {
       data: serviceResponse,
-      message: `Users deleted`,
-      title: `Deleted`,
+      message: `Usuarios eliminados`,
+      title: `Eliminado`,
     };
   }
 }
