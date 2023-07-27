@@ -28,7 +28,7 @@ import { ResponseHttpModel } from '@shared/models';
 export class InformationStudentsController {
   constructor(private informationStudentsService: InformationStudentsService) {}
 
-  @ApiOperation({ summary: 'Create information students' })
+  @ApiOperation({ summary: 'Crear información estudiantes' })
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   async create(
@@ -40,12 +40,12 @@ export class InformationStudentsController {
 
     return {
       data: serviceResponse,
-      message: 'created',
-      title: 'Created',
+      message: 'creado',
+      title: 'Creado',
     };
   }
 
-  @ApiOperation({ summary: 'List of information students' })
+  @ApiOperation({ summary: 'Lista de la información estudiantes' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
@@ -58,11 +58,11 @@ export class InformationStudentsController {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
       message: `index`,
-      title: 'Success',
+      title: 'Éxito',
     };
   }
 
-  @ApiOperation({ summary: 'View one information students' })
+  @ApiOperation({ summary: 'Ver una información estudiantes' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -72,11 +72,11 @@ export class InformationStudentsController {
     return {
       data: serviceResponse,
       message: `show ${id}`,
-      title: `Success`,
+      title: `Éxito`,
     };
   }
 
-  @ApiOperation({ summary: 'Update information students' })
+  @ApiOperation({ summary: 'Actualizar información de los estudiantes' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -90,12 +90,12 @@ export class InformationStudentsController {
 
     return {
       data: serviceResponse,
-      message: `Information Student  updated ${id}`,
-      title: `Updated`,
+      message: `Información Estudiante actualizada ${id}`,
+      title: `Actualizado`,
     };
   }
 
-  @ApiOperation({ summary: 'Remove information students' })
+  @ApiOperation({ summary: 'Quitar información estudiantes' })
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(
@@ -104,12 +104,12 @@ export class InformationStudentsController {
     const serviceResponse = await this.informationStudentsService.remove(id);
     return {
       data: serviceResponse,
-      message: `Information Student deleted ${id}`,
-      title: `Deleted`,
+      message: `Información Estudiante eliminado ${id}`,
+      title: `Eliminado`,
     };
   }
 
-  @ApiOperation({ summary: 'Remove All Information Students' })
+  @ApiOperation({ summary: 'Eliminar toda la información de los estudiantes' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(
@@ -121,8 +121,8 @@ export class InformationStudentsController {
 
     return {
       data: serviceResponse,
-      message: `Information Students deleted`,
-      title: `Deleted`,
+      message: `Información Estudiantes eliminados`,
+      title: `Eliminado`,
     };
   }
 }
