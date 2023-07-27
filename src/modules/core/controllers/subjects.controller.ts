@@ -35,8 +35,8 @@ export class SubjectsController {
 
     return {
       data: serviceResponse,
-      message: 'Subject was created',
-      title: 'Subject Created',
+      message: 'Creacion de asignaturas',
+      title: 'Asignatura creada',
     };
   }
 
@@ -49,7 +49,7 @@ export class SubjectsController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: 'Find all subjects',
+      message: 'Buscar todas las asignaturas',
       title: 'success',
     };
   }
@@ -64,7 +64,7 @@ export class SubjectsController {
 
     return {
       data: serviceResponse,
-      message: `Find subject`,
+      message: `Buscar asignatura`,
       title: `Success`,
     };
   }
@@ -80,8 +80,8 @@ export class SubjectsController {
 
     return {
       data: serviceResponse,
-      message: 'Subject was updated',
-      title: 'Subject Updated',
+      message: 'Actualización de asignatura',
+      title: 'Asignatura actualizada',
     };
   }
 
@@ -95,8 +95,8 @@ export class SubjectsController {
 
     return {
       data: serviceResponse,
-      message: 'Subject was deleted',
-      title: 'Subject Deleted',
+      message: 'Eliminación de asignatura',
+      title: 'Asignatura eliminada',
     };
   }
 
@@ -110,8 +110,8 @@ export class SubjectsController {
 
     return {
       data: serviceResponse,
-      message: 'Subjects was deleted',
-      title: 'Subjects Deleted',
+      message: 'Eliminacion de asignaturas',
+      title: 'Asignaturas eliminadas',
     };
   }
 }
