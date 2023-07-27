@@ -86,8 +86,8 @@ export class UsersSeeder {
 
     for (const user of users) {
       const userCrated = await this.usersService.create(user);
-      await this.studentsService.create({ user: userCrated });
-      //await this.teachersService.create({ user: userCrated });
+      // await this.studentsService.create({ user: userCrated });
+      // await this.teachersService.create({ user: userCrated });
     }
   }
 }

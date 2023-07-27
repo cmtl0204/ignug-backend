@@ -14,14 +14,9 @@ export class TeachersService {
     private usersService: UsersService,
   ) {}
 
-  async create(payload: CreateTeacherDto) {
-    const newTeacher = this.repository.create(payload);
-
-    newTeacher.user = await this.usersService.findOne(payload.user.id);
-
-    const teacherCreated = await this.repository.save(newTeacher);
-
-    return await this.repository.save(teacherCreated);
+  async create(payload: any): Promise<any> {
+    const newEntity = this.repository.create(payload);
+    return await this.repository.save(newEntity);
   }
 
   async catalogue() {

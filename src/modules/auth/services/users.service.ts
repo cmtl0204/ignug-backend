@@ -39,19 +39,19 @@ export class UsersService {
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
-
     //Other filters
-    if (params.birthdate) {
+    if (params?.birthdate) {
       return this.filterByBirthdate(params.birthdate);
     }
 
     //All
     const response = await this.repository.findAndCount({
+      relations: { roles: true },
       order: { updatedAt: 'DESC' },
     });
 
     return {
-      data: plainToInstance(ReadUserDto, response[0]),
+      data: response[0],
       pagination: { totalItems: response[1], limit: 10 },
     };
   }

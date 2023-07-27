@@ -3,6 +3,7 @@ import {
   CareersController,
   CataloguesController,
   CurriculumsController,
+  ImportsController,
   InformationStudentsController,
   InstitutionsController,
   SchoolPeriodsController,
@@ -11,6 +12,7 @@ import {
   InformationTeachersController,
   EventsController,
   TeachersController,
+  ExportsController,
 } from '@core/controllers';
 import {
   CareersService,
@@ -24,6 +26,8 @@ import {
   InformationTeachersService,
   TeachersService,
   EventsService,
+  ImportsService,
+  ExportsService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -36,6 +40,8 @@ import { coreProviders } from '@core/providers';
     CataloguesController,
     CurriculumsController,
     EventsController,
+    ExportsController,
+    ImportsController,
     InformationStudentsController,
     InformationTeachersController,
     InstitutionsController,
@@ -50,6 +56,8 @@ import { coreProviders } from '@core/providers';
     CataloguesService,
     CurriculumsService,
     EventsService,
+    ExportsService,
+    ImportsService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,
@@ -64,6 +72,8 @@ import { coreProviders } from '@core/providers';
     CataloguesService,
     CurriculumsService,
     EventsService,
+    ExportsService,
+    ImportsService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,

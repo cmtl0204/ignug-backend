@@ -4,14 +4,11 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import {
-  CareerEntity,
   CatalogueEntity,
   CurriculumEntity,
   SchoolPeriodEntity,

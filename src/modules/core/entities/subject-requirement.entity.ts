@@ -58,7 +58,7 @@ export class SubjectRequirementEntity {
     name: 'type',
     type: 'enum',
     enum: CatalogueCoreSubjectRequirementTypeEnum,
-    comment: 'Horas de clase semanales',
+    comment: 'Prerequisito y CoRequisito',
   })
   type: CatalogueCoreSubjectRequirementTypeEnum;
 }
