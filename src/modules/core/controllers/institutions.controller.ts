@@ -27,7 +27,7 @@ import { ResponseHttpModel } from '@shared/models';
 export class InstitutionsController {
   constructor(private instituteService: InstitutionsService) {}
 
-  @ApiOperation({ summary: 'Create Institution' })
+  @ApiOperation({ summary: 'Create' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(
@@ -36,12 +36,12 @@ export class InstitutionsController {
     const serviceResponse = await this.instituteService.create(payload);
     return {
       data: serviceResponse,
-      message: `Institution was created`,
-      title: 'Institution Created',
+      message: `Institución Creada`,
+      title: 'Creado',
     };
   }
 
-  @ApiOperation({ summary: 'Find All Institutions' })
+  @ApiOperation({ summary: 'Find All' })
   @Get()
   @HttpCode(HttpStatus.OK)
   async findAll(
@@ -51,12 +51,12 @@ export class InstitutionsController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: `Find all institutions`,
+      message: `Find all`,
       title: 'Success',
     };
   }
 
-  @ApiOperation({ summary: 'Find Institution' })
+  @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   async findOne(
@@ -65,12 +65,12 @@ export class InstitutionsController {
     const serviceResponse = await this.instituteService.findOne(id);
     return {
       data: serviceResponse,
-      message: 'Find Institution',
+      message: 'Find One',
       title: `Success`,
     };
   }
 
-  @ApiOperation({ summary: 'Update Institution' })
+  @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
   async update(
@@ -80,12 +80,12 @@ export class InstitutionsController {
     const serviceResponse = await this.instituteService.update(id, payload);
     return {
       data: serviceResponse,
-      message: 'Institution was updated',
-      title: `Institution Updated`,
+      message: 'Institución Actualizada',
+      title: `Actualizada`,
     };
   }
 
-  @ApiOperation({ summary: 'Delete Institution' })
+  @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
   async remove(
@@ -94,12 +94,12 @@ export class InstitutionsController {
     const serviceResponse = await this.instituteService.remove(id);
     return {
       data: serviceResponse,
-      message: 'Institution was deleted',
-      title: 'Institution Deleted',
+      message: 'Institución Eliminada',
+      title: 'Eliminada',
     };
   }
 
-  @ApiOperation({ summary: 'Delete All Institutions' })
+  @ApiOperation({ summary: 'Delete All' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
   async removeAll(
@@ -109,8 +109,8 @@ export class InstitutionsController {
 
     return {
       data: serviceResponse,
-      message: 'Institutions was deleted',
-      title: 'Institutions Deleted',
+      message: 'Instituciones Eliminadas',
+      title: 'Eliminadas',
     };
   }
 }
