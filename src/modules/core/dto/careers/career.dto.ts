@@ -14,16 +14,16 @@ import {
 } from '@shared/validation';
 
 export class CareerDto {
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional(isNotEmptyValidationOptions())
   readonly institution: InstitutionEntity;
 
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional(isNotEmptyValidationOptions())
   readonly modality: CatalogueEntity;
 
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly state: CatalogueEntity;
 
-  @IsOptional()
+  @IsOptional(isNotEmptyValidationOptions())
   readonly type: CatalogueEntity;
 
   @IsString(isStringValidationOptions())

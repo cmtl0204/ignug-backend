@@ -7,7 +7,11 @@ import {
   Max,
 } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
-import { isNotEmptyValidationOptions, isNumberValidationOptions, isStringValidationOptions } from '@shared/validation';
+import {
+  isNotEmptyValidationOptions,
+  isNumberValidationOptions,
+  isStringValidationOptions,
+} from '@shared/validation';
 
 export class CreateInformationStudentDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
@@ -45,7 +49,7 @@ export class CreateInformationStudentDto {
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly contactEmergencyPhone: string;
 
-  @IsNumber({},isNumberValidationOptions())
+  @IsNumber({}, isNumberValidationOptions())
   @Min(0, { message: 'El número de digito mínimo es 0.' })
   @Max(100, { message: 'Maximo 100 digito' })
   readonly disabilityPercentage: number;
@@ -74,7 +78,7 @@ export class CreateInformationStudentDto {
   @Min(0, { message: 'El número de digito mínimo es 0.' })
   readonly practiceHours: number;
 
-  @IsNumber({},isNumberValidationOptions())
+  @IsNumber({}, isNumberValidationOptions())
   readonly scholarshipAmount: number;
 
   @IsNumber({}, isNumberValidationOptions())
