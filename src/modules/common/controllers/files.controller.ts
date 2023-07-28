@@ -8,6 +8,7 @@ import {
   Get,
   Res,
   UploadedFiles,
+  Query,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -16,6 +17,7 @@ import { getFileName, fileFilter } from '@shared/helpers';
 import { ResponseHttpModel } from '@shared/models';
 import { join } from 'path';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { FilterFileDto } from '@common/dto';
 
 @ApiTags('Files')
 @Controller('files')
@@ -43,6 +45,7 @@ export class FilesController {
     const response = await this.filesService.uploadFile(file, modelId);
     return { data: response, message: 'Upload File', title: 'Upload' };
   }
+
   @ApiOperation({ summary: 'Upload Files' })
   @Post('uploads/:modelId')
   @UseInterceptors(
@@ -65,6 +68,7 @@ export class FilesController {
 
     return { data: null, message: 'Upload Files', title: 'Upload' };
   }
+
   @ApiOperation({ summary: 'Download File' })
   @Get('download/:id')
   async download(
@@ -77,6 +81,24 @@ export class FilesController {
       data: res.sendFile(path),
       message: 'Download File',
       title: 'Download',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find By Model' })
+  @Get('models/:id')
+  async findByModel(
+    @Param('modelId', ParseUUIDPipe) modelId: string,
+    @Query() params: FilterFileDto,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.filesService.findByModel(
+      modelId,
+      params,
+    );
+
+    return {
+      data: serviceResponse,
+      message: 'Find Files',
+      title: 'Find',
     };
   }
 }

@@ -99,9 +99,6 @@ export class ImportsService {
     const teacherRole = roles.find((role) => role.code === RoleEnum.TEACHER);
 
     for (const item of dataExcel) {
-      console.log(item['identificacion']);
-      console.log(item['correo_institucional']);
-
       const identification =
         item['identificacion'].toString().length < 10
           ? '0' + item['identificacion'].toString()

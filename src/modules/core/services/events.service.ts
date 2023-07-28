@@ -155,7 +155,7 @@ export class EventsService {
     params: FilterEventDto,
   ): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<EventEntity> | FindOptionsWhere<EventEntity>[];
-    where = {};
+
     let { page, search } = params;
     const { limit } = params;
 

@@ -73,8 +73,6 @@ export class StudentsService {
 
     await this.usersService.update(payload.user.id, payload.user);
 
-    console.log(payload.informationStudent);
-
     payload.informationStudent.student = await this.repository.save(student);
 
     if (payload.informationStudent?.id) {

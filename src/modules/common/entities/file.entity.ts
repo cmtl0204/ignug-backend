@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CatalogueEntity } from '@core/entities';
 
 @Entity('files', { schema: 'core' })
 export class FileEntity {
@@ -51,6 +54,22 @@ export class FileEntity {
   })
   modelId: string;
 
+  /** Foreign Key **/
+  @ManyToOne(() => CatalogueEntity, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'type_id' })
+  type: CatalogueEntity;
+
+  /** Columns **/
+  @Column({
+    name: 'description',
+    type: 'text',
+    nullable: true,
+    comment: '',
+  })
+  description: string;
+
   @Column({
     name: 'extension',
     type: 'varchar',
@@ -85,11 +104,4 @@ export class FileEntity {
     comment: 'Size file in bytes',
   })
   size: number;
-
-  @Column({
-    name: 'type',
-    type: 'varchar',
-    comment: '',
-  })
-  type: string;
 }

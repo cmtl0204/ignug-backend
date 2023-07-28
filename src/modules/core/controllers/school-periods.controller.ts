@@ -11,6 +11,8 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
@@ -23,12 +25,20 @@ import { SchoolPeriodEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
 import { Auth, Roles } from '@auth/decorators';
 import { RoleEnum } from '@auth/enums';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import { fileFilter, getFileName } from '@shared/helpers';
+import { FilesService } from '@common/services';
 
 @ApiTags('School Period')
 @Controller('school-periods')
 @Auth()
 export class SchoolPeriodsController {
-  constructor(private schoolPeriodsService: SchoolPeriodsService) {}
+  constructor(
+    private schoolPeriodsService: SchoolPeriodsService,
+    private readonly filesService: FilesService,
+  ) {}
 
   @ApiOperation({ summary: 'Catalogue' })
   @Roles(RoleEnum.COORDINATOR_CAREER)
@@ -181,18 +191,25 @@ export class SchoolPeriodsController {
     };
   }
 
-  @ApiOperation({ summary: 'Close' })
-  @Patch(':id/close')
-  @HttpCode(HttpStatus.CREATED)
-  async close(
-    @Param('id', ParseUUIDPipe) id: string,
+  @ApiOperation({ summary: 'Upload File' })
+  @Post('upload/:modelId')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: `${join(
+          process.cwd(),
+        )}/src/resources/uploads/${new Date().getFullYear()}/${new Date().getMonth()}`,
+        filename: getFileName,
+      }),
+      fileFilter: fileFilter,
+      limits: { fieldSize: 10 },
+    }),
+  )
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('modelId', ParseUUIDPipe) modelId: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.schoolPeriodsService.close(id);
-
-    return {
-      data: serviceResponse,
-      message: `Periodo Lectivo Cerrado`,
-      title: `Cerrado`,
-    };
+    const response = await this.filesService.uploadFile(file, modelId);
+    return { data: response, message: 'Upload File', title: 'Upload' };
   }
 }
