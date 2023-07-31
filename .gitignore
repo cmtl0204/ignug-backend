@@ -36,3 +36,7 @@ lerna-debug.log*
 
 .prod.env
 .test.env
+
+./src/resources/exports
+./src/resources/imports
+./src/resources/uploads
