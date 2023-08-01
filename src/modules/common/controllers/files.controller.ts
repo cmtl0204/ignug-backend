@@ -9,6 +9,7 @@ import {
   Res,
   UploadedFiles,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -25,7 +26,7 @@ export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @ApiOperation({ summary: 'Upload File' })
-  @Post('upload/:modelId')
+  @Post(':modelId/upload')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -43,11 +44,15 @@ export class FilesController {
     @Param('modelId', ParseUUIDPipe) modelId: string,
   ): Promise<ResponseHttpModel> {
     const response = await this.filesService.uploadFile(file, modelId);
-    return { data: response, message: 'Upload File', title: 'Upload' };
+    return {
+      data: response,
+      message: 'Archivo Subido Correctamente',
+      title: 'Archivo Subido',
+    };
   }
 
   @ApiOperation({ summary: 'Upload Files' })
-  @Post('uploads/:modelId')
+  @Post(':modelId/uploads')
   @UseInterceptors(
     FilesInterceptor('files[]', 10, {
       storage: diskStorage({
@@ -66,11 +71,15 @@ export class FilesController {
   ): Promise<ResponseHttpModel> {
     await this.filesService.uploadFiles(files, modelId);
 
-    return { data: null, message: 'Upload Files', title: 'Upload' };
+    return {
+      data: null,
+      message: 'Archivos Subidos Correctamente',
+      title: 'Archivos Subidos',
+    };
   }
 
   @ApiOperation({ summary: 'Download File' })
-  @Get('download/:id')
+  @Get(':id/download')
   async download(
     @Param('id', ParseUUIDPipe) id: string,
     @Res() res,
@@ -85,7 +94,7 @@ export class FilesController {
   }
 
   @ApiOperation({ summary: 'Find By Model' })
-  @Get('models/:id')
+  @Get('models/:modelId')
   async findByModel(
     @Param('modelId', ParseUUIDPipe) modelId: string,
     @Query() params: FilterFileDto,
@@ -96,9 +105,24 @@ export class FilesController {
     );
 
     return {
-      data: serviceResponse,
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
       message: 'Find Files',
       title: 'Find',
+    };
+  }
+
+  @ApiOperation({ summary: 'Delete' })
+  @Delete('/:id')
+  async remove(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.filesService.remove(id);
+
+    return {
+      data: serviceResponse,
+      message: 'Archivo Eliminado',
+      title: 'Eliminado',
     };
   }
 }
