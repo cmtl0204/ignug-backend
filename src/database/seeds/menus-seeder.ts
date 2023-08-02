@@ -83,7 +83,7 @@ export class MenusSeeder {
         code: 'institutions',
         icon: 'pi pi-bars',
         isVisible: true,
-        label: 'Institución',
+        label: 'Institutos',
         order: 1,
         routerLink: '/core/institutions',
         type: MenuTypeEnum.LEFT_SIDE,
