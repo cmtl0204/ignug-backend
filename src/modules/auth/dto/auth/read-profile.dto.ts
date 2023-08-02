@@ -7,6 +7,9 @@ export class ReadProfileDto extends UserDto {
   readonly id;
 
   @Expose()
+  readonly avatar;
+
+  @Expose()
   readonly birthdate;
 
   @Expose()

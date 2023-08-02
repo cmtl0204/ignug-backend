@@ -5,8 +5,10 @@ import {
   MinLength,
   IsOptional,
   IsNotEmpty,
+  IsBoolean,
 } from 'class-validator';
 import {
+  isBooleanValidationOptions,
   isNotEmptyValidationOptions,
   isStringValidationOptions,
   maxLengthValidationOptions,
@@ -41,6 +43,9 @@ export class CareerDto {
 
   @IsString(isStringValidationOptions())
   readonly degree: string;
+
+  @IsBoolean(isBooleanValidationOptions())
+  readonly isVisible: boolean;
 
   @IsOptional()
   @IsString(isStringValidationOptions())

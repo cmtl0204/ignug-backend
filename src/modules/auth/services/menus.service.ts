@@ -58,7 +58,7 @@ export class MenusService {
     });
 
     return {
-      data: role.menus,
+      data: role?.menus,
     };
   }
 
