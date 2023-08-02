@@ -32,7 +32,7 @@ export class CareersController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: `Catalogue Careers`,
+      message: `Catálogo carreras`,
       title: `Catalogue`,
     };
   }
@@ -45,7 +45,7 @@ export class CareersController {
 
     return {
       data: serviceResponse,
-      message: 'Career was created',
+      message: 'Carrera creada',
       title: 'Career Created',
     };
   }
@@ -59,7 +59,7 @@ export class CareersController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: 'Find all careers',
+      message: 'Buscar todas las carreras',
       title: 'Success',
     };
   }
@@ -74,7 +74,7 @@ export class CareersController {
 
     return {
       data: serviceResponse,
-      message: `Find career`,
+      message: `Buscar carrera`,
       title: `Success`,
     };
   }
@@ -89,7 +89,7 @@ export class CareersController {
     const serviceResponse = await this.careersService.update(id, payload);
     return {
       data: serviceResponse,
-      message: `Career was updated`,
+      message: `Carrera actualizada`,
       title: `Career Updated`,
     };
   }
@@ -103,7 +103,7 @@ export class CareersController {
     const serviceResponse = await this.careersService.remove(id);
     return {
       data: serviceResponse,
-      message: `Career was deleted`,
+      message: `Carrera eliminada`,
       title: `Career Deleted`,
     };
   }
@@ -116,7 +116,7 @@ export class CareersController {
 
     return {
       data: serviceResponse,
-      message: `Careers was deleted`,
+      message: `Carreras eliminadas`,
       title: `Careers Deleted`,
     };
   }

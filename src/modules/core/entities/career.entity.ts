@@ -91,12 +91,12 @@ export class CareerEntity {
   @Column({
     name: 'code',
     type: 'varchar',
-    comment: 'Codigo de la carrera',
+    comment: 'Código de la carrera',
   })
   code: string;
 
   @Column({
-    comment: 'Codigo sniese de la carrera',
+    comment: 'Código sniese de la carrera',
     type: 'varchar',
     name: 'code_sniese',
   })
@@ -105,7 +105,7 @@ export class CareerEntity {
   @Column({
     name: 'degree',
     type: 'varchar',
-    comment: 'Titulo que otorga la carrera',
+    comment: 'Título que otorga la carrera',
   })
   degree: string;
 
@@ -125,7 +125,7 @@ export class CareerEntity {
   name: string;
 
   @Column({
-    comment: 'Numero de resolucion de la carrera',
+    comment: 'Numero de resolución de la carrera',
     type: 'varchar',
     name: 'resolution_number',
   })
