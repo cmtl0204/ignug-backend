@@ -19,14 +19,16 @@ import { UserEntity } from '@auth/entities';
 import {
   LoginDto,
   PasswordChangeDto,
-  ReadUserDto,
   UpdateProfileDto,
   UpdateUserInformationDto,
 } from '@auth/dto';
-import { ResponseHttpModel, ServiceResponseHttpModel } from '@shared/models';
+import { ResponseHttpModel } from '@shared/models';
 import { MailService } from '@common/services';
 import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { join } from 'path';
+import { getFileName, imageFilter } from '@shared/helpers';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -207,6 +209,30 @@ export class AuthController {
       data: null,
       message: `Por favor inicie sesión`,
       title: 'Contraseña Reseteada',
+    };
+  }
+
+  @ApiOperation({ summary: 'Upload Avatar' })
+  @Post(':id/avatar')
+  @UseInterceptors(
+    FileInterceptor('avatar', {
+      storage: diskStorage({
+        destination: `${join(process.cwd())}/src/resources/public/avatars`,
+        filename: getFileName,
+      }),
+      fileFilter: imageFilter,
+      limits: { fieldSize: 1 },
+    }),
+  )
+  async uploadAvatar(
+    @UploadedFile() avatar: Express.Multer.File,
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const response = await this.authService.uploadAvatar(avatar, id);
+    return {
+      data: response,
+      message: 'Imagen Subida Correctamente',
+      title: 'Imagen Subida',
     };
   }
 }
