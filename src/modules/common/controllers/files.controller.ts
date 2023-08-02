@@ -14,7 +14,7 @@ import {
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { FilesService } from '@common/services';
-import { getFileName, fileFilter } from '@shared/helpers';
+import { getFileName, fileFilter, imageFilter } from '@shared/helpers';
 import { ResponseHttpModel } from '@shared/models';
 import { join } from 'path';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -36,7 +36,7 @@ export class FilesController {
         filename: getFileName,
       }),
       fileFilter: fileFilter,
-      limits: { fieldSize: 10 },
+      limits: { fieldSize: 1 },
     }),
   )
   async uploadFile(
@@ -62,7 +62,7 @@ export class FilesController {
         filename: getFileName,
       }),
       fileFilter: fileFilter,
-      limits: { fieldSize: 1 },
+      limits: { fieldSize: 10 },
     }),
   )
   async uploadFiles(

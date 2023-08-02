@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ForbiddenException,
   Inject,
   Injectable,
   NotFoundException,
@@ -11,11 +10,7 @@ import * as Bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { add, isBefore } from 'date-fns';
-import {
-  UserEntity,
-  TransactionalCodeEntity,
-  RoleEntity,
-} from '@auth/entities';
+import { UserEntity, TransactionalCodeEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
 import {
   AuthRepositoryEnum,
@@ -33,6 +28,8 @@ import {
 import { ServiceResponseHttpModel } from '@shared/models';
 import { UsersService } from '@auth/services';
 import { MailService } from '@common/services';
+import path, { join } from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -287,6 +284,27 @@ export class AuthService {
     await this.repository.save(user);
 
     return { data: true };
+  }
+
+  async uploadAvatar(
+    file: Express.Multer.File,
+    id: string,
+  ): Promise<UserEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (entity?.avatar) {
+      try {
+        fs.unlinkSync(
+          `${join(process.cwd())}/src/resources/public/${entity.avatar}`,
+        );
+      } catch (err) {
+        console.error('Something wrong happened removing the file', err);
+      }
+    }
+
+    entity.avatar = `avatars/${file.filename}`;
+
+    return await this.repository.save(entity);
   }
 
   private generateJwt(user: UserEntity): string {

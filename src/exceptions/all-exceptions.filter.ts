@@ -14,6 +14,7 @@ import { QueryFailedError } from 'typeorm';
 import { ErrorResponseHttpModel } from '@shared/models';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { environments } from '../environments';
+import { compare } from 'bcrypt';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -80,6 +81,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
       // errorResponseHttpModel.error = exception.name || 'QueryFailedError';
       // errorResponseHttpModel.message =
       //   exception.driverError.detail || 'Query Error';
+    }
+    console.log(exception);
+    if (exception instanceof Error) {
+      status = 400;
+      errorResponseHttpModel.statusCode = 400;
+      errorResponseHttpModel.error = exception.name || 'Error';
+      errorResponseHttpModel.message = exception.message || 'Error';
     }
 
     response.status(status).json(errorResponseHttpModel);
