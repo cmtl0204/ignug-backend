@@ -1,13 +1,12 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Equal, FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { FileEntity } from '@common/entities';
-import { CommonRepositoryEnum } from '@shared/enums';
+import { CommonRepositoryEnum, MessageEnum } from '@shared/enums';
 import * as path from 'path';
 import { join } from 'path';
 import * as fs from 'fs';
-import { FilterCareerDto, PaginationDto } from '@core/dto';
+import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CareerEntity } from '@core/entities';
 import { FilterFileDto } from '@common/dto';
 
 @Injectable()
@@ -84,7 +83,7 @@ export class FilesService {
 
     //All
     const data = await this.repository.findAndCount({
-      where: { modelId: params.modelId },
+      where: { modelId },
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -122,5 +121,15 @@ export class FilesService {
       pagination: { limit, totalItems: response[1] },
       data: response[0],
     };
+  }
+
+  async remove(id: string): Promise<FileEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+
+    return await this.repository.softRemove(entity);
   }
 }

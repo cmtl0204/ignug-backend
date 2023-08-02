@@ -35,7 +35,11 @@ export class CataloguesSeeder {
     await this.createStudentOccupationCatalogues();
     await this.createYesNoCatalogues();
     await this.createYesNoNACatalogues();
-    await this.createSchoolPeriodStateCatalogues();
+    await this.createSchoolPeriodsStateCatalogues();
+    await this.createInstitutionsStateCatalogues();
+    await this.createCareersStateCatalogues();
+    await this.createCurriculumsStateCatalogues();
+    await this.createSubjectsStateCatalogues();
   }
 
   async createAcademicPeriodCatalogues(): Promise<void> {
@@ -50,7 +54,7 @@ export class CataloguesSeeder {
     catalogues.push({
       code: '2',
       description: 'Periodo academico',
-      name: '1do',
+      name: '2do',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
     });
@@ -1023,14 +1027,14 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSchoolPeriodStateCatalogues() {
+  async createSchoolPeriodsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'open',
       description: 'Periodo Lectivo Actual',
       name: 'ABIERTO',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE,
+      type: CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE,
     });
 
     catalogues.push({
@@ -1038,7 +1042,99 @@ export class CataloguesSeeder {
       description: 'Periodo Lectivo Histórico',
       name: 'CERRADO',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE,
+      type: CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createInstitutionsStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'enable',
+      description: 'Habilitado para escoger',
+      name: 'Habilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.INSTITUTIONS_STATE,
+    });
+
+    catalogues.push({
+      code: 'disable',
+      description: 'Deshabilitado para escoger',
+      name: 'Dehabilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.INSTITUTIONS_STATE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createCareersStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'enable',
+      description: 'Habilitado para escoger',
+      name: 'Habilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.CAREERS_STATE,
+    });
+
+    catalogues.push({
+      code: 'disable',
+      description: 'Deshabilitado para escoger',
+      name: 'Dehabilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.CAREERS_STATE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createCurriculumsStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'enable',
+      description: 'Habilitado para escoger',
+      name: 'Habilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.CURRICULUMS_STATE,
+    });
+
+    catalogues.push({
+      code: 'disable',
+      description: 'Deshabilitado para escoger',
+      name: 'Dehabilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.CURRICULUMS_STATE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createSubjectsStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'enable',
+      description: 'Habilitado para escoger',
+      name: 'Habilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SUBJECTS_STATE,
+    });
+
+    catalogues.push({
+      code: 'disable',
+      description: 'Deshabilitado para escoger',
+      name: 'Dehabilitado',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SUBJECTS_STATE,
     });
 
     for (const catalogue of catalogues) {

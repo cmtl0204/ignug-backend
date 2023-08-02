@@ -11,7 +11,6 @@ import {
   BeforeInsert,
   BeforeUpdate,
   ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
@@ -95,6 +94,15 @@ export class UserEntity {
     comment: 'Fecha de ultimo login',
   })
   activatedAt: Date;
+
+  @Column({
+    name: 'avatar',
+    type: 'varchar',
+    unique: true,
+    nullable: true,
+    comment: 'Imagen del Avatar del usuario',
+  })
+  avatar: string;
 
   @Column({
     name: 'email',

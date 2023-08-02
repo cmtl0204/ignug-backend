@@ -11,13 +11,16 @@ import {
 import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
 export class SubjectDto {
-  @IsOptional()
+  @IsNotEmpty()
+  readonly curriculum: CurriculumEntity;
+
+  @IsNotEmpty()
   readonly academicPeriod: CatalogueEntity;
 
-  @IsOptional()
+  @IsNotEmpty()
   readonly state: CatalogueEntity;
 
-  @IsOptional()
+  @IsNotEmpty()
   readonly type: CatalogueEntity;
 
   @IsNumber({}, { message: 'El campo autonomousHours debe ser un número' })
