@@ -79,3 +79,9 @@ export function isDateValidationOptions(validationOptions?: ValidationOptions) {
     message: 'La propiedad $property debe ser una fecha válida',
   };
 }
+
+export function isUrlValidationOptions(validationOptions?: ValidationOptions) {
+  return {
+    message: 'La propiedad $property debe ser una url válida',
+  };
+}

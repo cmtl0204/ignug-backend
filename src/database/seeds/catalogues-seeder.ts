@@ -1062,8 +1062,8 @@ export class CataloguesSeeder {
 
     catalogues.push({
       code: 'disable',
-      description: 'Deshabilitado para escoger',
-      name: 'Dehabilitado',
+      description: 'Inhabilitado para escoger',
+      name: 'Inhabilitado',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.INSTITUTIONS_STATE,
     });
@@ -1085,8 +1085,8 @@ export class CataloguesSeeder {
 
     catalogues.push({
       code: 'disable',
-      description: 'Deshabilitado para escoger',
-      name: 'Dehabilitado',
+      description: 'Inhabilitado para escoger',
+      name: 'Inhabilitado',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREERS_STATE,
     });
@@ -1108,8 +1108,8 @@ export class CataloguesSeeder {
 
     catalogues.push({
       code: 'disable',
-      description: 'Deshabilitado para escoger',
-      name: 'Dehabilitado',
+      description: 'Inhabilitado para escoger',
+      name: 'Inhabilitado',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CURRICULUMS_STATE,
     });
@@ -1131,8 +1131,8 @@ export class CataloguesSeeder {
 
     catalogues.push({
       code: 'disable',
-      description: 'Deshabilitado para escoger',
-      name: 'Dehabilitado',
+      description: 'Inhabilitado para escoger',
+      name: 'Inhabilitado',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.SUBJECTS_STATE,
     });

@@ -17,7 +17,6 @@ import {
   minLengthValidationOptions,
 } from '@shared/validation';
 import { CatalogueEntity } from '@core/entities';
-import { RoleEntity } from '@auth/entities';
 
 export class UserDto {
   @IsOptional()

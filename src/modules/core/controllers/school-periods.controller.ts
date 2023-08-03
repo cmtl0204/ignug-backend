@@ -191,6 +191,21 @@ export class SchoolPeriodsController {
     };
   }
 
+  @ApiOperation({ summary: 'Close' })
+  @Patch(':id/close')
+  @HttpCode(HttpStatus.CREATED)
+  async close(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.schoolPeriodsService.close(id);
+
+    return {
+      data: serviceResponse,
+      message: `Periodo Lectivo Cerrado`,
+      title: `Cerrado`,
+    };
+  }
+
   @ApiOperation({ summary: 'Upload File' })
   @Post('upload/:modelId')
   @UseInterceptors(
