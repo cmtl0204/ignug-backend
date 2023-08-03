@@ -1,12 +1,12 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { InformationTeacherEntity } from '@core/entities';
 import {
   CreateInformationTeacherDto,
   FilterInformationTeacherDto,
+  PaginationDto,
   UpdateInformationTeacherDto,
 } from '@core/dto';
-import { InformationTeacherEntity } from '@core/entities';
-import { PaginationDto } from '@core/dto';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum } from '@shared/enums';
@@ -24,33 +24,6 @@ export class InformationTeachersService {
   ): Promise<InformationTeacherEntity> {
     const newInformationTeacher = this.repository.create(payload);
 
-    newInformationTeacher.countryHigherEducation =
-      await this.catalogueService.findOne(payload.countryHigherEducation.id);
-
-    newInformationTeacher.dedicationTime = await this.catalogueService.findOne(
-      payload.dedicationTime.id,
-    );
-
-    newInformationTeacher.financingType = await this.catalogueService.findOne(
-      payload.financingType.id,
-    );
-
-    newInformationTeacher.higherEducation = await this.catalogueService.findOne(
-      payload.higherEducation.id,
-    );
-
-    newInformationTeacher.scholarship = await this.catalogueService.findOne(
-      payload.scholarship.id,
-    );
-
-    newInformationTeacher.scholarshipType = await this.catalogueService.findOne(
-      payload.scholarshipType.id,
-    );
-
-    newInformationTeacher.teachingLadder = await this.catalogueService.findOne(
-      payload.teachingLadder.id,
-    );
-
     return await this.repository.save(newInformationTeacher);
   }
 
@@ -58,7 +31,7 @@ export class InformationTeachersService {
     params?: FilterInformationTeacherDto,
   ): Promise<ServiceResponseHttpModel> {
     //Pagination
-    if (params.limit && params.page) {
+    if (params) {
       return await this.paginateAndFilter(params);
     }
 
@@ -97,7 +70,7 @@ export class InformationTeachersService {
     });
 
     if (!informationTeacher) {
-      throw new NotFoundException('InformationTeacher not found');
+      throw new NotFoundException('No se encontro la información');
     }
 
     return informationTeacher;
@@ -108,36 +81,11 @@ export class InformationTeachersService {
     payload: UpdateInformationTeacherDto,
   ): Promise<InformationTeacherEntity> {
     const informationTeacher = await this.repository.findOneBy({ id });
-
-    if (!informationTeacher) {
-      throw new NotFoundException('Information teacher not found');
+    if (informationTeacher === null) {
+      throw new NotFoundException(
+        'La informacion del docente no se encontro',
+      );
     }
-    informationTeacher.countryHigherEducation =
-      await this.catalogueService.findOne(payload.countryHigherEducation.id);
-
-    informationTeacher.dedicationTime = await this.catalogueService.findOne(
-      payload.dedicationTime.id,
-    );
-
-    informationTeacher.financingType = await this.catalogueService.findOne(
-      payload.financingType.id,
-    );
-
-    informationTeacher.higherEducation = await this.catalogueService.findOne(
-      payload.higherEducation.id,
-    );
-
-    informationTeacher.scholarship = await this.catalogueService.findOne(
-      payload.scholarship.id,
-    );
-
-    informationTeacher.scholarshipType = await this.catalogueService.findOne(
-      payload.scholarshipType.id,
-    );
-
-    informationTeacher.teachingLadder = await this.catalogueService.findOne(
-      payload.teachingLadder.id,
-    );
 
     this.repository.merge(informationTeacher, payload);
 
@@ -148,7 +96,7 @@ export class InformationTeachersService {
     const informationTeacher = await this.repository.findOneBy({ id });
 
     if (!informationTeacher) {
-      throw new NotFoundException('information teacher not found');
+      throw new NotFoundException('Informacion del docente no encontrada');
     }
 
     return await this.repository.save(informationTeacher);

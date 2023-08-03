@@ -1,10 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere } from 'typeorm';
-import { FilterStudentDto, PaginationDto, UpdateStudentDto } from '@core/dto';
-import { StudentEntity, TeacherEntity } from '@core/entities';
+import { FilterTeacherDto, PaginationDto, UpdateTeacherDto } from '@core/dto';
+import { TeacherEntity } from '@core/entities';
 import { CoreRepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
-import { CreateTeacherDto } from '../dto/teachers/create-teacher.dto';
+import { InformationTeachersService } from './information-teachers.service';
+import { ServiceResponseHttpModel } from '@shared/models';
 
 @Injectable()
 export class TeachersService {
@@ -12,12 +13,8 @@ export class TeachersService {
     @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY)
     private repository: Repository<TeacherEntity>,
     private usersService: UsersService,
+    private informationTeachersService: InformationTeachersService,
   ) {}
-
-  async create(payload: any): Promise<any> {
-    const newEntity = this.repository.create(payload);
-    return await this.repository.save(newEntity);
-  }
 
   async catalogue() {
     const data = await this.repository.findAndCount({
@@ -26,61 +23,80 @@ export class TeachersService {
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
-
-  async findAll(params?: FilterStudentDto) {
+  
+  async findAll(params?: FilterTeacherDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params) {
+    if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 
     //All
-    const data = await this.repository.findAndCount();
+    const data = await this.repository.findAndCount({
+      relations: { user: true, informationTeacher: true },
+    });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: string): Promise<TeacherEntity> {
+  async findOne(id: string){
     const teacher = await this.repository.findOne({
+      relations: { user: true, informationTeacher: true },
       where: { id },
     });
 
     if (!teacher) {
-      throw new NotFoundException('Student not found');
+      throw new NotFoundException('Teacher not found');
     }
 
     return teacher;
   }
 
-  async update(id: string, payload: UpdateStudentDto): Promise<TeacherEntity> {
-    const student = await this.repository.findOneBy({ id });
+  async update(id: string, payload: UpdateTeacherDto): Promise<TeacherEntity> {
+    const teacher = await this.repository.findOneBy({ id });
 
-    if (!student) {
-      throw new NotFoundException('Student not found');
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
     }
 
-    this.repository.merge(student, payload);
+    this.repository.merge(teacher, payload);
 
-    return this.repository.save(student);
-  }
+    await this.repository.save(teacher);
 
-  async remove(id: string): Promise<TeacherEntity> {
-    const student = await this.repository.findOneBy({ id });
+    await this.usersService.update(payload.user.id, payload.user);
 
-    if (!student) {
-      throw new NotFoundException('Student not found');
+    payload.informationTeacher.teacher = await this.repository.save(teacher);
+
+    if (payload.informationTeacher?.id) {
+      await this.informationTeachersService.update(
+        payload.informationTeacher.id,
+        payload.informationTeacher,
+      );
+    } else {
+      const { id, ...informationTeacherRest } = payload.informationTeacher;
+      await this.informationTeachersService.create(informationTeacherRest);
     }
 
-    return await this.repository.softRemove(student);
+    return teacher;
   }
 
-  async removeAll(payload: StudentEntity[]): Promise<TeacherEntity[]> {
+  async remove(id: string){
+    const teacher = await this.repository.findOneBy({ id });
+
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
+    }
+
+    return await this.repository.softRemove(teacher);
+  }
+
+  async removeAll(payload: TeacherEntity[]){
     return this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(params: FilterStudentDto) {
+  private async paginateAndFilter(params: FilterTeacherDto) {
     let where:
-      | FindOptionsWhere<StudentEntity>
-      | FindOptionsWhere<StudentEntity>[];
+      | FindOptionsWhere<TeacherEntity>
+      | FindOptionsWhere<TeacherEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -93,12 +109,17 @@ export class TeachersService {
     }
 
     const data = await this.repository.findAndCount({
-      relations: { user: true },
+      relations: { user: true, informationTeacher: true  },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
     });
 
     return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+  }
+
+  async create(payload: any): Promise<any> {
+    const newEntity = this.repository.create(payload);
+    return await this.repository.save(newEntity);
   }
 }

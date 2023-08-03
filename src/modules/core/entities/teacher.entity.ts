@@ -10,7 +10,6 @@ import {
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
 import {
-  InformationStudentEntity,
   InformationTeacherEntity,
 } from '@core/entities';
 
