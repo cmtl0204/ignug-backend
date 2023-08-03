@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere } from 'typeorm';
 import { FilterTeacherDto, PaginationDto, UpdateTeacherDto } from '@core/dto';
 import { TeacherEntity } from '@core/entities';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
 import { InformationTeachersService } from './information-teachers.service';
 import { ServiceResponseHttpModel } from '@shared/models';
@@ -121,5 +121,25 @@ export class TeachersService {
   async create(payload: any): Promise<any> {
     const newEntity = this.repository.create(payload);
     return await this.repository.save(newEntity);
+  }
+
+  async hide(id: string): Promise<TeacherEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<TeacherEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
+    return await this.repository.save(entity);
   }
 }
