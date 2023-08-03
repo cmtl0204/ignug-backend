@@ -1,8 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import {
-  CreateStudentDto,
-  FilterSchoolPeriodDto,
   FilterStudentDto,
   PaginationDto,
   UpdateStudentDto,
@@ -12,7 +10,6 @@ import { CoreRepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';
 import { InformationStudentsService } from './information-students.service';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { tr } from 'date-fns/locale';
 
 @Injectable()
 export class StudentsService {
@@ -48,32 +45,32 @@ export class StudentsService {
   }
 
   async findOne(id: string) {
-    const student = await this.repository.findOne({
+    const entity = await this.repository.findOne({
       relations: { user: true, informationStudent: true },
       where: { id },
     });
 
-    if (!student) {
-      throw new NotFoundException('Student not found');
+    if (!entity) {
+      throw new NotFoundException('Estudiante no encontrado');
     }
 
-    return student;
+    return entity;
   }
 
   async update(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-    const student = await this.repository.findOneBy({ id });
+    const entity = await this.repository.findOneBy({ id });
 
-    if (!student) {
-      throw new NotFoundException('Student not found');
+    if (!entity) {
+      throw new NotFoundException('Estudiante no encontrado');
     }
 
-    this.repository.merge(student, payload);
+    this.repository.merge(entity, payload);
 
-    await this.repository.save(student);
+    await this.repository.save(entity);
 
     await this.usersService.update(payload.user.id, payload.user);
 
-    payload.informationStudent.student = await this.repository.save(student);
+    payload.informationStudent.student = await this.repository.save(entity);
 
     if (payload.informationStudent?.id) {
       await this.informationStudentsService.update(
@@ -85,17 +82,17 @@ export class StudentsService {
       await this.informationStudentsService.create(informationStudentRest);
     }
 
-    return student;
+    return entity;
   }
 
   async remove(id: string) {
-    const student = await this.repository.findOneBy({ id });
+    const entity = await this.repository.findOneBy({ id });
 
-    if (!student) {
+    if (!entity) {
       throw new NotFoundException('Student not found');
     }
 
-    return await this.repository.softRemove(student);
+    return await this.repository.softRemove(entity);
   }
 
   async removeAll(payload: StudentEntity[]) {
