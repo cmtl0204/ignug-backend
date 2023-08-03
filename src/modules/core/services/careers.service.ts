@@ -9,7 +9,7 @@ import {
 import { CareerEntity } from '@core/entities';
 import { CataloguesService, InstitutionsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
 @Injectable()
 export class CareersService {
@@ -29,7 +29,7 @@ export class CareersService {
     return {
       pagination: {
         totalItems: response[1],
-        limit: 10,
+        limit: 1000,
       },
       data: response[0],
     };
@@ -143,5 +143,25 @@ export class CareersService {
       pagination: { limit, totalItems: response[1] },
       data: response[0],
     };
+  }
+  
+  async hide(id: string): Promise<CareerEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<CareerEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
+    return await this.repository.save(entity);
   }
 }

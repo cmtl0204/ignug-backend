@@ -33,7 +33,7 @@ export class CareersController {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
       message: `Catálogo carreras`,
-      title: `Catalogue`,
+      title: `Catálogo`,
     };
   }
 
@@ -45,8 +45,8 @@ export class CareersController {
 
     return {
       data: serviceResponse,
-      message: 'Carrera creada',
-      title: 'Career Created',
+      message: 'Carrera fue creada',
+      title: 'Carrera creada',
     };
   }
 
@@ -79,6 +79,21 @@ export class CareersController {
     };
   }
 
+  @ApiOperation({ summary: 'Hide' })
+  @Patch(':id/hide')
+  @HttpCode(HttpStatus.CREATED)
+  async hide(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.careersService.hide(id);
+
+    return {
+      data: serviceResponse,
+      message: `Carrera Oculto`,
+      title: `Ocultado`,
+    };
+  }
+
   @ApiOperation({ summary: 'Update Career' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
@@ -89,8 +104,23 @@ export class CareersController {
     const serviceResponse = await this.careersService.update(id, payload);
     return {
       data: serviceResponse,
-      message: `Carrera actualizada`,
-      title: `Career Updated`,
+      message: `Carrera fue actualizada`,
+      title: `Carrera actualizada`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Reactivate' })
+  @Patch(':id/reactivate')
+  @HttpCode(HttpStatus.CREATED)
+  async reactivate(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.careersService.reactivate(id);
+
+    return {
+      data: serviceResponse,
+      message: `Carrera Reactivado`,
+      title: `Reactivado`,
     };
   }
 
@@ -103,8 +133,8 @@ export class CareersController {
     const serviceResponse = await this.careersService.remove(id);
     return {
       data: serviceResponse,
-      message: `Carrera eliminada`,
-      title: `Career Deleted`,
+      message: `Carrera fue eliminada`,
+      title: `Carrera eliminada`,
     };
   }
 
@@ -116,8 +146,8 @@ export class CareersController {
 
     return {
       data: serviceResponse,
-      message: `Carreras eliminadas`,
-      title: `Careers Deleted`,
+      message: `Carreras fueron eliminadas`,
+      title: `Carreras eliminadas`,
     };
   }
 }
