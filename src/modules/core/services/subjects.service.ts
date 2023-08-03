@@ -9,7 +9,7 @@ import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService, CurriculumsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
 @Injectable()
 export class SubjectsService {
@@ -133,5 +133,25 @@ export class SubjectsService {
       data: response[0],
       pagination: { limit: 10, totalItems: response[1] },
     };
+  }
+
+  async hide(id: string): Promise<SubjectEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<SubjectEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
+    return await this.repository.save(entity);
   }
 }
