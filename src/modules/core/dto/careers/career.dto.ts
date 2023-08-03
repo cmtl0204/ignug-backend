@@ -34,7 +34,7 @@ export class CareerDto {
   readonly acronym: string;
 
   @IsString(isStringValidationOptions())
-  @MinLength(3, minLengthValidationOptions())
+  @MinLength(1, minLengthValidationOptions())
   @MaxLength(20, maxLengthValidationOptions())
   readonly code: string;
 

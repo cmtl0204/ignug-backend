@@ -28,7 +28,7 @@ import {
 import { ServiceResponseHttpModel } from '@shared/models';
 import { UsersService } from '@auth/services';
 import { MailService } from '@common/services';
-import path, { join } from 'path';
+import { join } from 'path';
 import * as fs from 'fs';
 
 @Injectable()

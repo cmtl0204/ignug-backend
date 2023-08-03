@@ -44,7 +44,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       }
 
       if (exception instanceof UnprocessableEntityException) {
-        errorResponseHttpModel.error = error || 'Bad Request';
+        errorResponseHttpModel.error = 'Datos no válidos' || 'Bad Request';
         errorResponseHttpModel.message = message;
       }
 
@@ -82,8 +82,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
       // errorResponseHttpModel.message =
       //   exception.driverError.detail || 'Query Error';
     }
+    console.log(exception instanceof UnprocessableEntityException);
     console.log(exception);
-    if (exception instanceof Error) {
+    if (exception instanceof Error && status === 500) {
       status = 400;
       errorResponseHttpModel.statusCode = 400;
       errorResponseHttpModel.error = exception.name || 'Error';

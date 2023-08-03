@@ -13,6 +13,7 @@ import {
   isEmailValidationOptions,
   isNotEmptyValidationOptions,
   isStringValidationOptions,
+  isUrlValidationOptions,
   minLengthValidationOptions,
 } from '@shared/validation';
 
@@ -64,7 +65,6 @@ export class InstitutionDto {
   readonly slogan: string;
 
   @IsOptional({ message: 'web es opcional' })
-  @IsString(isStringValidationOptions())
-  @IsUrl({}, { message: 'web debe ser una url válida' })
+  @IsUrl({}, isUrlValidationOptions())
   readonly web: string;
 }
