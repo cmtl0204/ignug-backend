@@ -1,14 +1,12 @@
-import { IsNumber, IsPositive, IsString } from 'class-validator';
+import { UserEntity } from '@auth/entities';
+import { InformationTeacherEntity } from '@core/entities';
+import { IsNotEmpty, IsOptional} from 'class-validator';
+import { isNotEmptyValidationOptions } from '@shared/validation';
 
 export class TeacherDto {
-  @IsString({ message: 'El campo debe ser de tipo string' })
-  name: string;
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  user: UserEntity;
 
-  @IsNumber({}, { message: 'El campo userId debe ser un numero' })
-  @IsPositive({ message: 'El campo userId debe ser un entero positivo' })
-  userid: string;
-
-  @IsNumber({}, { message: 'studentId Tiene que ser de tipo numero' })
-  @IsPositive({ message: 'studentId debe ser un entero positivo' })
-  studentid: string;
+  @IsOptional()
+  informationTeacher: InformationTeacherEntity;
 }

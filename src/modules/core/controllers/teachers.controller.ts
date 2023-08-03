@@ -14,33 +14,20 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
-import { StudentsService, TeachersService } from '@core/services';
+import { TeachersService } from '@core/services';
 import {
-  CreateStudentDto,
-  FilterStudentDto,
-  UpdateStudentDto,
+  CreateTeacherDto,
+  FilterTeacherDto,
+  UpdateTeacherDto,
 } from '@core/dto';
-import { StudentEntity } from '@core/entities';
-import { CreateTeacherDto } from '../dto/teachers/create-teacher.dto';
+import { TeacherEntity } from '@core/entities';
 
 @ApiTags('Teachers')
 @Controller('teachers')
 export class TeachersController {
   constructor(private teachersService: TeachersService) {}
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateTeacherDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.teachersService.create(payload);
-
-    return {
-      data: serviceResponse,
-      message: 'student created',
-      title: 'Created',
-    };
-  }
-
-  @ApiOperation({ summary: 'Catalogue' })
+  @ApiOperation({ summary: 'Lista de todos los usuarios' })
   @Get('catalogue')
   @HttpCode(HttpStatus.OK)
   async catalogue(): Promise<ResponseHttpModel> {
@@ -49,16 +36,16 @@ export class TeachersController {
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
-      message: `catalogue`,
-      title: `Catalogue`,
+      message: `Catalogo`,
+      title: `Catalogo`,
     };
   }
 
-  @ApiOperation({ summary: 'List of users' })
+  @ApiOperation({ summary: 'Lista de usuarios' })
   // @Roles(RoleEnum.ADMIN)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterStudentDto): Promise<ResponseHttpModel> {
+  async findAll(@Query() params: FilterTeacherDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.teachersService.findAll(params);
 
     return {
@@ -86,14 +73,14 @@ export class TeachersController {
   @HttpCode(HttpStatus.CREATED)
   async update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateStudentDto,
+    @Body() payload: UpdateTeacherDto,
   ): Promise<ResponseHttpModel> {
     const serviceResponse = await this.teachersService.update(id, payload);
 
     return {
       data: serviceResponse,
-      message: `User updated ${id}`,
-      title: `Updated`,
+      message: `Usuario actualizado ${id}`,
+      title: `Actualizado`,
     };
   }
 
@@ -106,20 +93,20 @@ export class TeachersController {
 
     return {
       data: serviceResponse,
-      message: `User deleted ${id}`,
-      title: `Deleted`,
+      message: `Usuario borrado ${id}`,
+      title: `Eliminado`,
     };
   }
 
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: StudentEntity[]) {
+  async removeAll(@Body() payload: TeacherEntity[]) {
     const serviceResponse = await this.teachersService.removeAll(payload);
 
     return {
       data: serviceResponse,
-      message: `Users deleted`,
-      title: `Deleted`,
+      message: `Usuarios eliminados`,
+      title: `Eliminado`,
     };
   }
 }
