@@ -15,6 +15,9 @@ import {
 
 export class CurriculumDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly career: CareerEntity;
+
+  @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 
   @IsString(isStringValidationOptions())
