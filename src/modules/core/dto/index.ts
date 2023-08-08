@@ -54,6 +54,3 @@ export * from './teachers/teacher.dto';
 export * from './teachers/create-teacher.dto';
 export * from './teachers/filter-teacher.dto';
 export * from './teachers/update-teacher.dto';
-
-
-

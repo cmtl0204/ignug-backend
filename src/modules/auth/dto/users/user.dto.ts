@@ -38,6 +38,9 @@ export class UserDto {
   readonly sex: CatalogueEntity;
 
   @IsOptional()
+  readonly avatar: string;
+
+  @IsOptional()
   @IsDate(isNotEmptyValidationOptions())
   readonly birthdate: Date;
 
@@ -53,7 +56,7 @@ export class UserDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
   @IsEmail({}, isEmailValidationOptions())
   @MaxLength(150, maxLengthValidationOptions())
-  readonly emailVerifiedAt: string;
+  readonly emailVerifiedAt: Date;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   @IsString(isStringValidationOptions())

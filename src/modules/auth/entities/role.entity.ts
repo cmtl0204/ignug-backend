@@ -55,7 +55,6 @@ export class RoleEntity {
   })
   users: UserEntity[];
 
-  /** Relationship **/
   @ManyToMany(() => MenuEntity)
   @JoinTable({
     name: 'menu_role',

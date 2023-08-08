@@ -9,9 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import {
-  InformationTeacherEntity,
-} from '@core/entities';
+import { InformationTeacherEntity } from '@core/entities';
 
 @Entity('teachers', { schema: 'core' })
 export class TeacherEntity {

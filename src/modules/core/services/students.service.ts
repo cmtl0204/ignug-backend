@@ -1,10 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, Repository } from 'typeorm';
-import {
-  FilterStudentDto,
-  PaginationDto,
-  UpdateStudentDto,
-} from '@core/dto';
+import { FilterStudentDto, PaginationDto, UpdateStudentDto } from '@core/dto';
 import { StudentEntity } from '@core/entities';
 import { CoreRepositoryEnum } from '@shared/enums';
 import { UsersService } from '@auth/services';

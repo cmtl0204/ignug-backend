@@ -18,6 +18,7 @@ import { RoleEntity } from '@auth/entities';
 import {
   CareerEntity,
   CatalogueEntity,
+  InstitutionEntity,
   StudentEntity,
   TeacherEntity,
 } from '@core/entities';
@@ -51,6 +52,9 @@ export class UserEntity {
   /** Inverse Relationship **/
   @ManyToMany(() => CareerEntity, (career) => career.users)
   careers: CareerEntity[];
+
+  @ManyToMany(() => InstitutionEntity, (institution) => institution.users)
+  institutions: InstitutionEntity[];
 
   @ManyToMany(() => RoleEntity, (role) => role.users)
   roles: RoleEntity[];

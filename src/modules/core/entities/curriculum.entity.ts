@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { CareerEntity, CatalogueEntity } from '@core/entities';
 
-@Entity('curriculum', { schema: 'core' })
+@Entity('curriculums', { schema: 'core' })
 export class CurriculumEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;

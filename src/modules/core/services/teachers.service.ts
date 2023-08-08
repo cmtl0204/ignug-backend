@@ -23,7 +23,7 @@ export class TeachersService {
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
-  
+
   async findAll(params?: FilterTeacherDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
@@ -38,7 +38,7 @@ export class TeachersService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: string){
+  async findOne(id: string) {
     const teacher = await this.repository.findOne({
       relations: { user: true, informationTeacher: true },
       where: { id },
@@ -79,7 +79,7 @@ export class TeachersService {
     return teacher;
   }
 
-  async remove(id: string){
+  async remove(id: string) {
     const teacher = await this.repository.findOneBy({ id });
 
     if (!teacher) {
@@ -89,7 +89,7 @@ export class TeachersService {
     return await this.repository.softRemove(teacher);
   }
 
-  async removeAll(payload: TeacherEntity[]){
+  async removeAll(payload: TeacherEntity[]) {
     return this.repository.softRemove(payload);
   }
 
@@ -109,7 +109,7 @@ export class TeachersService {
     }
 
     const data = await this.repository.findAndCount({
-      relations: { user: true, informationTeacher: true  },
+      relations: { user: true, informationTeacher: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

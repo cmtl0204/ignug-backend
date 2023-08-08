@@ -82,9 +82,7 @@ export class InformationTeachersService {
   ): Promise<InformationTeacherEntity> {
     const informationTeacher = await this.repository.findOneBy({ id });
     if (informationTeacher === null) {
-      throw new NotFoundException(
-        'La informacion del docente no se encontro',
-      );
+      throw new NotFoundException('La informacion del docente no se encontro');
     }
 
     this.repository.merge(informationTeacher, payload);

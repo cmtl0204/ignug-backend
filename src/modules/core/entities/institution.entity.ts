@@ -5,11 +5,14 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserEntity } from '@auth/entities';
 
 @Entity('institutions', { schema: 'core' })
 export class InstitutionEntity {
@@ -41,6 +44,15 @@ export class InstitutionEntity {
     comment: 'true=visible, false=no visible',
   })
   isVisible: boolean;
+
+  /** Inverse Relationship **/
+  @ManyToMany(() => UserEntity, (user) => user.institutions)
+  @JoinTable({
+    name: 'institution_user',
+    joinColumn: { name: 'institution_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
+  users: UserEntity[];
 
   /** Foreign Key **/
   @OneToOne(() => CatalogueEntity)

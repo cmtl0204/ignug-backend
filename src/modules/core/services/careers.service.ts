@@ -83,10 +83,7 @@ export class CareersService {
     return entity;
   }
 
-  async update(
-    id: string, 
-    payload: UpdateCareerDto,
-    ): Promise<CareerEntity> {
+  async update(id: string, payload: UpdateCareerDto): Promise<CareerEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {
@@ -108,9 +105,7 @@ export class CareersService {
     return await this.repository.softRemove(entity);
   }
 
-  async removeAll(
-    payload: CareerEntity[],
-  ): Promise<CareerEntity[]> {
+  async removeAll(payload: CareerEntity[]): Promise<CareerEntity[]> {
     return await this.repository.softRemove(payload);
   }
 
@@ -149,7 +144,7 @@ export class CareersService {
       pagination: { limit, totalItems: response[1] },
     };
   }
-  
+
   async hide(id: string): Promise<CareerEntity> {
     const entity = await this.repository.findOneBy({ id });
 

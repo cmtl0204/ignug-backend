@@ -79,6 +79,7 @@ export class AuthService {
       },
       relations: {
         roles: true,
+        institutions: true,
         teacher: true,
         student: true,
       },
@@ -105,7 +106,8 @@ export class AuthService {
 
     user.activatedAt = new Date();
     // Include foreign keys
-    const { password, student, teacher, roles, ...userRest } = user;
+    const { password, student, teacher, roles, institutions, ...userRest } =
+      user;
 
     userRest.maxAttempts = this.MAX_ATTEMPTS;
     await this.repository.update(userRest.id, userRest);
@@ -171,9 +173,7 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    this.repository.merge(user, payload);
-
-    const profileUpdated = await this.repository.save(user);
+    const profileUpdated = await this.repository.update(id, payload);
 
     return plainToInstance(ReadProfileDto, profileUpdated);
   }
@@ -301,10 +301,10 @@ export class AuthService {
         console.error('Something wrong happened removing the file', err);
       }
     }
-
     entity.avatar = `avatars/${file.filename}`;
+    const { password, ...restEntity } = entity;
 
-    return await this.repository.save(entity);
+    return await this.repository.save({ ...restEntity });
   }
 
   private generateJwt(user: UserEntity): string {

@@ -144,5 +144,4 @@ export class SubjectsController {
       title: `Reactivado`,
     };
   }
-
 }

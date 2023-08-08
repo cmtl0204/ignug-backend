@@ -64,8 +64,8 @@ export class AuthController {
 
     return {
       data: serviceResponse,
-      message: 'The password was changed',
-      title: 'Password Changed',
+      message: 'La contraseña fue cambiada',
+      title: 'Contraseña Actualizada',
     };
   }
 
@@ -94,8 +94,8 @@ export class AuthController {
 
     return {
       data: serviceResponse,
-      message: 'The user information was updated',
-      title: 'User Information Updated',
+      message: 'La información del usuario fue actualizada',
+      title: 'Atualizado',
     };
   }
 
@@ -114,8 +114,8 @@ export class AuthController {
 
     return {
       data: serviceResponse,
-      message: 'The profile was updated',
-      title: 'Profile Updated',
+      message: 'El perfil fue actualizado',
+      title: 'Actualizado',
     };
   }
 
@@ -134,8 +134,8 @@ export class AuthController {
 
     return {
       data: serviceResponse,
-      message: 'The user information was updated',
-      title: 'User Information Updated',
+      message: 'La inforación del usuario fue actualizada',
+      title: 'Actualuizado',
     };
   }
 
@@ -150,23 +150,6 @@ export class AuthController {
       data: serviceResponse.data,
       message: 'Correct Access',
       title: 'Refresh Token',
-    };
-  }
-
-  @ApiOperation({ summary: 'Send Email' })
-  @Get('send-email')
-  @HttpCode(HttpStatus.CREATED)
-  async sendEmail() {
-    const response = await this.nodemailerService.sendMail(
-      'ctamyo@gmail.com',
-      MailSubjectEnum.RESET_PASSWORD,
-      MailTemplateEnum.TEST,
-    );
-
-    return {
-      data: response,
-      message: 'Email Sent',
-      title: 'Email',
     };
   }
 
