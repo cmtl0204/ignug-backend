@@ -592,21 +592,21 @@ export class CataloguesSeeder {
       description: 'Tipo de matricula',
       name: 'Ordinaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'Tipo de matricula',
       name: 'Extraordinaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'Tipo de matricula',
       name: 'Especial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
     });
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);
@@ -817,28 +817,28 @@ export class CataloguesSeeder {
       description: 'Jornada',
       name: 'Matutina',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
     });
     catalogues.push({
       code: '2',
       description: 'Jornada',
       name: 'Vespertina',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
     });
     catalogues.push({
       code: '3',
       description: 'Jornada',
       name: 'Nocturna',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
     });
     catalogues.push({
       code: '4',
       description: 'Jornada',
       name: 'Intensiva',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
     });
 
     for (const catalogue of catalogues) {

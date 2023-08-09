@@ -13,6 +13,8 @@ export class DatabaseSeeder {
     private usersSeeder: UsersSeeder,
     private rolesSeeder: RolesSeeder,
     private menusSeeder: MenusSeeder,
+    private institutionsSeeder: InstitutionsSeeder,
+    private careersSeeder: CareersSeeder,
   ) {}
 
   async run() {
@@ -21,6 +23,10 @@ export class DatabaseSeeder {
     await this.usersSeeder.run();
     await this.menusSeeder.run();
     this.createUploadsDirectories();
+
+    /** Seeders Core **/
+    await this.institutionsSeeder.run();
+    await this.careersSeeder.run();
   }
 
   createUploadsDirectories() {
