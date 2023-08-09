@@ -55,10 +55,6 @@ export class InstitutionEntity {
   users: UserEntity[];
 
   /** Foreign Key **/
-  @OneToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'address_id' })
-  address: CatalogueEntity;
-
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
