@@ -1,11 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateCatalogueDto,
-  FilterCatalogueDto,
-  PaginationDto,
-  UpdateCatalogueDto,
-} from '@core/dto';
+import { CreateCatalogueDto, FilterCatalogueDto, PaginationDto, UpdateCatalogueDto } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
 import { CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { ReadUserDto } from '@auth/dto';
@@ -26,9 +21,7 @@ export class CataloguesService {
     return await this.repository.save(newCatalogue);
   }
 
-  async catalogue(
-    type: CatalogueCoreTypeEnum,
-  ): Promise<ServiceResponseHttpModel> {
+  async catalogue(type: CatalogueCoreTypeEnum): Promise<ServiceResponseHttpModel> {
     const data = await this.repository.findAndCount({
       where: { type },
       order: { name: 1 },
@@ -38,11 +31,9 @@ export class CataloguesService {
     return { pagination: { totalItems: data[1], limit: 1000 }, data: data[0] };
   }
 
-  async findAll(
-    params?: FilterCatalogueDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterCatalogueDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
-    if (params.limit > 0 && params.page >= 0) {
+    if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 

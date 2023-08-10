@@ -9,17 +9,9 @@ import { environments } from '../../../environments';
 
 @Injectable()
 export class MailService {
-  constructor(
-    private readonly mailerService: MailerService,
-    @Inject(config.KEY) private configService: ConfigType<typeof config>,
-  ) {}
+  constructor(private readonly mailerService: MailerService, @Inject(config.KEY) private configService: ConfigType<typeof config>) {}
 
-  async sendMail(
-    to: string[] | string,
-    subject: MailSubjectEnum,
-    template: MailTemplateEnum,
-    data: any = null,
-  ) {
+  async sendMail(to: string[] | string, subject: MailSubjectEnum, template: MailTemplateEnum, data: any = null) {
     return await this.mailerService
       .sendMail({
         to,
@@ -39,10 +31,10 @@ export class MailService {
         // ],
       })
       .then(
-        (response) => {
+        response => {
           return { accepted: response.accepted, rejected: response.rejected };
         },
-        catchError((error) => {
+        catchError(error => {
           return error;
         }),
       );

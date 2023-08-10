@@ -1,11 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateInstitutionDto,
-  FilterInstitutionDto,
-  PaginationDto,
-  UpdateInstitutionDto,
-} from '@core/dto';
+import { CreateInstitutionDto, FilterInstitutionDto, PaginationDto, UpdateInstitutionDto } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
@@ -25,9 +20,7 @@ export class InstitutionsService {
     return await this.repository.save(newInstitution);
   }
 
-  async findAll(
-    params?: FilterInstitutionDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
@@ -55,10 +48,7 @@ export class InstitutionsService {
     return institution;
   }
 
-  async update(
-    id: string,
-    payload: UpdateInstitutionDto,
-  ): Promise<InstitutionEntity> {
+  async update(id: string, payload: UpdateInstitutionDto): Promise<InstitutionEntity> {
     const institution = await this.repository.findOneBy({ id });
 
     if (!institution) throw new NotFoundException('Institution not found');
@@ -80,12 +70,8 @@ export class InstitutionsService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterInstitutionDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<InstitutionEntity>
-      | FindOptionsWhere<InstitutionEntity>[];
+  private async paginateAndFilter(params: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<InstitutionEntity> | FindOptionsWhere<InstitutionEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;

@@ -18,3 +18,5 @@ export * from './teacher-distributive.entity';
 export * from './schedule.entity';
 export * from './classroom.entity';
 export * from './subject-requirement.entity';
+export * from './location.entity';
+export * from './address.entity';

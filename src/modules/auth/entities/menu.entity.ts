@@ -50,11 +50,11 @@ export class MenuEntity {
   isVisible: boolean;
 
   /** Relationship **/
-  @ManyToOne(() => MenuEntity, (category) => category.children)
+  @ManyToOne(() => MenuEntity, category => category.children)
   @JoinColumn({ name: 'parent_id' })
   parent: MenuEntity;
 
-  @OneToMany(() => MenuEntity, (category) => category.parent)
+  @OneToMany(() => MenuEntity, category => category.parent)
   children: MenuEntity[];
 
   @ManyToMany(() => RoleEntity)

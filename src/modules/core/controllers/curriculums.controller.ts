@@ -1,23 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import {
-  UpdateCurriculumDto,
-  CreateCurriculumDto,
-  FilterCurriculumDto,
-} from '@core/dto';
+import { UpdateCurriculumDto, CreateCurriculumDto, FilterCurriculumDto } from '@core/dto';
 import { CurriculumEntity } from '@core/entities';
 import { CurriculumsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
@@ -30,9 +13,7 @@ export class CurriculumsController {
   @ApiOperation({ summary: 'Create' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() payload: CreateCurriculumDto,
-  ): Promise<ResponseHttpModel> {
+  async create(@Body() payload: CreateCurriculumDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.curriculumsService.create(payload);
 
     return {
@@ -45,9 +26,7 @@ export class CurriculumsController {
   @ApiOperation({ summary: 'Find All' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(
-    @Query() params: FilterCurriculumDto,
-  ): Promise<ResponseHttpModel> {
+  async findAll(@Query() params: FilterCurriculumDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.curriculumsService.findAll(params);
 
     return {
@@ -61,9 +40,7 @@ export class CurriculumsController {
   @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.curriculumsService.findOne(id);
 
     return {
@@ -76,10 +53,7 @@ export class CurriculumsController {
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateCurriculumDto,
-  ): Promise<ResponseHttpModel> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCurriculumDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.curriculumsService.update(id, payload);
 
     return {
@@ -92,9 +66,7 @@ export class CurriculumsController {
   @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.curriculumsService.remove(id);
 
     return {
@@ -107,9 +79,7 @@ export class CurriculumsController {
   @ApiOperation({ summary: 'Delete All' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(
-    @Body() payload: CurriculumEntity[],
-  ): Promise<ResponseHttpModel> {
+  async removeAll(@Body() payload: CurriculumEntity[]): Promise<ResponseHttpModel> {
     const serviceResponse = await this.curriculumsService.removeAll(payload);
 
     return {

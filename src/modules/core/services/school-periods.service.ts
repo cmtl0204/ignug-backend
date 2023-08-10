@@ -1,24 +1,10 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateSchoolPeriodDto,
-  FilterSchoolPeriodDto,
-  PaginationDto,
-  UpdateSchoolPeriodDto,
-} from '@core/dto';
+import { CreateSchoolPeriodDto, FilterSchoolPeriodDto, PaginationDto, UpdateSchoolPeriodDto } from '@core/dto';
 import { SchoolPeriodEntity } from '@core/entities';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import {
-  CatalogueCoreSchoolPeriodStateEnum,
-  CoreRepositoryEnum,
-  MessageEnum,
-} from '@shared/enums';
+import { CatalogueCoreSchoolPeriodStateEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
 @Injectable()
 export class SchoolPeriodsService {
@@ -48,9 +34,7 @@ export class SchoolPeriodsService {
     return await this.repository.save(newEntity);
   }
 
-  async findAll(
-    params?: FilterSchoolPeriodDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterSchoolPeriodDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
@@ -96,10 +80,7 @@ export class SchoolPeriodsService {
     return entity;
   }
 
-  async update(
-    id: string,
-    payload: UpdateSchoolPeriodDto,
-  ): Promise<SchoolPeriodEntity> {
+  async update(id: string, payload: UpdateSchoolPeriodDto): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {
@@ -121,18 +102,12 @@ export class SchoolPeriodsService {
     return await this.repository.softRemove(entity);
   }
 
-  async removeAll(
-    payload: SchoolPeriodEntity[],
-  ): Promise<SchoolPeriodEntity[]> {
+  async removeAll(payload: SchoolPeriodEntity[]): Promise<SchoolPeriodEntity[]> {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterSchoolPeriodDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<SchoolPeriodEntity>
-      | FindOptionsWhere<SchoolPeriodEntity>[];
+  private async paginateAndFilter(params: FilterSchoolPeriodDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<SchoolPeriodEntity> | FindOptionsWhere<SchoolPeriodEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -184,9 +159,7 @@ export class SchoolPeriodsService {
   async open(id: string): Promise<SchoolPeriodEntity> {
     const entity = await this.findOne(id);
     const entities = (await this.findAll()).data as SchoolPeriodEntity[];
-    const existOpenSchoolPeriod = entities.find(
-      (entity) => entity.state.code === CatalogueCoreSchoolPeriodStateEnum.OPEN,
-    );
+    const existOpenSchoolPeriod = entities.find(entity => entity.state.code === CatalogueCoreSchoolPeriodStateEnum.OPEN);
 
     if (!entity) {
       throw new NotFoundException(MessageEnum.NOT_FOUND);
@@ -196,14 +169,10 @@ export class SchoolPeriodsService {
       throw new BadRequestException(MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD);
     }
     if (existOpenSchoolPeriod) {
-      throw new BadRequestException(
-        `${MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD} (${existOpenSchoolPeriod.name})`,
-      );
+      throw new BadRequestException(`${MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD} (${existOpenSchoolPeriod.name})`);
     }
 
-    entity.state = await this.cataloguesService.findByCode(
-      CatalogueCoreSchoolPeriodStateEnum.OPEN,
-    );
+    entity.state = await this.cataloguesService.findByCode(CatalogueCoreSchoolPeriodStateEnum.OPEN);
     return await this.repository.save(entity);
   }
 
@@ -218,9 +187,7 @@ export class SchoolPeriodsService {
       throw new BadRequestException(MessageEnum.EXISTS_CLOSE_SCHOOL_PERIOD);
     }
 
-    entity.state = await this.cataloguesService.findByCode(
-      CatalogueCoreSchoolPeriodStateEnum.CLOSE,
-    );
+    entity.state = await this.cataloguesService.findByCode(CatalogueCoreSchoolPeriodStateEnum.CLOSE);
     return await this.repository.save(entity);
   }
 }

@@ -1,13 +1,4 @@
-import {
-  IsNumber,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNumber, IsNotEmpty, IsOptional, IsString, Max, Min, MaxLength, MinLength } from 'class-validator';
 import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
 export class SubjectDto {

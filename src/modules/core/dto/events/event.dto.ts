@@ -1,9 +1,6 @@
 import { CatalogueEntity, SchoolPeriodEntity } from '@core/entities';
 import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
-import {
-  isNotEmptyValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class EventDto {
   @IsNotEmpty(isNotEmptyValidationOptions())

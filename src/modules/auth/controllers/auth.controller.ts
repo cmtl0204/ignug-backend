@@ -1,27 +1,9 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  UploadedFile,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth, PublicRoute, User } from '@auth/decorators';
 import { AuthService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
-import {
-  LoginDto,
-  PasswordChangeDto,
-  UpdateProfileDto,
-  UpdateUserInformationDto,
-} from '@auth/dto';
+import { LoginDto, PasswordChangeDto, UpdateProfileDto, UpdateUserInformationDto } from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
 import { MailService } from '@common/services';
 import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
@@ -33,10 +15,7 @@ import { getFileName, imageFilter } from '@shared/helpers';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private readonly nodemailerService: MailService,
-  ) {}
+  constructor(private authService: AuthService, private readonly nodemailerService: MailService) {}
 
   @ApiOperation({ summary: 'Login' })
   @PublicRoute()
@@ -56,10 +35,7 @@ export class AuthController {
   @Auth()
   @Put(':id/change-password')
   @HttpCode(HttpStatus.CREATED)
-  async changePassword(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: PasswordChangeDto,
-  ): Promise<ResponseHttpModel> {
+  async changePassword(@Param('id', ParseUUIDPipe) id: string, @Body() payload: PasswordChangeDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.authService.changePassword(id, payload);
 
     return {
@@ -87,9 +63,7 @@ export class AuthController {
   @Auth()
   @Get('user-information')
   @HttpCode(HttpStatus.OK)
-  async findUserInformation(
-    @User() user: UserEntity,
-  ): Promise<ResponseHttpModel> {
+  async findUserInformation(@User() user: UserEntity): Promise<ResponseHttpModel> {
     const serviceResponse = await this.authService.findUserInformation(user.id);
 
     return {
@@ -103,14 +77,8 @@ export class AuthController {
   @Auth()
   @Put('profile')
   @HttpCode(HttpStatus.CREATED)
-  async updateProfile(
-    @User() user: UserEntity,
-    @Body() payload: UpdateProfileDto,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.authService.updateProfile(
-      user.id,
-      payload,
-    );
+  async updateProfile(@User() user: UserEntity, @Body() payload: UpdateProfileDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.authService.updateProfile(user.id, payload);
 
     return {
       data: serviceResponse,
@@ -123,14 +91,8 @@ export class AuthController {
   @Auth()
   @Put('user-information')
   @HttpCode(HttpStatus.CREATED)
-  async updateUserInformation(
-    @User('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateUserInformationDto,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.authService.updateUserInformation(
-      id,
-      payload,
-    );
+  async updateUserInformation(@User('id', ParseUUIDPipe) id: string, @Body() payload: UpdateUserInformationDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.authService.updateUserInformation(id, payload);
 
     return {
       data: serviceResponse,
@@ -155,12 +117,8 @@ export class AuthController {
 
   @Get('transactional-codes/:username/request')
   @HttpCode(HttpStatus.OK)
-  async requestTransactionalCode(
-    @Param('username') username: string,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.authService.requestTransactionalCode(
-      username,
-    );
+  async requestTransactionalCode(@Param('username') username: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.authService.requestTransactionalCode(username);
 
     return {
       data: serviceResponse.data,
@@ -171,9 +129,7 @@ export class AuthController {
 
   @Get('transactional-codes/:token/verify')
   @HttpCode(HttpStatus.OK)
-  async verifyTransactionalCode(
-    @Param('token') token: string,
-  ): Promise<ResponseHttpModel> {
+  async verifyTransactionalCode(@Param('token') token: string): Promise<ResponseHttpModel> {
     await this.authService.verifyTransactionalCode(token);
 
     return {
@@ -207,10 +163,7 @@ export class AuthController {
       limits: { fieldSize: 1 },
     }),
   )
-  async uploadAvatar(
-    @UploadedFile() avatar: Express.Multer.File,
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async uploadAvatar(@UploadedFile() avatar: Express.Multer.File, @Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const response = await this.authService.uploadAvatar(avatar, id);
     return {
       data: response,

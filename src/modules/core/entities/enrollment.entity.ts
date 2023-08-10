@@ -1,19 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import {
-  CatalogueEntity,
-  CurriculumEntity,
-  SchoolPeriodEntity,
-  StudentEntity,
-} from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CatalogueEntity, CurriculumEntity, SchoolPeriodEntity, StudentEntity } from '@core/entities';
 
 @Entity('enrollments', { schema: 'core' })
 export class EnrollmentEntity {

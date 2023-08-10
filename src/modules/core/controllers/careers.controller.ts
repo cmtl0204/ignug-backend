@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateCareerDto, UpdateCareerDto, FilterCareerDto } from '@core/dto';
 import { CareersService } from '@core/services';
@@ -67,9 +54,7 @@ export class CareersController {
   @ApiOperation({ summary: 'Find Career' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.findOne(id);
 
     return {
@@ -82,9 +67,7 @@ export class CareersController {
   @ApiOperation({ summary: 'Hide' })
   @Patch(':id/hide')
   @HttpCode(HttpStatus.CREATED)
-  async hide(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.hide(id);
 
     return {
@@ -97,10 +80,7 @@ export class CareersController {
   @ApiOperation({ summary: 'Update Career' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateCareerDto,
-  ): Promise<ResponseHttpModel> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.update(id, payload);
     return {
       data: serviceResponse,
@@ -112,9 +92,7 @@ export class CareersController {
   @ApiOperation({ summary: 'Reactivate' })
   @Patch(':id/reactivate')
   @HttpCode(HttpStatus.CREATED)
-  async reactivate(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.reactivate(id);
 
     return {
@@ -127,9 +105,7 @@ export class CareersController {
   @ApiOperation({ summary: 'Delete Career' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.careersService.remove(id);
     return {
       data: serviceResponse,

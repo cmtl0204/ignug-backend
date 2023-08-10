@@ -1,13 +1,4 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsPositive,
-  IsString,
-  IsUrl,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsPositive, IsString, IsUrl, MaxLength, MinLength } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 import {
   isEmailValidationOptions,

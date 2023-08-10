@@ -47,7 +47,7 @@ export class RoleEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @ManyToMany(() => UserEntity, (user) => user.roles)
+  @ManyToMany(() => UserEntity, user => user.roles)
   @JoinTable({
     name: 'role_user',
     joinColumn: { name: 'role_id' },

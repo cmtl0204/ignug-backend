@@ -6,10 +6,7 @@ import { MenuEntity } from '@auth/entities';
 
 @Injectable()
 export class MenusSeeder {
-  constructor(
-    private menusService: MenusService,
-    private rolesService: RolesService,
-  ) {}
+  constructor(private menusService: MenusService, private rolesService: RolesService) {}
 
   async run() {
     await this.createMenus();
@@ -43,7 +40,7 @@ export class MenusSeeder {
 
     const menusAll = (await this.menusService.findAll()).data as MenuEntity[];
 
-    const adminMenu = menusAll.find((menu) => menu.code === 'admin');
+    const adminMenu = menusAll.find(menu => menu.code === 'admin');
 
     menus = [];
     menus.push(
@@ -73,9 +70,7 @@ export class MenusSeeder {
       await this.menusService.create(menu);
     }
 
-    const academicAdministration = menusAll.find(
-      (menu) => menu.code === 'academic-administrator',
-    );
+    const academicAdministration = menusAll.find(menu => menu.code === 'academic-administrator');
 
     menus = [];
     menus.push(
@@ -141,15 +136,13 @@ export class MenusSeeder {
 
     const menusAll = (await this.menusService.findAll()).data;
 
-    role.menus = menusAll.filter(
-      (menu) => menu.code === 'academic-administrator',
-    );
+    role.menus = menusAll.filter(menu => menu.code === 'academic-administrator');
 
     await this.rolesService.createMenus(role);
 
     role = await this.rolesService.findByCode('admin');
 
-    role.menus = menusAll.filter((menu) => menu.code === 'admin');
+    role.menus = menusAll.filter(menu => menu.code === 'admin');
 
     await this.rolesService.createMenus(role);
   }

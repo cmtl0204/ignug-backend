@@ -54,3 +54,8 @@ export * from './teachers/teacher.dto';
 export * from './teachers/create-teacher.dto';
 export * from './teachers/filter-teacher.dto';
 export * from './teachers/update-teacher.dto';
+
+export * from './locations/location.dto';
+export * from './locations/create-location.dto';
+export * from './locations/filter-location.dto';
+export * from './locations/update-location.dto';

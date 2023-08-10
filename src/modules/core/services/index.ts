@@ -1,4 +1,5 @@
 export * from './catalogues.service';
+export * from './locations.service';
 export * from './institutions.service';
 export * from './students.service';
 export * from './careers.service';

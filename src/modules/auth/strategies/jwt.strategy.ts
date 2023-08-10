@@ -9,10 +9,7 @@ import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  constructor(
-    private userService: UsersService,
-    @Inject(config.KEY) configService: ConfigType<typeof config>,
-  ) {
+  constructor(private userService: UsersService, @Inject(config.KEY) configService: ConfigType<typeof config>) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -27,10 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     if (user.suspendedAt) throw new UnauthorizedException('User is suspended.');
 
-    if (user.maxAttempts === 0)
-      throw new UnauthorizedException(
-        'User exceeded the maximum number of attempts allowed. (jwt)',
-      );
+    if (user.maxAttempts === 0) throw new UnauthorizedException('User exceeded the maximum number of attempts allowed. (jwt)');
 
     return user;
   }

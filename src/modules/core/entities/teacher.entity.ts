@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserEntity } from '@auth/entities';
 import { InformationTeacherEntity } from '@core/entities';
 
@@ -46,14 +37,11 @@ export class TeacherEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @OneToOne(
-    () => InformationTeacherEntity,
-    (informationTeacher) => informationTeacher.teacher,
-  )
+  @OneToOne(() => InformationTeacherEntity, informationTeacher => informationTeacher.teacher)
   informationTeacher: InformationTeacherEntity;
 
   /** Relationship **/
-  @OneToOne(() => UserEntity, (user) => user.teacher)
+  @OneToOne(() => UserEntity, user => user.teacher)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

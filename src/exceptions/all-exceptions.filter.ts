@@ -31,8 +31,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     let status = 500;
 
     if (exception instanceof HttpException) {
-      const { message, error } =
-        exception.getResponse() as ErrorResponseHttpModel;
+      const { message, error } = exception.getResponse() as ErrorResponseHttpModel;
       status = exception.getStatus();
 
       errorResponseHttpModel.error = 'Server Error';
@@ -50,8 +49,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
       if (exception instanceof UnauthorizedException) {
         errorResponseHttpModel.error = error || 'Unauthorized';
-        errorResponseHttpModel.message =
-          message ?? 'You do not have authorization.';
+        errorResponseHttpModel.message = message ?? 'You do not have authorization.';
       }
 
       if (exception instanceof NotFoundException) {
@@ -71,8 +69,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = 400;
       errorResponseHttpModel.statusCode = exception.driverError.code || 400;
       errorResponseHttpModel.error = exception.name || 'QueryFailedError';
-      errorResponseHttpModel.message =
-        exception.driverError.detail || 'Query Error';
+      errorResponseHttpModel.message = exception.driverError.detail || 'Query Error';
     }
 
     if (exception instanceof ExceptionsHandler) {
@@ -82,8 +79,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       // errorResponseHttpModel.message =
       //   exception.driverError.detail || 'Query Error';
     }
-    console.log(exception instanceof UnprocessableEntityException);
-    console.log(exception);
+
     if (exception instanceof Error && status === 500) {
       status = 400;
       errorResponseHttpModel.statusCode = 400;

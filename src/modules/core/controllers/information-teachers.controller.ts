@@ -1,23 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Patch,
-  ParseUUIDPipe,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, ParseUUIDPipe, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  CreateInformationTeacherDto,
-  FilterInformationTeacherDto,
-  UpdateInformationTeacherDto,
-} from '@core/dto';
+import { CreateInformationTeacherDto, FilterInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
 import { InformationTeacherEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
 import { InformationTeachersService } from '@core/services';
@@ -30,12 +13,8 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Create Information Teacher' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() payload: CreateInformationTeacherDto,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationTeachersService.create(
-      payload,
-    );
+  async create(@Body() payload: CreateInformationTeacherDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.create(payload);
 
     return {
       data: serviceResponse,
@@ -47,12 +26,8 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Find All Information Teachers' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(
-    @Query() params: FilterInformationTeacherDto,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationTeachersService.findAll(
-      params,
-    );
+  async findAll(@Query() params: FilterInformationTeacherDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.findAll(params);
     return {
       data: serviceResponse.data,
       pagination: serviceResponse.pagination,
@@ -64,9 +39,7 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Find Information Teacher' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationTeachersService.findOne(id);
 
     return {
@@ -79,14 +52,8 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Update Information Teacher' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateInformationTeacherDto,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationTeachersService.update(
-      id,
-      payload,
-    );
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateInformationTeacherDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.update(id, payload);
 
     return {
       data: serviceResponse,
@@ -98,9 +65,7 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Delete Information Teacher' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.informationTeachersService.remove(id);
 
     return {
@@ -113,12 +78,8 @@ export class InformationTeachersController {
   @ApiOperation({ summary: 'Delete All Information Teachers' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(
-    @Body() payload: InformationTeacherEntity[],
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.informationTeachersService.removeAll(
-      payload,
-    );
+  async removeAll(@Body() payload: InformationTeacherEntity[]): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.informationTeachersService.removeAll(payload);
 
     return {
       data: serviceResponse,

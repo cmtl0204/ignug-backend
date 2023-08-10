@@ -1,23 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  CreateSubjectDto,
-  FilterSubjectDto,
-  UpdateSubjectDto,
-} from '@core/dto';
+import { CreateSubjectDto, FilterSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
 import { SubjectsService } from '@core/services';
@@ -57,9 +40,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.subjectsService.findOne(id);
 
     return {
@@ -72,10 +53,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateSubjectDto,
-  ) {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateSubjectDto) {
     const serviceResponse = await this.subjectsService.update(id, payload);
 
     return {
@@ -88,9 +66,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.subjectsService.remove(id);
 
     return {
@@ -103,9 +79,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Delete All' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(
-    @Body() payload: SubjectEntity[],
-  ): Promise<ResponseHttpModel> {
+  async removeAll(@Body() payload: SubjectEntity[]): Promise<ResponseHttpModel> {
     const serviceResponse = await this.subjectsService.removeAll(payload);
 
     return {
@@ -118,9 +92,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Hide' })
   @Patch(':id/hide')
   @HttpCode(HttpStatus.CREATED)
-  async hide(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.subjectsService.hide(id);
 
     return {
@@ -133,9 +105,7 @@ export class SubjectsController {
   @ApiOperation({ summary: 'Reactivate' })
   @Patch(':id/reactivate')
   @HttpCode(HttpStatus.CREATED)
-  async reactivate(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.subjectsService.reactivate(id);
 
     return {

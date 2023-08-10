@@ -17,9 +17,7 @@ export class FilesService {
   ) {}
 
   async uploadFile(file: Express.Multer.File, modelId: string) {
-    const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${
-      file.filename
-    }`;
+    const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${file.filename}`;
     const payload = {
       modelId,
       fileName: file.filename,
@@ -36,10 +34,8 @@ export class FilesService {
   }
 
   async uploadFiles(files: Array<Express.Multer.File>, modelId: string) {
-    files.forEach((file) => {
-      const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${
-        file.filename
-      }`;
+    files.forEach(file => {
+      const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${file.filename}`;
       const payload = {
         modelId,
         fileName: file.filename,
@@ -72,10 +68,7 @@ export class FilesService {
     return path;
   }
 
-  async findByModel(
-    modelId: string,
-    params?: FilterFileDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findByModel(modelId: string, params?: FilterFileDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(modelId, params);
@@ -89,10 +82,7 @@ export class FilesService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  private async paginateAndFilter(
-    modelId: string,
-    params: FilterFileDto,
-  ): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilter(modelId: string, params: FilterFileDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<FileEntity> | FindOptionsWhere<FileEntity>[];
 
     let { page, search } = params;

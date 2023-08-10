@@ -1,8 +1,5 @@
 import { IsString, IsNotEmpty } from 'class-validator';
-import {
-  isNotEmptyValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class RoleDto {
   @IsNotEmpty(isNotEmptyValidationOptions())

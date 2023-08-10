@@ -1,9 +1,6 @@
 import { IsString, IsNumber, IsOptional } from 'class-validator';
 import { PaginationDto } from '@core/dto';
-import {
-  isNumberValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { isNumberValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class FilterInformationStudentDto extends PaginationDto {
   @IsOptional()

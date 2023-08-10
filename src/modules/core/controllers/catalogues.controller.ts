@@ -1,25 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
 import { CataloguesService } from '@core/services';
-import {
-  CreateCatalogueDto,
-  FilterCatalogueDto,
-  UpdateCatalogueDto,
-} from '@core/dto';
+import { CreateCatalogueDto, FilterCatalogueDto, UpdateCatalogueDto } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 
@@ -77,10 +60,7 @@ export class CataloguesController {
 
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateCatalogueDto,
-  ) {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCatalogueDto) {
     const data = await this.catalogueService.update(id, payload);
 
     return {

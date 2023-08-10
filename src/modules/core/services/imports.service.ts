@@ -17,38 +17,24 @@ export class ImportsService {
   ) {}
 
   async importStudents(): Promise<boolean> {
-    const workbook = XLSX.readFile(
-      join(process.cwd(), 'src/resources/imports/students.xlsx'),
-    );
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/resources/imports/students.xlsx'));
 
     const workbookSheets = workbook.SheetNames;
     const sheet = workbookSheets[0];
     const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
 
     const roles = (await this.rolesService.findAll()).data as RoleEntity[];
-    const studentRole = roles.find((role) => role.code === RoleEnum.STUDENT);
+    const studentRole = roles.find(role => role.code === RoleEnum.STUDENT);
     const users = (await this.usersService.findAll()).data;
 
     for (const item of dataExcel) {
-      const identification =
-        item['identificacion'].toString().length < 10
-          ? '0' + item['identificacion'].toString()
-          : item['identificacion'].toString();
+      const identification = item['identificacion'].toString().length < 10 ? '0' + item['identificacion'].toString() : item['identificacion'].toString();
 
       let email = '';
-      if (
-        item['correo_institucional']?.toString().length === 0 ||
-        item['correo_institucional']?.toString() === undefined
-      ) {
+      if (item['correo_institucional']?.toString().length === 0 || item['correo_institucional']?.toString() === undefined) {
         email = `${item['nombre1'].substring(0, 1)}`;
-        email +=
-          item['nombre2']?.substring(0, 1) === undefined
-            ? ''
-            : item['nombre2']?.substring(0, 1);
-        email +=
-          item['apellido2']?.substring(0, 1) === undefined
-            ? ''
-            : item['apellido2']?.substring(0, 1);
+        email += item['nombre2']?.substring(0, 1) === undefined ? '' : item['nombre2']?.substring(0, 1);
+        email += item['apellido2']?.substring(0, 1) === undefined ? '' : item['apellido2']?.substring(0, 1);
         email += `.${item['apellido1']}@yavirac.edu.ec`;
       } else {
         email = item['correo_institucional'];
@@ -56,7 +42,7 @@ export class ImportsService {
 
       email = email.toLowerCase();
 
-      let user = users.find((user) => user.username === identification);
+      let user = users.find(user => user.username === identification);
 
       if (user === undefined) {
         user = {
@@ -72,9 +58,7 @@ export class ImportsService {
 
         user = await this.usersService.create(user);
       } else {
-        if (
-          user.roles.find((role) => role.id === studentRole.id) === undefined
-        ) {
+        if (user.roles.find(role => role.id === studentRole.id) === undefined) {
           user.roles.push(studentRole);
           await this.usersService.update(user.id, user);
         }
@@ -87,22 +71,17 @@ export class ImportsService {
   }
 
   async importTeachers(): Promise<boolean> {
-    const workbook = XLSX.readFile(
-      join(process.cwd(), 'src/resources/imports/teachers.xlsx'),
-    );
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/resources/imports/teachers.xlsx'));
 
     const workbookSheets = workbook.SheetNames;
     const sheet = workbookSheets[0];
     const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
 
     const roles = (await this.rolesService.findAll()).data as RoleEntity[];
-    const teacherRole = roles.find((role) => role.code === RoleEnum.TEACHER);
+    const teacherRole = roles.find(role => role.code === RoleEnum.TEACHER);
 
     for (const item of dataExcel) {
-      const identification =
-        item['identificacion'].toString().length < 10
-          ? '0' + item['identificacion'].toString()
-          : item['identificacion'].toString();
+      const identification = item['identificacion'].toString().length < 10 ? '0' + item['identificacion'].toString() : item['identificacion'].toString();
 
       const user = {
         email: item['correo_institucional'],

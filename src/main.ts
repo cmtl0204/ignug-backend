@@ -26,10 +26,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalInterceptors(
-    new ClassSerializerInterceptor(app.get(Reflector)),
-    new ResponseHttpInterceptor(),
-  );
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)), new ResponseHttpInterceptor());
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
@@ -37,12 +34,7 @@ async function bootstrap() {
 
   app.useStaticAssets(path.join(__dirname, 'resources/public'));
 
-  const documentBuilder = new DocumentBuilder()
-    .setTitle('API IGNUG')
-    .setDescription('App description')
-    .setVersion('3')
-    .addBearerAuth()
-    .build();
+  const documentBuilder = new DocumentBuilder().setTitle('API IGNUG').setDescription('App description').setVersion('3').addBearerAuth().build();
 
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup('docs', app, document);

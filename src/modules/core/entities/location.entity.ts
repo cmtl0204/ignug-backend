@@ -1,15 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { CatalogueEntity } from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('locations', { schema: 'core' })
 export class LocationEntity {
@@ -41,10 +30,11 @@ export class LocationEntity {
   deletedAt: Date;
 
   /** Foreign Key **/
-  @ManyToOne(() => LocationEntity, (location) => location.children)
+  @ManyToOne(() => LocationEntity, location => location.children)
+  @JoinColumn({ name: 'parent_id' })
   parent: LocationEntity;
 
-  @OneToMany(() => LocationEntity, (location) => location.parent)
+  @OneToMany(() => LocationEntity, location => location.parent)
   children: LocationEntity[];
 
   /** Columns **/
@@ -57,12 +47,12 @@ export class LocationEntity {
   code: string;
 
   @Column({
-    name: 'name',
+    name: 'flag',
     type: 'varchar',
     nullable: true,
-    comment: 'Codigo',
+    comment: 'Codigo de la bandera para el pais',
   })
-  name: string;
+  flag: string;
 
   @Column({
     name: 'latitude',
@@ -89,10 +79,26 @@ export class LocationEntity {
   level: number;
 
   @Column({
+    name: 'name',
+    type: 'varchar',
+    nullable: true,
+    comment: 'Codigo',
+  })
+  name: string;
+
+  @Column({
     name: 'zone',
     type: 'varchar',
     nullable: true,
     comment: 'Urbana o Rural',
   })
   zone: string;
+
+  @Column({
+    name: 'id_temp',
+    type: 'varchar',
+    nullable: true,
+    comment: 'web donde localizar al instituto',
+  })
+  idTemp: string;
 }

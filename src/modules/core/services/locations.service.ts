@@ -1,109 +1,26 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { CreateInstitutionDto, FilterInstitutionDto, PaginationDto, UpdateInstitutionDto } from '@core/dto';
-import { InstitutionEntity } from '@core/entities';
-import { CataloguesService } from '@core/services';
-import { ServiceResponseHttpModel } from '@shared/models';
+import { Repository } from 'typeorm';
+import { CreateLocationDto } from '@core/dto';
 import { CoreRepositoryEnum } from '@shared/enums';
+import { LocationEntity } from '../entities/location.entity';
+import { InstitutionEntity } from '@core/entities';
 
 @Injectable()
-export class InstitutionsService {
+export class LocationsService {
   constructor(
-    @Inject(CoreRepositoryEnum.INSTITUTION_REPOSITORY)
-    private repository: Repository<InstitutionEntity>,
-    private cataloguesService: CataloguesService,
+    @Inject(CoreRepositoryEnum.LOCATION_REPOSITORY)
+    private repository: Repository<LocationEntity>,
   ) {}
 
-  async create(payload: CreateInstitutionDto): Promise<InstitutionEntity> {
-    const newInstitution = this.repository.create(payload);
+  async create(payload: CreateLocationDto): Promise<LocationEntity> {
+    const entity = this.repository.create(payload);
 
-    return await this.repository.save(newInstitution);
+    return await this.repository.save(entity);
   }
 
-  async findAll(params?: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
-    //Pagination & Filter by search
-    if (params?.limit > 0 && params?.page >= 0) {
-      return await this.paginateAndFilter(params);
-    }
-
-    //Other filters
-    // if (params.numberStudents) {
-    //   return await this.filterByNumberStudents(params.numberStudents);
-    // }
-
-    //All
-    const data = await this.repository.findAndCount({
-      relations: ['address', 'state'],
-    });
-    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
-  }
-
-  async findOne(id: string): Promise<InstitutionEntity> {
-    const institution = await this.repository.findOne({
-      relations: ['address', 'state'],
-      where: { id },
-    });
-    if (!institution) throw new NotFoundException('Institution not found');
-
-    return institution;
-  }
-
-  async update(id: string, payload: UpdateInstitutionDto): Promise<InstitutionEntity> {
-    const institution = await this.repository.findOneBy({ id });
-
-    if (!institution) throw new NotFoundException('Institution not found');
-
-    this.repository.merge(institution, payload);
-
-    return await this.repository.save(institution);
-  }
-
-  async remove(id: string): Promise<InstitutionEntity> {
-    const institution = await this.repository.findOneBy({ id });
-
-    if (!institution) throw new NotFoundException('Institution not found');
-
-    return await this.repository.softRemove(institution);
-  }
-
-  async removeAll(payload: InstitutionEntity[]): Promise<InstitutionEntity[]> {
-    return await this.repository.softRemove(payload);
-  }
-
-  private async paginateAndFilter(params: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
-    let where: FindOptionsWhere<InstitutionEntity> | FindOptionsWhere<InstitutionEntity>[];
-    where = {};
-    let { page, search } = params;
-    const { limit } = params;
-
-    if (search) {
-      search = search.trim();
-      page = 0;
-      where = [];
-      where.push({ acronym: ILike(`%${search}`) });
-      where.push({ cellphone: ILike(`%${search}`) });
-      where.push({ code: ILike(`%${search}`) });
-      where.push({ codeSniese: ILike(`%${search}`) });
-      where.push({ denomination: ILike(`%${search}`) });
-      where.push({ email: ILike(`%${search}`) });
-      where.push({ logo: ILike(`%${search}`) });
-      where.push({ name: ILike(`%${search}`) });
-      where.push({ phone: ILike(`%${search}`) });
-      where.push({ shortName: ILike(`%${search}`) });
-      where.push({ slogan: ILike(`%${search}`) });
-      where.push({ web: ILike(`%${search}`) });
-    }
-
-    const response = await this.repository.findAndCount({
-      relations: ['address', 'state'],
-      where,
-      take: limit,
-      skip: PaginationDto.getOffset(limit, page),
-    });
-
-    return {
-      data: response[0],
-      pagination: { limit, totalItems: response[1] },
-    };
+  async findByIdTemp(idTemp: string): Promise<LocationEntity> {
+    const entity = await this.repository.findOne({ where: { idTemp } });
+    // if (!entity) throw new NotFoundException('DPA no encontrada');
+    return entity;
   }
 }

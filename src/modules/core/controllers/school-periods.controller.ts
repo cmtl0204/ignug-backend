@@ -15,11 +15,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import {
-  CreateSchoolPeriodDto,
-  FilterSchoolPeriodDto,
-  UpdateSchoolPeriodDto,
-} from '@core/dto';
+import { CreateSchoolPeriodDto, FilterSchoolPeriodDto, UpdateSchoolPeriodDto } from '@core/dto';
 import { SchoolPeriodsService } from '@core/services';
 import { SchoolPeriodEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
@@ -35,10 +31,7 @@ import { FilesService } from '@common/services';
 @Controller('school-periods')
 @Auth()
 export class SchoolPeriodsController {
-  constructor(
-    private schoolPeriodsService: SchoolPeriodsService,
-    private readonly filesService: FilesService,
-  ) {}
+  constructor(private schoolPeriodsService: SchoolPeriodsService, private readonly filesService: FilesService) {}
 
   @ApiOperation({ summary: 'Catalogue' })
   @Roles(RoleEnum.COORDINATOR_CAREER)
@@ -58,9 +51,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Create' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Body() payload: CreateSchoolPeriodDto,
-  ): Promise<ResponseHttpModel> {
+  async create(@Body() payload: CreateSchoolPeriodDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.create(payload);
 
     return {
@@ -74,9 +65,7 @@ export class SchoolPeriodsController {
   @Roles(RoleEnum.COORDINATOR_CAREER)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(
-    @Query() params: FilterSchoolPeriodDto,
-  ): Promise<ResponseHttpModel> {
+  async findAll(@Query() params: FilterSchoolPeriodDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.findAll(params);
 
     return {
@@ -90,9 +79,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.findOne(id);
 
     return {
@@ -105,9 +92,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Hide' })
   @Patch(':id/hide')
   @HttpCode(HttpStatus.CREATED)
-  async hide(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.hide(id);
 
     return {
@@ -120,10 +105,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateSchoolPeriodDto,
-  ): Promise<ResponseHttpModel> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateSchoolPeriodDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.update(id, payload);
     return {
       data: serviceResponse,
@@ -135,9 +117,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Reactivate' })
   @Patch(':id/reactivate')
   @HttpCode(HttpStatus.CREATED)
-  async reactivate(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.reactivate(id);
 
     return {
@@ -150,9 +130,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.remove(id);
     return {
       data: serviceResponse,
@@ -164,9 +142,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Delete All' })
   @Patch('remove-all')
   @HttpCode(HttpStatus.CREATED)
-  async removeAll(
-    @Body() payload: SchoolPeriodEntity[],
-  ): Promise<ResponseHttpModel> {
+  async removeAll(@Body() payload: SchoolPeriodEntity[]): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.removeAll(payload);
 
     return {
@@ -179,9 +155,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Open' })
   @Patch(':id/open')
   @HttpCode(HttpStatus.CREATED)
-  async open(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async open(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.open(id);
 
     return {
@@ -194,9 +168,7 @@ export class SchoolPeriodsController {
   @ApiOperation({ summary: 'Close' })
   @Patch(':id/close')
   @HttpCode(HttpStatus.CREATED)
-  async close(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async close(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.schoolPeriodsService.close(id);
 
     return {
@@ -211,19 +183,14 @@ export class SchoolPeriodsController {
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
-        destination: `${join(
-          process.cwd(),
-        )}/src/resources/uploads/${new Date().getFullYear()}/${new Date().getMonth()}`,
+        destination: `${join(process.cwd())}/src/resources/uploads/${new Date().getFullYear()}/${new Date().getMonth()}`,
         filename: getFileName,
       }),
       fileFilter: fileFilter,
       limits: { fieldSize: 10 },
     }),
   )
-  async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
-    @Param('modelId', ParseUUIDPipe) modelId: string,
-  ): Promise<ResponseHttpModel> {
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('modelId', ParseUUIDPipe) modelId: string): Promise<ResponseHttpModel> {
     const response = await this.filesService.uploadFile(file, modelId);
     return { data: response, message: 'Upload File', title: 'Upload' };
   }

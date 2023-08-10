@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
@@ -12,19 +6,8 @@ import { Repository } from 'typeorm';
 import { add, isBefore } from 'date-fns';
 import { UserEntity, TransactionalCodeEntity } from '@auth/entities';
 import { PayloadTokenModel } from '@auth/models';
-import {
-  AuthRepositoryEnum,
-  MailSubjectEnum,
-  MailTemplateEnum,
-} from '@shared/enums';
-import {
-  LoginDto,
-  PasswordChangeDto,
-  ReadProfileDto,
-  ReadUserInformationDto,
-  UpdateProfileDto,
-  UpdateUserInformationDto,
-} from '@auth/dto';
+import { AuthRepositoryEnum, MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
+import { LoginDto, PasswordChangeDto, ReadProfileDto, ReadUserInformationDto, UpdateProfileDto, UpdateUserInformationDto } from '@auth/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { UsersService } from '@auth/services';
 import { MailService } from '@common/services';
@@ -45,10 +28,7 @@ export class AuthService {
     private readonly nodemailerService: MailService,
   ) {}
 
-  async changePassword(
-    id: string,
-    payload: PasswordChangeDto,
-  ): Promise<boolean> {
+  async changePassword(id: string, payload: PasswordChangeDto): Promise<boolean> {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
@@ -85,19 +65,13 @@ export class AuthService {
       },
     })) as UserEntity;
 
-    if (user && user?.suspendedAt)
-      throw new UnauthorizedException('Su usuario se encuentra suspendido');
+    if (user && user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
 
-    if (user && user?.maxAttempts === 0)
-      throw new UnauthorizedException(
-        'Ha excedido el número máximo de intentos permitidos',
-      );
+    if (user && user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
 
     if (user && !(await this.checkPassword(payload.password, user))) {
       const attempts = user.maxAttempts - 1;
-      throw new UnauthorizedException(
-        `Usuario y/o contraseña no válidos, ${attempts} intentos restantes`,
-      );
+      throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${attempts} intentos restantes`);
     }
 
     if (!user || !(await this.checkPassword(payload.password, user))) {
@@ -106,8 +80,7 @@ export class AuthService {
 
     user.activatedAt = new Date();
     // Include foreign keys
-    const { password, student, teacher, roles, institutions, ...userRest } =
-      user;
+    const { password, student, teacher, roles, institutions, ...userRest } = user;
 
     userRest.maxAttempts = this.MAX_ATTEMPTS;
     await this.repository.update(userRest.id, userRest);
@@ -147,10 +120,7 @@ export class AuthService {
     return plainToInstance(ReadUserInformationDto, user);
   }
 
-  async updateUserInformation(
-    id: string,
-    payload: UpdateUserInformationDto,
-  ): Promise<ReadUserInformationDto> {
+  async updateUserInformation(id: string, payload: UpdateUserInformationDto): Promise<ReadUserInformationDto> {
     const user = await this.userService.findOne(id);
 
     if (!user) {
@@ -163,10 +133,7 @@ export class AuthService {
     return plainToInstance(ReadUserInformationDto, userUpdated);
   }
 
-  async updateProfile(
-    id: string,
-    payload: UpdateProfileDto,
-  ): Promise<ReadProfileDto> {
+  async updateProfile(id: string, payload: UpdateProfileDto): Promise<ReadProfileDto> {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
@@ -184,9 +151,7 @@ export class AuthService {
     return { data: { accessToken, user } };
   }
 
-  async requestTransactionalCode(
-    username: string,
-  ): Promise<ServiceResponseHttpModel> {
+  async requestTransactionalCode(username: string): Promise<ServiceResponseHttpModel> {
     const user = await this.repository.findOne({
       where: { username },
     });
@@ -200,12 +165,7 @@ export class AuthService {
     const randomNumber = Math.random();
     const token = randomNumber.toString().substring(2, 8);
 
-    await this.nodemailerService.sendMail(
-      user.email,
-      MailSubjectEnum.RESET_PASSWORD,
-      MailTemplateEnum.TRANSACTIONAL_CODE,
-      { token, user },
-    );
+    await this.nodemailerService.sendMail(user.email, MailSubjectEnum.RESET_PASSWORD, MailTemplateEnum.TRANSACTIONAL_CODE, { token, user });
 
     const payload = { username: user.username, token, type: 'password_reset' };
 
@@ -216,12 +176,12 @@ export class AuthService {
 
     const email = value.replace(
       /[a-z0-9\-_.]+@/gi,
-      (c) =>
+      c =>
         c.substr(0, chars) +
         c
           .split('')
           .slice(chars, -1)
-          .map((v) => '*')
+          .map(v => '*')
           .join('') +
         '@',
     );
@@ -229,9 +189,7 @@ export class AuthService {
     return { data: email };
   }
 
-  async verifyTransactionalCode(
-    token: string,
-  ): Promise<ServiceResponseHttpModel> {
+  async verifyTransactionalCode(token: string): Promise<ServiceResponseHttpModel> {
     const transactionalCode = await this.transactionalCodeRepository.findOne({
       where: { token },
     });
@@ -286,17 +244,12 @@ export class AuthService {
     return { data: true };
   }
 
-  async uploadAvatar(
-    file: Express.Multer.File,
-    id: string,
-  ): Promise<UserEntity> {
+  async uploadAvatar(file: Express.Multer.File, id: string): Promise<UserEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (entity?.avatar) {
       try {
-        fs.unlinkSync(
-          `${join(process.cwd())}/src/resources/public/${entity.avatar}`,
-        );
+        fs.unlinkSync(`${join(process.cwd())}/src/resources/public/${entity.avatar}`);
       } catch (err) {
         console.error('Something wrong happened removing the file', err);
       }
@@ -320,10 +273,7 @@ export class AuthService {
     })) as UserEntity;
   }
 
-  private async checkPassword(
-    passwordCompare: string,
-    user: UserEntity,
-  ): Promise<null | UserEntity> {
+  private async checkPassword(passwordCompare: string, user: UserEntity): Promise<null | UserEntity> {
     const { password, ...userRest } = user;
     const isMatch = Bcrypt.compareSync(passwordCompare, password);
 
@@ -333,8 +283,7 @@ export class AuthService {
       return user;
     }
 
-    userRest.maxAttempts =
-      userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0;
+    userRest.maxAttempts = userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0;
     await this.repository.save(userRest);
 
     return null;

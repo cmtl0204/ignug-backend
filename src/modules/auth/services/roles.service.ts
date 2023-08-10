@@ -5,12 +5,7 @@ import { MenuEntity, RoleEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { AuthRepositoryEnum } from '@shared/enums';
-import {
-  CreateRoleDto,
-  FilterRoleDto,
-  ReadRoleDto,
-  UpdateRoleDto,
-} from '@auth/dto';
+import { CreateRoleDto, FilterRoleDto, ReadRoleDto, UpdateRoleDto } from '@auth/dto';
 
 @Injectable()
 export class RolesService {
@@ -81,10 +76,7 @@ export class RolesService {
     return role;
   }
 
-  async update(
-    id: string,
-    payload: UpdateRoleDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async update(id: string, payload: UpdateRoleDto): Promise<ServiceResponseHttpModel> {
     const role = await this.repository.preload({ id, ...payload });
 
     if (!role) {
@@ -113,9 +105,7 @@ export class RolesService {
     return { data: rolesDeleted };
   }
 
-  private async paginateAndFilter(
-    params: FilterRoleDto,
-  ): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilter(params: FilterRoleDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<RoleEntity> | FindOptionsWhere<RoleEntity>[];
     where = {};
     let { page, search } = params;

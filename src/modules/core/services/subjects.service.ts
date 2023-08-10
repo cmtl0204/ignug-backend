@@ -1,10 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import {
-  CreateSubjectDto,
-  FilterSubjectDto,
-  UpdateSubjectDto,
-} from '@core/dto';
+import { CreateSubjectDto, FilterSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService, CurriculumsService } from '@core/services';
@@ -84,12 +80,8 @@ export class SubjectsService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterSubjectDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<SubjectEntity>
-      | FindOptionsWhere<SubjectEntity>[];
+  private async paginateAndFilter(params: FilterSubjectDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<SubjectEntity> | FindOptionsWhere<SubjectEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -115,9 +107,7 @@ export class SubjectsService {
     };
   }
 
-  private async filterByAutonomousHour(
-    autonomousHour: number,
-  ): Promise<ServiceResponseHttpModel> {
+  private async filterByAutonomousHour(autonomousHour: number): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<SubjectEntity> = {};
 
     if (autonomousHour) {

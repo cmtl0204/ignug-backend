@@ -7,10 +7,7 @@ import { ResponseHttpModel } from '@shared/models';
 @ApiTags('App')
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private databaseSeeder: DatabaseSeeder,
-  ) {}
+  constructor(private readonly appService: AppService, private databaseSeeder: DatabaseSeeder) {}
 
   @Get('init')
   async init(): Promise<ResponseHttpModel> {

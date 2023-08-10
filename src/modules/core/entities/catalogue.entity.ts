@@ -1,13 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('catalogues', { schema: 'core' })
 export class CatalogueEntity {
@@ -46,10 +37,11 @@ export class CatalogueEntity {
   })
   isVisible: boolean;
 
-  @ManyToOne(() => CatalogueEntity, (category) => category.children)
+  @ManyToOne(() => CatalogueEntity, category => category.children)
+  @JoinColumn({ name: 'parent_id' })
   parent: CatalogueEntity;
 
-  @OneToMany(() => CatalogueEntity, (category) => category.parent)
+  @OneToMany(() => CatalogueEntity, category => category.parent)
   children: CatalogueEntity[];
 
   @Column({

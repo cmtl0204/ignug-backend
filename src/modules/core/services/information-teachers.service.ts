@@ -1,12 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { InformationTeacherEntity } from '@core/entities';
-import {
-  CreateInformationTeacherDto,
-  FilterInformationTeacherDto,
-  PaginationDto,
-  UpdateInformationTeacherDto,
-} from '@core/dto';
+import { CreateInformationTeacherDto, FilterInformationTeacherDto, PaginationDto, UpdateInformationTeacherDto } from '@core/dto';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
@@ -19,17 +14,13 @@ export class InformationTeachersService {
     private catalogueService: CataloguesService,
   ) {}
 
-  async create(
-    payload: CreateInformationTeacherDto,
-  ): Promise<InformationTeacherEntity> {
+  async create(payload: CreateInformationTeacherDto): Promise<InformationTeacherEntity> {
     const newInformationTeacher = this.repository.create(payload);
 
     return await this.repository.save(newInformationTeacher);
   }
 
-  async findAll(
-    params?: FilterInformationTeacherDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterInformationTeacherDto): Promise<ServiceResponseHttpModel> {
     //Pagination
     if (params) {
       return await this.paginateAndFilter(params);
@@ -76,10 +67,7 @@ export class InformationTeachersService {
     return informationTeacher;
   }
 
-  async update(
-    id: string,
-    payload: UpdateInformationTeacherDto,
-  ): Promise<InformationTeacherEntity> {
+  async update(id: string, payload: UpdateInformationTeacherDto): Promise<InformationTeacherEntity> {
     const informationTeacher = await this.repository.findOneBy({ id });
     if (informationTeacher === null) {
       throw new NotFoundException('La informacion del docente no se encontro');
@@ -100,18 +88,12 @@ export class InformationTeachersService {
     return await this.repository.save(informationTeacher);
   }
 
-  async removeAll(
-    payload: InformationTeacherEntity[],
-  ): Promise<InformationTeacherEntity[]> {
+  async removeAll(payload: InformationTeacherEntity[]): Promise<InformationTeacherEntity[]> {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterInformationTeacherDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<InformationTeacherEntity>
-      | FindOptionsWhere<InformationTeacherEntity>[];
+  private async paginateAndFilter(params: FilterInformationTeacherDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<InformationTeacherEntity> | FindOptionsWhere<InformationTeacherEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -149,9 +131,7 @@ export class InformationTeachersService {
     };
   }
 
-  private async filterByHolidays(
-    holidays: Date,
-  ): Promise<ServiceResponseHttpModel> {
+  private async filterByHolidays(holidays: Date): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<InformationTeacherEntity> = {};
 
     if (holidays) {

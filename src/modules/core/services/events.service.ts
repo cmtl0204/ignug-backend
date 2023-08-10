@@ -1,11 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Equal, FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateEventDto,
-  FilterEventDto,
-  PaginationDto,
-  UpdateEventDto,
-} from '@core/dto';
+import { CreateEventDto, FilterEventDto, PaginationDto, UpdateEventDto } from '@core/dto';
 
 import { CataloguesService, SchoolPeriodsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
@@ -38,8 +33,7 @@ export class EventsService {
 
   async create(modelId: string, payload: CreateEventDto): Promise<EventEntity> {
     const newEntity = this.repository.create(payload);
-    newEntity.schoolPeriod =
-      await this.schoolPeriodsService.actualSchoolPeriod();
+    newEntity.schoolPeriod = await this.schoolPeriodsService.actualSchoolPeriod();
     newEntity.modelId = modelId;
 
     return await this.repository.save(newEntity);
@@ -61,10 +55,7 @@ export class EventsService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findByModel(
-    modelId: string,
-    params?: FilterEventDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findByModel(modelId: string, params?: FilterEventDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilterByModel(modelId, params);
@@ -122,9 +113,7 @@ export class EventsService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterEventDto,
-  ): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilter(params: FilterEventDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<EventEntity> | FindOptionsWhere<EventEntity>[];
     where = {};
     let { page, search } = params;
@@ -150,10 +139,7 @@ export class EventsService {
     };
   }
 
-  private async paginateAndFilterByModel(
-    modelId: string,
-    params: FilterEventDto,
-  ): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilterByModel(modelId: string, params: FilterEventDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<EventEntity> | FindOptionsWhere<EventEntity>[];
 
     let { page, search } = params;

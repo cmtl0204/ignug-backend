@@ -8,7 +8,6 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -46,7 +45,7 @@ export class InstitutionEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @ManyToMany(() => UserEntity, (user) => user.institutions)
+  @ManyToMany(() => UserEntity, user => user.institutions)
   @JoinTable({
     name: 'institution_user',
     joinColumn: { name: 'institution_id' },

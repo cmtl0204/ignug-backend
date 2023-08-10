@@ -69,10 +69,7 @@ export class StudentsService {
     payload.informationStudent.student = await this.repository.save(entity);
 
     if (payload.informationStudent?.id) {
-      await this.informationStudentsService.update(
-        payload.informationStudent.id,
-        payload.informationStudent,
-      );
+      await this.informationStudentsService.update(payload.informationStudent.id, payload.informationStudent);
     } else {
       const { id, ...informationStudentRest } = payload.informationStudent;
       await this.informationStudentsService.create(informationStudentRest);
@@ -96,9 +93,7 @@ export class StudentsService {
   }
 
   private async paginateAndFilter(params: FilterStudentDto) {
-    let where:
-      | FindOptionsWhere<StudentEntity>
-      | FindOptionsWhere<StudentEntity>[];
+    let where: FindOptionsWhere<StudentEntity> | FindOptionsWhere<StudentEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;

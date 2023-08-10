@@ -1,17 +1,6 @@
 import { CatalogueEntity } from '@core/entities';
-import {
-  IsString,
-  IsOptional,
-  IsNotEmpty,
-  IsDate,
-  IsBoolean,
-} from 'class-validator';
-import {
-  isBooleanValidationOptions,
-  isDateValidationOptions,
-  isNotEmptyValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { IsString, IsOptional, IsNotEmpty, IsDate, IsBoolean } from 'class-validator';
+import { isBooleanValidationOptions, isDateValidationOptions, isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class SchoolPeriodDto {
   @IsNotEmpty(isNotEmptyValidationOptions())

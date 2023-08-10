@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from '@auth/decorators';
 import { CreateRoleDto, FilterRoleDto, UpdateRoleDto } from '@auth/dto';
@@ -70,9 +57,7 @@ export class RolesController {
   @Auth()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.rolesService.findOne(id);
 
     return {
@@ -86,10 +71,7 @@ export class RolesController {
   @Auth()
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateRoleDto,
-  ): Promise<ResponseHttpModel> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateRoleDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.rolesService.update(id, payload);
 
     return {
@@ -103,9 +85,7 @@ export class RolesController {
   @Auth()
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.rolesService.remove(id);
 
     return {

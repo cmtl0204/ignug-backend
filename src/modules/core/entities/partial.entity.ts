@@ -1,20 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import {
-  CatalogueEntity,
-  EnrollmentDetailEntity,
-  EnrollmentEntity,
-  SchoolPeriodEntity,
-  SubjectEntity,
-} from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity, SchoolPeriodEntity, SubjectEntity } from '@core/entities';
 
 @Entity('partials', { schema: 'core' })
 export class PartialEntity {

@@ -28,6 +28,7 @@ import {
   EventsService,
   ImportsService,
   ExportsService,
+  LocationsService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -61,6 +62,7 @@ import { coreProviders } from '@core/providers';
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,
+    LocationsService,
     SchoolPeriodsService,
     StudentsService,
     SubjectsService,
@@ -77,6 +79,7 @@ import { coreProviders } from '@core/providers';
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,
+    LocationsService,
     SchoolPeriodsService,
     StudentsService,
     SubjectsService,

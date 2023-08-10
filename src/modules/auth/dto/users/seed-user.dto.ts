@@ -3,8 +3,13 @@ import { UserDto } from '@auth/dto';
 import { Exclude } from 'class-transformer';
 
 @Exclude()
-export class CreateUserDto extends PickType(UserDto, [
-  'avatar',
+export class SeedUserDto extends PickType(UserDto, [
+  'bloodType',
+  'ethnicOrigin',
+  'gender',
+  'identificationType',
+  'maritalStatus',
+  'sex',
   'birthdate',
   'email',
   'identification',
@@ -13,6 +18,7 @@ export class CreateUserDto extends PickType(UserDto, [
   'password',
   'passwordChanged',
   'personalEmail',
+  'phone',
   'roles',
   'username',
 ]) {}

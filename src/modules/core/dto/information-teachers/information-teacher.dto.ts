@@ -1,12 +1,4 @@
-import {
-  IsDate,
-  IsNumber,
-  IsOptional,
-  IsString,
-  MaxLength,
-  Min,
-  IsNotEmpty,
-} from 'class-validator';
+import { IsDate, IsNumber, IsOptional, IsString, MaxLength, Min, IsNotEmpty } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
 
 export class InformationTeacherDto {
@@ -35,10 +27,7 @@ export class InformationTeacherDto {
   readonly academicUnit: string;
 
   @IsOptional()
-  @IsNumber(
-    {},
-    { message: 'El campo administrativeHours tiene que ser númerico.' },
-  )
+  @IsNumber({}, { message: 'El campo administrativeHours tiene que ser númerico.' })
   @Min(0, {
     message: 'El campo administrativeHours número de caracteres mínimo es 0.',
   })
@@ -78,13 +67,9 @@ export class InformationTeacherDto {
   readonly homeVacation: Date;
 
   @IsOptional()
-  @IsNumber(
-    {},
-    { message: 'El campo investigationHours tiene que ser númerico.' },
-  )
+  @IsNumber({}, { message: 'El campo investigationHours tiene que ser númerico.' })
   @Min(0, {
-    message:
-      'El número de caracteres mínimo es 0 en el campo investigationHours.',
+    message: 'El número de caracteres mínimo es 0 en el campo investigationHours.',
   })
   readonly investigationHours: number;
 
@@ -104,13 +89,9 @@ export class InformationTeacherDto {
   readonly publications: string;
 
   @IsOptional()
-  @IsNumber(
-    {},
-    { message: 'El campo scholarshipAmount tiene que ser númerico.' },
-  )
+  @IsNumber({}, { message: 'El campo scholarshipAmount tiene que ser númerico.' })
   @Min(0, {
-    message:
-      'El número de caracteres mínimo es 0 en el campo scholarshipAmount.',
+    message: 'El número de caracteres mínimo es 0 en el campo scholarshipAmount.',
   })
   readonly scholarshipAmount: number;
 
@@ -136,13 +117,9 @@ export class InformationTeacherDto {
   readonly technology: string;
 
   @IsOptional()
-  @IsNumber(
-    {},
-    { message: 'El campo totalPublications tiene que ser númerico.' },
-  )
+  @IsNumber({}, { message: 'El campo totalPublications tiene que ser númerico.' })
   @Min(0, {
-    message:
-      'El número de caracteres mínimo es 0 en el campo totalPublications.',
+    message: 'El número de caracteres mínimo es 0 en el campo totalPublications.',
   })
   readonly totalPublications: number;
 }

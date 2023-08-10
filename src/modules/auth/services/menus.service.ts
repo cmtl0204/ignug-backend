@@ -5,12 +5,7 @@ import { MenuEntity, RoleEntity, UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { AuthRepositoryEnum } from '@shared/enums';
-import {
-  CreateMenuDto,
-  FilterMenuDto,
-  ReadMenuDto,
-  UpdateMenuDto,
-} from '@auth/dto';
+import { CreateMenuDto, FilterMenuDto, ReadMenuDto, UpdateMenuDto } from '@auth/dto';
 import { tr } from 'date-fns/locale';
 
 @Injectable()
@@ -94,10 +89,7 @@ export class MenusService {
     return { data: plainToInstance(ReadMenuDto, menu) };
   }
 
-  async update(
-    id: string,
-    payload: UpdateMenuDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async update(id: string, payload: UpdateMenuDto): Promise<ServiceResponseHttpModel> {
     const menu = await this.repository.preload({ id, ...payload });
 
     if (!menu) {
@@ -126,9 +118,7 @@ export class MenusService {
     return { data: menusDeleted };
   }
 
-  private async paginateAndFilter(
-    params: FilterMenuDto,
-  ): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilter(params: FilterMenuDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<MenuEntity> | FindOptionsWhere<MenuEntity>[];
     where = {};
     let { page, search } = params;

@@ -1,9 +1,4 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  ForbiddenException,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '@auth/constants';
@@ -14,13 +9,8 @@ import { UserEntity } from '@auth/entities';
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const roles: RoleEnum[] = this.reflector.get(
-      ROLES_KEY,
-      context.getHandler(),
-    );
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    const roles: RoleEnum[] = this.reflector.get(ROLES_KEY, context.getHandler());
 
     if (!roles) return true;
 
@@ -28,8 +18,8 @@ export class RolesGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const user = request.user as UserEntity;
-    const isAuth = roles.some((role) => {
-      return user.roles.some((roleUser) => roleUser.code === role);
+    const isAuth = roles.some(role => {
+      return user.roles.some(roleUser => roleUser.code === role);
     });
 
     if (!isAuth) {

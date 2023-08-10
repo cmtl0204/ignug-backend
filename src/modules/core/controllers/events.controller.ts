@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateEventDto, FilterEventDto, UpdateEventDto } from '@core/dto';
 import { EventsService } from '@core/services';
@@ -40,10 +27,7 @@ export class EventsController {
   @ApiOperation({ summary: 'Create' })
   @Post(':modelId')
   @HttpCode(HttpStatus.CREATED)
-  async create(
-    @Param('modelId', ParseUUIDPipe) modelId: string,
-    @Body() payload: CreateEventDto,
-  ): Promise<ResponseHttpModel> {
+  async create(@Param('modelId', ParseUUIDPipe) modelId: string, @Body() payload: CreateEventDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.create(modelId, payload);
 
     return {
@@ -70,14 +54,8 @@ export class EventsController {
   @ApiOperation({ summary: 'Find By Model' })
   @Get('models/:modelId')
   @HttpCode(HttpStatus.OK)
-  async findByModel(
-    @Param('modelId', ParseUUIDPipe) modelId: string,
-    @Query() params: FilterEventDto,
-  ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.eventsService.findByModel(
-      modelId,
-      params,
-    );
+  async findByModel(@Param('modelId', ParseUUIDPipe) modelId: string, @Query() params: FilterEventDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.eventsService.findByModel(modelId, params);
 
     return {
       data: serviceResponse.data,
@@ -90,9 +68,7 @@ export class EventsController {
   @ApiOperation({ summary: 'Find One' })
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.findOne(id);
 
     return {
@@ -105,10 +81,7 @@ export class EventsController {
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateEventDto,
-  ): Promise<ResponseHttpModel> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateEventDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.update(id, payload);
     return {
       data: serviceResponse,
@@ -120,9 +93,7 @@ export class EventsController {
   @ApiOperation({ summary: 'Delete' })
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.remove(id);
     return {
       data: serviceResponse,
@@ -147,9 +118,7 @@ export class EventsController {
   @ApiOperation({ summary: 'Hide' })
   @Patch(':id/hide')
   @HttpCode(HttpStatus.CREATED)
-  async hide(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.hide(id);
 
     return {
@@ -161,9 +130,7 @@ export class EventsController {
   @ApiOperation({ summary: 'Reactivate' })
   @Patch(':id/reactivate')
   @HttpCode(HttpStatus.CREATED)
-  async reactivate(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.eventsService.reactivate(id);
 
     return {

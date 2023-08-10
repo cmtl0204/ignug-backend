@@ -1,13 +1,4 @@
-import {
-  IsString,
-  IsBoolean,
-  IsOptional,
-  IsNotEmpty,
-  MinLength,
-  IsEmail,
-  MaxLength,
-  IsDate,
-} from 'class-validator';
+import { IsString, IsBoolean, IsOptional, IsNotEmpty, MinLength, IsEmail, MaxLength, IsDate } from 'class-validator';
 import {
   isBooleanValidationOptions,
   isEmailValidationOptions,

@@ -1,14 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CatalogueEntity, StudentEntity } from '@core/entities';
 
 @Entity('information_students', { schema: 'core' })
@@ -38,7 +28,7 @@ export class InformationStudentEntity {
   deletedAt: Date;
 
   /** Relationship **/
-  @OneToOne(() => StudentEntity, (student) => student.informationStudent)
+  @OneToOne(() => StudentEntity, student => student.informationStudent)
   @JoinColumn({ name: 'student_id' })
   student: StudentEntity;
 
@@ -75,8 +65,7 @@ export class InformationStudentEntity {
     name: 'community',
     type: 'int',
     nullable: true,
-    comment:
-      'Las horas realizadas por parte del estudiante en integracion con la sociedad',
+    comment: 'Las horas realizadas por parte del estudiante en integracion con la sociedad',
   })
   community: number;
 
@@ -84,8 +73,7 @@ export class InformationStudentEntity {
     name: 'contact_emergency_name',
     type: 'varchar',
     nullable: true,
-    comment:
-      'Nombre del contacto de emergencia para informar sobre el estudiante',
+    comment: 'Nombre del contacto de emergencia para informar sobre el estudiante',
   })
   contactEmergencyName: string;
 
@@ -93,8 +81,7 @@ export class InformationStudentEntity {
     name: 'contact_emergency_kinship',
     type: 'varchar',
     nullable: true,
-    comment:
-      'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
+    comment: 'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
   })
   contactEmergencyKinship: string;
 
@@ -102,8 +89,7 @@ export class InformationStudentEntity {
     name: 'contact_emergency_phone',
     type: 'varchar',
     nullable: true,
-    comment:
-      'Numeros de contacto de emergencia para informar sobre el estudiante',
+    comment: 'Numeros de contacto de emergencia para informar sobre el estudiante',
   })
   contactEmergencyPhone: string;
 

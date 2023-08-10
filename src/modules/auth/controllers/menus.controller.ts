@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Auth } from '@auth/decorators';
 import { CreateMenuDto, FilterMenuDto, UpdateMenuDto } from '@auth/dto';
@@ -69,9 +56,7 @@ export class MenusController {
   @ApiOperation({ summary: 'Menus for sidebar' })
   @Get('roles/:roleId')
   @HttpCode(HttpStatus.OK)
-  async getMenusByRole(
-    @Param('roleId') roleId: string,
-  ): Promise<ResponseHttpModel> {
+  async getMenusByRole(@Param('roleId') roleId: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.menusService.getMenusByRole(roleId);
 
     return {
@@ -99,9 +84,7 @@ export class MenusController {
   @Auth()
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.menusService.findOne(id);
 
     return {
@@ -115,10 +98,7 @@ export class MenusController {
   @Auth()
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
-  async update(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() payload: UpdateMenuDto,
-  ): Promise<ResponseHttpModel> {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateMenuDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.menusService.update(id, payload);
 
     return {
@@ -132,9 +112,7 @@ export class MenusController {
   @Auth()
   @Delete(':id')
   @HttpCode(HttpStatus.CREATED)
-  async remove(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ResponseHttpModel> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.menusService.remove(id);
 
     return {

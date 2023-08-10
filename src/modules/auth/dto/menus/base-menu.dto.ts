@@ -1,9 +1,5 @@
 import { IsString, IsNotEmpty, IsBoolean, IsOptional } from 'class-validator';
-import {
-  isBooleanValidationOptions,
-  isNotEmptyValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { isBooleanValidationOptions, isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 import { MenuTypeEnum } from '@auth/enums';
 import { MenuEntity } from '@auth/entities';
 

@@ -1,7 +1,7 @@
 import { IsOptional } from 'class-validator';
 import { PaginationDto } from '@core/dto';
 
-export class FilterInstitutionDto extends PaginationDto {
+export class FilterLocationDto extends PaginationDto {
   @IsOptional()
   readonly acronym: string;
 

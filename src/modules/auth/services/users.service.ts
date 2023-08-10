@@ -1,12 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
-import {
-  CreateUserDto,
-  FilterUserDto,
-  ReadUserDto,
-  UpdateUserDto,
-} from '@auth/dto';
+import { CreateUserDto, FilterUserDto, ReadUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
@@ -127,9 +122,7 @@ export class UsersService {
     return usersDeleted[0];
   }
 
-  private async paginateAndFilter(
-    params: FilterUserDto,
-  ): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilter(params: FilterUserDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[];
     where = {};
     let { page, search } = params;
@@ -161,9 +154,7 @@ export class UsersService {
     };
   }
 
-  private async filterByBirthdate(
-    birthdate: Date,
-  ): Promise<ServiceResponseHttpModel> {
+  private async filterByBirthdate(birthdate: Date): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<UserEntity> = {};
 
     if (birthdate) {

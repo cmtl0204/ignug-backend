@@ -1,8 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import {
-  isNotEmptyValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class LoginDto {
   @IsString(isStringValidationOptions())

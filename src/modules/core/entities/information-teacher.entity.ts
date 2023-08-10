@@ -1,14 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CatalogueEntity, TeacherEntity } from '@core/entities';
 
 @Entity('information_teachers', { schema: 'core' })
@@ -46,7 +36,7 @@ export class InformationTeacherEntity {
   isVisible: boolean;
 
   /** Relationship **/
-  @OneToOne(() => TeacherEntity, (teacher) => teacher.informationTeacher)
+  @OneToOne(() => TeacherEntity, teacher => teacher.informationTeacher)
   @JoinColumn({ name: 'teacher_id' })
   teacher: TeacherEntity;
 

@@ -1,11 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateCareerDto,
-  FilterCareerDto,
-  PaginationDto,
-  UpdateCareerDto,
-} from '@core/dto';
+import { CreateCareerDto, FilterCareerDto, PaginationDto, UpdateCareerDto } from '@core/dto';
 import { CareerEntity } from '@core/entities';
 import { CataloguesService, InstitutionsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
@@ -38,13 +33,9 @@ export class CareersService {
   async create(payload: CreateCareerDto): Promise<CareerEntity> {
     const newEntity = this.repository.create(payload);
 
-    newEntity.institution = await this.institutionService.findOne(
-      payload.institution?.id,
-    );
+    newEntity.institution = await this.institutionService.findOne(payload.institution?.id);
 
-    newEntity.modality = await this.cataloguesService.findOne(
-      payload.modality?.id,
-    );
+    newEntity.modality = await this.cataloguesService.findOne(payload.modality?.id);
 
     newEntity.state = await this.cataloguesService.findOne(payload.state?.id);
 
@@ -109,12 +100,8 @@ export class CareersService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterCareerDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<CareerEntity>
-      | FindOptionsWhere<CareerEntity>[];
+  private async paginateAndFilter(params: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<CareerEntity> | FindOptionsWhere<CareerEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;

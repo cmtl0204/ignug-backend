@@ -5,17 +5,11 @@ import { CataloguesSeeder } from './seeds/catalogues-seeder';
 import { UsersSeeder } from './seeds/users-seeder';
 import { RolesSeeder } from './seeds/roles-seeder';
 import { MenusSeeder } from './seeds/menus-seeder';
+import { LocationsSeeder } from './seeds/locations-seeder';
 
 @Global()
 @Module({
-  providers: [
-    ...databaseProviders,
-    DatabaseSeeder,
-    CataloguesSeeder,
-    UsersSeeder,
-    RolesSeeder,
-    MenusSeeder,
-  ],
+  providers: [...databaseProviders, DatabaseSeeder, CataloguesSeeder, UsersSeeder, RolesSeeder, MenusSeeder, LocationsSeeder],
   exports: [...databaseProviders, DatabaseSeeder],
 })
 export class DatabaseModule {}

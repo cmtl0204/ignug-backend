@@ -15,6 +15,7 @@ export * from './users/create-user.dto';
 export * from './users/update-user.dto';
 export * from './users/filter-user.dto';
 export * from './users/read-user.dto';
+export * from './users/seed-user.dto';
 
 // Roles
 export * from './roles/create-role.dto';

@@ -14,10 +14,7 @@ export const imageFilter = (req, file, callback) => {
 
 export const fileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(pdf|doc|docx|ppt|pptx|pptm|xlsx|xls)$/)) {
-    return callback(
-      new Error('Only pdf|doc|docx|ppt|pptx|pptm|xlsx|xls files are allowed!'),
-      false,
-    );
+    return callback(new Error('Only pdf|doc|docx|ppt|pptx|pptm|xlsx|xls files are allowed!'), false);
   }
   callback(null, true);
 };

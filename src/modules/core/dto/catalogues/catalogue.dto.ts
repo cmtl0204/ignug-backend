@@ -1,11 +1,6 @@
 import { IsEnum, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { CatalogueStateEnum, CatalogueCoreTypeEnum } from '@shared/enums';
-import {
-  isEnumValidationOptions,
-  isNotEmptyValidationOptions,
-  isStringValidationOptions,
-  minLengthValidationOptions,
-} from '@shared/validation';
+import { isEnumValidationOptions, isNotEmptyValidationOptions, isStringValidationOptions, minLengthValidationOptions } from '@shared/validation';
 
 export class CatalogueDto {
   @IsNotEmpty(isNotEmptyValidationOptions())

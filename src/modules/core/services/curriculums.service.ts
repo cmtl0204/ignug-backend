@@ -1,17 +1,8 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
-import {
-  CreateCurriculumDto,
-  FilterCurriculumDto,
-  PaginationDto,
-  UpdateCurriculumDto,
-} from '@core/dto';
+import { CreateCurriculumDto, FilterCurriculumDto, PaginationDto, UpdateCurriculumDto } from '@core/dto';
 import { CurriculumEntity } from '@core/entities';
-import {
-  CareersService,
-  CataloguesService,
-  InstitutionsService,
-} from '@core/services';
+import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum } from '@shared/enums';
 
@@ -31,16 +22,12 @@ export class CurriculumsService {
     return await this.repository.save(newCurriculum);
   }
 
-  async findAll(
-    params: FilterCurriculumDto,
-  ): Promise<ServiceResponseHttpModel> {
+  async findAll(params: FilterCurriculumDto): Promise<ServiceResponseHttpModel> {
     // Filter by search
-    if (params.limit && params.page)
-      return await this.paginateAndFilter(params);
+    if (params.limit && params.page) return await this.paginateAndFilter(params);
 
     // Other filters
-    if (params.weeksNumber)
-      return await this.filterByWeeksNumber(params.weeksNumber);
+    if (params.weeksNumber) return await this.filterByWeeksNumber(params.weeksNumber);
 
     //All
     const data = await this.repository.findAndCount({
@@ -65,10 +52,7 @@ export class CurriculumsService {
     return curriculum;
   }
 
-  async update(
-    id: string,
-    payload: UpdateCurriculumDto,
-  ): Promise<CurriculumEntity> {
+  async update(id: string, payload: UpdateCurriculumDto): Promise<CurriculumEntity> {
     const curriculum = await this.repository.findOne({
       relations: ['career', 'state'],
       where: {
@@ -102,12 +86,8 @@ export class CurriculumsService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterCurriculumDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<CurriculumEntity>
-      | FindOptionsWhere<CurriculumEntity>[];
+  private async paginateAndFilter(params: FilterCurriculumDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<CurriculumEntity> | FindOptionsWhere<CurriculumEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -135,9 +115,7 @@ export class CurriculumsService {
     };
   }
 
-  private async filterByWeeksNumber(
-    weeksNumber: number,
-  ): Promise<ServiceResponseHttpModel> {
+  private async filterByWeeksNumber(weeksNumber: number): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<CurriculumEntity> = {};
 
     if (weeksNumber) {

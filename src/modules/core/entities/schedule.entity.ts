@@ -1,23 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import {
-  CatalogueEntity,
-  ClassroomEntity,
-  TeacherDistributiveEntity,
-  PartialEntity,
-  SchoolPeriodEntity,
-  SubjectEntity,
-  TeacherEntity,
-} from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CatalogueEntity, ClassroomEntity, TeacherDistributiveEntity, PartialEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity } from '@core/entities';
 
 @Entity('schedules', { schema: 'core' })
 export class ScheduleEntity {

@@ -1,12 +1,5 @@
 import { InstitutionEntity, CatalogueEntity } from '@core/entities';
-import {
-  IsString,
-  MaxLength,
-  MinLength,
-  IsOptional,
-  IsNotEmpty,
-  IsBoolean,
-} from 'class-validator';
+import { IsString, MaxLength, MinLength, IsOptional, IsNotEmpty, IsBoolean } from 'class-validator';
 import {
   isBooleanValidationOptions,
   isNotEmptyValidationOptions,

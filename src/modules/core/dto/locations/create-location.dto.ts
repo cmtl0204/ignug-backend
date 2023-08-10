@@ -1,3 +1,3 @@
-import { InstitutionDto } from '@core/dto';
+import { LocationDto } from '@core/dto';
 
-export class CreateInstitutionDto extends InstitutionDto {}
+export class CreateLocationDto extends LocationDto {}

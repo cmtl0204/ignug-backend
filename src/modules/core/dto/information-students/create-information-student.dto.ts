@@ -1,17 +1,6 @@
-import {
-  IsNumber,
-  IsString,
-  IsNotEmpty,
-  MaxLength,
-  Min,
-  Max,
-} from 'class-validator';
+import { IsNumber, IsString, IsNotEmpty, MaxLength, Min, Max } from 'class-validator';
 import { CatalogueEntity } from '@core/entities';
-import {
-  isNotEmptyValidationOptions,
-  isNumberValidationOptions,
-  isStringValidationOptions,
-} from '@shared/validation';
+import { isNotEmptyValidationOptions, isNumberValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class CreateInformationStudentDto {
   @IsNotEmpty(isNotEmptyValidationOptions())

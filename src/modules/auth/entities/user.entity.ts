@@ -15,13 +15,7 @@ import {
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { RoleEntity } from '@auth/entities';
-import {
-  CareerEntity,
-  CatalogueEntity,
-  InstitutionEntity,
-  StudentEntity,
-  TeacherEntity,
-} from '@core/entities';
+import { CareerEntity, CatalogueEntity, InstitutionEntity, StudentEntity, TeacherEntity } from '@core/entities';
 
 @Entity('users', { schema: 'auth' })
 export class UserEntity {
@@ -50,19 +44,19 @@ export class UserEntity {
   deletedAt: Date;
 
   /** Inverse Relationship **/
-  @ManyToMany(() => CareerEntity, (career) => career.users)
+  @ManyToMany(() => CareerEntity, career => career.users)
   careers: CareerEntity[];
 
-  @ManyToMany(() => InstitutionEntity, (institution) => institution.users)
+  @ManyToMany(() => InstitutionEntity, institution => institution.users)
   institutions: InstitutionEntity[];
 
-  @ManyToMany(() => RoleEntity, (role) => role.users)
+  @ManyToMany(() => RoleEntity, role => role.users)
   roles: RoleEntity[];
 
-  @OneToOne(() => StudentEntity, (student) => student.user)
+  @OneToOne(() => StudentEntity, student => student.user)
   student: StudentEntity;
 
-  @OneToOne(() => TeacherEntity, (teacher) => teacher.user)
+  @OneToOne(() => TeacherEntity, teacher => teacher.user)
   teacher: TeacherEntity;
 
   /** Foreign Key **/
@@ -185,8 +179,7 @@ export class UserEntity {
     name: 'max_attempts',
     type: 'int',
     default: 3,
-    comment:
-      'Intentos máximos para errar la contraseña, si llega a cero el usuario se bloquea',
+    comment: 'Intentos máximos para errar la contraseña, si llega a cero el usuario se bloquea',
   })
   maxAttempts: number;
 
@@ -237,5 +230,14 @@ export class UserEntity {
       return;
     }
     this.email = this.email.toLowerCase().trim();
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async setPersonalEmail() {
+    if (!this.email) {
+      return;
+    }
+    this.personalEmail = this.personalEmail.toLowerCase().trim();
   }
 }
