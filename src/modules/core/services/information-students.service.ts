@@ -5,6 +5,7 @@ import {
   CreateInformationStudentDto,
   FilterInformationStudentDto,
   PaginationDto,
+  SeederInformationStudentDto,
   UpdateInformationStudentDto,
 } from '@core/dto';
 import { CataloguesService } from './catalogues.service';
@@ -20,7 +21,7 @@ export class InformationStudentsService {
   ) {}
 
   async create(
-    payload: CreateInformationStudentDto,
+    payload: CreateInformationStudentDto | SeederInformationStudentDto
   ): Promise<InformationStudentEntity> {
     const newInformationStudent = this.repository.create(payload);
 
