@@ -5,6 +5,9 @@ import { RolesSeeder } from './roles-seeder';
 import { MenusSeeder } from './menus-seeder';
 import * as fs from 'fs';
 import { join } from 'path';
+import { InstitutionsSeeder } from './institutions-seeder';
+import { CareersSeeder } from './careers-seeder';
+import { StudentSeeder } from './student-seeder';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -15,6 +18,7 @@ export class DatabaseSeeder {
     private menusSeeder: MenusSeeder,
     private institutionsSeeder: InstitutionsSeeder,
     private careersSeeder: CareersSeeder,
+    private informationStudentSeeder: StudentSeeder,
   ) {}
 
   async run() {
