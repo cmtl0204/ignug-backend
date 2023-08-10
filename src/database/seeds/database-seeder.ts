@@ -5,6 +5,8 @@ import { RolesSeeder } from './roles-seeder';
 import { MenusSeeder } from './menus-seeder';
 import * as fs from 'fs';
 import { join } from 'path';
+import { InstitutionsSeeder } from './institutions-seeder';
+import { CareersSeeder } from './careers-seeder';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -33,7 +35,7 @@ export class DatabaseSeeder {
     const date = new Date();
     for (let i = date.getFullYear(); i < date.getFullYear() + 100; i++) {
       const path = `${join(process.cwd())}/src/resources/uploads/${i}`;
-      fs.mkdir(path, (err) => {
+      fs.mkdir(path, err => {
         if (err) {
           // console.log(err);
         }
@@ -42,7 +44,7 @@ export class DatabaseSeeder {
 
       for (let j = 1; j <= 12; j++) {
         const path = `${join(process.cwd())}/src/resources/uploads/${i}/${j}`;
-        fs.mkdir(path, (err) => {
+        fs.mkdir(path, err => {
           if (err) {
             // console.log(err);
           }
