@@ -19,6 +19,7 @@ export * from './information-students/information-student.dto';
 export * from './information-students/create-information-student.dto';
 export * from './information-students/update-information-student.dto';
 export * from './information-students/filter-information-student.dto';
+export * from './information-students/seeder-information-student.dto';
 
 export * from './information-teachers/information-teacher.dto';
 export * from './information-teachers/create-information-teacher.dto';

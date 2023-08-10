@@ -5,7 +5,6 @@ import { RolesSeeder } from './roles-seeder';
 import { MenusSeeder } from './menus-seeder';
 import * as fs from 'fs';
 import { join } from 'path';
-import { LocationsSeeder } from './locations-seeder';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -14,27 +13,27 @@ export class DatabaseSeeder {
     private usersSeeder: UsersSeeder,
     private rolesSeeder: RolesSeeder,
     private menusSeeder: MenusSeeder,
-    private locationsSeeder: LocationsSeeder, // private institutionsSeeder: InstitutionsSeeder,
+    private institutionsSeeder: InstitutionsSeeder,
+    private careersSeeder: CareersSeeder,
   ) {}
 
   async run() {
     await this.cataloguesSeeder.run();
-    await this.locationsSeeder.run();
     await this.rolesSeeder.run();
     await this.usersSeeder.run();
     await this.menusSeeder.run();
     this.createUploadsDirectories();
 
     /** Seeders Core **/
-    // await this.institutionsSeeder.run();
-    // await this.careersSeeder.run();
+    await this.institutionsSeeder.run();
+    await this.careersSeeder.run();
   }
 
   createUploadsDirectories() {
     const date = new Date();
     for (let i = date.getFullYear(); i < date.getFullYear() + 100; i++) {
       const path = `${join(process.cwd())}/src/resources/uploads/${i}`;
-      fs.mkdir(path, err => {
+      fs.mkdir(path, (err) => {
         if (err) {
           // console.log(err);
         }
@@ -43,7 +42,7 @@ export class DatabaseSeeder {
 
       for (let j = 1; j <= 12; j++) {
         const path = `${join(process.cwd())}/src/resources/uploads/${i}/${j}`;
-        fs.mkdir(path, err => {
+        fs.mkdir(path, (err) => {
           if (err) {
             // console.log(err);
           }
