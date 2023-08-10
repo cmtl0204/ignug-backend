@@ -31,6 +31,7 @@ export class DatabaseSeeder {
     /** Seeders Core **/
     await this.institutionsSeeder.run();
     await this.careersSeeder.run();
+    await this.informationStudentSeeder.run();
   }
 
   createUploadsDirectories() {
