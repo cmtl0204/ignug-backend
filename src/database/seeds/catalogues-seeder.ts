@@ -40,6 +40,7 @@ export class CataloguesSeeder {
     await this.createCareersStateCatalogues();
     await this.createCurriculumsStateCatalogues();
     await this.createSubjectsStateCatalogues();
+    await this.createSubjectsTypeCatalogues();
   }
 
   async createAcademicPeriodCatalogues(): Promise<void> {
@@ -592,21 +593,21 @@ export class CataloguesSeeder {
       description: 'Tipo de matricula',
       name: 'Ordinaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
     });
     catalogues.push({
       code: '2',
       description: 'Tipo de matricula',
       name: 'Extraordinaria',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
     });
     catalogues.push({
       code: '3',
       description: 'Tipo de matricula',
       name: 'Especial',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+      type: CatalogueCoreTypeEnum.REGISTRATION_TYPE,
     });
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);
@@ -817,28 +818,28 @@ export class CataloguesSeeder {
       description: 'Jornada',
       name: 'Matutina',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
     catalogues.push({
       code: '2',
       description: 'Jornada',
       name: 'Vespertina',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
     catalogues.push({
       code: '3',
       description: 'Jornada',
       name: 'Nocturna',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
     catalogues.push({
       code: '4',
       description: 'Jornada',
       name: 'Intensiva',
       state: CatalogueStateEnum.ACTIVE,
-      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORK_DAY,
+      type: CatalogueCoreTypeEnum.SCHOOL_DAY,
     });
 
     for (const catalogue of catalogues) {
@@ -1137,6 +1138,34 @@ export class CataloguesSeeder {
       type: CatalogueCoreTypeEnum.SUBJECTS_STATE,
     });
 
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createSubjectsTypeCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: '1',
+      description: 'Asignatura',
+      name: 'Asignatura',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+    });
+    catalogues.push({
+      code: '2',
+      description: 'Proyecto integrador',
+      name: 'Proyecto',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+    });
+    catalogues.push({
+      code: '3',
+      description: 'Practicas',
+      name: 'Practice',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+    });
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);
     }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CataloguesService, InformationStudentsService, StudentsService } from '@core/services';
-import { CreateInformationStudentDto, CreateStudentDto } from '@core/dto';
+import { CreateStudentDto } from '@core/dto';
 import { UsersService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
 import { StudentEntity } from '@core/entities';
@@ -11,7 +11,6 @@ export class StudentSeeder {
     private studentsService: StudentsService,
     private informationStudentsService: InformationStudentsService,
     private usersService: UsersService,
-    private cataloguesService: CataloguesService,
   ) {}
 
   async run() {

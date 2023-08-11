@@ -7,6 +7,9 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { InstitutionsSeeder } from './institutions-seeder';
 import { CareersSeeder } from './careers-seeder';
+import { StudentSeeder } from './student-seeder';
+import { SubjectsSeeder } from './subjects-seeder';
+import { CurriculumsSeeder } from './curriculums-seeder';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -17,6 +20,9 @@ export class DatabaseSeeder {
     private menusSeeder: MenusSeeder,
     private institutionsSeeder: InstitutionsSeeder,
     private careersSeeder: CareersSeeder,
+    private studentsSeeder: StudentSeeder,
+    private subjectsSeeder: SubjectsSeeder,
+    private curriulumsSeeder: CurriculumsSeeder,
   ) {}
 
   async run() {
@@ -29,6 +35,9 @@ export class DatabaseSeeder {
     /** Seeders Core **/
     await this.institutionsSeeder.run();
     await this.careersSeeder.run();
+    await this.studentsSeeder.run();
+    await this.subjectsSeeder.run();
+    await this.curriulumsSeeder.run();
   }
 
   createUploadsDirectories() {
