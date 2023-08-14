@@ -15,6 +15,11 @@ export * from './curriculum/create-curriculum.dto';
 export * from './curriculum/update-curriculum.dto';
 export * from './curriculum/filter-curriculum.dto';
 
+export * from './enrollments/enrollment.dto';
+export * from './enrollments/create-enrollment.dto';
+export * from './enrollments/update-enrollment.dto';
+export * from './enrollments/filter-enrollment.dto';
+
 export * from './information-students/information-student.dto';
 export * from './information-students/create-information-student.dto';
 export * from './information-students/update-information-student.dto';

@@ -5,6 +5,7 @@ export * from './students.service';
 export * from './careers.service';
 export * from './students.service';
 export * from './curriculums.service';
+export * from './enrollment.service'
 export * from './information-students.service';
 export * from './information-teachers.service';
 export * from './subjects.service';
