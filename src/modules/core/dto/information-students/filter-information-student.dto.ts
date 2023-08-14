@@ -9,10 +9,6 @@ export class FilterInformationStudentDto extends PaginationDto {
 
   @IsOptional()
   @IsString(isStringValidationOptions())
-  readonly address: string;
-
-  @IsOptional()
-  @IsString(isStringValidationOptions())
   readonly contactEmergencyName: string;
 
   @IsOptional()

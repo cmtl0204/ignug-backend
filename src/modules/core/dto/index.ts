@@ -60,3 +60,9 @@ export * from './locations/location.dto';
 export * from './locations/create-location.dto';
 export * from './locations/filter-location.dto';
 export * from './locations/update-location.dto';
+
+export * from './subject-requirments/subject-requirement.dto';
+export * from './subject-requirments/create-subject-requirement.dto';
+export * from './subject-requirments/filter-subject.-requirement.dto';
+export * from './subject-requirments/update-subject-requirement.dto';
+export * from './subject-requirments/seed-subject-requirement.dto';

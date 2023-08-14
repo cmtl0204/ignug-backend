@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import { join } from 'path';
 import { InstitutionsSeeder } from './institutions-seeder';
 import { CareersSeeder } from './careers-seeder';
-import { StudentSeeder } from './student-seeder';
+import { StudentsSeeder } from './students-seeder';
 import { SubjectsSeeder } from './subjects-seeder';
 import { CurriculumsSeeder } from './curriculums-seeder';
 
@@ -20,9 +20,9 @@ export class DatabaseSeeder {
     private menusSeeder: MenusSeeder,
     private institutionsSeeder: InstitutionsSeeder,
     private careersSeeder: CareersSeeder,
-    private studentsSeeder: StudentSeeder,
+    private studentsSeeder: StudentsSeeder,
     private subjectsSeeder: SubjectsSeeder,
-    private curriulumsSeeder: CurriculumsSeeder,
+    private curriculumsSeeder: CurriculumsSeeder,
   ) {}
 
   async run() {
@@ -37,7 +37,7 @@ export class DatabaseSeeder {
     await this.careersSeeder.run();
     await this.studentsSeeder.run();
     await this.subjectsSeeder.run();
-    await this.curriulumsSeeder.run();
+    await this.curriculumsSeeder.run();
   }
 
   createUploadsDirectories() {

@@ -28,7 +28,7 @@ export class SubjectRequirementEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
+  /** Foreign Keys **/
   @ManyToOne(() => SubjectEntity)
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;

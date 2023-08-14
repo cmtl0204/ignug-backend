@@ -1,19 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCareerDto } from '@core/dto';
-import {
-  CareersService,
-  CataloguesService,
-  InstitutionsService,
-} from '@core/services';
+import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class CareersSeeder {
-  constructor(
-    private institutionsService: InstitutionsService,
-    private cataloguesService: CataloguesService,
-    private careersService: CareersService,
-  ) {}
+  constructor(private institutionsService: InstitutionsService, private cataloguesService: CataloguesService, private careersService: CareersService) {}
 
   async run() {
     await this.create();
@@ -21,36 +13,24 @@ export class CareersSeeder {
 
   async create() {
     const careers: CreateCareerDto[] = [];
+
     const catalogues = (await this.cataloguesService.findAll()).data;
     const institutions = (await this.institutionsService.findAll()).data;
 
-    const stateEnabled = catalogues.find((state) => {
-      return (
-        state.code === 'enable' &&
-        state.type === CatalogueCoreTypeEnum.CAREERS_STATE
-      );
+    const stateEnabled = catalogues.find(state => {
+      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
 
-    const stateDisabled = catalogues.find((state) => {
-      return(
-        state.code === 'disable' &&
-        state.type === CatalogueCoreTypeEnum.CAREERS_STATE
-      );
+    const stateDisabled = catalogues.find(state => {
+      return state.code === 'disable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
 
-    const modality1 = catalogues.find((modality) => {
-      return (
-        modality.code === '1' &&
-        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
-      );
+    const modality1 = catalogues.find(modality => {
+      return modality.code === '1' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
 
-    const institution1 = institutions.find(
-      (institution) => institution.code === 'ist1',
-    );
-    const institution2 = institutions.find(
-      (institution) => institution.code === 'ist2',
-    );
+    const institution1 = institutions.find(institution => institution.code === 'ist1');
+    const institution2 = institutions.find(institution => institution.code === 'ist2');
 
     careers.push(
       {

@@ -29,6 +29,7 @@ import {
   ImportsService,
   ExportsService,
   LocationsService,
+  SubjectRequirementsService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -66,6 +67,7 @@ import { coreProviders } from '@core/providers';
     SchoolPeriodsService,
     StudentsService,
     SubjectsService,
+    SubjectRequirementsService,
     TeachersService,
   ],
   exports: [
@@ -83,6 +85,7 @@ import { coreProviders } from '@core/providers';
     SchoolPeriodsService,
     StudentsService,
     SubjectsService,
+    SubjectRequirementsService,
     TeachersService,
   ],
 })

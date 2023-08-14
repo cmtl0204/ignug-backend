@@ -49,4 +49,3 @@ export enum CatalogueCoreSubjectRequirementTypeEnum {
   PREREQUISITE = 'PREREQUISITE',
   CO_REQUISITE = 'CO_REQUISITE',
 }
-

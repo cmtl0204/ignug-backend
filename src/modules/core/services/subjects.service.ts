@@ -54,6 +54,10 @@ export class SubjectsService {
     return subject;
   }
 
+  async findByCode(code: string): Promise<SubjectEntity> {
+    return await this.repository.findOne({ where: { code } });
+  }
+
   async update(id: string, payload: UpdateSubjectDto): Promise<SubjectEntity> {
     const subject = await this.repository.findOneBy({ id });
 

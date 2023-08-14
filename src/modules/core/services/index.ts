@@ -13,3 +13,4 @@ export * from './school-periods.service';
 export * from './events.service';
 export * from './imports.service';
 export * from './exports.service';
+export * from './subject-requirements.service';

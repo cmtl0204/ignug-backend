@@ -1,74 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CataloguesService,
-  SubjectsService,
-} from '@core/services';
+import { CataloguesService, SubjectRequirementsService, SubjectsService } from '@core/services';
 import { CreateSubjectDto } from '@core/dto';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueCoreSubjectRequirementTypeEnum, CatalogueCoreTypeEnum } from '@shared/enums';
+import * as XLSX from 'xlsx';
+import { join } from 'path';
 
 @Injectable()
 export class SubjectsSeeder {
   constructor(
     private subjectService: SubjectsService,
+    private subjectRequirementsService: SubjectRequirementsService,
     private catalogueService: CataloguesService,
   ) {}
 
   async run() {
     await this.createSubjects();
+    await this.createRequirements();
   }
 
   async createSubjects() {
     const subjects: CreateSubjectDto[] = [];
+
     const catalogues = (await this.catalogueService.findAll()).data;
-    const academiPeriod = (await this.catalogueService.findAll()).data;
-    const type = (await this.catalogueService.findAll()).data;
+
     //const curriculum = (await this.curriculumService.findAll()).data;
 
     //estado
-    const stateEnabled = catalogues.find((state) => {
-      return (
-        state.code === 'enable' &&
-        state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE
-      );
-    });
-
-    const stateDisabled = catalogues.find((state) => {
-      return (
-        state.code === 'disabled' &&
-        state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE
-      );
+    const stateEnabled = catalogues.find(state => {
+      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
     });
 
     //Periodo academico
-    const primero = academiPeriod.find((period) => {
-      return (
-        period.code === '1' &&
-        period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD
-      );
+    const primero = catalogues.find(period => {
+      return period.code === '1' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
-    const segundo = academiPeriod.find((period) => {
-      return (
-        period.code === '2' &&
-        period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD
-      );
+    const segundo = catalogues.find(period => {
+      return period.code === '2' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
-    const tercero = academiPeriod.find((period) => {
-      return (
-        period.code === '3' &&
-        period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD
-      );
+    const tercero = catalogues.find(period => {
+      return period.code === '3' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
-    const cuarto = academiPeriod.find((period) => {
-      return (
-        period.code === '4' &&
-        period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD
-      );
+    const cuarto = catalogues.find(period => {
+      return period.code === '4' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
-    const quinto = academiPeriod.find((period) => {
-      return (
-        period.code === '5' &&
-        period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD
-      );
+    const quinto = catalogues.find(period => {
+      return period.code === '5' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
 
     //curriculum
@@ -77,20 +53,18 @@ export class SubjectsSeeder {
     // );
 
     //tipo asignatura
-    const subject = type.find((type) => {
-      return (
-        type.code === '1' && type.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE
-      );
+    const type = catalogues.find(type => {
+      return type.code === '1' && type.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE;
     });
 
     subjects.push(
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod1',
         credits: 10,
         isVisible: true,
         name: 'Asignatura1',
@@ -101,10 +75,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod2',
         credits: 10,
         isVisible: true,
         name: 'Asignatura2',
@@ -115,10 +89,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod3',
         credits: 10,
         isVisible: true,
         name: 'Asignatura3',
@@ -129,10 +103,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod4',
         credits: 10,
         isVisible: true,
         name: 'Asignatura4',
@@ -143,10 +117,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod5',
         credits: 10,
         isVisible: true,
         name: 'Asignatura5',
@@ -157,10 +131,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod6',
         credits: 10,
         isVisible: true,
         name: 'Asignatura6',
@@ -171,10 +145,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod7',
         credits: 10,
         isVisible: true,
         name: 'Asignatura7',
@@ -185,10 +159,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod8',
         credits: 10,
         isVisible: true,
         name: 'Asignatura8',
@@ -199,10 +173,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod9',
         credits: 10,
         isVisible: true,
         name: 'Asignatura9',
@@ -213,10 +187,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod10',
         credits: 10,
         isVisible: true,
         name: 'Asignatura10',
@@ -227,10 +201,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod11',
         credits: 10,
         isVisible: true,
         name: 'Asignatura11',
@@ -241,10 +215,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod12',
         credits: 10,
         isVisible: true,
         name: 'Asignatura12',
@@ -255,10 +229,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod13',
         credits: 10,
         isVisible: true,
         name: 'Asignatura13',
@@ -269,10 +243,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod14',
         credits: 10,
         isVisible: true,
         name: 'Asignatura14',
@@ -283,10 +257,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod15',
         credits: 10,
         isVisible: true,
         name: 'Asignatura15',
@@ -297,10 +271,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod16',
         credits: 10,
         isVisible: true,
         name: 'Asignatura16',
@@ -311,10 +285,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod17',
         credits: 10,
         isVisible: true,
         name: 'Asignatura17',
@@ -325,10 +299,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod18',
         credits: 10,
         isVisible: true,
         name: 'Asignatura18',
@@ -339,10 +313,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod19',
         credits: 10,
         isVisible: true,
         name: 'Asignatura19',
@@ -353,10 +327,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod20',
         credits: 10,
         isVisible: true,
         name: 'Asignatura20',
@@ -367,10 +341,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod21',
         credits: 10,
         isVisible: true,
         name: 'Asignatura21',
@@ -381,10 +355,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod22',
         credits: 10,
         isVisible: true,
         name: 'Asignatura22',
@@ -395,10 +369,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod23',
         credits: 10,
         isVisible: true,
         name: 'Asignatura23',
@@ -409,10 +383,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod24',
         credits: 10,
         isVisible: true,
         name: 'Asignatura24',
@@ -423,10 +397,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod25',
         credits: 10,
         isVisible: true,
         name: 'Asignatura25',
@@ -437,10 +411,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod26',
         credits: 10,
         isVisible: true,
         name: 'Asignatura26',
@@ -451,10 +425,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod27',
         credits: 10,
         isVisible: true,
         name: 'Asignatura27',
@@ -465,10 +439,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod28',
         credits: 10,
         isVisible: true,
         name: 'Asignatura28',
@@ -479,10 +453,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod29',
         credits: 10,
         isVisible: true,
         name: 'Asignatura29',
@@ -493,10 +467,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod30',
         credits: 10,
         isVisible: true,
         name: 'Asignatura30',
@@ -507,10 +481,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod31',
         credits: 10,
         isVisible: true,
         name: 'Asignatura31',
@@ -521,10 +495,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: segundo,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod32',
         credits: 10,
         isVisible: true,
         name: 'Asignatura32',
@@ -535,10 +509,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: tercero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod33',
         credits: 10,
         isVisible: true,
         name: 'Asignatura33',
@@ -549,10 +523,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: cuarto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod34',
         credits: 10,
         isVisible: true,
         name: 'Asignatura34',
@@ -563,10 +537,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: quinto,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod35',
         credits: 10,
         isVisible: true,
         name: 'Asignatura35',
@@ -577,10 +551,10 @@ export class SubjectsSeeder {
       {
         academicPeriod: primero,
         curriculum: null,
-        type: subject,
+        type: type,
         state: stateEnabled,
         autonomousHour: 10,
-        code: '500dcb',
+        code: 'cod36',
         credits: 10,
         isVisible: true,
         name: 'Asignatura36',
@@ -593,5 +567,28 @@ export class SubjectsSeeder {
     for (const subject of subjects) {
       await this.subjectService.create(subject);
     }
+  }
+
+  async createRequirements() {
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeds/files/subject_requirements.xlsx'));
+
+    const workbookSheets = workbook.SheetNames;
+    const sheet = workbookSheets[0];
+    const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+    for (const item of dataExcel) {
+      const subject = await this.subjectService.findByCode(item['subject_code']);
+      const requirement = await this.subjectService.findByCode(item['requirement_code']);
+      console.log(subject.code);
+      console.log(requirement.code);
+      await this.subjectRequirementsService.createPrerequisite({
+        subject,
+        requirement,
+        isEnabled: true,
+        type: item['type'],
+      });
+    }
+
+    return true;
   }
 }
