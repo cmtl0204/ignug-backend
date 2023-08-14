@@ -30,11 +30,11 @@ export class EnrollmentEntity {
   })
   deletedAt: Date;
 
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
 
-  /** Relationship **/
   @ManyToOne(() => CurriculumEntity)
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;

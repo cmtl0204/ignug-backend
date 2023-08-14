@@ -30,7 +30,7 @@ export class EnrollmentDetailEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
+  /** Foreigg Keys **/
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'academic_state_id' })
   academicState: CatalogueEntity;
@@ -76,15 +76,6 @@ export class EnrollmentDetailEntity {
   date: Date;
 
   @Column({
-    name: 'final_grade',
-    type: 'decimal',
-    precision: 5,
-    scale: 2,
-    comment: 'Valor de la calificacion',
-  })
-  finalGrade: number;
-
-  @Column({
     name: 'final_attendance',
     type: 'decimal',
     precision: 5,
@@ -92,6 +83,15 @@ export class EnrollmentDetailEntity {
     comment: 'Valor de la asistencia',
   })
   finalAttendance: number;
+
+  @Column({
+    name: 'final_grade',
+    type: 'decimal',
+    precision: 5,
+    scale: 2,
+    comment: 'Valor de la calificacion',
+  })
+  finalGrade: number;
 
   @Column({
     name: 'observation',
