@@ -1,10 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import {
-    CreateEnrollmentDto,
-    FilterEnrollmentDto,
-    UpdateEnrollmentDto,
-} from '@core/dto';
+import { CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto } from '@core/dto';
 import { EnrollmentEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { SubjectsService, StudentsService } from '@core/services';
@@ -12,7 +8,7 @@ import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
 @Injectable()
-export class EnrollmentService {
+export class EnrollmentsService {
   constructor(
     @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY)
     private repository: Repository<EnrollmentEntity>,
@@ -84,12 +80,8 @@ export class EnrollmentService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterEnrollmentDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<EnrollmentEntity>
-      | FindOptionsWhere<EnrollmentEntity>[];
+  private async paginateAndFilter(params: FilterEnrollmentDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<EnrollmentEntity> | FindOptionsWhere<EnrollmentEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -114,9 +106,7 @@ export class EnrollmentService {
     };
   }
 
-  private async filterByCode(
-    code: string,
-  ): Promise<ServiceResponseHttpModel> {
+  private async filterByCode(code: string): Promise<ServiceResponseHttpModel> {
     const where: FindOptionsWhere<EnrollmentEntity> = {};
 
     if (code) {

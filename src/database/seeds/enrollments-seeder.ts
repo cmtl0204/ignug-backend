@@ -1,52 +1,64 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEnrollmentDto } from '@core/dto';
 import { StudentsService, SubjectsService } from '@core/services';
-import { EnrollmentService } from 'src/modules/core/services'
+import { EnrollmentsService } from 'src/modules/core/services';
 
 @Injectable()
 export class EnrollmentSeeder {
-    constructor(
-    private studentsService: StudentsService,
-    private subjectService: SubjectsService,
-    ) {}
+  constructor(private studentsService: StudentsService, private subjectService: SubjectsService, private enrollmentsService: EnrollmentsService) {}
 
-    async run() {
-        await this.createEnrollment();
-    }
+  async run() {
+    await this.createEnrollments();
+    await this.createEnrollmentDetail();
+  }
 
-    async createEnrollment() {
-        const enrolls: CreateEnrollmentDto[] = [];
+  async createEnrollments() {
+    const enrollments: CreateEnrollmentDto[] = [];
 
-    enrolls.push(
-        {
-            code: 'M001',
-            date: '04/08/2023',
-            application_at: '29/07/2023',
-            folio: ' '
-        },
-        {
-            code: 'M002',
-            date: '11/08/2023',
-            application_at: '09/08/2023',
-            folio: ' '
-        },
-        {
-            code: 'M003',
-            date: '15/07/2023',
-            application_at: '13/07/2023',
-            folio: ' '
-        },
-        {
-            code: 'M004',
-            date: '07/08/2023',
-            application_at: '07/08/2023',
-            folio: ' '
-        }
+    enrollments.push(
+      {
+        code: 'cod1',
+        date: new Date('2023-08-14'),
+        application_at: new Date('2023-08-14'),
+        folio: ' ',
+        subject: null,
+      },
+      {
+        code: 'cod2',
+        date: '11/08/2023',
+        application_at: '09/08/2023',
+        folio: ' ',
+      },
     );
 
-    for (const enroll of enrolls) {
-        const enrollCrated = await this.enrollmentService.create(enroll);
-        await this.studentsService.create({ user: enrollCrated });
+    for (const enrollment of enrollments) {
+      const enrollCrated = await this.enrollmentsService.create(enrollment);
+      await this.studentsService.create({ user: enrollCrated });
     }
+  }
+
+  async createEnrollmentDetails() {
+    const enrollmentDetails: CreateEnrollmentDto[] = [];
+
+    enrollmentDetails.push(
+      {
+        code: 'cod1',
+        date: new Date('2023-08-14'),
+        application_at: new Date('2023-08-14'),
+        folio: ' ',
+        subject: null,
+      },
+      {
+        code: 'cod2',
+        date: '11/08/2023',
+        application_at: '09/08/2023',
+        folio: ' ',
+      },
+    );
+
+    for (const enrollment of enrollments) {
+      const enrollCrated = await this.enrollmentsService.create(enrollment);
+      await this.studentsService.create({ user: enrollCrated });
     }
+  }
 }
