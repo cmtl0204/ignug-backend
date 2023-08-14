@@ -176,7 +176,7 @@ export class CataloguesSeeder {
     catalogues.push({
       code: '3',
       description: 'Modalidad de carrera',
-      name: 'Disntacia',
+      name: 'Distancia',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
@@ -1146,26 +1146,29 @@ export class CataloguesSeeder {
   async createSubjectsTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: '1',
+      code: 'subject',
       description: 'Asignatura',
       name: 'Asignatura',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
     });
+
     catalogues.push({
-      code: '2',
-      description: 'Proyecto integrador',
-      name: 'Proyecto',
+      code: 'integrator_project',
+      description: 'Proyecto Integrador',
+      name: 'Proyecto Integrador',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
     });
+
     catalogues.push({
-      code: '3',
-      description: 'Practicas',
-      name: 'Practice',
+      code: 'practical_phase',
+      description: 'Fase Práctica',
+      name: 'Fase Práctica',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
     });
+
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);
     }

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CataloguesService, SubjectRequirementsService, SubjectsService } from '@core/services';
-import { CreateSubjectDto } from '@core/dto';
-import { CatalogueCoreSubjectRequirementTypeEnum, CatalogueCoreTypeEnum } from '@shared/enums';
-import * as XLSX from 'xlsx';
 import { join } from 'path';
+import * as XLSX from 'xlsx';
+import { SeedSubjectDto } from '@core/dto';
+import { CatalogueEntity, CurriculumEntity } from '@core/entities';
+import { CataloguesService, CurriculumsService, SubjectRequirementsService, SubjectsService } from '@core/services';
+import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class SubjectsSeeder {
@@ -11,6 +12,7 @@ export class SubjectsSeeder {
     private subjectService: SubjectsService,
     private subjectRequirementsService: SubjectRequirementsService,
     private catalogueService: CataloguesService,
+    private curriculumsService: CurriculumsService,
   ) {}
 
   async run() {
@@ -19,22 +21,21 @@ export class SubjectsSeeder {
   }
 
   async createSubjects() {
-    const subjects: CreateSubjectDto[] = [];
+    const subjects: SeedSubjectDto[] = [];
 
     const catalogues = (await this.catalogueService.findAll()).data;
 
-    //const curriculum = (await this.curriculumService.findAll()).data;
+    const curriculums = (await this.curriculumsService.findAll()).data;
 
-    //estado
-    const stateEnabled = catalogues.find(state => {
+    const stateEnabled = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
     });
 
     //Periodo academico
-    const primero = catalogues.find(period => {
+    const first = catalogues.find((period: CatalogueEntity) => {
       return period.code === '1' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
-    const segundo = catalogues.find(period => {
+    const second = catalogues.find((period: CatalogueEntity) => {
       return period.code === '2' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
     const tercero = catalogues.find(period => {
@@ -48,19 +49,18 @@ export class SubjectsSeeder {
     });
 
     //curriculum
-    // const curriculum1 = curriculum.find(
-    //   (curriculum) => curriculum.code === 'curri1',
-    // );
+    const curriculum1 = curriculums.find((curriculum: CurriculumEntity) => curriculum.code === 'cod1');
+    const curriculum2 = curriculums.find((curriculum: CurriculumEntity) => curriculum.code === 'cod2');
 
     //tipo asignatura
     const type = catalogues.find(type => {
-      return type.code === '1' && type.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE;
+      return type.code === 'subject' && type.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE;
     });
 
     subjects.push(
       {
-        academicPeriod: primero,
-        curriculum: null,
+        academicPeriod: first,
+        curriculum: curriculum1,
         type: type,
         state: stateEnabled,
         autonomousHour: 10,
@@ -73,7 +73,7 @@ export class SubjectsSeeder {
         teacherHour: 50,
       },
       {
-        academicPeriod: primero,
+        academicPeriod: first,
         curriculum: null,
         type: type,
         state: stateEnabled,
@@ -87,7 +87,7 @@ export class SubjectsSeeder {
         teacherHour: 50,
       },
       {
-        academicPeriod: primero,
+        academicPeriod: first,
         curriculum: null,
         type: type,
         state: stateEnabled,
@@ -101,7 +101,7 @@ export class SubjectsSeeder {
         teacherHour: 50,
       },
       {
-        academicPeriod: primero,
+        academicPeriod: first,
         curriculum: null,
         type: type,
         state: stateEnabled,
@@ -115,7 +115,7 @@ export class SubjectsSeeder {
         teacherHour: 50,
       },
       {
-        academicPeriod: primero,
+        academicPeriod: second,
         curriculum: null,
         type: type,
         state: stateEnabled,
@@ -129,7 +129,7 @@ export class SubjectsSeeder {
         teacherHour: 50,
       },
       {
-        academicPeriod: primero,
+        academicPeriod: second,
         curriculum: null,
         type: type,
         state: stateEnabled,
@@ -339,8 +339,8 @@ export class SubjectsSeeder {
         teacherHour: 50,
       },
       {
-        academicPeriod: cuarto,
-        curriculum: null,
+        academicPeriod: first,
+        curriculum: curriculum2,
         type: type,
         state: stateEnabled,
         autonomousHour: 10,

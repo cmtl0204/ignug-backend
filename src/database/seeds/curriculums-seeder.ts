@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateCareerDto, CreateCurriculumDto } from '@core/dto';
 import { CurriculumsService, CataloguesService, CareersService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CareerEntity } from '@core/entities';
 
 @Injectable()
 export class CurriculumsSeeder {
@@ -21,16 +22,12 @@ export class CurriculumsSeeder {
       return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CURRICULUMS_STATE;
     });
 
-    const stateDisabled = catalogues.find(state => {
-      return state.code === 'disabled' && state.type === CatalogueCoreTypeEnum.CURRICULUMS_STATE;
-    });
-
-    const career1 = careers.find(career => career.code === 'care1');
+    const career1 = careers.find((career: CareerEntity) => career.code === 'cod1');
     const career2 = careers.find(career => career.code === 'care2');
 
     curriculums.push(
       {
-        code: '11',
+        code: 'cod1',
         name: 'Administrador',
         description: 'descipcionprueba',
         periodicAcademicNumber: 11,

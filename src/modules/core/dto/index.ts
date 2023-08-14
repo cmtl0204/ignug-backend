@@ -4,6 +4,7 @@ export * from './careers/career.dto';
 export * from './careers/create-career.dto';
 export * from './careers/update-career.dto';
 export * from './careers/filter-career.dto';
+export * from './careers/seed-career.dto';
 
 export * from './catalogues/catalogue.dto';
 export * from './catalogues/create-catalogue.dto';
@@ -45,6 +46,7 @@ export * from './subjects/subject.dto';
 export * from './subjects/create-subject.dto';
 export * from './subjects/filter-subject.dto';
 export * from './subjects/update-subject.dto';
+export * from './subjects/seed-subject.dto';
 
 export * from './events/event.dto';
 export * from './events/create-event.dto';

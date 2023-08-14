@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateInstitutionDto } from '@core/dto';
 import { CataloguesService, InstitutionsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueEntity } from '@core/entities';
 
 @Injectable()
 export class InstitutionsSeeder {
@@ -15,16 +16,16 @@ export class InstitutionsSeeder {
     const institutions: CreateInstitutionDto[] = [];
     const catalogues = (await this.cataloguesService.findAll()).data;
 
-    const stateEnabled = catalogues.find(state => {
+    const stateEnable = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.INSTITUTIONS_STATE;
     });
 
     institutions.push(
       {
-        state: stateEnabled,
+        state: stateEnable,
         acronym: 'ITSQ',
         cellphone: '0988888777',
-        code: 'ITSQ1',
+        code: 'cod1',
         codeSniese: '123',
         denomination: 'Institución Educativa',
         email: 'instituto@edu.ec.com',
@@ -37,10 +38,10 @@ export class InstitutionsSeeder {
         web: 'quito.com',
       },
       {
-        state: stateEnabled,
+        state: stateEnable,
         acronym: 'ISTL',
         cellphone: '0955557776',
-        code: 'ISTL2',
+        code: 'cod2',
         codeSniese: '321',
         denomination: 'Institución Educativa',
         email: 'itsl@edu.ec.com',

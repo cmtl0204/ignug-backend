@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCareerDto } from '@core/dto';
+import { CreateCareerDto, SeedCareerDto } from '@core/dto';
 import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueEntity, InstitutionEntity } from '@core/entities';
 
 @Injectable()
 export class CareersSeeder {
@@ -12,26 +13,31 @@ export class CareersSeeder {
   }
 
   async create() {
-    const careers: CreateCareerDto[] = [];
+    const careers: SeedCareerDto[] = [];
 
     const catalogues = (await this.cataloguesService.findAll()).data;
+
     const institutions = (await this.institutionsService.findAll()).data;
 
-    const stateEnabled = catalogues.find(state => {
+    const stateEnabled = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
-
-    const stateDisabled = catalogues.find(state => {
+    const stateDisabled = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'disable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
 
-    const modality1 = catalogues.find(modality => {
+    const modality1 = catalogues.find((modality: CatalogueEntity) => {
       return modality.code === '1' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
 
-    const institution1 = institutions.find(institution => institution.code === 'ist1');
-    const institution2 = institutions.find(institution => institution.code === 'ist2');
+    const type1 = catalogues.find((modality: CatalogueEntity) => {
+      return modality.code === '1' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+    });
 
+    const institution1 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod1');
+    const institution2 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod2');
+
+    //technology, technique
     careers.push(
       {
         code: 'eng1',
