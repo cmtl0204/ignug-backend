@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InformationStudentsService, StudentsService } from '@core/services';
 import { UsersService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
-import { CreateStudentDto } from '@core/dto';
+import { CreateStudentDto, SeedStudentDto } from '@core/dto';
 import { StudentEntity } from '@core/entities';
 import { SeederInformationStudentDto } from '@core/dto';
+import { RoleEnum } from '@auth/enums';
 
 @Injectable()
 export class StudentsSeeder {
@@ -12,22 +13,22 @@ export class StudentsSeeder {
 
   async run() {
     await this.createStudents();
+    await this.createInformationStudents();
   }
 
   async createStudents() {
-    const students: CreateStudentDto[] = [];
-    const users = (await this.usersService.findAll()).data;
+    const students: SeedStudentDto[] = [];
+    let users = (await this.usersService.findAll()).data;
+
+    users = users.filter((user: UserEntity) => user.roles.some(role => role.code === RoleEnum.STUDENT));
 
     users.forEach((user: UserEntity) => {
-      students.push({
-        user: user,
-        informationStudent: null,
-      });
+      students.push({user: user });
     });
 
     for (const item of students) {
       await this.studentsService.create(item);
-    }
+    } 
   }
 
   async createInformationStudents() {

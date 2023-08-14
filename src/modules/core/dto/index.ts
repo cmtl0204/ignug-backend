@@ -15,11 +15,7 @@ export * from './curriculum/curriculum.dto';
 export * from './curriculum/create-curriculum.dto';
 export * from './curriculum/update-curriculum.dto';
 export * from './curriculum/filter-curriculum.dto';
-
-export * from './enrollments/enrollment.dto';
-export * from './enrollments/create-enrollment.dto';
-export * from './enrollments/update-enrollment.dto';
-export * from './enrollments/filter-enrollment.dto';
+export * from './curriculum/seed-curriculum.dto';
 
 export * from './information-students/information-student.dto';
 export * from './information-students/create-information-student.dto';
@@ -36,6 +32,7 @@ export * from './institutions/institution.dto';
 export * from './institutions/create-institution.dto';
 export * from './institutions/update-institution.dto';
 export * from './institutions/filter-institution.dto';
+export * from './institutions/seed-institution.dto';
 
 export * from './school-periods/school-period.dto';
 export * from './school-periods/create-school-period.dto';
@@ -46,12 +43,12 @@ export * from './students/student.dto';
 export * from './students/create-student.dto';
 export * from './students/update-student.dto';
 export * from './students/filter-student.dto';
+export * from './students/seed-student.dto';
 
 export * from './subjects/subject.dto';
 export * from './subjects/create-subject.dto';
 export * from './subjects/filter-subject.dto';
 export * from './subjects/update-subject.dto';
-export * from './subjects/seed-subject.dto';
 
 export * from './events/event.dto';
 export * from './events/create-event.dto';
@@ -63,13 +60,5 @@ export * from './teachers/create-teacher.dto';
 export * from './teachers/filter-teacher.dto';
 export * from './teachers/update-teacher.dto';
 
-export * from './locations/location.dto';
-export * from './locations/create-location.dto';
-export * from './locations/filter-location.dto';
-export * from './locations/update-location.dto';
 
-export * from './subject-requirments/subject-requirement.dto';
-export * from './subject-requirments/create-subject-requirement.dto';
-export * from './subject-requirments/filter-subject.-requirement.dto';
-export * from './subject-requirments/update-subject-requirement.dto';
-export * from './subject-requirments/seed-subject-requirement.dto';
+

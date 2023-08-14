@@ -3,6 +3,8 @@ import { CreateInstitutionDto } from '@core/dto';
 import { CataloguesService, InstitutionsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 import { CatalogueEntity } from '@core/entities';
+import { faker } from '@faker-js/faker';
+
 
 @Injectable()
 export class InstitutionsSeeder {
@@ -24,7 +26,7 @@ export class InstitutionsSeeder {
       {
         state: stateEnable,
         acronym: 'ITSQ',
-        cellphone: '0988888777',
+        cellphone: faker.phone.number('09########'),
         code: 'cod1',
         codeSniese: '123',
         denomination: 'Institución Educativa',
@@ -34,13 +36,13 @@ export class InstitutionsSeeder {
         name: 'INSTITUTO TECNOLÓGICO SUPERIOR QUITO',
         phone: '2245666',
         shortName: 'Insituto Quito',
-        slogan: 'Formamos tu propósito de vida',
-        web: 'quito.com',
+        slogan: faker.hacker.phrase(),
+        web: faker.internet.url(),
       },
       {
         state: stateEnable,
         acronym: 'ISTL',
-        cellphone: '0955557776',
+        cellphone: faker.phone.number('09########'),
         code: 'cod2',
         codeSniese: '321',
         denomination: 'Institución Educativa',
@@ -50,8 +52,8 @@ export class InstitutionsSeeder {
         name: 'INSTITUTO SUPERIOR TECNOLÓGICO LIBERTAD',
         phone: '2245333',
         shortName: 'Insituto Libertad',
-        slogan: 'Estudia la carrera de tus sueños',
-        web: 'istl.com',
+        slogan: faker.hacker.phrase(),
+        web: faker.internet.url(),
       },
     );
 

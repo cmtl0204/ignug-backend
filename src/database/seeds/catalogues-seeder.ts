@@ -38,6 +38,7 @@ export class CataloguesSeeder {
     await this.createSchoolPeriodsStateCatalogues();
     await this.createInstitutionsStateCatalogues();
     await this.createCareersStateCatalogues();
+    await this.createCareersTypeCatalogues();
     await this.createCurriculumsStateCatalogues();
     await this.createSubjectsStateCatalogues();
     await this.createSubjectsTypeCatalogues();
@@ -176,7 +177,7 @@ export class CataloguesSeeder {
     catalogues.push({
       code: '3',
       description: 'Modalidad de carrera',
-      name: 'Distancia',
+      name: 'Disntacia',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
@@ -1090,6 +1091,29 @@ export class CataloguesSeeder {
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREERS_STATE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createCareersTypeCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: '1',
+      description: 'Tecnología,Tecnicatura',
+      name: 'Tecnología',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.CAREERS_TYPE,
+    });
+
+    catalogues.push({
+      code: '2',
+      description: 'Tecnología,Tecnicatura',
+      name: 'Tecnicatura',
+      state: CatalogueStateEnum.ACTIVE,
+      type: CatalogueCoreTypeEnum.CAREERS_TYPE,
     });
 
     for (const catalogue of catalogues) {

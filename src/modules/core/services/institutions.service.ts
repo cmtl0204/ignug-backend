@@ -1,8 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { CreateInstitutionDto, FilterInstitutionDto, PaginationDto, UpdateInstitutionDto } from '@core/dto';
+import { CreateInstitutionDto, FilterInstitutionDto, PaginationDto, SeedInstitutionDto, UpdateInstitutionDto } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
-import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum } from '@shared/enums';
 
@@ -11,10 +10,9 @@ export class InstitutionsService {
   constructor(
     @Inject(CoreRepositoryEnum.INSTITUTION_REPOSITORY)
     private repository: Repository<InstitutionEntity>,
-    private cataloguesService: CataloguesService,
   ) {}
 
-  async create(payload: CreateInstitutionDto): Promise<InstitutionEntity> {
+  async create(payload: CreateInstitutionDto  | SeedInstitutionDto): Promise<InstitutionEntity> {
     const newInstitution = this.repository.create(payload);
 
     return await this.repository.save(newInstitution);

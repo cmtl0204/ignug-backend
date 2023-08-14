@@ -1,12 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCareerDto, SeedCareerDto } from '@core/dto';
-import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
+import { SeedCareerDto } from '@core/dto';
+import {
+  CareersService,
+  CataloguesService,
+  InstitutionsService,
+} from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
-import { CatalogueEntity, InstitutionEntity } from '@core/entities';
 
 @Injectable()
 export class CareersSeeder {
-  constructor(private institutionsService: InstitutionsService, private cataloguesService: CataloguesService, private careersService: CareersService) {}
+  constructor(
+    private institutionsService: InstitutionsService,
+    private cataloguesService: CataloguesService,
+    private careersService: CareersService,
+  ) {}
 
   async run() {
     await this.create();
@@ -19,34 +26,73 @@ export class CareersSeeder {
 
     const institutions = (await this.institutionsService.findAll()).data;
 
-    const stateEnabled = catalogues.find((state: CatalogueEntity) => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
+    const stateEnabled = catalogues.find((state) => {
+      return (
+        state.code === 'enable' &&
+        state.type === CatalogueCoreTypeEnum.CAREERS_STATE
+      );
     });
-    const stateDisabled = catalogues.find((state: CatalogueEntity) => {
-      return state.code === 'disable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
-    });
-
-    const modality1 = catalogues.find((modality: CatalogueEntity) => {
-      return modality.code === '1' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
-    });
-
-    const type1 = catalogues.find((modality: CatalogueEntity) => {
-      return modality.code === '1' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+    const stateDisabled = catalogues.find((state) => {
+      return(
+        state.code === 'disable' &&
+        state.type === CatalogueCoreTypeEnum.CAREERS_STATE
+      );
     });
 
-    const institution1 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod1');
-    const institution2 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod2');
+    const modality1 = catalogues.find((modality) => {
+      return (
+        modality.code === 'On-site' &&
+        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
+      );
+    });
+    const modality2 = catalogues.find((modality) => {
+      return (
+        modality.code === 'Distance' &&
+        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
+      );
+    });
+    const modality3 = catalogues.find((modality) => {
+      return (
+        modality.code === 'Double' &&
+        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
+      );
+    });
+    const modality4 = catalogues.find((modality) => {
+      return (
+        modality.code === 'Hybrid' &&
+        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
+      );
+    });
 
-    //technology, technique
+    const type1 = catalogues.find((type) => {
+      return (
+        type.code === 'technology' &&
+        type.type === CatalogueCoreTypeEnum.CAREERS_TYPE
+      );
+    });
+    const type2 = catalogues.find((type) => {
+      return (
+        type.code === 'technique' &&
+        type.type === CatalogueCoreTypeEnum.CAREERS_TYPE
+      );
+    });
+
+    const institution1 = institutions.find(
+      (institution) => institution.code === 'cod1',
+    );
+    const institution2 = institutions.find(
+      (institution) => institution.code === 'cod2',
+    );
+
     careers.push(
       {
-        code: 'eng1',
+        code: 'cod1',
         name: 'Ingeniería Eléctrica',
         acronym: 'IEE',
         state: stateDisabled,
         institution: institution1,
         modality: modality1,
-        type: null, // pendiente
+        type: type1,
         codeSniese: '123456',
         degree: 'Ingeniero',
         isVisible: true,
@@ -55,13 +101,13 @@ export class CareersSeeder {
         shortName: 'IE',
       },
       {
-        code: 'arch1',
+        code: 'cod2',
         name: 'Arquitectura',
         acronym: 'Arq',
         state: stateEnabled,
         institution: institution1,
-        modality: modality1,
-        type: null, // pendiente
+        modality: modality2,
+        type: type2,
         codeSniese: '789012',
         degree: 'Arquitecto',
         isVisible: true,
@@ -70,13 +116,13 @@ export class CareersSeeder {
         shortName: 'Arq',
       },
       {
-        code: 'law1',
+        code: 'cod3',
         name: 'Derecho',
         acronym: 'Der',
         state: stateEnabled,
         institution: institution2,
-        modality: modality1,
-        type: null, // Agrega el valor apropiado
+        modality: modality3,
+        type: type1,
         codeSniese: '345678',
         degree: 'Abogado',
         isVisible: true,
@@ -85,13 +131,13 @@ export class CareersSeeder {
         shortName: 'Der',
       },
       {
-        code: 'med1',
+        code: 'cod4',
         name: 'Medicina',
         acronym: 'Med',
         state: stateEnabled,
         institution: institution2,
-        modality: modality1,
-        type: null, // pendiente
+        modality: modality4,
+        type: type2,
         codeSniese: '901234',
         degree: 'Médico',
         isVisible: true,

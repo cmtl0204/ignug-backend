@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCareerDto, CreateCurriculumDto } from '@core/dto';
-import { CurriculumsService, CataloguesService, CareersService } from '@core/services';
+import { CataloguesService, CareersService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 import { CareerEntity } from '@core/entities';
+import{faker} from '@faker-js/faker';
+import { SeedCurriculumDto } from 'src/modules/core/dto/curriculum/seed-curriculum.dto';
 
 @Injectable()
 export class CurriculumsSeeder {
-  constructor(private curriculumsService: CurriculumsService, private cataloguesService: CataloguesService, private careersService: CareersService) {}
+  constructor(private cataloguesService: CataloguesService, private careersService: CareersService) {}
 
   async run() {
     await this.create();
   }
 
   async create() {
-    const curriculums: CreateCurriculumDto[] = [];
+    const curriculums: SeedCurriculumDto[] = [];
 
     const catalogues = (await this.cataloguesService.findAll()).data;
     const careers = (await this.careersService.findAll()).data;
@@ -29,65 +30,65 @@ export class CurriculumsSeeder {
       {
         code: 'cod1',
         name: 'Administrador',
-        description: 'descipcionprueba',
-        periodicAcademicNumber: 11,
-        resolutionNumber: '11',
-        weeksNumber: 11,
+        description: faker.lorem.lines(),
+        periodicAcademicNumber: 1,
+        resolutionNumber: '1',
+        weeksNumber: faker.number.int({ min: 10, max: 30 }) ,
         state: stateEnabled,
         isVisible: stateEnabled,
         career: career1,
       },
       {
-        code: '12',
+        code: 'cod2',
         name: 'Administrador',
-        description: 'descipcionprueba',
-        periodicAcademicNumber: 12,
-        resolutionNumber: '12',
-        weeksNumber: 12,
+        description: faker.lorem.lines(),
+        periodicAcademicNumber: 2,
+        resolutionNumber: '2',
+        weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
         isVisible: stateEnabled,
         career: career1,
       },
       {
-        code: '13',
+        code: 'cod3',
         name: 'Administrador',
-        description: 'descipcionprueba',
-        periodicAcademicNumber: 13,
-        resolutionNumber: '13',
-        weeksNumber: 13,
+        description: faker.lorem.lines(),
+        periodicAcademicNumber: 3,
+        resolutionNumber: '3',
+        weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
         isVisible: stateEnabled,
         career: career1,
       },
       {
-        code: '14',
+        code: 'cod4',
         name: 'Administrador',
-        description: 'descipcionprueba',
-        periodicAcademicNumber: 14,
-        resolutionNumber: '14',
-        weeksNumber: 14,
+        description: faker.lorem.lines(),
+        periodicAcademicNumber: 4,
+        resolutionNumber: '4',
+        weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
         isVisible: stateEnabled,
         career: career2,
       },
       {
-        code: '15',
+        code: 'cod5',
         name: 'Administrador',
-        description: 'descipcionprueba',
-        periodicAcademicNumber: 15,
-        resolutionNumber: '15',
-        weeksNumber: 15,
+        description: faker.lorem.lines(),
+        periodicAcademicNumber: 5,
+        resolutionNumber: '5',
+        weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
         isVisible: stateEnabled,
         career: career2,
       },
       {
-        code: '16',
+        code: 'cod6',
         name: 'Administrador',
-        description: 'descipcionprueba',
-        periodicAcademicNumber: 16,
-        resolutionNumber: '16',
-        weeksNumber: 16,
+        description: faker.lorem.lines(),
+        periodicAcademicNumber: 6,
+        resolutionNumber: '6',
+        weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
         isVisible: stateEnabled,
         career: career2,
