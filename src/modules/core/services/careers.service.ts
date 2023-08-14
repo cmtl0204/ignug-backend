@@ -1,18 +1,15 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { CreateCareerDto, FilterCareerDto, PaginationDto, UpdateCareerDto } from '@core/dto';
+import { CreateCareerDto, FilterCareerDto, PaginationDto, SeedCareerDto, UpdateCareerDto } from '@core/dto';
 import { CareerEntity } from '@core/entities';
-import { CataloguesService, InstitutionsService } from '@core/services';
-import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
+import { ServiceResponseHttpModel } from '@shared/models';
 
 @Injectable()
 export class CareersService {
   constructor(
     @Inject(CoreRepositoryEnum.CAREER_REPOSITORY)
     private repository: Repository<CareerEntity>,
-    private institutionService: InstitutionsService,
-    private cataloguesService: CataloguesService,
   ) {}
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -30,17 +27,8 @@ export class CareersService {
     };
   }
 
-  async create(payload: CreateCareerDto): Promise<CareerEntity> {
+  async create(payload: CreateCareerDto | SeedCareerDto): Promise<CareerEntity> {
     const newEntity = this.repository.create(payload);
-
-    newEntity.institution = await this.institutionService.findOne(payload.institution?.id);
-
-    newEntity.modality = await this.cataloguesService.findOne(payload.modality?.id);
-
-    newEntity.state = await this.cataloguesService.findOne(payload.state?.id);
-
-    newEntity.type = await this.cataloguesService.findOne(payload.type?.id);
-
     return await this.repository.save(newEntity);
   }
 

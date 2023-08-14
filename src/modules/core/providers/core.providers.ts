@@ -23,8 +23,7 @@ import {
   TeacherEntity,
 } from '@core/entities';
 import { ConfigEnum, CoreRepositoryEnum } from '@shared/enums';
-import { LocationEntity } from '../entities/location.entity';
-import { PartialPermissionEntity } from '../entities/partial-permission.entity';
+import { LocationEntity, PartialPermissionEntity } from '@core/entities';
 
 export const coreProviders = [
   {
@@ -98,13 +97,13 @@ export const coreProviders = [
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CoreRepositoryEnum.PARTIAL_PERMISSION_REPOSITORY,
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(PartialPermissionEntity),
+    provide: CoreRepositoryEnum.PARTIAL_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(PartialEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CoreRepositoryEnum.PARTIAL_REPOSITORY,
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(PartialEntity),
+    provide: CoreRepositoryEnum.PARTIAL_PERMISSION_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(PartialPermissionEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
@@ -141,5 +140,5 @@ export const coreProviders = [
     provide: CoreRepositoryEnum.TEACHER_REPOSITORY,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(TeacherEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
-  } 
+  },
 ];

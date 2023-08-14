@@ -4,6 +4,7 @@ export * from './careers/career.dto';
 export * from './careers/create-career.dto';
 export * from './careers/update-career.dto';
 export * from './careers/filter-career.dto';
+export * from './careers/seed-career.dto';
 
 export * from './catalogues/catalogue.dto';
 export * from './catalogues/create-catalogue.dto';
@@ -50,6 +51,7 @@ export * from './subjects/subject.dto';
 export * from './subjects/create-subject.dto';
 export * from './subjects/filter-subject.dto';
 export * from './subjects/update-subject.dto';
+export * from './subjects/seed-subject.dto';
 
 export * from './events/event.dto';
 export * from './events/create-event.dto';
@@ -65,3 +67,9 @@ export * from './locations/location.dto';
 export * from './locations/create-location.dto';
 export * from './locations/filter-location.dto';
 export * from './locations/update-location.dto';
+
+export * from './subject-requirments/subject-requirement.dto';
+export * from './subject-requirments/create-subject-requirement.dto';
+export * from './subject-requirments/filter-subject.-requirement.dto';
+export * from './subject-requirments/update-subject-requirement.dto';
+export * from './subject-requirments/seed-subject-requirement.dto';

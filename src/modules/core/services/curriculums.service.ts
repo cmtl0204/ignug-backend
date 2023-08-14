@@ -22,7 +22,7 @@ export class CurriculumsService {
     return await this.repository.save(newCurriculum);
   }
 
-  async findAll(params: FilterCurriculumDto): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterCurriculumDto): Promise<ServiceResponseHttpModel> {
     // Filter by search
     if (params.limit && params.page) return await this.paginateAndFilter(params);
 

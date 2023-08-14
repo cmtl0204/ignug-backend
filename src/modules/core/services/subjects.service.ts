@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import { CreateSubjectDto, FilterSubjectDto, UpdateSubjectDto } from '@core/dto';
+import { CreateSubjectDto, FilterSubjectDto, SeedSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService, CurriculumsService } from '@core/services';
@@ -16,7 +16,7 @@ export class SubjectsService {
     private curriculumService: CurriculumsService,
   ) {}
 
-  async create(payload: CreateSubjectDto): Promise<SubjectEntity> {
+  async create(payload: CreateSubjectDto | SeedSubjectDto): Promise<SubjectEntity> {
     const newSubject = this.repository.create(payload);
 
     return await this.repository.save(newSubject);
@@ -52,6 +52,10 @@ export class SubjectsService {
     }
 
     return subject;
+  }
+
+  async findByCode(code: string): Promise<SubjectEntity> {
+    return await this.repository.findOne({ where: { code } });
   }
 
   async update(id: string, payload: UpdateSubjectDto): Promise<SubjectEntity> {

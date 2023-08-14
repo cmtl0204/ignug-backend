@@ -1,4 +1,4 @@
-import { CatalogueEntity } from '@core/entities';
+import { AddressEntity, CatalogueEntity } from '@core/entities';
 import {
   Column,
   CreateDateColumn,
@@ -53,7 +53,10 @@ export class InstitutionEntity {
   })
   users: UserEntity[];
 
-  /** Foreign Key **/
+  @ManyToOne(() => AddressEntity)
+  address: AddressEntity;
+
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;

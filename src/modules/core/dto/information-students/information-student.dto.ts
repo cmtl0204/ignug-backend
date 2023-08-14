@@ -1,21 +1,8 @@
 import { CatalogueEntity, StudentEntity } from '@core/entities';
-import {
-  IsString,
-  IsNotEmpty,
-  IsNumber,
-  MaxLength,
-  Min,
-  Max,
-  IsOptional,
-} from 'class-validator';
-import {
-  isNumberValidationOptions,
-  isStringValidationOptions,
-  isNotEmptyValidationOptions,
-} from '@shared/validation';
+import { IsString, IsNotEmpty, IsNumber, MaxLength, Min, Max, IsOptional } from 'class-validator';
+import { isNumberValidationOptions, isStringValidationOptions, isNotEmptyValidationOptions } from '@shared/validation';
 
 export class InformationStudentDto {
-
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly student: StudentEntity;
 
