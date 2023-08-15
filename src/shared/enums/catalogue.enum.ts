@@ -37,7 +37,8 @@ export enum CatalogueCoreTypeEnum {
 }
 
 export enum CatalogueStateEnum {
-  ACTIVE = 'ACTIVE',
+  ENABLE = 'enable',
+  DISABLE = 'disable',
 }
 
 export enum CatalogueCoreSchoolPeriodStateEnum {

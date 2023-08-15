@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CataloguesService, CareersService } from '@core/services';
+import { CataloguesService, CareersService, CurriculumsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 import { CareerEntity } from '@core/entities';
-import{faker} from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { SeedCurriculumDto } from 'src/modules/core/dto/curriculum/seed-curriculum.dto';
 
 @Injectable()
 export class CurriculumsSeeder {
-  constructor(private cataloguesService: CataloguesService, private careersService: CareersService) {}
+  constructor(private cataloguesService: CataloguesService, private careersService: CareersService, private curriculumsService: CurriculumsService) {}
 
   async run() {
     await this.create();
@@ -24,7 +24,7 @@ export class CurriculumsSeeder {
     });
 
     const career1 = careers.find((career: CareerEntity) => career.code === 'cod1');
-    const career2 = careers.find(career => career.code === 'care2');
+    const career2 = careers.find((career: CareerEntity) => career.code === 'cod2');
 
     curriculums.push(
       {
@@ -33,9 +33,9 @@ export class CurriculumsSeeder {
         description: faker.lorem.lines(),
         periodicAcademicNumber: 1,
         resolutionNumber: '1',
-        weeksNumber: faker.number.int({ min: 10, max: 30 }) ,
+        weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
-        isVisible: stateEnabled,
+        isVisible: true,
         career: career1,
       },
       {
@@ -46,7 +46,7 @@ export class CurriculumsSeeder {
         resolutionNumber: '2',
         weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
-        isVisible: stateEnabled,
+        isVisible: true,
         career: career1,
       },
       {
@@ -57,7 +57,7 @@ export class CurriculumsSeeder {
         resolutionNumber: '3',
         weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
-        isVisible: stateEnabled,
+        isVisible: true,
         career: career1,
       },
       {
@@ -68,31 +68,13 @@ export class CurriculumsSeeder {
         resolutionNumber: '4',
         weeksNumber: faker.number.int({ min: 10, max: 30 }),
         state: stateEnabled,
-        isVisible: stateEnabled,
-        career: career2,
-      },
-      {
-        code: 'cod5',
-        name: 'Administrador',
-        description: faker.lorem.lines(),
-        periodicAcademicNumber: 5,
-        resolutionNumber: '5',
-        weeksNumber: faker.number.int({ min: 10, max: 30 }),
-        state: stateEnabled,
-        isVisible: stateEnabled,
-        career: career2,
-      },
-      {
-        code: 'cod6',
-        name: 'Administrador',
-        description: faker.lorem.lines(),
-        periodicAcademicNumber: 6,
-        resolutionNumber: '6',
-        weeksNumber: faker.number.int({ min: 10, max: 30 }),
-        state: stateEnabled,
-        isVisible: stateEnabled,
+        isVisible: true,
         career: career2,
       },
     );
+
+    for (const curriculum of curriculums) {
+      await this.curriculumsService.create(curriculum);
+    }
   }
 }
