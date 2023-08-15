@@ -161,42 +161,42 @@ export class CataloguesSeeder {
   async createCareerModalityCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: '1',
+      code: 'On-site',
       description: 'Modalidad de carrera',
       name: 'Presencial',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
-      code: '2',
+      code: 'Blended',
       description: 'Modalidad de carrera',
       name: 'Semi-Presencial',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
-      code: '3',
+      code: 'Distance',
       description: 'Modalidad de carrera',
       name: 'Disntacia',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
-      code: '4',
+      code: 'Double',
       description: 'Modalidad de carrera',
       name: 'Dual',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
-      code: '5',
+      code: 'Online',
       description: 'Modalidad de carrera',
       name: 'Línea',
       state: CatalogueStateEnum.ACTIVE,
       type: CatalogueCoreTypeEnum.CAREER_MODALITY,
     });
     catalogues.push({
-      code: '6',
+      code: 'Hybrid',
       description: 'Modalidad de carrera',
       name: 'Híbrida',
       state: CatalogueStateEnum.ACTIVE,
@@ -1101,7 +1101,7 @@ export class CataloguesSeeder {
   async createCareersTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: '1',
+      code: 'technology',
       description: 'Tecnología,Tecnicatura',
       name: 'Tecnología',
       state: CatalogueStateEnum.ACTIVE,
@@ -1109,7 +1109,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: '2',
+      code: 'technique',
       description: 'Tecnología,Tecnicatura',
       name: 'Tecnicatura',
       state: CatalogueStateEnum.ACTIVE,

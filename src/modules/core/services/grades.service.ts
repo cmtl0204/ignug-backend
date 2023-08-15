@@ -1,61 +1,62 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import { CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto } from '@core/dto';
-import { EnrollmentEntity } from '@core/entities';
+import { CreateGradeDto, FilterGradeDto, UpdateGradeDto } from '@core/dto';
+import { GradeEntity, EnrollmentDetailEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
+import { CataloguesService, EnrollmentsDetailService, EnrollmentsService, SubjectsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
 @Injectable()
-export class EnrollmentsService {
+export class GradesService {
   constructor(
-    @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY)
-    private repository: Repository<EnrollmentEntity>,
+    @Inject(CoreRepositoryEnum.GRADE_REPOSITORY)
+    private repository: Repository<GradeEntity>,
   ) {}
 
-  async create(payload: CreateEnrollmentDto): Promise<EnrollmentEntity> {
+  async create(payload: CreateGradeDto): Promise<GradeEntity> {
     const newSubject = this.repository.create(payload);
 
     return await this.repository.save(newSubject);
   }
 
-  async findAll(params?: FilterEnrollmentDto): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterGradeDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
 
     //Other filters
-    // if (params.code) {
-    //   return this.filterByCode(params.code);
-    // }
+    if (params.value) {
+      return this.filterByValue(params.value);
+    }
 
     //All
     const data = await this.repository.findAndCount({
-      relations: ['curriculum'],
+      relations: ['enrollmentDetail'],
     });
 
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
-  async findOne(id: string): Promise<EnrollmentEntity> {
+  async findOne(id: string): Promise<GradeEntity> {
     const subject = await this.repository.findOne({
-      relations: ['curriculum'],
+      relations: ['enrollmentDetail'],
       where: { id },
     });
 
     if (!subject) {
-      throw new NotFoundException('Enrollment not found');
+      throw new NotFoundException('Grade not found');
     }
 
     return subject;
   }
 
-  async update(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+  async update(id: string, payload: UpdateGradeDto): Promise<GradeEntity> {
     const subject = await this.repository.findOneBy({ id });
 
     if (!subject) {
-      throw new NotFoundException('Subject not found');
+      throw new NotFoundException('Grade not found');
     }
 
     this.repository.merge(subject, payload);
@@ -63,22 +64,22 @@ export class EnrollmentsService {
     return await this.repository.save(subject);
   }
 
-  async remove(id: string): Promise<EnrollmentEntity> {
+  async remove(id: string): Promise<GradeEntity> {
     const subject = await this.repository.findOneBy({ id });
 
     if (!subject) {
-      throw new NotFoundException('Subject not found');
+      throw new NotFoundException('Grade not found');
     }
 
     return await this.repository.save(subject);
   }
 
-  async removeAll(payload: EnrollmentEntity[]): Promise<EnrollmentEntity[]> {
+  async removeAll(payload: GradeEntity[]): Promise<GradeEntity[]> {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(params: FilterEnrollmentDto): Promise<ServiceResponseHttpModel> {
-    let where: FindOptionsWhere<EnrollmentEntity> | FindOptionsWhere<EnrollmentEntity>[];
+  private async paginateAndFilter(params: FilterGradeDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<GradeEntity> | FindOptionsWhere<GradeEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -87,11 +88,11 @@ export class EnrollmentsService {
       search = search.trim();
       page = 0;
       where = [];
-      where.push({ code: ILike(`%${search}%`) });
+      where.push({ enrollmentDetail: ILike(`%${search}%`) });
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['curriculum'],
+      relations: ['created_at', 'updated_at', 'deleted_at', 'value'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
@@ -103,15 +104,15 @@ export class EnrollmentsService {
     };
   }
 
-  private async filterByCode(code: string): Promise<ServiceResponseHttpModel> {
-    const where: FindOptionsWhere<EnrollmentEntity> = {};
+  private async filterByValue(value: number): Promise<ServiceResponseHttpModel> {
+    const where: FindOptionsWhere<GradeEntity> = {};
 
-    if (code) {
-      where.code = LessThan(code);
+    if (value) {
+      where.value = LessThan(value);
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['curriculum'],
+      relations: ['created_at', 'updated_at', 'deleted_at', 'value'],
       where,
     });
 

@@ -10,10 +10,10 @@ import { RoleEntity } from '@auth/entities';
 @Injectable()
 export class ImportsService {
   constructor(
-    private usersService: UsersService,
-    private studentsService: StudentsService,
     private teachersService: TeachersService,
+    private studentsService: StudentsService,
     private rolesService: RolesService,
+    private usersService: UsersService,
   ) {}
 
   async importStudents(): Promise<boolean> {

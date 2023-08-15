@@ -1,2 +1,3 @@
-import { EnrollmentDto } from '@core/dto';
-export class CreateEnrollmentDto{}
+import { EnrollmentDto } from "./enrollment.dto";
+
+export class CreateEnrollmentDto extends EnrollmentDto {}

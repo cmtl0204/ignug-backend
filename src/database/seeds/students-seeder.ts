@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InformationStudentsService, StudentsService } from '@core/services';
 import { UsersService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
-import { CreateStudentDto, SeedStudentDto } from '@core/dto';
+import { SeedStudentDto } from '@core/dto';
 import { StudentEntity } from '@core/entities';
 import { SeederInformationStudentDto } from '@core/dto';
 import { RoleEnum } from '@auth/enums';

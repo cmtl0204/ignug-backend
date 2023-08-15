@@ -1,7 +1,10 @@
 import { IsDate, IsNumber, IsOptional, IsString, MaxLength, Min, IsNotEmpty } from 'class-validator';
-import { CatalogueEntity } from '@core/entities';
+import { CatalogueEntity, TeacherEntity } from '@core/entities';
 
 export class InformationTeacherDto {
+  @IsOptional()
+  readonly teacher: TeacherEntity;
+  
   @IsOptional()
   readonly countryHigherEducation: CatalogueEntity;
 

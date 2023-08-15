@@ -13,7 +13,7 @@ export class EventsService {
     @Inject(CoreRepositoryEnum.EVENT_REPOSITORY)
     private repository: Repository<EventEntity>,
     private cataloguesService: CataloguesService,
-    private schoolPeriodsService: SchoolPeriodsService,
+   // private schoolPeriodsService: SchoolPeriodsService,
   ) {}
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -33,8 +33,8 @@ export class EventsService {
 
   async create(modelId: string, payload: CreateEventDto): Promise<EventEntity> {
     const newEntity = this.repository.create(payload);
-    newEntity.schoolPeriod = await this.schoolPeriodsService.actualSchoolPeriod();
-    newEntity.modelId = modelId;
+    // newEntity.schoolPeriod = await this.schoolPeriodsService.actualSchoolPeriod();
+    // newEntity.modelId = modelId;
 
     return await this.repository.save(newEntity);
   }

@@ -11,6 +11,12 @@ export * from './catalogues/create-catalogue.dto';
 export * from './catalogues/update-catalogue.dto';
 export * from './catalogues/filter-catalogue.dto';
 
+export * from './classrooms/create-classroom.dto';
+export * from './classrooms/classroom.dto';
+export * from './classrooms/seed-classroom.dto';
+export * from './classrooms/update-classroom.dto';
+export * from './classrooms/filter-classroom.dto'; 
+
 export * from './curriculum/curriculum.dto';
 export * from './curriculum/create-curriculum.dto';
 export * from './curriculum/update-curriculum.dto';
@@ -32,6 +38,8 @@ export * from './information-teachers/information-teacher.dto';
 export * from './information-teachers/create-information-teacher.dto';
 export * from './information-teachers/update-information-teacher.dto';
 export * from './information-teachers/filter-information-teacher.dto';
+export * from './information-teachers/seeder-information-teacher.dto';
+
 
 export * from './institutions/institution.dto';
 export * from './institutions/create-institution.dto';
@@ -43,6 +51,12 @@ export * from './locations/create-location.dto';
 export * from './locations/filter-location.dto';
 export * from './locations/location.dto';
 export * from './locations/update-location.dto';
+
+export * from './partials/create-partial.dto';
+export * from './partials/filter-partial.dto';
+export * from './partials/partial.dto';
+export * from './partials/seed-partial.dto';
+export * from './partials/update-partial.dto';
 
 export * from './school-periods/school-period.dto';
 export * from './school-periods/create-school-period.dto';
@@ -76,6 +90,16 @@ export * from './teachers/teacher.dto';
 export * from './teachers/create-teacher.dto';
 export * from './teachers/filter-teacher.dto';
 export * from './teachers/update-teacher.dto';
+export * from './teachers/seeder-teacher.dto';
 
+export * from './enrollment-detail/enrollment-detail.dto';
+export * from './enrollment-detail/create-enrollment-detail.dto';
+export * from './enrollment-detail/filter-enrollment-detail.dto';
+export * from './enrollment-detail/update-enrollment-detail.dto';
+
+export * from './grades/grade.dto';
+export * from './grades/create-grade.dto';
+export * from './grades/update-grade.dto';
+export * from './grades/filter-grade.dto';
 
 
