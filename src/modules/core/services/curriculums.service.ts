@@ -24,10 +24,10 @@ export class CurriculumsService {
 
   async findAll(params?: FilterCurriculumDto): Promise<ServiceResponseHttpModel> {
     // Filter by search
-    if (params.limit && params.page) return await this.paginateAndFilter(params);
+    if (params?.limit && params?.page) return await this.paginateAndFilter(params);
 
     // Other filters
-    if (params.weeksNumber) return await this.filterByWeeksNumber(params.weeksNumber);
+    if (params?.weeksNumber) return await this.filterByWeeksNumber(params.weeksNumber);
 
     //All
     const data = await this.repository.findAndCount({

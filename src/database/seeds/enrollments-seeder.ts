@@ -7,9 +7,9 @@ import { EnrollmentsService } from 'src/modules/core/services';
 export class EnrollmentSeeder {
   constructor(private studentsService: StudentsService, private subjectService: SubjectsService, private enrollmentsService: EnrollmentsService) {}
 
-  async run() {
+ /* async run() {
     await this.createEnrollments();
-    await this.createEnrollmentDetail();
+    await this.createEnrollmentDetails();
   }
 
   async createEnrollments() {
@@ -56,9 +56,9 @@ export class EnrollmentSeeder {
       },
     );
 
-    for (const enrollment of enrollments) {
+    for (const enrollment of enrollmentDetails) {
       const enrollCrated = await this.enrollmentsService.create(enrollment);
       await this.studentsService.create({ user: enrollCrated });
     }
-  }
+  }*/
 }
