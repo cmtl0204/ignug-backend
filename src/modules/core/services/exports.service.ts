@@ -8,10 +8,10 @@ import { RolesService, UsersService } from '@auth/services';
 @Injectable()
 export class ExportsService {
   constructor(
-    private usersService: UsersService,
-    private studentsService: StudentsService,
     private teachersService: TeachersService,
+    private studentsService: StudentsService,
     private rolesService: RolesService,
+    private usersService: UsersService,
   ) {}
 
   async exportStudents(): Promise<string> {

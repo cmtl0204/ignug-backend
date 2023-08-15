@@ -12,7 +12,7 @@ export class CurriculumsService {
     @Inject(CoreRepositoryEnum.CURRICULUM_REPOSITORY)
     private repository: Repository<CurriculumEntity>,
     private careerService: CareersService,
-    private institutionsService: InstitutionsService,
+    //private institutionsService: InstitutionsService,
     private catalogueService: CataloguesService,
   ) {}
 

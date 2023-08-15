@@ -22,7 +22,6 @@ export const databaseProviders = [
         // dropSchema: true,
         synchronize: true,
       });
-
       return dataSource.initialize();
     },
   },

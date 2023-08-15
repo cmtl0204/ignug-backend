@@ -29,7 +29,12 @@ import {
   ImportsService,
   ExportsService,
   LocationsService,
+  PartialsService,
   SubjectRequirementsService,
+  EnrollmentsDetailService,
+  EnrollmentsService,
+  ClassroomsService,
+  GradesService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -64,11 +69,16 @@ import { coreProviders } from '@core/providers';
     InformationTeachersService,
     InstitutionsService,
     LocationsService,
+    PartialsService,
     SchoolPeriodsService,
     StudentsService,
     SubjectsService,
     SubjectRequirementsService,
     TeachersService,
+    EnrollmentsDetailService,
+    EnrollmentsService,
+    ClassroomsService,
+    GradesService,
   ],
   exports: [
     ...coreProviders,
@@ -82,11 +92,16 @@ import { coreProviders } from '@core/providers';
     InformationTeachersService,
     InstitutionsService,
     LocationsService,
+    PartialsService,
     SchoolPeriodsService,
     StudentsService,
     SubjectsService,
     SubjectRequirementsService,
     TeachersService,
+    EnrollmentsDetailService,
+    EnrollmentsService,
+    ClassroomsService,
+    GradesService,
   ],
 })
 export class CoreModule {}

@@ -11,6 +11,12 @@ import { RolesSeeder } from './seeds/roles-seeder';
 import { StudentsSeeder } from './seeds/students-seeder';
 import { SubjectsSeeder } from './seeds/subjects-seeder';
 import { UsersSeeder } from './seeds/users-seeder';
+import { PartialsSeeder } from './seeds/partials-seeder';
+import { EnrollmentSeeder } from './seeds/enrollments-seeder';
+import { GradeSeeder } from './seeds/grades-seeder';
+import { ClassroomSeeder } from './seeds/classrooms-seeders';
+import { SchoolPeriodSeeder } from './seeds/school-period-seeder';
+import { TeachersSeeder } from './seeds/teachers-seeder';
 
 @Global()
 @Module({
@@ -25,8 +31,14 @@ import { UsersSeeder } from './seeds/users-seeder';
     CareersSeeder,
     InstitutionsSeeder,
     StudentsSeeder,
+    TeachersSeeder,
     SubjectsSeeder,
     CurriculumsSeeder,
+    PartialsSeeder,
+    EnrollmentSeeder,
+    GradeSeeder,
+    ClassroomSeeder,
+    SchoolPeriodSeeder,
   ],
   exports: [...databaseProviders, DatabaseSeeder],
 })

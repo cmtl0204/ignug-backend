@@ -10,6 +10,13 @@ import { CareersSeeder } from './careers-seeder';
 import { StudentsSeeder } from './students-seeder';
 import { SubjectsSeeder } from './subjects-seeder';
 import { CurriculumsSeeder } from './curriculums-seeder';
+import { EnrollmentSeeder } from './enrollments-seeder';
+import { GradeSeeder } from './grades-seeder';
+import { ClassroomSeeder } from './classrooms-seeders';
+import { LocationsSeeder } from './locations-seeder';
+import { PartialsSeeder } from './partials-seeder';
+import { SchoolPeriodSeeder } from './school-period-seeder';
+import { TeachersSeeder } from './teachers-seeder';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -20,9 +27,17 @@ export class DatabaseSeeder {
     private menusSeeder: MenusSeeder,
     private institutionsSeeder: InstitutionsSeeder,
     private careersSeeder: CareersSeeder,
+    private schoolsPeriodsSeeder: SchoolPeriodSeeder,
     private studentsSeeder: StudentsSeeder,
-    private subjectsSeeder: SubjectsSeeder,
+    private teacherSeeder: TeachersSeeder,
     private curriculumsSeeder: CurriculumsSeeder,
+    private subjectsSeeder: SubjectsSeeder,
+    private partialsSeeder: PartialsSeeder,
+    private enrollmentsSeeder: EnrollmentSeeder,
+    // aqui iria el seeder de enrollmendetail xd
+    private gradesSeeder: GradeSeeder, 
+    private classroomsSeeder: ClassroomSeeder,
+    private locationsSeeder: LocationsSeeder,
   ) {}
 
   async run() {
@@ -35,9 +50,17 @@ export class DatabaseSeeder {
     /** Seeders Core **/
     await this.institutionsSeeder.run();
     await this.careersSeeder.run();
-    await this.curriculumsSeeder.run();
+    await this.schoolsPeriodsSeeder.run();
     await this.studentsSeeder.run();
+    await this.teacherSeeder.run();
+    await this.curriculumsSeeder.run();
     await this.subjectsSeeder.run();
+    await this.partialsSeeder.run();
+    await this.enrollmentsSeeder.run();
+    // aqui iria el seeder de enrollmendetail xd
+    await this.gradesSeeder.run();
+    await this.classroomsSeeder.run();
+    await this.locationsSeeder.run();
   }
 
   createUploadsDirectories() {

@@ -145,7 +145,7 @@ export class UsersSeeder {
 
     const studentRole = this.roles.find(role => role.code === RoleEnum.STUDENT);
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
       const identification = faker.string.numeric(10);
       users.push({
         bloodType: this.bloodTypes[Math.floor(Math.random() * this.bloodTypes.length)],
@@ -178,7 +178,7 @@ export class UsersSeeder {
 
     const teacherRole = this.roles.find(role => role.code === RoleEnum.TEACHER);
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
       const identification = faker.string.numeric(10);
       users.push({
         bloodType: this.bloodTypes[Math.floor(Math.random() * this.bloodTypes.length)],

@@ -24,6 +24,7 @@ import {
 } from '@core/entities';
 import { ConfigEnum, CoreRepositoryEnum } from '@shared/enums';
 import { LocationEntity, PartialPermissionEntity } from '@core/entities';
+import { ExportsService } from '../services/exports.service';
 
 export const coreProviders = [
   {
@@ -107,13 +108,13 @@ export const coreProviders = [
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CoreRepositoryEnum.SCHEDULE_REPOSITORY,
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(ScheduleEntity),
+    provide: CoreRepositoryEnum.SCHOOL_PERIOD_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(SchoolPeriodEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CoreRepositoryEnum.SCHOOL_PERIOD_REPOSITORY,
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(SchoolPeriodEntity),
+    provide: CoreRepositoryEnum.SCHEDULE_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(ScheduleEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
