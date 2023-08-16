@@ -13,6 +13,7 @@ export class SeedUserDto extends PickType(UserDto, [
   'birthdate',
   'email',
   'identification',
+  'institutions',
   'lastname',
   'name',
   'password',

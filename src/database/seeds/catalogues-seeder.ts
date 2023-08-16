@@ -42,6 +42,11 @@ export class CataloguesSeeder {
     await this.createCurriculumsStateCatalogues();
     await this.createSubjectsStateCatalogues();
     await this.createSubjectsTypeCatalogues();
+    await this.createParallelsCatalogues();
+    await this.createEnrollmentsTypeCatalogues();
+    await this.createEnrollmentsAcademicStateCatalogues();
+    await this.createEnrollmentsWorkdayCatalogues();
+    await this.createEnrollmentsStateCatalogues();
   }
 
   async createAcademicPeriodCatalogues(): Promise<void> {
@@ -1191,6 +1196,169 @@ export class CataloguesSeeder {
       name: 'Fase Práctica',
       state: CatalogueStateEnum.ENABLE,
       type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createParallelsCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'a',
+      description: 'A',
+      name: 'A',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.PARALLEL,
+    });
+
+    catalogues.push({
+      code: 'b',
+      description: 'B',
+      name: 'B',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.PARALLEL,
+    });
+
+    catalogues.push({
+      code: 'c',
+      description: 'C',
+      name: 'C',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.PARALLEL,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createEnrollmentsTypeCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'ordinary',
+      description: 'Ordinaria',
+      name: 'Ordinaria',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+    });
+
+    catalogues.push({
+      code: 'extraordinary',
+      description: 'Extraordinary',
+      name: 'Extraordinary',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+    });
+
+    catalogues.push({
+      code: 'especial',
+      description: 'Especial',
+      name: 'Especial',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createEnrollmentsAcademicStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'a',
+      description: 'Aprobado',
+      name: 'Aprobado',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE,
+    });
+
+    catalogues.push({
+      code: 'r',
+      description: 'Reprobado',
+      name: 'Reprobado',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createEnrollmentsWorkdayCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'm',
+      description: 'Matutina',
+      name: 'Matutina',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+    });
+
+    catalogues.push({
+      code: 'v',
+      description: 'Vespertina',
+      name: 'Vespertina',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+    });
+
+    catalogues.push({
+      code: 'n',
+      description: 'Nocturna',
+      name: 'Nocturna',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+    });
+
+    catalogues.push({
+      code: 'i',
+      description: 'Intensiva',
+      name: 'Intensiva',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+    });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  async createEnrollmentsStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push({
+      code: 'registered',
+      description: 'Matriculado',
+      name: 'Matriculado',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+    });
+
+    catalogues.push({
+      code: 'unregistered',
+      description: 'No Matriculado',
+      name: 'No Matriculado',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+    });
+
+    catalogues.push({
+      code: 'accepted',
+      description: 'Aceptado',
+      name: 'Aceptado',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+    });
+
+    catalogues.push({
+      code: 'approved',
+      description: 'Aprovado',
+      name: 'Aprovado',
+      state: CatalogueStateEnum.ENABLE,
+      type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
     });
 
     for (const catalogue of catalogues) {

@@ -29,7 +29,7 @@ export class SubjectsService {
     }
 
     //Other filters
-    if (params.autonomousHour) {
+    if (params?.autonomousHour) {
       return this.filterByAutonomousHour(params.autonomousHour);
     }
 

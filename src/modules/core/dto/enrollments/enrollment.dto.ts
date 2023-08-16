@@ -26,7 +26,6 @@ export class EnrollmentDto {
   @IsNotEmpty()
   readonly workday: CatalogueEntity;
 
-
   @IsString({ message: 'El campo code debe ser un String' })
   @Min(0, { message: 'El campo code debe tener minimo 5 caracteres' })
   readonly code: string;
@@ -37,7 +36,7 @@ export class EnrollmentDto {
 
   @IsDate({ message: 'El campo application_at debe ser una fecha' })
   @MinLength(5, { message: 'El campo application_at debe tener una fecha valida' })
-  readonly application_at: Date;
+  readonly applicationsAt: Date;
 
   @IsOptional()
   @IsString({ message: 'El campo folio debe ser un string' })

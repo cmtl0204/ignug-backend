@@ -59,7 +59,7 @@ export class UserEntity {
   @OneToOne(() => TeacherEntity, teacher => teacher.user)
   teacher: TeacherEntity;
 
-  /** Foreign Key **/
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'blood_type_id' })
   bloodType: CatalogueEntity;

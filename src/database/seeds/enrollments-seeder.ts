@@ -4,14 +4,15 @@ import { CataloguesService, CurriculumsService, EnrollmentsDetailService, School
 import { EnrollmentsService } from 'src/modules/core/services';
 import { CatalogueEntity, CurriculumEntity, EnrollmentEntity, SchoolPeriodEntity, StudentEntity, SubjectEntity } from '@core/entities';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class EnrollmentSeeder {
   private periods: CatalogueEntity[] = [];
-  private parallel: CatalogueEntity[] = [];
+  private parallels: CatalogueEntity[] = [];
   private types: CatalogueEntity[] = [];
   private states: CatalogueEntity[] = [];
-  private workday: CatalogueEntity[] = [];
+  private workdays: CatalogueEntity[] = [];
   private curriculums: CurriculumEntity[] = [];
   private students: StudentEntity[] = [];
   private schoolPeriods: SchoolPeriodEntity[] = [];
@@ -19,19 +20,24 @@ export class EnrollmentSeeder {
   private academicStates: CatalogueEntity[] = [];
   private subjects: SubjectEntity[] = [];
 
-  constructor(private studentsService: StudentsService,
+  constructor(
+    private studentsService: StudentsService,
     private enrollmentsService: EnrollmentsService,
     private schoolPeriodsService: SchoolPeriodsService,
     private catalogueService: CataloguesService,
     private curriculumsService: CurriculumsService,
     private enrollmentsDetailService: EnrollmentsDetailService,
-    private subjectsService: SubjectsService) { }
+    private subjectsService: SubjectsService,
+  ) {}
 
   async run() {
+    await this.loadCatalogues();
+    await this.loadCurriculums();
+    await this.loadSchoolPeriods();
+    await this.loadStudents();
+    await this.loadSubjects();
     await this.createEnrollments();
     await this.createEnrollmentsDetails();
-    await this.loadCatalogues();
-    await this.loadEnrollments();
   }
 
   async loadCatalogues() {
@@ -43,16 +49,23 @@ export class EnrollmentSeeder {
 
     this.periods = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
 
-    this.parallel = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.PARALLEL);
+    this.parallels = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.PARALLEL);
 
-    this.workday = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.WORKDAY);
+    this.workdays = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
 
-    this.academicStates = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ACADEMIC_STATE);
-
+    this.academicStates = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
   }
 
-  async loadEnrollments() {
-    this.enrollments = (await this.enrollmentsService.findAll()).data as EnrollmentEntity[];
+  async loadCurriculums() {
+    this.curriculums = (await this.curriculumsService.findAll()).data;
+  }
+
+  async loadSchoolPeriods() {
+    this.schoolPeriods = (await this.schoolPeriodsService.findAll()).data;
+  }
+
+  async loadStudents() {
+    this.students = (await this.studentsService.findAll()).data;
   }
 
   async loadSubjects() {
@@ -60,39 +73,36 @@ export class EnrollmentSeeder {
   }
 
   async createEnrollments() {
-
     const enrollments: CreateEnrollmentDto[] = [];
 
     //states
-    const stateEnabled = this.states.find((state: CatalogueEntity) => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
-    });//xd
+    const state = this.states.find((state: CatalogueEntity) => {
+      return state.code === 'registered' && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+    });
 
     //curriculums
-    const curriculums = (await this.curriculumsService.findAll()).data;
-    const curriculum = curriculums.find((curriculum: CurriculumEntity) => curriculum.code === 'cod1');
+    const curriculum = this.curriculums.find((curriculum: CurriculumEntity) => curriculum.code === 'cod1');
 
     //parallel
-    const parallel = this.parallel.find(parallel => {
-      return parallel.code === '1' && parallel.type === CatalogueCoreTypeEnum.PARALLEL;
+    const parallel = this.parallels.find(parallel => {
+      return parallel.code === 'a' && parallel.type === CatalogueCoreTypeEnum.PARALLEL;
     });
 
     //workday
-    const workday = this.workday.find(workday => {
-      return workday.code === '1' && workday.type === CatalogueCoreTypeEnum.WORKDAY;
+    const workday = this.workdays.find(workday => {
+      return workday.code === 'm' && workday.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY;
     });
 
     //students
-    const students = (await this.studentsService.findAll()).data;
-    const student = students.find((student: StudentEntity) => student.user.identification === '123456781');
+    const student1 = this.students[0];
+    const student2 = this.students[1];
 
     //school periods
-    const schoolPeriods = (await this.schoolPeriodsService.findAll()).data;
-    const schoolPeriod = schoolPeriods.find((schoolPeriod: SchoolPeriodEntity) => schoolPeriod.code === 'cod1');
+    const schoolPeriod = this.schoolPeriods.find((schoolPeriod: SchoolPeriodEntity) => schoolPeriod.code === 'cod1');
 
     //enrollment type
     const type = this.types.find(type => {
-      return type.code === '1' && type.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE;
+      return type.code === 'ordinary' && type.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE;
     });
 
     //Periodo academico
@@ -102,47 +112,38 @@ export class EnrollmentSeeder {
     const second = this.periods.find((period: CatalogueEntity) => {
       return period.code === '2' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
     });
-    const third = this.periods.find((period: CatalogueEntity) => {
-      return period.code === '3' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
-    });
-    const fourth = this.periods.find((period: CatalogueEntity) => {
-      return period.code === '4' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
-    });
-    const fifth = this.periods.find((period: CatalogueEntity) => {
-      return period.code === '5' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
-    });
 
     enrollments.push(
       {
         code: 'cod1',
         date: new Date('2023-08-14'),
-        application_at: new Date('2023-08-14'),
-        folio: ' ',
+        applicationsAt: new Date('2023-08-14'),
+        folio: faker.string.alphanumeric(),
         observation: 'No hay obsevaciones',
-        student: student,
+        student: student1,
         academicPeriod: first,
         curriculum: curriculum,
         parallel: parallel,
         schoolPeriodEntity: schoolPeriod,
-        state: stateEnabled,
+        state: state,
         type: type,
-        workday: workday
+        workday: workday,
       },
       {
         code: 'cod2',
         date: new Date('2023-08-14'),
-        application_at: new Date('2023-08-14'),
-        folio: ' ',
+        applicationsAt: new Date('2023-08-14'),
+        folio: faker.string.alphanumeric(),
         observation: 'No hay obsevaciones',
-        student: student,
+        student: student2,
         academicPeriod: second,
         curriculum: curriculum,
         parallel: parallel,
         schoolPeriodEntity: schoolPeriod,
-        state: stateEnabled,
+        state: state,
         type: type,
-        workday: workday
-      }
+        workday: workday,
+      },
     );
 
     for (const enrollment of enrollments) {
@@ -155,37 +156,42 @@ export class EnrollmentSeeder {
 
     //academic State
     const academicState = this.academicStates.find(academicState => {
-      return academicState.code === '1' && academicState.type === CatalogueCoreTypeEnum.ACADEMIC_STATE;
+      return academicState.code === 'a' && academicState.type === CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
     });
 
     //subjects
-    const subject1 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'code1');
-    const subject2 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'code2');
-    const subject3 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'code3');
-    const subject4 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'code4');
+    const subject1 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod1');
+    const subject2 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod2');
+    const subject3 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod3');
+    const subject4 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod4');
+    const subject5 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod5');
+    const subject6 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod6');
+    const subject7 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod7');
+    const subject8 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod8');
 
     //enrollments
+    this.enrollments = (await this.enrollmentsService.findAll()).data;
     const enrollment1 = this.enrollments.find((enrollment: EnrollmentEntity) => enrollment.code === 'cod1');
     const enrollment2 = this.enrollments.find((enrollment: EnrollmentEntity) => enrollment.code === 'cod2');
 
     //parallel
-    const parallel = this.parallel.find(parallel => {
-      return parallel.code === '1' && parallel.type === CatalogueCoreTypeEnum.PARALLEL;
+    const parallel = this.parallels.find(parallel => {
+      return parallel.code === 'a' && parallel.type === CatalogueCoreTypeEnum.PARALLEL;
     });
 
     //states
-    const stateEnabled = this.states.find((state: CatalogueEntity) => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
+    const state = this.states.find((state: CatalogueEntity) => {
+      return state.code === 'registered' && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
     });
 
     //enrollment type
     const type = this.types.find(type => {
-      return type.code === '1' && type.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE;
+      return type.code === 'ordinary' && type.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE;
     });
 
     //workday
-    const workday = this.workday.find(workday => {
-      return workday.code === '1' && workday.type === CatalogueCoreTypeEnum.WORKDAY;
+    const workday = this.workdays.find(workday => {
+      return workday.code === 'm' && workday.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY;
     });
 
     enrollmentDetails.push(
@@ -193,113 +199,113 @@ export class EnrollmentSeeder {
         academicState: academicState,
         enrollment: enrollment1,
         parallel: parallel,
-        state: stateEnabled,
+        state: state,
         subject: subject1,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment1,
         parallel: parallel,
-        state: stateEnabled,
+        state: state,
         subject: subject2,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment1,
         parallel: parallel,
-        state: stateEnabled,
+        state: state,
         subject: subject3,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment1,
         parallel: parallel,
-        state: stateEnabled,
+        state: state,
         subject: subject4,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment2,
         parallel: parallel,
-        state: stateEnabled,
-        subject: subject1,
+        state: state,
+        subject: subject5,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment2,
         parallel: parallel,
-        state: stateEnabled,
-        subject: subject2,
+        state: state,
+        subject: subject6,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment2,
         parallel: parallel,
-        state: stateEnabled,
-        subject: subject3,
+        state: state,
+        subject: subject7,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
       {
         academicState: academicState,
         enrollment: enrollment2,
         parallel: parallel,
-        state: stateEnabled,
-        subject: subject4,
+        state: state,
+        subject: subject8,
         type: type,
         workday: workday,
-        number: 0,
+        number: faker.helpers.rangeToNumber({ min: 1, max: 3 }),
         date: new Date('2023-08-14'),
-        finalAttendance: 0,
-        finalGrade: 0,
-        observation: 'no hay observaciones'
+        finalAttendance: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        finalGrade: faker.helpers.rangeToNumber({ min: 7, max: 10 }),
+        observation: 'no hay observaciones',
       },
     );
 

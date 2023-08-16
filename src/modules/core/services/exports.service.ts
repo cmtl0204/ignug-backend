@@ -28,7 +28,6 @@ export class ExportsService {
     XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Estudiantes');
     const path = join(process.cwd(), 'src/resources/exports', Date.now() + '.xlsx'); //review path
     XLSX.writeFile(newWorkbook, path);
-    console.log(path);
     return path;
   }
 }

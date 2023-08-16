@@ -34,8 +34,7 @@ export class DatabaseSeeder {
     private subjectsSeeder: SubjectsSeeder,
     private partialsSeeder: PartialsSeeder,
     private enrollmentsSeeder: EnrollmentSeeder,
-    // aqui iria el seeder de enrollmendetail xd
-    private gradesSeeder: GradeSeeder, 
+    private gradesSeeder: GradeSeeder,
     private classroomsSeeder: ClassroomSeeder,
     private locationsSeeder: LocationsSeeder,
   ) {}
@@ -43,12 +42,12 @@ export class DatabaseSeeder {
   async run() {
     await this.cataloguesSeeder.run();
     await this.rolesSeeder.run();
+    await this.institutionsSeeder.run();
     await this.usersSeeder.run();
     await this.menusSeeder.run();
     this.createUploadsDirectories();
 
     /** Seeders Core **/
-    await this.institutionsSeeder.run();
     await this.careersSeeder.run();
     await this.schoolsPeriodsSeeder.run();
     await this.studentsSeeder.run();
@@ -71,7 +70,6 @@ export class DatabaseSeeder {
         if (err) {
           // console.log(err);
         }
-        // console.log('Created Directory Year');
       });
 
       for (let j = 1; j <= 12; j++) {

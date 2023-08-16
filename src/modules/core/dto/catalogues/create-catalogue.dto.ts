@@ -12,7 +12,6 @@ const model = new CreateCatalogueDto();
 new Validator()
   .validate(model, { messages: ES_I18N_MESSAGES })
   .then((errors) => {
-    console.log(errors[0].constraints);
     // out: title должен быть равен test
   });
 */
@@ -27,6 +26,5 @@ new Validator()
 // new Validator()
 //   .validate(model, { messages: RU_I18N_MESSAGES })
 //   .then((errors) => {
-//     console.log(errors[0].constraints);
 //     // out: title должно быть равно test
 //   });

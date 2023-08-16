@@ -7,7 +7,7 @@ import {
   maxLengthValidationOptions,
   minLengthValidationOptions,
 } from '@shared/validation';
-import { CatalogueEntity } from '@core/entities';
+import { CatalogueEntity, InstitutionEntity } from '@core/entities';
 
 export class UserDto {
   @IsOptional()
@@ -21,6 +21,9 @@ export class UserDto {
 
   @IsOptional()
   readonly gender: CatalogueEntity;
+
+  @IsOptional()
+  readonly institutions: InstitutionEntity[];
 
   @IsOptional()
   readonly maritalStatus: CatalogueEntity;
