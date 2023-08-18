@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueEntity, InstitutionEntity } from '@core/entities';
+import { CatalogueEntity, InstitutionEntity, TeacherEntity } from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
 @Entity('careers', { schema: 'core' })
@@ -51,9 +51,9 @@ export class CareerEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @ManyToMany(() => UserEntity)
-  @JoinTable({ name: 'career_user' })
-  users: UserEntity[];
+  @ManyToMany(() => TeacherEntity)
+  @JoinTable({ name: 'career_teacher' })
+  teachers: TeacherEntity[];
 
   /** Foreign Key **/
   @ManyToOne(() => InstitutionEntity, {

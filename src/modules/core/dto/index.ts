@@ -92,6 +92,13 @@ export * from './teachers/filter-teacher.dto';
 export * from './teachers/update-teacher.dto';
 export * from './teachers/seeder-teacher.dto';
 
+//-------------------------------------------------
+export * from './teacher-distributives/teacher-distributive.dto';
+export * from './teacher-distributives/create-teacher-distributive.dto';
+export * from './teacher-distributives/update-teacher-distributive.dto';
+export * from './teacher-distributives/filter-teacher-distributive.dto';
+//-------------------------------------------------
+
 export * from './enrollment-detail/enrollment-detail.dto';
 export * from './enrollment-detail/create-enrollment-detail.dto';
 export * from './enrollment-detail/filter-enrollment-detail.dto';

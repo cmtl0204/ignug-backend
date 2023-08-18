@@ -41,7 +41,7 @@ export class TeacherEntity {
   informationTeacher: InformationTeacherEntity;
 
   /** Relationship **/
-  @OneToOne(() => UserEntity, user => user.teacher)
+  @OneToOne(() => UserEntity, user => user.teacher,{eager:true})
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

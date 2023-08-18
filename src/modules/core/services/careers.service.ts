@@ -7,7 +7,7 @@ import {
   SeedCareerDto,
   UpdateCareerDto,
 } from '@core/dto';
-import { CareerEntity } from '@core/entities';
+import { CareerEntity, TeacherEntity } from '@core/entities';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
 
@@ -149,4 +149,20 @@ export class CareersService {
     entity.isVisible = true;
     return await this.repository.save(entity);
   }
+
+  async findTeachersByCareer(id: string): Promise<TeacherEntity[]> {
+    const entity = await this.repository.findOne({
+      relations: {teachers:true},
+      where: {
+        id,
+      },
+    });
+
+    if (!entity) {
+      throw new NotFoundException(`La carrera con id:  ${id} no se encontró`);
+    }
+
+    return entity.teachers;
+  }
+
 }

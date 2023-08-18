@@ -29,8 +29,8 @@ export class TeacherDistributiveEntity {
 
   /** Relationship **/
   @ManyToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'parallel_id' })
-  parallel: CatalogueEntity;
+  @JoinColumn({ name: 'paralell_id' })
+  paralell: CatalogueEntity;
 
   @ManyToOne(() => TeacherEntity)
   @JoinColumn({ name: 'teacher_id' })
@@ -56,4 +56,5 @@ export class TeacherDistributiveEntity {
     comment: 'Horas de clase semanales',
   })
   hours: number;
+
 }

@@ -19,3 +19,4 @@ export * from './enrollments.service';
 export * from './enrollments-detail.service';
 export * from './grades.service';
 export * from './classrooms.service';
+export * from './teacher-distributives.service';
