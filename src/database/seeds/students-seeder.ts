@@ -1,19 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { InformationStudentsService, StudentsService } from '@core/services';
+import { CareersService, InformationStudentsService, StudentsService } from '@core/services';
 import { UsersService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
 import { SeedStudentDto } from '@core/dto';
-import { StudentEntity } from '@core/entities';
+import { CareerEntity, StudentEntity } from '@core/entities';
 import { SeederInformationStudentDto } from '@core/dto';
 import { RoleEnum } from '@auth/enums';
 
 @Injectable()
 export class StudentsSeeder {
-  constructor(private studentsService: StudentsService, private informationStudentsService: InformationStudentsService, private usersService: UsersService) {}
+  private careers: CareerEntity[] = [];
+
+  constructor(
+    private studentsService: StudentsService,
+    private informationStudentsService: InformationStudentsService,
+    private usersService: UsersService,
+    private careersService: CareersService,
+  ) {}
 
   async run() {
+    await this.loadCareers();
     await this.createStudents();
     await this.createInformationStudents();
+  }
+
+  async loadCareers() {
+    this.careers = (await this.careersService.findAll()).data;
   }
 
   async createStudents() {
@@ -23,12 +35,12 @@ export class StudentsSeeder {
     users = users.filter((user: UserEntity) => user.roles.some(role => role.code === RoleEnum.STUDENT));
 
     users.forEach((user: UserEntity) => {
-      students.push({user: user });
+      students.push({ user: user, careers: [this.careers[Math.floor(Math.random() * this.careers.length)]] });
     });
 
     for (const item of students) {
       await this.studentsService.create(item);
-    } 
+    }
   }
 
   async createInformationStudents() {

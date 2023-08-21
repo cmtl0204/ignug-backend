@@ -1,19 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { InformationTeachersService, TeachersService } from '@core/services';
+import { CareersService, InformationTeachersService, TeachersService } from '@core/services';
 import { UsersService } from '@auth/services';
 import { UserEntity } from '@auth/entities';
 import { SeedTeacherDto } from '@core/dto';
-import { TeacherEntity } from '@core/entities';
+import { CareerEntity, TeacherEntity } from '@core/entities';
 import { SeederInformationTeacherDto } from '@core/dto';
 import { RoleEnum } from '@auth/enums';
 
 @Injectable()
 export class TeachersSeeder {
-  constructor(private teachersService: TeachersService, private informationTeachersService: InformationTeachersService, private usersService: UsersService) {}
+  private careers: CareerEntity[] = [];
+
+  constructor(
+    private teachersService: TeachersService,
+    private informationTeachersService: InformationTeachersService,
+    private usersService: UsersService,
+    private careersService: CareersService,
+  ) {}
 
   async run() {
+    await this.loadCareers();
     await this.createTeachers();
     await this.createInformationTeachers();
+  }
+
+  async loadCareers() {
+    this.careers = (await this.careersService.findAll()).data;
   }
 
   async createTeachers() {
@@ -25,6 +37,7 @@ export class TeachersSeeder {
     users.forEach((user: UserEntity) => {
       teachers.push({
         user: user,
+        careers: [this.careers[Math.floor(Math.random() * this.careers.length)]],
       });
     });
 

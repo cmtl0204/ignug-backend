@@ -5,8 +5,8 @@ import { SeedUserDto } from '@auth/dto';
 import { RoleEntity } from '@auth/entities';
 import { RoleEnum } from '@auth/enums';
 import { RolesService, UsersService } from '@auth/services';
-import { CatalogueEntity, InstitutionEntity } from '@core/entities';
-import { CataloguesService, InstitutionsService } from '@core/services';
+import { CareerEntity, CatalogueEntity, InstitutionEntity } from '@core/entities';
+import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 
 @Injectable()
 export class UsersSeeder {
