@@ -1,7 +1,7 @@
 import { IsString, IsNumber, IsOptional, IsNotEmpty } from 'class-validator';
 import { PaginationDto } from '@core/dto';
 
-export class FilterTeacherDistributiveDto extends PaginationDto {
+export class FilterTeacherDistributionDto extends PaginationDto {
   @IsString({ message: 'El campo parallel debe ser un string' })
   @IsNotEmpty({ message: 'El campo parallel_id es obligatorio' })
   readonly parallel_id: string;
@@ -24,5 +24,4 @@ export class FilterTeacherDistributiveDto extends PaginationDto {
 
   @IsNumber({}, { message: 'El campo hours debe ser un número' })
   readonly hours: number;
-
 }

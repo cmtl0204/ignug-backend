@@ -14,7 +14,7 @@ export class ClassroomSeeder {
     await this.create();
   }
 
-  async create() {
+  private async create() {
     const classrooms: SeedClassroomDto[] = [];
 
     classrooms.push(

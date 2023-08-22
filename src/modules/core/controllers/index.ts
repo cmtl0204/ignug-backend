@@ -11,4 +11,4 @@ export * from './events.controller';
 export * from './teachers.controller';
 export * from './imports.controller';
 export * from './exports.controller';
-export * from './teacher-distributives.controller';
+export * from './teacher-distributions.controller';

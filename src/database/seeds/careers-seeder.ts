@@ -11,7 +11,7 @@ export class CareersSeeder {
     await this.create();
   }
 
-  async create() {
+  private async create() {
     const careers: SeedCareerDto[] = [];
 
     const catalogues = (await this.cataloguesService.findAll()).data;

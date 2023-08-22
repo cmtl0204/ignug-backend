@@ -1,8 +1,8 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CatalogueEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity } from '@core/entities';
 
-@Entity('teacher_distributives', { schema: 'core' })
-export class TeacherDistributiveEntity {
+@Entity('teacher_distributions', { schema: 'core' })
+export class TeacherDistributionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,7 +29,7 @@ export class TeacherDistributiveEntity {
 
   /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'paralell_id' })
+  @JoinColumn({ name: 'parallel_id' })
   parallel: CatalogueEntity;
 
   @ManyToOne(() => SchoolPeriodEntity)

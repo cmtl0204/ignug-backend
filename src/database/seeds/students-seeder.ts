@@ -16,22 +16,22 @@ export class StudentsSeeder {
     await this.createInformationStudents();
   }
 
-  async createStudents() {
+  private async createStudents() {
     const students: SeedStudentDto[] = [];
     let users = (await this.usersService.findAll()).data;
 
     users = users.filter((user: UserEntity) => user.roles.some(role => role.code === RoleEnum.STUDENT));
 
     users.forEach((user: UserEntity) => {
-      students.push({user: user });
+      students.push({ user: user });
     });
 
     for (const item of students) {
       await this.studentsService.create(item);
-    } 
+    }
   }
 
-  async createInformationStudents() {
+  private async createInformationStudents() {
     const informationStudents: SeederInformationStudentDto[] = [];
     const students = (await this.studentsService.findAll()).data;
 

@@ -16,7 +16,7 @@ export class TeachersSeeder {
     await this.createInformationTeachers();
   }
 
-  async createTeachers() {
+  private async createTeachers() {
     const teachers: SeedTeacherDto[] = [];
     let users = (await this.usersService.findAll()).data;
 
@@ -33,7 +33,7 @@ export class TeachersSeeder {
     }
   }
 
-  async createInformationTeachers() {
+  private async createInformationTeachers() {
     const informationTeachers: SeederInformationTeacherDto[] = [];
     const teachers = (await this.teachersService.findAll()).data;
 

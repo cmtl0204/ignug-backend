@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
 import { SeedUserDto } from '@auth/dto';
 import { RoleEntity } from '@auth/entities';
 import { RoleEnum } from '@auth/enums';
 import { RolesService, UsersService } from '@auth/services';
 import { CatalogueEntity, InstitutionEntity } from '@core/entities';
 import { CataloguesService, InstitutionsService } from '@core/services';
+import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class UsersSeeder {
@@ -35,15 +35,15 @@ export class UsersSeeder {
     await this.createTeacherUsers();
   }
 
-  async loadRoles() {
+  private async loadRoles() {
     this.roles = (await this.rolesService.findAll()).data as RoleEntity[];
   }
 
-  async loadInstitutions() {
+  private async loadInstitutions() {
     this.institutions = (await this.institutionsService.findAll()).data;
   }
 
-  async loadCatalogues() {
+  private async loadCatalogues() {
     const catalogues = (await this.cataloguesService.findAll()).data as CatalogueEntity[];
 
     this.bloodTypes = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.BLOOD_TYPE);
@@ -59,7 +59,7 @@ export class UsersSeeder {
     this.sexes = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.SEX);
   }
 
-  async createUsers() {
+  private async createUsers() {
     const users: SeedUserDto[] = [];
 
     const adminRole = this.roles.find(role => role.code === RoleEnum.ADMIN);
@@ -157,7 +157,7 @@ export class UsersSeeder {
     }
   }
 
-  async createStudentUsers() {
+  private async createStudentUsers() {
     const users: SeedUserDto[] = [];
 
     const studentRole = this.roles.find(role => role.code === RoleEnum.STUDENT);
@@ -192,7 +192,7 @@ export class UsersSeeder {
     }
   }
 
-  async createTeacherUsers() {
+  private async createTeacherUsers() {
     const users: SeedUserDto[] = [];
 
     const teacherRole = this.roles.find(role => role.code === RoleEnum.TEACHER);

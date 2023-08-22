@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { faker } from '@faker-js/faker';
+import { SeedCurriculumDto } from '@core/dto';
+import { CareerEntity } from '@core/entities';
 import { CataloguesService, CareersService, CurriculumsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
-import { CareerEntity } from '@core/entities';
-import { faker } from '@faker-js/faker';
-import { SeedCurriculumDto } from 'src/modules/core/dto/curriculum/seed-curriculum.dto';
 
 @Injectable()
 export class CurriculumsSeeder {
@@ -13,7 +13,7 @@ export class CurriculumsSeeder {
     await this.create();
   }
 
-  async create() {
+  private async create() {
     const curriculums: SeedCurriculumDto[] = [];
 
     const catalogues = (await this.cataloguesService.findAll()).data;

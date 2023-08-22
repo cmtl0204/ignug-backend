@@ -1,20 +1,15 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateTeacherDistributiveDto,
-  FilterTeacherDistributiveDto,
-  PaginationDto,
-  UpdateTeacherDistributiveDto,
-} from '@core/dto';
-import { TeacherDistributiveEntity } from '@core/entities';
+import { FindOptionsWhere, Repository } from 'typeorm';
+import { CreateTeacherDistributionDto, FilterTeacherDistributionDto, PaginationDto, UpdateTeacherDistributionDto } from '@core/dto';
+import { TeacherDistributionEntity } from '@core/entities';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
 
 @Injectable()
-export class TeacherDistributivesService {
+export class TeacherDistributionsService {
   constructor(
-    @Inject(CoreRepositoryEnum.TEACHER_DISTRIBUTIVE_REPOSITORY)
-    private repository: Repository<TeacherDistributiveEntity>,
+    @Inject(CoreRepositoryEnum.TEACHER_DISTRIBUTION_REPOSITORY)
+    private repository: Repository<TeacherDistributionEntity>,
   ) {}
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
@@ -32,12 +27,12 @@ export class TeacherDistributivesService {
     };
   }
 
-  async create(payload: CreateTeacherDistributiveDto): Promise<TeacherDistributiveEntity> {
-    const newEntity:TeacherDistributiveEntity = this.repository.create(payload);
+  async create(payload: CreateTeacherDistributionDto): Promise<TeacherDistributionEntity> {
+    const newEntity: TeacherDistributionEntity = this.repository.create(payload);
     return await this.repository.save(newEntity);
   }
 
-  async findAll(params?: FilterTeacherDistributiveDto): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterTeacherDistributionDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
@@ -52,7 +47,7 @@ export class TeacherDistributivesService {
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }
 
-  async findOne(id: string): Promise<TeacherDistributiveEntity> {
+  async findOne(id: string): Promise<TeacherDistributionEntity> {
     const entity = await this.repository.findOne({
       relations: ['parallel', 'teacher', 'schoolPeriod', 'subject', 'workday'],
       where: {
@@ -67,7 +62,7 @@ export class TeacherDistributivesService {
     return entity;
   }
 
-  async update(id: string, payload: UpdateTeacherDistributiveDto): Promise<TeacherDistributiveEntity> {
+  async update(id: string, payload: UpdateTeacherDistributionDto): Promise<TeacherDistributionEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {
@@ -79,7 +74,7 @@ export class TeacherDistributivesService {
     return await this.repository.save(entity);
   }
 
-  async remove(id: string): Promise<TeacherDistributiveEntity> {
+  async remove(id: string): Promise<TeacherDistributionEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {
@@ -89,16 +84,12 @@ export class TeacherDistributivesService {
     return await this.repository.softRemove(entity);
   }
 
-  async removeAll(payload: TeacherDistributiveEntity[]): Promise<TeacherDistributiveEntity[]> {
+  async removeAll(payload: TeacherDistributionEntity[]): Promise<TeacherDistributionEntity[]> {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterTeacherDistributiveDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<TeacherDistributiveEntity>
-      | FindOptionsWhere<TeacherDistributiveEntity>[];
+  private async paginateAndFilter(params: FilterTeacherDistributionDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<TeacherDistributionEntity> | FindOptionsWhere<TeacherDistributionEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -122,5 +113,4 @@ export class TeacherDistributivesService {
       pagination: { limit, totalItems: response[1] },
     };
   }
-
 }

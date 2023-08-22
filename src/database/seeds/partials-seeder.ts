@@ -1,20 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { SeedPartialDto } from '@core/dto';
-import { SchoolPeriodEntity } from '@core/entities';
-import { PartialsService, SchoolPeriodsService } from '@core/services';
+import { PartialsService } from '@core/services';
 
 @Injectable()
 export class PartialsSeeder {
-  constructor(private partialsService: PartialsService, private schoolPeriodsService: SchoolPeriodsService) {}
+  constructor(private partialsService: PartialsService) {}
 
   async run() {
     await this.create();
   }
 
-  async create() {
+  private async create() {
     const partials: SeedPartialDto[] = [];
-
-    const schoolPeriods = (await this.schoolPeriodsService.findAll()).data;
 
     partials.push(
       {

@@ -17,6 +17,7 @@ import { LocationsSeeder } from './locations-seeder';
 import { PartialsSeeder } from './partials-seeder';
 import { SchoolPeriodSeeder } from './school-period-seeder';
 import { TeachersSeeder } from './teachers-seeder';
+import { TeacherDistributionsSeeder } from './teacher-distributions-seeder';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -37,6 +38,7 @@ export class DatabaseSeeder {
     private gradesSeeder: GradeSeeder,
     private classroomsSeeder: ClassroomSeeder,
     private locationsSeeder: LocationsSeeder,
+    private teacherDistributionsSeeder: TeacherDistributionsSeeder,
   ) {}
 
   async run() {
@@ -60,6 +62,7 @@ export class DatabaseSeeder {
     await this.gradesSeeder.run();
     await this.classroomsSeeder.run();
     await this.locationsSeeder.run();
+    await this.teacherDistributionsSeeder.run();
   }
 
   createUploadsDirectories() {
@@ -78,7 +81,6 @@ export class DatabaseSeeder {
           if (err) {
             // console.log(err);
           }
-          // console.log('Created Directory Month');
         });
       }
     }

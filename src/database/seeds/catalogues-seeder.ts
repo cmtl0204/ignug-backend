@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CataloguesService } from '@core/services';
-import { CatalogueStateEnum, CatalogueCoreTypeEnum } from '@shared/enums';
 import { CreateCatalogueDto } from '@core/dto';
+import { CatalogueStateEnum, CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class CataloguesSeeder {
@@ -49,7 +49,7 @@ export class CataloguesSeeder {
     await this.createEnrollmentsStateCatalogues();
   }
 
-  async createAcademicPeriodCatalogues(): Promise<void> {
+  private async createAcademicPeriodCatalogues(): Promise<void> {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -99,7 +99,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createBloodTypeCatalogues() {
+  private async createBloodTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -163,7 +163,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createCareerModalityCatalogues() {
+  private async createCareerModalityCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'On-site',
@@ -213,7 +213,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createDisabilityTypeCatalogues() {
+  private async createDisabilityTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -270,7 +270,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createEducationLevelCatalogues() {
+  private async createEducationLevelCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -348,7 +348,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createEthnicOriginCatalogues() {
+  private async createEthnicOriginCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -419,7 +419,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createIdentificationTypeCatalogues() {
+  private async createIdentificationTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -441,7 +441,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createInstitutionPracticesTypeCatalogues() {
+  private async createInstitutionPracticesTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -484,7 +484,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createGenderCatalogues() {
+  private async createGenderCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -506,7 +506,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createMaritalStatusCatalogues() {
+  private async createMaritalStatusCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -549,7 +549,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createProjectScopeCatalogues() {
+  private async createProjectScopeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -592,7 +592,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createRegistrationTypeCatalogues() {
+  private async createRegistrationTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -620,7 +620,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipReason1Catalogues() {
+  private async createScholarshipReason1Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -642,7 +642,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipReason2Catalogues() {
+  private async createScholarshipReason2Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -664,7 +664,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipReason3Catalogues() {
+  private async createScholarshipReason3Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -686,7 +686,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipReason4Catalogues() {
+  private async createScholarshipReason4Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -708,7 +708,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipReason5Catalogues() {
+  private async createScholarshipReason5Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -730,7 +730,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipReason6Catalogues() {
+  private async createScholarshipReason6Catalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -752,7 +752,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipTypeCatalogues() {
+  private async createScholarshipTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -781,7 +781,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createScholarshipFundingTypeCatalogues() {
+  private async createScholarshipFundingTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -817,7 +817,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSchoolDayCatalogues() {
+  private async createSchoolDayCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -853,7 +853,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSchoolTypeCatalogues() {
+  private async createSchoolTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -903,7 +903,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSexCatalogues() {
+  private async createSexCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -925,7 +925,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createStudentIncomeForCatalogues() {
+  private async createStudentIncomeForCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -961,7 +961,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createStudentOccupationCatalogues() {
+  private async createStudentOccupationCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -983,7 +983,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createYesNoCatalogues() {
+  private async createYesNoCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -1005,7 +1005,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createYesNoNACatalogues() {
+  private async createYesNoNACatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: '1',
@@ -1034,7 +1034,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSchoolPeriodsStateCatalogues() {
+  private async createSchoolPeriodsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'open',
@@ -1057,7 +1057,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createInstitutionsStateCatalogues() {
+  private async createInstitutionsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'enable',
@@ -1080,7 +1080,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createCareersStateCatalogues() {
+  private async createCareersStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'enable',
@@ -1103,7 +1103,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createCareersTypeCatalogues() {
+  private async createCareersTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'technology',
@@ -1126,7 +1126,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createCurriculumsStateCatalogues() {
+  private async createCurriculumsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'enable',
@@ -1149,7 +1149,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSubjectsStateCatalogues() {
+  private async createSubjectsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'enable',
@@ -1172,7 +1172,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createSubjectsTypeCatalogues() {
+  private async createSubjectsTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'subject',
@@ -1203,7 +1203,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createParallelsCatalogues() {
+  private async createParallelsCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'a',
@@ -1234,7 +1234,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createEnrollmentsTypeCatalogues() {
+  private async createEnrollmentsTypeCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'ordinary',
@@ -1265,7 +1265,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createEnrollmentsAcademicStateCatalogues() {
+  private async createEnrollmentsAcademicStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'a',
@@ -1288,7 +1288,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createEnrollmentsWorkdayCatalogues() {
+  private async createEnrollmentsWorkdayCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'm',
@@ -1327,7 +1327,7 @@ export class CataloguesSeeder {
     }
   }
 
-  async createEnrollmentsStateCatalogues() {
+  private async createEnrollmentsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
       code: 'registered',

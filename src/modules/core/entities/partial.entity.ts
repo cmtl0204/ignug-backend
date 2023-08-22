@@ -31,9 +31,6 @@ export class PartialEntity {
   deletedAt: Date;
 
   /** Foreign Keys **/
-  @ManyToOne(() => SchoolPeriodEntity)
-  @JoinColumn({ name: 'school_period_id' })
-  schoolPeriod: SchoolPeriodEntity;
 
   /** Columns **/
   @Column({

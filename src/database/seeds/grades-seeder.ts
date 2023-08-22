@@ -1,60 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGradeDto } from '@core/dto';
-import { CataloguesService, SubjectsService } from '@core/services';
-import { EnrollmentsService, EnrollmentsDetailService } from 'src/modules/core/services';
+import { EnrollmentsDetailService } from 'src/modules/core/services';
 import { GradesService } from 'src/modules/core/services/grades.service';
 import { EnrollmentDetailEntity } from '@core/entities';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class GradeSeeder {
-  private enrollmentsDetail: EnrollmentDetailEntity[] = [];
+  private enrollmentDetails: EnrollmentDetailEntity[] = [];
 
-  constructor(
-    private enrollmentDetailService: EnrollmentsDetailService,
-    private gradeService: GradesService,
-    ) { }
+  constructor(private enrollmentDetailService: EnrollmentsDetailService, private gradeService: GradesService) {}
 
   async run() {
-    await this.createGrades();
     await this.loadEnrollmentsDetail();
+    await this.createGrades();
   }
 
-  async loadEnrollmentsDetail() {
-    this.enrollmentsDetail = (await this.enrollmentDetailService.findAll()).data as EnrollmentDetailEntity[];
+  private async loadEnrollmentsDetail() {
+    this.enrollmentDetails = (await this.enrollmentDetailService.findAll()).data as EnrollmentDetailEntity[];
   }
 
-  async createGrades() {
+  private async createGrades() {
     const grades: CreateGradeDto[] = [];
 
-    const enrollmentDetail1 = this.enrollmentsDetail.find((enrollmentsDetail: EnrollmentDetailEntity) => enrollmentsDetail.id === '1');
-
-    grades.push(
-      {
-        createdAt: new Date('2023-08-14'),
-        updatedAt: new Date('2023-08-14'),
-        deletedAt: new Date('2023-08-14'),
-        value: 5,
-        enrollmentDetail: null
-      },
-      {
-        createdAt: new Date('2023-08-16'),
-        updatedAt: new Date('2023-08-16'),
-        deletedAt: new Date('2023-08-16'),
-        value: 6,
-        enrollmentDetail: null
-      },
-      {
-        createdAt: new Date('2023-08-13'),
-        updatedAt: new Date('2023-08-13'),
-        deletedAt: new Date('2023-08-13'),
-        value: 7,
-        enrollmentDetail: null
-      },
-    );
+    this.enrollmentDetails.forEach(enrollmentDetail => {
+      grades.push({
+        value: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
+        enrollmentDetail: enrollmentDetail,
+      });
+    });
 
     for (const grade of grades) {
       await this.gradeService.create(grade);
     }
   }
 }
-

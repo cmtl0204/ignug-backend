@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { TeacherDistributiveEntity, PartialEntity } from '@core/entities';
+import { TeacherDistributionEntity, PartialEntity, SchoolPeriodEntity } from '@core/entities';
 
 @Entity('partial_permission', { schema: 'core' })
 export class PartialPermissionEntity {
@@ -32,9 +32,13 @@ export class PartialPermissionEntity {
   @JoinColumn({ name: 'partial_id' })
   partial: PartialEntity;
 
-  @ManyToOne(() => TeacherDistributiveEntity)
-  @JoinColumn({ name: 'teacher_distributive_id' })
-  teacherDistributive: TeacherDistributiveEntity;
+  @ManyToOne(() => SchoolPeriodEntity)
+  @JoinColumn({ name: 'school_period_id' })
+  schoolPeriod: SchoolPeriodEntity;
+
+  @ManyToOne(() => TeacherDistributionEntity)
+  @JoinColumn({ name: 'teacher_distribution_id' })
+  teacherDistribution: TeacherDistributionEntity;
 
   /** Columns **/
   @Column({
