@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity, SubjectEntity } from '@core/entities';
+import { EnrollmentDetailEntity } from '@core/entities';
 
 @Entity('attendances', { schema: 'core' })
 export class AttendanceEntity {
@@ -30,7 +30,7 @@ export class AttendanceEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
+  /** Foreign Keys **/
   @ManyToOne(() => EnrollmentDetailEntity)
   @JoinColumn({ name: 'enrollment_detail_id' })
   enrollmentDetail: EnrollmentDetailEntity;

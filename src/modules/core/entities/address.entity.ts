@@ -30,7 +30,7 @@ export class AddressEntity {
   })
   deletedAt: Date;
 
-  /** Foreign Key **/
+  /** Foreign Keys **/
   @Column({
     name: 'model_id',
     type: 'varchar',
