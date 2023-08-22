@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { CreateClassroomDto,UpdateClassroomDto, PaginationDto, SeedClassroomDto, FilterClassroomDto} from '@core/dto';
-import { ClassroomEntity} from '@core/entities';
+import { CreateClassroomDto, UpdateClassroomDto, PaginationDto, SeedClassroomDto, FilterClassroomDto } from '@core/dto';
+import { ClassroomEntity } from '@core/entities';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum } from '@shared/enums';
@@ -18,15 +18,13 @@ export class ClassroomsService {
     const newClassroom = this.repository.create(payload);
 
     return await this.repository.save(newClassroom);
-  } 
+  }
 
-   async findAll(params?: FilterClassroomDto): Promise<ServiceResponseHttpModel> {
+  async findAll(params?: FilterClassroomDto): Promise<ServiceResponseHttpModel> {
     //Pagination & Filter by search
     if (params?.limit > 0 && params?.page >= 0) {
       return await this.paginateAndFilter(params);
     }
-
-    
 
     //All
     const data = await this.repository.findAndCount({
@@ -67,7 +65,7 @@ export class ClassroomsService {
     return await this.repository.softRemove(payload);
   }
 
-   private async paginateAndFilter(params: FilterClassroomDto): Promise<ServiceResponseHttpModel> {
+  private async paginateAndFilter(params: FilterClassroomDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<ClassroomEntity> | FindOptionsWhere<ClassroomEntity>[];
     where = {};
     let { page, search } = params;
@@ -77,7 +75,7 @@ export class ClassroomsService {
       search = search.trim();
       page = 0;
       where = [];
-      where.push({ enrollmentDetail: ILike(`%${search}`) });
+      where.push({ name: ILike(`%${search}`) });
     }
 
     const response = await this.repository.findAndCount({

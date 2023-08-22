@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CatalogueEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity } from '@core/entities';
 
 @Entity('teacher_distributives', { schema: 'core' })
@@ -27,14 +27,10 @@ export class TeacherDistributiveEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'paralell_id' })
-  paralell: CatalogueEntity;
-
-  @ManyToOne(() => TeacherEntity)
-  @JoinColumn({ name: 'teacher_id' })
-  teacher: TeacherEntity;
+  parallel: CatalogueEntity;
 
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
@@ -44,6 +40,10 @@ export class TeacherDistributiveEntity {
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;
 
+  @ManyToOne(() => TeacherEntity)
+  @JoinColumn({ name: 'teacher_id' })
+  teacher: TeacherEntity;
+
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'workday_id' })
   workday: CatalogueEntity;
@@ -51,10 +51,9 @@ export class TeacherDistributiveEntity {
   /** Columns **/
   @Column({
     name: 'hours',
-    type: 'integer',
+    type: 'int',
     nullable: true,
     comment: 'Horas de clase semanales',
   })
   hours: number;
-
 }

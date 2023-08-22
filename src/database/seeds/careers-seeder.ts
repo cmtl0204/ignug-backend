@@ -110,7 +110,7 @@ export class CareersSeeder {
         shortName: 'Med',
       },
     );
-    console.log(careers[0]);
+
     for (const item of careers) {
       await this.careersService.create(item);
     }

@@ -35,11 +35,7 @@ export class InformationTeacherEntity {
   })
   isVisible: boolean;
 
-  /** Relationship **/
-  @OneToOne(() => TeacherEntity, teacher => teacher.informationTeacher)
-  @JoinColumn({ name: 'teacher_id' })
-  teacher: TeacherEntity;
-
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'country_higher_education_id' })
   countryHigherEducation: CatalogueEntity;
@@ -63,6 +59,10 @@ export class InformationTeacherEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'scholarship_type_id' })
   scholarshipType: CatalogueEntity;
+
+  @OneToOne(() => TeacherEntity, teacher => teacher.informationTeacher)
+  @JoinColumn({ name: 'teacher_id' })
+  teacher: TeacherEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'teaching_ladder_id' })

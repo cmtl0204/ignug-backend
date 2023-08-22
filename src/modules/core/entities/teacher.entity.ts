@@ -40,8 +40,8 @@ export class TeacherEntity {
   @OneToOne(() => InformationTeacherEntity, informationTeacher => informationTeacher.teacher)
   informationTeacher: InformationTeacherEntity;
 
-  /** Relationship **/
-  @OneToOne(() => UserEntity, user => user.teacher,{eager:true})
+  /** Foreign Keys **/
+  @OneToOne(() => UserEntity, user => user.teacher, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

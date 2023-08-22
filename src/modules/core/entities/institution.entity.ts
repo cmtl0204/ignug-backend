@@ -1,4 +1,3 @@
-import { AddressEntity, CatalogueEntity } from '@core/entities';
 import {
   Column,
   CreateDateColumn,
@@ -12,6 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
+import { AddressEntity, CatalogueEntity } from '@core/entities';
 
 @Entity('institutions', { schema: 'core' })
 export class InstitutionEntity {

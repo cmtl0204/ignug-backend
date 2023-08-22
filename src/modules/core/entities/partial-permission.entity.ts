@@ -27,14 +27,14 @@ export class PartialPermissionEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
-  @ManyToOne(() => TeacherDistributiveEntity)
-  @JoinColumn({ name: 'distributive_teacher_id' })
-  teacherDistributive: TeacherDistributiveEntity;
-
+  /** Foreign Keys **/
   @ManyToOne(() => PartialEntity)
   @JoinColumn({ name: 'partial_id' })
   partial: PartialEntity;
+
+  @ManyToOne(() => TeacherDistributiveEntity)
+  @JoinColumn({ name: 'teacher_distributive_id' })
+  teacherDistributive: TeacherDistributiveEntity;
 
   /** Columns **/
   @Column({

@@ -37,13 +37,16 @@ export class CatalogueEntity {
   })
   isVisible: boolean;
 
+  /** Inverse Relationship **/
+  @OneToMany(() => CatalogueEntity, category => category.parent)
+  children: CatalogueEntity[];
+
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity, category => category.children)
   @JoinColumn({ name: 'parent_id' })
   parent: CatalogueEntity;
 
-  @OneToMany(() => CatalogueEntity, category => category.parent)
-  children: CatalogueEntity[];
-
+  /** Columns **/
   @Column({
     name: 'code',
     type: 'varchar',

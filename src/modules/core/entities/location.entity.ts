@@ -29,13 +29,14 @@ export class LocationEntity {
   })
   deletedAt: Date;
 
-  /** Foreign Key **/
+  /** Inverse Relationship **/
+  @OneToMany(() => LocationEntity, location => location.parent)
+  children: LocationEntity[];
+
+  /** Foreign Keys **/
   @ManyToOne(() => LocationEntity, location => location.children)
   @JoinColumn({ name: 'parent_id' })
   parent: LocationEntity;
-
-  @OneToMany(() => LocationEntity, location => location.parent)
-  children: LocationEntity[];
 
   /** Columns **/
   @Column({
@@ -72,7 +73,7 @@ export class LocationEntity {
 
   @Column({
     name: 'level',
-    type: 'integer',
+    type: 'int',
     default: 0,
     comment: '1=Pais, 2=provincia, 3=canton, 4=parroquia',
   })

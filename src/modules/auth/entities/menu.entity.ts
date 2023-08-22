@@ -86,7 +86,7 @@ export class MenuEntity {
 
   @Column({
     name: 'order',
-    type: 'integer',
+    type: 'int',
     comment: 'Orden del menu',
   })
   order: string;

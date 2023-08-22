@@ -46,7 +46,7 @@ export class AttendanceEntity {
 
   @Column({
     name: 'value',
-    type: 'integer',
+    type: 'int',
     default: 0,
     comment: 'Valor de la asistencia',
   })

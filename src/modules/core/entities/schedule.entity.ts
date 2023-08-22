@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, ClassroomEntity, TeacherDistributiveEntity, PartialEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity } from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { ClassroomEntity, TeacherDistributiveEntity } from '@core/entities';
 
 @Entity('schedules', { schema: 'core' })
 export class ScheduleEntity {
@@ -27,14 +27,14 @@ export class ScheduleEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
-  @ManyToOne(() => TeacherDistributiveEntity)
-  @JoinColumn({ name: 'distributive_teacher_id' })
-  teacherDistributive: TeacherDistributiveEntity;
-
+  /** Foreign Keys **/
   @ManyToOne(() => ClassroomEntity, { nullable: true })
   @JoinColumn({ name: 'classroom_id' })
   classroom: ClassroomEntity;
+
+  @ManyToOne(() => TeacherDistributiveEntity)
+  @JoinColumn({ name: 'distributive_teacher_id' })
+  teacherDistributive: TeacherDistributiveEntity;
 
   /** Columns **/
   @Column({
@@ -60,7 +60,7 @@ export class ScheduleEntity {
 
   @Column({
     name: 'time',
-    type: 'integer',
+    type: 'int',
     comment: 'Hora de clase',
   })
   time: number;

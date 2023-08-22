@@ -1,6 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity } from '@core/entities';
-import { SchoolPeriodEntity } from './school-period.entity';
+import { CatalogueEntity, SchoolPeriodEntity } from '@core/entities';
 
 @Entity('events', { schema: 'core' })
 export class EventEntity {
@@ -39,7 +38,7 @@ export class EventEntity {
   })
   isVisible: boolean;
 
-  /** Relationship **/
+  /** Foreign Keys **/
   @Column({
     name: 'model_id',
     type: 'varchar',

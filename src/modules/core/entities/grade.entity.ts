@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity, SubjectEntity } from '@core/entities';
+import { CatalogueEntity, EnrollmentDetailEntity, PartialEntity } from '@core/entities';
 
 @Entity('grades', { schema: 'core' })
 export class GradeEntity {
@@ -30,10 +30,14 @@ export class GradeEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
+  /** Foreign Keys **/
   @ManyToOne(() => EnrollmentDetailEntity)
   @JoinColumn({ name: 'enrollment_detail_id' })
   enrollmentDetail: EnrollmentDetailEntity;
+
+  @ManyToOne(() => PartialEntity)
+  @JoinColumn({ name: 'partial_id' })
+  partial: PartialEntity;
 
   /** Columns **/
   @Column({

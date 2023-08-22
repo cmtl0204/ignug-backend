@@ -27,18 +27,14 @@ export class InformationStudentEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
-  @OneToOne(() => StudentEntity, student => student.informationStudent)
-  @JoinColumn({ name: 'student_id' })
-  student: StudentEntity;
+  /** Foreign Keys **/
+  @ManyToOne(() => CatalogueEntity, { nullable: true })
+  @JoinColumn({ name: 'is_executed_community' })
+  isExecutedCommunity: CatalogueEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_executed_practice' })
   isExecutedPractice: CatalogueEntity;
-
-  @ManyToOne(() => CatalogueEntity, { nullable: true })
-  @JoinColumn({ name: 'is_executed_community' })
-  isExecutedCommunity: CatalogueEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_disability' })
@@ -51,6 +47,10 @@ export class InformationStudentEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_subject_repeat' })
   isSubjectRepeat: CatalogueEntity;
+
+  @OneToOne(() => StudentEntity, student => student.informationStudent)
+  @JoinColumn({ name: 'student_id' })
+  student: StudentEntity;
 
   /** Columns **/
   @Column({

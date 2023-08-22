@@ -49,11 +49,12 @@ export class SchoolPeriodEntity {
   })
   isVisible: boolean;
 
-  /** Relationship **/
+  /** Inverse Relationship **/
   @ManyToMany(() => CareerEntity)
   @JoinTable({ name: 'career_school_period' })
   careers: CareerEntity[];
 
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
