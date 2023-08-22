@@ -1,5 +1,17 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, EnrollmentEntity, SubjectEntity } from '@core/entities';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { CatalogueEntity, EnrollmentEntity, GradeEntity, SubjectEntity } from '@core/entities';
 
 @Entity('enrollment_details', { schema: 'core' })
 export class EnrollmentDetailEntity {
@@ -30,7 +42,11 @@ export class EnrollmentDetailEntity {
   })
   deletedAt: Date;
 
-  /** Foreigg Keys **/
+  /** Inverse Relationship **/
+  @OneToMany(() => GradeEntity, grade => grade.enrollmentDetail)
+  grades: GradeEntity[];
+
+  /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'academic_state_id' })
   academicState: CatalogueEntity;

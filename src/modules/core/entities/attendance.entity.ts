@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { EnrollmentDetailEntity } from '@core/entities';
+import { EnrollmentDetailEntity, PartialEntity } from '@core/entities';
 
 @Entity('attendances', { schema: 'core' })
 export class AttendanceEntity {
@@ -34,6 +34,10 @@ export class AttendanceEntity {
   @ManyToOne(() => EnrollmentDetailEntity)
   @JoinColumn({ name: 'enrollment_detail_id' })
   enrollmentDetail: EnrollmentDetailEntity;
+
+  @ManyToOne(() => PartialEntity)
+  @JoinColumn({ name: 'partial_id' })
+  partial: PartialEntity;
 
   /** Columns **/
   @Column({
