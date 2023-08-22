@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, CurriculumEntity, SchoolPeriodEntity, StudentEntity } from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CatalogueEntity, CurriculumEntity, EnrollmentDetailEntity, SchoolPeriodEntity, StudentEntity } from '@core/entities';
 
 @Entity('enrollments', { schema: 'core' })
 export class EnrollmentEntity {
@@ -29,6 +29,10 @@ export class EnrollmentEntity {
     comment: 'Fecha de eliminacion del registro',
   })
   deletedAt: Date;
+
+  /** Inverse Relationship **/
+  @OneToMany(() => EnrollmentDetailEntity, enrollmentDetail => enrollmentDetail.enrollment)
+  enrollmentDetails: EnrollmentDetailEntity[];
 
   /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
