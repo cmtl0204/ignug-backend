@@ -90,12 +90,8 @@ export class PartialsService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterPartialDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<PartialEntity>
-      | FindOptionsWhere<PartialEntity>[];
+  private async paginateAndFilter(params: FilterPartialDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<PartialEntity> | FindOptionsWhere<PartialEntity>[];
     where = {};
     let { page, search } = params;
     const { limit } = params;
@@ -104,7 +100,7 @@ export class PartialsService {
       search = search.trim();
       page = 0;
       where = [];
-      where.push({ schoolPeriod: ILike(`%${search}%`) });
+      where.push({ name: ILike(`%${search}%`) });
     }
 
     const response = await this.repository.findAndCount({
@@ -120,7 +116,7 @@ export class PartialsService {
     };
   }
 
- /* async hide(id: string): Promise<PartialEntity> {
+  /* async hide(id: string): Promise<PartialEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) {

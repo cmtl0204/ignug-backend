@@ -13,7 +13,7 @@ export class MenusSeeder {
     await this.createMenuRole();
   }
 
-  async createMenus() {
+  private async createMenus() {
     let menus: CreateMenuDto[] = [];
     menus.push(
       {
@@ -131,7 +131,7 @@ export class MenusSeeder {
     }
   }
 
-  async createMenuRole() {
+  private async createMenuRole() {
     let role = await this.rolesService.findByCode('coordinator-career');
 
     const menusAll = (await this.menusService.findAll()).data;

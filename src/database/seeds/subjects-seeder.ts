@@ -28,7 +28,7 @@ export class SubjectsSeeder {
     await this.createRequirements();
   }
 
-  async loadCatalogues() {
+  private async loadCatalogues() {
     const catalogues = (await this.catalogueService.findAll()).data as CatalogueEntity[];
 
     this.states = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.SUBJECTS_STATE);
@@ -38,11 +38,11 @@ export class SubjectsSeeder {
     this.types = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE);
   }
 
-  async loadCurriculums() {
+  private async loadCurriculums() {
     this.curriculums = (await this.curriculumsService.findAll()).data as CurriculumEntity[];
   }
 
-  async createSubjects() {
+  private async createSubjects() {
     const subjects: SeedSubjectDto[] = [];
 
     const stateEnabled = this.states.find((state: CatalogueEntity) => {
@@ -643,7 +643,7 @@ export class SubjectsSeeder {
     }
   }
 
-  async createRequirements() {
+  private async createRequirements() {
     const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeds/files/subject_requirements.xlsx'));
 
     const workbookSheets = workbook.SheetNames;

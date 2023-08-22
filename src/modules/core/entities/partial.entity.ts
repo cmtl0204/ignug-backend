@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity, SchoolPeriodEntity, SubjectEntity } from '@core/entities';
+import { SchoolPeriodEntity } from '@core/entities';
 
 @Entity('partials', { schema: 'core' })
 export class PartialEntity {
@@ -30,25 +30,19 @@ export class PartialEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
-  @ManyToOne(() => SchoolPeriodEntity)
-  @JoinColumn({ name: 'school_period_id' })
-  schoolPeriod: SchoolPeriodEntity;
+  /** Foreign Keys **/
 
   /** Columns **/
   @Column({
-    name: 'date',
-    type: 'timestamp',
-    nullable: true,
-    comment: 'Fecha de asistencia',
+    name: 'code',
+    comment: 'Codigo del parcial',
   })
-  date: Date;
+  code: string;
 
   @Column({
-    name: 'value',
-    type: 'integer',
-    default: 0,
-    comment: 'Valor de la asistencia',
+    name: 'name',
+    type: 'varchar',
+    comment: 'Nombre visual para el parcial',
   })
-  value: number;
+  name: string;
 }

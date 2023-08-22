@@ -1,11 +1,8 @@
 import { CatalogueEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity } from '@core/entities';
 import { IsOptional } from 'class-validator';
-import {
-  isNotEmptyValidationOptions,
+import { isNotEmptyValidationOptions } from '@shared/validation';
 
-} from '@shared/validation';
-
-export class TeacherDistributiveDto {
+export class TeacherDistributionDto {
   @IsOptional(isNotEmptyValidationOptions())
   readonly parallel: CatalogueEntity;
 
@@ -23,5 +20,4 @@ export class TeacherDistributiveDto {
 
   @IsOptional(isNotEmptyValidationOptions())
   readonly hours: number;
-
 }

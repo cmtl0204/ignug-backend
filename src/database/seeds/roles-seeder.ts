@@ -10,7 +10,7 @@ export class RolesSeeder {
     await this.createRoles();
   }
 
-  async createRoles() {
+  private async createRoles() {
     const roles: CreateRoleDto[] = [];
     roles.push(
       {

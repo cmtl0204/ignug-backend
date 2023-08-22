@@ -66,10 +66,10 @@ export class SchoolPeriodsService {
     return entity;
   }
 
-  async actualSchoolPeriod(): Promise<SchoolPeriodEntity> {
+  async findOpenSchoolPeriod(): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOne({
       where: {
-        state: { code: 'actual' },
+        state: { code: 'open' },
       },
     });
 

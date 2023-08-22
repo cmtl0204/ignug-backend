@@ -11,7 +11,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { CatalogueEntity, InstitutionEntity, TeacherEntity } from '@core/entities';
-import { UserEntity } from '@auth/entities';
 
 @Entity('careers', { schema: 'core' })
 export class CareerEntity {
@@ -55,12 +54,15 @@ export class CareerEntity {
   @JoinTable({ name: 'career_teacher' })
   teachers: TeacherEntity[];
 
-  /** Foreign Key **/
+  /** Foreign Keys **/
   @ManyToOne(() => InstitutionEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'institution_id' })
   institution: InstitutionEntity;
+
+  @Column({ type: 'uuid', comment: 'Institución a la que pertenece la carrera' })
+  institution_id: string;
 
   @ManyToOne(() => CatalogueEntity, {
     nullable: true,
@@ -68,17 +70,26 @@ export class CareerEntity {
   @JoinColumn({ name: 'modality_id' })
   modality: CatalogueEntity;
 
+  @Column({ type: 'uuid', comment: 'Presencial, Distancia, Hibrida, etc' })
+  modality_id: string;
+
   @ManyToOne(() => CatalogueEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
+  @Column({ type: 'uuid', comment: 'Habilitada o Inhabilitada' })
+  state_id: string;
+
   @ManyToOne(() => CatalogueEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+
+  @Column({ type: 'uuid', comment: 'Tecnologia o Tecnicatura' })
+  type_id: string;
 
   /** Columns **/
   @Column({

@@ -17,6 +17,7 @@ import { GradeSeeder } from './seeds/grades-seeder';
 import { ClassroomSeeder } from './seeds/classrooms-seeders';
 import { SchoolPeriodSeeder } from './seeds/school-period-seeder';
 import { TeachersSeeder } from './seeds/teachers-seeder';
+import { TeacherDistributionsSeeder } from './seeds/teacher-distributions-seeder';
 
 @Global()
 @Module({
@@ -39,6 +40,7 @@ import { TeachersSeeder } from './seeds/teachers-seeder';
     GradeSeeder,
     ClassroomSeeder,
     SchoolPeriodSeeder,
+    TeacherDistributionsSeeder,
   ],
   exports: [...databaseProviders, DatabaseSeeder],
 })

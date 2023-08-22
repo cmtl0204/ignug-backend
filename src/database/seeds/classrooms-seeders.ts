@@ -1,42 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClassroomDto} from '@core/dto';
-import { ClassroomsService,EnrollmentsDetailService, EnrollmentsService } from '@core/services';
-import { EnrollmentDetailEntity, EnrollmentEntity} from '@core/entities';
-
+import { CreateClassroomDto, SeedClassroomDto } from '@core/dto';
+import { ClassroomsService, EnrollmentsDetailService, EnrollmentsService } from '@core/services';
+import { EnrollmentDetailEntity, EnrollmentEntity } from '@core/entities';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class ClassroomSeeder {
-
   private enrollmentsDetail: EnrollmentDetailEntity[] = [];
-  
-  constructor(
-  private classroomsService: ClassroomsService,
-  private enrollmentDetailsService: EnrollmentsDetailService, 
-  private enrollmentsService: EnrollmentsService) {}
+
+  constructor(private classroomsService: ClassroomsService) {}
 
   async run() {
     await this.create();
   }
 
+  private async create() {
+    const classrooms: SeedClassroomDto[] = [];
 
-  async create() {
-    const classrooms: CreateClassroomDto[] = [];
-    const enrollmentsDetail = (await this.enrollmentDetailsService.findAll()).data as EnrollmentDetailEntity[];
-
-    //enrollments detail
-    const enrollmentDetail1 = this.enrollmentsDetail.find((enrollmentDetail: EnrollmentDetailEntity) => enrollmentDetail.number === 1);
-
-    const enrollmentDetail2 = this.enrollmentsDetail.find((enrollmentDetail: EnrollmentDetailEntity) => enrollmentDetail.number === 2);
-  
     classrooms.push(
       {
-        value: 2,
-        enrollmentDetail: enrollmentDetail1
+        capacity: faker.helpers.rangeToNumber({ min: 10, max: 50 }),
+        code: 'cod1',
+        name: 'Aula 1',
+        location: 'Primer piso',
+        state: null,
+        type: null,
       },
       {
-        value: 5,
-        enrollmentDetail: enrollmentDetail2
-      }
+        capacity: faker.helpers.rangeToNumber({ min: 10, max: 50 }),
+        code: 'cod2',
+        name: 'Aula 2',
+        location: 'Segundo piso',
+        state: null,
+        type: null,
+      },
     );
 
     for (const item of classrooms) {

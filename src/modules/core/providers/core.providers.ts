@@ -19,7 +19,7 @@ import {
   StudentEntity,
   SubjectEntity,
   SubjectRequirementEntity,
-  TeacherDistributiveEntity,
+  TeacherDistributionEntity,
   TeacherEntity,
 } from '@core/entities';
 import { ConfigEnum, CoreRepositoryEnum } from '@shared/enums';
@@ -133,8 +133,8 @@ export const coreProviders = [
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {
-    provide: CoreRepositoryEnum.TEACHER_DISTRIBUTIVE_REPOSITORY,
-    useFactory: (dataSource: DataSource) => dataSource.getRepository(TeacherDistributiveEntity),
+    provide: CoreRepositoryEnum.TEACHER_DISTRIBUTION_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(TeacherDistributionEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {

@@ -40,7 +40,7 @@ export class StudentEntity {
   @OneToOne(() => InformationStudentEntity, informationStudentEntity => informationStudentEntity.student)
   informationStudent: InformationStudentEntity;
 
-  /** Relationship **/
+  /** Foreign Keys **/
   @OneToOne(() => UserEntity, user => user.student)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;

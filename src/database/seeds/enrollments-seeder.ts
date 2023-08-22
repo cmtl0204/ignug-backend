@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { faker } from '@faker-js/faker';
 import { CreateEnrollmentsDetailDto, CreateEnrollmentDto } from '@core/dto';
-import { CataloguesService, CurriculumsService, EnrollmentsDetailService, SchoolPeriodsService, StudentsService, SubjectsService } from '@core/services';
-import { EnrollmentsService } from 'src/modules/core/services';
+import {
+  CataloguesService,
+  CurriculumsService,
+  EnrollmentsService,
+  EnrollmentsDetailService,
+  SchoolPeriodsService,
+  StudentsService,
+  SubjectsService,
+} from '@core/services';
 import { CatalogueEntity, CurriculumEntity, EnrollmentEntity, SchoolPeriodEntity, StudentEntity, SubjectEntity } from '@core/entities';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
-import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class EnrollmentSeeder {
@@ -40,7 +47,7 @@ export class EnrollmentSeeder {
     await this.createEnrollmentsDetails();
   }
 
-  async loadCatalogues() {
+  private async loadCatalogues() {
     const catalogues = (await this.catalogueService.findAll()).data as CatalogueEntity[];
 
     this.states = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
@@ -56,23 +63,23 @@ export class EnrollmentSeeder {
     this.academicStates = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
   }
 
-  async loadCurriculums() {
+  private async loadCurriculums() {
     this.curriculums = (await this.curriculumsService.findAll()).data;
   }
 
-  async loadSchoolPeriods() {
+  private async loadSchoolPeriods() {
     this.schoolPeriods = (await this.schoolPeriodsService.findAll()).data;
   }
 
-  async loadStudents() {
+  private async loadStudents() {
     this.students = (await this.studentsService.findAll()).data;
   }
 
-  async loadSubjects() {
+  private async loadSubjects() {
     this.subjects = (await this.subjectsService.findAll()).data as SubjectEntity[];
   }
 
-  async createEnrollments() {
+  private async createEnrollments() {
     const enrollments: CreateEnrollmentDto[] = [];
 
     //states
@@ -151,7 +158,7 @@ export class EnrollmentSeeder {
     }
   }
 
-  async createEnrollmentsDetails() {
+  private async createEnrollmentsDetails() {
     const enrollmentDetails: CreateEnrollmentsDetailDto[] = [];
 
     //academic State

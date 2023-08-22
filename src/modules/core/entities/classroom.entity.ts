@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity, SubjectEntity } from '@core/entities';
+import { CatalogueEntity } from '@core/entities';
 
 @Entity('classrooms', { schema: 'core' })
 export class ClassroomEntity {
@@ -30,18 +30,41 @@ export class ClassroomEntity {
   })
   deletedAt: Date;
 
-  /** Relationship **/
-  @ManyToOne(() => EnrollmentDetailEntity)
-  @JoinColumn({ name: 'enrollment_detail_id' })
-  enrollmentDetail: EnrollmentDetailEntity;
+  /** Foreign Keys **/
+  @ManyToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'state_id' })
+  state: CatalogueEntity;
+
+  @ManyToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'type_id' })
+  type: CatalogueEntity;
 
   /** Columns **/
   @Column({
-    name: 'value',
-    type: 'decimal',
-    precision: 5,
-    scale: 2,
-    comment: 'Valor de la calificacion',
+    name: 'capacity',
+    type: 'int',
+    comment: 'Capacidad de personas',
   })
-  value: number;
+  capacity: number;
+
+  @Column({
+    name: 'code',
+    type: 'varchar',
+    comment: 'Codigo del aula, laboratorio, taller, etc',
+  })
+  code: string;
+
+  @Column({
+    name: 'name',
+    type: 'varchar',
+    comment: 'Nombre del aula, laboratorio, taller, etc',
+  })
+  name: string;
+
+  @Column({
+    name: 'location',
+    type: 'text',
+    comment: 'Nombre del aula, laboratorio, taller, etc',
+  })
+  location: string;
 }

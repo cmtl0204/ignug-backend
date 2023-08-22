@@ -1,88 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { SeedCareerDto } from '@core/dto';
-import {
-  CareersService,
-  CataloguesService,
-  InstitutionsService,
-} from '@core/services';
+import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class CareersSeeder {
-  constructor(
-    private institutionsService: InstitutionsService,
-    private cataloguesService: CataloguesService,
-    private careersService: CareersService,
-  ) {}
+  constructor(private institutionsService: InstitutionsService, private cataloguesService: CataloguesService, private careersService: CareersService) {}
 
   async run() {
     await this.create();
   }
 
-  async create() {
+  private async create() {
     const careers: SeedCareerDto[] = [];
 
     const catalogues = (await this.cataloguesService.findAll()).data;
 
     const institutions = (await this.institutionsService.findAll()).data;
 
-    const stateEnabled = catalogues.find((state) => {
-      return (
-        state.code === 'enable' &&
-        state.type === CatalogueCoreTypeEnum.CAREERS_STATE
-      );
+    const stateEnabled = catalogues.find(state => {
+      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
-    const stateDisabled = catalogues.find((state) => {
-      return(
-        state.code === 'disable' &&
-        state.type === CatalogueCoreTypeEnum.CAREERS_STATE
-      );
+    const stateDisabled = catalogues.find(state => {
+      return state.code === 'disable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
 
-    const modality1 = catalogues.find((modality) => {
-      return (
-        modality.code === 'On-site' &&
-        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
-      );
+    const modality1 = catalogues.find(modality => {
+      return modality.code === 'On-site' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
-    const modality2 = catalogues.find((modality) => {
-      return (
-        modality.code === 'Distance' &&
-        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
-      );
+    const modality2 = catalogues.find(modality => {
+      return modality.code === 'Distance' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
-    const modality3 = catalogues.find((modality) => {
-      return (
-        modality.code === 'Double' &&
-        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
-      );
+    const modality3 = catalogues.find(modality => {
+      return modality.code === 'Double' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
-    const modality4 = catalogues.find((modality) => {
-      return (
-        modality.code === 'Hybrid' &&
-        modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY
-      );
+    const modality4 = catalogues.find(modality => {
+      return modality.code === 'Hybrid' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
 
-    const type1 = catalogues.find((type) => {
-      return (
-        type.code === 'technology' &&
-        type.type === CatalogueCoreTypeEnum.CAREERS_TYPE
-      );
+    const type1 = catalogues.find(type => {
+      return type.code === 'technology' && type.type === CatalogueCoreTypeEnum.CAREERS_TYPE;
     });
-    const type2 = catalogues.find((type) => {
-      return (
-        type.code === 'technique' &&
-        type.type === CatalogueCoreTypeEnum.CAREERS_TYPE
-      );
+    const type2 = catalogues.find(type => {
+      return type.code === 'technique' && type.type === CatalogueCoreTypeEnum.CAREERS_TYPE;
     });
 
-    const institution1 = institutions.find(
-      (institution) => institution.code === 'cod1',
-    );
-    const institution2 = institutions.find(
-      (institution) => institution.code === 'cod2',
-    );
+    const institution1 = institutions.find(institution => institution.code === 'cod1');
+    const institution2 = institutions.find(institution => institution.code === 'cod2');
 
     careers.push(
       {
