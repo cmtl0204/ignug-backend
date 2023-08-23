@@ -57,8 +57,9 @@ export class CareerEntity {
   /** Foreign Keys **/
   @ManyToOne(() => InstitutionEntity, {
     nullable: true,
+    eager:true
   })
-  @JoinColumn({ name: 'institution_id' })
+  @JoinColumn({ name: 'institution_id'})
   institution: InstitutionEntity;
 
   @Column({ type: 'uuid', comment: 'Institución a la que pertenece la carrera' })

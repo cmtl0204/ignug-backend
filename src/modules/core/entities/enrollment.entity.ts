@@ -31,15 +31,15 @@ export class EnrollmentEntity {
   deletedAt: Date;
 
   /** Inverse Relationship **/
-  @OneToMany(() => EnrollmentDetailEntity, enrollmentDetail => enrollmentDetail.enrollment)
+  @OneToMany(() => EnrollmentDetailEntity, enrollmentDetail => enrollmentDetail.enrollment,{eager:true})
   enrollmentDetails: EnrollmentDetailEntity[];
 
   /** Foreign Keys **/
-  @ManyToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity,{eager:true})
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
 
-  @ManyToOne(() => CurriculumEntity)
+  @ManyToOne(() => CurriculumEntity,{eager:true})
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;
 
@@ -55,7 +55,7 @@ export class EnrollmentEntity {
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
-  @ManyToOne(() => StudentEntity)
+  @ManyToOne(() => StudentEntity,{eager:true})
   @JoinColumn({ name: 'student_id' })
   student: StudentEntity;
 
@@ -63,7 +63,7 @@ export class EnrollmentEntity {
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
 
-  @ManyToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity,{eager:true})
   @JoinColumn({ name: 'workday_id' })
   workday: CatalogueEntity;
 

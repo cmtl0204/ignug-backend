@@ -45,7 +45,7 @@ export class CurriculumEntity {
   isVisible: boolean;
 
   /** Foreign Keys **/
-  @ManyToOne(() => CareerEntity, { nullable: true })
+  @ManyToOne(() => CareerEntity, { nullable: true, eager:true })
   career: CareerEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: false })

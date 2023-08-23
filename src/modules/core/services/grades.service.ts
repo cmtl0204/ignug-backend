@@ -27,13 +27,13 @@ export class GradesService {
     }
 
     //Other filters
-    if (params.value) {
-      return this.filterByValue(params.value);
-    }
+    // if (params.value) {
+    //   return this.filterByValue(params.value);
+    // }
 
     //All
     const data = await this.repository.findAndCount({
-      relations: ['enrollmentDetail'],
+      relations: ['partial', 'enrollmentDetail'],
     });
 
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
@@ -41,7 +41,7 @@ export class GradesService {
 
   async findOne(id: string): Promise<GradeEntity> {
     const subject = await this.repository.findOne({
-      relations: ['enrollmentDetail'],
+      relations: ['enrollmentDetail', 'partial'],
       where: { id },
     });
 
@@ -88,11 +88,11 @@ export class GradesService {
       search = search.trim();
       page = 0;
       where = [];
-      where.push({ enrollmentDetail: ILike(`%${search}%`) });
+     // where.push({ enrollmentDetail: ILike(`%${search}%`) });
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['created_at', 'updated_at', 'deleted_at', 'value'],
+      relations: ['enrollmentDetail', 'partial'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
@@ -101,24 +101,6 @@ export class GradesService {
     return {
       data: response[0],
       pagination: { limit, totalItems: response[1] },
-    };
-  }
-
-  private async filterByValue(value: number): Promise<ServiceResponseHttpModel> {
-    const where: FindOptionsWhere<GradeEntity> = {};
-
-    if (value) {
-      where.value = LessThan(value);
-    }
-
-    const response = await this.repository.findAndCount({
-      relations: ['created_at', 'updated_at', 'deleted_at', 'value'],
-      where,
-    });
-
-    return {
-      data: response[0],
-      pagination: { limit: 10, totalItems: response[1] },
     };
   }
 }

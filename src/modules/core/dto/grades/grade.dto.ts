@@ -1,11 +1,16 @@
 import { IsNotEmpty, IsDate, MinLength, IsOptional } from 'class-validator';
-import { EnrollmentDetailEntity } from '@core/entities';
+import { EnrollmentDetailEntity, PartialEntity} from '@core/entities';
+import { isNotEmptyValidationOptions } from '@shared/validation';
 
 export class GradeDto {
-  @IsOptional()
-  enrollmentDetail: EnrollmentDetailEntity;
 
-  @IsDate({ message: 'El campo value debe ser un numero' })
-  @MinLength(5, { message: 'El value debe tener un numero valido' })
-  readonly value: number;
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly enrollmentDetail: EnrollmentDetailEntity
+
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly partial: PartialEntity
+
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly value: number
 }
+
