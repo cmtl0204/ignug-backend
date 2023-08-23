@@ -49,7 +49,7 @@ export class EnrollmentEntity {
 
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
-  schoolPeriodEntity: SchoolPeriodEntity;
+  schoolPeriod: SchoolPeriodEntity;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
