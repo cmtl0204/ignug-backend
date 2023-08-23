@@ -1,3 +1,5 @@
+import { from } from 'rxjs';
+
 export * from './addresses.service';
 export * from './catalogues.service';
 export * from './teachers.service';
@@ -20,3 +22,6 @@ export * from './enrollments-detail.service';
 export * from './grades.service';
 export * from './classrooms.service';
 export * from './teacher-distributions.service';
+export * from './teacher-distributives.service';
+export * from './pdf.service';
+export * from './secretary.service';

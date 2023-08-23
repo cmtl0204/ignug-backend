@@ -14,6 +14,9 @@ import {
   TeachersController,
   ExportsController,
   TeacherDistributionsController,
+  PDFController,
+  EnrollmentsController,
+  EnrollmentDetailsController
 } from '@core/controllers';
 import {
   CareersService,
@@ -37,6 +40,7 @@ import {
   ClassroomsService,
   GradesService,
   TeacherDistributionsService,
+  PDFService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -59,6 +63,9 @@ import { coreProviders } from '@core/providers';
     SubjectsController,
     TeachersController,
     TeacherDistributionsController,
+    PDFController,
+    EnrollmentsController,
+  EnrollmentDetailsController,
   ],
   providers: [
     ...coreProviders,
@@ -83,6 +90,7 @@ import { coreProviders } from '@core/providers';
     ClassroomsService,
     GradesService,
     TeacherDistributionsService,
+    PDFService,
   ],
   exports: [
     ...coreProviders,
@@ -107,6 +115,7 @@ import { coreProviders } from '@core/providers';
     ClassroomsService,
     GradesService,
     TeacherDistributionsService,
+    PDFService,
   ],
 })
 export class CoreModule {}

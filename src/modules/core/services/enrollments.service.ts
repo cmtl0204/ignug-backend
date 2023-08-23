@@ -120,4 +120,15 @@ export class EnrollmentsService {
       pagination: { limit: 10, totalItems: response[1] },
     };
   }
+  async findEnrollmentCertificateByStudent(identificationUser:string,codeSchoolPeriod:string){
+    const enrollmentCertificate= await this.repository.findOne({
+      relations: {academicPeriod:true, enrollmentDetails:true, curriculum:true,workday:true, schoolPeriod:true, },
+      where: { student:{user:{identification:identificationUser}}, schoolPeriod:{code:codeSchoolPeriod}},
+    });
+
+    if (!enrollmentCertificate) {
+      throw new NotFoundException('Enrollment not found');
+    }
+    return enrollmentCertificate;
+  }
 }

@@ -35,7 +35,8 @@ export class EnrollmentDetailEntity {
   grades: GradeEntity[];
 
   /** Foreign Keys **/
-  @ManyToOne(() => CatalogueEntity)
+
+  @ManyToOne(() => CatalogueEntity, {eager:true})
   @JoinColumn({ name: 'academic_state_id' })
   academicState: CatalogueEntity;
 
@@ -51,7 +52,7 @@ export class EnrollmentDetailEntity {
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
-  @ManyToOne(() => SubjectEntity)
+  @ManyToOne(() => SubjectEntity,{eager:true})
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;
 
@@ -62,6 +63,7 @@ export class EnrollmentDetailEntity {
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'workday_id' })
   workday: CatalogueEntity;
+
 
   /** Columns **/
   @Column({
