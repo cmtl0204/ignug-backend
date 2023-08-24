@@ -1,10 +1,11 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
+import { Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder } from 'typeorm';
 import { CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto } from '@core/dto';
-import { EnrollmentEntity } from '@core/entities';
+import { CareerEntity, CatalogueEntity, CurriculumEntity, EnrollmentDetailEntity, EnrollmentEntity, InformationStudentEntity, SchoolPeriodEntity, StudentEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class EnrollmentsService {
@@ -131,4 +132,22 @@ export class EnrollmentsService {
     }
     return enrollmentCertificate;
   }
+
+  async exportCuposByEnrollments(): Promise<any[]> {const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('exportCupos');
+  queryBuilder.select(["enrollment_state.name","CareerEntity.name","CurriculumEntity.name","UserEntity.identification","UserEntity.lastname","UserEntity.name","sex_student.name","UserEntity.email","UserEntity.phone","enrollment_type.name","SchoolPeriodEntity.code_sniese","enrollment_workday.name","enrollment_parallel.name"])
+  .innerJoin(StudentEntity, "StudentEntity.id = EnrollmentEntity.student_id")
+  .innerJoin (InformationStudentEntity, "StudentEntity.id = Information_studentEntity.student_id")
+  .innerJoin (UserEntity, "UserEntity.id = StudentEntity.user_id")
+  .innerJoin (EnrollmentDetailEntity, "EnrollmentEntity.id = EnrollmentDetailEntity.enrollment_id")
+  .innerJoin (SchoolPeriodEntity, "SchoolPeriodEntity.id = EnrollmentEntity.school_period_id")
+  .innerJoin (CurriculumEntity, "CurriculumEntity.id = EnrollmentEntity.curriculum_id") 
+  .innerJoin (CareerEntity, "CareerEntity.id = EnrollmentEntity.career_Id")
+  .innerJoin (CatalogueEntity, "gender_student", "users.gender_id = gender_student.id")
+  .innerJoin (CatalogueEntity, "sex_student", "UserEntity.sex_id = sex_student.id")
+  .innerJoin (CatalogueEntity, "enrollment_state", "enrollment_state.id = EnrollmentEntity.state_id")
+  .innerJoin (CatalogueEntity, "enrollment_parallel", "EnrollmentDetailEntity.parallel_id = enrollment_parallel.id")
+  .innerJoin (CatalogueEntity, "enrollment_type", "EnrollmentDetailEntity.type_id = enrollment_type.id")
+  .innerJoin (CatalogueEntity, "enrollment_workday", "EnrollmentDetailEntity.workday_id = enrollment_workday.id");
+  const result = await queryBuilder.getRawMany();
+  return result;}
 }
