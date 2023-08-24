@@ -1,21 +1,8 @@
-import { 
-  Body, 
-  Controller, 
-  Delete, 
-  Get, 
-  HttpCode, 
-  HttpStatus, 
-  Param, 
-  ParseUUIDPipe, 
-  Patch, 
-  Post, 
-  Put, 
-  Query,
- } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { FilterTeacherChargeDto, CreateTeacherChargeDto, UpdateTeacherChargeDto, CreateGradeDto, FilterGradeDto, UpdateGradeDto } from '@core/dto';
-import { GradesService, TeacherChargesService } from '@core/services';
-import { GradeEntity, TeacherChargeEntity } from '@core/entities';
+import { CreateGradeDto, FilterGradeDto, UpdateGradeDto } from '@core/dto';
+import { GradeEntity } from '@core/entities';
+import { GradesService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Grades')

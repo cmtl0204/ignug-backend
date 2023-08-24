@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CareerEntity, CatalogueEntity } from '@core/entities';
 
 @Entity('curriculums', { schema: 'core' })
@@ -45,10 +45,12 @@ export class CurriculumEntity {
   isVisible: boolean;
 
   /** Foreign Keys **/
-  @ManyToOne(() => CareerEntity, { nullable: true, eager:true })
+  @ManyToOne(() => CareerEntity, { nullable: true, eager: true })
+  @JoinColumn({ name: 'career_id' })
   career: CareerEntity;
 
   @ManyToOne(() => CatalogueEntity, { nullable: false })
+  @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
   /** Columns **/
