@@ -11,17 +11,18 @@ import {
   Post,
   Put,
   Query,
+  Res,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateCareerDto, UpdateCareerDto, FilterCareerDto, CreateEnrollmentDto, FilterEnrollmentDto } from '@core/dto';
-import { EnrollmentsService } from '@core/services';
+import { EnrollmentsService, PDFService , PDFNotas } from '@core/services';
 import { CareerEntity, EnrollmentEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('enrollments')
 @Controller('enrollments')
 export class EnrollmentsController {
-  constructor(private enrollmentsService: EnrollmentsService) { }
+  constructor(private enrollmentsService: EnrollmentsService, private pdfservice : PDFService, private pdfnotasservice : PDFNotas) { }
   @ApiOperation({ summary: 'Create Enrollment' })
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -98,6 +99,7 @@ export class EnrollmentsController {
       title: `Reporte de notas eliminadas`,
     };
   }
+
 }
 
 

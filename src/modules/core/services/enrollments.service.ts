@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder } from 'typeorm';
 import { CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto } from '@core/dto';
-import { CareerEntity, CatalogueEntity, CurriculumEntity, EnrollmentDetailEntity, EnrollmentEntity, InformationStudentEntity, SchoolPeriodEntity, StudentEntity } from '@core/entities';
+import { CareerEntity, CatalogueEntity, CurriculumEntity, EnrollmentDetailEntity, EnrollmentEntity, InformationStudentEntity, SchoolPeriodEntity, StudentEntity, GradeEntity, SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
@@ -150,4 +150,64 @@ export class EnrollmentsService {
   .innerJoin (CatalogueEntity, "enrollment_workday", "EnrollmentDetailEntity.workday_id = enrollment_workday.id");
   const result = await queryBuilder.getRawMany();
   return result;}
+
+  async exportCuposDetalladosByEnrollments(): Promise<any[]> {
+    const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('exportCuposAsignatura');
+    
+    queryBuilder
+      .select([  
+      "enrollment_state.name",
+      "CareerEntity.name",
+      "CurriculumEntity.name",
+      "UserEntity.identification",
+      "UserEntity.lastname",
+      "UserEntity.name",
+      "UserEntity.email",
+      "UserEntity.phone",
+      "subjects.code",
+      "subjects.name",
+      "EnrollmentDetailEntity.number",
+      "SchoolPeriodEntity.code_sniese",
+      "SchoolPeriodeEntity.school_period_id",
+      "enrollment_parallel.name",
+      "enrollment_type.name",
+      "GradeEntity.value",
+      "EnrollmentDetailEntity.final_grade",
+      "EnrollmentDetailEntity.final_attendance",
+      "enrollment_academic_state.code",
+      "academic_period.name"
+    
+      ])
+      .innerJoin(StudentEntity, "StudentEntity.id = EnrollmentEntity.student_id")
+      .innerJoin (InformationStudentEntity, "StudentEntity.id = Information_studentEntity.student_id")
+      .innerJoin (UserEntity, "UserEntity.id = StudentEntity.user_id")
+      .innerJoin (EnrollmentDetailEntity, "EnrollmentEntity.id = EnrollmentDetailEntity.enrollment_id")
+      .innerJoin (CatalogueEntity, "academic_perdiod", "academic_period.id = enrollmentEntity.academic_period_id")
+      .innerJoin (CatalogueEntity, "enrollment_state", "enrollment_state.id = EnrollmentEntity.state_id")
+      .innerJoin (CatalogueEntity, "enrollment_parallel", "EnrollmentDetailEntity.parallel_id = enrollment_parallel.id")
+      .innerJoin (CatalogueEntity, "enrollment_type", "EnrollmentDetailEntity.type_id = enrollment_type.id")
+      .innerJoin (CatalogueEntity, "enrollment_workday", "EnrollmentDetailEntity.workday_id = enrollment_workday.id")
+      .innerJoin (CatalogueEntity, "enrollment_academic_state", "enrollment_academic_state.id = EnrollmentDetailEntity.academic_state_id")
+      .innerJoin (CurriculumEntity, "CurriculumEntity.id = EnrollmentEntity.curriculum_id")
+      .innerJoin (CareerEntity, "CareerEntity.id = EnrollmentEntity.career_Id")
+      .innerJoin (SchoolPeriodEntity, "SchoolPeriodEntity.id = EnrollmentEntity.school_period_id")
+      .innerJoin (GradeEntity,"enrollment_detail_id = enrollmentDetailsEntity.id")
+      .innerJoin (SubjectEntity, "subjects.id = enrollment_details.subject_id" )
+      
+    const result = await queryBuilder.getRawMany();
+    return result;
+  }
+
+  async findstudentGrade(identificationUser:string,codeSchoolPeriod:string){
+    const studentGrade= await this.repository.findOne({
+      relations: ['academicPeriod', 'enrollmentDetails', 'curriculum','workday','schoolPeriod'],
+      where: { student:{user:{identification:identificationUser}}, schoolPeriod:{code:codeSchoolPeriod}},
+    });
+
+    if (!studentGrade) {
+      throw new NotFoundException('Enrollment not found');
+    }
+
+    return studentGrade
+  }
 }

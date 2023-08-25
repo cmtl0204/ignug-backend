@@ -31,7 +31,7 @@ export class EnrollmentDetailEntity {
   deletedAt: Date;
 
   /** Inverse Relationship **/
-  @OneToMany(() => GradeEntity, grade => grade.enrollmentDetail)
+  @OneToMany(() => GradeEntity, grade => grade.enrollmentDetail, {eager:true})
   grades: GradeEntity[];
 
   /** Foreign Keys **/
@@ -39,30 +39,44 @@ export class EnrollmentDetailEntity {
   @ManyToOne(() => CatalogueEntity, {eager:true})
   @JoinColumn({ name: 'academic_state_id' })
   academicState: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Aprobado o Desaprobado' })
+  academicState_id: string;
 
-  @ManyToOne(() => EnrollmentEntity)
+  @ManyToOne(() => EnrollmentEntity, {eager:true})
   @JoinColumn({ name: 'enrollment_id' })
   enrollment: EnrollmentEntity;
+  @Column({ type: 'uuid', comment: 'Matriculado o No Matriculado' })
+  enrollment_id: string;
 
-  @ManyToOne(() => CatalogueEntity)
+  @ManyToOne(() => CatalogueEntity ,{eager:true})
   @JoinColumn({ name: 'parallel_id' })
   parallel: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Paralelo asignado' })
+  parallel_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Habilitado o Inhabilitado' })
+  state_id: string;
 
   @ManyToOne(() => SubjectEntity,{eager:true})
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;
+  @Column({ type: 'uuid', comment: 'Asignaturas asignadas' })
+  subject_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Intensiva' })
+  type_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'workday_id' })
   workday: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Jornada laboral' })
+  workday_id: string;
 
 
   /** Columns **/

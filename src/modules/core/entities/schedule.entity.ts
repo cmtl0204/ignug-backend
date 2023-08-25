@@ -31,10 +31,14 @@ export class ScheduleEntity {
   @ManyToOne(() => ClassroomEntity, { nullable: true })
   @JoinColumn({ name: 'classroom_id' })
   classroom: ClassroomEntity;
+  @Column({ type: 'uuid', comment: 'Clase que mantiene ese horario' })
+  classroom_id: string;
 
   @ManyToOne(() => TeacherDistributionEntity)
   @JoinColumn({ name: 'distribution_teacher_id' })
   teacherDistribution: TeacherDistributionEntity;
+  @Column({ type: 'uuid', comment: 'Distribución de profesores' })
+  teacherDistribution_id: string;
 
   /** Columns **/
   @Column({

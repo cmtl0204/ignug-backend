@@ -32,12 +32,20 @@ export class ClassroomEntity {
 
   /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
+
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
 
+  @Column({ type: 'uuid', comment: 'Habilitada o Inhabilitada' })
+  state_id: string;
+
   @ManyToOne(() => CatalogueEntity)
+
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+
+  @Column({ type: 'uuid', comment: 'Intensiva' })
+  type_id: string;
 
   /** Columns **/
   @Column({

@@ -22,6 +22,6 @@ export * from './enrollments-detail.service';
 export * from './grades.service';
 export * from './classrooms.service';
 export * from './teacher-distributions.service';
-export * from './teacher-distributives.service';
 export * from './pdf.service';
 export * from './secretary.service';
+export * from './pdfNotas.service';

@@ -44,6 +44,8 @@ export class StudentEntity {
   @OneToOne(() => UserEntity, user => user.student,{eager:true})
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+  @Column({ type: 'uuid', comment: 'Usuario: estudiante' })
+  user_id: string;
 
   /** Columns **/
 }

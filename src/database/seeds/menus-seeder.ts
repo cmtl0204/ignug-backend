@@ -124,6 +124,26 @@ export class MenusSeeder {
         type: MenuTypeEnum.LEFT_SIDE,
         parent: academicAdministration,
       },
+      {
+        code: 'enrollments',
+        icon: 'pi pi-bars',
+        isVisible: true,
+        label: 'Solicitud de matricula',
+        order: 6,
+        routerLink: '/core/enrollments',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: academicAdministration,
+      },
+      {
+        code: 'consolidated-grades',
+        icon: 'pi pi-bars',
+        isVisible: true,
+        label: 'Consolidado de notas',
+        order: 7,
+        routerLink: '/core/consolidated-notes ',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: academicAdministration,
+      },
     );
 
     for (const menu of menus) {

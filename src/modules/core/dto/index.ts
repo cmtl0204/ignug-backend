@@ -106,8 +106,3 @@ export * from './grades/grade.dto';
 export * from './grades/create-grade.dto';
 export * from './grades/update-grade.dto';
 export * from './grades/filter-grade.dto';
-
-export * from './teacher-distributives/teacher-distributive.dto';
-export * from './teacher-distributives/create-teacher-distributive.dto';
-export * from './teacher-distributives/update-teacher-distributive.dto';
-export * from './teacher-distributives/filter-teacher-distributive.dto';
