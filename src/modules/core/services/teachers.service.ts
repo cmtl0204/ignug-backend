@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere } from 'typeorm';
+import { UsersService } from '@auth/services';
 import { FilterTeacherDto, PaginationDto, UpdateTeacherDto } from '@core/dto';
 import { TeacherEntity } from '@core/entities';
+import { InformationTeachersService } from '@core/services';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
-import { UsersService } from '@auth/services';
-import { InformationTeachersService } from './information-teachers.service';
 import { ServiceResponseHttpModel } from '@shared/models';
 
 @Injectable()

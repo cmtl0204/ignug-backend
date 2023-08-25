@@ -1,14 +1,12 @@
-import { from } from 'rxjs';
-
 export * from './addresses.service';
 export * from './catalogues.service';
+export * from './information-teachers.service';
 export * from './teachers.service';
 export * from './institutions.service';
 export * from './students.service';
 export * from './careers.service';
 export * from './curriculums.service';
 export * from './information-students.service';
-export * from './information-teachers.service';
 export * from './locations.service';
 export * from './school-periods.service';
 export * from './partials.service';
@@ -22,6 +20,5 @@ export * from './enrollments-detail.service';
 export * from './grades.service';
 export * from './classrooms.service';
 export * from './teacher-distributions.service';
-export * from './teacher-distributives.service';
 export * from './pdf.service';
 export * from './secretary.service';

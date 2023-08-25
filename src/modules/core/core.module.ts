@@ -16,7 +16,7 @@ import {
   TeacherDistributionsController,
   PDFController,
   EnrollmentsController,
-  EnrollmentDetailsController
+  EnrollmentDetailsController,
 } from '@core/controllers';
 import {
   CareersService,
@@ -65,7 +65,7 @@ import { coreProviders } from '@core/providers';
     TeacherDistributionsController,
     PDFController,
     EnrollmentsController,
-  EnrollmentDetailsController,
+    EnrollmentDetailsController,
   ],
   providers: [
     ...coreProviders,
@@ -75,6 +75,7 @@ import { coreProviders } from '@core/providers';
     EventsService,
     ExportsService,
     ImportsService,
+    TeachersService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,
@@ -84,7 +85,6 @@ import { coreProviders } from '@core/providers';
     StudentsService,
     SubjectsService,
     SubjectRequirementsService,
-    TeachersService,
     EnrollmentsDetailService,
     EnrollmentsService,
     ClassroomsService,

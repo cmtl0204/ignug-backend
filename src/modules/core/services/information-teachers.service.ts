@@ -2,7 +2,6 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { InformationTeacherEntity } from '@core/entities';
 import { CreateInformationTeacherDto, FilterInformationTeacherDto, PaginationDto, SeederInformationTeacherDto, UpdateInformationTeacherDto } from '@core/dto';
-import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
@@ -11,7 +10,6 @@ export class InformationTeachersService {
   constructor(
     @Inject(CoreRepositoryEnum.INFORMATION_TEACHER_REPOSITORY)
     private repository: Repository<InformationTeacherEntity>,
-    private catalogueService: CataloguesService,
   ) {}
 
   async create(payload: CreateInformationTeacherDto | SeederInformationTeacherDto): Promise<InformationTeacherEntity> {

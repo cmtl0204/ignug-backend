@@ -24,7 +24,6 @@ import {
 } from '@core/entities';
 import { ConfigEnum, CoreRepositoryEnum } from '@shared/enums';
 import { LocationEntity, PartialPermissionEntity } from '@core/entities';
-import { ExportsService } from '../services/exports.service';
 
 export const coreProviders = [
   {

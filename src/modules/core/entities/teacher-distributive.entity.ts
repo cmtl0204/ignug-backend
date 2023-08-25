@@ -1,8 +1,8 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { CatalogueEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity } from '@core/entities';
 
-@Entity('teacher_distributives', { schema: 'core' })
-export class TeacherDistributiveEntity {
+@Entity('teacher_distributions', { schema: 'core' })
+export class TeacherDistributionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,8 +29,8 @@ export class TeacherDistributiveEntity {
 
   /** Relationship **/
   @ManyToOne(() => CatalogueEntity)
-  @JoinColumn({ name: 'paralell_id' })
-  paralell: CatalogueEntity;
+  @JoinColumn({ name: 'parallel_id' })
+  parallel: CatalogueEntity;
 
   @ManyToOne(() => TeacherEntity)
   @JoinColumn({ name: 'teacher_id' })
@@ -60,5 +60,4 @@ export class TeacherDistributiveEntity {
     comment: 'Horas de clase semanales',
   })
   hours: number;
-
 }
