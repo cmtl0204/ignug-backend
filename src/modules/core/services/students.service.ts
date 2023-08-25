@@ -34,7 +34,7 @@ export class StudentsService {
 
     //All
     const data = await this.repository.findAndCount({
-      relations: { user: true, informationStudent: true },
+      relations: ['user', 'informationStudent'],
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -42,7 +42,7 @@ export class StudentsService {
 
   async findOne(id: string) {
     const entity = await this.repository.findOne({
-      relations: { user: true, informationStudent: true },
+      relations: ['user', 'informationStudent'],
       where: { id },
     });
 
@@ -106,7 +106,7 @@ export class StudentsService {
     }
 
     const data = await this.repository.findAndCount({
-      relations: { user: true, informationStudent: true },
+      relations: ['user', 'informationStudent'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

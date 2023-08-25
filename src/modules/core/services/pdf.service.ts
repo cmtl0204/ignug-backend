@@ -5,7 +5,7 @@ import { EnrollmentsService } from './enrollments.service';
 @Injectable()
 export class PDFService {
   constructor(private enrollmentsService: EnrollmentsService) { }
-  async generarPDF(): Promise<Buffer> {
+  async generatePDF(): Promise<Buffer> {
     let data = (await this.enrollmentsService.findEnrollmentCertificateByStudent('2014518036','cod1'))
     console.log(data) 
     const pdfBuffer: Buffer = await new Promise(resolve => {
@@ -19,8 +19,8 @@ export class PDFService {
       //imágenes
       const imageX = 100;
       const imageX2 = 400;
-      /* const imagePath = './src/modules/core/services/prueba.png'
-      const imagePath2 = './src/modules/core/services/prueba.png' */
+      const imagePath = './src/assets/images/core/institutions/logo.jpeg'
+      const imagePath2 = './src/assets/images/core/institutions/logo.jpeg'
       const imageY = 30;
       const imageWidth = 100;
       const imageHeight = 100;
@@ -36,8 +36,8 @@ export class PDFService {
       const textY2 = 220
 
       //Documento
-      /* doc.image(imagePath, imageX, imageY, { width: imageWidth, height: imageHeight });
-      doc.image(imagePath2, imageX2, imageY, { width: imageWidth, height: imageHeight }); */
+      doc.image(imagePath, imageX, imageY, { width: imageWidth, height: imageHeight });
+      doc.image(imagePath2, imageX2, imageY, { width: imageWidth, height: imageHeight });
       doc.font('Helvetica-Bold').fontSize(25).text('Certificado de Matrícula', { align: 'center' }, 160);
       doc.font('Times-Bold', 13);
       doc.text(matricula, matriculaX, textY);

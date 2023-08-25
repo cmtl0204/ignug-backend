@@ -32,12 +32,20 @@ export class AttendanceEntity {
 
   /** Foreign Keys **/
   @ManyToOne(() => EnrollmentDetailEntity)
+
   @JoinColumn({ name: 'enrollment_detail_id' })
   enrollmentDetail: EnrollmentDetailEntity;
 
+  @Column({ type: 'uuid', comment: 'Id Detalle de inscripción' })
+  enrollmentDetail_id: string;
+
   @ManyToOne(() => PartialEntity)
+
   @JoinColumn({ name: 'partial_id' })
   partial: PartialEntity;
+
+  @Column({ type: 'uuid', comment: 'Id Parcial' })
+  partial_id: string;
 
   /** Columns **/
   @Column({

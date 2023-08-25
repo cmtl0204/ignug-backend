@@ -32,10 +32,14 @@ export class SubjectRequirementEntity {
   @ManyToOne(() => SubjectEntity)
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;
+  @Column({ type: 'uuid', comment: 'Asignaturas' })
+  subject_id: string;
 
   @ManyToOne(() => SubjectEntity)
   @JoinColumn({ name: 'requirement_id' })
   requirement: SubjectEntity;
+  @Column({ type: 'uuid', comment: 'Requerimientos para estar en esa asignatura' })
+  requirement_id: string;
 
   /** Columns **/
   @Column({

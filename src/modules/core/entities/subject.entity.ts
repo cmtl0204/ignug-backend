@@ -43,18 +43,26 @@ export class SubjectEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Periodo academico que pertenece' })
+  academicPeriod_id: string;
 
   @ManyToOne(() => CurriculumEntity, { nullable: true })
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;
+  @Column({ type: 'uuid', comment: 'Curriculum' })
+  curriculum_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Habilitado o Inhabilitado' })
+  state_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Intensiva' })
+  type_id: string;
 
   /** Columns **/
   @Column({

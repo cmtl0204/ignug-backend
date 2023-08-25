@@ -1,4 +1,16 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
+import { 
+  Body, 
+  Controller, 
+  Delete, Get, 
+  HttpCode, 
+  HttpStatus, 
+  Param, 
+  ParseUUIDPipe, 
+  Patch, 
+  Post, 
+  Put, 
+  Query,
+ } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateTeacherDistributionDto, UpdateTeacherDistributionDto, FilterTeacherDistributionDto } from '@core/dto';
 import { TeacherDistributionsService } from '@core/services';
