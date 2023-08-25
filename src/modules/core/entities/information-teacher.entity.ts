@@ -39,38 +39,38 @@ export class InformationTeacherEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'country_higher_education_id' })
   countryHigherEducation: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Pais que obtuvo el titulo de Educacion superior' })
-  countryHigherEducation_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Pais que obtuvo el titulo de Educacion superior' })
+  country_higherEducation_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'dedication_time_id' })
   dedicationTime: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Tiempo de dedicación' })
-  dedicationTime_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Tiempo de dedicación' })
+  dedication_time_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'financing_type_id' })
   financingType: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Tipo de financiamiento' })
-  financingType_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Tipo de financiamiento' })
+  financing_type_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'higher_education_id' })
   higherEducation: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Educacion superior' })
-  higherEducation_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Educacion superior' })
+  higher_education_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'scholarship_id' })
   scholarship: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Beca que tiene' })
+  @Column({ type: 'uuid', nullable: true, comment: 'Beca que tiene' })
   scholarship_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'scholarship_type_id' })
   scholarshipType: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Tipo de beca' })
-  scholarshipType_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Tipo de beca' })
+  scholarship_type_id: string;
 
   @OneToOne(() => TeacherEntity, teacher => teacher.informationTeacher)
   @JoinColumn({ name: 'teacher_id' })
@@ -81,8 +81,8 @@ export class InformationTeacherEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'teaching_ladder_id' })
   teachingLadder: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Historial de enseñanza' })
-  teachingLadder_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Historial de enseñanza' })
+  teaching_ladder_id: string;
 
   /** Columns **/
   @Column({

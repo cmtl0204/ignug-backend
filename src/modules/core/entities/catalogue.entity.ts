@@ -42,12 +42,11 @@ export class CatalogueEntity {
   children: CatalogueEntity[];
 
   /** Foreign Keys **/
-  @ManyToOne(() => CatalogueEntity, category => category.children)
-
+  @ManyToOne(() => CatalogueEntity, category => category.children, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
   parent: CatalogueEntity;
 
-  @Column({ type: 'uuid', comment: 'Padre, Madre' })
+  @Column({ type: 'uuid', nullable: true, comment: 'Padre, Madre' })
   parent_id: string;
 
   /** Columns **/

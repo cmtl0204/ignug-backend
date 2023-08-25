@@ -1,16 +1,14 @@
-import { IsNotEmpty, IsDate, MinLength, IsOptional } from 'class-validator';
-import { EnrollmentDetailEntity, PartialEntity} from '@core/entities';
+import { IsNotEmpty } from 'class-validator';
+import { EnrollmentDetailEntity, PartialEntity } from '@core/entities';
 import { isNotEmptyValidationOptions } from '@shared/validation';
 
 export class GradeDto {
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly enrollmentDetail: EnrollmentDetailEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly enrollmentDetail: EnrollmentDetailEntity
+  readonly partial: PartialEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly partial: PartialEntity
-
-  @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly value: number
+  readonly value: number;
 }
-

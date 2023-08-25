@@ -31,32 +31,32 @@ export class InformationStudentEntity {
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_executed_community' })
   isExecutedCommunity: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Realizo trabajo comunitario' })
-  isExecutedCommunity_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Realizo trabajo comunitario' })
+  is_executed_community_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_executed_practice' })
   isExecutedPractice: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Realizo practicas preprofesionales' })
-  isExecutedPractice_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Realizo practicas preprofesionales' })
+  is_executed_practice_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_disability' })
   isDisability: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Tiene disacapasidad' })
-  isDisability_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Tiene disacapasidad' })
+  is_disability_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_lost_Gratuity' })
   isLostGratuity: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Perdida de gratuidad' })
-  isLostGratuity_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Perdida de gratuidad' })
+  is_lost_gratuity_id: string;
 
   @ManyToOne(() => CatalogueEntity, { nullable: true })
   @JoinColumn({ name: 'is_subject_repeat' })
   isSubjectRepeat: CatalogueEntity;
-  @Column({ type: 'uuid', comment: 'Repite materias' })
-  isSubjectRepeat_id: string;
+  @Column({ type: 'uuid', nullable: true, comment: 'Repite materias' })
+  is_subject_repeat_id: string;
 
   @OneToOne(() => StudentEntity, student => student.informationStudent)
   @JoinColumn({ name: 'student_id' })

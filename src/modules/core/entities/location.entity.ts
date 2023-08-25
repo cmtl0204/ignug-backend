@@ -37,7 +37,7 @@ export class LocationEntity {
   @ManyToOne(() => LocationEntity, location => location.children)
   @JoinColumn({ name: 'parent_id' })
   parent: LocationEntity;
-  @Column({ type: 'uuid', comment: 'Padre, Madre' })
+  @Column({ type: 'uuid', nullable: true, comment: 'Padre, Madre' })
   parent_id: string;
 
   /** Columns **/

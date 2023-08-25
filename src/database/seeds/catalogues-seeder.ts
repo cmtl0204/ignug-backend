@@ -47,6 +47,8 @@ export class CataloguesSeeder {
     await this.createEnrollmentsAcademicStateCatalogues();
     await this.createEnrollmentsWorkdayCatalogues();
     await this.createEnrollmentsStateCatalogues();
+    await this.createClassroomsStateCatalogues();
+    await this.createClassroomsTypeCatalogues();
   }
 
   private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -1360,6 +1362,61 @@ export class CataloguesSeeder {
       state: CatalogueStateEnum.ENABLE,
       type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
     });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  private async createClassroomsStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push(
+      {
+        code: 'enable',
+        description: 'Habilitado',
+        name: 'Habilitado',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
+      },
+      {
+        code: 'disable',
+        description: 'Inhabilitado',
+        name: 'Inhabilitado',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
+      },
+    );
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  private async createClassroomsTypeCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push(
+      {
+        code: 'classroom',
+        description: 'Aula',
+        name: 'Aula',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+      },
+      {
+        code: 'laboratory',
+        description: 'Laboratorio',
+        name: 'Laboratorio',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+      },
+      {
+        code: 'workshop',
+        description: 'Taller',
+        name: 'Taller',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+      },
+    );
 
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);

@@ -42,9 +42,7 @@ export class PartialsService {
 
     //Filter by other field
     //All
-    const data = await this.repository.findAndCount({
-      relations: ['institution', 'modality', 'state', 'type'],
-    });
+    const data = await this.repository.findAndCount();
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
   }

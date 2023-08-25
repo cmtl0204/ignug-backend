@@ -56,7 +56,7 @@ export class EventEntity {
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
   @Column({ type: 'uuid', comment: 'Periodo lectivo al que pertenece' })
-  schoolPeriod_id: string;
+  school_period_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })

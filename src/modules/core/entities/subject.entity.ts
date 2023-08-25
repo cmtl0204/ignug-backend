@@ -44,7 +44,7 @@ export class SubjectEntity {
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
   @Column({ type: 'uuid', comment: 'Periodo academico que pertenece' })
-  academicPeriod_id: string;
+  academic_period_id: string;
 
   @ManyToOne(() => CurriculumEntity, { nullable: true })
   @JoinColumn({ name: 'curriculum_id' })

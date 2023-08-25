@@ -35,19 +35,19 @@ export class EnrollmentEntity {
   enrollmentDetails: EnrollmentDetailEntity[];
 
   /** Foreign Keys **/
-  @ManyToOne(() => CatalogueEntity,{eager:true})
+  @ManyToOne(() => CatalogueEntity, { eager: true })
   @JoinColumn({ name: 'academic_period_id' })
   academicPeriod: CatalogueEntity;
   @Column({ type: 'uuid', comment: 'Periodo academico que pertenece' })
-  academicPeriod_id: string;
+  academic_period_id: string;
 
-  @ManyToOne(() => CurriculumEntity,{eager:true})
+  @ManyToOne(() => CurriculumEntity, { eager: true })
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CurriculumEntity;
   @Column({ type: 'uuid', comment: 'Curriculum que pertenece' })
   curriculum_id: string;
 
-  @ManyToOne(() => CatalogueEntity, {eager:true})
+  @ManyToOne(() => CatalogueEntity, { eager: true })
   @JoinColumn({ name: 'parallel_id' })
   parallel: CatalogueEntity;
   @Column({ type: 'uuid', comment: 'Paralelo que pertenece' })
@@ -57,7 +57,7 @@ export class EnrollmentEntity {
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
   @Column({ type: 'uuid', comment: 'Periodo lectivo que pertenece' })
-  schoolPeriod_id: string;
+  school_period_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
@@ -65,7 +65,7 @@ export class EnrollmentEntity {
   @Column({ type: 'uuid', comment: 'Habilitado o Inhabilitado' })
   state_id: string;
 
-  @ManyToOne(() => StudentEntity,{eager:true})
+  @ManyToOne(() => StudentEntity, { eager: true })
   @JoinColumn({ name: 'student_id' })
   student: StudentEntity;
   @Column({ type: 'uuid', comment: 'Estudiente matriculado' })
@@ -77,7 +77,7 @@ export class EnrollmentEntity {
   @Column({ type: 'uuid', comment: 'Intensivo' })
   type_id: string;
 
-  @ManyToOne(() => CatalogueEntity,{eager:true})
+  @ManyToOne(() => CatalogueEntity, { eager: true })
   @JoinColumn({ name: 'workday_id' })
   workday: CatalogueEntity;
   @Column({ type: 'uuid', comment: 'Jornada laboral' })

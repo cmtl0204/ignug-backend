@@ -38,7 +38,7 @@ export class PartialPermissionEntity {
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
   @Column({ type: 'uuid', comment: 'Periodo lectivo al que pertenece' })
-  schoolPeriod_id: string;
+  school_period_id: string;
 
   @ManyToOne(() => TeacherDistributionEntity)
   @JoinColumn({ name: 'teacher_distribution_id' })

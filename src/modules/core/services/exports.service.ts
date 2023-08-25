@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import {   StudentsService, TeachersService } from '@core/services';
+import { StudentsService, TeachersService } from '@core/services';
 import * as XLSX from 'xlsx';
 import * as process from 'process';
 import { join } from 'path';
 import { RolesService, UsersService } from '@auth/services';
-import {GradesService} from './grades.service'
+import { GradesService } from './grades.service';
 
 @Injectable()
 export class ExportsService {
@@ -34,23 +34,22 @@ export class ExportsService {
   }
 
   async exportNotes(): Promise<string> {
-    let notes = (await this.gradeService.findAll()).data;    
+    let notes = (await this.gradeService.findAll()).data;
     const newWorkbook = XLSX.utils.book_new();
     notes = notes.map(notes => {
       return {
         'codigo asignatura': notes.enrollmentDetail.subject.code,
         'nombre asignatura': notes.enrollmentDetail.subject.name,
         'malla curricular': notes.enrollmentDetail.subject.curriculum.name,
-        'estudiante': notes.enrollmentDetail.enrollment.student.user.name + notes.enrollmentDetail.enrollment.student.user.lastname ,
-        'cedula': notes.enrollmentDetail.enrollment.student.user.identification,
-        'nota1': notes.value,
-        'nota2': notes.value,
+        estudiante: notes.enrollmentDetail.enrollment.student.user.name + notes.enrollmentDetail.enrollment.student.user.lastname,
+        cedula: notes.enrollmentDetail.enrollment.student.user.identification,
+        nota1: notes.value,
+        nota2: notes.value,
         'nota final': notes.enrollmentDetail.finalGrade,
-        'estado academico':notes.enrollmentDetail.academicState.name,
+        'estado academico': notes.enrollmentDetail.academicState.name,
       };
     });
-    console.log(notes);
-    
+
     const newSheet = XLSX.utils.json_to_sheet(notes);
 
     XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Notas');

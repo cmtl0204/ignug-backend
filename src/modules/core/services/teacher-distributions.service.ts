@@ -159,7 +159,7 @@ export class TeacherDistributionsService {
   
     const ws = XLSX.utils.aoa_to_sheet(ws_data);
   
-    XLSX.utils.book_append_sheet(wb, ws, 'TeacherDistributives');
+    XLSX.utils.book_append_sheet(wb, ws, 'TeacherDistributions');
   
     const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   
@@ -168,11 +168,10 @@ export class TeacherDistributionsService {
   
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'teacher_distributives.xlsx';
+    a.download = 'teacher_distributions.xlsx';
     a.click();
   
     URL.revokeObjectURL(url);
   }
-/**/ 
-
+/**/
 }
