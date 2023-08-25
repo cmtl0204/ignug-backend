@@ -8,13 +8,13 @@ import {
   ForbiddenException,
   UnprocessableEntityException,
   BadRequestException,
+  ServiceUnavailableException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
 import { ErrorResponseHttpModel } from '@shared/models';
 import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { environments } from '../environments';
-import { compare } from 'bcrypt';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -60,6 +60,12 @@ export class AllExceptionsFilter implements ExceptionFilter {
       if (exception instanceof ForbiddenException) {
         errorResponseHttpModel.error = error || 'Forbidden';
         errorResponseHttpModel.message = message;
+      }
+
+      if (exception instanceof ServiceUnavailableException) {
+        errorResponseHttpModel.data = { startedAt: '2023-08-25', endedAt: '2023-08-31' };
+        errorResponseHttpModel.error = 'El sistema se encuentra en mantenimiento';
+        errorResponseHttpModel.message = 'Lamentamos las molestias causadas';
       }
 
       errorResponseHttpModel.statusCode = exception.getStatus();

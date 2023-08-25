@@ -6,6 +6,7 @@ export interface ResponseHttpModel {
 }
 
 export interface ErrorResponseHttpModel {
+  data?: any;
   error: string;
   message: string | string[];
   statusCode: number;
