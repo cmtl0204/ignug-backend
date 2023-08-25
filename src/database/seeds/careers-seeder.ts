@@ -19,10 +19,10 @@ export class CareersSeeder {
     const institutions = (await this.institutionsService.findAll()).data;
 
     const stateEnabled = catalogues.find(state => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
+      return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
     const stateDisabled = catalogues.find(state => {
-      return state.code === 'disable' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
+      return state.code === 'disabled' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
 
     const modality1 = catalogues.find(modality => {

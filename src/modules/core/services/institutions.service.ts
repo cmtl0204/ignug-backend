@@ -3,16 +3,18 @@ import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateInstitutionDto, FilterInstitutionDto, PaginationDto, SeedInstitutionDto, UpdateInstitutionDto } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import { CataloguesService } from './catalogues.service';
 
 @Injectable()
 export class InstitutionsService {
   constructor(
     @Inject(CoreRepositoryEnum.INSTITUTION_REPOSITORY)
     private repository: Repository<InstitutionEntity>,
+    private cataloguesService: CataloguesService,
   ) {}
 
-  async create(payload: CreateInstitutionDto  | SeedInstitutionDto): Promise<InstitutionEntity> {
+  async create(payload: CreateInstitutionDto | SeedInstitutionDto): Promise<InstitutionEntity> {
     const newInstitution = this.repository.create(payload);
 
     return await this.repository.save(newInstitution);
@@ -62,6 +64,16 @@ export class InstitutionsService {
     if (!institution) throw new NotFoundException('Institution not found');
 
     return await this.repository.softRemove(institution);
+  }
+
+  async enable(id: string): Promise<InstitutionEntity> {
+    const institution = await this.repository.findOneBy({ id });
+
+    if (!institution) throw new NotFoundException('Institution not found');
+
+    // institution.state = this.cataloguesService.findByType(CatalogueCoreTypeEnum.INSTITUTIONS_STATE);
+
+    return await this.repository.save(institution);
   }
 
   async removeAll(payload: InstitutionEntity[]): Promise<InstitutionEntity[]> {

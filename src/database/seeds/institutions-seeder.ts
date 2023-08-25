@@ -18,7 +18,7 @@ export class InstitutionsSeeder {
     const catalogues = (await this.cataloguesService.findAll()).data;
 
     const stateEnable = catalogues.find((state: CatalogueEntity) => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.INSTITUTIONS_STATE;
+      return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.INSTITUTIONS_STATE;
     });
 
     institutions.push(

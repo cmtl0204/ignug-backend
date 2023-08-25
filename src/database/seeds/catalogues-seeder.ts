@@ -1062,7 +1062,7 @@ export class CataloguesSeeder {
   private async createInstitutionsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1070,7 +1070,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1085,7 +1085,7 @@ export class CataloguesSeeder {
   private async createCareersStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1093,7 +1093,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1131,7 +1131,7 @@ export class CataloguesSeeder {
   private async createCurriculumsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1139,7 +1139,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1154,7 +1154,7 @@ export class CataloguesSeeder {
   private async createSubjectsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1162,7 +1162,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1372,14 +1372,14 @@ export class CataloguesSeeder {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push(
       {
-        code: 'enable',
+        code: 'enabled',
         description: 'Habilitado',
         name: 'Habilitado',
         state: CatalogueStateEnum.ENABLE,
         type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
       },
       {
-        code: 'disable',
+        code: 'disabled',
         description: 'Inhabilitado',
         name: 'Inhabilitado',
         state: CatalogueStateEnum.ENABLE,

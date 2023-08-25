@@ -83,4 +83,28 @@ export class InstitutionsController {
       title: 'Eliminadas',
     };
   }
+
+  @ApiOperation({ summary: 'Enable' })
+  @Patch(':id')
+  @HttpCode(HttpStatus.CREATED)
+  async enable(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.remove(id);
+    return {
+      data: serviceResponse,
+      message: 'Institución Habilitada',
+      title: 'Habilitada',
+    };
+  }
+
+  @ApiOperation({ summary: 'Disable' })
+  @Patch(':id')
+  @HttpCode(HttpStatus.CREATED)
+  async disable(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.remove(id);
+    return {
+      data: serviceResponse,
+      message: 'Institución Inhabilitada',
+      title: 'Inhabilitada',
+    };
+  }
 }

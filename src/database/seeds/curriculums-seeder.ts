@@ -20,7 +20,7 @@ export class CurriculumsSeeder {
     const careers = (await this.careersService.findAll()).data;
 
     const stateEnabled = catalogues.find(state => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.CURRICULUMS_STATE;
+      return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.CURRICULUMS_STATE;
     });
 
     const career1 = careers.find((career: CareerEntity) => career.code === 'cod1');

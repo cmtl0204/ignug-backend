@@ -58,7 +58,6 @@ export class DatabaseSeeder {
     await this.subjectsSeeder.run();
     await this.partialsSeeder.run();
     await this.enrollmentsSeeder.run();
-    // aqui iria el seeder de enrollmendetail xd
     await this.gradesSeeder.run();
     await this.classroomsSeeder.run();
     await this.locationsSeeder.run();
