@@ -47,6 +47,8 @@ export class CataloguesSeeder {
     await this.createEnrollmentsAcademicStateCatalogues();
     await this.createEnrollmentsWorkdayCatalogues();
     await this.createEnrollmentsStateCatalogues();
+    await this.createClassroomsStateCatalogues();
+    await this.createClassroomsTypeCatalogues();
   }
 
   private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -1060,7 +1062,7 @@ export class CataloguesSeeder {
   private async createInstitutionsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1068,7 +1070,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1083,7 +1085,7 @@ export class CataloguesSeeder {
   private async createCareersStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1091,7 +1093,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1129,7 +1131,7 @@ export class CataloguesSeeder {
   private async createCurriculumsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1137,7 +1139,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1152,7 +1154,7 @@ export class CataloguesSeeder {
   private async createSubjectsStateCatalogues() {
     const catalogues: CreateCatalogueDto[] = [];
     catalogues.push({
-      code: 'enable',
+      code: 'enabled',
       description: 'Habilitado para escoger',
       name: 'Habilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1160,7 +1162,7 @@ export class CataloguesSeeder {
     });
 
     catalogues.push({
-      code: 'disable',
+      code: 'disabled',
       description: 'Inhabilitado para escoger',
       name: 'Inhabilitado',
       state: CatalogueStateEnum.ENABLE,
@@ -1360,6 +1362,61 @@ export class CataloguesSeeder {
       state: CatalogueStateEnum.ENABLE,
       type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
     });
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  private async createClassroomsStateCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push(
+      {
+        code: 'enabled',
+        description: 'Habilitado',
+        name: 'Habilitado',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
+      },
+      {
+        code: 'disabled',
+        description: 'Inhabilitado',
+        name: 'Inhabilitado',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
+      },
+    );
+
+    for (const catalogue of catalogues) {
+      await this.catalogueService.create(catalogue);
+    }
+  }
+
+  private async createClassroomsTypeCatalogues() {
+    const catalogues: CreateCatalogueDto[] = [];
+    catalogues.push(
+      {
+        code: 'classroom',
+        description: 'Aula',
+        name: 'Aula',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+      },
+      {
+        code: 'laboratory',
+        description: 'Laboratorio',
+        name: 'Laboratorio',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+      },
+      {
+        code: 'workshop',
+        description: 'Taller',
+        name: 'Taller',
+        state: CatalogueStateEnum.ENABLE,
+        type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+      },
+    );
 
     for (const catalogue of catalogues) {
       await this.catalogueService.create(catalogue);

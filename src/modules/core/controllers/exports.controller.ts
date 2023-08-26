@@ -20,4 +20,16 @@ export class ExportsController {
       title: 'Exportado',
     };
   }
+
+  @ApiOperation({ summary: 'Export Notas' })
+  @Get('notas')
+  @HttpCode(HttpStatus.CREATED)
+  async exportStudents(@Res() res): Promise<ResponseHttpModel> {
+    const path = await this.exportsService.exportNotes();
+    return {
+      data: res.sendFile(path),
+      message: `Las notas fueron exportadas correctamente`,
+      title: 'Exportado',
+    };
+  }
 }

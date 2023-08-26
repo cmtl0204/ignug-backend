@@ -4,4 +4,5 @@ export const environments = {
   prod: '.prod.env',
   version: '1.2.3',
   appName: 'IGNUG',
+  serviceUnavailable: false,
 };

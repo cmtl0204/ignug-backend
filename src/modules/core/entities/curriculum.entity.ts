@@ -46,12 +46,20 @@ export class CurriculumEntity {
 
   /** Foreign Keys **/
   @ManyToOne(() => CareerEntity, { nullable: true, eager: true })
+
   @JoinColumn({ name: 'career_id' })
   career: CareerEntity;
 
+  @Column({ type: 'uuid', comment: 'Marketing, Desarollo de software' })
+  career_id: string;
+
   @ManyToOne(() => CatalogueEntity, { nullable: false })
+
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
+
+  @Column({ type: 'uuid', comment: 'Habilitado o Inhabilitado' })
+  state_id: string;
 
   /** Columns **/
   @Column({

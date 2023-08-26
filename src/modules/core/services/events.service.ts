@@ -18,7 +18,7 @@ export class EventsService {
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
     const response = await this.repository.findAndCount({
-      relations: { name: true, state: true },
+      relations: ['name', 'state'],
       take: 1000,
     });
 
@@ -49,7 +49,7 @@ export class EventsService {
 
     //All
     const data = await this.repository.findAndCount({
-      relations: { name: true, state: true },
+      relations: ['name', 'state'],
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -66,7 +66,7 @@ export class EventsService {
     //All
     const data = await this.repository.findAndCount({
       where: { modelId },
-      relations: { name: true, state: true },
+      relations: ['name', 'state'],
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -74,7 +74,7 @@ export class EventsService {
 
   async findOne(id: string): Promise<EventEntity> {
     const entity = await this.repository.findOne({
-      relations: { name: true, state: true },
+      relations: ['name', 'state'],
       where: {
         id,
       },
@@ -127,7 +127,7 @@ export class EventsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: { name: true, state: true },
+      relations: ['name', 'state'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
@@ -159,7 +159,7 @@ export class EventsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: { name: true, state: true },
+      relations: ['name', 'state'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

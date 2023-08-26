@@ -21,4 +21,3 @@ export * from './subject.entity';
 export * from './subject-requirement.entity';
 export * from './teacher.entity';
 export * from './teacher-distribution.entity';
-export * from './teacher-distribution.entity';

@@ -44,17 +44,26 @@ export class AddressEntity {
   @JoinColumn({ name: 'province_id' })
   province: CatalogueEntity;
 
+  @Column({ type: 'uuid', comment: 'Provincia que se encuentra la direccion' })
+  province_id: string;
+
   @ManyToOne(() => CatalogueEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'canton_id' })
   canton: CatalogueEntity;
 
+  @Column({ type: 'uuid', comment: 'Canton que se encuentra la direccion' })
+  canton_id: string;
+
   @ManyToOne(() => CatalogueEntity, {
     nullable: true,
   })
   @JoinColumn({ name: 'parrish_id' })
   parrish: CatalogueEntity;
+
+  @Column({ type: 'uuid', comment: 'Parroquia que se encuentra la direccion' })
+  parrish_id: string;
 
   /** Columns **/
   @Column({

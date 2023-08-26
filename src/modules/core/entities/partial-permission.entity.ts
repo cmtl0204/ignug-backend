@@ -31,14 +31,20 @@ export class PartialPermissionEntity {
   @ManyToOne(() => PartialEntity)
   @JoinColumn({ name: 'partial_id' })
   partial: PartialEntity;
+  @Column({ type: 'uuid', comment: 'Parcial al que pertenece' })
+  partial_id: string;
 
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
+  @Column({ type: 'uuid', comment: 'Periodo lectivo al que pertenece' })
+  school_period_id: string;
 
   @ManyToOne(() => TeacherDistributionEntity)
   @JoinColumn({ name: 'teacher_distribution_id' })
   teacherDistribution: TeacherDistributionEntity;
+  @Column({ type: 'uuid', comment: 'Distribución de profesores' })
+  teacherDistribution_id: string;
 
   /** Columns **/
   @Column({

@@ -15,7 +15,7 @@ export class EnrollmentDto {
   readonly parallel: CatalogueEntity;
 
   @IsNotEmpty()
-  readonly schoolPeriodEntity: SchoolPeriodEntity;
+  readonly schoolPeriod: SchoolPeriodEntity;
 
   @IsNotEmpty()
   readonly state: CatalogueEntity;

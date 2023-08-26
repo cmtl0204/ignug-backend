@@ -16,7 +16,7 @@ export class SchoolPeriodsService {
 
   async catalogue(): Promise<ServiceResponseHttpModel> {
     const response = await this.repository.findAndCount({
-      relations: { state: true },
+      relations: [ 'state' ],
       take: 1000,
     });
 
@@ -44,7 +44,7 @@ export class SchoolPeriodsService {
 
     //All
     const data = await this.repository.findAndCount({
-      relations: { state: true },
+      relations: [ 'state' ],
       order: { state: { code: 'desc' }, startedAt: 'desc' },
     });
 
@@ -53,7 +53,7 @@ export class SchoolPeriodsService {
 
   async findOne(id: string): Promise<SchoolPeriodEntity> {
     const entity = await this.repository.findOne({
-      relations: { state: true },
+      relations: [ 'state' ],
       where: {
         id,
       },
@@ -123,7 +123,7 @@ export class SchoolPeriodsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: { state: true },
+      relations: [ 'state' ],
       where,
       order: { state: { code: 'desc' }, startedAt: 'desc' },
       take: limit,

@@ -49,14 +49,20 @@ export class EventEntity {
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'name_id' })
   name: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Nombre del evento' })
+  name_id: string;
 
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
+  @Column({ type: 'uuid', comment: 'Periodo lectivo al que pertenece' })
+  school_period_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Habilitado o Inhabilitado' })
+  state_id: string;
 
   /** Columns **/
   @Column({

@@ -41,6 +41,7 @@ import {
   GradesService,
   TeacherDistributionsService,
   PDFService,
+  PDFNotas,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -91,6 +92,7 @@ import { coreProviders } from '@core/providers';
     GradesService,
     TeacherDistributionsService,
     PDFService,
+    PDFNotas,
   ],
   exports: [
     ...coreProviders,
@@ -116,6 +118,7 @@ import { coreProviders } from '@core/providers';
     GradesService,
     TeacherDistributionsService,
     PDFService,
+    PDFNotas,
   ],
 })
 export class CoreModule {}

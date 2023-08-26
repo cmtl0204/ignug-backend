@@ -31,22 +31,32 @@ export class TeacherDistributionEntity {
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'parallel_id' })
   parallel: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Paralelos asignados al profesor' })
+  parallel_id: string;
 
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
+  @Column({ type: 'uuid', comment: 'Periodo lectivo al que pertenece' })
+  school_period_id: string;
 
   @ManyToOne(() => SubjectEntity)
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;
+  @Column({ type: 'uuid', comment: 'Asignaturas asignadas al profesor' })
+  subject_id: string;
 
   @ManyToOne(() => TeacherEntity)
   @JoinColumn({ name: 'teacher_id' })
   teacher: TeacherEntity;
+  @Column({ type: 'uuid', comment: 'Profesor asignado' })
+  teacher_id: string;
 
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'workday_id' })
   workday: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Jornada laboral del Profesor' })
+  workday_id: string;
 
   /** Columns **/
   @Column({

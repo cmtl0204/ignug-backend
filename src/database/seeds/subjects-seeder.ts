@@ -46,7 +46,7 @@ export class SubjectsSeeder {
     const subjects: SeedSubjectDto[] = [];
 
     const stateEnabled = this.states.find((state: CatalogueEntity) => {
-      return state.code === 'enable' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
+      return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
     });
 
     //Periodo academico

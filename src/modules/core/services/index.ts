@@ -22,3 +22,4 @@ export * from './classrooms.service';
 export * from './teacher-distributions.service';
 export * from './pdf.service';
 export * from './secretary.service';
+export * from './pdfNotas.service';

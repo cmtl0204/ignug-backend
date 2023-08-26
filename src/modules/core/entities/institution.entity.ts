@@ -60,6 +60,8 @@ export class InstitutionEntity {
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'state_id' })
   state: CatalogueEntity;
+  @Column({ type: 'uuid', comment: 'Habilitado o Inhabilitado' })
+  state_id: string;
 
   /** Columns **/
   @Column({
