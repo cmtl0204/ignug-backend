@@ -12,7 +12,7 @@ export class LocationsSeeder {
   }
 
   private async importDPA(): Promise<boolean> {
-    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeds/files/dpa.xlsx'));
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/dpa.xlsx'));
 
     const workbookSheets = workbook.SheetNames;
     const sheet = workbookSheets[0];

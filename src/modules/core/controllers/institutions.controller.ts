@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateInstitutionDto, FilterInstitutionDto, UpdateInstitutionDto } from '@core/dto';
+import { CreateInstitutionDto, FilterCareerDto, FilterInstitutionDto, UpdateInstitutionDto } from '@core/dto';
 import { InstitutionEntity } from '@core/entities';
-import { InstitutionsService } from '@core/services';
+import { CareersService, InstitutionsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Institutions')
 @Controller('institutions')
 export class InstitutionsController {
-  constructor(private instituteService: InstitutionsService) {}
+  constructor(private instituteService: InstitutionsService, private careersService: CareersService) {}
 
   @ApiOperation({ summary: 'Create' })
   @Post()
@@ -105,6 +105,32 @@ export class InstitutionsController {
       data: serviceResponse,
       message: 'Institución Inhabilitada',
       title: 'Inhabilitada',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find Careers By Institution' })
+  @Get(':id/careers')
+  @HttpCode(HttpStatus.OK)
+  async findCareersByInstitution(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterCareerDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.careersService.findByInstitution(id, params);
+    return {
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: `Find Careers By Institution`,
+      title: 'Success',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find Institutions By User' })
+  @Get(':id/careers')
+  @HttpCode(HttpStatus.OK)
+  async findByUser(@Param('userId', ParseUUIDPipe) userId: string, @Query() params: FilterInstitutionDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.findByUser(userId, params);
+    return {
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: `Find Institutions By User`,
+      title: 'Success',
     };
   }
 }

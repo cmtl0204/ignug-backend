@@ -1,12 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import {
-  CreateCareerDto,
-  FilterCareerDto,
-  PaginationDto,
-  SeedCareerDto,
-  UpdateCareerDto,
-} from '@core/dto';
+import { CreateCareerDto, FilterCareerDto, PaginationDto, SeedCareerDto, UpdateCareerDto } from '@core/dto';
 import { CareerEntity, TeacherEntity } from '@core/entities';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
@@ -34,20 +28,29 @@ export class CareersService {
   }
 
   async create(payload: CreateCareerDto | SeedCareerDto): Promise<CareerEntity> {
-    const newEntity:CareerEntity = this.repository.create(payload);
+    const newEntity: CareerEntity = this.repository.create(payload);
     return await this.repository.save(newEntity);
   }
 
-  async findAll(params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
-    //Pagination & Filter by search
-    if (params?.limit > 0 && params?.page >= 0) {
-      return await this.paginateAndFilter(params);
-    }
-
-    //Filter by other field
+  async findAll(): Promise<ServiceResponseHttpModel> {
     //All
     const data = await this.repository.findAndCount({
       relations: ['institution', 'modality', 'state', 'type'],
+    });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+  }
+
+  async findByInstitution(institutionId: string, params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+    //Pagination & Filter by Search
+    if (params?.limit > 0 && params?.page >= 0) {
+      return await this.paginateAndFilter(institutionId, params);
+    }
+
+    //All
+    const data = await this.repository.findAndCount({
+      where: { institution: { id: institutionId } },
+      relations: { modality: true, state: true, type: true },
     });
 
     return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
@@ -94,13 +97,9 @@ export class CareersService {
     return await this.repository.softRemove(payload);
   }
 
-  private async paginateAndFilter(
-    params: FilterCareerDto,
-  ): Promise<ServiceResponseHttpModel> {
-    let where:
-      | FindOptionsWhere<CareerEntity>
-      | FindOptionsWhere<CareerEntity>[];
-    where = {};
+  private async paginateAndFilter(institutionId: string, params: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<CareerEntity> | FindOptionsWhere<CareerEntity>[];
+    where = { institution: { id: institutionId } };
     let { page, search } = params;
     const { limit } = params;
 
@@ -108,17 +107,17 @@ export class CareersService {
       search = search.trim();
       page = 0;
       where = [];
-      where.push({ acronym: ILike(`%${search}%`) });
-      where.push({ code: ILike(`%${search}%`) });
-      where.push({ codeSniese: ILike(`%${search}%`) });
-      where.push({ logo: ILike(`%${search}%`) });
-      where.push({ name: ILike(`%${search}%`) });
-      where.push({ shortName: ILike(`%${search}%`) });
-      where.push({ degree: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, acronym: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, code: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, codeSniese: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, logo: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, name: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, shortName: ILike(`%${search}%`) });
+      where.push({ institution: { id: institutionId }, degree: ILike(`%${search}%`) });
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['institution', 'modality', 'state', 'type'],
+      relations: { modality: true, state: true, type: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
@@ -152,7 +151,7 @@ export class CareersService {
 
   async findTeachersByCareer(id: string): Promise<TeacherEntity[]> {
     const entity = await this.repository.findOne({
-      relations: {teachers:true},
+      relations: { teachers: true },
       where: {
         id,
       },
@@ -164,5 +163,4 @@ export class CareersService {
 
     return entity.teachers;
   }
-
 }

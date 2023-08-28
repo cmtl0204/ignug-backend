@@ -5,7 +5,7 @@ import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { CataloguesService, CurriculumsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CatalogueCoreSubjectRequirementTypeEnum, CatalogueStateEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
+import { CatalogueStateEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
 @Injectable()
 export class SubjectsService {
@@ -61,7 +61,7 @@ export class SubjectsService {
   async findByCurriculum(curriculumId: string): Promise<SubjectEntity[]> {
     return await this.repository.find({
       relations: { academicPeriod: true, state: true, type: true, subjectRequirements: { requirement: true } },
-      where: { curriculum: { id: curriculumId }, state: { code: CatalogueStateEnum.ENABLE } },
+      where: { curriculum: { id: curriculumId }, state: { code: CatalogueStateEnum.ENABLED } },
       order: { academicPeriod: { code: 'asc' } },
     });
   }

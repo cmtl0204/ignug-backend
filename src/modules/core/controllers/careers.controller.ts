@@ -1,17 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  ParseUUIDPipe,
-  Patch,
-  Post,
-  Put,
-  Query,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateCareerDto, UpdateCareerDto, FilterCareerDto } from '@core/dto';
 import { CareersService } from '@core/services';
@@ -21,7 +8,7 @@ import { ResponseHttpModel } from '@shared/models';
 @ApiTags('Careers')
 @Controller('careers')
 export class CareersController {
-  constructor(private careersService: CareersService) { }
+  constructor(private careersService: CareersService) {}
 
   @ApiOperation({ summary: 'Catalogue Careers' })
   @Get('catalogue')
@@ -53,8 +40,8 @@ export class CareersController {
   @ApiOperation({ summary: 'Find All Careers' })
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterCareerDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.findAll(params);
+  async findAll(): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.careersService.findAll();
 
     return {
       data: serviceResponse.data,
@@ -152,8 +139,4 @@ export class CareersController {
       title: `Success`,
     };
   }
-
-
 }
-
-

@@ -644,7 +644,7 @@ export class SubjectsSeeder {
   }
 
   private async createRequirements() {
-    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeds/files/subject_requirements.xlsx'));
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/subject_requirements.xlsx'));
 
     const workbookSheets = workbook.SheetNames;
     const sheet = workbookSheets[0];

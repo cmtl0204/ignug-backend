@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-import { DatabaseSeeder } from '@database';
+import { DatabaseSeeder } from '@database/seeders';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('App')

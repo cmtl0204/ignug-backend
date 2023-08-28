@@ -1,23 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { CataloguesSeeder } from './catalogues-seeder';
-import { UsersSeeder } from './users-seeder';
-import { RolesSeeder } from './roles-seeder';
-import { MenusSeeder } from './menus-seeder';
 import * as fs from 'fs';
 import { join } from 'path';
-import { InstitutionsSeeder } from './institutions-seeder';
-import { CareersSeeder } from './careers-seeder';
-import { StudentsSeeder } from './students-seeder';
-import { SubjectsSeeder } from './subjects-seeder';
-import { CurriculumsSeeder } from './curriculums-seeder';
-import { EnrollmentSeeder } from './enrollments-seeder';
-import { GradeSeeder } from './grades-seeder';
-import { ClassroomSeeder } from './classrooms-seeders';
-import { LocationsSeeder } from './locations-seeder';
-import { PartialsSeeder } from './partials-seeder';
-import { SchoolPeriodSeeder } from './school-period-seeder';
-import { TeachersSeeder } from './teachers-seeder';
-import { TeacherDistributionsSeeder } from './teacher-distributions-seeder';
+import {
+  AttendancesSeeder,
+  CareersSeeder,
+  CataloguesSeeder,
+  ClassroomSeeder,
+  CurriculumsSeeder,
+  EnrollmentSeeder,
+  GradeSeeder,
+  InstitutionsSeeder,
+  LocationsSeeder,
+  MenusSeeder,
+  PartialsSeeder,
+  RolesSeeder,
+  SchoolPeriodSeeder,
+  StudentsSeeder,
+  SubjectsSeeder,
+  TeacherDistributionsSeeder,
+  TeachersSeeder,
+  UsersSeeder,
+} from '@database/seeders';
 
 @Injectable()
 export class DatabaseSeeder {
@@ -39,9 +42,11 @@ export class DatabaseSeeder {
     private classroomsSeeder: ClassroomSeeder,
     private locationsSeeder: LocationsSeeder,
     private teacherDistributionsSeeder: TeacherDistributionsSeeder,
+    private attendancesSeeder: AttendancesSeeder,
   ) {}
 
   async run() {
+    /** Auth Seeders **/
     await this.cataloguesSeeder.run();
     await this.rolesSeeder.run();
     await this.institutionsSeeder.run();
@@ -49,7 +54,7 @@ export class DatabaseSeeder {
     await this.menusSeeder.run();
     this.createUploadsDirectories();
 
-    /** Seeders Core **/
+    /** Core Seeders **/
     await this.careersSeeder.run();
     await this.schoolsPeriodsSeeder.run();
     await this.studentsSeeder.run();
@@ -62,6 +67,7 @@ export class DatabaseSeeder {
     await this.classroomsSeeder.run();
     await this.locationsSeeder.run();
     await this.teacherDistributionsSeeder.run();
+    await this.attendancesSeeder.run();
   }
 
   createUploadsDirectories() {

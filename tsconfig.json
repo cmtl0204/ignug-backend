@@ -87,6 +87,9 @@
       "@core/providers": [
         "./src/modules/core/providers"
       ],
+      "@database/seeders": [
+        "./src/database/seeders"
+      ],
       "@core/services": [
         "./src/modules/core/services"
       ],

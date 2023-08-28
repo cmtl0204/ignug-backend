@@ -7,11 +7,12 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { AddressEntity, CatalogueEntity } from '@core/entities';
+import { AddressEntity, CareerEntity, CatalogueEntity } from '@core/entities';
 
 @Entity('institutions', { schema: 'core' })
 export class InstitutionEntity {
@@ -45,6 +46,9 @@ export class InstitutionEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
+  @OneToMany(() => CareerEntity, career => career.institution)
+  careers: CareerEntity[];
+
   @ManyToMany(() => UserEntity, user => user.institutions)
   @JoinTable({
     name: 'institution_user',

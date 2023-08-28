@@ -42,6 +42,7 @@ import {
   TeacherDistributionsService,
   PDFService,
   PDFNotas,
+  AttendancesService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -70,6 +71,7 @@ import { coreProviders } from '@core/providers';
   ],
   providers: [
     ...coreProviders,
+    AttendancesService,
     CareersService,
     CataloguesService,
     CurriculumsService,
@@ -96,6 +98,7 @@ import { coreProviders } from '@core/providers';
   ],
   exports: [
     ...coreProviders,
+    AttendancesService,
     CareersService,
     CataloguesService,
     CurriculumsService,

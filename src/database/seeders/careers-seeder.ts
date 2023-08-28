@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { SeedCareerDto } from '@core/dto';
 import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueCareersModalityEnum, CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueEntity, InstitutionEntity } from '@core/entities';
 
 @Injectable()
 export class CareersSeeder {
@@ -18,35 +19,35 @@ export class CareersSeeder {
 
     const institutions = (await this.institutionsService.findAll()).data;
 
-    const stateEnabled = catalogues.find(state => {
+    const stateEnabled = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
-    const stateDisabled = catalogues.find(state => {
+    const stateDisabled = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'disabled' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
     });
 
-    const modality1 = catalogues.find(modality => {
-      return modality.code === 'On-site' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+    const modality1 = catalogues.find((modality: CatalogueEntity) => {
+      return modality.code === CatalogueCareersModalityEnum.ON_SITE && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
-    const modality2 = catalogues.find(modality => {
-      return modality.code === 'Distance' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+    const modality2 = catalogues.find((modality: CatalogueEntity) => {
+      return modality.code === CatalogueCareersModalityEnum.DISTANCE && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
-    const modality3 = catalogues.find(modality => {
-      return modality.code === 'Double' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+    const modality3 = catalogues.find((modality: CatalogueEntity) => {
+      return modality.code === CatalogueCareersModalityEnum.DUAL && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
-    const modality4 = catalogues.find(modality => {
-      return modality.code === 'Hybrid' && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+    const modality4 = catalogues.find((modality: CatalogueEntity) => {
+      return modality.code === CatalogueCareersModalityEnum.HYBRID && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
     });
 
-    const type1 = catalogues.find(type => {
+    const type1 = catalogues.find((type: CatalogueEntity) => {
       return type.code === 'technology' && type.type === CatalogueCoreTypeEnum.CAREERS_TYPE;
     });
-    const type2 = catalogues.find(type => {
+    const type2 = catalogues.find((type: CatalogueEntity) => {
       return type.code === 'technique' && type.type === CatalogueCoreTypeEnum.CAREERS_TYPE;
     });
 
-    const institution1 = institutions.find(institution => institution.code === 'cod1');
-    const institution2 = institutions.find(institution => institution.code === 'cod2');
+    const institution1 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod1');
+    const institution2 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod2');
 
     careers.push(
       {

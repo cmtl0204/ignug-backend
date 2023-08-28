@@ -106,3 +106,8 @@ export * from './grades/grade.dto';
 export * from './grades/create-grade.dto';
 export * from './grades/update-grade.dto';
 export * from './grades/filter-grade.dto';
+
+export * from './attendances/attendance.dto';
+export * from './attendances/create-attendance.dto';
+export * from './attendances/update-attendance.dto';
+export * from './attendances/filter-attendance.dto';
