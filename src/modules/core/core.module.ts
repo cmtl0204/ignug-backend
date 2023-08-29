@@ -1,4 +1,5 @@
 import { Global, Module } from '@nestjs/common';
+import { CacheModule } from '@nestjs/cache-manager';
 import {
   CareersController,
   CataloguesController,
@@ -49,7 +50,7 @@ import { coreProviders } from '@core/providers';
 
 @Global()
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CacheModule.register()],
   controllers: [
     CareersController,
     CataloguesController,

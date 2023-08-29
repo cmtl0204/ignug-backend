@@ -9,7 +9,7 @@ import { faker } from '@faker-js/faker';
 export class GradeSeeder {
   private enrollmentDetails: EnrollmentDetailEntity[] = [];
 
-  constructor(private enrollmentDetailService: EnrollmentsDetailService, private gradeService: GradesService, private partialService:PartialsService) {}
+  constructor(private enrollmentDetailService: EnrollmentsDetailService, private gradeService: GradesService, private partialService: PartialsService) {}
   private partials: PartialEntity[] = [];
 
   async run() {
@@ -28,12 +28,12 @@ export class GradeSeeder {
 
   private async createGrades() {
     const grades: CreateGradeDto[] = [];
-    
+
     this.enrollmentDetails.forEach(enrollmentDetail => {
       grades.push({
         value: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
         enrollmentDetail: enrollmentDetail,
-        partial: this.partials[Math.floor(Math.random() * this.partials.length)],
+        partial: this.partials[faker.helpers.rangeToNumber({ min: 0, max: this.partials.length - 1 })],
       });
     });
 

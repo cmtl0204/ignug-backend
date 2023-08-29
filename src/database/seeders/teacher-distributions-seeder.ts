@@ -23,7 +23,7 @@ export class TeacherDistributionsSeeder {
   private async create() {
     const teacherDistributions: SeedTeacherDistributionDto[] = [];
 
-    const catalogues = (await this.cataloguesService.findAll()).data;
+    const catalogues = await this.cataloguesService.findCache();
     const parallels = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueCoreTypeEnum.PARALLEL);
     const workdays = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
     const schoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();

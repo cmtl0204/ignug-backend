@@ -15,7 +15,7 @@ export class InstitutionsSeeder {
 
   private async create() {
     const institutions: CreateInstitutionDto[] = [];
-    const catalogues = (await this.cataloguesService.findAll()).data;
+    const catalogues = await this.cataloguesService.findCache();
 
     const stateEnable = catalogues.find((state: CatalogueEntity) => {
       return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.INSTITUTIONS_STATE;

@@ -6,6 +6,7 @@ import { SeedTeacherDto } from '@core/dto';
 import { CareerEntity, TeacherEntity } from '@core/entities';
 import { SeederInformationTeacherDto } from '@core/dto';
 import { RoleEnum } from '@auth/enums';
+import { faker } from '@faker-js/faker';
 
 @Injectable()
 export class TeachersSeeder {
@@ -37,7 +38,7 @@ export class TeachersSeeder {
     users.forEach((user: UserEntity) => {
       teachers.push({
         user: user,
-        careers: [this.careers[Math.floor(Math.random() * this.careers.length)]],
+        careers: [this.careers[faker.helpers.rangeToNumber({ min: 0, max: this.careers.length - 1 })]],
       });
     });
 

@@ -74,6 +74,12 @@ you'd like to join them, please [read more here](https://docs.nestjs.com/support
 
 Nest is [MIT licensed](LICENSE).
 
+## Libraries
+```bash
+$ npm i -D @types/cache-manager
+$ npm install @nestjs/cache-manager cache-manager
+```
+
 ## 1. Entity
 
 - Name: ExampleEntity (singular)

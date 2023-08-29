@@ -1,18 +1,22 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateCatalogueDto, FilterCatalogueDto, PaginationDto, UpdateCatalogueDto } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
-import { CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import { CacheEnum, CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { ReadUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 import { plainToInstance } from 'class-transformer';
 import { ServiceResponseHttpModel } from '@shared/models';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class CataloguesService {
+  clientRedis: any = null;
+
   constructor(
     @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY)
     private repository: Repository<CatalogueEntity>,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   async create(payload: CreateCatalogueDto): Promise<CatalogueEntity> {
@@ -130,5 +134,31 @@ export class CataloguesService {
       data: plainToInstance(ReadUserDto, response[0]),
       pagination: { limit, totalItems: response[1] },
     };
+  }
+
+  async loadCache(): Promise<boolean> {
+    const catalogues = await this.repository.find({
+      relations: { children: true },
+      where: { parent: null },
+      order: { type: 'asc', name: 'asc' },
+    });
+
+    await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);
+
+    return true;
+  }
+
+  async findCache(): Promise<CatalogueEntity[]> {
+    let catalogues = (await this.cacheManager.get(CacheEnum.CATALOGUES)) as CatalogueEntity[];
+
+    if (catalogues === undefined || catalogues.length === 0) {
+      catalogues = await this.repository.find({
+        relations: { children: true },
+        where: { parent: null },
+        order: { type: 'asc', name: 'asc' },
+      });
+    }
+
+    return catalogues;
   }
 }

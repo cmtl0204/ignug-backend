@@ -15,7 +15,7 @@ export class CareersSeeder {
   private async create() {
     const careers: SeedCareerDto[] = [];
 
-    const catalogues = (await this.cataloguesService.findAll()).data;
+    const catalogues = await this.cataloguesService.findCache();
 
     const institutions = (await this.institutionsService.findAll()).data;
 

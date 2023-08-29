@@ -15,7 +15,7 @@ export class SchoolPeriodSeeder {
   private async createSchoolPeriod() {
     const schoolPeriod: SchoolPeriodDto[] = [];
 
-    const catalogues = (await this.cataloguesService.findAll()).data;
+    const catalogues = await this.cataloguesService.findCache();
     const closeState = await catalogues.find((item: CatalogueEntity) => item.code === 'close' && item.type === CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE);
     const openState = await catalogues.find((item: CatalogueEntity) => item.code === 'open' && item.type === CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE);
 

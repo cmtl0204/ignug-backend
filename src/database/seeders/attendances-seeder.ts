@@ -37,7 +37,7 @@ export class AttendancesSeeder {
       attendances.push({
         value: faker.helpers.rangeToNumber({ min: 0, max: 100 }),
         enrollmentDetail: enrollmentDetail,
-        partial: this.partials[Math.floor(Math.random() * this.partials.length)],
+        partial: this.partials[faker.helpers.rangeToNumber({ min: 0, max: this.partials.length - 1 })],
       });
     });
 

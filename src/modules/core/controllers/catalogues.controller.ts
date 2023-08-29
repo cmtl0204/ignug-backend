@@ -28,7 +28,7 @@ export class CataloguesController {
   async catalogue(@Query('type') type: CatalogueCoreTypeEnum) {
     const response = await this.catalogueService.catalogue(type);
     return {
-      data: response.data,
+      data: response,
       message: `catalogue`,
       title: `Catalogue`,
     } as ResponseHttpModel;
@@ -91,6 +91,30 @@ export class CataloguesController {
       data,
       message: `Catalogues deleted`,
       title: `Deleted`,
+    };
+  }
+
+  @Put('cache/load')
+  @HttpCode(HttpStatus.CREATED)
+  async loadCache(): Promise<ResponseHttpModel> {
+    const data = await this.catalogueService.loadCache();
+
+    return {
+      data,
+      message: `Catálogos cargados en caché`,
+      title: `Cache`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Find Cache' })
+  @Get('cache/get')
+  @HttpCode(HttpStatus.OK)
+  async findCache(): Promise<ResponseHttpModel> {
+    const response = await this.catalogueService.findCache();
+    return {
+      data: response,
+      message: `catalogue`,
+      title: `Catalogue`,
     };
   }
 }
