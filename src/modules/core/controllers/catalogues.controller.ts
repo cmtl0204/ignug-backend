@@ -94,18 +94,6 @@ export class CataloguesController {
     };
   }
 
-  @Put('cache/load')
-  @HttpCode(HttpStatus.CREATED)
-  async loadCache(): Promise<ResponseHttpModel> {
-    const data = await this.catalogueService.loadCache();
-
-    return {
-      data,
-      message: `Catálogos cargados en caché`,
-      title: `Cache`,
-    };
-  }
-
   @ApiOperation({ summary: 'Find Cache' })
   @Get('cache/get')
   @HttpCode(HttpStatus.OK)
@@ -113,8 +101,8 @@ export class CataloguesController {
     const response = await this.catalogueService.findCache();
     return {
       data: response,
-      message: `catalogue`,
-      title: `Catalogue`,
+      message: `Cache de Catalogos`,
+      title: `Cache`,
     };
   }
 }

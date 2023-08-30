@@ -136,27 +136,17 @@ export class CataloguesService {
     };
   }
 
-  async loadCache(): Promise<boolean> {
-    const catalogues = await this.repository.find({
-      relations: { children: true },
-      where: { parent: null },
-      order: { type: 'asc', name: 'asc' },
-    });
-
-    await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);
-
-    return true;
-  }
-
   async findCache(): Promise<CatalogueEntity[]> {
     let catalogues = (await this.cacheManager.get(CacheEnum.CATALOGUES)) as CatalogueEntity[];
 
-    if (catalogues === undefined || catalogues.length === 0) {
+    if (catalogues === null || catalogues === undefined || catalogues.length === 0) {
       catalogues = await this.repository.find({
         relations: { children: true },
         where: { parent: null },
         order: { type: 'asc', name: 'asc' },
       });
+
+      await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);
     }
 
     return catalogues;
