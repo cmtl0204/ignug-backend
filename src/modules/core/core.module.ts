@@ -18,6 +18,7 @@ import {
   PDFController,
   EnrollmentsController,
   EnrollmentDetailsController,
+  SecretaryController,
 } from '@core/controllers';
 import {
   CareersService,
@@ -44,6 +45,7 @@ import {
   PDFService,
   PDFNotas,
   AttendancesService,
+  SecretaryService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
@@ -69,6 +71,7 @@ import { coreProviders } from '@core/providers';
     PDFController,
     EnrollmentsController,
     EnrollmentDetailsController,
+    SecretaryController
   ],
   providers: [
     ...coreProviders,
@@ -96,6 +99,7 @@ import { coreProviders } from '@core/providers';
     TeacherDistributionsService,
     PDFService,
     PDFNotas,
+    SecretaryService,
   ],
   exports: [
     ...coreProviders,
@@ -123,6 +127,7 @@ import { coreProviders } from '@core/providers';
     TeacherDistributionsService,
     PDFService,
     PDFNotas,
+    SecretaryService,
   ],
 })
 export class CoreModule {}

@@ -7,59 +7,100 @@ export class SecretaryService {
     async downloadReport(): Promise<Buffer> {
         const pdfBuffer: Buffer = await new Promise(resolve => {
             const doc = new PDFDocument({
-                size: "LETTER",
-                bufferPages: true
-            })
-            // Aqui modificamos el pdf
-            /*doc.text("PDF GENERADO EN NUESTRO SERVIDOR");
-            doc.moveDown();
-            doc.text("Este definitivamente no es un pedeefe");
-           // triangulo
-            doc
-            .save()
-            .moveTo(100, 150)
-            .lineTo(100, 250)
-            .lineTo(200, 250)
-            .fill('#FF3300');
-          */
+        size: 'A4',
+        bufferPages: true,
+        align: 'center',
+      });
 
-            // Agregar título al PDF
-            doc.fontSize(14).text('SOLICITUD DE MATRÍCULA', { align: 'center' });
-            doc.fontSize(10).text(`Fecha: ${new Date().toISOString().split('T')[0]}`, { align: 'right' });
-            doc.moveDown();
-        
-            // Agregar el contenido del solicitante y sus detalles
-            const solicitante = {
-              nombre: 'ABADEANO SOLORZANO FRANKLIN ANDRES',
-              cedula: 'C.C. 1727620229',
-              carrera: 'TECNOLOGÍA SUPERIOR EN DESARROLLO DE SOFTWARE',
-              periodo: 'JUNIO 2021 - OCTUBRE 2021',
-            };
-        
-            doc.fontSize(12).text(`Yo, ${solicitante.nombre}, con cédula de ciudadanía N° ${solicitante.cedula}, hago uso de mi cupo en la carrera ${solicitante.carrera}, en el periodo lectivo ${solicitante.periodo} con la inscripción en las siguientes asignaturas:`, { align: 'justify' });
-        
-            doc.moveDown();
-            doc.fontSize(12).text('Con sentimiento de distinguida consideración.', { align: 'right' });
-            doc.moveDown();
-            const encabezadoTabla = ['CÓDIGO', 'ASIGNATURA', 'PERÍODO', 'CÓDIGO DE MATRÍCULA', 'JORNADA', 'H. DOCENTES', 'H. PRÁCTICAS', 'H. AUTÓNOMAS'];
-            const contenidoTabla = [
-              ['CS101', 'Introducción a la Programación', 'JUNIO 2021 - OCTUBRE 2021', 'MAT202109', 'Mañana', '4', '2', '8'],
-              ['CS201', 'Estructuras de Datos', 'JUNIO 2021 - OCTUBRE 2021', 'MAT202110', 'Tarde', '3', '1', '6'],
-              ['CS301', 'Programación Avanzada', 'JUNIO 2021 - OCTUBRE 2021', 'MAT202111', 'Noche', '4', '2', '8'],
-              ['CS401', 'Bases de Datos', 'JUNIO 2021 - OCTUBRE 2021', 'MAT202112', 'Mañana', '3', '1', '6'],
-              ['CS501', 'Diseño de Interfaces', 'JUNIO 2021 - OCTUBRE 2021', 'MAT202113', 'Tarde', '4', '2', '8'],
-            ];
+       //imágenes
+      const imageX = 100;
+      const imageX2 = 400;
+      const imagePath = './src/assets/images/core/institutions/logo.jpeg';
+      const imagePath2 = './src/assets/images/core/institutions/logo.jpeg';
+      const imageY = 30;
+      const imageWidth = 100;
+      const imageHeight = 100;
 
-    /*doc.table([encabezadoTabla, ...contenidoTabla], {
-      prepareHeader: () => doc.font('Helvetica-Bold'),
-      prepareRow: (row, rowIndex) => doc.font('Helvetica').fontSize(12),
-      bottomMargin: 30,
-    });*/
-            doc.moveDown();
-            doc.fontSize(12).text('Atentamente,', { align: 'right' });
-            doc.moveDown();
-            doc.fontSize(12).text(solicitante.nombre, { align: 'right' });
-            doc.fontSize(12).text(solicitante.cedula, { align: 'right' });
+      //textos
+      const matricula = '       MATRÍCULA:    ';
+      const matriculaInfo = '2022-II-DS-1727620229';
+      const folio = '   FOLIO: ';
+      const folioInfo = "prueba";
+      const matriculaX = 120;
+      const folioX = 400;
+      const textY = 200;
+      const textY2 = 220;
+
+       //Documento
+      doc.image(imagePath, imageX, imageY, { width: imageWidth, height: imageHeight });
+      doc.image(imagePath2, imageX2, imageY, { width: imageWidth, height: imageHeight });
+      doc.font('Helvetica-Bold').fontSize(25).text('Solicitud de Matrícula', { align: 'center' }, 160);
+      doc.font('Times-Bold', 13);
+      doc.text(matricula, matriculaX, textY);
+      doc.text(folio, folioX, textY);
+      doc.font('Times-Roman', 13).text(matriculaInfo, matriculaX, textY2);
+      doc.text(folioInfo, folioX, textY2);
+      doc.moveDown(6);
+      doc
+        .font('Times-Roman', 13)
+        .text(
+          `Yo, ABADEANO SOLORZANO FRANKLIN ANDRES, con cédula de ciudadanía N°1727620229, hago uso de mi cupo en la carrera TECNOLOGÍA SUPERIOR EN DESARROLLO DE SOFTWARE, en el periodo lectivo JUNIO 2021 - OCTUBRE 2021 con la inscripción en las siguientes asignaturas:`,
+          80,
+          280,
+          { align: 'justify' },
+        );
+
+        const rows_subjects = [{code:"123",name:"gabriel"}];
+
+        const subjects = [
+          { code: 'CS101', name: 'Introduction to Computer Science', teacherHour: 3, practicalHour: 2, autonomousHour: 4 },
+          { code: 'MATH202', name: 'Advanced Mathematics', teacherHour: 4, practicalHour: 1, autonomousHour: 3 },
+          // Agrega más objetos Subject aquí si es necesario
+        ];
+        
+        const workDays = [
+          { name: 'Monday' },
+          { name: 'Tuesday' },
+          { name: 'Wednesday' },
+          // Agrega más objetos WorkDay aquí si es necesario
+        ];
+        
+        function getRandomNumber(min, max) {
+          return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        const detailsList = [];
+        
+        for (let i = 0; i < 10; i++) {
+          const randomSubject = subjects[getRandomNumber(0, subjects.length - 1)];
+          const randomWorkDay = workDays[getRandomNumber(0, workDays.length - 1)];
+          const randomDetails = getRandomNumber(1000, 9999);
+          
+          const details = {
+            subject: randomSubject,
+            workDay: randomWorkDay,
+            details: randomDetails,
+          };
+          
+          detailsList.push(details);
+        }
+        
+        console.log(detailsList);
+
+        const table = {
+          headers: ['Código', 'Asignatura', 'Periódo', 'Número de matrícula', 'Jornada', 'H. Docente', 'H. Práctica', 'H. Autónoma'],
+          rows: rows_subjects,
+        };
+  
+        doc.moveDown(2);
+        doc.table(table, { align: 'center', columnsSize: [40, 100, 40, 60, 60, 50, 50, 50] });
+        
+            doc.fontSize(11).text('Con sentimiento de distinguida consideración', 80, 650);
+      doc.moveDown(2);
+      doc.text('Atentamente,');
+      doc.moveDown(3);
+      doc.font('Times-Bold', 12).text('SECRETARÍA ACADÉMICA');
+      doc.text(`desarrollo`);
 
             //END DOCUMENT
             let buffer = [];

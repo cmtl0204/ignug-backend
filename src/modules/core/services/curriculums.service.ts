@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import { CreateCurriculumDto, FilterCurriculumDto, PaginationDto, UpdateCurriculumDto } from '@core/dto';
-import { CurriculumEntity } from '@core/entities';
+import { CurriculumEntity, SubjectEntity } from '@core/entities';
 import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum } from '@shared/enums';
@@ -50,6 +50,21 @@ export class CurriculumsService {
     }
 
     return curriculum;
+  }
+
+  async findSubjectsByCurriculum(id: string): Promise<SubjectEntity[]> {
+    const curriculum = await this.repository.findOne({
+      relations: {subjects: {academicPeriod: true}},
+      where: {
+        id,
+      },
+    });
+
+    if (!curriculum) {
+      throw new NotFoundException('La malla curricular no existe');
+    }
+
+    return curriculum.subjects;
   }
 
   async update(id: string, payload: UpdateCurriculumDto): Promise<CurriculumEntity> {

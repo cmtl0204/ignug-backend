@@ -1,9 +1,11 @@
+import * as XLSX from 'xlsx';
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateTeacherDistributionDto, FilterTeacherDistributionDto, PaginationDto, UpdateTeacherDistributionDto } from '@core/dto';
 import { TeacherDistributionEntity } from '@core/entities';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
+import { join } from 'path';
 
 @Injectable()
 export class TeacherDistributionsService {
@@ -114,64 +116,27 @@ export class TeacherDistributionsService {
     };
   }
 
-  /*/ 
-
-  onFileChange(evt: any) {
-    const target: DataTransfer = <DataTransfer>(evt.target);
-    if (target.files.length > 1) {
-      alert('No se permiten varios archivos');
-      return;
-    }
-    else {
-      const reader: FileReader = new FileReader();
-      reader.onload = (e: any) => {
-        const bstr: string = e.target.result;
-        const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
-        const wsname = wb.SheetNames[0];
-        const ws: XLSX.WorkSheet = wb.Sheets[wsname];
-        let data = (XLSX.utils.sheet_to_json(ws, { header: 1 }));
-        // Print the Excel Data
-        console.log(data);
-      }
-      reader.readAsBinaryString(target.files[0]);
-    }
-  }
- 
-   generateExcelFile(data: TeacherDistributionModel[]) {
-    const wb = XLSX.utils.book_new();
-    const ws_data = [['Paralell', 'Teacher Name', 'School Period', 'Subject', 'Workday', 'Career', 'Hours']];
-    
-    // Llenar la matriz con los datos de la entidad
-    data.forEach(async (item) => {
-      const teacher: TeacherModel = await item.teacher;
-      const user: UserModel | undefined = await teacher?.user;
-  
-      ws_data.push([
-        item.parallel?.name || '',
-        user?.name || '', // 
-        item.schoolPeriod?.name || '',
-        item.subject?.name || '',
-        item.workday?.name || '',
-        item.career?.name || '',
-        item.hours.toString() || '',
-      ]);
+  async exportTeacherDistributions(): Promise<string> {
+    let teacherDistributions = (await this.findAll()).data;
+    const newWorkbook = XLSX.utils.book_new();
+    teacherDistributions = teacherDistributions.map(teacherDistributions => {
+      return {
+        'codigo asignatura': teacherDistributions.subject.code,
+        'nombre asignatura': teacherDistributions.subject.name,
+        'nombre docente': teacherDistributions.teacher.user.name,
+        'cedula docente': teacherDistributions.teacher.user.identification,
+        'paralelo': teacherDistributions.parallel.name,
+        'jornada': teacherDistributions.workday.name,
+        'horario-semana': teacherDistributions.hours,
+      };
     });
-  
-    const ws = XLSX.utils.aoa_to_sheet(ws_data);
-  
-    XLSX.utils.book_append_sheet(wb, ws, 'TeacherDistributions');
-  
-    const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-  
-    const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = URL.createObjectURL(blob);
-  
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'teacher_distributions.xlsx';
-    a.click();
-  
-    URL.revokeObjectURL(url);
+
+    const newSheet = XLSX.utils.json_to_sheet(teacherDistributions);
+
+    XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Distributivo docente');
+    const path = join(process.cwd(), 'src/resources/exports', Date.now() + '.xlsx'); //review path
+    XLSX.writeFile(newWorkbook, path);
+    return path;
   }
-/**/
+
 }

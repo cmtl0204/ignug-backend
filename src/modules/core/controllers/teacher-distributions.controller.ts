@@ -10,6 +10,7 @@ import {
   Post, 
   Put, 
   Query,
+  Res,
  } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateTeacherDistributionDto, UpdateTeacherDistributionDto, FilterTeacherDistributionDto } from '@core/dto';
@@ -112,4 +113,19 @@ export class TeacherDistributionsController {
       title: `eliminadas`,
     };
   }
+
+  @ApiOperation({ summary: 'Exportar distributivo' })
+  @Get('teacher-distributions')
+  @HttpCode(HttpStatus.CREATED)
+  async exportTeacherDistributions(@Res() res): Promise<ResponseHttpModel> {
+    const path = await this.teacherDistributionsService.exportTeacherDistributions();
+
+    return {
+      data: res.sendFile(path),
+      message: `Distributivo Docente Exportado`,
+      title: `Exportado`,
+    };
+  }
 }
+
+

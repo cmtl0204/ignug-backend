@@ -1,5 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CareerEntity, CatalogueEntity } from '@core/entities';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CareerEntity, CatalogueEntity, SubjectEntity } from '@core/entities';
 
 @Entity('curriculums', { schema: 'core' })
 export class CurriculumEntity {
@@ -43,6 +43,10 @@ export class CurriculumEntity {
     comment: 'true=visible, false=no visible',
   })
   isVisible: boolean;
+
+  /** Inverse Relationship **/
+  @OneToMany(() => SubjectEntity, subject => subject.curriculum)
+  subjects: SubjectEntity[];
 
   /** Foreign Keys **/
   @ManyToOne(() => CareerEntity, { nullable: true, eager: true })
