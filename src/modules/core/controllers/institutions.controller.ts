@@ -4,6 +4,8 @@ import { CreateInstitutionDto, FilterCareerDto, FilterInstitutionDto, UpdateInst
 import { InstitutionEntity } from '@core/entities';
 import { CareersService, InstitutionsService } from '@core/services';
 import { ResponseHttpModel } from '@shared/models';
+import { Auth, User } from '@auth/decorators';
+import { UserEntity } from '@auth/entities';
 
 @ApiTags('Institutions')
 @Controller('institutions')
@@ -131,6 +133,20 @@ export class InstitutionsController {
       pagination: serviceResponse.pagination,
       message: `Find Institutions By User`,
       title: 'Success',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find Institutions By Authenticated User' })
+  @Auth()
+  @Get('users/authenticated')
+  @HttpCode(HttpStatus.OK)
+  async findByAuthenticatedUser(@User() user: UserEntity): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.findInstitutionsByAuthenticatedUser(user);
+    return {
+      data: serviceResponse.data,
+      pagination: serviceResponse.pagination,
+      message: 'Find Institutions By Authenticated User',
+      title: `Success`,
     };
   }
 }

@@ -5,6 +5,7 @@ import { CareerEntity, InstitutionEntity } from '@core/entities';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { CataloguesService } from './catalogues.service';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class InstitutionsService {
@@ -46,6 +47,20 @@ export class InstitutionsService {
     if (!institution) throw new NotFoundException('Institution not found');
 
     return institution;
+  }
+
+  async findInstitutionsByAuthenticatedUser(user: UserEntity, params?: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
+    //Pagination & Filter by search
+    if (params?.limit > 0 && params?.page >= 0) {
+      return await this.paginateAndFilterByAuthenticatedUser(user, params);
+    }
+
+    const data = await this.repository.findAndCount({
+      relations: { state: true },
+      where: { users: { id: user.id } },
+    });
+
+    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
   }
 
   async update(id: string, payload: UpdateInstitutionDto): Promise<InstitutionEntity> {
@@ -101,6 +116,38 @@ export class InstitutionsService {
 
     const response = await this.repository.findAndCount({
       relations: ['address', 'state'],
+      where,
+      take: limit,
+      skip: PaginationDto.getOffset(limit, page),
+    });
+
+    return {
+      data: response[0],
+      pagination: { limit, totalItems: response[1] },
+    };
+  }
+
+  private async paginateAndFilterByAuthenticatedUser(user: UserEntity, params: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
+    let where: FindOptionsWhere<InstitutionEntity> | FindOptionsWhere<InstitutionEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
+
+    if (search) {
+      search = search.trim();
+      page = 0;
+      where = [];
+      where.push({ users: { id: user.id }, acronym: ILike(`%${search}`) });
+      where.push({ users: { id: user.id }, code: ILike(`%${search}`) });
+      where.push({ users: { id: user.id }, codeSniese: ILike(`%${search}`) });
+      where.push({ users: { id: user.id }, denomination: ILike(`%${search}`) });
+      where.push({ users: { id: user.id }, email: ILike(`%${search}`) });
+      where.push({ users: { id: user.id }, name: ILike(`%${search}`) });
+      where.push({ users: { id: user.id }, shortName: ILike(`%${search}`) });
+    }
+
+    const response = await this.repository.findAndCount({
+      relations: { state: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
