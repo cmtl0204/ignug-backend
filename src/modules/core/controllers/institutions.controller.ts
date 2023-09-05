@@ -49,6 +49,19 @@ export class InstitutionsController {
     };
   }
 
+  @ApiOperation({ summary: 'Hide' })
+  @Patch(':id/hide')
+  @HttpCode(HttpStatus.CREATED)
+  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.hide(id);
+
+    return {
+      data: serviceResponse,
+      message: `Institución Oculta`,
+      title: `Ocultada`,
+    };
+  }
+
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)
@@ -58,6 +71,19 @@ export class InstitutionsController {
       data: serviceResponse,
       message: 'Institución Actualizada',
       title: `Actualizada`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Reactivate' })
+  @Patch(':id/reactivate')
+  @HttpCode(HttpStatus.CREATED)
+  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.instituteService.reactivate(id);
+
+    return {
+      data: serviceResponse,
+      message: `Institución Reactivada`,
+      title: `Reactivada`,
     };
   }
 

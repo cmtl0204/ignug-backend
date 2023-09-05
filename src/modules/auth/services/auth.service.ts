@@ -60,8 +60,9 @@ export class AuthService {
       relations: {
         roles: true,
         institutions: true,
-        teacher: true,
-        student: true,
+        careers: true,
+        teacher: { careers: true },
+        student: { careers: true },
       },
     })) as UserEntity;
 
@@ -165,7 +166,10 @@ export class AuthService {
     const randomNumber = Math.random();
     const token = randomNumber.toString().substring(2, 8);
 
-    await this.nodemailerService.sendMail(user.email, MailSubjectEnum.RESET_PASSWORD, MailTemplateEnum.TRANSACTIONAL_CODE, { token, user });
+    await this.nodemailerService.sendMail(user.email, MailSubjectEnum.RESET_PASSWORD, MailTemplateEnum.TRANSACTIONAL_CODE, {
+      token,
+      user,
+    });
 
     const payload = { username: user.username, token, type: 'password_reset' };
 

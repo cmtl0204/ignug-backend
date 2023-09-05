@@ -1,6 +1,6 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { InformationStudentEntity } from '@core/entities';
+import { CareerEntity, InformationStudentEntity } from '@core/entities';
 
 @Entity('students', { schema: 'core' })
 export class StudentEntity {
@@ -37,11 +37,14 @@ export class StudentEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
+  @ManyToMany(() => CareerEntity, career => career.students)
+  careers: CareerEntity[];
+
   @OneToOne(() => InformationStudentEntity, informationStudentEntity => informationStudentEntity.student)
   informationStudent: InformationStudentEntity;
 
   /** Foreign Keys **/
-  @OneToOne(() => UserEntity, user => user.student,{eager:true})
+  @OneToOne(() => UserEntity, user => user.student, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
   @Column({ type: 'uuid', comment: 'Usuario: estudiante' })

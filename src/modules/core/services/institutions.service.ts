@@ -3,7 +3,7 @@ import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateInstitutionDto, FilterInstitutionDto, PaginationDto, SeedInstitutionDto, UpdateInstitutionDto } from '@core/dto';
 import { CareerEntity, InstitutionEntity } from '@core/entities';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import { CatalogueCoreTypeEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { CataloguesService } from './catalogues.service';
 import { UserEntity } from '@auth/entities';
 
@@ -93,6 +93,26 @@ export class InstitutionsService {
 
   async removeAll(payload: InstitutionEntity[]): Promise<InstitutionEntity[]> {
     return await this.repository.softRemove(payload);
+  }
+
+  async hide(id: string): Promise<InstitutionEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<InstitutionEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
+    return await this.repository.save(entity);
   }
 
   private async paginateAndFilter(params: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {

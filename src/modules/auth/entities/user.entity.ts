@@ -44,6 +44,9 @@ export class UserEntity {
   deletedAt: Date;
 
   /** Inverse Relationship **/
+  @ManyToMany(() => CareerEntity, career => career.users)
+  careers: CareerEntity[];
+
   @ManyToMany(() => InstitutionEntity, institution => institution.users)
   institutions: InstitutionEntity[];
 

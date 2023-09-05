@@ -10,7 +10,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueEntity, InstitutionEntity, TeacherEntity } from '@core/entities';
+import { CatalogueEntity, InstitutionEntity, StudentEntity, TeacherEntity } from '@core/entities';
+import { UserEntity } from '@auth/entities';
 
 @Entity('careers', { schema: 'core' })
 export class CareerEntity {
@@ -50,16 +51,36 @@ export class CareerEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
-  @ManyToMany(() => TeacherEntity)
-  @JoinTable({ name: 'career_teacher' })
+  @ManyToMany(() => StudentEntity, student => student.careers)
+  @JoinTable({
+    name: 'career_student',
+    joinColumn: { name: 'career_id' },
+    inverseJoinColumn: { name: 'student_id' },
+  })
+  students: StudentEntity[];
+
+  @ManyToMany(() => TeacherEntity, teacher => teacher.careers)
+  @JoinTable({
+    name: 'career_teacher',
+    joinColumn: { name: 'career_id' },
+    inverseJoinColumn: { name: 'teacher_id' },
+  })
   teachers: TeacherEntity[];
+
+  @ManyToMany(() => UserEntity, user => user.careers)
+  @JoinTable({
+    name: 'career_user',
+    joinColumn: { name: 'career_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
+  users: UserEntity[];
 
   /** Foreign Keys **/
   @ManyToOne(() => InstitutionEntity, {
     nullable: true,
-    eager:true
+    eager: true,
   })
-  @JoinColumn({ name: 'institution_id'})
+  @JoinColumn({ name: 'institution_id' })
   institution: InstitutionEntity;
 
   @Column({ type: 'uuid', comment: 'Institución a la que pertenece la carrera' })
