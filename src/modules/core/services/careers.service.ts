@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { CreateCareerDto, FilterCareerDto, PaginationDto, SeedCareerDto, UpdateCareerDto } from '@core/dto';
-import { CareerEntity, TeacherEntity } from '@core/entities';
+import { CareerEntity, CurriculumEntity, TeacherEntity } from '@core/entities';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
 
@@ -162,5 +162,20 @@ export class CareersService {
     }
 
     return entity.teachers;
+  }
+
+  async findCurriculumsByCareer(id: string): Promise<CurriculumEntity[]> {
+    const entity = await this.repository.findOne({
+      relations: { curriculums: true },
+      where: {
+        id,
+      },
+    });
+
+    if (!entity) {
+      throw new NotFoundException(`La carrera con id:  ${id} no se encontró`);
+    }
+
+    return entity.curriculums;
   }
 }

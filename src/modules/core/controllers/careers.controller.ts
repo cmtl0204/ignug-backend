@@ -139,4 +139,16 @@ export class CareersController {
       title: `Success`,
     };
   }
+
+  @ApiOperation({ summary: 'Find Curriculums By Career' })
+  @Get(':id/curriculums')
+  @HttpCode(HttpStatus.OK)
+  async findCurriculumsByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.careersService.findCurriculumsByCareer(id);
+    return {
+      data: serviceResponse,
+      message: `Find Curriculums By Career`,
+      title: 'Success',
+    };
+  }
 }
