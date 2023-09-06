@@ -81,7 +81,7 @@ export class AuthService {
 
     user.activatedAt = new Date();
     // Include foreign keys
-    const { password, student, teacher, roles, institutions, ...userRest } = user;
+    const { password, student, teacher, roles, institutions, careers, ...userRest } = user;
 
     userRest.maxAttempts = this.MAX_ATTEMPTS;
     await this.repository.update(userRest.id, userRest);

@@ -50,12 +50,12 @@ export class DatabaseSeeder {
     await this.cataloguesSeeder.run();
     await this.rolesSeeder.run();
     await this.institutionsSeeder.run();
+    await this.careersSeeder.run();
     await this.usersSeeder.run();
     await this.menusSeeder.run();
     this.createUploadsDirectories();
 
     /** Core Seeders **/
-    await this.careersSeeder.run();
     await this.schoolsPeriodsSeeder.run();
     await this.studentsSeeder.run();
     await this.teacherSeeder.run();

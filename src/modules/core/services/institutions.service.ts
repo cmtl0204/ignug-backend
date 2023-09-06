@@ -212,16 +212,28 @@ export class InstitutionsService {
   }
 
   async findCareersByInstitution(id: string, params?: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
+    if (params) {
+      const response = await this.repository.findAndCount({
+        where: { id },
+        relations: { careers: true },
+        take: params?.limit,
+        skip: PaginationDto.getOffset(params?.limit, params?.page),
+      });
+
+      return {
+        data: response[0][0].careers,
+        pagination: { limit: params?.limit, totalItems: response[1] },
+      };
+    }
+
     const response = await this.repository.findAndCount({
       where: { id },
       relations: { careers: true },
-      take: params.limit,
-      skip: PaginationDto.getOffset(params.limit, params.page),
     });
 
     return {
       data: response[0][0].careers,
-      pagination: { limit: params.limit, totalItems: response[1] },
+      pagination: { limit: 10, totalItems: response[1] },
     };
   }
 

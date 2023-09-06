@@ -7,9 +7,12 @@ import {
   maxLengthValidationOptions,
   minLengthValidationOptions,
 } from '@shared/validation';
-import { CatalogueEntity, InstitutionEntity } from '@core/entities';
+import { CareerEntity, CatalogueEntity, InstitutionEntity } from '@core/entities';
 
 export class UserDto {
+  @IsOptional()
+  readonly careers: CareerEntity[];
+
   @IsOptional()
   readonly bloodType: CatalogueEntity;
 
