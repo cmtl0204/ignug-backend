@@ -4,6 +4,8 @@ import { CreateCareerDto, UpdateCareerDto, FilterCareerDto } from '@core/dto';
 import { CareersService } from '@core/services';
 import { CareerEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
+import { Auth, User } from '@auth/decorators';
+import { UserEntity } from '@auth/entities';
 
 @ApiTags('Careers')
 @Controller('careers')
@@ -149,6 +151,19 @@ export class CareersController {
       data: serviceResponse,
       message: `Find Curriculums By Career`,
       title: 'Success',
+    };
+  }
+
+  @ApiOperation({ summary: 'Find Careers By Authenticated User' })
+  @Auth()
+  @Get('users/authenticated')
+  @HttpCode(HttpStatus.OK)
+  async findByAuthenticatedUser(@User() user: UserEntity): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.careersService.findCareersByAuthenticatedUser(user);
+    return {
+      data: serviceResponse,
+      message: 'Find Careers By Authenticated User',
+      title: `Success`,
     };
   }
 }

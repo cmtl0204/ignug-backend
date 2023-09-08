@@ -2,11 +2,12 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import { CreateUserDto, FilterUserDto, ReadUserDto, UpdateUserDto } from '@auth/dto';
+import { MAX_ATTEMPTS } from '@auth/constants';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { AuthRepositoryEnum } from '@shared/enums';
-import { MAX_ATTEMPTS } from '@auth/constants';
+import { CareerEntity } from '@core/entities';
 
 @Injectable()
 export class UsersService {
@@ -181,5 +182,14 @@ export class UsersService {
     const userUpdated = await this.repository.save(user);
 
     return plainToInstance(ReadUserDto, userUpdated);
+  }
+
+  async findCareersByUser(id: string): Promise<CareerEntity[]> {
+    const user = await this.repository.findOne({
+      where: { id },
+      relations: { careers: true },
+    });
+
+    return user.careers;
   }
 }

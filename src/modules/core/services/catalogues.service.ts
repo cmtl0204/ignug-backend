@@ -143,7 +143,7 @@ export class CataloguesService {
       catalogues = await this.repository.find({
         relations: { children: true },
         where: { parent: null },
-        order: { type: 'asc', name: 'asc' },
+        order: { type: 'asc', sort: 'asc', name: 'asc' },
       });
 
       await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);

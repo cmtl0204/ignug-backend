@@ -60,7 +60,7 @@ export class AuthService {
       relations: {
         roles: true,
         institutions: true,
-        careers: true,
+        careers: { curriculums: true },
         teacher: { careers: true },
         student: { careers: true },
       },

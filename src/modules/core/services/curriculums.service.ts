@@ -54,7 +54,7 @@ export class CurriculumsService {
 
   async findSubjectsByCurriculum(id: string): Promise<SubjectEntity[]> {
     const curriculum = await this.repository.findOne({
-      relations: {subjects: {academicPeriod: true}},
+      relations: { subjects: { academicPeriod: true, type: true, subjectRequirements: { requirement: true } } },
       where: {
         id,
       },

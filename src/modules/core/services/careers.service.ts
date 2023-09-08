@@ -4,6 +4,7 @@ import { CreateCareerDto, FilterCareerDto, PaginationDto, SeedCareerDto, UpdateC
 import { CareerEntity, CurriculumEntity, TeacherEntity } from '@core/entities';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class CareersService {
@@ -177,5 +178,12 @@ export class CareersService {
     }
 
     return entity.curriculums;
+  }
+
+  async findCareersByAuthenticatedUser(user: UserEntity): Promise<CareerEntity[]> {
+    return await this.repository.find({
+      relations: { state: true, curriculums: true },
+      where: { users: { id: user.id } },
+    });
   }
 }

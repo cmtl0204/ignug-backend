@@ -72,6 +72,13 @@ export class CatalogueEntity {
   name: string;
 
   @Column({
+    name: 'sort',
+    type: 'integer',
+    comment: 'Orden',
+  })
+  sort: number;
+
+  @Column({
     name: 'type',
     type: 'varchar',
     comment: 'Tipo de menu',
