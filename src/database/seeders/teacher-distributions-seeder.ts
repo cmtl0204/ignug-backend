@@ -28,7 +28,7 @@ export class TeacherDistributionsSeeder {
     const workdays = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
     const schoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
     const curriculums = (await this.curriculumsService.findAll()).data;
-    const subjects = await this.subjectsService.findByCurriculum(curriculums[0].id);
+    const subjects = await this.curriculumsService.findSubjectsAllByCurriculum(curriculums[0].id);
     const teachers = (await this.teachersService.findAll()).data;
 
     subjects.forEach(subject => {

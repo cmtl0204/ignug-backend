@@ -29,7 +29,7 @@ export class CurriculumsSeeder {
     curriculums.push(
       {
         code: 'cod1',
-        name: 'Administrador',
+        name: 'Malla Curricular 1',
         description: faker.lorem.lines(),
         periodicAcademicNumber: 1,
         resolutionNumber: '1',
@@ -40,7 +40,7 @@ export class CurriculumsSeeder {
       },
       {
         code: 'cod2',
-        name: 'Administrador',
+        name: 'Malla Curricular 2',
         description: faker.lorem.lines(),
         periodicAcademicNumber: 2,
         resolutionNumber: '2',
@@ -51,7 +51,7 @@ export class CurriculumsSeeder {
       },
       {
         code: 'cod3',
-        name: 'Administrador',
+        name: 'Malla Curricular 4',
         description: faker.lorem.lines(),
         periodicAcademicNumber: 3,
         resolutionNumber: '3',
@@ -62,7 +62,7 @@ export class CurriculumsSeeder {
       },
       {
         code: 'cod4',
-        name: 'Administrador',
+        name: 'Malla Curricular 5',
         description: faker.lorem.lines(),
         periodicAcademicNumber: 4,
         resolutionNumber: '4',

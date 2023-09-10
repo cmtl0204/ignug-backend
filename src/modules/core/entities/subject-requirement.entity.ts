@@ -32,19 +32,20 @@ export class SubjectRequirementEntity {
   @ManyToOne(() => SubjectEntity)
   @JoinColumn({ name: 'subject_id' })
   subject: SubjectEntity;
-  @Column({ type: 'uuid', comment: 'Asignaturas' })
+  @Column({ type: 'uuid', nullable: true, comment: 'Asignaturas' })
   subject_id: string;
 
   @ManyToOne(() => SubjectEntity)
   @JoinColumn({ name: 'requirement_id' })
   requirement: SubjectEntity;
-  @Column({ type: 'uuid', comment: 'Requerimientos para estar en esa asignatura' })
+  @Column({ type: 'uuid', nullable: true, comment: 'Requerimientos para estar en esa asignatura' })
   requirement_id: string;
 
   /** Columns **/
   @Column({
     name: 'is_enabled',
     type: 'boolean',
+    default: true,
     comment: 'true=se valida, false=no se valida',
   })
   isEnabled: boolean;

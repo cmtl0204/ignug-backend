@@ -57,6 +57,22 @@ export class CurriculumsService {
       relations: { subjects: { academicPeriod: true, type: true, subjectRequirements: { requirement: true } } },
       where: {
         id,
+        subjects: { isVisible: true },
+      },
+    });
+
+    if (!curriculum) {
+      throw new NotFoundException('La malla curricular no existe');
+    }
+
+    return curriculum.subjects;
+  }
+
+  async findSubjectsAllByCurriculum(id: string): Promise<SubjectEntity[]> {
+    const curriculum = await this.repository.findOne({
+      relations: { subjects: { academicPeriod: true, type: true, subjectRequirements: { requirement: true } } },
+      where: {
+        id,
       },
     });
 

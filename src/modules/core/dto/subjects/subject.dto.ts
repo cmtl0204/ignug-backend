@@ -1,7 +1,10 @@
-import { IsNumber, IsNotEmpty, IsOptional, IsString, Max, Min, MaxLength, MinLength } from 'class-validator';
-import { CatalogueEntity, CurriculumEntity } from '@core/entities';
+import { IsNumber, IsNotEmpty, IsOptional, IsString, Max, Min, MinLength } from 'class-validator';
+import { CatalogueEntity, CurriculumEntity, SubjectRequirementEntity } from '@core/entities';
 
 export class SubjectDto {
+  @IsOptional()
+  readonly subjectRequirements: any;
+
   @IsNotEmpty()
   readonly curriculum: CurriculumEntity;
 

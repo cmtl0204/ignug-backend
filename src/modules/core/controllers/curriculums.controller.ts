@@ -101,4 +101,17 @@ export class CurriculumsController {
       title: `Success`,
     };
   }
+
+  @ApiOperation({ summary: 'Find Subjects By Curriculum' })
+  @Get(':id/subjects/all')
+  @HttpCode(HttpStatus.OK)
+  async findSubjectsAllByCurriculum(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculumsService.findSubjectsAllByCurriculum(id);
+
+    return {
+      data: serviceResponse,
+      message: 'Find One',
+      title: `Success`,
+    };
+  }
 }

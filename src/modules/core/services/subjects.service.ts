@@ -3,7 +3,7 @@ import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { CreateSubjectDto, FilterSubjectDto, SeedSubjectDto, UpdateSubjectDto } from '@core/dto';
 import { SubjectEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
-import { CataloguesService, CurriculumsService } from '@core/services';
+import { CataloguesService, CurriculumsService, SubjectRequirementsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CatalogueStateEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 
@@ -12,7 +12,7 @@ export class SubjectsService {
   constructor(
     @Inject(CoreRepositoryEnum.SUBJECT_REPOSITORY)
     private repository: Repository<SubjectEntity>,
-    private catalogueService: CataloguesService,
+    private subjectRequirementsService: SubjectRequirementsService,
     private curriculumService: CurriculumsService,
   ) {}
 
@@ -43,12 +43,17 @@ export class SubjectsService {
 
   async findOne(id: string): Promise<SubjectEntity> {
     const subject = await this.repository.findOne({
-      relations: ['academicPeriod', 'curriculum', 'state', 'type'],
+      relations: {
+        academicPeriod: true,
+        state: true,
+        type: true,
+        subjectRequirements: { requirement: true },
+      },
       where: { id },
     });
 
     if (!subject) {
-      throw new NotFoundException('Subject not found');
+      throw new NotFoundException('Asignatura no encontrada');
     }
 
     return subject;
@@ -58,16 +63,15 @@ export class SubjectsService {
     return await this.repository.findOne({ where: { code } });
   }
 
-  async findByCurriculum(curriculumId: string): Promise<SubjectEntity[]> {
-    return await this.repository.find({
-      relations: { academicPeriod: true, state: true, type: true, subjectRequirements: { requirement: true } },
-      where: { curriculum: { id: curriculumId }, state: { code: CatalogueStateEnum.ENABLED } },
-      order: { academicPeriod: { code: 'asc' } },
-    });
-  }
-
   async update(id: string, payload: UpdateSubjectDto): Promise<SubjectEntity> {
     const subject = await this.repository.findOneBy({ id });
+
+    const subjectRequirements = payload.subjectRequirements;
+
+    await this.subjectRequirementsService.removeBySubject(id);
+    for (let i = 0; i < subjectRequirements.length; i++) {
+      this.subjectRequirementsService.create(subjectRequirements[i]);
+    }
 
     if (!subject) {
       throw new NotFoundException('Subject not found');

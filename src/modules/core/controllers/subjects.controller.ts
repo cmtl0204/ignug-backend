@@ -50,19 +50,6 @@ export class SubjectsController {
     };
   }
 
-  @ApiOperation({ summary: 'Find By Curriculum' })
-  @Get('curriculums/:id')
-  @HttpCode(HttpStatus.OK)
-  async findByCurriculum(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.subjectsService.findByCurriculum(id);
-
-    return {
-      data: serviceResponse,
-      message: `Find By Curriculum`,
-      title: `Success`,
-    };
-  }
-
   @ApiOperation({ summary: 'Update' })
   @Put(':id')
   @HttpCode(HttpStatus.CREATED)

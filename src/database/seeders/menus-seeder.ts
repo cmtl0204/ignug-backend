@@ -95,6 +95,16 @@ export class MenusSeeder {
         parent: academicAdministration,
       },
       {
+        code: 'curriculums',
+        icon: 'pi pi-list',
+        isVisible: true,
+        label: 'Mallas Curriculares',
+        order: 2,
+        routerLink: '/core/curriculums',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: academicAdministration,
+      },
+      {
         code: 'students',
         icon: 'pi pi-bars',
         isVisible: true,
