@@ -114,4 +114,30 @@ export class CurriculumsController {
       title: `Success`,
     };
   }
+
+  @ApiOperation({ summary: 'Hide' })
+  @Patch(':id/hide')
+  @HttpCode(HttpStatus.CREATED)
+  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculumsService.hide(id);
+
+    return {
+      data: serviceResponse,
+      message: `Malla Curricular Oculta`,
+      title: `Ocultado`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Reactivate' })
+  @Patch(':id/reactivate')
+  @HttpCode(HttpStatus.CREATED)
+  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.curriculumsService.reactivate(id);
+
+    return {
+      data: serviceResponse,
+      message: `Malla Curricular Reactivada`,
+      title: `Reactivado`,
+    };
+  }
 }

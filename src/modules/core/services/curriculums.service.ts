@@ -1,10 +1,10 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
 import { CreateCurriculumDto, FilterCurriculumDto, PaginationDto, UpdateCurriculumDto } from '@core/dto';
-import { CurriculumEntity, SubjectEntity } from '@core/entities';
+import {CareerEntity, CurriculumEntity, SubjectEntity} from '@core/entities';
 import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { CoreRepositoryEnum } from '@shared/enums';
+import {CoreRepositoryEnum, MessageEnum} from '@shared/enums';
 
 @Injectable()
 export class CurriculumsService {
@@ -115,6 +115,30 @@ export class CurriculumsService {
 
   async removeAll(payload: CurriculumEntity[]): Promise<CurriculumEntity[]> {
     return await this.repository.softRemove(payload);
+  }
+
+  async hide(id: string): Promise<CurriculumEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+
+    entity.isVisible = false;
+
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<CurriculumEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+
+    entity.isVisible = true;
+
+    return await this.repository.save(entity);
   }
 
   private async paginateAndFilter(params: FilterCurriculumDto): Promise<ServiceResponseHttpModel> {
