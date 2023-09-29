@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateSubjectRequirementDto, SeedSubjectRequirementDto } from '@core/dto';
-import { SubjectRequirementEntity } from '@core/entities';
+import {SubjectEntity, SubjectRequirementEntity} from '@core/entities';
 import { CoreRepositoryEnum } from '@shared/enums';
 
 @Injectable()
@@ -16,15 +16,15 @@ export class SubjectRequirementsService {
     return await this.repository.save(entity);
   }
 
-  async create(payload: SubjectRequirementEntity): Promise<SubjectRequirementEntity> {
+  async create(subjectId:string,payload: SubjectRequirementEntity): Promise<SubjectRequirementEntity> {
     const subjectRequirement = new SubjectRequirementEntity();
-    subjectRequirement.subject = payload.subject;
+    subjectRequirement.subject_id = subjectId;
     subjectRequirement.requirement = payload.requirement;
     subjectRequirement.isEnabled = payload.isEnabled;
     subjectRequirement.type = payload.type;
 
     const entity = this.repository.create(subjectRequirement);
-    console.log(entity);
+
     return await this.repository.save(entity);
   }
 
