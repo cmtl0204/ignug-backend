@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import {
   AddressEntity,
-  AttendanceEntity,
+  AttendanceEntity, CareerAcademicPeriodsEntity,
   CareerEntity,
   CatalogueEntity,
   ClassroomEntity,
@@ -39,6 +39,11 @@ export const coreProviders = [
   {
     provide: CoreRepositoryEnum.CAREER_REPOSITORY,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerEntity),
+    inject: [ConfigEnum.PG_DATA_SOURCE],
+  },
+  {
+    provide: CoreRepositoryEnum.CAREER_ACADEMIC_PERIOD_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerAcademicPeriodsEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
   {

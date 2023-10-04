@@ -1,4 +1,14 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 
 @Entity('catalogues', { schema: 'core' })
 export class CatalogueEntity {
@@ -45,7 +55,6 @@ export class CatalogueEntity {
   @ManyToOne(() => CatalogueEntity, category => category.children, { nullable: true })
   @JoinColumn({ name: 'parent_id' })
   parent: CatalogueEntity;
-
   @Column({ type: 'uuid', nullable: true, comment: 'Padre, Madre' })
   parent_id: string;
 

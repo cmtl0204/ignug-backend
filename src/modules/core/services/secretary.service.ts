@@ -84,8 +84,6 @@ export class SecretaryService {
           
           detailsList.push(details);
         }
-        
-        console.log(detailsList);
 
         const table = {
           headers: ['Código', 'Asignatura', 'Periódo', 'Número de matrícula', 'Jornada', 'H. Docente', 'H. Práctica', 'H. Autónoma'],

@@ -50,7 +50,6 @@ export class CurriculumEntity {
 
   /** Foreign Keys **/
   @ManyToOne(() => CareerEntity, { nullable: true, eager: true })
-
   @JoinColumn({ name: 'career_id' })
   career: CareerEntity;
 

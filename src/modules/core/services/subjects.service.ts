@@ -24,7 +24,6 @@ export class SubjectsService {
         const subjectRequirements = subject.subjectRequirements;
 
         for (let i = 0; i < subjectRequirements.length; i++) {
-            console.log(subjectRequirements[i]);
             this.subjectRequirementsService.create(subject.id, subjectRequirements[i]);
         }
 
@@ -80,7 +79,6 @@ export class SubjectsService {
         await this.subjectRequirementsService.removeBySubject(id);
         for (let i = 0; i < subjectRequirements.length; i++) {
             this.subjectRequirementsService.create(id, subjectRequirements[i]);
-            console.log(subjectRequirements[i])
         }
 
         if (!subject) {

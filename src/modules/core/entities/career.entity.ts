@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import { CatalogueEntity, CurriculumEntity, InstitutionEntity, StudentEntity, TeacherEntity } from '@core/entities';
 import { UserEntity } from '@auth/entities';
+import {CareerAcademicPeriodsEntity} from "./career-academic-periods.entity";
 
 @Entity('careers', { schema: 'core' })
 export class CareerEntity {
@@ -52,6 +53,9 @@ export class CareerEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
+  @OneToMany(() => CareerAcademicPeriodsEntity, academicPeriod => academicPeriod.career)
+  academicPeriods: CareerAcademicPeriodsEntity[];
+
   @OneToMany(() => CurriculumEntity, curriculum => curriculum.career)
   curriculums: CurriculumEntity[];
 
