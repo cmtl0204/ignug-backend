@@ -15,13 +15,13 @@ export class CareerAcademicPeriodsService {
     ) {
     }
 
-    async create(payload: CreateCareerDto | SeedCareerDto): Promise<CareerEntity> {
-        const newEntity: CareerEntity = this.repository.create(payload);
+    async create(payload: CreateCareerDto | SeedCareerDto): Promise<any> {
+        const newEntity = this.repository.create(payload);
         return await this.repository.save(newEntity);
     }
 
 
-    async update(id: string, payload: UpdateCareerDto): Promise<CareerEntity> {
+    async update(id: string, payload: UpdateCareerDto): Promise<any> {
         const entity = await this.repository.findOneBy({id});
 
         if (!entity) {
@@ -33,7 +33,7 @@ export class CareerAcademicPeriodsService {
         return await this.repository.save(entity);
     }
 
-    async remove(id: string): Promise<CareerEntity> {
+    async remove(id: string): Promise<any> {
         const entity = await this.repository.findOneBy({id});
 
         if (!entity) {

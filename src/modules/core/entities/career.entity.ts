@@ -52,6 +52,14 @@ export class CareerEntity {
   })
   isVisible: boolean;
 
+  @Column({
+    name: 'is_enabled',
+    type: 'boolean',
+    default: true,
+    comment: 'true=enabled, false=disabled',
+  })
+  isEnabled: boolean;
+
   /** Inverse Relationship **/
   @OneToMany(() => CareerAcademicPeriodsEntity, academicPeriod => academicPeriod.career)
   academicPeriods: CareerAcademicPeriodsEntity[];
