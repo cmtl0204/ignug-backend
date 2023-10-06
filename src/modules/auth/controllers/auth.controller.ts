@@ -6,7 +6,6 @@ import { UserEntity } from '@auth/entities';
 import { LoginDto, PasswordChangeDto, UpdateProfileDto, UpdateUserInformationDto } from '@auth/dto';
 import { ResponseHttpModel } from '@shared/models';
 import { MailService } from '@common/services';
-import { MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
@@ -127,10 +126,10 @@ export class AuthController {
     };
   }
 
-  @Get('transactional-codes/:token/verify')
+  @Patch('transactional-codes/:token/verify')
   @HttpCode(HttpStatus.OK)
-  async verifyTransactionalCode(@Param('token') token: string): Promise<ResponseHttpModel> {
-    await this.authService.verifyTransactionalCode(token);
+  async verifyTransactionalCode(@Param('token') token: string,@Body('username') username: string): Promise<ResponseHttpModel> {
+    await this.authService.verifyTransactionalCode(token,username);
 
     return {
       data: null,

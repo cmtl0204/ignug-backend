@@ -34,6 +34,15 @@ export class CareersService {
         return await this.repository.save(newEntity);
     }
 
+    async findAll(): Promise<ServiceResponseHttpModel> {
+        //All
+        const data = await this.repository.findAndCount({
+            relations: ['institution', 'modality', 'state', 'type'],
+        });
+
+        return {pagination: {totalItems: data[1], limit: 10}, data: data[0]};
+    }
+
     async findByInstitution(institutionId: string, params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
         //Pagination & Filter by Search
         if (params?.limit > 0 && params?.page >= 0) {

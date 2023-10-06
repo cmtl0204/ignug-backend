@@ -1,295 +1,311 @@
-import { BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import {BadRequestException, Inject, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {JwtService} from '@nestjs/jwt';
 import * as Bcrypt from 'bcrypt';
-import { plainToInstance } from 'class-transformer';
-import { Repository } from 'typeorm';
-import { add, isBefore } from 'date-fns';
-import { UserEntity, TransactionalCodeEntity } from '@auth/entities';
-import { PayloadTokenModel } from '@auth/models';
-import { AuthRepositoryEnum, MailSubjectEnum, MailTemplateEnum } from '@shared/enums';
-import { LoginDto, PasswordChangeDto, ReadProfileDto, ReadUserInformationDto, UpdateProfileDto, UpdateUserInformationDto } from '@auth/dto';
-import { ServiceResponseHttpModel } from '@shared/models';
-import { UsersService } from '@auth/services';
-import { MailService } from '@common/services';
-import { join } from 'path';
+import {plainToInstance} from 'class-transformer';
+import {Repository} from 'typeorm';
+import {add, isBefore} from 'date-fns';
+import {UserEntity, TransactionalCodeEntity} from '@auth/entities';
+import {PayloadTokenModel} from '@auth/models';
+import {AuthRepositoryEnum, MailSubjectEnum, MailTemplateEnum} from '@shared/enums';
+import {
+    LoginDto,
+    PasswordChangeDto,
+    ReadProfileDto,
+    ReadUserInformationDto,
+    UpdateProfileDto,
+    UpdateUserInformationDto
+} from '@auth/dto';
+import {ServiceResponseHttpModel} from '@shared/models';
+import {UsersService} from '@auth/services';
+import {MailService} from '@common/services';
+import {join} from 'path';
 import * as fs from 'fs';
 
 @Injectable()
 export class AuthService {
-  private readonly MAX_ATTEMPTS = 3;
+    private readonly MAX_ATTEMPTS = 3;
 
-  constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
-    private repository: Repository<UserEntity>,
-    @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY)
-    private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
-    private readonly userService: UsersService,
-    private jwtService: JwtService,
-    private readonly nodemailerService: MailService,
-  ) {}
-
-  async changePassword(id: string, payload: PasswordChangeDto): Promise<boolean> {
-    const user = await this.repository.findOneBy({ id });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
+    constructor(
+        @Inject(AuthRepositoryEnum.USER_REPOSITORY)
+        private repository: Repository<UserEntity>,
+        @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY)
+        private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
+        private readonly userService: UsersService,
+        private jwtService: JwtService,
+        private readonly nodemailerService: MailService,
+    ) {
     }
 
-    const isMatchPassword = await this.checkPassword(payload.oldPassword, user);
+    async changePassword(id: string, payload: PasswordChangeDto): Promise<boolean> {
+        const user = await this.repository.findOneBy({id});
 
-    if (!isMatchPassword) {
-      throw new BadRequestException('The old password is not match.');
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        const isMatchPassword = await this.checkPassword(payload.oldPassword, user);
+
+        if (!isMatchPassword) {
+            throw new BadRequestException('The old password is not match.');
+        }
+
+        if (payload.confirmationPassword !== payload.newPassword) {
+            throw new BadRequestException('The passwords do not match.');
+        }
+
+        user.password = payload.newPassword;
+
+        await this.repository.save(user);
+
+        return true;
     }
 
-    if (payload.confirmationPassword !== payload.newPassword) {
-      throw new BadRequestException('The passwords do not match.');
+    async login(payload: LoginDto): Promise<ServiceResponseHttpModel> {
+        const user: UserEntity = (await this.repository.findOne({
+            where: {
+                username: payload.username,
+            },
+            relations: {
+                roles: true,
+                institutions: true,
+                careers: {curriculums: true},
+                teacher: {careers: true},
+                student: {careers: true},
+            },
+        })) as UserEntity;
+
+        if (user && user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
+
+        if (user && user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
+
+        if (user && !(await this.checkPassword(payload.password, user))) {
+            const attempts = user.maxAttempts - 1;
+            throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${attempts} intentos restantes`);
+        }
+
+        if (!user || !(await this.checkPassword(payload.password, user))) {
+            throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
+        }
+
+        user.activatedAt = new Date();
+        // Include foreign keys
+        const {password, student, teacher, roles, institutions, careers, ...userRest} = user;
+
+        userRest.maxAttempts = this.MAX_ATTEMPTS;
+        await this.repository.update(userRest.id, userRest);
+
+        const accessToken = this.generateJwt(user);
+
+        return {data: {accessToken, user}};
     }
 
-    user.password = payload.newPassword;
+    async findProfile(id: string): Promise<ReadProfileDto> {
+        const user = await this.repository.findOne({
+            where: {id},
+            relations: {
+                bloodType: true,
+                ethnicOrigin: true,
+                identificationType: true,
+                gender: true,
+                maritalStatus: true,
+                sex: true,
+            },
+        });
 
-    await this.repository.save(user);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
 
-    return true;
-  }
-
-  async login(payload: LoginDto): Promise<ServiceResponseHttpModel> {
-    const user: UserEntity = (await this.repository.findOne({
-      where: {
-        username: payload.username,
-      },
-      relations: {
-        roles: true,
-        institutions: true,
-        careers: { curriculums: true },
-        teacher: { careers: true },
-        student: { careers: true },
-      },
-    })) as UserEntity;
-
-    if (user && user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
-
-    if (user && user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
-
-    if (user && !(await this.checkPassword(payload.password, user))) {
-      const attempts = user.maxAttempts - 1;
-      throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${attempts} intentos restantes`);
+        return plainToInstance(ReadProfileDto, user);
     }
 
-    if (!user || !(await this.checkPassword(payload.password, user))) {
-      throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
+    async findUserInformation(id: string): Promise<ReadUserInformationDto> {
+        const user = await this.repository.findOneBy({id});
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return plainToInstance(ReadUserInformationDto, user);
     }
 
-    user.activatedAt = new Date();
-    // Include foreign keys
-    const { password, student, teacher, roles, institutions, careers, ...userRest } = user;
+    async updateUserInformation(id: string, payload: UpdateUserInformationDto): Promise<ReadUserInformationDto> {
+        const user = await this.userService.findOne(id);
 
-    userRest.maxAttempts = this.MAX_ATTEMPTS;
-    await this.repository.update(userRest.id, userRest);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
 
-    const accessToken = this.generateJwt(user);
+        this.repository.merge(user, payload);
+        const userUpdated = await this.repository.save(user);
 
-    return { data: { accessToken, user } };
-  }
-
-  async findProfile(id: string): Promise<ReadProfileDto> {
-    const user = await this.repository.findOne({
-      where: { id },
-      relations: {
-        bloodType: true,
-        ethnicOrigin: true,
-        identificationType: true,
-        gender: true,
-        maritalStatus: true,
-        sex: true,
-      },
-    });
-
-    if (!user) {
-      throw new NotFoundException('User not found');
+        return plainToInstance(ReadUserInformationDto, userUpdated);
     }
 
-    return plainToInstance(ReadProfileDto, user);
-  }
+    async updateProfile(id: string, payload: UpdateProfileDto): Promise<ReadProfileDto> {
+        const user = await this.repository.findOneBy({id});
 
-  async findUserInformation(id: string): Promise<ReadUserInformationDto> {
-    const user = await this.repository.findOneBy({ id });
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
 
-    if (!user) {
-      throw new NotFoundException('User not found');
+        const profileUpdated = await this.repository.update(id, payload);
+
+        return plainToInstance(ReadProfileDto, profileUpdated);
     }
 
-    return plainToInstance(ReadUserInformationDto, user);
-  }
+    refreshToken(user: UserEntity): ServiceResponseHttpModel {
+        const accessToken = this.generateJwt(user);
 
-  async updateUserInformation(id: string, payload: UpdateUserInformationDto): Promise<ReadUserInformationDto> {
-    const user = await this.userService.findOne(id);
-
-    if (!user) {
-      throw new NotFoundException('User not found');
+        return {data: {accessToken, user}};
     }
 
-    this.repository.merge(user, payload);
-    const userUpdated = await this.repository.save(user);
+    async requestTransactionalCode(username: string): Promise<ServiceResponseHttpModel> {
+        const user = await this.repository.findOne({
+            where: {username},
+        });
 
-    return plainToInstance(ReadUserInformationDto, userUpdated);
-  }
+        if (!user) {
+            throw new NotFoundException({
+                error: 'Usuario no encontrado',
+                message: 'Intente de nuevo',
+            });
+        }
+        const randomNumber = Math.random();
+        const token = randomNumber.toString().substring(2, 8);
 
-  async updateProfile(id: string, payload: UpdateProfileDto): Promise<ReadProfileDto> {
-    const user = await this.repository.findOneBy({ id });
+        await this.nodemailerService.sendMail(user.email, MailSubjectEnum.RESET_PASSWORD, MailTemplateEnum.TRANSACTIONAL_CODE, {
+            token,
+            user,
+        });
 
-    if (!user) {
-      throw new NotFoundException('User not found');
+        const payload = {username: user.username, token, type: 'password_reset'};
+
+        await this.transactionalCodeRepository.save(payload);
+
+        const value = user.email;
+        const chars = 3; // Cantidad de caracters visibles
+
+        const email = value.replace(
+            /[a-z0-9\-_.]+@/gi,
+            c =>
+                c.substr(0, chars) +
+                c
+                    .split('')
+                    .slice(chars, -1)
+                    .map(v => '*')
+                    .join('') +
+                '@',
+        );
+
+        return {data: email};
     }
 
-    const profileUpdated = await this.repository.update(id, payload);
+    async verifyTransactionalCode(token: string, username: string): Promise<ServiceResponseHttpModel> {
+        const transactionalCode = await this.transactionalCodeRepository.findOne({
+            where: {token},
+        });
 
-    return plainToInstance(ReadProfileDto, profileUpdated);
-  }
+        if (!transactionalCode) {
+            throw new BadRequestException({
+                message: 'Código Transaccional no válido',
+                error: 'Error',
+            });
+        }
 
-  refreshToken(user: UserEntity): ServiceResponseHttpModel {
-    const accessToken = this.generateJwt(user);
+        if (transactionalCode.username !== username) {
+            throw new BadRequestException({
+                message: 'El usuario no corresponde al código transaccional generado',
+                error: 'Error',
+            });
+        }
 
-    return { data: { accessToken, user } };
-  }
 
-  async requestTransactionalCode(username: string): Promise<ServiceResponseHttpModel> {
-    const user = await this.repository.findOne({
-      where: { username },
-    });
+        if (transactionalCode.isUsed) {
+            throw new BadRequestException({
+                message: 'El código ya fue usado',
+                error: 'Error',
+            });
+        }
+        const maxDate = add(transactionalCode.createdAt, {minutes: 10});
 
-    if (!user) {
-      throw new NotFoundException({
-        error: 'Usuario no encontrado',
-        message: 'Intente de nuevo',
-      });
-    }
-    const randomNumber = Math.random();
-    const token = randomNumber.toString().substring(2, 8);
+        if (isBefore(maxDate, new Date())) {
+            throw new BadRequestException({
+                message: 'El código ha expirado',
+                error: 'Error',
+            });
+        }
 
-    await this.nodemailerService.sendMail(user.email, MailSubjectEnum.RESET_PASSWORD, MailTemplateEnum.TRANSACTIONAL_CODE, {
-      token,
-      user,
-    });
+        transactionalCode.isUsed = true;
 
-    const payload = { username: user.username, token, type: 'password_reset' };
+        await this.transactionalCodeRepository.save(transactionalCode);
 
-    await this.transactionalCodeRepository.save(payload);
-
-    const value = user.email;
-    const chars = 3; // Cantidad de caracters visibles
-
-    const email = value.replace(
-      /[a-z0-9\-_.]+@/gi,
-      c =>
-        c.substr(0, chars) +
-        c
-          .split('')
-          .slice(chars, -1)
-          .map(v => '*')
-          .join('') +
-        '@',
-    );
-
-    return { data: email };
-  }
-
-  async verifyTransactionalCode(token: string): Promise<ServiceResponseHttpModel> {
-    const transactionalCode = await this.transactionalCodeRepository.findOne({
-      where: { token },
-    });
-
-    if (!transactionalCode) {
-      throw new BadRequestException({
-        message: 'Código Transaccional no válido',
-        error: 'Error',
-      });
+        return {data: true};
     }
 
-    if (transactionalCode.isUsed) {
-      throw new BadRequestException({
-        message: 'El código ya fue usado',
-        error: 'Error',
-      });
-    }
-    const maxDate = add(transactionalCode.createdAt, { minutes: 10 });
+    async resetPassword(payload: any): Promise<ServiceResponseHttpModel> {
+        const user = await this.repository.findOne({
+            where: {username: payload.username},
+        });
 
-    if (isBefore(maxDate, new Date())) {
-      throw new BadRequestException({
-        message: 'El código ha expirado',
-        error: 'Error',
-      });
-    }
+        if (!user) {
+            throw new NotFoundException({
+                message: 'Intente de nuevo',
+                error: 'Usuario no encontrado',
+            });
+        }
 
-    transactionalCode.isUsed = true;
+        user.maxAttempts = this.MAX_ATTEMPTS;
+        user.password = payload.newPassword;
+        user.passwordChanged = true;
 
-    await this.transactionalCodeRepository.save(transactionalCode);
+        await this.repository.save(user);
 
-    return { data: true };
-  }
-
-  async resetPassword(payload: any): Promise<ServiceResponseHttpModel> {
-    const user = await this.repository.findOne({
-      where: { username: payload.username },
-    });
-
-    if (!user) {
-      throw new NotFoundException({
-        message: 'Intente de nuevo',
-        error: 'Usuario no encontrado',
-      });
+        return {data: true};
     }
 
-    user.maxAttempts = this.MAX_ATTEMPTS;
-    user.password = payload.newPassword;
-    user.passwordChanged = true;
+    async uploadAvatar(file: Express.Multer.File, id: string): Promise<UserEntity> {
+        const entity = await this.repository.findOneBy({id});
 
-    await this.repository.save(user);
+        if (entity?.avatar) {
+            try {
+                fs.unlinkSync(`${join(process.cwd())}/src/resources/public/${entity.avatar}`);
+            } catch (err) {
+                console.error('Something wrong happened removing the file', err);
+            }
+        }
+        entity.avatar = `avatars/${file.filename}`;
+        const {password, ...restEntity} = entity;
 
-    return { data: true };
-  }
-
-  async uploadAvatar(file: Express.Multer.File, id: string): Promise<UserEntity> {
-    const entity = await this.repository.findOneBy({ id });
-
-    if (entity?.avatar) {
-      try {
-        fs.unlinkSync(`${join(process.cwd())}/src/resources/public/${entity.avatar}`);
-      } catch (err) {
-        console.error('Something wrong happened removing the file', err);
-      }
-    }
-    entity.avatar = `avatars/${file.filename}`;
-    const { password, ...restEntity } = entity;
-
-    return await this.repository.save({ ...restEntity });
-  }
-
-  private generateJwt(user: UserEntity): string {
-    const payload: PayloadTokenModel = { id: user.id };
-    return this.jwtService.sign(payload);
-  }
-
-  private async findByUsername(username: string): Promise<UserEntity> {
-    return (await this.repository.findOne({
-      where: {
-        username,
-      },
-    })) as UserEntity;
-  }
-
-  private async checkPassword(passwordCompare: string, user: UserEntity): Promise<null | UserEntity> {
-    const { password, ...userRest } = user;
-    const isMatch = Bcrypt.compareSync(passwordCompare, password);
-
-    if (isMatch) {
-      userRest.maxAttempts = 3;
-      await this.repository.save(userRest);
-      return user;
+        return await this.repository.save({...restEntity});
     }
 
-    userRest.maxAttempts = userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0;
-    await this.repository.save(userRest);
+    private generateJwt(user: UserEntity): string {
+        const payload: PayloadTokenModel = {id: user.id};
+        return this.jwtService.sign(payload);
+    }
 
-    return null;
-  }
+    private async findByUsername(username: string): Promise<UserEntity> {
+        return (await this.repository.findOne({
+            where: {
+                username,
+            },
+        })) as UserEntity;
+    }
+
+    private async checkPassword(passwordCompare: string, user: UserEntity): Promise<null | UserEntity> {
+        const {password, ...userRest} = user;
+        const isMatch = Bcrypt.compareSync(passwordCompare, password);
+
+        if (isMatch) {
+            userRest.maxAttempts = 3;
+            await this.repository.save(userRest);
+            return user;
+        }
+
+        userRest.maxAttempts = userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0;
+        await this.repository.save(userRest);
+
+        return null;
+    }
 }
