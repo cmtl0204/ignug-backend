@@ -15,9 +15,9 @@ export class CareerAcademicPeriodsService {
     ) {
     }
 
-    async create(payload: any): Promise<any> {
-        // const newEntity: CareerEntity = this.repository.create(payload);
-        // return await this.repository.save(newEntity);
+    async create(payload: CreateCareerDto | SeedCareerDto): Promise<any> {
+        const newEntity = this.repository.create(payload);
+        return await this.repository.save(newEntity);
     }
 
 
