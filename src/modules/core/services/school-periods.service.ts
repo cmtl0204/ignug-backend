@@ -51,14 +51,14 @@ export class SchoolPeriodsService {
         //Filter by other field
 
         //All
-        const response = await this.repository.findAndCount({
+        const response = await this.repository.find({
             relations,
             order: {startedAt: 'desc'},
         });
 
         return {
-            data: response[0],
-            pagination: {totalItems: response[1], limit: response[1]},
+            data: response,
+            pagination: {totalItems: response.length, limit: response.length},
         };
     }
 
