@@ -81,6 +81,14 @@ export class CatalogueEntity {
   name: string;
 
   @Column({
+    name: 'score',
+    type: 'float',
+    nullable:true,
+    comment: 'Puntaje',
+  })
+  score: number;
+
+  @Column({
     name: 'sort',
     type: 'integer',
     comment: 'Orden',

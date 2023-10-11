@@ -1,8 +1,11 @@
-import { CatalogueEntity } from '@core/entities';
+import {CatalogueEntity, InstitutionEntity} from '@core/entities';
 import { IsString, IsOptional, IsNotEmpty, IsDate, IsBoolean } from 'class-validator';
 import { isBooleanValidationOptions, isDateValidationOptions, isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class SchoolPeriodDto {
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly institution: InstitutionEntity;
+
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly state: CatalogueEntity;
 

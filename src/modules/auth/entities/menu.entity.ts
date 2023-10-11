@@ -12,7 +12,6 @@ import {
   OneToMany,
   JoinColumn,
 } from 'typeorm';
-import { MenuTypeEnum } from '@auth/enums';
 import { RoleEntity } from '@auth/entities';
 
 @Entity('menus', { schema: 'auth' })

@@ -52,10 +52,10 @@ export class SchoolPeriodEntity {
     /** Inverse Relationship **/
 
     /** Foreign Keys **/
-    @ManyToOne(() => InstitutionEntity, {nullable: true})
+    @ManyToOne(() => InstitutionEntity)
     @JoinColumn({name: 'institution_id'})
     institution: InstitutionEntity;
-    @Column({type: 'uuid', nullable: true,comment: 'Institución a la que pertenece el periodo lectivo'})
+    @Column({type: 'uuid', comment: 'Institución a la que pertenece el periodo lectivo'})
     institution_id: string;
 
     @ManyToOne(() => CatalogueEntity)

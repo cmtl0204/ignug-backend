@@ -1,55 +1,56 @@
-import {Global, Module} from '@nestjs/common';
+import {Global, MiddlewareConsumer, Module, NestModule, RequestMethod} from '@nestjs/common';
 import {CacheModule} from '@nestjs/cache-manager';
 import {
     CareersController,
     CataloguesController,
     CurriculumsController,
+    EnrollmentDetailsController,
+    EnrollmentsController,
+    EventsController,
+    ExportsController,
     ImportsController,
     InformationStudentsController,
+    InformationTeachersController,
     InstitutionsController,
+    PDFController,
     SchoolPeriodsController,
+    SecretaryController,
     StudentsController,
     SubjectsController,
-    InformationTeachersController,
-    EventsController,
-    TeachersController,
-    ExportsController,
     TeacherDistributionsController,
-    PDFController,
-    EnrollmentsController,
-    EnrollmentDetailsController,
-    SecretaryController,
+    TeachersController,
 } from '@core/controllers';
 import {
-    CareersService,
+    AttendancesService,
     CareerAcademicPeriodsService,
+    CareersService,
     CataloguesService,
+    ClassroomsService,
     CurriculumsService,
-    InformationStudentsService,
-    InstitutionsService,
-    SchoolPeriodsService,
-    StudentsService,
-    SubjectsService,
-    InformationTeachersService,
-    TeachersService,
-    EventsService,
-    ImportsService,
-    ExportsService,
-    LocationsService,
-    PartialsService,
-    SubjectRequirementsService,
     EnrollmentsDetailService,
     EnrollmentsService,
-    ClassroomsService,
+    EventsService,
+    ExportsService,
     GradesService,
-    TeacherDistributionsService,
-    PDFService,
+    ImportsService,
+    InformationStudentsService,
+    InformationTeachersService,
+    InstitutionsService,
+    LocationsService,
+    PartialsService,
     PDFNotas,
-    AttendancesService,
+    PDFService,
+    SchoolPeriodsService,
     SecretaryService,
+    StudentsService,
+    SubjectRequirementsService,
+    SubjectsService,
+    TeacherDistributionsService,
+    TeachersService,
 } from '@core/services';
 import {DatabaseModule} from '@database';
 import {coreProviders} from '@core/providers';
+import {VerifyUserMiddleware} from "../../middlewares/verify-user.middleware";
 
 @Global()
 @Module({
@@ -134,4 +135,5 @@ import {coreProviders} from '@core/providers';
     ],
 })
 export class CoreModule {
+
 }

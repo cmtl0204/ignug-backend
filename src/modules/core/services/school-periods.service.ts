@@ -1,6 +1,12 @@
 import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
-import {CreateSchoolPeriodDto, FilterSchoolPeriodDto, PaginationDto, UpdateSchoolPeriodDto} from '@core/dto';
+import {
+    CreateSchoolPeriodDto,
+    FilterSchoolPeriodDto,
+    PaginationDto,
+    SeedSchoolPeriodDto,
+    UpdateSchoolPeriodDto
+} from '@core/dto';
 import {SchoolPeriodEntity} from '@core/entities';
 import {CataloguesService} from '@core/services';
 import {CatalogueCoreSchoolPeriodStateEnum, CoreRepositoryEnum, MessageEnum} from '@shared/enums';
@@ -30,7 +36,7 @@ export class SchoolPeriodsService {
         };
     }
 
-    async create(payload: CreateSchoolPeriodDto): Promise<SchoolPeriodEntity> {
+    async create(payload: CreateSchoolPeriodDto | SeedSchoolPeriodDto): Promise<SchoolPeriodEntity> {
         const newEntity = this.repository.create(payload);
         return await this.repository.save(newEntity);
     }

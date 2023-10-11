@@ -61,6 +61,7 @@ export * from './school-periods/school-period.dto';
 export * from './school-periods/create-school-period.dto';
 export * from './school-periods/filter-school-period.dto';
 export * from './school-periods/update-school-period.dto';
+export * from './school-periods/seed-school-period.dto';
 
 export * from './students/student.dto';
 export * from './students/create-student.dto';

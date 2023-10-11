@@ -1,4 +1,4 @@
-import {Module} from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule, RequestMethod} from '@nestjs/common';
 import {HttpModule} from '@nestjs/axios';
 import {ConfigModule} from '@nestjs/config';
 import * as Joi from 'joi';
@@ -10,6 +10,8 @@ import {AuthModule} from '@auth/modules';
 import {CoreModule} from '@core/modules';
 import {CommonModule} from '@common/modules';
 import {MulterModule} from '@nestjs/platform-express';
+import {VerifyUserMiddleware} from "./middlewares/verify-user.middleware";
+import {AuditMiddleware} from "./middlewares/audit.middleware";
 
 @Module({
     imports: [
@@ -42,5 +44,15 @@ import {MulterModule} from '@nestjs/platform-express';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer): any {
+        consumer
+            .apply(VerifyUserMiddleware, AuditMiddleware)
+            .forRoutes(
+                {path: '*', method: RequestMethod.POST},
+                {path: '*', method: RequestMethod.PUT},
+                {path: '*', method: RequestMethod.PATCH},
+                {path: '*', method: RequestMethod.DELETE},
+            );
+    }
 }

@@ -20,6 +20,8 @@ import {UsersService} from '@auth/services';
 import {MailService} from '@common/services';
 import {join} from 'path';
 import * as fs from 'fs';
+import {config} from "@config";
+import {ConfigType} from "@nestjs/config";
 
 @Injectable()
 export class AuthService {
@@ -30,6 +32,7 @@ export class AuthService {
         private repository: Repository<UserEntity>,
         @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY)
         private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
+        @Inject(config.KEY) private configService: ConfigType<typeof config>,
         private readonly userService: UsersService,
         private jwtService: JwtService,
         private readonly nodemailerService: MailService,
@@ -281,8 +284,13 @@ export class AuthService {
     }
 
     private generateJwt(user: UserEntity): string {
-        const payload: PayloadTokenModel = {id: user.id};
-        return this.jwtService.sign(payload);
+        const expiresDate = new Date();
+
+        expiresDate.setDate(expiresDate.getSeconds() + 10);
+
+        const payload: PayloadTokenModel = {id: user.id, iat: new Date().getTime(), exp: expiresDate.getTime()};
+
+        return this.jwtService.sign(payload, {secret: this.configService.jwtSecret});
     }
 
     private async findByUsername(username: string): Promise<UserEntity> {
