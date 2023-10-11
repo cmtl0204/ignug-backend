@@ -12,7 +12,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '@auth/entities';
-import { AddressEntity, CareerEntity, CatalogueEntity } from '@core/entities';
+import {AddressEntity, CareerEntity, CatalogueEntity, SchoolPeriodEntity} from '@core/entities';
 
 @Entity('institutions', { schema: 'core' })
 export class InstitutionEntity {
@@ -46,8 +46,14 @@ export class InstitutionEntity {
   isVisible: boolean;
 
   /** Inverse Relationship **/
+  @ManyToOne(() => AddressEntity)
+  address: AddressEntity;
+
   @OneToMany(() => CareerEntity, career => career.institution)
   careers: CareerEntity[];
+
+  @OneToMany(() => SchoolPeriodEntity, schoolPeriod => schoolPeriod.institution)
+  schoolPeriods: SchoolPeriodEntity[];
 
   @ManyToMany(() => UserEntity, user => user.institutions)
   @JoinTable({
@@ -56,9 +62,6 @@ export class InstitutionEntity {
     inverseJoinColumn: { name: 'user_id' },
   })
   users: UserEntity[];
-
-  @ManyToOne(() => AddressEntity)
-  address: AddressEntity;
 
   /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity)
