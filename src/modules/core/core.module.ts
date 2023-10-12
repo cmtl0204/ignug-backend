@@ -1,4 +1,4 @@
-import {Global, MiddlewareConsumer, Module, NestModule, RequestMethod} from '@nestjs/common';
+import {Global, Module} from '@nestjs/common';
 import {CacheModule} from '@nestjs/cache-manager';
 import {
     CareersController,
@@ -21,6 +21,7 @@ import {
     TeachersController,
 } from '@core/controllers';
 import {
+    AddressesService,
     AttendancesService,
     CareerAcademicPeriodsService,
     CareersService,
