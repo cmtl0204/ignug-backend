@@ -1,5 +1,6 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
+import {UserEntity} from '@auth/entities';
 import {
     CreateInstitutionDto,
     FilterInstitutionDto,
@@ -7,19 +8,13 @@ import {
     SeedInstitutionDto,
     UpdateInstitutionDto
 } from '@core/dto';
-import {CareerEntity, InstitutionEntity} from '@core/entities';
+import {InstitutionEntity} from '@core/entities';
 import {ServiceResponseHttpModel} from '@shared/models';
-import {CatalogueCoreTypeEnum, CoreRepositoryEnum, MessageEnum} from '@shared/enums';
-import {CataloguesService} from './catalogues.service';
-import {UserEntity} from '@auth/entities';
+import {CoreRepositoryEnum, MessageEnum} from '@shared/enums';
 
 @Injectable()
 export class InstitutionsService {
-    constructor(
-        @Inject(CoreRepositoryEnum.INSTITUTION_REPOSITORY)
-        private repository: Repository<InstitutionEntity>,
-        private cataloguesService: CataloguesService,
-    ) {
+    constructor(@Inject(CoreRepositoryEnum.INSTITUTION_REPOSITORY) private repository: Repository<InstitutionEntity>) {
     }
 
     async create(payload: CreateInstitutionDto | SeedInstitutionDto): Promise<InstitutionEntity> {
@@ -214,32 +209,6 @@ export class InstitutionsService {
         return {
             data: response[0],
             pagination: {limit, totalItems: response[1]},
-        };
-    }
-
-    async findCareersByInstitution(id: string, params?: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
-        if (params) {
-            const response = await this.repository.findAndCount({
-                where: {id},
-                relations: {careers: true},
-                take: params?.limit,
-                skip: PaginationDto.getOffset(params?.limit, params?.page),
-            });
-
-            return {
-                data: response[0][0].careers,
-                pagination: {limit: params?.limit, totalItems: response[1]},
-            };
-        }
-
-        const response = await this.repository.findAndCount({
-            where: {id},
-            relations: {careers: true},
-        });
-
-        return {
-            data: response[0][0].careers,
-            pagination: {limit: 10, totalItems: response[1]},
         };
     }
 

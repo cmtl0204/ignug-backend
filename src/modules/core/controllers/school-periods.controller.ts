@@ -65,8 +65,8 @@ export class SchoolPeriodsController {
   @Roles(RoleEnum.COORDINATOR_CAREER)
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterSchoolPeriodDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.schoolPeriodsService.findAll(params);
+  async findAll(): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.schoolPeriodsService.findAll();
 
     return {
       data: serviceResponse.data,

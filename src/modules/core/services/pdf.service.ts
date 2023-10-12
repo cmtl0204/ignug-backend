@@ -47,7 +47,8 @@ export class PDFService {
       doc
         .font('Times-Roman', 13)
         .text(
-          `CERTIFICO que, ${data.student.user.name} ${data.student.user.lastname}, con cédula de ciudadanía N° ${data.student.user.identification}, previo cumpliento de los requisitos legales, se encuentra matriculado/a en ${data.academicPeriod.name} periodo académico de la carrera ${data.curriculum.career.name}, para el periodo lectivo ${data.schoolPeriod.name} con la inscripción en las siguientes asignaturas`,
+          `CERTIFICO que, ${data.student.user.name} ${data.student.user.lastname}, con cédula de ciudadanía N° ${data.student.user.identification}, previo cumpliento de los requisitos legales, se encuentra matriculado/a en ${data.academicPeriod.name} periodo académico de la carrera 
+          data.curriculum.career.name, para el periodo lectivo ${data.schoolPeriod.name} con la inscripción en las siguientes asignaturas`,
           80,
           280,
           { align: 'justify' },
@@ -79,7 +80,7 @@ export class PDFService {
       doc.text('Atentamente,');
       doc.moveDown(3);
       doc.font('Times-Bold', 12).text('SECRETARÍA ACADÉMICA');
-      doc.text(`${data.curriculum.career.institution.name}`);
+      // doc.text(`${data.curriculum.career.institution.name}`);
 
       const buffer = [];
       doc.on('data', buffer.push.bind(buffer));

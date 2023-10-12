@@ -123,7 +123,7 @@ export class EnrollmentsService {
   }
   async findEnrollmentCertificateByStudent(identificationUser:string,codeSchoolPeriod:string){
     const enrollmentCertificate= await this.repository.findOne({
-      relations: {academicPeriod:true, enrollmentDetails:true, curriculum:true,workday:true, schoolPeriod:true, },
+      relations: {academicPeriod:true, enrollmentDetails:true, career:true,workday:true, schoolPeriod:true, },
       where: { student:{user:{identification:identificationUser}}, schoolPeriod:{code:codeSchoolPeriod}},
     });
 
