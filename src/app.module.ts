@@ -32,7 +32,6 @@ import {AuditMiddleware} from "./middlewares/audit.middleware";
                 MAIL_USERNAME: Joi.string().required(),
                 MAIL_PASSWORD: Joi.string().required(),
                 MAIL_FROM_ADDRESS: Joi.string().required(),
-                MAIL_DIR_TEMPLATE: Joi.string().required(),
             }),
         }),
         MulterModule.register({dest: './uploads'}),

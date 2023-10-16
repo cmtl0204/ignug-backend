@@ -6,7 +6,11 @@ export class FolderPathsService {
     constructor() {
     }
 
-    get mailTempFiles(): string {
-        return join(process.cwd(), 'resources/mail/temp');
+    get mailTemporaryFiles(): string {
+        return join(process.cwd(), 'resources/mail/temporary');
+    }
+
+    get mailTemplates(): string {
+        return join(process.cwd(), 'resources/mail/templates');
     }
 }

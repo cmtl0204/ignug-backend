@@ -20,15 +20,27 @@ export class MailService {
     async sendMail(mailData: MailDataInterface) {
         const mailAttachments = [];
 
-        mailData.attachments.forEach(attachment => {
+        if (mailData.attachments) {
+            mailData.attachments.forEach(attachment => {
+                const data = {
+                    path: join(this.folderPathsService.mailTemporaryFiles, attachment.path),
+                    filename: attachment.filename,
+                    contentDisposition: 'attachment',
+                };
+
+                mailAttachments.push(data);
+            });
+        }
+
+        if (mailData.attachment) {
             const data = {
-                path: join(this.folderPathsService.mailTempFiles, attachment.path),
-                filename: attachment.filename,
+                path: join(this.folderPathsService.mailTemporaryFiles, mailData.attachment.path),
+                filename: mailData.attachment.filename,
                 contentDisposition: 'attachment',
             };
 
             mailAttachments.push(data);
-        });
+        }
 
         const sendMailOptions = {
             to: mailData.to,
