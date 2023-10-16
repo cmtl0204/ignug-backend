@@ -1,5 +1,12 @@
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { CatalogueEntity, CurriculumEntity, EnrollmentDetailEntity, SchoolPeriodEntity, StudentEntity } from '@core/entities';
+import {
+  CareerEntity,
+  CatalogueEntity,
+  CurriculumEntity,
+  EnrollmentDetailEntity,
+  SchoolPeriodEntity,
+  StudentEntity
+} from '@core/entities';
 
 @Entity('enrollments', { schema: 'core' })
 export class EnrollmentEntity {
@@ -41,11 +48,11 @@ export class EnrollmentEntity {
   @Column({ type: 'uuid', comment: 'Periodo academico que pertenece' })
   academic_period_id: string;
 
-  @ManyToOne(() => CurriculumEntity, { eager: true })
-  @JoinColumn({ name: 'curriculum_id' })
-  curriculum: CurriculumEntity;
-  @Column({ type: 'uuid', comment: 'Curriculum que pertenece' })
-  curriculum_id: string;
+  @ManyToOne(() => CareerEntity, { eager: true })
+  @JoinColumn({ name: 'career_id' })
+  career: CareerEntity;
+  @Column({ type: 'uuid', comment: 'Carrera que pertenece' })
+  career_id: string;
 
   @ManyToOne(() => CatalogueEntity, { eager: true })
   @JoinColumn({ name: 'parallel_id' })

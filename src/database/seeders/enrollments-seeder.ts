@@ -2,15 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { CreateEnrollmentsDetailDto, CreateEnrollmentDto } from '@core/dto';
 import {
-  CataloguesService,
-  CurriculumsService,
-  EnrollmentsService,
-  EnrollmentsDetailService,
-  SchoolPeriodsService,
-  StudentsService,
-  SubjectsService,
+    CataloguesService,
+    CurriculumsService,
+    EnrollmentsService,
+    EnrollmentsDetailService,
+    SchoolPeriodsService,
+    StudentsService,
+    SubjectsService, CareersService,
 } from '@core/services';
-import { CatalogueEntity, CurriculumEntity, EnrollmentEntity, SchoolPeriodEntity, StudentEntity, SubjectEntity } from '@core/entities';
+import {
+    CareerEntity,
+    CatalogueEntity,
+    CurriculumEntity,
+    EnrollmentEntity,
+    SchoolPeriodEntity,
+    StudentEntity,
+    SubjectEntity
+} from '@core/entities';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Injectable()
@@ -20,7 +28,7 @@ export class EnrollmentSeeder {
   private types: CatalogueEntity[] = [];
   private states: CatalogueEntity[] = [];
   private workdays: CatalogueEntity[] = [];
-  private curriculums: CurriculumEntity[] = [];
+  private careers: CareerEntity[] = [];
   private students: StudentEntity[] = [];
   private schoolPeriods: SchoolPeriodEntity[] = [];
   private enrollments: EnrollmentEntity[] = [];
@@ -28,18 +36,18 @@ export class EnrollmentSeeder {
   private subjects: SubjectEntity[] = [];
 
   constructor(
+    private careersService: CareersService,
     private studentsService: StudentsService,
     private enrollmentsService: EnrollmentsService,
     private schoolPeriodsService: SchoolPeriodsService,
     private catalogueService: CataloguesService,
-    private curriculumsService: CurriculumsService,
     private enrollmentsDetailService: EnrollmentsDetailService,
     private subjectsService: SubjectsService,
   ) {}
 
   async run() {
     await this.loadCatalogues();
-    await this.loadCurriculums();
+    await this.loadCareers();
     await this.loadSchoolPeriods();
     await this.loadStudents();
     await this.loadSubjects();
@@ -63,8 +71,8 @@ export class EnrollmentSeeder {
     this.academicStates = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
   }
 
-  private async loadCurriculums() {
-    this.curriculums = (await this.curriculumsService.findAll()).data;
+  private async loadCareers() {
+    this.careers = (await this.careersService.findAll()).data;
   }
 
   private async loadSchoolPeriods() {
@@ -88,7 +96,7 @@ export class EnrollmentSeeder {
     });
 
     //curriculums
-    const curriculum = this.curriculums.find((curriculum: CurriculumEntity) => curriculum.code === 'cod1');
+    const career = this.careers.find((career: CareerEntity) => career.code === 'cod1');
 
     //parallel
     const parallel = this.parallels.find(parallel => {
@@ -129,7 +137,7 @@ export class EnrollmentSeeder {
         observation: 'No hay obsevaciones',
         student: student1,
         academicPeriod: first,
-        curriculum: curriculum,
+        career: career,
         parallel: parallel,
         schoolPeriod: schoolPeriod,
         state: state,
@@ -144,7 +152,7 @@ export class EnrollmentSeeder {
         observation: 'No hay obsevaciones',
         student: student2,
         academicPeriod: second,
-        curriculum: curriculum,
+          career: career,
         parallel: parallel,
         schoolPeriod: schoolPeriod,
         state: state,

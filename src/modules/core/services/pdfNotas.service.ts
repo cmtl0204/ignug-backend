@@ -56,7 +56,7 @@ export class PDFNotas {
 
       doc.font('Times-Bold', 12).text('SECRETARÍA ACADÉMICA');
       doc.table(table, { align: 'center', columnsSize: [40, 100, 40, 60, 60, 50, 50, 50] });
-      doc.text(`${data.enrollment.curriculum.career.institution.name}`);
+      // doc.text(`${data.enrollment.curriculum.career.institution.name}`);
 
       const buffer = [];
       doc.on('data', buffer.push.bind(buffer));

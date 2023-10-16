@@ -44,15 +44,16 @@ export class CareersService {
     }
 
     async findByInstitution(institutionId: string, params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+        const relations = {modality: true, state: true, type: true};
         //Pagination & Filter by Search
         if (params?.limit > 0 && params?.page >= 0) {
-            return await this.paginateAndFilter(institutionId, params);
+            return await this.paginateAndFilter(institutionId, params, relations);
         }
 
         //All
         const data = await this.repository.findAndCount({
             where: {institution: {id: institutionId}},
-            relations: {modality: true, state: true, type: true},
+            relations,
         });
 
         return {pagination: {totalItems: data[1], limit: 10}, data: data[0]};
@@ -99,7 +100,7 @@ export class CareersService {
         return await this.repository.softRemove(payload);
     }
 
-    private async paginateAndFilter(institutionId: string, params: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+    private async paginateAndFilter(institutionId: string, params: FilterCareerDto, relations: any): Promise<ServiceResponseHttpModel> {
         let where: FindOptionsWhere<CareerEntity> | FindOptionsWhere<CareerEntity>[];
         where = {institution: {id: institutionId}};
         let {page, search} = params;
@@ -119,7 +120,7 @@ export class CareersService {
         }
 
         const response = await this.repository.findAndCount({
-            relations: {modality: true, state: true, type: true},
+            relations,
             where,
             take: limit,
             skip: PaginationDto.getOffset(limit, page),

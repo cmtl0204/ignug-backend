@@ -6,6 +6,12 @@ export class InformationStudentDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly student: StudentEntity;
 
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly isHasChildren: CatalogueEntity;
+
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly isDisability: CatalogueEntity;
+
   @IsOptional()
   readonly isExecutedPractice: CatalogueEntity;
 
@@ -13,13 +19,16 @@ export class InformationStudentDto {
   readonly isExecutedCommunity: CatalogueEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly isDisability: CatalogueEntity;
+  readonly isHouseHead: CatalogueEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly isLostGratuity: CatalogueEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly isSubjectRepeat: CatalogueEntity;
+
+  @IsNotEmpty(isNotEmptyValidationOptions())
+  readonly familyIncome: CatalogueEntity;
 
   @IsString(isStringValidationOptions())
   @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
@@ -53,9 +62,6 @@ export class InformationStudentDto {
   @IsNumber({}, isNumberValidationOptions())
   @Min(0, { message: 'El número de digito mínimo es 0.' })
   readonly economicAmount: number;
-
-  @IsNumber({}, isNumberValidationOptions())
-  readonly familyIncome: number;
 
   @IsNumber({}, isNumberValidationOptions())
   @Min(1, { message: 'El número de digitos mínimo es 1.' })

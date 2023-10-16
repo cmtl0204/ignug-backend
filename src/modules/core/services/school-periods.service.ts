@@ -1,7 +1,7 @@
 import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
 import {
-    CreateSchoolPeriodDto,
+    CreateSchoolPeriodDto, FilterCareerDto,
     FilterSchoolPeriodDto,
     PaginationDto,
     SeedSchoolPeriodDto,
@@ -41,14 +41,8 @@ export class SchoolPeriodsService {
         return await this.repository.save(newEntity);
     }
 
-    async findAll(params?: FilterSchoolPeriodDto): Promise<ServiceResponseHttpModel> {
+    async findAll(): Promise<ServiceResponseHttpModel> {
         const relations = {state: true};
-        //Pagination & Filter by search
-        if (params?.limit > 0 && params?.page >= 0) {
-            return await this.paginateAndFilter(params, relations);
-        }
-
-        //Filter by other field
 
         //All
         const response = await this.repository.find({
@@ -117,7 +111,7 @@ export class SchoolPeriodsService {
         return await this.repository.softRemove(payload);
     }
 
-    private async paginateAndFilter(params: FilterSchoolPeriodDto, relations: any): Promise<ServiceResponseHttpModel> {
+    private async paginateAndFilter(institutionId: string, params: FilterCareerDto, relations: any): Promise<ServiceResponseHttpModel> {
         let where: FindOptionsWhere<SchoolPeriodEntity> | FindOptionsWhere<SchoolPeriodEntity>[];
         where = {};
         let {page, search} = params;
@@ -127,10 +121,10 @@ export class SchoolPeriodsService {
             search = search.trim();
             page = 0;
             where = [];
-            where.push({code: ILike(`%${search}%`)});
-            where.push({codeSniese: ILike(`%${search}%`)});
-            where.push({name: ILike(`%${search}%`)});
-            where.push({shortName: ILike(`%${search}%`)});
+            where.push({institution: {id: institutionId}, code: ILike(`%${search}%`)});
+            where.push({institution: {id: institutionId}, codeSniese: ILike(`%${search}%`)});
+            where.push({institution: {id: institutionId}, name: ILike(`%${search}%`)});
+            where.push({institution: {id: institutionId}, shortName: ILike(`%${search}%`)});
         }
 
         const response = await this.repository.findAndCount({
@@ -200,5 +194,25 @@ export class SchoolPeriodsService {
 
         entity.state = await this.cataloguesService.findByCode(CatalogueCoreSchoolPeriodStateEnum.CLOSE);
         return await this.repository.save(entity);
+    }
+
+    async findByInstitution(institutionId: string, params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+        const relations = {state: true};
+
+        //Pagination & Filter by Search
+        if (params?.limit > 0 && params?.page >= 0) {
+            return await this.paginateAndFilter(institutionId, params, relations);
+        }
+
+        //All
+        const response = await this.repository.find({
+            where: {institution: {id: institutionId}},
+            relations,
+        });
+
+        return {
+            data: response,
+            pagination: {totalItems: response.length, limit: response.length},
+        };
     }
 }
