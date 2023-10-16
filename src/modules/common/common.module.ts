@@ -18,6 +18,7 @@ import { MailService } from '@common/services';
         transport: {
           host: configService.mail.host,
           port: configService.mail.port,
+          secure:false,
           auth: {
             user: configService.mail.user,
             pass: configService.mail.pass,
