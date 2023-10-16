@@ -22,6 +22,7 @@ import {join} from 'path';
 import * as fs from 'fs';
 import {config} from "@config";
 import {ConfigType} from "@nestjs/config";
+import {MailDataInterface} from "../../common/interfaces/mail-data.interface";
 
 @Injectable()
 export class AuthService {
@@ -177,10 +178,16 @@ export class AuthService {
         const randomNumber = Math.random();
         const token = randomNumber.toString().substring(2, 8);
 
-        await this.nodemailerService.sendMail(user.email, MailSubjectEnum.RESET_PASSWORD, MailTemplateEnum.TRANSACTIONAL_CODE, {
-            token,
-            user,
-        });
+        const mailData: MailDataInterface = {
+            to: user.email,
+            subject: MailSubjectEnum.RESET_PASSWORD,
+            template: MailTemplateEnum.TRANSACTIONAL_CODE,
+            data: {
+                token,
+                user,
+            }
+        }
+        await this.nodemailerService.sendMail(mailData);
 
         const payload = {username: user.username, token, type: 'password_reset'};
 

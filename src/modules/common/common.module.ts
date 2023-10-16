@@ -28,9 +28,8 @@ import { MailService } from '@common/services';
           from: configService.mail.from,
         },
         template: {
-          // dir: join(__dirname, 'mail', `./${configService.mail.dir}`),
-          dir: join(process.cwd(), 'src/resources/mails', `./${configService.mail.dir}`),
-
+          dir: join(process.cwd(), 'resources/mail', `${configService.mail.dir}`),
+// dir: join(__dirname, 'mail', `./${configService.mail.dir}`),
           adapter: new HandlebarsAdapter(),
           options: {
             static: true,
