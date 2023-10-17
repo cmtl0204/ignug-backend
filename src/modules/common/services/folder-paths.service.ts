@@ -7,7 +7,11 @@ export class FolderPathsService {
     }
 
     get mailTemporaryFiles(): string {
-        return join(process.cwd(), 'resources/mail/temporary');
+        return join(process.cwd(), 'resources/mail/temporary-files');
+    }
+
+    get mailImages(): string {
+        return join(process.cwd(), 'resources/mail/images');
     }
 
     get mailTemplates(): string {

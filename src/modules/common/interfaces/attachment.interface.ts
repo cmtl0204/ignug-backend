@@ -1,4 +1,5 @@
 export interface AttachmentInterface {
-    path: string;
+    path?: string;
     filename: string;
+    file?: Buffer;
 }

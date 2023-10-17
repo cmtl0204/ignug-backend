@@ -9,6 +9,6 @@ export enum MailSubjectEnum {
 }
 
 export enum MailTemplateEnum {
-  TEST = 'auth/transactional-code',
+  TEST = 'test',
   TRANSACTIONAL_CODE = 'auth/transactional-code',
 }

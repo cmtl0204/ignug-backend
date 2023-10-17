@@ -20,36 +20,80 @@ export class MailService {
     async sendMail(mailData: MailDataInterface) {
         const mailAttachments = [];
 
-        if (mailData.attachments) {
+        if (mailData?.attachments) {
             mailData.attachments.forEach(attachment => {
-                const data = {
-                    path: join(this.folderPathsService.mailTemporaryFiles, attachment.path),
-                    filename: attachment.filename,
+                let data = null;
+
+                if (attachment.file) {
+                    data = {
+                        content: attachment.file,
+                        filename: attachment.filename,
+                        contentDisposition: 'attachment',
+                    };
+
+                    mailAttachments.push(data);
+                }
+
+                if (attachment.path) {
+                    data = {
+                        path: join(this.folderPathsService.mailTemporaryFiles, attachment.path),
+                        filename: attachment.filename,
+                        contentDisposition: 'attachment',
+                    };
+
+                    mailAttachments.push(data);
+                }
+            });
+        }
+
+        if (mailData?.attachment) {
+            let data = null;
+
+            if (mailData.attachment.file) {
+                data = {
+                    content: mailData.attachment.file,
+                    filename: mailData.attachment.filename,
                     contentDisposition: 'attachment',
                 };
 
                 mailAttachments.push(data);
-            });
+            }
+
+            if (mailData.attachment.path) {
+                data = {
+                    path: join(this.folderPathsService.mailTemporaryFiles, mailData.attachment.path),
+                    filename: mailData.attachment.filename,
+                    contentDisposition: 'attachment',
+                };
+                mailAttachments.push(data);
+            }
         }
 
-        if (mailData.attachment) {
-            const data = {
-                path: join(this.folderPathsService.mailTemporaryFiles, mailData.attachment.path),
-                filename: mailData.attachment.filename,
-                contentDisposition: 'attachment',
-            };
+        const header = {
+            filename: 'header.jpg',
+            path: join(this.folderPathsService.mailImages, 'header.jpg'),
+            cid: 'header',
+        };
 
-            mailAttachments.push(data);
-        }
+        const footer = {
+            filename: 'footer.jpg',
+            path: join(this.folderPathsService.mailImages, 'footer.jpg'),
+            cid: 'footer',
+        };
+
+        mailAttachments.push(header);
+        mailAttachments.push(footer);
 
         const sendMailOptions = {
             to: mailData.to,
             from: `${this.configService.mail.fromName} - ${this.configService.mail.from}`,
             subject: mailData.subject,
             template: mailData.template,
-            context: {data: mailData.data, system: environments.appName},
+            context: {system: environments.appName},
             attachments: mailAttachments,
+            secure : true
         };
+
 
         return await this.mailerService
             .sendMail(sendMailOptions)

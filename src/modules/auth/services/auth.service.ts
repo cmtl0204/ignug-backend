@@ -24,6 +24,8 @@ import {config} from "@config";
 import {ConfigType} from "@nestjs/config";
 import {MailDataInterface} from "../../common/interfaces/mail-data.interface";
 
+const PDFDocument = require('pdfKit-table');
+
 @Injectable()
 export class AuthService {
     private readonly MAX_ATTEMPTS = 3;
@@ -322,5 +324,31 @@ export class AuthService {
         await this.repository.save(userRest);
 
         return null;
+    }
+
+    async generatePDF() {
+        const pdf: Buffer = await new Promise(resolve => {
+            const doc = new PDFDocument()
+
+            doc.text('hello world', 100, 50);
+
+            const buffer = [];
+            doc.on('data', buffer.push.bind(buffer));
+            doc.on('end', () => resolve(Buffer.concat(buffer)));
+            doc.end();
+        })
+
+        const mailData: MailDataInterface = {
+            to: 'cesar.tamayo0204@gmail.com',
+            subject: MailSubjectEnum.RESET_PASSWORD,
+            template: MailTemplateEnum.TEST,
+            data: {
+                token: 'asd'
+            },
+            attachments: [{filename: 'test.pdf', file: pdf}, {filename: 'test.pdf', path: 'test.pdf'}]
+        }
+
+        return await this.nodemailerService.sendMail(mailData);
+
     }
 }
