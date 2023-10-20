@@ -1,154 +1,167 @@
-import { CACHE_MANAGER, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, ILike, Repository } from 'typeorm';
-import { CreateCatalogueDto, FilterCatalogueDto, PaginationDto, UpdateCatalogueDto } from '@core/dto';
-import { CatalogueEntity } from '@core/entities';
-import { CacheEnum, CatalogueCoreTypeEnum, CoreRepositoryEnum } from '@shared/enums';
-import { ReadUserDto } from '@auth/dto';
-import { UserEntity } from '@auth/entities';
-import { plainToInstance } from 'class-transformer';
-import { ServiceResponseHttpModel } from '@shared/models';
-import { Cache } from 'cache-manager';
+import {CACHE_MANAGER, Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {FindOptionsWhere, ILike, Repository} from 'typeorm';
+import {CreateCatalogueDto, FilterCatalogueDto, PaginationDto, UpdateCatalogueDto} from '@core/dto';
+import {CatalogueEntity} from '@core/entities';
+import {CacheEnum, CatalogueCoreTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+import {ReadUserDto} from '@auth/dto';
+import {UserEntity} from '@auth/entities';
+import {plainToInstance} from 'class-transformer';
+import {ServiceResponseHttpModel} from '@shared/models';
+import {Cache} from 'cache-manager';
 
 @Injectable()
 export class CataloguesService {
-  clientRedis: any = null;
+    clientRedis: any = null;
 
-  constructor(
-    @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY)
-    private repository: Repository<CatalogueEntity>,
-    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
-  ) {}
-
-  async create(payload: CreateCatalogueDto): Promise<CatalogueEntity> {
-    const newCatalogue = this.repository.create(payload);
-
-    return await this.repository.save(newCatalogue);
-  }
-
-  async catalogue(type: CatalogueCoreTypeEnum): Promise<ServiceResponseHttpModel> {
-    const data = await this.repository.findAndCount({
-      where: { type },
-      order: { name: 1 },
-      take: 1000,
-    });
-
-    return { pagination: { totalItems: data[1], limit: 1000 }, data: data[0] };
-  }
-
-  async findAll(params?: FilterCatalogueDto): Promise<ServiceResponseHttpModel> {
-    //Pagination & Filter by search
-    if (params?.limit > 0 && params?.page >= 0) {
-      return await this.paginateAndFilter(params);
+    constructor(
+        @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY)
+        private repository: Repository<CatalogueEntity>,
+        @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    ) {
     }
 
-    // Filter By Type
+    async create(payload: CreateCatalogueDto): Promise<CatalogueEntity> {
+        const newCatalogue = this.repository.create(payload);
 
-    //All
-    const data = await this.repository.findAndCount();
-
-    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
-  }
-
-  async findOne(id: string) {
-    const catalogue = await this.repository.findOne({
-      where: { id },
-    });
-
-    if (!catalogue) {
-      throw new NotFoundException('Catalogue not found');
+        return await this.repository.save(newCatalogue);
     }
 
-    return catalogue;
-  }
+    async catalogue(type: CatalogueCoreTypeEnum): Promise<ServiceResponseHttpModel> {
+        const data = await this.repository.findAndCount({
+            where: {type},
+            order: {name: 1},
+            take: 1000,
+        });
 
-  async findByCode(code: string) {
-    const catalogue = await this.repository.findOne({
-      where: { code },
-    });
-
-    if (!catalogue) {
-      throw new NotFoundException('Catalogue not found');
+        return {pagination: {totalItems: data[1], limit: 1000}, data: data[0]};
     }
 
-    return catalogue;
-  }
+    async findAll(params?: FilterCatalogueDto): Promise<ServiceResponseHttpModel> {
+        //Pagination & Filter by search
+        if (params?.limit > 0 && params?.page >= 0) {
+            return await this.paginateAndFilter(params);
+        }
 
-  async findByType(type: string) {
-    const catalogue = await this.repository.find({
-      where: { type },
-    });
+        // Filter By Type
 
-    if (!catalogue) {
-      throw new NotFoundException('Catalogue not found');
+        //All
+        const data = await this.repository.findAndCount();
+
+        return {data: data[0], pagination: {totalItems: data[1], limit: 10}};
     }
 
-    return catalogue;
-  }
+    async findOne(id: string) {
+        const catalogue = await this.repository.findOne({
+            where: {id},
+        });
 
-  async update(id: string, payload: UpdateCatalogueDto) {
-    const catalogue = await this.repository.findOneBy({ id });
+        if (!catalogue) {
+            throw new NotFoundException('Catalogue not found');
+        }
 
-    if (!catalogue) {
-      throw new NotFoundException('Catalogue not found');
+        return catalogue;
     }
 
-    this.repository.merge(catalogue, payload);
+    async findByCode(code: string) {
+        const catalogue = await this.repository.findOne({
+            where: {code},
+        });
 
-    return this.repository.save(catalogue);
-  }
+        if (!catalogue) {
+            throw new NotFoundException('Catalogue not found');
+        }
 
-  async remove(id: string): Promise<CatalogueEntity> {
-    const catalogue = await this.repository.findOneBy({ id });
-
-    if (!catalogue) {
-      throw new NotFoundException('Catalogue not found');
+        return catalogue;
     }
 
-    return await this.repository.softRemove(catalogue);
-  }
+    async findByType(type: string) {
+        const catalogue = await this.repository.find({
+            where: {type},
+        });
 
-  async removeAll(payload: CatalogueEntity[]): Promise<CatalogueEntity[]> {
-    return await this.repository.softRemove(payload);
-  }
+        if (!catalogue) {
+            throw new NotFoundException('Catalogue not found');
+        }
 
-  private async paginateAndFilter(params: FilterCatalogueDto) {
-    let where: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[];
-    where = {};
-    let { page, search } = params;
-    const { limit } = params;
-
-    if (search) {
-      search = search.trim();
-      page = 0;
-      where = [];
-      where.push({ name: ILike(`%${search}%`) });
+        return catalogue;
     }
 
-    const response = await this.repository.findAndCount({
-      where,
-      take: limit,
-      skip: PaginationDto.getOffset(limit, page),
-    });
+    async update(id: string, payload: UpdateCatalogueDto) {
+        const catalogue = await this.repository.findOneBy({id});
 
-    return {
-      data: plainToInstance(ReadUserDto, response[0]),
-      pagination: { limit, totalItems: response[1] },
-    };
-  }
+        if (!catalogue) {
+            throw new NotFoundException('Catalogue not found');
+        }
 
-  async findCache(): Promise<CatalogueEntity[]> {
-    let catalogues = (await this.cacheManager.get(CacheEnum.CATALOGUES)) as CatalogueEntity[];
+        this.repository.merge(catalogue, payload);
 
-    if (catalogues === null || catalogues === undefined || catalogues.length === 0) {
-      catalogues = await this.repository.find({
-        relations: { children: true },
-        where: { parent: null },
-        order: { type: 'asc', sort: 'asc', name: 'asc' },
-      });
-
-      await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);
+        return this.repository.save(catalogue);
     }
 
-    return catalogues;
-  }
+    async remove(id: string): Promise<CatalogueEntity> {
+        const catalogue = await this.repository.findOneBy({id});
+
+        if (!catalogue) {
+            throw new NotFoundException('Catalogue not found');
+        }
+
+        return await this.repository.softRemove(catalogue);
+    }
+
+    async removeAll(payload: CatalogueEntity[]): Promise<CatalogueEntity[]> {
+        return await this.repository.softRemove(payload);
+    }
+
+    private async paginateAndFilter(params: FilterCatalogueDto) {
+        let where: FindOptionsWhere<UserEntity> | FindOptionsWhere<UserEntity>[];
+        where = {};
+        let {page, search} = params;
+        const {limit} = params;
+
+        if (search) {
+            search = search.trim();
+            page = 0;
+            where = [];
+            where.push({name: ILike(`%${search}%`)});
+        }
+
+        const response = await this.repository.findAndCount({
+            where,
+            take: limit,
+            skip: PaginationDto.getOffset(limit, page),
+        });
+
+        return {
+            data: plainToInstance(ReadUserDto, response[0]),
+            pagination: {limit, totalItems: response[1]},
+        };
+    }
+
+    async findCache(): Promise<CatalogueEntity[]> {
+        let catalogues = (await this.cacheManager.get(CacheEnum.CATALOGUES)) as CatalogueEntity[];
+
+        if (catalogues === null || catalogues === undefined || catalogues.length === 0) {
+            catalogues = await this.repository.find({
+                relations: {children: true},
+                where: {parent: null},
+                order: {type: 'asc', sort: 'asc', name: 'asc'},
+            });
+
+            await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);
+        }
+
+        return catalogues;
+    }
+
+    async loadCache(): Promise<CatalogueEntity[]> {
+        const catalogues = await this.repository.find({
+            relations: {children: true},
+            where: {parent: null},
+            order: {type: 'asc', sort: 'asc', name: 'asc'},
+        });
+
+        await this.cacheManager.set(CacheEnum.CATALOGUES, catalogues);
+
+        return catalogues;
+    }
 }

@@ -2,7 +2,7 @@ export const environments = {
   dev: '.env',
   test: '.test.env',
   prod: '.prod.env',
-  version: '1.2.3',
+  appVersion: '2.2.32',
   appName: 'IGNUG',
   serviceUnavailable: false,
 };

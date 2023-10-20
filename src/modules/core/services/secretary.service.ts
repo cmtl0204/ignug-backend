@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-const PDFDocument = require('pdfkit-table')
+const {PDFDocument} = require('pdfkit-table-ts')
 
 @Injectable()
 export class SecretaryService {
@@ -15,8 +15,8 @@ export class SecretaryService {
        //imágenes
       const imageX = 100;
       const imageX2 = 400;
-      const imagePath = './src/assets/images/core/institutions/logo.jpeg';
-      const imagePath2 = './src/assets/images/core/institutions/logo.jpeg';
+      const imagePath = './assets/images/core/institutions/logo.jpeg';
+      const imagePath2 = './assets/images/core/institutions/logo.jpeg';
       const imageY = 30;
       const imageWidth = 100;
       const imageHeight = 100;

@@ -26,7 +26,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       error: 'Server Error',
       message: 'Server Error',
       statusCode: 500,
-      version: environments.version,
     };
     let status = 500;
 

@@ -169,7 +169,7 @@ export class AuthController {
     @UseInterceptors(
         FileInterceptor('avatar', {
             storage: diskStorage({
-                destination: `${join(process.cwd())}/src/resources/public/avatars`,
+                destination: join(process.cwd(), 'assets/avatars'),
                 filename: getFileName,
             }),
             fileFilter: imageFilter,

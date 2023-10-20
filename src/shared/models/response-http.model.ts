@@ -10,5 +10,4 @@ export interface ErrorResponseHttpModel {
   error: string;
   message: string | string[];
   statusCode: number;
-  version: string;
 }

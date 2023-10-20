@@ -21,7 +21,7 @@ export class ResponseHttpInterceptor<T> implements NestInterceptor<T, Response<T
                     pagination: response.pagination,
                     message: response.message,
                     title: response.title,
-                    version: environments.version,
+                    version: environments.appVersion,
                 };
             }),
         );

@@ -33,7 +33,7 @@ export class EnrollmentsService {
 
     //All
     const data = await this.repository.findAndCount({
-      relations: ['curriculum'],
+      relations: ['career'],
     });
 
     return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
@@ -41,7 +41,7 @@ export class EnrollmentsService {
 
   async findOne(id: string): Promise<EnrollmentEntity> {
     const subject = await this.repository.findOne({
-      relations: ['curriculum'],
+      relations: ['career'],
       where: { id },
     });
 
@@ -92,7 +92,7 @@ export class EnrollmentsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['curriculum'],
+      relations: ['career'],
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),
@@ -112,7 +112,7 @@ export class EnrollmentsService {
     }
 
     const response = await this.repository.findAndCount({
-      relations: ['curriculum'],
+      relations: ['career'],
       where,
     });
 
@@ -200,7 +200,7 @@ export class EnrollmentsService {
 
   async findstudentGrade(identificationUser:string,codeSchoolPeriod:string){
     const studentGrade= await this.repository.findOne({
-      relations: ['academicPeriod', 'enrollmentDetails', 'curriculum','workday','schoolPeriod'],
+      relations: ['academicPeriod', 'enrollmentDetails', 'career','workday','schoolPeriod'],
       where: { student:{user:{identification:identificationUser}}, schoolPeriod:{code:codeSchoolPeriod}},
     });
 

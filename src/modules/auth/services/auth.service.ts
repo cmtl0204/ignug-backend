@@ -24,7 +24,7 @@ import {config} from "@config";
 import {ConfigType} from "@nestjs/config";
 import {MailDataInterface} from "../../common/interfaces/mail-data.interface";
 
-const PDFDocument = require('pdfKit-table');
+const {PDFDocument} = require('pdfKit-table-ts');
 
 @Injectable()
 export class AuthService {
@@ -281,7 +281,7 @@ export class AuthService {
 
         if (entity?.avatar) {
             try {
-                fs.unlinkSync(`${join(process.cwd())}/src/resources/public/${entity.avatar}`);
+                fs.unlinkSync(join(process.cwd(),'assets',entity.avatar));
             } catch (err) {
                 console.error('Something wrong happened removing the file', err);
             }
@@ -336,7 +336,7 @@ export class AuthService {
             doc.on('data', buffer.push.bind(buffer));
             doc.on('end', () => resolve(Buffer.concat(buffer)));
             doc.end();
-        })
+        });
 
         const mailData: MailDataInterface = {
             to: 'cesar.tamayo0204@gmail.com',

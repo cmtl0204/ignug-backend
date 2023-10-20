@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-const PDFDocument = require('pdfKit-table');
+const {PDFDocument} = require('pdfKit-table-ts');
 import { EnrollmentsService } from './enrollments.service';
 
 @Injectable()
