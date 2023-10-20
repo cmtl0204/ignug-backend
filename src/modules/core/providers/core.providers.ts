@@ -19,12 +19,13 @@ import {
     SchoolPeriodEntity,
     StudentEntity,
     SubjectEntity,
-    SubjectRequirementEntity,
+    SubjectPrerequisiteEntity,
     TeacherDistributionEntity,
     TeacherEntity,
 } from '@core/entities';
 import {ConfigEnum, CoreRepositoryEnum} from '@shared/enums';
 import {LocationEntity, PartialPermissionEntity} from '@core/entities';
+import {SubjectCorequisiteEntity} from "../entities/subject-corequisite.entity";
 
 export const coreProviders = [
     {
@@ -133,8 +134,13 @@ export const coreProviders = [
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {
-        provide: CoreRepositoryEnum.SUBJECT_REQUIREMENT_REPOSITORY,
-        useFactory: (dataSource: DataSource) => dataSource.getRepository(SubjectRequirementEntity),
+        provide: CoreRepositoryEnum.SUBJECT_COREQUISITE_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(SubjectCorequisiteEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
+        provide: CoreRepositoryEnum.SUBJECT_PREREQUISITE_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(SubjectPrerequisiteEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {

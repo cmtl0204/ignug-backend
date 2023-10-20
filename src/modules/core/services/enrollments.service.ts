@@ -121,6 +121,7 @@ export class EnrollmentsService {
       pagination: { limit: 10, totalItems: response[1] },
     };
   }
+
   async findEnrollmentCertificateByStudent(identificationUser:string,codeSchoolPeriod:string){
     const enrollmentCertificate= await this.repository.findOne({
       relations: {academicPeriod:true, enrollmentDetails:true, career:true,workday:true, schoolPeriod:true, },

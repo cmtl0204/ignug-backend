@@ -3,7 +3,10 @@ import { CatalogueEntity, CurriculumEntity } from '@core/entities';
 
 export class SubjectDto {
   @IsOptional()
-  readonly subjectRequirements: any;
+  readonly subjectPrerequisites: any;
+
+  @IsOptional()
+  readonly subjectCorequisites: any;
 
   @IsNotEmpty()
   readonly curriculum: CurriculumEntity;
@@ -32,6 +35,9 @@ export class SubjectDto {
 
   @IsNotEmpty()
   readonly isVisible: boolean;
+
+  @IsNotEmpty()
+  readonly isEnabled: boolean;
 
   @IsString({ message: 'El campo name debe ser un string' })
   readonly name: string;

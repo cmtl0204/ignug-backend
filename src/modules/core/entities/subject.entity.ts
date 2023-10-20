@@ -1,5 +1,5 @@
 import { PrimaryGeneratedColumn, Column, Entity, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany } from 'typeorm';
-import { CatalogueEntity, CurriculumEntity, SubjectRequirementEntity } from '@core/entities';
+import {CatalogueEntity, CurriculumEntity, SubjectCorequisiteEntity, SubjectPrerequisiteEntity} from '@core/entities';
 
 @Entity('subjects', { schema: 'core' })
 export class SubjectEntity {
@@ -44,8 +44,11 @@ export class SubjectEntity {
   isEnabled: boolean;
 
   /** Inverse Relationship **/
-  @OneToMany(() => SubjectRequirementEntity, subjectRequirement => subjectRequirement.subject)
-  subjectRequirements: SubjectRequirementEntity[];
+  @OneToMany(() => SubjectCorequisiteEntity, subjectCorequisite => subjectCorequisite.subject)
+  subjectCorequisites: SubjectCorequisiteEntity[];
+
+  @OneToMany(() => SubjectPrerequisiteEntity, subjectPrerequisite => subjectPrerequisite.subject)
+  subjectPrerequisites: SubjectPrerequisiteEntity[];
 
   /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity, { nullable: true })

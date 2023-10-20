@@ -11,7 +11,4 @@ export class SubjectRequirementDto {
 
   @IsNotEmpty()
   readonly isEnabled: boolean;
-
-  @IsNotEmpty()
-  readonly type: CatalogueCoreSubjectRequirementTypeEnum;
 }

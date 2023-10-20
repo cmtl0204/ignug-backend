@@ -1,19 +1,19 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere, ILike, LessThan} from 'typeorm';
-import {CreateSubjectDto, FilterSubjectDto, SeedSubjectDto, UpdateSubjectDto} from '@core/dto';
+import {CreateSubjectDto, FilterSubjectDto, PaginationDto, SeedSubjectDto, UpdateSubjectDto} from '@core/dto';
 import {SubjectEntity} from '@core/entities';
-import {PaginationDto} from '@core/dto';
-import {CataloguesService, CurriculumsService, SubjectRequirementsService} from '@core/services';
+import {SubjectPrerequisitesService} from '@core/services';
+import {CoreRepositoryEnum, MessageEnum} from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
-import {CatalogueStateEnum, CoreRepositoryEnum, MessageEnum} from '@shared/enums';
+import {SubjectCorequisitesService} from "./subject-corequisites.service";
 
 @Injectable()
 export class SubjectsService {
     constructor(
         @Inject(CoreRepositoryEnum.SUBJECT_REPOSITORY)
         private repository: Repository<SubjectEntity>,
-        private subjectRequirementsService: SubjectRequirementsService,
-        private curriculumService: CurriculumsService,
+        private subjectPrerequisitesService: SubjectPrerequisitesService,
+        private subjectCorequisitesService: SubjectCorequisitesService
     ) {
     }
 
@@ -21,10 +21,12 @@ export class SubjectsService {
         const newSubject = this.repository.create(payload);
         const subject = await this.repository.save(newSubject)
 
-        const subjectRequirements = subject.subjectRequirements;
+        for (const item of subject.subjectCorequisites) {
+            this.subjectCorequisitesService.create(subject.id, item);
+        }
 
-        for (let i = 0; i < subjectRequirements.length; i++) {
-            this.subjectRequirementsService.create(subject.id, subjectRequirements[i]);
+        for (const item of subject.subjectPrerequisites) {
+            this.subjectPrerequisitesService.create(subject.id, item);
         }
 
         return subject;
@@ -55,7 +57,8 @@ export class SubjectsService {
                 academicPeriod: true,
                 state: true,
                 type: true,
-                subjectRequirements: {requirement: true},
+                subjectPrerequisites: {requirement: true},
+                subjectCorequisites: {requirement: true},
             },
             where: {id},
         });
@@ -74,15 +77,19 @@ export class SubjectsService {
     async update(id: string, payload: UpdateSubjectDto): Promise<SubjectEntity> {
         const subject = await this.repository.findOneBy({id});
 
-        const subjectRequirements = payload.subjectRequirements;
-
-        await this.subjectRequirementsService.removeBySubject(id);
-        for (let i = 0; i < subjectRequirements.length; i++) {
-            this.subjectRequirementsService.create(id, subjectRequirements[i]);
-        }
-
         if (!subject) {
             throw new NotFoundException('Subject not found');
+        }
+
+        await this.subjectPrerequisitesService.removeBySubject(id);
+        await this.subjectCorequisitesService.removeBySubject(id);
+
+        for (const item of payload.subjectCorequisites) {
+            this.subjectCorequisitesService.create(id, item);
+        }
+
+        for (const item of payload.subjectPrerequisites) {
+            this.subjectPrerequisitesService.create(id, item);
         }
 
         this.repository.merge(subject, payload);
