@@ -1,160 +1,169 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateCareerDto, UpdateCareerDto } from '@core/dto';
-import { CareersService } from '@core/services';
-import { CareerEntity } from '@core/entities';
-import { ResponseHttpModel } from '@shared/models';
-import { Auth, User } from '@auth/decorators';
-import { UserEntity } from '@auth/entities';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    ParseUUIDPipe,
+    Patch,
+    Post,
+    Put,
+    Query
+} from '@nestjs/common';
+import {ApiTags, ApiOperation} from '@nestjs/swagger';
+import {Auth, User} from '@auth/decorators';
+import {UserEntity} from '@auth/entities';
+import {CreateCareerDto, FilterEnrollmentDto, UpdateCareerDto} from '@core/dto';
+import {CareerEntity} from '@core/entities';
+import {CareersService, EnrollmentsService} from '@core/services';
+import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Careers')
 @Controller('careers')
 export class CareersController {
-  constructor(private careersService: CareersService) {}
+    constructor(private readonly careersService: CareersService, private readonly enrollmentsService: EnrollmentsService) {
+    }
 
-  @ApiOperation({ summary: 'Catalogue Careers' })
-  @Get('catalogue')
-  @HttpCode(HttpStatus.OK)
-  async catalogue(): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.catalogue();
+    @ApiOperation({summary: 'Create Career'})
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    async create(@Body() payload: CreateCareerDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.create(payload);
 
-    return {
-      data: serviceResponse.data,
-      pagination: serviceResponse.pagination,
-      message: `Catálogo carreras`,
-      title: `Catálogo`,
-    };
-  }
+        return {
+            data: serviceResponse,
+            message: 'Carrera fue creada',
+            title: 'Carrera creada',
+        };
+    }
 
-  @ApiOperation({ summary: 'Create Career' })
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body() payload: CreateCareerDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.create(payload);
+    @ApiOperation({summary: 'Find Career'})
+    @Get(':id')
+    @HttpCode(HttpStatus.OK)
+    async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.findOne(id);
 
-    return {
-      data: serviceResponse,
-      message: 'Carrera fue creada',
-      title: 'Carrera creada',
-    };
-  }
+        return {
+            data: serviceResponse,
+            message: `Buscar carrera`,
+            title: `Success`,
+        };
+    }
 
-  @ApiOperation({ summary: 'Find Career' })
-  @Get('find/:id')
-  @HttpCode(HttpStatus.OK)
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.findOne(id);
+    @ApiOperation({summary: 'Update Career'})
+    @Put(':id')
+    @HttpCode(HttpStatus.CREATED)
+    async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.update(id, payload);
+        return {
+            data: serviceResponse,
+            message: `Carrera fue actualizada`,
+            title: `Carrera actualizada`,
+        };
+    }
 
-    return {
-      data: serviceResponse,
-      message: `Buscar carrera`,
-      title: `Success`,
-    };
-  }
+    @ApiOperation({summary: 'Hide'})
+    @Patch(':id/hide')
+    @HttpCode(HttpStatus.CREATED)
+    async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.hide(id);
 
-  @ApiOperation({ summary: 'Hide' })
-  @Patch(':id/hide')
-  @HttpCode(HttpStatus.CREATED)
-  async hide(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.hide(id);
+        return {
+            data: serviceResponse,
+            message: `Carrera Oculto`,
+            title: `Ocultado`,
+        };
+    }
 
-    return {
-      data: serviceResponse,
-      message: `Carrera Oculto`,
-      title: `Ocultado`,
-    };
-  }
+    @ApiOperation({summary: 'Reactivate'})
+    @Patch(':id/reactivate')
+    @HttpCode(HttpStatus.CREATED)
+    async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.reactivate(id);
 
-  @ApiOperation({ summary: 'Update Career' })
-  @Put(':id')
-  @HttpCode(HttpStatus.CREATED)
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.update(id, payload);
-    return {
-      data: serviceResponse,
-      message: `Carrera fue actualizada`,
-      title: `Carrera actualizada`,
-    };
-  }
+        return {
+            data: serviceResponse,
+            message: `Carrera Reactivado`,
+            title: `Reactivado`,
+        };
+    }
 
-  @ApiOperation({ summary: 'Reactivate' })
-  @Patch(':id/reactivate')
-  @HttpCode(HttpStatus.CREATED)
-  async reactivate(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.reactivate(id);
+    @ApiOperation({summary: 'Delete Career'})
+    @Delete(':id')
+    @HttpCode(HttpStatus.CREATED)
+    async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.remove(id);
+        return {
+            data: serviceResponse,
+            message: `Carrera fue eliminada`,
+            title: `Carrera eliminada`,
+        };
+    }
 
-    return {
-      data: serviceResponse,
-      message: `Carrera Reactivado`,
-      title: `Reactivado`,
-    };
-  }
+    @ApiOperation({summary: 'Delete All Careers'})
+    @Patch('remove-all')
+    @HttpCode(HttpStatus.CREATED)
+    async removeAll(@Body() payload: CareerEntity[]): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.removeAll(payload);
 
-  @ApiOperation({ summary: 'Delete Career' })
-  @Delete(':id')
-  @HttpCode(HttpStatus.CREATED)
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.remove(id);
-    return {
-      data: serviceResponse,
-      message: `Carrera fue eliminada`,
-      title: `Carrera eliminada`,
-    };
-  }
+        return {
+            data: serviceResponse,
+            message: `Carreras fueron eliminadas`,
+            title: `Carreras eliminadas`,
+        };
+    }
 
-  @ApiOperation({ summary: 'Delete All Careers' })
-  @Patch('remove-all')
-  @HttpCode(HttpStatus.CREATED)
-  async removeAll(@Body() payload: CareerEntity[]): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.removeAll(payload);
+    @ApiOperation({summary: 'Find Career'})
+    @Get(':id/teachers')
+    @HttpCode(HttpStatus.OK)
+    async findTeachersByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.findTeachersByCareer(id);
 
-    return {
-      data: serviceResponse,
-      message: `Carreras fueron eliminadas`,
-      title: `Carreras eliminadas`,
-    };
-  }
+        return {
+            data: serviceResponse,
+            message: `Buscar carrera`,
+            title: `Success`,
+        };
+    }
 
-  @ApiOperation({ summary: 'Find Career' })
-  @Get(':id/teachers')
-  @HttpCode(HttpStatus.OK)
-  async findTeachersByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.findTeachersByCareer(id);
+    @ApiOperation({summary: 'Find Curriculums By Career'})
+    @Get(':id/curriculums')
+    @HttpCode(HttpStatus.OK)
+    async findCurriculumsByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.findCurriculumsByCareer(id);
+        return {
+            data: serviceResponse,
+            message: `Find Curriculums By Career`,
+            title: 'Success',
+        };
+    }
 
-    return {
-      data: serviceResponse,
-      message: `Buscar carrera`,
-      title: `Success`,
-    };
-  }
+    @ApiOperation({summary: 'Find Careers By Authenticated User'})
+    @Auth()
+    @Get('users/authenticated')
+    @HttpCode(HttpStatus.OK)
+    async findByAuthenticatedUser(@User() user: UserEntity): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careersService.findCareersByAuthenticatedUser(user);
+        return {
+            data: serviceResponse,
+            message: 'Find Careers By Authenticated User',
+            title: `Success`,
+        };
+    }
 
-  @ApiOperation({ summary: 'Find Curriculums By Career' })
-  @Get(':id/curriculums')
-  @HttpCode(HttpStatus.OK)
-  async findCurriculumsByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel>
+    @ApiOperation({summary: 'Find Enrollments By Career'})
+    @Get(':id/enrollments')
+    @HttpCode(HttpStatus.CREATED)
+    async findEnrollmentsByCareer(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.findEnrollmentsByCareer(id, params);
 
-
-
-
-  {
-    const serviceResponse = await this.careersService.findCurriculumsByCareer(id);
-    return {
-      data: serviceResponse,
-      message: `Find Curriculums By Career`,
-      title: 'Success',
-    };
-  }
-
-  @ApiOperation({ summary: 'Find Careers By Authenticated User' })
-  @Auth()
-  @Get('users/authenticated')
-  @HttpCode(HttpStatus.OK)
-  async findByAuthenticatedUser(@User() user: UserEntity): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.careersService.findCareersByAuthenticatedUser(user);
-    return {
-      data: serviceResponse,
-      message: 'Find Careers By Authenticated User',
-      title: `Success`,
-    };
-  }
+        return {
+            data: serviceResponse.data,
+            pagination: serviceResponse.pagination,
+            message: `Reporte de notas fueron eliminadas`,
+            title: `Reporte de notas eliminadas`,
+        };
+    }
 }

@@ -62,14 +62,12 @@ export class CareerAcademicPeriodsEntity {
     @ManyToOne(() => CareerEntity, career => career.academicPeriods)
     @JoinColumn({name: 'career_id'})
     career: CareerEntity;
+    @Column({type: 'uuid', name: 'career_id', comment: 'Foreign Key'})
+    careerId: string;
 
-    @Column({type: 'uuid', comment: 'Foreign Key'})
-    career_id: string;
-
-    @ManyToOne(() => CatalogueEntity,{nullable:true})
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'catalogue_id'})
     catalogue: CatalogueEntity;
-
-    @Column({type: 'uuid', comment: 'Foreign Key'})
-    catalogue_id: string;
+    @Column({type: 'uuid', name: 'catalogue_id', comment: 'Foreign Key'})
+    catalogueId: string;
 }

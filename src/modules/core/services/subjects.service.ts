@@ -45,7 +45,12 @@ export class SubjectsService {
 
         //All
         const data = await this.repository.findAndCount({
-            relations: ['academicPeriod', 'curriculum', 'state', 'type'],
+            relations: {
+                academicPeriod: true,
+                curriculum: true,
+                state: true,
+                type: true
+            },
         });
 
         return {data: data[0], pagination: {totalItems: data[1], limit: 10}};
@@ -126,7 +131,12 @@ export class SubjectsService {
         }
 
         const response = await this.repository.findAndCount({
-            relations: ['academicPeriod', 'curriculum', 'state', 'type'],
+            relations: {
+                academicPeriod: true,
+                curriculum: true,
+                state: true,
+                type: true
+            },
             where,
             take: limit,
             skip: PaginationDto.getOffset(limit, page),
@@ -146,7 +156,12 @@ export class SubjectsService {
         }
 
         const response = await this.repository.findAndCount({
-            relations: ['academicPeriod', 'curriculum', 'state', 'type'],
+            relations: {
+                academicPeriod: true,
+                curriculum: true,
+                state: true,
+                type: true
+            },
             where,
         });
 
@@ -175,4 +190,38 @@ export class SubjectsService {
         entity.isVisible = true;
         return await this.repository.save(entity);
     }
+
+    async findSubjectsByCurriculum(curriculumId: string): Promise<SubjectEntity[]> {
+        const response = await this.repository.find({
+            relations: {
+                academicPeriod: true,
+                type: true,
+                subjectCorequisites: {requirement: true},
+                subjectPrerequisites: {requirement: true}
+            },
+            where: {
+                curriculumId,
+                isVisible: true,
+            },
+        });
+
+        return response;
+    }
+
+    async findAllSubjectsByCurriculum(curriculumId: string): Promise<SubjectEntity[]> {
+        const response = await this.repository.find({
+            relations: {
+                academicPeriod: true,
+                type: true,
+                subjectCorequisites: {requirement: true},
+                subjectPrerequisites: {requirement: true}
+            },
+            where: {
+                curriculumId
+            },
+        });
+
+        return response;
+    }
+
 }

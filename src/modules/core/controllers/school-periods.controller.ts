@@ -10,12 +10,11 @@ import {
     Patch,
     Post,
     Put,
-    Query,
     UploadedFile,
     UseInterceptors,
 } from '@nestjs/common';
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
-import {CreateSchoolPeriodDto, FilterSchoolPeriodDto, UpdateSchoolPeriodDto} from '@core/dto';
+import {CreateSchoolPeriodDto, UpdateSchoolPeriodDto} from '@core/dto';
 import {SchoolPeriodsService} from '@core/services';
 import {SchoolPeriodEntity} from '@core/entities';
 import {ResponseHttpModel} from '@shared/models';
@@ -31,7 +30,8 @@ import {FilesService} from '@common/services';
 @Controller('school-periods')
 @Auth()
 export class SchoolPeriodsController {
-    constructor(private schoolPeriodsService: SchoolPeriodsService, private readonly filesService: FilesService) {
+    constructor(private readonly schoolPeriodsService: SchoolPeriodsService,
+                private readonly filesService: FilesService) {
     }
 
     @ApiOperation({summary: 'Catalogue'})

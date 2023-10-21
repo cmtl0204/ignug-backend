@@ -55,14 +55,14 @@ export class SchoolPeriodEntity {
     @ManyToOne(() => InstitutionEntity)
     @JoinColumn({name: 'institution_id'})
     institution: InstitutionEntity;
-    @Column({type: 'uuid', comment: 'Institución a la que pertenece el periodo lectivo'})
-    institution_id: string;
+    @Column({type: 'uuid', name: 'institution_id', comment: 'Institución a la que pertenece el periodo lectivo'})
+    institutionId: string;
 
     @ManyToOne(() => CatalogueEntity)
     @JoinColumn({name: 'state_id'})
     state: CatalogueEntity;
-    @Column({type: 'uuid', comment: 'Habilitado o Inhabilitado'})
-    state_id: string;
+    @Column({type: 'uuid', name: 'state_id', comment: 'Habilitado o Inhabilitado'})
+    stateId: string;
 
     /** Columns **/
     @Column({

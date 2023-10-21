@@ -41,86 +41,86 @@ export class InformationStudentEntity {
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_disability'})
     isDisability: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Tiene disacapasidad'})
-    is_disability_id: string;
+    @Column({type: 'uuid',name: 'is_disability', nullable: true, comment: 'Tiene disacapasidad'})
+    isDisabilityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_executed_community'})
     isExecutedCommunity: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Realizo trabajo comunitario'})
-    is_executed_community_id: string;
+    @Column({type: 'uuid',name: 'is_executed_community', nullable: true, comment: 'Realizo trabajo comunitario'})
+    isExecutedCommunityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_executed_practice'})
     isExecutedPractice: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Realizo practicas preprofesionales'})
-    is_executed_practice_id: string;
+    @Column({type: 'uuid',name: 'is_executed_practice', nullable: true, comment: 'Realizo practicas preprofesionales'})
+    isExecutedPracticeId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_has_children_id'})
     isHasChildren: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Tiene Hijos'})
-    is_has_children_id: string;
+    @Column({type: 'uuid',name: 'is_has_children_id', nullable: true, comment: 'Tiene Hijos'})
+    isHasChildrenId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_house_head_id'})
     isHouseHead: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Es Jefe de Hogar'})
-    is_house_head_id: string;
+    @Column({type: 'uuid',name: 'is_house_head_id', nullable: true, comment: 'Es Jefe de Hogar'})
+    isHouseHeadId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_lost_Gratuity'})
     isLostGratuity: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Perdida de gratuidad'})
-    is_lost_gratuity_id: string;
+    @Column({type: 'uuid',name: 'is_lost_Gratuity', nullable: true, comment: 'Perdida de gratuidad'})
+    isLostGratuityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_private_security_id'})
     isPrivateSecurity: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Es Jefe de Hogar'})
-    is_private_security_id: string;
+    @Column({type: 'uuid',name: 'is_private_security_id', nullable: true, comment: 'Es Jefe de Hogar'})
+    isPrivateSecurityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_social_security_id'})
     isSocialSecurity: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Es Jefe de Hogar'})
-    is_social_security_id: string;
+    @Column({type: 'uuid',name: 'is_social_security_id', nullable: true, comment: 'Es Jefe de Hogar'})
+    isSocialSecurityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_study_other_career_id'})
     isStudyOtherCareer: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Estudia otra carrera fuera de la Amawtay Wasi'})
-    is_study_other_career_id: string;
+    @Column({type: 'uuid',name: 'is_study_other_career_id', nullable: true, comment: 'Estudia otra carrera fuera de la Amawtay Wasi'})
+    isStudyOtherCareerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_subject_repeat'})
     isSubjectRepeat: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Repite materias'})
-    is_subject_repeat_id: string;
+    @Column({type: 'uuid',name: 'is_subject_repeat', nullable: true, comment: 'Repite materias'})
+    isSubjectRepeatId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'family_income'})
     familyIncome: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Ingresos familiares'})
-    family_income_id: string;
+    @Column({type: 'uuid',name: 'family_income', nullable: true, comment: 'Ingresos familiares'})
+    familyIncomeId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'type_study_other_career_id'})
     typeStudyOtherCareer: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'Estudia otra carrera fuera de la Amawtay Wasi'})
-    type_study_other_career_id: string;
+    @Column({type: 'uuid',name: 'type_study_other_career_id', nullable: true, comment: 'Estudia otra carrera fuera de la Amawtay Wasi'})
+    typeStudyOtherCareerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'university_career_id'})
     universityCareer: CatalogueEntity;
-    @Column({type: 'uuid', nullable: true, comment: 'En su trayectoria universitaria ha realizado'})
-    university_career_id: string;
+    @Column({type: 'uuid',name: 'university_career_id', nullable: true, comment: 'En su trayectoria universitaria ha realizado'})
+    universityCareerId: string;
 
     @OneToOne(() => StudentEntity, student => student.informationStudent)
     @JoinColumn({name: 'student_id'})
     student: StudentEntity;
-    @Column({type: 'uuid', comment: 'Estudiante que pertenece la informacion'})
-    student_id: string;
+    @Column({type: 'uuid',name: 'student_id', comment: 'Estudiante que pertenece la informacion'})
+    studentId: string;
 
     /** Columns **/
     @Column({

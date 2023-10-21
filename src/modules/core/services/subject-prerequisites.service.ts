@@ -19,8 +19,8 @@ export class SubjectPrerequisitesService {
 
     async create(subjectId: string, payload: SubjectPrerequisiteEntity): Promise<SubjectPrerequisiteEntity> {
         const subjectRequirement = new SubjectPrerequisiteEntity();
-        subjectRequirement.subject_id = subjectId;
-        subjectRequirement.requirement_id = payload.id;
+        subjectRequirement.subjectId = subjectId;
+        subjectRequirement.requirementId = payload.id;
         subjectRequirement.isEnabled = payload.isEnabled;
 
         const entity = this.repository.create(subjectRequirement);
@@ -30,7 +30,7 @@ export class SubjectPrerequisitesService {
 
     async removeBySubject(subjectId: string) {
         const subjectPrerequisites = await this.repository.find({
-            where: {subject_id: subjectId},
+            where: {subjectId},
         });
 
         await this.repository.softRemove(subjectPrerequisites);

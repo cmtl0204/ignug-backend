@@ -58,7 +58,7 @@ export class SchoolPeriodsService {
 
     async findOne(id: string): Promise<SchoolPeriodEntity> {
         const entity = await this.repository.findOne({
-            relations: ['state'],
+            relations: {state: true},
             where: {
                 id,
             },

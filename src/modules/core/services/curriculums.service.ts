@@ -32,7 +32,7 @@ export class CurriculumsService {
 
         //All
         const data = await this.repository.findAndCount({
-            relations: ['career', 'state'],
+            relations: {career: true, state: true},
         });
 
         return {data: data[0], pagination: {totalItems: data[1], limit: 10}};
@@ -40,7 +40,7 @@ export class CurriculumsService {
 
     async findOne(id: string): Promise<CurriculumEntity> {
         const curriculum = await this.repository.findOne({
-            relations: ['career', 'state'],
+            relations: {career: true, state: true},
             where: {
                 id,
             },
@@ -53,54 +53,9 @@ export class CurriculumsService {
         return curriculum;
     }
 
-    async findSubjectsByCurriculum(id: string): Promise<SubjectEntity[]> {
-        const curriculum = await this.repository.findOne({
-            relations: {
-                subjects: {
-                    academicPeriod: true,
-                    type: true,
-                    subjectCorequisites: {requirement: true},
-                    subjectPrerequisites: {requirement: true}
-                }
-            },
-            where: {
-                id,
-                subjects: {isVisible: true},
-            },
-        });
-
-        if (!curriculum) {
-            throw new NotFoundException('La malla curricular no existe');
-        }
-
-        return curriculum.subjects;
-    }
-
-    async findSubjectsAllByCurriculum(id: string): Promise<SubjectEntity[]> {
-        const curriculum = await this.repository.findOne({
-            relations: {
-                subjects: {
-                    academicPeriod: true,
-                    type: true,
-                    subjectCorequisites: {requirement: true},
-                    subjectPrerequisites: {requirement: true}
-                }
-            },
-            where: {
-                id,
-            },
-        });
-
-        if (!curriculum) {
-            throw new NotFoundException('La malla curricular no existe');
-        }
-
-        return curriculum.subjects;
-    }
-
     async update(id: string, payload: UpdateCurriculumDto): Promise<CurriculumEntity> {
         const curriculum = await this.repository.findOne({
-            relations: ['career', 'state'],
+            relations: {career: true, state: true},
             where: {
                 id,
             },
@@ -173,10 +128,10 @@ export class CurriculumsService {
         }
 
         const response = await this.repository.findAndCount({
-            relations: ['career', 'state'],
+            relations: {career: true, state: true},
             where,
-            take: limit,
             skip: PaginationDto.getOffset(limit, page),
+            take: limit,
         });
 
         return {
@@ -193,7 +148,7 @@ export class CurriculumsService {
         }
 
         const response = await this.repository.findAndCount({
-            relations: ['career', 'state'],
+            relations: {career: true, state: true},
             where,
         });
 

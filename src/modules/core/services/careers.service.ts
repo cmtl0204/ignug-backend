@@ -1,6 +1,13 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
-import {CreateCareerDto, FilterCareerDto, PaginationDto, SeedCareerDto, UpdateCareerDto} from '@core/dto';
+import {
+    CreateCareerDto,
+    FilterCareerDto,
+    FilterEnrollmentDto,
+    PaginationDto,
+    SeedCareerDto,
+    UpdateCareerDto
+} from '@core/dto';
 import {CareerEntity, CatalogueEntity, CurriculumEntity, TeacherEntity} from '@core/entities';
 import {CoreRepositoryEnum, MessageEnum} from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
@@ -16,7 +23,7 @@ export class CareersService {
 
     async catalogue(): Promise<ServiceResponseHttpModel> {
         const response = await this.repository.findAndCount({
-            relations: ['institution', 'modality', 'state', 'type'],
+            relations: {institution: true, modality: true, state: true, type: true},
             take: 1000,
         });
 

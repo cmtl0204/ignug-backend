@@ -1,128 +1,159 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
-import { InformationStudentEntity } from '@core/entities';
-import { CreateInformationStudentDto, FilterInformationStudentDto, PaginationDto, SeederInformationStudentDto, UpdateInformationStudentDto } from '@core/dto';
-import { CataloguesService } from './catalogues.service';
-import { ServiceResponseHttpModel } from '@shared/models';
-import { CoreRepositoryEnum } from '@shared/enums';
+import {Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {FindOptionsWhere, ILike, LessThan, Repository} from 'typeorm';
+import {InformationStudentEntity} from '@core/entities';
+import {
+    CreateInformationStudentDto,
+    FilterInformationStudentDto,
+    PaginationDto,
+    SeederInformationStudentDto,
+    UpdateInformationStudentDto
+} from '@core/dto';
+import {CataloguesService} from './catalogues.service';
+import {ServiceResponseHttpModel} from '@shared/models';
+import {CoreRepositoryEnum} from '@shared/enums';
 
 @Injectable()
 export class InformationStudentsService {
-  constructor(
-    @Inject(CoreRepositoryEnum.INFORMATION_STUDENT_REPOSITORY)
-    private repository: Repository<InformationStudentEntity>,
-    private cataloguesService: CataloguesService,
-  ) {}
-
-  async create(payload: CreateInformationStudentDto | SeederInformationStudentDto): Promise<InformationStudentEntity> {
-    const newInformationStudent = this.repository.create(payload);
-
-    return await this.repository.save(newInformationStudent);
-  }
-
-  async findAll(params?: FilterInformationStudentDto): Promise<ServiceResponseHttpModel> {
-    //Pagination & Filter by search
-    if (params) {
-      return await this.paginateAndFilter(params);
+    constructor(
+        @Inject(CoreRepositoryEnum.INFORMATION_STUDENT_REPOSITORY)
+        private repository: Repository<InformationStudentEntity>,
+        private cataloguesService: CataloguesService,
+    ) {
     }
 
-    //Other filters
-    if (params.community) {
-      return this.filterByCommunity(params.community);
+    async create(payload: CreateInformationStudentDto | SeederInformationStudentDto): Promise<InformationStudentEntity> {
+        const newInformationStudent = this.repository.create(payload);
+
+        return await this.repository.save(newInformationStudent);
     }
 
-    //All
-    const data = await this.repository.findAndCount({
-      relations: ['isAncestralLanguage', 'isBonusDevelopmentReceive', 'isDegreeSuperior', 'isDisability', 'isSubjectRepeat'],
-    });
+    async findAll(params?: FilterInformationStudentDto): Promise<ServiceResponseHttpModel> {
+        //Pagination & Filter by search
+        if (params) {
+            return await this.paginateAndFilter(params);
+        }
 
-    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
-  }
+        //Other filters
+        if (params.community) {
+            return this.filterByCommunity(params.community);
+        }
 
-  async findOne(id: string): Promise<InformationStudentEntity> {
-    const informationStudent = await this.repository.findOne({
-      relations: ['isAncestralLanguage', 'isBonusDevelopmentReceive', 'isDegreeSuperior', 'isDisability', 'isSubjectRepeat'],
-      where: { id },
-    });
+        //All
+        const data = await this.repository.findAndCount({
+            relations: {
+                // isAncestralLanguage: true,
+                // isBonusDevelopmentReceive: true,
+                // isDegreeSuperior: true,
+                isDisability: true,
+                isSubjectRepeat: true
+            },
+        });
 
-    if (informationStudent === null) {
-      throw new NotFoundException('La informacion no se encontro');
+        return {data: data[0], pagination: {totalItems: data[1], limit: 10}};
     }
 
-    return informationStudent;
-  }
+    async findOne(id: string): Promise<InformationStudentEntity> {
+        const informationStudent = await this.repository.findOne({
+            relations: {
+                // isAncestralLanguage: true,
+                // isBonusDevelopmentReceive: true,
+                // isDegreeSuperior: true,
+                isDisability: true,
+                isSubjectRepeat: true
+            },
+            where: {id},
+        });
 
-  async update(id: string, payload: UpdateInformationStudentDto): Promise<InformationStudentEntity> {
-    const informationStudent = await this.repository.findOneBy({ id });
+        if (informationStudent === null) {
+            throw new NotFoundException('La informacion no se encontro');
+        }
 
-    if (informationStudent === null) {
-      throw new NotFoundException('La informacion del estudiante no se encontro');
+        return informationStudent;
     }
 
-    this.repository.merge(informationStudent, payload);
+    async update(id: string, payload: UpdateInformationStudentDto): Promise<InformationStudentEntity> {
+        const informationStudent = await this.repository.findOneBy({id});
 
-    return await this.repository.save(informationStudent);
-  }
+        if (informationStudent === null) {
+            throw new NotFoundException('La informacion del estudiante no se encontro');
+        }
 
-  async remove(id: string): Promise<InformationStudentEntity> {
-    const informationStudent = await this.repository.findOneBy({ id });
+        this.repository.merge(informationStudent, payload);
 
-    if (!informationStudent) {
-      throw new NotFoundException('Information Student not found');
+        return await this.repository.save(informationStudent);
     }
 
-    return await this.repository.save(informationStudent);
-  }
+    async remove(id: string): Promise<InformationStudentEntity> {
+        const informationStudent = await this.repository.findOneBy({id});
 
-  async removeAll(payload: InformationStudentEntity[]): Promise<InformationStudentEntity[]> {
-    return await this.repository.softRemove(payload);
-  }
+        if (!informationStudent) {
+            throw new NotFoundException('Information Student not found');
+        }
 
-  private async paginateAndFilter(params: FilterInformationStudentDto): Promise<ServiceResponseHttpModel> {
-    let where: FindOptionsWhere<InformationStudentEntity> | FindOptionsWhere<InformationStudentEntity>[];
-    where = {};
-    let { page, search } = params;
-    const { limit } = params;
-
-    if (search) {
-      search = search.trim();
-      page = 0;
-      where = [];
-      where.push({ address: ILike(`%${search}%`) });
-      where.push({ contactEmergencyName: ILike(`%${search}%`) });
-      where.push({ contactEmergencyKinship: ILike(`%${search}%`) });
-      where.push({ contactEmergencyPhone: ILike(`%${search}%`) });
-      where.push({ postalCode: ILike(`%${search}%`) });
+        return await this.repository.save(informationStudent);
     }
 
-    const response = await this.repository.findAndCount({
-      relations: ['isAncestralLanguage', 'isBonusDevelopmentReceive', 'isDegreeSuperior', 'isDisability', 'isSubjectRepeat'],
-      where,
-      take: limit,
-      skip: PaginationDto.getOffset(limit, page),
-    });
-
-    return {
-      data: response[0],
-      pagination: { limit, totalItems: response[1] },
-    };
-  }
-
-  private async filterByCommunity(community: number): Promise<ServiceResponseHttpModel> {
-    const where: FindOptionsWhere<InformationStudentEntity> = {};
-
-    if (community) {
-      where.community = LessThan(community);
+    async removeAll(payload: InformationStudentEntity[]): Promise<InformationStudentEntity[]> {
+        return await this.repository.softRemove(payload);
     }
 
-    const response = await this.repository.findAndCount({
-      relations: ['isAncestralLanguage', 'isBonusDevelopmentReceive', 'isDegreeSuperior', 'isDisability', 'isSubjectRepeat'],
-      where,
-    });
+    private async paginateAndFilter(params: FilterInformationStudentDto): Promise<ServiceResponseHttpModel> {
+        let where: FindOptionsWhere<InformationStudentEntity> | FindOptionsWhere<InformationStudentEntity>[];
+        where = {};
+        let {page, search} = params;
+        const {limit} = params;
 
-    return {
-      data: response[0],
-      pagination: { limit: 10, totalItems: response[1] },
-    };
-  }
+        if (search) {
+            search = search.trim();
+            page = 0;
+            where = [];
+            where.push({address: ILike(`%${search}%`)});
+            where.push({contactEmergencyName: ILike(`%${search}%`)});
+            where.push({contactEmergencyKinship: ILike(`%${search}%`)});
+            where.push({contactEmergencyPhone: ILike(`%${search}%`)});
+            where.push({postalCode: ILike(`%${search}%`)});
+        }
+
+        const response = await this.repository.findAndCount({
+            relations: {
+                // isAncestralLanguage: true,
+                // isBonusDevelopmentReceive: true,
+                // isDegreeSuperior: true,
+                isDisability: true,
+                isSubjectRepeat: true
+            },
+            where,
+            take: limit,
+            skip: PaginationDto.getOffset(limit, page),
+        });
+
+        return {
+            data: response[0],
+            pagination: {limit, totalItems: response[1]},
+        };
+    }
+
+    private async filterByCommunity(community: number): Promise<ServiceResponseHttpModel> {
+        const where: FindOptionsWhere<InformationStudentEntity> = {};
+
+        if (community) {
+            where.community = LessThan(community);
+        }
+
+        const response = await this.repository.findAndCount({
+            relations: {
+                // isAncestralLanguage: true,
+                // isBonusDevelopmentReceive: true,
+                // isDegreeSuperior: true,
+                isDisability: true,
+                isSubjectRepeat: true
+            },
+            where,
+        });
+
+        return {
+            data: response[0],
+            pagination: {limit: 10, totalItems: response[1]},
+        };
+    }
 }
