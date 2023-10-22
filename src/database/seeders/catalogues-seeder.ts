@@ -1731,7 +1731,7 @@ export class CataloguesSeeder {
                 type: CatalogueCoreTypeEnum.HOME_ROOF,
             },
             {
-                code: 'eternit',
+                code: 'ternit',
                 description: 'Eternit',
                 name: 'eternit',
                 sort: 3,

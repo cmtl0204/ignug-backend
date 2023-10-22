@@ -1,6 +1,6 @@
 import {DataSource} from 'typeorm';
 import {
-    AddressEntity,
+    ResidenceAddressEntity,
     AttendanceEntity,
     CareerAcademicPeriodsEntity,
     CareerEntity,
@@ -14,23 +14,24 @@ import {
     InformationStudentEntity,
     InformationTeacherEntity,
     InstitutionEntity,
+    LocationEntity,
     PartialEntity,
+    PartialPermissionEntity,
     ScheduleEntity,
     SchoolPeriodEntity,
     StudentEntity,
     SubjectEntity,
+    SubjectCorequisiteEntity,
     SubjectPrerequisiteEntity,
     TeacherDistributionEntity,
-    TeacherEntity,
+    TeacherEntity, OriginAddressEntity,
 } from '@core/entities';
 import {ConfigEnum, CoreRepositoryEnum} from '@shared/enums';
-import {LocationEntity, PartialPermissionEntity} from '@core/entities';
-import {SubjectCorequisiteEntity} from "../entities/subject-corequisite.entity";
 
 export const coreProviders = [
     {
         provide: CoreRepositoryEnum.ADDRESS_REPOSITORY,
-        useFactory: (dataSource: DataSource) => dataSource.getRepository(AddressEntity),
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(ResidenceAddressEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {
@@ -104,6 +105,11 @@ export const coreProviders = [
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {
+        provide: CoreRepositoryEnum.ORIGIN_ADDRESS_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(OriginAddressEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
         provide: CoreRepositoryEnum.PARTIAL_REPOSITORY,
         useFactory: (dataSource: DataSource) => dataSource.getRepository(PartialEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
@@ -111,6 +117,11 @@ export const coreProviders = [
     {
         provide: CoreRepositoryEnum.PARTIAL_PERMISSION_REPOSITORY,
         useFactory: (dataSource: DataSource) => dataSource.getRepository(PartialPermissionEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
+        provide: CoreRepositoryEnum.RESIDENCE_ADDRESS_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(ResidenceAddressEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {

@@ -5,13 +5,13 @@ import { InstitutionEntity } from '@core/entities';
 import { CataloguesService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum } from '@shared/enums';
-import { AddressEntity } from '@core/entities';
+import { ResidenceAddressEntity } from '@core/entities';
 
 @Injectable()
 export class AddressesService {
   constructor(
     @Inject(CoreRepositoryEnum.ADDRESS_REPOSITORY)
-    private repository: Repository<AddressEntity>,
+    private repository: Repository<ResidenceAddressEntity>,
     private cataloguesService: CataloguesService,
   ) {}
 

@@ -4,14 +4,15 @@ import {
     DeleteDateColumn,
     Entity,
     JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
 import {CatalogueEntity} from '@core/entities';
+import {UserEntity} from "@auth/entities";
 
-@Entity('addresses', {schema: 'core'})
-export class AddressEntity {
+@Entity('residence_addresses', {schema: 'core'})
+export class ResidenceAddressEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -47,12 +48,16 @@ export class AddressEntity {
     })
     modelId: string;
 
+    @OneToOne(() => UserEntity, user => user.residenceAddress)
+    @JoinColumn({name: 'model_id'})
+    user: UserEntity;
+
     @ManyToOne(() => CatalogueEntity, {
         nullable: true,
     })
     @JoinColumn({name: 'province_id'})
     province: CatalogueEntity;
-    @Column({type: 'uuid', name: 'province_id', comment: 'Provincia que se encuentra la direccion'})
+    @Column({type: 'uuid', name: 'province_id',nullable: true, comment: 'Provincia que se encuentra la direccion'})
     provinceId: string;
 
     @ManyToOne(() => CatalogueEntity, {
@@ -60,7 +65,7 @@ export class AddressEntity {
     })
     @JoinColumn({name: 'canton_id'})
     canton: CatalogueEntity;
-    @Column({type: 'uuid', name: 'canton_id', comment: 'Canton que se encuentra la direccion'})
+    @Column({type: 'uuid', name: 'canton_id', nullable: true,comment: 'Canton que se encuentra la direccion'})
     cantonId: string;
 
     @ManyToOne(() => CatalogueEntity, {
@@ -68,10 +73,18 @@ export class AddressEntity {
     })
     @JoinColumn({name: 'parrish_id'})
     parrish: CatalogueEntity;
-    @Column({type: 'uuid', name: 'parrish_id', comment: 'Parroquia que se encuentra la direccion'})
+    @Column({type: 'uuid', name: 'parrish_id',nullable: true, comment: 'Parroquia que se encuentra la direccion'})
     parrishId: string;
 
     /** Columns **/
+    @Column({
+        name: 'community',
+        type: 'varchar',
+        nullable: true,
+        comment: 'comunidad de procedencia',
+    })
+    community: string;
+
     @Column({
         name: 'latitude',
         type: 'float',
@@ -97,12 +110,12 @@ export class AddressEntity {
     mainStreet: string;
 
     @Column({
-        name: 'secondary_street',
+        name: 'nearby_city',
         type: 'varchar',
         nullable: true,
-        comment: 'Calle Interseccion',
+        comment: 'Si usted reside en una comunidad, ¿Qué ciudad es la más cercana a su domicilio?',
     })
-    secondaryStreet: string;
+    nearbyCity: string;
 
     @Column({
         name: 'number',
@@ -127,4 +140,20 @@ export class AddressEntity {
         comment: 'Referencia la ubicacion',
     })
     reference: string;
+
+    @Column({
+        name: 'secondary_street',
+        type: 'varchar',
+        nullable: true,
+        comment: 'Calle Interseccion',
+    })
+    secondaryStreet: string;
+
+    @Column({
+        name: 'type',
+        type: 'varchar',
+        nullable: true,
+        comment: 'Procedencia o Residencia (origin o residence)',
+    })
+    type: string;
 }

@@ -41,9 +41,9 @@ export class StudentsService {
         return {pagination: {totalItems: data[1], limit: 10}, data: data[0]};
     }
 
-    async findOne(id: string) {
+    async findOne(id: string): Promise<StudentEntity> {
         const entity = await this.repository.findOne({
-            relations: ['user', 'informationStudent'],
+            relations: {informationStudent: true, user: true},
             where: {id},
         });
 

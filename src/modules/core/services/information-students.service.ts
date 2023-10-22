@@ -33,11 +33,6 @@ export class InformationStudentsService {
             return await this.paginateAndFilter(params);
         }
 
-        //Other filters
-        if (params.community) {
-            return this.filterByCommunity(params.community);
-        }
-
         //All
         const data = await this.repository.findAndCount({
             relations: {
@@ -130,30 +125,6 @@ export class InformationStudentsService {
         return {
             data: response[0],
             pagination: {limit, totalItems: response[1]},
-        };
-    }
-
-    private async filterByCommunity(community: number): Promise<ServiceResponseHttpModel> {
-        const where: FindOptionsWhere<InformationStudentEntity> = {};
-
-        if (community) {
-            where.community = LessThan(community);
-        }
-
-        const response = await this.repository.findAndCount({
-            relations: {
-                // isAncestralLanguage: true,
-                // isBonusDevelopmentReceive: true,
-                // isDegreeSuperior: true,
-                isDisability: true,
-                isSubjectRepeat: true
-            },
-            where,
-        });
-
-        return {
-            data: response[0],
-            pagination: {limit: 10, totalItems: response[1]},
         };
     }
 }

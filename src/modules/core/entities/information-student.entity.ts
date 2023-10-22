@@ -39,88 +39,497 @@ export class InformationStudentEntity {
 
     /** Foreign Keys **/
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'is_disability'})
+    @JoinColumn({name: 'ancestral_language_name_id'})
+    ancestralLanguageName: CatalogueEntity;
+    @Column({type: 'uuid', name: 'ancestral_language_name_id', nullable: true, comment: 'Lengua Ancestral: Andoa, Achuar'})
+    ancestralLanguageNameId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'consume_news_type_id'})
+    consumeNewsType: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'consume_news_type_id',
+        nullable: true,
+        comment: 'A traves de que tipo de medio de comunicación consume noticias'
+    })
+    consumeNewsTypeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'degree_superior_id'})
+    degreeSuperior: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'degree_superior_id',
+        nullable: true,
+        comment: 'Cual titulo academico tiene ademas del bachillerato'
+    })
+    degreeSuperiorId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'disability_type_id'})
+    disabilityType: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'disability_type_id',
+        nullable: true,
+        comment: 'Tipo disacapasidad: Auditiva, Física, Intelectual, etc'
+    })
+    disabilityTypeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'electric_service_blackout_id'})
+    electricServiceBlackout: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'electric_service_blackout_id',
+        nullable: true,
+        comment: '¿Con que frecuencia presenta apagones o cortes de luz en su vivienda?'
+    })
+    electricServiceBlackoutId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'family_kinship_catastrophic_illness_id'})
+    familyKinshipCatastrophicIllness: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'family_kinship_catastrophic_illness_id',
+        nullable: true,
+        comment: 'Mama, Papa, Esposo/a, hermano/a, Hijo/a, Otros'
+    })
+    familyKinshipCatastrophicIllnessId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'family_kinship_disability_id'})
+    familyKinshipDisability: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'family_kinship_disability_id',
+        nullable: true,
+        comment: 'Mama, Papa, Esposo/a, hermano/a, Hijo/a, Otros'
+    })
+    familyKinshipDisabilityId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'family_income_id'})
+    familyIncome: CatalogueEntity;
+    @Column({type: 'uuid', name: 'family_income_id', nullable: true, comment: 'Ingresos familiares'})
+    familyIncomeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'foreign_language_name_id'})
+    foreignLanguageName: CatalogueEntity;
+    @Column({type: 'uuid', name: 'foreign_language_name_id', nullable: true, comment: 'Ingles, Chino Mandarian, etc'})
+    foreignLanguageNameId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'home_floor_id'})
+    homeFloor: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'home_floor_id',
+        nullable: true,
+        comment: 'Principal material del techo de la vivienda'
+    })
+    homeFloorId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'home_ownership_id'})
+    homeOwnership: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'home_ownership_id',
+        nullable: true,
+        comment: 'La vivienda en la que habita el estudiante es'
+    })
+    homeOwnershipId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'home_roof_id'})
+    homeRoof: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'home_roof_id',
+        nullable: true,
+        comment: 'Principal material del techo de la vivienda'
+    })
+    homeRoofId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'home_type_id'})
+    homeType: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'home_type_id',
+        nullable: true,
+        comment: 'La vivienda en la que habita el estudiante es'
+    })
+    homeTypeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'home_wall_id'})
+    homeWall: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'home_wall_id',
+        nullable: true,
+        comment: 'Principal material del techo de la vivienda'
+    })
+    homeWallId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'indigenous_nationality_id'})
+    indigenousNationality: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'indigenous_nationality_id',
+        nullable: true,
+        comment: 'Epera, Chachis, Awa, Tsachila etc'
+    })
+    indigenousNationalityId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'internet_type_id'})
+    internetType: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'internet_type_id',
+        nullable: true,
+        comment: 'Inalambricas y cableadas, Via satelite, Estandar Wi-Fi, Datos moviles, Fibra optica'
+    })
+    internetTypeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_ancestral_language_id'})
+    isAncestralLanguage: CatalogueEntity;
+    @Column({type: 'uuid', name: 'is_ancestral_language_id', nullable: true, comment: 'Lengua Ancestral'})
+    isAncestralLanguageId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_catastrophic_illness_id'})
+    isCatastrophicIllness: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_catastrophic_illness_id',
+        nullable: true,
+        comment: 'Tiene enfermedad catastrofica: Si o No'
+    })
+    isCatastrophicIllnessId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_family_catastrophic_illness_id'})
+    isFamilyCatastrophicIllness: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_family_catastrophic_illness_id',
+        nullable: true,
+        comment: 'Tiene enfermedad catastrofica: Si o No'
+    })
+    isFamilyCatastrophicIllnessId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_degree_superior_id'})
+    isDegreeSuperior: CatalogueEntity;
+    @Column({type: 'uuid', name: 'is_degree_superior_id', nullable: true, comment: 'Tiene otro titulo'})
+    isDegreeSuperiorId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_depends_economically_id'})
+    isDependsEconomically: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_depends_economically_id',
+        nullable: true,
+        comment: '¿El estudiante depende economicamente de otra persona?'
+    })
+    isDependsEconomicallyId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_disability_id'})
     isDisability: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_disability', nullable: true, comment: 'Tiene disacapasidad'})
+    @Column({type: 'uuid', name: 'is_disability_id', nullable: true, comment: 'Tiene disacapasidad'})
     isDisabilityId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_economic_contribution_id'})
+    isEconomicContribution: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_economic_contribution_id',
+        nullable: true,
+        comment: 'Para sus estudios recibe el aporte ecónomico de:'
+    })
+    isEconomicContributionId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_electric_service_id'})
+    isElectricService: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_electric_service_id',
+        nullable: true,
+        comment: '¿Cuenta con servicio de electricidad (Luz)?'
+    })
+    isElectricServiceId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_executed_community'})
     isExecutedCommunity: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_executed_community', nullable: true, comment: 'Realizo trabajo comunitario'})
+    @Column({type: 'uuid', name: 'is_executed_community', nullable: true, comment: 'Realizo trabajo comunitario'})
     isExecutedCommunityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'is_executed_practice'})
+    @JoinColumn({name: 'is_executed_practice_id'})
     isExecutedPractice: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_executed_practice', nullable: true, comment: 'Realizo practicas preprofesionales'})
+    @Column({type: 'uuid', name: 'is_executed_practice_id', nullable: true, comment: 'Realizo practicas preprofesionales'})
     isExecutedPracticeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_family_disability_id'})
+    isFamilyDisability: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_family_disability_id',
+        nullable: true,
+        comment: 'Tiene disacapasidad algun familiar'
+    })
+    isFamilyDisabilityId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_family_economic_aid_id'})
+    isFamilyEconomicAid: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_family_economic_aid_id',
+        nullable: true,
+        comment: 'Algún miembro del grupo familiar es beneficiario de algún bono beca o ayuda económica'
+    })
+    isFamilyEconomicAidId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_family_emigrant_id'})
+    isFamilyEmigrant: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_family_emigrant_id',
+        nullable: true,
+        comment: 'Tiene disacapacidad algun familiar'
+    })
+    isFamilyEmigrantId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_family_properties_id'})
+    isFamilyProperties: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_family_properties_id',
+        nullable: true,
+        comment: 'La familia tiene otras propiedades distintas a su domicilio'
+    })
+    isFamilyPropertiesId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_family_vehicle_id'})
+    isFamilyVehicle: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_family_vehicle_id',
+        nullable: true,
+        comment: 'La familia dispone de vehículo propio'
+    })
+    isFamilyVehicleId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_foreign_language_id'})
+    isForeignLanguage: CatalogueEntity;
+    @Column({type: 'uuid', name: 'is_foreign_language_id', nullable: true, comment: 'Perdida de gratuidad'})
+    isForeignLanguageId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_has_children_id'})
     isHasChildren: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_has_children_id', nullable: true, comment: 'Tiene Hijos'})
+    @Column({type: 'uuid', name: 'is_has_children_id', nullable: true, comment: 'Tiene Hijos'})
     isHasChildrenId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_house_head_id'})
     isHouseHead: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_house_head_id', nullable: true, comment: 'Es Jefe de Hogar'})
+    @Column({type: 'uuid', name: 'is_house_head_id', nullable: true, comment: 'Es Jefe de Hogar'})
     isHouseHeadId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'is_lost_Gratuity'})
+    @JoinColumn({name: 'is_internet_id'})
+    isInternet: CatalogueEntity;
+    @Column({type: 'uuid', name: 'is_internet_id', nullable: true, comment: 'Posee Cobertura Internet: Si o No'})
+    isInternetId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_lost_gratuity_id'})
     isLostGratuity: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_lost_Gratuity', nullable: true, comment: 'Perdida de gratuidad'})
+    @Column({type: 'uuid', name: 'is_lost_gratuity_id', nullable: true, comment: 'Perdida de gratuidad'})
     isLostGratuityId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_phone_service_id'})
+    isPhoneService: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_phone_service_id',
+        nullable: true,
+        comment: '¿Posee el servicio basico de telefono en su vivienda ?'
+    })
+    isPhoneServiceId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_private_security_id'})
     isPrivateSecurity: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_private_security_id', nullable: true, comment: 'Es Jefe de Hogar'})
+    @Column({type: 'uuid', name: 'is_private_security_id', nullable: true, comment: 'Es Jefe de Hogar'})
     isPrivateSecurityId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_sewerage_service_id'})
+    isSewerageService: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_sewerage_service_id',
+        nullable: true,
+        comment: '¿Posee el servicio basico de alcantarillado en su vivienda?'
+    })
+    isSewerageServiceId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_social_security_id'})
     isSocialSecurity: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_social_security_id', nullable: true, comment: 'Es Jefe de Hogar'})
+    @Column({type: 'uuid', name: 'is_social_security_id', nullable: true, comment: 'Es Jefe de Hogar'})
     isSocialSecurityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_study_other_career_id'})
     isStudyOtherCareer: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_study_other_career_id', nullable: true, comment: 'Estudia otra carrera fuera de la Amawtay Wasi'})
+    @Column({
+        type: 'uuid',
+        name: 'is_study_other_career_id',
+        nullable: true,
+        comment: 'Estudia otra carrera fuera de la Amawtay Wasi'
+    })
     isStudyOtherCareerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'is_subject_repeat'})
+    @JoinColumn({name: 'is_subject_repeat_id'})
     isSubjectRepeat: CatalogueEntity;
-    @Column({type: 'uuid',name: 'is_subject_repeat', nullable: true, comment: 'Repite materias'})
+    @Column({type: 'uuid', name: 'is_subject_repeat_id', nullable: true, comment: 'Repite materias'})
     isSubjectRepeatId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'family_income'})
-    familyIncome: CatalogueEntity;
-    @Column({type: 'uuid',name: 'family_income', nullable: true, comment: 'Ingresos familiares'})
-    familyIncomeId: string;
+    @JoinColumn({name: 'is_water_service_id'})
+    isWaterService: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_water_service_id',
+        nullable: true,
+        comment: '¿En su vivienda posee el servicio basico de agua?'
+    })
+    isWaterServiceId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_work_id'})
+    isWork: CatalogueEntity;
+    @Column({type: 'uuid', name: 'is_work_id', nullable: true, comment: 'El estudiante trabaja: Si o No'})
+    isWorkId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'student_live_id'})
+    studentLive: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'student_live_id',
+        nullable: true,
+        comment: 'Con quien vive el estudiante'
+    })
+    studentLiveId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'town_id'})
+    town: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'town_id',
+        nullable: true,
+        comment: 'Pueblo: Chibuleo, Cayambi, Karanki, etc'
+    })
+    townId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'type_study_other_career_id'})
     typeStudyOtherCareer: CatalogueEntity;
-    @Column({type: 'uuid',name: 'type_study_other_career_id', nullable: true, comment: 'Estudia otra carrera fuera de la Amawtay Wasi'})
+    @Column({
+        type: 'uuid',
+        name: 'type_study_other_career_id',
+        nullable: true,
+        comment: 'Estudia otra carrera fuera de la Amawtay Wasi'
+    })
     typeStudyOtherCareerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'university_career_id'})
     universityCareer: CatalogueEntity;
-    @Column({type: 'uuid',name: 'university_career_id', nullable: true, comment: 'En su trayectoria universitaria ha realizado'})
+    @Column({
+        type: 'uuid',
+        name: 'university_career_id',
+        nullable: true,
+        comment: 'En su trayectoria universitaria ha realizado'
+    })
     universityCareerId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'sewerage_service_type_id'})
+    sewerageServiceType: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'sewerage_service_type_id',
+        nullable: true,
+        comment: '¿Que tipo de servicio de alcantarillado posee?'
+    })
+    sewerageServiceTypeId: string;
 
     @OneToOne(() => StudentEntity, student => student.informationStudent)
     @JoinColumn({name: 'student_id'})
     student: StudentEntity;
-    @Column({type: 'uuid',name: 'student_id', comment: 'Estudiante que pertenece la informacion'})
+    @Column({type: 'uuid', name: 'student_id', comment: 'Estudiante que pertenece la informacion'})
     studentId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'type_school_id'})
+    typeSchool: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'type_school_id',
+        nullable: true,
+        comment: 'Tipo de colegio del que proviene'
+    })
+    typeSchoolId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'water_service_type_id'})
+    waterServiceType: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'water_service_type_id',
+        nullable: true,
+        comment: '¿Que tipo de agua tiene acceso en su domicilio?'
+    })
+    waterServiceTypeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'working_hours_id'})
+    workingHours: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'working_hours_id',
+        nullable: true,
+        comment: 'Horario Laboral: Mañana (4 horas), Vespertino (4 hors), Nocturna ( 4 horas), Dia completo (8 horas), Velada Completa (8 horas) y otros'
+    })
+    workingHoursId: string;
 
     /** Columns **/
     @Column({
@@ -132,6 +541,30 @@ export class InformationStudentEntity {
     address: string;
 
     @Column({
+        name: 'carnet_number',
+        type: 'varchar',
+        nullable: true,
+        comment: 'Número de carnet de la persona con discapacidad',
+    })
+    carnetNumber: string;
+
+    @Column({
+        name: 'catastrophic_illness',
+        type: 'varchar',
+        nullable: true,
+        comment: 'Nombre de la enfermedad catastrofica',
+    })
+    catastrophicIllness: string;
+
+    @Column({
+        name: 'family_catastrophic_illness',
+        type: 'varchar',
+        nullable: true,
+        comment: 'Nombre de la enfermedad catastrofica de un familiar',
+    })
+    familyCatastrophicIllness: string;
+
+    @Column({
         name: 'children_total',
         type: 'int',
         nullable: true,
@@ -140,12 +573,12 @@ export class InformationStudentEntity {
     childrenTotal: number;
 
     @Column({
-        name: 'community',
+        name: 'community_hours',
         type: 'int',
         nullable: true,
         comment: 'Las horas realizadas por parte del estudiante en integracion con la sociedad',
     })
-    community: number;
+    communityHours: number;
 
     @Column({
         name: 'contact_emergency_name',
@@ -159,7 +592,7 @@ export class InformationStudentEntity {
         name: 'contact_emergency_kinship',
         type: 'varchar',
         nullable: true,
-        comment: 'Nombre del contacto de emergencia de parentescos para informar sobre el estudiante',
+        comment: 'Parentesco para informar sobre el estudiante',
     })
     contactEmergencyKinship: string;
 
@@ -196,6 +629,14 @@ export class InformationStudentEntity {
     educationalAmount: number;
 
     @Column({
+        name: 'family_disability_percentage',
+        type: 'float',
+        nullable: true,
+        comment: 'El porcentaje de discapicidad que tiene el familiar',
+    })
+    familyDisabilityPercentage: number;
+
+    @Column({
         name: 'financing_scholarship_type',
         type: 'varchar',
         nullable: true,
@@ -212,20 +653,20 @@ export class InformationStudentEntity {
     membersHouseNumber: number;
 
     @Column({
+        name: 'monthly_salary',
+        type: 'float',
+        nullable: true,
+        comment: 'Sueldo mensual del estudiante',
+    })
+    monthlySalary: number;
+
+    @Column({
         name: 'name_study_other_career',
         type: 'varchar',
         nullable: true,
         comment: 'Nombre de la Institución',
     })
     nameStudyOtherCareer: string;
-
-    @Column({
-        name: 'nearby_city',
-        type: 'varchar',
-        nullable: true,
-        comment: 'Si usted reside en una comunidad, ¿Qué ciudad es la más cercana a su domicilio?',
-    })
-    nearbyCity: string;
 
     @Column({
         name: 'postal_code',
@@ -258,6 +699,14 @@ export class InformationStudentEntity {
         comment: 'El porcentaje de beca que cubre la institutcion el estudiante ',
     })
     tariffScholarshipPercentage: number;
+
+    @Column({
+        name: 'work_address',
+        type: 'text',
+        nullable: true,
+        comment: 'Direccion del trabajo del estudiante',
+    })
+    workAddress: string;
 
     @Column({
         name: 'work_position',

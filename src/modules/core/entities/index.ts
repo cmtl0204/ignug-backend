@@ -1,4 +1,5 @@
-export * from './address.entity';
+export * from './residence-address.entity';
+export * from './origin-address.entity';
 export * from './attendance.entity';
 export * from './career.entity';
 export * from './catalogue.entity';
