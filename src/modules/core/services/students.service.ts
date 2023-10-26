@@ -195,7 +195,7 @@ export class StudentsService {
         entity.informationStudent.typeStudyOtherCareerId = payload.informationStudent.typeStudyOtherCareer.id;
         entity.informationStudent.typeSchoolId = payload.informationStudent.typeSchool.id;
 
-        await this.repository.save(entity);
+        await this.repository.update(id,entity);
 
         // await this.usersService.update(payload.user.id, payload.user);
 
