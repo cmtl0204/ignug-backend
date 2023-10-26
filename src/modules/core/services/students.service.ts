@@ -189,13 +189,21 @@ export class StudentsService {
 
         entity.informationStudent.universityCareerId = payload.informationStudent.universityCareer.id;
         entity.informationStudent.isDegreeSuperiorId = payload.informationStudent.isDegreeSuperior.id;
-        entity.informationStudent.degreeSuperiorId = payload.informationStudent.degreeSuperior.id;
+
+        if (payload.informationStudent.isDegreeSuperior.code === '1') {
+            entity.informationStudent.degreeSuperiorId = payload.informationStudent.degreeSuperior.id;
+        }
+
         entity.informationStudent.isStudyOtherCareerId = payload.informationStudent.isStudyOtherCareer.id;
-        entity.informationStudent.nameStudyOtherCareer = payload.informationStudent.nameStudyOtherCareer;
-        entity.informationStudent.typeStudyOtherCareerId = payload.informationStudent.typeStudyOtherCareer.id;
+
+        if (payload.informationStudent.isStudyOtherCareer.code === '1') {
+            entity.informationStudent.nameStudyOtherCareer = payload.informationStudent.nameStudyOtherCareer;
+            entity.informationStudent.typeStudyOtherCareerId = payload.informationStudent.typeStudyOtherCareer.id;
+        }
+
         entity.informationStudent.typeSchoolId = payload.informationStudent.typeSchool.id;
 
-        await this.repository.update(id,entity);
+        await this.repository.update(id, entity);
 
         // await this.usersService.update(payload.user.id, payload.user);
 
