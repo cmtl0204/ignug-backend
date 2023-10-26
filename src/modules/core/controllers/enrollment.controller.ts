@@ -117,6 +117,68 @@ export class EnrollmentsController {
             title: `Success`,
         };
     }
+
+    @ApiOperation({summary: 'Send Request'})
+    @Post('send-request')
+    @HttpCode(HttpStatus.CREATED)
+    async sendRequest(@Body() payload: CreateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.sendRequest(payload);
+
+        return {
+            data: serviceResponse,
+            message: 'Solicitud Enviada',
+            title: 'Solicitud Enviada',
+        };
+    }
+
+    @ApiOperation({summary: 'Approve Enrollment'})
+    @Put(':id/approve')
+    @HttpCode(HttpStatus.CREATED)
+    async approve(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.approve(id, payload);
+        return {
+            data: serviceResponse,
+            message: `La solicitud fue aprobada`,
+            title: `Aprobada`,
+        };
+    }
+
+    @ApiOperation({summary: 'Approve Enrollment'})
+    @Put(':id/reject')
+    @HttpCode(HttpStatus.CREATED)
+    async reject(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.reject(id, payload);
+        return {
+            data: serviceResponse,
+            message: `La solicitud fue rechazada`,
+            title: `Rechazada`,
+        };
+    }
+
+    @ApiOperation({summary: 'Enroll Enrollment'})
+    @Put(':id/enroll')
+    @HttpCode(HttpStatus.CREATED)
+    async enroll(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.enroll(id, payload);
+        return {
+            data: serviceResponse,
+            message: `La matrícula fue creada`,
+            title: `Matriculado`,
+        };
+    }
+
+    @ApiOperation({summary: 'Enroll Enrollment'})
+    @Put(':id/revoke')
+    @HttpCode(HttpStatus.CREATED)
+    async revoke(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.revoke(id, payload);
+        return {
+            data: serviceResponse,
+            message: `La matrícula fue anulada`,
+            title: `Anulada`,
+        };
+    }
+
 }
 
 
