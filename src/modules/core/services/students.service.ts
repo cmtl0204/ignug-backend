@@ -187,6 +187,7 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
+
         entity.informationStudent.universityCareerId = payload.informationStudent.universityCareer.id;
         entity.informationStudent.isDegreeSuperiorId = payload.informationStudent.isDegreeSuperior.id;
 
@@ -203,7 +204,7 @@ export class StudentsService {
 
         entity.informationStudent.typeSchoolId = payload.informationStudent.typeSchool.id;
 
-        await this.repository.update(id, entity);
+        await this.informationStudentsService.update(entity.informationStudent.id,entity.informationStudent);
 
         // await this.usersService.update(payload.user.id, payload.user);
 
