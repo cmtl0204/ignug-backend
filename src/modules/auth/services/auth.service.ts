@@ -93,8 +93,6 @@ export class AuthService {
             throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
         }
 
-
-        // Include foreign keys
         const userUpdate = await this.repository.findOne({
             where: {username: payload.username},
             select: {password: false}

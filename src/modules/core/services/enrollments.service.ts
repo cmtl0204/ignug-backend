@@ -61,7 +61,7 @@ export class EnrollmentsService {
             relations: {
                 academicPeriod: true,
                 career: true,
-                enrollmentStates: true,
+                enrollmentStates: {state:true},
                 parallel: true,
                 student: {user: true},
                 type: true,

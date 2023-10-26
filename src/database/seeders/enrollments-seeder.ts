@@ -17,7 +17,7 @@ import {
     StudentEntity,
     SubjectEntity
 } from '@core/entities';
-import {CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueCoreEnrollmentStateEnum, CatalogueCoreTypeEnum} from '@shared/enums';
 import {SeedEnrollmentStateDto} from "../../modules/core/dto/enrollment-state/seed-enrollment-state.dto";
 import {first} from "rxjs";
 
@@ -333,19 +333,39 @@ export class EnrollmentSeeder {
         const enrollment2 = this.enrollments.find((enrollment: EnrollmentEntity) => enrollment.code === 'cod2');
 
         //states
-        const state = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'enrolled' && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+        const requestSentstate = this.states.find((state: CatalogueEntity) => {
+            return state.code === CatalogueCoreEnrollmentStateEnum.REQUEST_SENT && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+        });
+
+        const approvedState = this.states.find((state: CatalogueEntity) => {
+            return state.code === CatalogueCoreEnrollmentStateEnum.APPROVED && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+        });
+
+        const enrolledState = this.states.find((state: CatalogueEntity) => {
+            return state.code === CatalogueCoreEnrollmentStateEnum.ENROLLED && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
         });
 
         enrollmentStates.push(
             {
                 enrollmentId: enrollment1.id,
-                stateId: state.id,
+                stateId: requestSentstate.id,
+            },
+            {
+                enrollmentId: enrollment1.id,
+                stateId: approvedState.id,
+            },
+            {
+                enrollmentId: enrollment1.id,
+                stateId: enrolledState.id,
             },
             {
                 enrollmentId: enrollment2.id,
-                stateId: state.id,
+                stateId: requestSentstate.id,
             },
+            {
+                enrollmentId: enrollment2.id,
+                stateId: approvedState.id,
+            }
         );
 
         for (const item of enrollmentStates) {
