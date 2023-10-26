@@ -25,3 +25,4 @@ export * from './teacher.entity';
 export * from './teacher-distribution.entity';
 export * from './career-academic-periods.entity';
 export * from './enrollment-state.entity';
+export * from './enrollment-detail-state.entity';

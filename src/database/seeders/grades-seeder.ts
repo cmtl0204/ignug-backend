@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGradeDto } from '@core/dto';
-import { EnrollmentsDetailService, PartialsService } from 'src/modules/core/services';
+import { EnrollmentDetailsService, PartialsService } from 'src/modules/core/services';
 import { GradesService } from 'src/modules/core/services/grades.service';
 import { EnrollmentDetailEntity, PartialEntity } from '@core/entities';
 import { faker } from '@faker-js/faker';
@@ -9,7 +9,7 @@ import { faker } from '@faker-js/faker';
 export class GradeSeeder {
   private enrollmentDetails: EnrollmentDetailEntity[] = [];
 
-  constructor(private enrollmentDetailService: EnrollmentsDetailService, private gradeService: GradesService, private partialService: PartialsService) {}
+  constructor(private enrollmentDetailService: EnrollmentDetailsService, private gradeService: GradesService, private partialService: PartialsService) {}
   private partials: PartialEntity[] = [];
 
   async run() {

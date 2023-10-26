@@ -17,14 +17,16 @@ import {
 import {CatalogueCoreEnrollmentStateEnum, CatalogueCoreTypeEnum, CoreRepositoryEnum} from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
 import {CataloguesService} from "./catalogues.service";
-import {EnrollmentsStateService} from "./enrollments-state.service";
+import {EnrollmentStatesService} from "./enrollment-states.service";
+import {EnrollmentDetailsService} from "./enrollment-details.service";
 
 @Injectable()
 export class EnrollmentsService {
     constructor(
         @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY)
         private repository: Repository<EnrollmentEntity>,
-        private readonly enrollmentsStateService: EnrollmentsStateService,
+        private readonly enrollmentsStateService: EnrollmentStatesService,
+        private readonly enrollmentDetailsService: EnrollmentDetailsService,
         private readonly cataloguesService: CataloguesService,
     ) {
     }
@@ -367,6 +369,10 @@ export class EnrollmentsService {
             stateId: requestSentState.id,
             observation: newEntity.observation,
         });
+
+        for (const item of payload.enrollmentDetails) {
+            await this.enrollmentDetailsService.create(item);
+        }
 
         return newEntity;
     }

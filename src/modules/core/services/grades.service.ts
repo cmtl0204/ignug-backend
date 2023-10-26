@@ -3,7 +3,7 @@ import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
 import { CreateGradeDto, FilterGradeDto, UpdateGradeDto } from '@core/dto';
 import { GradeEntity, EnrollmentDetailEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
-import { CataloguesService, EnrollmentsDetailService, EnrollmentsService, SubjectsService } from '@core/services';
+import { CataloguesService, EnrollmentDetailsService, EnrollmentsService, SubjectsService } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 

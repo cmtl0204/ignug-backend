@@ -2,14 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
 import { CreateAttendanceDto } from '@core/dto';
 import { EnrollmentDetailEntity, PartialEntity } from '@core/entities';
-import { AttendancesService, EnrollmentsDetailService, PartialsService } from '@core/services';
+import { AttendancesService, EnrollmentDetailsService, PartialsService } from '@core/services';
 
 @Injectable()
 export class AttendancesSeeder {
   private enrollmentDetails: EnrollmentDetailEntity[] = [];
 
   constructor(
-    private enrollmentDetailService: EnrollmentsDetailService,
+    private enrollmentDetailService: EnrollmentDetailsService,
     private attendancesService: AttendancesService,
     private partialService: PartialsService,
   ) {}

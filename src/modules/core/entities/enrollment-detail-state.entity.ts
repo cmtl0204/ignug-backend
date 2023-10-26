@@ -5,14 +5,13 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, EnrollmentEntity, GradeEntity, SubjectEntity} from '@core/entities';
+import {CatalogueEntity, EnrollmentEntity} from '@core/entities';
 
-@Entity('enrollment_states', {schema: 'core'})
-export class EnrollmentStateEntity {
+@Entity('enrollment_detail_states', {schema: 'core'})
+export class EnrollmentDetailStateEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -48,17 +47,17 @@ export class EnrollmentStateEntity {
     stateId: string;
 
     @ManyToOne(() => EnrollmentEntity)
-    @JoinColumn({name: 'enrollment_id'})
-    enrollment: EnrollmentEntity;
-    @Column({type: 'uuid', name: 'enrollment_id', comment: 'Matricula'})
-    enrollmentId: string;
+    @JoinColumn({name: 'enrollment_detail_id'})
+    enrollmentDetail: EnrollmentEntity;
+    @Column({type: 'uuid', name: 'enrollment_detail_id', comment: 'Detalle Matricula'})
+    enrollmentDetailId: string;
 
     /** Columns **/
     @Column({
         name: 'observation',
         type: 'text',
         nullable: true,
-        comment: 'Observaciones de la matricula',
+        comment: 'Observaciones del detalle matricula',
     })
     observation: string;
 }

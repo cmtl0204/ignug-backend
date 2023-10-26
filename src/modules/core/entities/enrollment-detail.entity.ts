@@ -9,7 +9,13 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, EnrollmentEntity, GradeEntity, SubjectEntity} from '@core/entities';
+import {
+    CatalogueEntity,
+    EnrollmentDetailStateEntity,
+    EnrollmentEntity,
+    GradeEntity,
+    SubjectEntity
+} from '@core/entities';
 
 @Entity('enrollment_details', {schema: 'core'})
 export class EnrollmentDetailEntity {
@@ -44,6 +50,9 @@ export class EnrollmentDetailEntity {
     @OneToMany(() => GradeEntity, grade => grade.enrollmentDetail)
     grades: GradeEntity[];
 
+    @OneToMany(() => EnrollmentDetailStateEntity, enrollmentDetailState => enrollmentDetailState.enrollmentDetail)
+    enrollmentDetailStates: EnrollmentDetailStateEntity[];
+
     /** Foreign Keys **/
 
     @ManyToOne(() => CatalogueEntity)
@@ -64,12 +73,6 @@ export class EnrollmentDetailEntity {
     @Column({type: 'uuid', name: 'parallel_id', comment: 'Paralelo asignado'})
     parallelId: string;
 
-    @ManyToOne(() => CatalogueEntity)
-    @JoinColumn({name: 'state_id'})
-    state: CatalogueEntity;
-    @Column({type: 'uuid', name: 'state_id', comment: 'Habilitado o Inhabilitado'})
-    stateId: string;
-
     @ManyToOne(() => SubjectEntity)
     @JoinColumn({name: 'subject_id'})
     subject: SubjectEntity;
@@ -89,6 +92,13 @@ export class EnrollmentDetailEntity {
     workdayId: string;
 
     /** Columns **/
+    @Column({
+        name: 'academic_observation',
+        type: 'text',
+        comment: 'Observacion academica, Ej. pierde por faltas',
+    })
+    academicObservation: string;
+
     @Column({
         name: 'number',
         type: 'varchar',

@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
 import {CreateCareerDto, UpdateCareerDto, FilterCareerDto, CreateEnrollmentDto, FilterEnrollmentDto} from '@core/dto';
-import {EnrollmentsService, PDFService, PDFNotas, EnrollmentsDetailService} from '@core/services';
+import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from '@core/services';
 import {CareerEntity, EnrollmentEntity} from '@core/entities';
 import {ResponseHttpModel} from '@shared/models';
 
@@ -24,7 +24,7 @@ import {ResponseHttpModel} from '@shared/models';
 export class EnrollmentsController {
     constructor(
         private readonly enrollmentsService: EnrollmentsService,
-        private readonly enrollmentsDetailService: EnrollmentsDetailService,
+        private readonly enrollmentsDetailService: EnrollmentDetailsService,
         private pdfservice: PDFService, private pdfnotasservice: PDFNotas) {
     }
 

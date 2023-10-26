@@ -7,7 +7,7 @@ import {ServiceResponseHttpModel} from '@shared/models';
 import {CoreRepositoryEnum} from '@shared/enums';
 
 @Injectable()
-export class EnrollmentsDetailService {
+export class EnrollmentDetailsService {
     constructor(
         @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY)
         private repository: Repository<EnrollmentDetailEntity>,
@@ -126,7 +126,7 @@ export class EnrollmentsDetailService {
         const response = await this.repository.find({
             relations: {
                 parallel: true,
-                state: true,
+                enrollmentDetailStates: true,
                 subject: true,
                 type: true,
                 workday: true,

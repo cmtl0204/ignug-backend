@@ -4,10 +4,10 @@ import {CreateEnrollmentsDetailDto, CreateEnrollmentDto} from '@core/dto';
 import {
     CataloguesService,
     EnrollmentsService,
-    EnrollmentsDetailService,
+    EnrollmentDetailsService,
     SchoolPeriodsService,
     StudentsService,
-    SubjectsService, CareersService, EnrollmentsStateService,
+    SubjectsService, CareersService, EnrollmentStatesService,
 } from '@core/services';
 import {
     CareerEntity,
@@ -40,8 +40,8 @@ export class EnrollmentSeeder {
         private readonly enrollmentsService: EnrollmentsService,
         private readonly schoolPeriodsService: SchoolPeriodsService,
         private readonly catalogueService: CataloguesService,
-        private readonly enrollmentsDetailService: EnrollmentsDetailService,
-        private readonly enrollmentsStateService: EnrollmentsStateService,
+        private readonly enrollmentsDetailService: EnrollmentDetailsService,
+        private readonly enrollmentsStateService: EnrollmentStatesService,
         private readonly subjectsService: SubjectsService,
     ) {
     }

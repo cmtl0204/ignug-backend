@@ -1,5 +1,6 @@
 import {IsNotEmpty, IsOptional, IsString, IsDate, Min, MinLength} from 'class-validator';
-import {StudentEntity, CatalogueEntity, SchoolPeriodEntity, CareerEntity} from '@core/entities';
+import {StudentEntity, CatalogueEntity, SchoolPeriodEntity, CareerEntity, EnrollmentDetailEntity} from '@core/entities';
+import {CreateEnrollmentsDetailDto} from "../enrollment-detail/create-enrollment-detail.dto";
 
 export class EnrollmentDto {
     @IsNotEmpty()
@@ -10,6 +11,9 @@ export class EnrollmentDto {
 
     @IsNotEmpty()
     readonly career: CareerEntity;
+
+    @IsNotEmpty()
+    readonly enrollmentDetails:CreateEnrollmentsDetailDto[];
 
     @IsNotEmpty()
     readonly parallel: CatalogueEntity;

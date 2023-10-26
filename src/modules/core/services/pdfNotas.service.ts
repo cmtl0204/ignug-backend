@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 const {PDFDocument} = require('pdfKit-table-ts');
-import { EnrollmentsDetailService } from './enrollments-detail.service';
+import { EnrollmentDetailsService } from './enrollment-details.service';
 import { EnrollmentDetailEntity } from '../entities/enrollment-detail.entity';
 
 @Injectable()
 export class PDFNotas {
-  constructor(private enrollmentsDetailService: EnrollmentsDetailService) {}
+  constructor(private enrollmentsDetailService: EnrollmentDetailsService) {}
   async generarPDF(): Promise<Buffer> {
     let data = await this.enrollmentsDetailService.findOne('01747b43-b835-455d-846e-a429f595fc69');
 

@@ -41,7 +41,12 @@ export class InformationStudentEntity {
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'ancestral_language_name_id'})
     ancestralLanguageName: CatalogueEntity;
-    @Column({type: 'uuid', name: 'ancestral_language_name_id', nullable: true, comment: 'Lengua Ancestral: Andoa, Achuar'})
+    @Column({
+        type: 'uuid',
+        name: 'ancestral_language_name_id',
+        nullable: true,
+        comment: 'Lengua Ancestral: Andoa, Achuar'
+    })
     ancestralLanguageNameId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
@@ -89,6 +94,17 @@ export class InformationStudentEntity {
     electricServiceBlackoutId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'electronic_device_id'})
+    electronicDevice: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'electronic_device_id',
+        nullable: true,
+        comment: 'Computador de escritorio, Tablet, Celular, etc'
+    })
+    electronicDeviceId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'family_kinship_catastrophic_illness_id'})
     familyKinshipCatastrophicIllness: CatalogueEntity;
     @Column({
@@ -115,6 +131,17 @@ export class InformationStudentEntity {
     familyIncome: CatalogueEntity;
     @Column({type: 'uuid', name: 'family_income_id', nullable: true, comment: 'Ingresos familiares'})
     familyIncomeId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'family_properties_id'})
+    familyProperties: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'family_properties_id',
+        nullable: true,
+        comment: 'Terrenos, Casa, Local comercial, etc'
+    })
+    familyPropertiesId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'foreign_language_name_id'})
@@ -273,6 +300,17 @@ export class InformationStudentEntity {
     isElectricServiceId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_electronic_device_id'})
+    isElectronicDevice: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_electronic_device_id',
+        nullable: true,
+        comment: '¿Usted Cuenta con un equipo tecnológico?'
+    })
+    isElectronicDeviceId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_executed_community'})
     isExecutedCommunity: CatalogueEntity;
     @Column({type: 'uuid', name: 'is_executed_community', nullable: true, comment: 'Realizo trabajo comunitario'})
@@ -281,7 +319,12 @@ export class InformationStudentEntity {
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_executed_practice_id'})
     isExecutedPractice: CatalogueEntity;
-    @Column({type: 'uuid', name: 'is_executed_practice_id', nullable: true, comment: 'Realizo practicas preprofesionales'})
+    @Column({
+        type: 'uuid',
+        name: 'is_executed_practice_id',
+        nullable: true,
+        comment: 'Realizo practicas preprofesionales'
+    })
     isExecutedPracticeId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})

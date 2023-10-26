@@ -14,14 +14,14 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateEnrollmentsDetailDto, UpdateEnrollmentsDetailDto, FilterEnrollmentsDetailDto } from '@core/dto';
-import { EnrollmentsDetailService } from '@core/services';
+import { EnrollmentDetailsService } from '@core/services';
 import { EnrollmentDetailEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Enrillment-details')
 @Controller('enrollments-details')
 export class  EnrollmentDetailsController {
-  constructor(private enrollmentDetailsService: EnrollmentsDetailService) { }
+  constructor(private enrollmentDetailsService: EnrollmentDetailsService) { }
 
   @ApiOperation({ summary: 'Create Career' })
   @Post()
