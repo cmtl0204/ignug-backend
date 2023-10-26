@@ -74,7 +74,7 @@ export class AuthService {
             relations: {
                 roles: true,
                 institutions: true,
-                careers: {curriculums: true},
+                careers: {institution:true, curriculums: true},
                 teacher: {careers: true},
                 student: {careers: true},
             },
@@ -93,12 +93,18 @@ export class AuthService {
             throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
         }
 
-        user.activatedAt = new Date();
+
         // Include foreign keys
-        const userUpdate = await this.repository.findOneBy({username: payload.username});
+        const userUpdate = await this.repository.findOne({
+            where: {username: payload.username},
+            select: {password: false}
+        });
+        const {password, ...userRest} = userUpdate;
 
         userUpdate.maxAttempts = this.MAX_ATTEMPTS;
-        await this.repository.update(userUpdate.id, userUpdate);
+        userUpdate.activatedAt = new Date();
+
+        await this.repository.update(userUpdate.id, userRest);
 
         const accessToken = this.generateJwt(user);
 
