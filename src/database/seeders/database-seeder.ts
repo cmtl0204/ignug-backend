@@ -73,20 +73,19 @@ export class DatabaseSeeder {
 
     createUploadsDirectories() {
         const date = new Date();
-        for (let i = date.getFullYear(); i < date.getFullYear() + 50; i++) {
+        for (let i = date.getFullYear(); i < date.getFullYear() + 20; i++) {
             const path = join(process.cwd(), 'storage/private/uploads', i.toString());
             fs.mkdir(path, err => {
                 if (err) {
-                    // console.log(err);
+                    console.log(err);
                 }
             });
 
             for (let j = 1; j <= 12; j++) {
                 const path = join(process.cwd(), 'storage/private/uploads', i.toString());
-                console.log(path);
                 fs.mkdir(path, err => {
                     if (err) {
-                        // console.log(err);
+                        console.log(err);
                     }
                 });
             }
