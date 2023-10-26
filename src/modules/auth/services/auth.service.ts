@@ -46,7 +46,7 @@ export class AuthService {
         const user = await this.repository.findOneBy({id});
 
         if (!user) {
-            throw new NotFoundException('User not found');
+            throw new NotFoundException('Usuario no encontrado para cambio de contraseña');
         }
 
         const isMatchPassword = await this.checkPassword(payload.oldPassword, user);
@@ -95,10 +95,10 @@ export class AuthService {
 
         user.activatedAt = new Date();
         // Include foreign keys
-        const {password, student, teacher, roles, institutions, careers, ...userRest} = user;
+        const userUpdate = await this.repository.findOneBy({username: payload.username});
 
-        userRest.maxAttempts = this.MAX_ATTEMPTS;
-        await this.repository.update(userRest.id, userRest);
+        userUpdate.maxAttempts = this.MAX_ATTEMPTS;
+        await this.repository.update(userUpdate.id, userUpdate);
 
         const accessToken = this.generateJwt(user);
 
@@ -119,7 +119,7 @@ export class AuthService {
         });
 
         if (!user) {
-            throw new NotFoundException('User not found');
+            throw new NotFoundException('El perfil no existe');
         }
 
         return plainToInstance(ReadProfileDto, user);
@@ -129,7 +129,7 @@ export class AuthService {
         const user = await this.repository.findOneBy({id});
 
         if (!user) {
-            throw new NotFoundException('User not found');
+            throw new NotFoundException('Información de usuario no existe');
         }
 
         return plainToInstance(ReadUserInformationDto, user);
@@ -139,7 +139,7 @@ export class AuthService {
         const user = await this.userService.findOne(id);
 
         if (!user) {
-            throw new NotFoundException('User not found');
+            throw new NotFoundException('Usuario no encontrado para actualizar información');
         }
 
         this.repository.merge(user, payload);
@@ -152,7 +152,7 @@ export class AuthService {
         const user = await this.repository.findOneBy({id});
 
         if (!user) {
-            throw new NotFoundException('User not found');
+            throw new NotFoundException('Usuario no encontrado para actualizar el perfil');
         }
 
         const profileUpdated = await this.repository.update(id, payload);
@@ -281,7 +281,7 @@ export class AuthService {
 
         if (entity?.avatar) {
             try {
-                fs.unlinkSync(join(process.cwd(),'assets',entity.avatar));
+                fs.unlinkSync(join(process.cwd(), 'assets', entity.avatar));
             } catch (err) {
                 console.error('Something wrong happened removing the file', err);
             }

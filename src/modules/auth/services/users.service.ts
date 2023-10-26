@@ -60,7 +60,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado');
     }
 
     return user;
@@ -73,7 +73,7 @@ export class UsersService {
     });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Nombre de usuario no existe');
     }
 
     return user;
@@ -83,7 +83,7 @@ export class UsersService {
     const user = await this.repository.preload({ id, ...payload });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado para actualizar');
     }
 
     this.repository.merge(user, payload);
@@ -95,7 +95,7 @@ export class UsersService {
     const user = await this.findOne(id);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado para reactivar');
     }
 
     user.suspendedAt = null;
@@ -110,7 +110,7 @@ export class UsersService {
     const user = await this.repository.findOneBy({ id });
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado para eliminar');
     }
 
     const userDeleted = await this.repository.softRemove(user);
@@ -174,7 +174,7 @@ export class UsersService {
     const user = await this.findOne(id);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('Usuario no encontrado para suspender');
     }
 
     user.suspendedAt = new Date();
