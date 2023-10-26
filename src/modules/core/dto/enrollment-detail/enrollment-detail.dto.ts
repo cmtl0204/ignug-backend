@@ -12,9 +12,6 @@ export class EnrollmentsDetailDto{
     readonly parallel: CatalogueEntity;
 
     @IsNotEmpty()
-    readonly state: CatalogueEntity;
-
-    @IsNotEmpty()
     readonly subject: SubjectEntity;
 
     @IsNotEmpty()

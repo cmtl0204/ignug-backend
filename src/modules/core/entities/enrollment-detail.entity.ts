@@ -95,6 +95,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'academic_observation',
         type: 'text',
+        nullable: true,
         comment: 'Observacion academica, Ej. pierde por faltas',
     })
     academicObservation: string;

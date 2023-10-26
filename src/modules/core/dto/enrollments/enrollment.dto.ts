@@ -22,9 +22,6 @@ export class EnrollmentDto {
     readonly schoolPeriod: SchoolPeriodEntity;
 
     @IsNotEmpty()
-    readonly state: CatalogueEntity;
-
-    @IsNotEmpty()
     readonly type: CatalogueEntity;
 
     @IsNotEmpty()
