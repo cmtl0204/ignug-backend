@@ -173,7 +173,7 @@ export class AuthService {
 
         if (!user) {
             throw new NotFoundException({
-                error: 'Usuario no encontrado',
+                error: 'Usuario no encontrado para generar código transaccional',
                 message: 'Intente de nuevo',
             });
         }
@@ -263,7 +263,7 @@ export class AuthService {
         if (!user) {
             throw new NotFoundException({
                 message: 'Intente de nuevo',
-                error: 'Usuario no encontrado',
+                error: 'Usuario no encontrado para resetear contraseña',
             });
         }
 

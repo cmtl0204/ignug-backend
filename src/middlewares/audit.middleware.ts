@@ -34,7 +34,7 @@ export class AuditMiddleware implements NestMiddleware {
             const user = await this.usersService.findOne(jwtDecode.id);
 
             if (!user) {
-                throw new NotFoundException('Usuario no encontrado');
+                throw new NotFoundException('Usuario no encontrado (middleware)');
             }
 
             let modelId = null;
