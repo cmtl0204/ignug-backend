@@ -26,3 +26,4 @@ export * from './secretary.service';
 export * from './pdfNotas.service';
 export * from './attendances.service';
 export * from './career-academic-periods.service';
+export * from './enrollments-state.service';

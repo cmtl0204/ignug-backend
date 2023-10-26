@@ -24,3 +24,4 @@ export * from './subject-prerequisite.entity';
 export * from './teacher.entity';
 export * from './teacher-distribution.entity';
 export * from './career-academic-periods.entity';
+export * from './enrollment-state.entity';

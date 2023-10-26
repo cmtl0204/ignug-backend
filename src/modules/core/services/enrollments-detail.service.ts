@@ -1,16 +1,10 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere, ILike, LessThan} from 'typeorm';
-import {
-    CreateEnrollmentsDetailDto,
-    FilterEnrollmentDto,
-    FilterEnrollmentsDetailDto,
-    UpdateEnrollmentsDetailDto
-} from '@core/dto';
-import {EnrollmentDetailEntity, EnrollmentEntity} from '@core/entities';
+import {CreateEnrollmentsDetailDto, FilterEnrollmentsDetailDto, UpdateEnrollmentsDetailDto} from '@core/dto';
+import {EnrollmentDetailEntity} from '@core/entities';
 import {PaginationDto} from '@core/dto';
 import {ServiceResponseHttpModel} from '@shared/models';
-import {CoreRepositoryEnum, MessageEnum} from '@shared/enums';
-import {string} from "joi";
+import {CoreRepositoryEnum} from '@shared/enums';
 
 @Injectable()
 export class EnrollmentsDetailService {
@@ -39,7 +33,7 @@ export class EnrollmentsDetailService {
 
         //All
         const data = await this.repository.findAndCount({
-            relations: {subject:true},
+            relations: {subject: true},
         });
 
         return {data: data[0], pagination: {totalItems: data[1], limit: 10}};
@@ -47,7 +41,7 @@ export class EnrollmentsDetailService {
 
     async findOne(id: string): Promise<EnrollmentDetailEntity> {
         const enrollmentDetail = await this.repository.findOne({
-            relations: {subject:true},
+            relations: {subject: true},
             where: {id},
         });
 
@@ -99,7 +93,7 @@ export class EnrollmentsDetailService {
 
         const response = await this.repository.findAndCount({
             where,
-            relations: {subject:true},
+            relations: {subject: true},
             skip: PaginationDto.getOffset(limit, page),
             take: limit,
         });
@@ -118,7 +112,7 @@ export class EnrollmentsDetailService {
         }
 
         const response = await this.repository.findAndCount({
-            relations: {subject:true},
+            relations: {subject: true},
             where,
         });
 
@@ -133,6 +127,7 @@ export class EnrollmentsDetailService {
             relations: {
                 parallel: true,
                 state: true,
+                subject: true,
                 type: true,
                 workday: true,
             },
@@ -141,4 +136,6 @@ export class EnrollmentsDetailService {
 
         return response;
     }
+
+
 }

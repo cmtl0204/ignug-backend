@@ -12,7 +12,7 @@ import {
 import {
     CareerEntity,
     CatalogueEntity,
-    EnrollmentDetailEntity,
+    EnrollmentDetailEntity, EnrollmentStateEntity,
     SchoolPeriodEntity,
     StudentEntity
 } from '@core/entities';
@@ -50,6 +50,9 @@ export class EnrollmentEntity {
     @OneToMany(() => EnrollmentDetailEntity, enrollmentDetail => enrollmentDetail.enrollment)
     enrollmentDetails: EnrollmentDetailEntity[];
 
+    @OneToMany(() => EnrollmentStateEntity, enrollmentState => enrollmentState.enrollment)
+    enrollmentStates: EnrollmentStateEntity[];
+
     /** Foreign Keys **/
     @ManyToOne(() => CatalogueEntity)
     @JoinColumn({name: 'academic_period_id'})
@@ -74,12 +77,6 @@ export class EnrollmentEntity {
     schoolPeriod: SchoolPeriodEntity;
     @Column({type: 'uuid', name: 'school_period_id', comment: 'Periodo lectivo que pertenece'})
     schoolPeriodId: string;
-
-    @ManyToOne(() => CatalogueEntity)
-    @JoinColumn({name: 'state_id'})
-    state: CatalogueEntity;
-    @Column({type: 'uuid', name: 'state_id', comment: 'Habilitado o Inhabilitado'})
-    stateId: string;
 
     @ManyToOne(() => StudentEntity)
     @JoinColumn({name: 'student_id'})

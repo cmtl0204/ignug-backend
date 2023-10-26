@@ -50,6 +50,16 @@ export enum CatalogueStateEnum {
   DISABLED = 'disabled',
 }
 
+export enum CatalogueCoreEnrollmentStateEnum {
+  REQUEST_SENT = 'request_sent',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  ENROLLED = 'enrolled',
+  REVOKED = 'revoked',
+  PAID = 'paid',
+  REGISTERED = 'registered',
+}
+
 export enum CatalogueCoreSchoolPeriodStateEnum {
   OPEN = 'open',
   CLOSE = 'close',

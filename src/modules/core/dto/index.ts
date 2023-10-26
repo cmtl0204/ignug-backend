@@ -112,3 +112,9 @@ export * from './attendances/attendance.dto';
 export * from './attendances/create-attendance.dto';
 export * from './attendances/update-attendance.dto';
 export * from './attendances/filter-attendance.dto';
+
+export * from './enrollment-state/enrollment-state.dto';
+export * from './enrollment-state/create-enrollment-state.dto';
+export * from './enrollment-state/update-enrollment-state.dto';
+export * from './enrollment-state/filter-enrollment-state.dto';
+export * from './enrollment-state/seed-enrollment-state.dto';
