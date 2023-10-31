@@ -195,10 +195,9 @@ export class EnrollmentsService {
         const response = await this.repository.findAndCount({
             relations: {
                 academicPeriod: true,
-                career: true,
                 parallel: true,
                 enrollmentStates: true,
-                student: true,
+                student: {user: true},
                 type: true,
                 workday: true,
             },
@@ -377,7 +376,7 @@ export class EnrollmentsService {
             enrollmentId: enrollment.id,
             stateId: requestSentState.id,
             userId,
-            date:new Date(),
+            date: new Date(),
             observation: payload.observation,
         });
 
@@ -411,7 +410,7 @@ export class EnrollmentsService {
             enrollmentId: id,
             stateId: approvedState.id,
             userId,
-            date:new Date(),
+            date: new Date(),
             observation: payload.observation,
         });
 
@@ -440,7 +439,7 @@ export class EnrollmentsService {
             enrollmentId: id,
             stateId: rejectedState.id,
             userId,
-            date:new Date(),
+            date: new Date(),
             observation: payload.observation,
         });
 
@@ -471,7 +470,7 @@ export class EnrollmentsService {
             enrollmentId: id,
             stateId: enrolledState.id,
             userId,
-            date:new Date(),
+            date: new Date(),
             observation: payload.observation,
         });
 
@@ -496,7 +495,7 @@ export class EnrollmentsService {
             enrollmentId: id,
             stateId: revokedState.id,
             userId,
-            date:new Date(),
+            date: new Date(),
             observation: payload.observation,
         });
 
