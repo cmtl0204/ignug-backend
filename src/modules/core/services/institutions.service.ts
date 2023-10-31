@@ -50,6 +50,17 @@ export class InstitutionsService {
         return institution;
     }
 
+    async findByCode(code: string): Promise<InstitutionEntity> {
+        const institution = await this.repository.findOne({
+            relations: {careers: true},
+            where: {code},
+        });
+
+        if (!institution) throw new NotFoundException('Institución no encontrada');
+
+        return institution;
+    }
+
     async findInstitutionsByAuthenticatedUser(user: UserEntity, params?: FilterInstitutionDto): Promise<ServiceResponseHttpModel> {
         //Pagination & Filter by search
         if (params?.limit > 0 && params?.page >= 0) {

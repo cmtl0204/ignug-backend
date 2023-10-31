@@ -39,7 +39,7 @@ export class UsersSeeder {
   }
 
   async loadCareers() {
-    this.careers = (await this.careersService.findByInstitution(this.institutions[0].id)).data;
+    this.careers = (await this.careersService.findCareersByInstitution(this.institutions[0].id)).data;
   }
 
   async loadRoles() {
