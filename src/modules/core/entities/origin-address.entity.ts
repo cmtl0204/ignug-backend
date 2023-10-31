@@ -131,7 +131,7 @@ export class OriginAddressEntity {
         nullable: true,
         comment: 'Codigo Postal',
     })
-    post_code: string;
+    postCode: string;
 
     @Column({
         name: 'reference',
@@ -148,12 +148,4 @@ export class OriginAddressEntity {
         comment: 'Calle Interseccion',
     })
     secondaryStreet: string;
-
-    @Column({
-        name: 'type',
-        type: 'varchar',
-        nullable: true,
-        comment: 'Procedencia o Residencia (origin o residence)',
-    })
-    type: string;
 }

@@ -87,7 +87,7 @@ export class InstitutionsService {
 
         if (!institution) throw new NotFoundException('Institution not found');
 
-        // institution.state = this.cataloguesService.findByType(CatalogueCoreTypeEnum.INSTITUTIONS_STATE);
+        // institution.state = this.cataloguesService.findByType(CatalogueTypeEnum.INSTITUTIONS_STATE);
 
         return await this.repository.save(institution);
     }

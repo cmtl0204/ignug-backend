@@ -14,11 +14,9 @@ import {
     GradeEntity,
     SubjectEntity
 } from '@core/entities';
-import {CatalogueCoreEnrollmentStateEnum, CatalogueCoreTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+import {CataloguesService, EnrollmentStatesService, EnrollmentDetailsService} from "@core/services";
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
-import {CataloguesService} from "./catalogues.service";
-import {EnrollmentStatesService} from "./enrollment-states.service";
-import {EnrollmentDetailsService} from "./enrollment-details.service";
 
 @Injectable()
 export class EnrollmentsService {
@@ -61,7 +59,7 @@ export class EnrollmentsService {
             relations: {
                 academicPeriod: true,
                 career: true,
-                enrollmentStates: {state:true},
+                enrollmentStates: {state: true},
                 parallel: true,
                 student: {user: true},
                 type: true,
@@ -353,96 +351,152 @@ export class EnrollmentsService {
         }
     }
 
-    async sendRequest(payload: CreateEnrollmentDto): Promise<EnrollmentEntity> {
-        const newEntity = this.repository.create(payload);
+    async sendRequest(userId: string, payload: CreateEnrollmentDto): Promise<EnrollmentEntity> {
+        // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
+        let enrollment = await this.repository.findOne({
+            where: {
+                studentId: payload.student.id,
+                schoolPeriodId: payload.schoolPeriod.id
+            }
+        });
+
+        if (!enrollment)
+            enrollment = this.repository.create(payload);
+
+        enrollment.applicationsAt = new Date();
 
         const catalogues = await this.cataloguesService.findCache();
 
         const requestSentState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueCoreEnrollmentStateEnum.REQUEST_SENT &&
-            catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+            catalogue.code === CatalogueEnrollmentStateEnum.REQUEST_SENT &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
-        const newEntityCreated = await this.repository.save(newEntity);
+        enrollment = await this.repository.save(enrollment);
 
         await this.enrollmentsStateService.create({
-            enrollmentId: newEntityCreated.id,
+            enrollmentId: enrollment.id,
             stateId: requestSentState.id,
-            observation: newEntity.observation,
+            userId,
+            date:new Date(),
+            observation: payload.observation,
         });
 
         for (const item of payload.enrollmentDetails) {
             await this.enrollmentDetailsService.create(item);
         }
 
-        return newEntity;
+        return enrollment;
+        // });
     }
 
-    async approve(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
-        const enrollment = await this.repository.findOneBy({id});
+    async approve(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {enrollmentStates: {state: true}},
+            where: {id}
+        });
+
+        if (!enrollment) {
+            throw new NotFoundException('Matrícula no encontrada');
+        }
 
         const catalogues = await this.cataloguesService.findCache();
 
         const approvedState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueCoreEnrollmentStateEnum.APPROVED &&
-            catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+            catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+        await this.enrollmentsStateService.removeRejected(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,
             stateId: approvedState.id,
+            userId,
+            date:new Date(),
             observation: payload.observation,
         });
 
         return enrollment;
     }
 
-    async reject(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
-        const enrollment = await this.repository.findOneBy({id});
+    async reject(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {enrollmentStates: {state: true}},
+            where: {id}
+        });
+
+        if (!enrollment) {
+            throw new NotFoundException('Matrícula no encontrada');
+        }
 
         const catalogues = await this.cataloguesService.findCache();
 
         const rejectedState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueCoreEnrollmentStateEnum.REJECTED &&
-            catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+            catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+        await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,
             stateId: rejectedState.id,
+            userId,
+            date:new Date(),
             observation: payload.observation,
         });
 
         return enrollment;
     }
 
-    async enroll(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
-        const enrollment = this.repository.findOneBy({id});
+    async enroll(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {enrollmentStates: true},
+            where: {id}
+        });
+
+        enrollment.date = new Date();
+        enrollment.code =
+            `${payload.schoolPeriod.code}-${payload.career.acronym}-${payload.student.user.identification}`;
+        enrollment.folio =
+            `${payload.schoolPeriod.code}-${payload.career.acronym}-${payload.academicPeriod.code}`;
+
+        await this.repository.save(enrollment);
 
         const catalogues = await this.cataloguesService.findCache();
 
         const enrolledState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueCoreEnrollmentStateEnum.ENROLLED &&
-            catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+            catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,
             stateId: enrolledState.id,
+            userId,
+            date:new Date(),
             observation: payload.observation,
         });
 
         return enrollment;
     }
 
-    async revoke(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
-        const enrollment = this.repository.findOneBy({id});
+    async revoke(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {enrollmentStates: true},
+            where: {id}
+        });
 
         const catalogues = await this.cataloguesService.findCache();
 
         const revokedState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueCoreEnrollmentStateEnum.REVOKED &&
-            catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+            catalogue.code === CatalogueEnrollmentStateEnum.REVOKED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+        await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,
             stateId: revokedState.id,
+            userId,
+            date:new Date(),
             observation: payload.observation,
         });
 

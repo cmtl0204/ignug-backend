@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {CreateCatalogueDto} from '@core/dto';
 import {CataloguesService} from '@core/services';
-import {CatalogueStateEnum, CatalogueCoreTypeEnum, CatalogueCareersModalityEnum} from '@shared/enums';
+import {CatalogueStateEnum, CatalogueTypeEnum, CatalogueCareersModalityEnum} from '@shared/enums';
 
 @Injectable()
 export class CataloguesSeeder {
@@ -61,7 +61,7 @@ export class CataloguesSeeder {
                 name: 'Primero',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '2',
@@ -69,7 +69,7 @@ export class CataloguesSeeder {
                 name: 'Segundo',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '3',
@@ -77,7 +77,7 @@ export class CataloguesSeeder {
                 name: 'Tercero',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '4',
@@ -85,7 +85,7 @@ export class CataloguesSeeder {
                 name: 'Cuarto',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '5',
@@ -93,7 +93,7 @@ export class CataloguesSeeder {
                 name: 'Quinto',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '6',
@@ -101,7 +101,7 @@ export class CataloguesSeeder {
                 name: 'Sexto',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '7',
@@ -109,7 +109,7 @@ export class CataloguesSeeder {
                 name: 'Séptimo',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '8',
@@ -117,7 +117,7 @@ export class CataloguesSeeder {
                 name: 'Octavo',
                 sort: 8,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '9',
@@ -125,7 +125,7 @@ export class CataloguesSeeder {
                 name: 'Noveno',
                 sort: 9,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: '10',
@@ -133,7 +133,7 @@ export class CataloguesSeeder {
                 name: 'Décimo',
                 sort: 10,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
             {
                 code: 'pre',
@@ -141,7 +141,7 @@ export class CataloguesSeeder {
                 name: 'Pre',
                 sort: 11,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ACADEMIC_PERIOD,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },
         );
 
@@ -159,7 +159,7 @@ export class CataloguesSeeder {
                 name: 'A+',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'a-',
@@ -167,7 +167,7 @@ export class CataloguesSeeder {
                 name: 'A-',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'b+',
@@ -175,7 +175,7 @@ export class CataloguesSeeder {
                 name: 'B+',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'b-',
@@ -183,7 +183,7 @@ export class CataloguesSeeder {
                 name: 'B-',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'ab+',
@@ -191,7 +191,7 @@ export class CataloguesSeeder {
                 name: 'AB+',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'ab-',
@@ -199,7 +199,7 @@ export class CataloguesSeeder {
                 name: 'AB-',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'o+',
@@ -207,7 +207,7 @@ export class CataloguesSeeder {
                 name: 'O+',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
             {
                 code: 'o-',
@@ -215,7 +215,7 @@ export class CataloguesSeeder {
                 name: 'O-',
                 sort: 8,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.BLOOD_TYPE,
+                type: CatalogueTypeEnum.BLOOD_TYPE,
             },
         );
 
@@ -233,7 +233,7 @@ export class CataloguesSeeder {
                 name: 'Presencial',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREER_MODALITY,
+                type: CatalogueTypeEnum.CAREER_MODALITY,
             },
             {
                 code: CatalogueCareersModalityEnum.SEMI_ON_SITE,
@@ -241,7 +241,7 @@ export class CataloguesSeeder {
                 name: 'Semi-Presencial',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREER_MODALITY,
+                type: CatalogueTypeEnum.CAREER_MODALITY,
             },
             {
                 code: CatalogueCareersModalityEnum.DISTANCE,
@@ -249,7 +249,7 @@ export class CataloguesSeeder {
                 name: 'Distancia',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREER_MODALITY,
+                type: CatalogueTypeEnum.CAREER_MODALITY,
             },
             {
                 code: CatalogueCareersModalityEnum.DUAL,
@@ -257,7 +257,7 @@ export class CataloguesSeeder {
                 name: 'Dual',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREER_MODALITY,
+                type: CatalogueTypeEnum.CAREER_MODALITY,
             },
             {
                 code: CatalogueCareersModalityEnum.ONLINE,
@@ -265,7 +265,7 @@ export class CataloguesSeeder {
                 name: 'Línea',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREER_MODALITY,
+                type: CatalogueTypeEnum.CAREER_MODALITY,
             },
             {
                 code: CatalogueCareersModalityEnum.HYBRID,
@@ -273,7 +273,7 @@ export class CataloguesSeeder {
                 name: 'Híbrida',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREER_MODALITY,
+                type: CatalogueTypeEnum.CAREER_MODALITY,
             },
         );
 
@@ -291,7 +291,7 @@ export class CataloguesSeeder {
                 name: 'Intelectual',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
                 code: '2',
@@ -299,7 +299,7 @@ export class CataloguesSeeder {
                 name: 'Física',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
                 code: '3',
@@ -307,7 +307,7 @@ export class CataloguesSeeder {
                 name: 'Visual',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
                 code: '4',
@@ -315,7 +315,7 @@ export class CataloguesSeeder {
                 name: 'Auditiva',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
                 code: '5',
@@ -323,7 +323,7 @@ export class CataloguesSeeder {
                 name: 'Mental',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
                 code: '6',
@@ -331,7 +331,7 @@ export class CataloguesSeeder {
                 name: 'Otra',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
                 code: '7',
@@ -339,7 +339,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.DISABILITY_TYPE,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
         );
 
@@ -357,7 +357,7 @@ export class CataloguesSeeder {
                 name: 'Centro de Alfabetización',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '2',
@@ -365,7 +365,7 @@ export class CataloguesSeeder {
                 name: 'Jardín de infantes',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '3',
@@ -373,7 +373,7 @@ export class CataloguesSeeder {
                 name: 'Primaria',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '4',
@@ -381,7 +381,7 @@ export class CataloguesSeeder {
                 name: 'Educación Básica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '5',
@@ -389,7 +389,7 @@ export class CataloguesSeeder {
                 name: 'Secundaria',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '6',
@@ -397,7 +397,7 @@ export class CataloguesSeeder {
                 name: 'Educación Media',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '7',
@@ -405,7 +405,7 @@ export class CataloguesSeeder {
                 name: 'Superior no Universitaria',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '8',
@@ -413,7 +413,7 @@ export class CataloguesSeeder {
                 name: 'Superior Universitaria',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '9',
@@ -421,7 +421,7 @@ export class CataloguesSeeder {
                 name: 'Posgrado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
             {
                 code: '10',
@@ -429,7 +429,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.EDUCATION_LEVEL,
+                type: CatalogueTypeEnum.EDUCATION_LEVEL,
             },
         );
 
@@ -447,7 +447,7 @@ export class CataloguesSeeder {
                 name: 'Indígena',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '2',
@@ -455,7 +455,7 @@ export class CataloguesSeeder {
                 name: 'Afroecuatoriano',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '3',
@@ -463,7 +463,7 @@ export class CataloguesSeeder {
                 name: 'Negro',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '4',
@@ -471,7 +471,7 @@ export class CataloguesSeeder {
                 name: 'Mulato',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '5',
@@ -479,7 +479,7 @@ export class CataloguesSeeder {
                 name: 'Montuvio',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '6',
@@ -487,7 +487,7 @@ export class CataloguesSeeder {
                 name: 'Mestizo',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '7',
@@ -495,7 +495,7 @@ export class CataloguesSeeder {
                 name: 'Blanco',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '8',
@@ -503,7 +503,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
                 code: '9',
@@ -511,7 +511,7 @@ export class CataloguesSeeder {
                 name: 'No registra',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ETHNIC_ORIGIN,
+                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
         );
 
@@ -529,7 +529,7 @@ export class CataloguesSeeder {
                 name: 'Cédula',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.IDENTIFICATION_TYPE,
+                type: CatalogueTypeEnum.IDENTIFICATION_TYPE,
             },
             {
                 code: '2',
@@ -537,7 +537,7 @@ export class CataloguesSeeder {
                 name: 'Pasaporte',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.IDENTIFICATION_TYPE,
+                type: CatalogueTypeEnum.IDENTIFICATION_TYPE,
             },
         );
 
@@ -555,7 +555,7 @@ export class CataloguesSeeder {
                 name: 'Pública',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
+                type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
             },
             {
                 code: '2',
@@ -563,7 +563,7 @@ export class CataloguesSeeder {
                 name: 'Privada',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
+                type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
             },
             {
                 code: '3',
@@ -571,7 +571,7 @@ export class CataloguesSeeder {
                 name: 'ONG',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
+                type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
             },
             {
                 code: '4',
@@ -579,7 +579,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
+                type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
             },
             {
                 code: '5',
@@ -587,7 +587,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE,
+                type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
             },
         );
 
@@ -605,7 +605,7 @@ export class CataloguesSeeder {
                 name: 'Masculino',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.GENDER,
+                type: CatalogueTypeEnum.GENDER,
             },
             {
                 code: '2',
@@ -613,7 +613,7 @@ export class CataloguesSeeder {
                 name: 'Femenino',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.GENDER,
+                type: CatalogueTypeEnum.GENDER,
             },
         );
 
@@ -631,7 +631,7 @@ export class CataloguesSeeder {
                 name: 'Soltero/a',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.MARITAL_STATUS,
+                type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
                 code: '2',
@@ -639,7 +639,7 @@ export class CataloguesSeeder {
                 name: 'Casado/a',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.MARITAL_STATUS,
+                type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
                 code: '3',
@@ -647,7 +647,7 @@ export class CataloguesSeeder {
                 name: 'Divorciado/a',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.MARITAL_STATUS,
+                type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
                 code: '4',
@@ -655,7 +655,7 @@ export class CataloguesSeeder {
                 name: 'Unión libre',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.MARITAL_STATUS,
+                type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
                 code: '5',
@@ -663,7 +663,7 @@ export class CataloguesSeeder {
                 name: 'Viudo/a',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.MARITAL_STATUS,
+                type: CatalogueTypeEnum.MARITAL_STATUS,
             },
         );
 
@@ -681,7 +681,7 @@ export class CataloguesSeeder {
                 name: 'Nacional',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
+                type: CatalogueTypeEnum.PROJECT_SCOPE,
             },
             {
                 code: '2',
@@ -689,7 +689,7 @@ export class CataloguesSeeder {
                 name: 'Provincial',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
+                type: CatalogueTypeEnum.PROJECT_SCOPE,
             },
             {
                 code: '3',
@@ -697,7 +697,7 @@ export class CataloguesSeeder {
                 name: 'Cantonal',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
+                type: CatalogueTypeEnum.PROJECT_SCOPE,
             },
             {
                 code: '4',
@@ -705,7 +705,7 @@ export class CataloguesSeeder {
                 name: 'Parrolquial',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
+                type: CatalogueTypeEnum.PROJECT_SCOPE,
             },
             {
                 code: '5',
@@ -713,7 +713,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PROJECT_SCOPE,
+                type: CatalogueTypeEnum.PROJECT_SCOPE,
             },
         );
 
@@ -731,7 +731,7 @@ export class CataloguesSeeder {
                 name: 'Socioeconómica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
             {
                 code: '2',
@@ -739,7 +739,7 @@ export class CataloguesSeeder {
                 name: 'Excelencia Académica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
             {
                 code: '3',
@@ -747,7 +747,7 @@ export class CataloguesSeeder {
                 name: 'Deportista',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
 
             {
@@ -756,7 +756,7 @@ export class CataloguesSeeder {
                 name: 'Pueblos y Nacionalidades',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
             {
                 code: '5',
@@ -764,7 +764,7 @@ export class CataloguesSeeder {
                 name: 'Discapacidad',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
             {
                 code: '6',
@@ -772,7 +772,7 @@ export class CataloguesSeeder {
                 name: 'Otra',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
             {
                 code: '0',
@@ -780,7 +780,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_REASON,
+                type: CatalogueTypeEnum.SCHOLARSHIP_REASON,
             },
         );
 
@@ -798,7 +798,7 @@ export class CataloguesSeeder {
                 name: 'Total',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
             },
             {
                 code: 'partial',
@@ -806,7 +806,7 @@ export class CataloguesSeeder {
                 name: 'Parcial',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
             },
             {
                 code: 'na',
@@ -814,7 +814,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_TYPE,
             },
         );
 
@@ -832,7 +832,7 @@ export class CataloguesSeeder {
                 name: 'Fondos propios',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
             },
             {
                 code: '2',
@@ -840,7 +840,7 @@ export class CataloguesSeeder {
                 name: 'Transferencia del Estado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
             },
             {
                 code: '3',
@@ -848,7 +848,7 @@ export class CataloguesSeeder {
                 name: 'Donaciones',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
             },
             {
                 code: '4',
@@ -856,7 +856,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
+                type: CatalogueTypeEnum.SCHOLARSHIP_FUNDING_TYPE,
             },
         );
 
@@ -874,7 +874,7 @@ export class CataloguesSeeder {
                 name: 'Fiscal',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
             },
             {
                 code: '2',
@@ -882,7 +882,7 @@ export class CataloguesSeeder {
                 name: 'Fiscomisional',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
             },
             {
                 code: '3',
@@ -890,7 +890,7 @@ export class CataloguesSeeder {
                 name: 'Particular',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
             },
             {
                 code: '4',
@@ -898,7 +898,7 @@ export class CataloguesSeeder {
                 name: 'Minicipal',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
             },
             {
                 code: '5',
@@ -906,7 +906,7 @@ export class CataloguesSeeder {
                 name: 'Extranjero',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
             },
             {
                 code: '6',
@@ -914,7 +914,7 @@ export class CataloguesSeeder {
                 name: 'No registra',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
             },
         );
 
@@ -932,7 +932,7 @@ export class CataloguesSeeder {
                 name: 'Hombre',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SEX,
+                type: CatalogueTypeEnum.SEX,
             },
             {
                 code: '2',
@@ -940,7 +940,7 @@ export class CataloguesSeeder {
                 name: 'Mujer',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SEX,
+                type: CatalogueTypeEnum.SEX,
             },
         );
 
@@ -958,7 +958,7 @@ export class CataloguesSeeder {
                 name: 'Financiar sus estudios',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
+                type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
             },
             {
                 code: '2',
@@ -966,7 +966,7 @@ export class CataloguesSeeder {
                 name: 'Para mantener a su hogar',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
+                type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
             },
             {
                 code: '3',
@@ -974,7 +974,7 @@ export class CataloguesSeeder {
                 name: 'Gastos personales',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
+                type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
             },
             {
                 code: '4',
@@ -982,7 +982,7 @@ export class CataloguesSeeder {
                 name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_INCOME_FOR,
+                type: CatalogueTypeEnum.STUDENT_INCOME_FOR,
             },
         );
 
@@ -1000,7 +1000,7 @@ export class CataloguesSeeder {
                 name: 'Solo estudia',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_OCCUPATION,
+                type: CatalogueTypeEnum.STUDENT_OCCUPATION,
             },
             {
                 code: '2',
@@ -1008,7 +1008,7 @@ export class CataloguesSeeder {
                 name: 'Trabaja y estudia',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_OCCUPATION,
+                type: CatalogueTypeEnum.STUDENT_OCCUPATION,
             },
         );
 
@@ -1026,7 +1026,7 @@ export class CataloguesSeeder {
                 name: 'Si',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.YES_NO,
+                type: CatalogueTypeEnum.YES_NO,
             },
             {
                 code: '2',
@@ -1034,7 +1034,7 @@ export class CataloguesSeeder {
                 name: 'No',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.YES_NO,
+                type: CatalogueTypeEnum.YES_NO,
             },
         );
 
@@ -1052,7 +1052,7 @@ export class CataloguesSeeder {
                 name: 'Si',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.YES_NO_NA,
+                type: CatalogueTypeEnum.YES_NO_NA,
             },
             {
                 code: '2',
@@ -1060,7 +1060,7 @@ export class CataloguesSeeder {
                 name: 'No',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.YES_NO_NA,
+                type: CatalogueTypeEnum.YES_NO_NA,
             },
             {
                 code: '3',
@@ -1068,7 +1068,7 @@ export class CataloguesSeeder {
                 name: 'No apliaca',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.YES_NO_NA,
+                type: CatalogueTypeEnum.YES_NO_NA,
             },
         );
 
@@ -1086,7 +1086,7 @@ export class CataloguesSeeder {
                 name: 'ABIERTO',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE,
+                type: CatalogueTypeEnum.SCHOOL_PERIODS_STATE,
             },
             {
                 code: 'close',
@@ -1094,7 +1094,7 @@ export class CataloguesSeeder {
                 name: 'CERRADO',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE,
+                type: CatalogueTypeEnum.SCHOOL_PERIODS_STATE,
             },
         );
 
@@ -1112,7 +1112,7 @@ export class CataloguesSeeder {
                 name: 'Habilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTIONS_STATE,
+                type: CatalogueTypeEnum.INSTITUTIONS_STATE,
             },
             {
                 code: 'disabled',
@@ -1120,7 +1120,7 @@ export class CataloguesSeeder {
                 name: 'Inhabilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.INSTITUTIONS_STATE,
+                type: CatalogueTypeEnum.INSTITUTIONS_STATE,
             },
         );
 
@@ -1138,7 +1138,7 @@ export class CataloguesSeeder {
                 name: 'Habilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREERS_STATE,
+                type: CatalogueTypeEnum.CAREERS_STATE,
             },
             {
                 code: 'disabled',
@@ -1146,7 +1146,7 @@ export class CataloguesSeeder {
                 name: 'Inhabilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREERS_STATE,
+                type: CatalogueTypeEnum.CAREERS_STATE,
             },
         );
 
@@ -1164,7 +1164,7 @@ export class CataloguesSeeder {
                 name: 'Tecnología',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREERS_TYPE,
+                type: CatalogueTypeEnum.CAREERS_TYPE,
             },
             {
                 code: 'technique',
@@ -1172,7 +1172,7 @@ export class CataloguesSeeder {
                 name: 'Tecnicatura',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CAREERS_TYPE,
+                type: CatalogueTypeEnum.CAREERS_TYPE,
             },
         );
 
@@ -1190,7 +1190,7 @@ export class CataloguesSeeder {
                 name: 'Habilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CURRICULUMS_STATE,
+                type: CatalogueTypeEnum.CURRICULUMS_STATE,
             },
             {
                 code: 'disabled',
@@ -1198,7 +1198,7 @@ export class CataloguesSeeder {
                 name: 'Inhabilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CURRICULUMS_STATE,
+                type: CatalogueTypeEnum.CURRICULUMS_STATE,
             },
         );
 
@@ -1216,7 +1216,7 @@ export class CataloguesSeeder {
                 name: 'Habilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SUBJECTS_STATE,
+                type: CatalogueTypeEnum.SUBJECTS_STATE,
             },
             {
                 code: 'disabled',
@@ -1224,7 +1224,7 @@ export class CataloguesSeeder {
                 name: 'Inhabilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SUBJECTS_STATE,
+                type: CatalogueTypeEnum.SUBJECTS_STATE,
             },
         );
 
@@ -1242,7 +1242,7 @@ export class CataloguesSeeder {
                 name: 'Asignatura',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+                type: CatalogueTypeEnum.SUBJECTS_TYPE,
             },
             {
                 code: 'integrator_project',
@@ -1250,7 +1250,7 @@ export class CataloguesSeeder {
                 name: 'Proyecto Integrador',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+                type: CatalogueTypeEnum.SUBJECTS_TYPE,
             },
             {
                 code: 'practical_phase',
@@ -1258,7 +1258,7 @@ export class CataloguesSeeder {
                 name: 'Fase Práctica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.SUBJECTS_TYPE,
+                type: CatalogueTypeEnum.SUBJECTS_TYPE,
             },
         );
 
@@ -1276,7 +1276,7 @@ export class CataloguesSeeder {
                 name: 'A',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PARALLEL,
+                type: CatalogueTypeEnum.PARALLEL,
             },
             {
                 code: 'b',
@@ -1284,7 +1284,7 @@ export class CataloguesSeeder {
                 name: 'B',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PARALLEL,
+                type: CatalogueTypeEnum.PARALLEL,
             },
             {
                 code: 'c',
@@ -1292,7 +1292,7 @@ export class CataloguesSeeder {
                 name: 'C',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PARALLEL,
+                type: CatalogueTypeEnum.PARALLEL,
             },
             {
                 code: 'd',
@@ -1300,7 +1300,7 @@ export class CataloguesSeeder {
                 name: 'D',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PARALLEL,
+                type: CatalogueTypeEnum.PARALLEL,
             },
             {
                 code: 'e',
@@ -1308,7 +1308,7 @@ export class CataloguesSeeder {
                 name: 'E',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PARALLEL,
+                type: CatalogueTypeEnum.PARALLEL,
             },
             {
                 code: 'f',
@@ -1316,7 +1316,7 @@ export class CataloguesSeeder {
                 name: 'F',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.PARALLEL,
+                type: CatalogueTypeEnum.PARALLEL,
             },
         );
 
@@ -1334,7 +1334,7 @@ export class CataloguesSeeder {
                 name: 'Ordinaria',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENTS_TYPE,
             },
             {
                 code: 'extraordinary',
@@ -1342,7 +1342,7 @@ export class CataloguesSeeder {
                 name: 'Extraordinary',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENTS_TYPE,
             },
             {
                 code: 'especial',
@@ -1350,7 +1350,7 @@ export class CataloguesSeeder {
                 name: 'Especial',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENTS_TYPE,
             },
         );
 
@@ -1368,7 +1368,7 @@ export class CataloguesSeeder {
                 name: 'Aprobado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE,
             },
             {
                 code: 'r',
@@ -1376,7 +1376,7 @@ export class CataloguesSeeder {
                 name: 'Reprobado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE,
             },
         );
 
@@ -1394,7 +1394,7 @@ export class CataloguesSeeder {
                 name: 'Matutina',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+                type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
             },
             {
                 code: 'v',
@@ -1402,7 +1402,7 @@ export class CataloguesSeeder {
                 name: 'Vespertina',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+                type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
             },
             {
                 code: 'n',
@@ -1410,7 +1410,7 @@ export class CataloguesSeeder {
                 name: 'Nocturna',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+                type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
             },
             {
                 code: 'i',
@@ -1418,7 +1418,7 @@ export class CataloguesSeeder {
                 name: 'Intensiva',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY,
+                type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
             },
         );
 
@@ -1436,7 +1436,7 @@ export class CataloguesSeeder {
                 name: 'Solicitud Enviada',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
             {
                 code: 'approved',
@@ -1444,7 +1444,7 @@ export class CataloguesSeeder {
                 name: 'Aprobado',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
             {
                 code: 'rejected',
@@ -1452,7 +1452,7 @@ export class CataloguesSeeder {
                 name: 'Rechzado',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
             {
                 code: 'enrolled',
@@ -1460,7 +1460,7 @@ export class CataloguesSeeder {
                 name: 'Matriculado',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
             {
                 code: 'revoked',
@@ -1468,7 +1468,7 @@ export class CataloguesSeeder {
                 name: 'Anulado',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
             {
                 code: 'paid',
@@ -1476,7 +1476,7 @@ export class CataloguesSeeder {
                 name: 'Pagado',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
             {
                 code: 'registered',
@@ -1484,7 +1484,7 @@ export class CataloguesSeeder {
                 name: 'Inscrito',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },
         );
 
@@ -1502,7 +1502,7 @@ export class CataloguesSeeder {
                 name: 'Habilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
+                type: CatalogueTypeEnum.CLASSROOMS_STATE,
             },
             {
                 code: 'disabled',
@@ -1510,7 +1510,7 @@ export class CataloguesSeeder {
                 name: 'Inhabilitado',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CLASSROOMS_STATE,
+                type: CatalogueTypeEnum.CLASSROOMS_STATE,
             },
         );
 
@@ -1528,7 +1528,7 @@ export class CataloguesSeeder {
                 name: 'Aula',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+                type: CatalogueTypeEnum.CLASSROOMS_TYPE,
             },
             {
                 code: 'laboratory',
@@ -1536,7 +1536,7 @@ export class CataloguesSeeder {
                 name: 'Laboratorio',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+                type: CatalogueTypeEnum.CLASSROOMS_TYPE,
             },
             {
                 code: 'workshop',
@@ -1544,7 +1544,7 @@ export class CataloguesSeeder {
                 name: 'Taller',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.CLASSROOMS_TYPE,
+                type: CatalogueTypeEnum.CLASSROOMS_TYPE,
             },
         );
 
@@ -1562,7 +1562,7 @@ export class CataloguesSeeder {
                 name: 'Solo',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
                 code: 'both_parents',
@@ -1570,7 +1570,7 @@ export class CataloguesSeeder {
                 name: 'Ambos Padres',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
                 code: 'mother',
@@ -1578,7 +1578,7 @@ export class CataloguesSeeder {
                 name: 'Madre',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
                 code: 'father',
@@ -1586,7 +1586,7 @@ export class CataloguesSeeder {
                 name: 'Padre',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
                 code: 'spouse',
@@ -1594,7 +1594,7 @@ export class CataloguesSeeder {
                 name: 'Cónygue / Conviviente',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
                 code: 'grandparents',
@@ -1602,7 +1602,7 @@ export class CataloguesSeeder {
                 name: 'Abuelos',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
                 code: 'other',
@@ -1610,7 +1610,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.STUDENT_LIVE,
+                type: CatalogueTypeEnum.STUDENT_LIVE,
             },
         );
 
@@ -1628,7 +1628,7 @@ export class CataloguesSeeder {
                 name: 'Propia, Pagada',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_OWNERSHIP,
+                type: CatalogueTypeEnum.HOME_OWNERSHIP,
             },
             {
                 code: 'mortgaged',
@@ -1636,7 +1636,7 @@ export class CataloguesSeeder {
                 name: 'Propia, Hipotecada',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_OWNERSHIP,
+                type: CatalogueTypeEnum.HOME_OWNERSHIP,
             },
             {
                 code: 'rented',
@@ -1644,7 +1644,7 @@ export class CataloguesSeeder {
                 name: 'Arrendada',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_OWNERSHIP,
+                type: CatalogueTypeEnum.HOME_OWNERSHIP,
             },
             {
                 code: 'family',
@@ -1652,7 +1652,7 @@ export class CataloguesSeeder {
                 name: 'De un Familiar',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_OWNERSHIP,
+                type: CatalogueTypeEnum.HOME_OWNERSHIP,
             },
             {
                 code: 'shared',
@@ -1660,7 +1660,7 @@ export class CataloguesSeeder {
                 name: 'Compartida',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_OWNERSHIP,
+                type: CatalogueTypeEnum.HOME_OWNERSHIP,
             },
             {
                 code: 'other',
@@ -1668,7 +1668,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_OWNERSHIP,
+                type: CatalogueTypeEnum.HOME_OWNERSHIP,
             },
         );
 
@@ -1686,7 +1686,7 @@ export class CataloguesSeeder {
                 name: 'Casa / Villa',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
             {
                 code: 'department',
@@ -1694,7 +1694,7 @@ export class CataloguesSeeder {
                 name: 'Departamento',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
             {
                 code: 'hut',
@@ -1702,7 +1702,7 @@ export class CataloguesSeeder {
                 name: 'Choza / Covacha',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
             {
                 code: 'mediagua',
@@ -1710,7 +1710,7 @@ export class CataloguesSeeder {
                 name: 'Mediagua',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
             {
                 code: 'ranch',
@@ -1718,7 +1718,7 @@ export class CataloguesSeeder {
                 name: 'Rancho',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
             {
                 code: 'room',
@@ -1726,7 +1726,7 @@ export class CataloguesSeeder {
                 name: 'Cuarto',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
             {
                 code: 'other',
@@ -1734,7 +1734,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_TYPE,
+                type: CatalogueTypeEnum.HOME_TYPE,
             },
         );
 
@@ -1752,7 +1752,7 @@ export class CataloguesSeeder {
                 name: 'Zinc',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_ROOF,
+                type: CatalogueTypeEnum.HOME_ROOF,
             },
             {
                 code: 'tile',
@@ -1760,7 +1760,7 @@ export class CataloguesSeeder {
                 name: 'Teja',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_ROOF,
+                type: CatalogueTypeEnum.HOME_ROOF,
             },
             {
                 code: 'ternit',
@@ -1768,7 +1768,7 @@ export class CataloguesSeeder {
                 name: 'eternit',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_ROOF,
+                type: CatalogueTypeEnum.HOME_ROOF,
             },
             {
                 code: 'concrete',
@@ -1776,7 +1776,7 @@ export class CataloguesSeeder {
                 name: 'Hormigón',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_ROOF,
+                type: CatalogueTypeEnum.HOME_ROOF,
             },
             {
                 code: 'other',
@@ -1784,7 +1784,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_ROOF,
+                type: CatalogueTypeEnum.HOME_ROOF,
             },
         );
 
@@ -1802,7 +1802,7 @@ export class CataloguesSeeder {
                 name: 'Cerámica / Baldosa',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_FLOOR,
+                type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
                 code: 'wood',
@@ -1810,7 +1810,7 @@ export class CataloguesSeeder {
                 name: 'Madera',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_FLOOR,
+                type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
                 code: 'cement',
@@ -1818,7 +1818,7 @@ export class CataloguesSeeder {
                 name: 'Cemento',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_FLOOR,
+                type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
                 code: 'land',
@@ -1826,7 +1826,7 @@ export class CataloguesSeeder {
                 name: 'Tierra',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_FLOOR,
+                type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
                 code: 'other',
@@ -1834,7 +1834,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_FLOOR,
+                type: CatalogueTypeEnum.HOME_FLOOR,
             },
         );
 
@@ -1852,7 +1852,7 @@ export class CataloguesSeeder {
                 name: 'Hormigón',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_WALL,
+                type: CatalogueTypeEnum.HOME_WALL,
             },
             {
                 code: 'brick',
@@ -1860,7 +1860,7 @@ export class CataloguesSeeder {
                 name: 'Ladrillo',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_WALL,
+                type: CatalogueTypeEnum.HOME_WALL,
             },
             {
                 code: 'wood',
@@ -1868,7 +1868,7 @@ export class CataloguesSeeder {
                 name: 'Madera',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_WALL,
+                type: CatalogueTypeEnum.HOME_WALL,
             },
             {
                 code: 'adobe',
@@ -1876,7 +1876,7 @@ export class CataloguesSeeder {
                 name: 'Adobe',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_WALL,
+                type: CatalogueTypeEnum.HOME_WALL,
             },
             {
                 code: 'cane',
@@ -1884,7 +1884,7 @@ export class CataloguesSeeder {
                 name: 'Caña',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_WALL,
+                type: CatalogueTypeEnum.HOME_WALL,
             },
             {
                 code: 'other',
@@ -1892,7 +1892,7 @@ export class CataloguesSeeder {
                 name: 'Otro',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.HOME_WALL,
+                type: CatalogueTypeEnum.HOME_WALL,
             },
         );
 
@@ -1910,7 +1910,7 @@ export class CataloguesSeeder {
                 name: '0-50 dólares',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
             {
                 code: '2',
@@ -1918,7 +1918,7 @@ export class CataloguesSeeder {
                 name: '51-200 dólares',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
             {
                 code: '3',
@@ -1926,7 +1926,7 @@ export class CataloguesSeeder {
                 name: '201-400 dólares',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
             {
                 code: '4',
@@ -1934,7 +1934,7 @@ export class CataloguesSeeder {
                 name: '401-800 dólares',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
             {
                 code: '5',
@@ -1942,7 +1942,7 @@ export class CataloguesSeeder {
                 name: '801-1000 dólares',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
             {
                 code: '6',
@@ -1950,7 +1950,7 @@ export class CataloguesSeeder {
                 name: '1001-2000 dólares',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
             {
                 code: '7',
@@ -1958,7 +1958,7 @@ export class CataloguesSeeder {
                 name: '2001-en adelante',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueCoreTypeEnum.FAMILY_INCOME,
+                type: CatalogueTypeEnum.FAMILY_INCOME,
             },
         );
 

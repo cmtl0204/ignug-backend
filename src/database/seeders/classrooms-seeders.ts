@@ -3,7 +3,7 @@ import { SeedClassroomDto } from '@core/dto';
 import { CataloguesService, ClassroomsService } from '@core/services';
 import { CatalogueEntity } from '@core/entities';
 import { faker } from '@faker-js/faker';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class ClassroomSeeder {
@@ -39,8 +39,8 @@ export class ClassroomSeeder {
   private async loadCatalogues() {
     const catalogues = (await this.catalogueService.findAll()).data as CatalogueEntity[];
 
-    this.states = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.CLASSROOMS_STATE);
+    this.states = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.CLASSROOMS_STATE);
 
-    this.types = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.CLASSROOMS_TYPE);
+    this.types = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.CLASSROOMS_TYPE);
   }
 }

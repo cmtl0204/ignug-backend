@@ -17,7 +17,7 @@ import {ResponseHttpModel} from '@shared/models';
 import {CataloguesService} from '@core/services';
 import {CreateCatalogueDto, FilterCatalogueDto, UpdateCatalogueDto} from '@core/dto';
 import {CatalogueEntity} from '@core/entities';
-import {CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @ApiTags('Catalogues')
 @Controller('catalogues')
@@ -39,7 +39,7 @@ export class CataloguesController {
     @ApiOperation({summary: 'List all catalogues'})
     @Get('catalogue')
     @HttpCode(HttpStatus.OK)
-    async catalogue(@Query('type') type: CatalogueCoreTypeEnum) {
+    async catalogue(@Query('type') type: CatalogueTypeEnum) {
         const response = await this.catalogueService.catalogue(type);
         return {
             data: response,

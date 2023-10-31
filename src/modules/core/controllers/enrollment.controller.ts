@@ -11,15 +11,17 @@ import {
     Post,
     Put,
     Query,
-    Res,
 } from '@nestjs/common';
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
-import {CreateCareerDto, UpdateCareerDto, FilterCareerDto, CreateEnrollmentDto, FilterEnrollmentDto} from '@core/dto';
+import {Auth, User} from "@auth/decorators";
+import {UserEntity} from "@auth/entities";
+import {UpdateCareerDto, CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto} from '@core/dto';
+import {EnrollmentEntity} from '@core/entities';
 import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from '@core/services';
-import {CareerEntity, EnrollmentEntity} from '@core/entities';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('enrollments')
+@Auth()
 @Controller('enrollments')
 export class EnrollmentsController {
     constructor(
@@ -71,7 +73,7 @@ export class EnrollmentsController {
     @ApiOperation({summary: 'Update Career'})
     @Put(':id')
     @HttpCode(HttpStatus.CREATED)
-    async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
+    async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.update(id, payload);
         return {
             data: serviceResponse,
@@ -121,8 +123,8 @@ export class EnrollmentsController {
     @ApiOperation({summary: 'Send Request'})
     @Post('send-request')
     @HttpCode(HttpStatus.CREATED)
-    async sendRequest(@Body() payload: CreateEnrollmentDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.sendRequest(payload);
+    async sendRequest(@User() user: UserEntity, @Body() payload: CreateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.sendRequest(user.id, payload);
 
         return {
             data: serviceResponse,
@@ -132,10 +134,10 @@ export class EnrollmentsController {
     }
 
     @ApiOperation({summary: 'Approve Enrollment'})
-    @Put(':id/approve')
+    @Patch(':id/approve')
     @HttpCode(HttpStatus.CREATED)
-    async approve(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.approve(id, payload);
+    async approve(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.approve(id, user.id, payload);
         return {
             data: serviceResponse,
             message: `La solicitud fue aprobada`,
@@ -144,10 +146,10 @@ export class EnrollmentsController {
     }
 
     @ApiOperation({summary: 'Approve Enrollment'})
-    @Put(':id/reject')
+    @Patch(':id/reject')
     @HttpCode(HttpStatus.CREATED)
-    async reject(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.reject(id, payload);
+    async reject(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.reject(id, user.id, payload);
         return {
             data: serviceResponse,
             message: `La solicitud fue rechazada`,
@@ -156,10 +158,10 @@ export class EnrollmentsController {
     }
 
     @ApiOperation({summary: 'Enroll Enrollment'})
-    @Put(':id/enroll')
+    @Patch(':id/enroll')
     @HttpCode(HttpStatus.CREATED)
-    async enroll(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.enroll(id, payload);
+    async enroll(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.enroll(id, user.id, payload);
         return {
             data: serviceResponse,
             message: `La matrícula fue creada`,
@@ -168,17 +170,16 @@ export class EnrollmentsController {
     }
 
     @ApiOperation({summary: 'Enroll Enrollment'})
-    @Put(':id/revoke')
+    @Patch(':id/revoke')
     @HttpCode(HttpStatus.CREATED)
-    async revoke(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.revoke(id, payload);
+    async revoke(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.revoke(id, user.id, payload);
         return {
             data: serviceResponse,
             message: `La matrícula fue anulada`,
             title: `Anulada`,
         };
     }
-
 }
 
 

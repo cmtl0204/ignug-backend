@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {SeedSchoolPeriodDto} from '@core/dto';
 import {CatalogueEntity} from 'src/modules/core/entities/catalogue.entity';
 import {CataloguesService, InstitutionsService, SchoolPeriodsService} from '@core/services';
-import {CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Injectable()
 export class SchoolPeriodSeeder {
@@ -19,8 +19,8 @@ export class SchoolPeriodSeeder {
         const schoolPeriods: SeedSchoolPeriodDto[] = [];
 
         const catalogues = await this.cataloguesService.findCache();
-        const closeState = await catalogues.find((item: CatalogueEntity) => item.code === 'close' && item.type === CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE);
-        const openState = await catalogues.find((item: CatalogueEntity) => item.code === 'open' && item.type === CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE);
+        const closeState = await catalogues.find((item: CatalogueEntity) => item.code === 'close' && item.type === CatalogueTypeEnum.SCHOOL_PERIODS_STATE);
+        const openState = await catalogues.find((item: CatalogueEntity) => item.code === 'open' && item.type === CatalogueTypeEnum.SCHOOL_PERIODS_STATE);
 
         const institution = ((await this.institutionsService.findAll()).data)[0];
         for (let i = 1; i <= 10; i++) {

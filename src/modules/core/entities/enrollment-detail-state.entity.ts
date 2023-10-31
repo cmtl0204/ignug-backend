@@ -54,10 +54,18 @@ export class EnrollmentDetailStateEntity {
 
     /** Columns **/
     @Column({
+        name: 'date',
+        type: 'timestamp',
+        nullable: true,
+        comment: 'Fecha de la matricula',
+    })
+    date: Date;
+
+    @Column({
         name: 'observation',
         type: 'text',
         nullable: true,
-        comment: 'Observaciones del detalle matricula',
+        comment: 'Observaciones del estado matricula',
     })
     observation: string;
 }

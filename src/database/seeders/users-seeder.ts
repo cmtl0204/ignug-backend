@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { faker } from '@faker-js/faker';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueTypeEnum } from '@shared/enums';
 import { SeedUserDto } from '@auth/dto';
 import { RoleEntity } from '@auth/entities';
 import { RoleEnum } from '@auth/enums';
@@ -53,17 +53,17 @@ export class UsersSeeder {
   async loadCatalogues() {
     const catalogues = (await this.cataloguesService.findAll()).data as CatalogueEntity[];
 
-    this.bloodTypes = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.BLOOD_TYPE);
+    this.bloodTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.BLOOD_TYPE);
 
-    this.ethnicOrigins = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
+    this.ethnicOrigins = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ETHNIC_ORIGIN);
 
-    this.genders = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.GENDER);
+    this.genders = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.GENDER);
 
-    this.identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.IDENTIFICATION_TYPE);
+    this.identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
 
-    this.maritalStatus = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.MARITAL_STATUS);
+    this.maritalStatus = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.MARITAL_STATUS);
 
-    this.sexes = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.SEX);
+    this.sexes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.SEX);
   }
 
   async createUsers() {

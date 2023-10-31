@@ -1,6 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
 import { SubjectEntity } from '@core/entities';
-import { CatalogueCoreSubjectRequirementTypeEnum } from '@shared/enums';
+import { CatalogueSubjectRequirementTypeEnum } from '@shared/enums';
 
 export class SubjectRequirementDto {
   @IsNotEmpty()

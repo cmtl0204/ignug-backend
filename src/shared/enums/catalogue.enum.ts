@@ -1,4 +1,4 @@
-export enum CatalogueCoreTypeEnum {
+export enum CatalogueTypeEnum {
   ACADEMIC_PERIOD = 'ACADEMIC_PERIOD',
   BLOOD_TYPE = 'BLOOD_TYPE',
   CAREER_MODALITY = 'CAREER_MODALITY',
@@ -50,7 +50,7 @@ export enum CatalogueStateEnum {
   DISABLED = 'disabled',
 }
 
-export enum CatalogueCoreEnrollmentStateEnum {
+export enum CatalogueEnrollmentStateEnum {
   REQUEST_SENT = 'request_sent',
   APPROVED = 'approved',
   REJECTED = 'rejected',
@@ -60,12 +60,12 @@ export enum CatalogueCoreEnrollmentStateEnum {
   REGISTERED = 'registered',
 }
 
-export enum CatalogueCoreSchoolPeriodStateEnum {
+export enum CatalogueSchoolPeriodStateEnum {
   OPEN = 'open',
   CLOSE = 'close',
 }
 
-export enum CatalogueCoreSubjectRequirementTypeEnum {
+export enum CatalogueSubjectRequirementTypeEnum {
   PREREQUISITE = 'prerequisite',
   CO_REQUISITE = 'co_requisite',
 }
@@ -77,6 +77,11 @@ export enum CatalogueCareersModalityEnum {
   DUAL = 'dual',
   ONLINE = 'online',
   HYBRID = 'hybrid',
+}
+
+export enum CatalogueYesNoEnum {
+  YES = '1',
+  NO = '2',
 }
 
 export enum UsersIdentificationTypeStateEnum {

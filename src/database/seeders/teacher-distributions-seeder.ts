@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { SeedTeacherDistributionDto } from '@core/dto';
 import { CatalogueEntity } from '@core/entities';
 import { CataloguesService, CurriculumsService, SchoolPeriodsService, SubjectsService, TeacherDistributionsService, TeachersService } from '@core/services';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class TeacherDistributionsSeeder {
@@ -24,8 +24,8 @@ export class TeacherDistributionsSeeder {
     const teacherDistributions: SeedTeacherDistributionDto[] = [];
 
     const catalogues = await this.cataloguesService.findCache();
-    const parallels = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueCoreTypeEnum.PARALLEL);
-    const workdays = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+    const parallels = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.PARALLEL);
+    const workdays = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
     const schoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
     const curriculums = (await this.curriculumsService.findAll()).data;
     const subjects = await this.subjectsService.findAllSubjectsByCurriculum(curriculums[0].id);

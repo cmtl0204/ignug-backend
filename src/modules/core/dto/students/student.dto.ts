@@ -4,7 +4,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 import { isNotEmptyValidationOptions } from '@shared/validation';
 
 export class StudentDto {
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional()
   user: UserEntity;
 
   @IsOptional()

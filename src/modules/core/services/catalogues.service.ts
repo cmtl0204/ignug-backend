@@ -2,7 +2,7 @@ import {CACHE_MANAGER, Inject, Injectable, NotFoundException} from '@nestjs/comm
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
 import {CreateCatalogueDto, FilterCatalogueDto, PaginationDto, UpdateCatalogueDto} from '@core/dto';
 import {CatalogueEntity} from '@core/entities';
-import {CacheEnum, CatalogueCoreTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+import {CacheEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
 import {ReadUserDto} from '@auth/dto';
 import {UserEntity} from '@auth/entities';
 import {plainToInstance} from 'class-transformer';
@@ -26,7 +26,7 @@ export class CataloguesService {
         return await this.repository.save(newCatalogue);
     }
 
-    async catalogue(type: CatalogueCoreTypeEnum): Promise<ServiceResponseHttpModel> {
+    async catalogue(type: CatalogueTypeEnum): Promise<ServiceResponseHttpModel> {
         const data = await this.repository.findAndCount({
             where: {type},
             order: {name: 1},

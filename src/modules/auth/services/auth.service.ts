@@ -74,7 +74,7 @@ export class AuthService {
             relations: {
                 roles: true,
                 institutions: true,
-                careers: {institution:true, curriculums: true},
+                careers: {institution: true, curriculums: true},
                 teacher: {careers: true},
                 student: {careers: true},
             },

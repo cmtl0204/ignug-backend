@@ -131,7 +131,7 @@ export class ResidenceAddressEntity {
         nullable: true,
         comment: 'Codigo Postal',
     })
-    post_code: string;
+    postCode: string;
 
     @Column({
         name: 'reference',

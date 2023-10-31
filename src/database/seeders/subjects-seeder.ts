@@ -11,7 +11,7 @@ import {
     SubjectPrerequisitesService,
     SubjectsService
 } from '@core/services';
-import {CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Injectable()
 export class SubjectsSeeder {
@@ -40,11 +40,11 @@ export class SubjectsSeeder {
     private async loadCatalogues() {
         const catalogues = (await this.catalogueService.findAll()).data as CatalogueEntity[];
 
-        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.SUBJECTS_STATE);
+        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.SUBJECTS_STATE);
 
-        this.periods = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+        this.periods = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ACADEMIC_PERIOD);
 
-        this.types = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE);
+        this.types = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.SUBJECTS_TYPE);
     }
 
     private async loadCurriculums() {
@@ -55,24 +55,24 @@ export class SubjectsSeeder {
         const subjects: SeedSubjectDto[] = [];
 
         const stateEnabled = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.SUBJECTS_STATE;
+            return state.code === 'enabled' && state.type === CatalogueTypeEnum.SUBJECTS_STATE;
         });
 
         //Periodo academico
         const first = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '1' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '1' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
         const second = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '2' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '2' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
         const third = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '3' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '3' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
         const fourth = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '4' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '4' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
         const fifth = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '5' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '5' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
 
         //curriculum
@@ -81,7 +81,7 @@ export class SubjectsSeeder {
 
         //tipo asignatura
         const type = this.types.find(type => {
-            return type.code === 'subject' && type.type === CatalogueCoreTypeEnum.SUBJECTS_TYPE;
+            return type.code === 'subject' && type.type === CatalogueTypeEnum.SUBJECTS_TYPE;
         });
 
         subjects.push(

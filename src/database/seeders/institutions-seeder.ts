@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInstitutionDto } from '@core/dto';
 import { CataloguesService, InstitutionsService } from '@core/services';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueTypeEnum } from '@shared/enums';
 import { CatalogueEntity } from '@core/entities';
 import { faker } from '@faker-js/faker';
 
@@ -18,7 +18,7 @@ export class InstitutionsSeeder {
     const catalogues = await this.cataloguesService.findCache();
 
     const stateEnable = catalogues.find((state: CatalogueEntity) => {
-      return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.INSTITUTIONS_STATE;
+      return state.code === 'enabled' && state.type === CatalogueTypeEnum.INSTITUTIONS_STATE;
     });
 
     institutions.push(

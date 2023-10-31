@@ -17,9 +17,10 @@ import {
     StudentEntity,
     SubjectEntity
 } from '@core/entities';
-import {CatalogueCoreEnrollmentStateEnum, CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
 import {SeedEnrollmentStateDto} from "../../modules/core/dto/enrollment-state/seed-enrollment-state.dto";
 import {first} from "rxjs";
+import {UsersService} from "@auth/services";
 
 @Injectable()
 export class EnrollmentSeeder {
@@ -44,6 +45,7 @@ export class EnrollmentSeeder {
         private readonly enrollmentsDetailService: EnrollmentDetailsService,
         private readonly enrollmentsStateService: EnrollmentStatesService,
         private readonly subjectsService: SubjectsService,
+        private readonly usersService: UsersService,
     ) {
     }
 
@@ -61,17 +63,17 @@ export class EnrollmentSeeder {
     private async loadCatalogues() {
         const catalogues = (await this.catalogueService.findAll()).data as CatalogueEntity[];
 
-        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
-        this.types = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
+        this.types = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_TYPE);
 
-        this.periods = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+        this.periods = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ACADEMIC_PERIOD);
 
-        this.parallels = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.PARALLEL);
+        this.parallels = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.PARALLEL);
 
-        this.workdays = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+        this.workdays = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
 
-        this.academicStates = catalogues.filter(catalogue => catalogue.type === CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
+        this.academicStates = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
     }
 
     private async loadCareers() {
@@ -95,7 +97,7 @@ export class EnrollmentSeeder {
 
         //states
         const state = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'registered' && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
         });
 
         //curriculums
@@ -103,12 +105,12 @@ export class EnrollmentSeeder {
 
         //parallel
         const parallel = this.parallels.find(parallel => {
-            return parallel.code === 'a' && parallel.type === CatalogueCoreTypeEnum.PARALLEL;
+            return parallel.code === 'a' && parallel.type === CatalogueTypeEnum.PARALLEL;
         });
 
         //workday
         const workday = this.workdays.find(workday => {
-            return workday.code === 'm' && workday.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY;
+            return workday.code === 'm' && workday.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY;
         });
 
         //students
@@ -120,24 +122,24 @@ export class EnrollmentSeeder {
 
         //enrollment type
         const type = this.types.find(type => {
-            return type.code === 'ordinary' && type.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE;
+            return type.code === 'ordinary' && type.type === CatalogueTypeEnum.ENROLLMENTS_TYPE;
         });
 
         //Periodo academico
         const first = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '1' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '1' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
         const second = this.periods.find((period: CatalogueEntity) => {
-            return period.code === '2' && period.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD;
+            return period.code === '2' && period.type === CatalogueTypeEnum.ACADEMIC_PERIOD;
         });
 
         enrollments.push(
             {
                 code: 'cod1',
-                date: new Date('2023-08-14'),
+                // date: new Date('2023-08-14'),
                 enrollmentDetails: [],
-                applicationsAt: new Date('2023-08-14'),
-                folio: faker.string.alphanumeric(),
+                // applicationsAt: new Date('2023-08-14'),
+                // folio: faker.string.alphanumeric(),
                 observation: 'No hay obsevaciones',
                 student: student1,
                 academicPeriod: first,
@@ -150,9 +152,9 @@ export class EnrollmentSeeder {
             {
                 enrollmentDetails: [],
                 code: 'cod2',
-                date: new Date('2023-08-14'),
-                applicationsAt: new Date('2023-08-14'),
-                folio: faker.string.alphanumeric(),
+                // date: new Date('2023-08-14'),
+                // applicationsAt: new Date('2023-08-14'),
+                // folio: faker.string.alphanumeric(),
                 observation: 'No hay obsevaciones',
                 student: student2,
                 academicPeriod: second,
@@ -174,7 +176,7 @@ export class EnrollmentSeeder {
 
         //academic State
         const academicState = this.academicStates.find(academicState => {
-            return academicState.code === 'a' && academicState.type === CatalogueCoreTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
+            return academicState.code === 'a' && academicState.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
         });
 
         //subjects
@@ -194,22 +196,22 @@ export class EnrollmentSeeder {
 
         //parallel
         const parallel = this.parallels.find(parallel => {
-            return parallel.code === 'a' && parallel.type === CatalogueCoreTypeEnum.PARALLEL;
+            return parallel.code === 'a' && parallel.type === CatalogueTypeEnum.PARALLEL;
         });
 
         //states
         const state = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'registered' && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
         });
 
         //enrollment type
         const type = this.types.find(type => {
-            return type.code === 'ordinary' && type.type === CatalogueCoreTypeEnum.ENROLLMENTS_TYPE;
+            return type.code === 'ordinary' && type.type === CatalogueTypeEnum.ENROLLMENTS_TYPE;
         });
 
         //workday
         const workday = this.workdays.find(workday => {
-            return workday.code === 'm' && workday.type === CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY;
+            return workday.code === 'm' && workday.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY;
         });
 
         enrollmentDetails.push(
@@ -221,9 +223,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -234,9 +236,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -247,9 +249,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -260,9 +262,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -273,9 +275,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -286,9 +288,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -299,9 +301,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
             {
@@ -312,9 +314,9 @@ export class EnrollmentSeeder {
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),
-                date: new Date('2023-08-14'),
-                finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
-                finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
                 observation: 'no hay observaciones',
             },
         );
@@ -334,44 +336,51 @@ export class EnrollmentSeeder {
 
         //states
         const requestSentstate = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueCoreEnrollmentStateEnum.REQUEST_SENT && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
         });
 
         const approvedState = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueCoreEnrollmentStateEnum.APPROVED && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.APPROVED && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
         });
 
         const enrolledState = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueCoreEnrollmentStateEnum.ENROLLED && state.type === CatalogueCoreTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.ENROLLED && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
         });
 
+        const user = (await this.usersService.findAll()).data[0];
         enrollmentStates.push(
             {
                 enrollmentId: enrollment1.id,
                 stateId: requestSentstate.id,
+                userId:user.id,
             },
-            {
-                enrollmentId: enrollment1.id,
-                stateId: approvedState.id,
-            },
-            {
-                enrollmentId: enrollment1.id,
-                stateId: enrolledState.id,
-            },
-            {
-                enrollmentId: enrollment2.id,
-                stateId: requestSentstate.id,
-            },
-            {
-                enrollmentId: enrollment2.id,
-                stateId: approvedState.id,
-            }
+            // {
+            //     enrollmentId: enrollment1.id,
+            //     stateId: approvedState.id,
+            //     userId:user.id,
+            // },
+            // {
+            //     enrollmentId: enrollment1.id,
+            //     stateId: enrolledState.id,
+            //     userId:user.id,
+            // },
+            // {
+            //     enrollmentId: enrollment2.id,
+            //     stateId: requestSentstate.id,
+            //     userId:user.id,
+            // },
+            // {
+            //     enrollmentId: enrollment2.id,
+            //     stateId: approvedState.id,
+            //     userId:user.id,
+            // }
         );
 
         for (const item of enrollmentStates) {
             await this.enrollmentsStateService.create({
                 enrollmentId: item.enrollmentId,
-                stateId: item.stateId
+                stateId: item.stateId,
+                userId: item.userId,
             });
         }
     }

@@ -9,7 +9,7 @@ import {
 } from '@core/dto';
 import {SchoolPeriodEntity} from '@core/entities';
 import {CataloguesService} from '@core/services';
-import {CatalogueCoreSchoolPeriodStateEnum, CoreRepositoryEnum, MessageEnum} from '@shared/enums';
+import {CatalogueSchoolPeriodStateEnum, CoreRepositoryEnum, MessageEnum} from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
 
 @Injectable()
@@ -164,20 +164,20 @@ export class SchoolPeriodsService {
     async open(id: string): Promise<SchoolPeriodEntity> {
         const entity = await this.findOne(id);
         const entities = (await this.findAll()).data as SchoolPeriodEntity[];
-        const existOpenSchoolPeriod = entities.find(entity => entity.state.code === CatalogueCoreSchoolPeriodStateEnum.OPEN);
+        const existOpenSchoolPeriod = entities.find(entity => entity.state.code === CatalogueSchoolPeriodStateEnum.OPEN);
 
         if (!entity) {
             throw new NotFoundException(MessageEnum.NOT_FOUND);
         }
 
-        if (entity.state.code === CatalogueCoreSchoolPeriodStateEnum.OPEN) {
+        if (entity.state.code === CatalogueSchoolPeriodStateEnum.OPEN) {
             throw new BadRequestException(MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD);
         }
         if (existOpenSchoolPeriod) {
             throw new BadRequestException(`${MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD} (${existOpenSchoolPeriod.name})`);
         }
 
-        entity.state = await this.cataloguesService.findByCode(CatalogueCoreSchoolPeriodStateEnum.OPEN);
+        entity.state = await this.cataloguesService.findByCode(CatalogueSchoolPeriodStateEnum.OPEN);
         return await this.repository.save(entity);
     }
 
@@ -188,11 +188,11 @@ export class SchoolPeriodsService {
             throw new NotFoundException(MessageEnum.NOT_FOUND);
         }
 
-        if (entity.state.code === CatalogueCoreSchoolPeriodStateEnum.CLOSE) {
+        if (entity.state.code === CatalogueSchoolPeriodStateEnum.CLOSE) {
             throw new BadRequestException(MessageEnum.EXISTS_CLOSE_SCHOOL_PERIOD);
         }
 
-        entity.state = await this.cataloguesService.findByCode(CatalogueCoreSchoolPeriodStateEnum.CLOSE);
+        entity.state = await this.cataloguesService.findByCode(CatalogueSchoolPeriodStateEnum.CLOSE);
         return await this.repository.save(entity);
     }
 

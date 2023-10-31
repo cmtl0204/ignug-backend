@@ -118,6 +118,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'final_attendance',
         type: 'decimal',
+        nullable:true,
         precision: 5,
         scale: 2,
         comment: 'Valor de la asistencia',
@@ -127,6 +128,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'final_grade',
         type: 'decimal',
+        nullable:true,
         precision: 5,
         scale: 2,
         comment: 'Valor de la calificacion',
@@ -136,6 +138,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'observation',
         type: 'text',
+        nullable:true,
         comment: 'Observaciones de la matricula',
     })
     observation: string;

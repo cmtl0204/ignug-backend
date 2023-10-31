@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { SeedCurriculumDto } from '@core/dto';
 import { CareerEntity } from '@core/entities';
 import { CataloguesService, CareersService, CurriculumsService } from '@core/services';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueTypeEnum } from '@shared/enums';
 
 @Injectable()
 export class CurriculumsSeeder {
@@ -20,7 +20,7 @@ export class CurriculumsSeeder {
     const careers = (await this.careersService.findAll()).data;
 
     const stateEnabled = catalogues.find(state => {
-      return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.CURRICULUMS_STATE;
+      return state.code === 'enabled' && state.type === CatalogueTypeEnum.CURRICULUMS_STATE;
     });
 
     const career1 = careers.find((career: CareerEntity) => career.code === 'cod1');

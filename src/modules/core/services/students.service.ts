@@ -2,18 +2,22 @@ import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, Repository} from 'typeorm';
 import {FilterStudentDto, PaginationDto, UpdateStudentDto} from '@core/dto';
 import {StudentEntity} from '@core/entities';
-import {CoreRepositoryEnum} from '@shared/enums';
+import {CatalogueYesNoEnum, CoreRepositoryEnum} from '@shared/enums';
 import {UsersService} from '@auth/services';
 import {InformationStudentsService} from './information-students.service';
 import {ServiceResponseHttpModel} from '@shared/models';
+import {OriginAddressesService} from "./origin-addresses.service";
+import {ResidenceAddressesService} from "./residence-addresses.service";
 
 @Injectable()
 export class StudentsService {
     constructor(
         @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
-        private repository: Repository<StudentEntity>,
-        private usersService: UsersService,
-        private informationStudentsService: InformationStudentsService,
+        private readonly repository: Repository<StudentEntity>,
+        private readonly usersService: UsersService,
+        private readonly informationStudentsService: InformationStudentsService,
+        private readonly originAddressesService: OriginAddressesService,
+        private readonly residenceAddressesService: ResidenceAddressesService,
     ) {
     }
 
@@ -141,16 +145,19 @@ export class StudentsService {
         entity.user.genderId = payload.user.gender.id;
         entity.user.sexId = payload.user.sex.id;
         entity.user.ethnicOriginId = payload.user.ethnicOrigin.id;
+        entity.user.cellPhone = payload.user.cellPhone;
+        entity.user.phone = payload.user.phone;
+        entity.user.personalEmail = payload.user.personalEmail;
+        entity.user.email = payload.user.email;
+
+        await this.usersService.update(entity.userId, entity.user);
+
         entity.informationStudent.indigenousNationalityId = payload.informationStudent.indigenousNationality.id;
         entity.informationStudent.townId = payload.informationStudent.town.id;
         entity.informationStudent.isAncestralLanguageId = payload.informationStudent.isAncestralLanguage.id;
         entity.informationStudent.ancestralLanguageName = payload.informationStudent.ancestralLanguageName;
         entity.informationStudent.isForeignLanguageId = payload.informationStudent.isForeignLanguage.id;
         entity.informationStudent.foreignLanguageName = payload.informationStudent.foreignLanguageName;
-        entity.user.cellPhone = payload.user.cellPhone;
-        entity.user.phone = payload.user.phone;
-        entity.user.personalEmail = payload.user.personalEmail;
-        entity.user.email = payload.user.email;
         entity.informationStudent.contactEmergencyName = payload.informationStudent.contactEmergencyName;
         entity.informationStudent.contactEmergencyPhone = payload.informationStudent.contactEmergencyPhone;
         entity.informationStudent.contactEmergencyKinship = payload.informationStudent.contactEmergencyKinship;
@@ -170,9 +177,7 @@ export class StudentsService {
         entity.informationStudent.isCatastrophicIllnessId = payload.informationStudent.isCatastrophicIllness.id;
         entity.informationStudent.catastrophicIllness = payload.informationStudent.catastrophicIllness;
 
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -187,26 +192,28 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-
         entity.informationStudent.universityCareerId = payload.informationStudent.universityCareer.id;
-        entity.informationStudent.isDegreeSuperiorId = payload.informationStudent.isDegreeSuperior.id;
-
-        if (payload.informationStudent.isDegreeSuperior.code === '1') {
-            entity.informationStudent.degreeSuperiorId = payload.informationStudent.degreeSuperior.id;
-        }
-
-        entity.informationStudent.isStudyOtherCareerId = payload.informationStudent.isStudyOtherCareer.id;
-
-        if (payload.informationStudent.isStudyOtherCareer.code === '1') {
-            entity.informationStudent.nameStudyOtherCareer = payload.informationStudent.nameStudyOtherCareer;
-            entity.informationStudent.typeStudyOtherCareerId = payload.informationStudent.typeStudyOtherCareer.id;
-        }
-
         entity.informationStudent.typeSchoolId = payload.informationStudent.typeSchool.id;
 
-        await this.informationStudentsService.update(entity.informationStudent.id,entity.informationStudent);
+        // Conditional Field
+        entity.informationStudent.isDegreeSuperiorId = payload.informationStudent.isDegreeSuperior.id;
 
-        // await this.usersService.update(payload.user.id, payload.user);
+        entity.informationStudent.degreeSuperiorId =
+            payload.informationStudent.isDegreeSuperior.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.degreeSuperior.id : null;
+
+        // Conditional Field
+        entity.informationStudent.isStudyOtherCareerId = payload.informationStudent.isStudyOtherCareer.id;
+
+        entity.informationStudent.nameStudyOtherCareer =
+            payload.informationStudent.isStudyOtherCareer.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.nameStudyOtherCareer : null;
+
+        entity.informationStudent.typeStudyOtherCareerId =
+            payload.informationStudent.isStudyOtherCareer.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.typeStudyOtherCareer?.id : null;
+
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -221,21 +228,28 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
+        // Conditional Field
         entity.informationStudent.isElectronicDeviceId = payload.informationStudent.isElectronicDevice.id;
-        entity.informationStudent.electronicDeviceId = payload.informationStudent.electronicDevice.id;
+
+        entity.informationStudent.electronicDeviceId =
+            payload.informationStudent.isElectronicDevice.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.electronicDevice.id : null;
+
+        // Conditional Field
         entity.informationStudent.isInternetId = payload.informationStudent.isInternet.id;
-        entity.informationStudent.internetTypeId = payload.informationStudent.internetType.id;
 
-        await this.repository.save(entity);
+        entity.informationStudent.internetTypeId =
+            payload.informationStudent.isInternet.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.internetType.id : null;
 
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
 
     async updateOriginPlace(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
         const entity = await this.repository.findOne({
-            relations: {informationStudent: true},
+            relations: {user: {originAddress: true}},
             where: {id}
         });
 
@@ -243,21 +257,50 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.isElectronicDeviceId = payload.informationStudent.isElectronicDevice.id;
-        entity.informationStudent.electronicDeviceId = payload.informationStudent.electronicDevice.id;
-        entity.informationStudent.isInternetId = payload.informationStudent.isInternet.id;
-        entity.informationStudent.internetTypeId = payload.informationStudent.internetType.id;
-
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        if (!entity.user.originAddress) {
+            await this.originAddressesService.create(
+                {
+                    cantonId: payload.user.originAddress.canton?.id,
+                    community: payload.user.originAddress.community,
+                    latitude: payload.user.originAddress.latitude,
+                    longitude: payload.user.originAddress.longitude,
+                    mainStreet: payload.user.originAddress.mainStreet,
+                    modelId: payload.user.id,
+                    nearbyCity: payload.user.originAddress.nearbyCity,
+                    number: payload.user.originAddress.number,
+                    parrishId: payload.user.originAddress.parrish?.id,
+                    postCode: payload.user.originAddress.postCode,
+                    provinceId: payload.user.originAddress.province?.id,
+                    reference: payload.user.originAddress.reference,
+                    secondaryStreet: payload.user.originAddress.secondaryStreet,
+                }
+            );
+        } else {
+            await this.originAddressesService.update(
+                entity.user.originAddress.id,
+                {
+                    cantonId: payload.user.originAddress.canton?.id,
+                    community: payload.user.originAddress.community,
+                    latitude: payload.user.originAddress.latitude,
+                    longitude: payload.user.originAddress.longitude,
+                    mainStreet: payload.user.originAddress.mainStreet,
+                    nearbyCity: payload.user.originAddress.nearbyCity,
+                    number: payload.user.originAddress.number,
+                    parrishId: payload.user.originAddress.parrish?.id,
+                    postCode: payload.user.originAddress.postCode,
+                    provinceId: payload.user.originAddress.province?.id,
+                    reference: payload.user.originAddress.reference,
+                    secondaryStreet: payload.user.originAddress.secondaryStreet,
+                }
+            );
+        }
 
         return entity;
     }
 
     async updateResidencePlace(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
         const entity = await this.repository.findOne({
-            relations: {informationStudent: true},
+            relations: {user: {residenceAddress: true}},
             where: {id}
         });
 
@@ -265,14 +308,43 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.isElectronicDeviceId = payload.informationStudent.isElectronicDevice.id;
-        entity.informationStudent.electronicDeviceId = payload.informationStudent.electronicDevice.id;
-        entity.informationStudent.isInternetId = payload.informationStudent.isInternet.id;
-        entity.informationStudent.internetTypeId = payload.informationStudent.internetType.id;
-
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        if (!entity.user.residenceAddress) {
+            await this.residenceAddressesService.create(
+                {
+                    cantonId: payload.user.residenceAddress.canton?.id,
+                    community: payload.user.residenceAddress.community,
+                    latitude: payload.user.residenceAddress.latitude,
+                    longitude: payload.user.residenceAddress.longitude,
+                    mainStreet: payload.user.residenceAddress.mainStreet,
+                    modelId: payload.user.id,
+                    nearbyCity: payload.user.residenceAddress.nearbyCity,
+                    number: payload.user.residenceAddress.number,
+                    parrishId: payload.user.residenceAddress.parrish?.id,
+                    postCode: payload.user.residenceAddress.postCode,
+                    provinceId: payload.user.residenceAddress.province?.id,
+                    reference: payload.user.residenceAddress.reference,
+                    secondaryStreet: payload.user.residenceAddress.secondaryStreet,
+                }
+            );
+        } else {
+            await this.residenceAddressesService.update(
+                entity.user.residenceAddress.id,
+                {
+                    cantonId: payload.user.residenceAddress.canton?.id,
+                    community: payload.user.residenceAddress.community,
+                    latitude: payload.user.residenceAddress.latitude,
+                    longitude: payload.user.residenceAddress.longitude,
+                    mainStreet: payload.user.residenceAddress.mainStreet,
+                    nearbyCity: payload.user.residenceAddress.nearbyCity,
+                    number: payload.user.residenceAddress.number,
+                    parrishId: payload.user.residenceAddress.parrish?.id,
+                    postCode: payload.user.residenceAddress.postCode,
+                    provinceId: payload.user.residenceAddress.province?.id,
+                    reference: payload.user.residenceAddress.reference,
+                    secondaryStreet: payload.user.residenceAddress.secondaryStreet,
+                }
+            );
+        }
 
         return entity;
     }
@@ -291,9 +363,7 @@ export class StudentsService {
         entity.informationStudent.familyIncome = payload.informationStudent.familyIncome;
         entity.informationStudent.isDependsEconomicallyId = payload.informationStudent.isDependsEconomically.id;
 
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -311,9 +381,7 @@ export class StudentsService {
         entity.informationStudent.isFamilyVehicleId = payload.informationStudent.isFamilyVehicle.id;
         entity.informationStudent.isFamilyPropertiesId = payload.informationStudent.isFamilyProperties.id;
 
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -328,16 +396,28 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
+        // Conditional Field
         entity.informationStudent.isFamilyCatastrophicIllnessId = payload.informationStudent.isFamilyCatastrophicIllness.id;
-        entity.informationStudent.familyKinshipCatastrophicIllnessId = payload.informationStudent.familyKinshipCatastrophicIllness.id;
-        entity.informationStudent.familyCatastrophicIllness = payload.informationStudent.familyCatastrophicIllness;
+
+        entity.informationStudent.familyKinshipCatastrophicIllnessId =
+            payload.informationStudent.isFamilyCatastrophicIllness.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.familyKinshipCatastrophicIllness.id : null;
+
+        entity.informationStudent.familyCatastrophicIllness =
+            payload.informationStudent.isFamilyCatastrophicIllness.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.familyCatastrophicIllness : null;
+
+        // Conditional Field
         entity.informationStudent.isFamilyDisabilityId = payload.informationStudent.isFamilyDisability.id;
-        entity.informationStudent.familyKinshipDisabilityId = payload.informationStudent.familyKinshipDisability.id;
-        entity.informationStudent.familyDisabilityPercentage = payload.informationStudent.familyDisabilityPercentage;
+        entity.informationStudent.familyKinshipDisabilityId =
+            payload.informationStudent.isFamilyDisability.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.familyKinshipDisability.id : null;
 
-        await this.repository.save(entity);
+        entity.informationStudent.familyDisabilityPercentage =
+            payload.informationStudent.isFamilyDisability.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.familyDisabilityPercentage : null;
 
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -358,20 +438,33 @@ export class StudentsService {
         entity.informationStudent.homeRoofId = payload.informationStudent.homeRoof.id;
         entity.informationStudent.homeFloorId = payload.informationStudent.homeFloor.id;
         entity.informationStudent.homeWallId = payload.informationStudent.homeWall.id;
-        entity.informationStudent.isWaterServiceId = payload.informationStudent.isWaterService.id;
-        entity.informationStudent.waterServiceTypeId = payload.informationStudent.waterServiceType.id;
-        entity.informationStudent.isElectricServiceId = payload.informationStudent.isElectricService.id;
-        entity.informationStudent.electricServiceBlackoutId = payload.informationStudent.electricServiceBlackout.id;
         entity.informationStudent.isPhoneServiceId = payload.informationStudent.isPhoneService.id;
-        entity.informationStudent.isSewerageServiceId = payload.informationStudent.isSewerageService.id;
-        entity.informationStudent.sewerageServiceTypeId = payload.informationStudent.sewerageServiceType.id;
         entity.informationStudent.isEconomicContributionId = payload.informationStudent.isEconomicContribution.id;
         entity.informationStudent.isFamilyEconomicAidId = payload.informationStudent.isFamilyEconomicAid.id;
         entity.informationStudent.consumeNewsTypeId = payload.informationStudent.consumeNewsType.id;
 
-        await this.repository.save(entity);
+        // Conditional Field
+        entity.informationStudent.isWaterServiceId = payload.informationStudent.isWaterService.id;
 
-        // await this.usersService.update(payload.user.id, payload.user);
+        entity.informationStudent.waterServiceTypeId =
+            payload.informationStudent.isWaterService.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.waterServiceType.id : null;
+
+        // Conditional Field
+        entity.informationStudent.isElectricServiceId = payload.informationStudent.isElectricService.id;
+
+        entity.informationStudent.electricServiceBlackoutId =
+            payload.informationStudent.isElectricService.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.electricServiceBlackout.id : null;
+
+        // Conditional Field
+        entity.informationStudent.isSewerageServiceId = payload.informationStudent.isSewerageService.id;
+
+        entity.informationStudent.sewerageServiceTypeId =
+            payload.informationStudent.isSewerageService.code === CatalogueYesNoEnum.YES
+                ? payload.informationStudent.sewerageServiceType.id : null;
+
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -387,9 +480,7 @@ export class StudentsService {
 
         entity.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
 
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }
@@ -406,9 +497,7 @@ export class StudentsService {
 
         entity.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
 
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
+        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
         return entity;
     }

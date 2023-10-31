@@ -100,6 +100,7 @@ export class EnrollmentEntity {
     @Column({
         name: 'code',
         type: 'varchar',
+        nullable:true,
         comment: 'Codigo de la matricula',
     })
     code: string;
@@ -123,6 +124,7 @@ export class EnrollmentEntity {
     @Column({
         name: 'folio',
         type: 'varchar',
+        nullable:true,
         comment: 'Numero de folio',
     })
     folio: string;

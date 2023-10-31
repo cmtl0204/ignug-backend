@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {SeedCareerDto} from '@core/dto';
 import {CareersService, CataloguesService, InstitutionsService} from '@core/services';
-import {CatalogueCareersModalityEnum, CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueCareersModalityEnum, CatalogueTypeEnum} from '@shared/enums';
 import {CareerEntity, CatalogueEntity, CareerAcademicPeriodsEntity, InstitutionEntity} from '@core/entities';
 
 @Injectable()
@@ -21,30 +21,30 @@ export class CareersSeeder {
         const institutions = (await this.institutionsService.findAll()).data;
 
         const stateEnabled = catalogues.find((state: CatalogueEntity) => {
-            return state.code === 'enabled' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
+            return state.code === 'enabled' && state.type === CatalogueTypeEnum.CAREERS_STATE;
         });
         const stateDisabled = catalogues.find((state: CatalogueEntity) => {
-            return state.code === 'disabled' && state.type === CatalogueCoreTypeEnum.CAREERS_STATE;
+            return state.code === 'disabled' && state.type === CatalogueTypeEnum.CAREERS_STATE;
         });
 
         const modality1 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.ON_SITE && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+            return modality.code === CatalogueCareersModalityEnum.ON_SITE && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
         });
         const modality2 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.DISTANCE && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+            return modality.code === CatalogueCareersModalityEnum.DISTANCE && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
         });
         const modality3 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.DUAL && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+            return modality.code === CatalogueCareersModalityEnum.DUAL && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
         });
         const modality4 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.HYBRID && modality.type === CatalogueCoreTypeEnum.CAREER_MODALITY;
+            return modality.code === CatalogueCareersModalityEnum.HYBRID && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
         });
 
         const type1 = catalogues.find((type: CatalogueEntity) => {
-            return type.code === 'technology' && type.type === CatalogueCoreTypeEnum.CAREERS_TYPE;
+            return type.code === 'technology' && type.type === CatalogueTypeEnum.CAREERS_TYPE;
         });
         const type2 = catalogues.find((type: CatalogueEntity) => {
-            return type.code === 'technique' && type.type === CatalogueCoreTypeEnum.CAREERS_TYPE;
+            return type.code === 'technique' && type.type === CatalogueTypeEnum.CAREERS_TYPE;
         });
 
         const institution1 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod1');
@@ -122,7 +122,7 @@ export class CareersSeeder {
     private async createAcademicPeriods() {
         const careers = (await this.careersService.findAll()).data;
         const catalogues = await this.cataloguesService.findCache();
-        const academicPeriods = catalogues.filter(academicPeriod => academicPeriod.type === CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+        const academicPeriods = catalogues.filter(academicPeriod => academicPeriod.type === CatalogueTypeEnum.ACADEMIC_PERIOD);
         const careerAcademicPeriods: any[] = [];
 
         for (const career of careers) {

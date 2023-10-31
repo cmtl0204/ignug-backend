@@ -192,7 +192,7 @@ export class CareersService {
     async findCareersByAuthenticatedUser(user: UserEntity): Promise<CareerEntity[]> {
         return await this.repository.find({
             relations: {state: true, curriculums: true},
-            where: {users: {id: user.id}},
+            where: {users: {id: user.id}}
         });
     }
 }

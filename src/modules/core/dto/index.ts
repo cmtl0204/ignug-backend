@@ -118,3 +118,13 @@ export * from './enrollment-state/create-enrollment-state.dto';
 export * from './enrollment-state/update-enrollment-state.dto';
 export * from './enrollment-state/filter-enrollment-state.dto';
 export * from './enrollment-state/seed-enrollment-state.dto';
+
+export * from './origin-adresses/origin-address.dto';
+export * from './origin-adresses/create-origin-address.dto';
+export * from './origin-adresses/update-origin-address.dto';
+export * from './origin-adresses/filter-origin-address.dto';
+
+export * from './residence-adresses/residence-address.dto';
+export * from './residence-adresses/create-residence-address.dto';
+export * from './residence-adresses/update-residence-address.dto';
+export * from './residence-adresses/filter-residence-address.dto';

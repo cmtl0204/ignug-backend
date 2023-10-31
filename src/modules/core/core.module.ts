@@ -52,6 +52,8 @@ import {
 } from '@core/services';
 import {DatabaseModule} from '@database';
 import {coreProviders} from '@core/providers';
+import {OriginAddressesService} from "./services/origin-addresses.service";
+import {ResidenceAddressesService} from "./services/residence-addresses.service";
 
 @Global()
 @Module({
@@ -85,8 +87,8 @@ import {coreProviders} from '@core/providers';
         ClassroomsService,
         CurriculumsService,
         EnrollmentDetailsService,
-        EnrollmentsService,
         EnrollmentStatesService,
+        EnrollmentsService,
         EventsService,
         ExportsService,
         GradesService,
@@ -95,9 +97,11 @@ import {coreProviders} from '@core/providers';
         InformationTeachersService,
         InstitutionsService,
         LocationsService,
+        OriginAddressesService,
         PartialsService,
         PDFNotas,
         PDFService,
+        ResidenceAddressesService,
         SchoolPeriodsService,
         SecretaryService,
         StudentsService,
@@ -116,8 +120,8 @@ import {coreProviders} from '@core/providers';
         ClassroomsService,
         CurriculumsService,
         EnrollmentDetailsService,
-        EnrollmentsService,
         EnrollmentStatesService,
+        EnrollmentsService,
         EventsService,
         ExportsService,
         GradesService,
@@ -126,9 +130,11 @@ import {coreProviders} from '@core/providers';
         InformationTeachersService,
         InstitutionsService,
         LocationsService,
+        OriginAddressesService,
         PartialsService,
         PDFNotas,
         PDFService,
+        ResidenceAddressesService,
         SchoolPeriodsService,
         SecretaryService,
         StudentsService,

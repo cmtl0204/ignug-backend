@@ -136,6 +136,4 @@ export class EnrollmentDetailsService {
 
         return response;
     }
-
-
 }

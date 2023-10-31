@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator';
-import { CatalogueStateEnum, CatalogueCoreTypeEnum } from '@shared/enums';
+import { CatalogueStateEnum, CatalogueTypeEnum } from '@shared/enums';
 import {
   isEnumValidationOptions,
   isNotEmptyValidationOptions,
@@ -27,5 +27,5 @@ export class CatalogueDto {
   readonly state: CatalogueStateEnum;
 
   @IsString(isStringValidationOptions())
-  readonly type: CatalogueCoreTypeEnum;
+  readonly type: CatalogueTypeEnum;
 }

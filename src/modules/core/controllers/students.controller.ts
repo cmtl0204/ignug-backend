@@ -8,19 +8,18 @@ import {
     Param,
     ParseUUIDPipe,
     Patch,
-    Post,
     Put,
     Query
 } from '@nestjs/common';
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
-import {ResponseHttpModel} from '@shared/models';
-import {StudentsService} from '@core/services';
-import {CreateStudentDto, FilterStudentDto, UpdateStudentDto} from '@core/dto';
+import {FilterStudentDto, UpdateStudentDto} from '@core/dto';
 import {StudentEntity} from '@core/entities';
+import {StudentsService} from '@core/services';
+import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Students')
 @Controller('students')
-export class StudentsController {
+export class StudentsController     {
     constructor(private studentService: StudentsService) {
     }
 

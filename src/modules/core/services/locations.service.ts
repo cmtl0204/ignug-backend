@@ -2,8 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateLocationDto } from '@core/dto';
 import { CoreRepositoryEnum } from '@shared/enums';
-import { LocationEntity } from '../entities/location.entity';
-import { InstitutionEntity } from '@core/entities';
+import { LocationEntity } from '@core/entities';
 
 @Injectable()
 export class LocationsService {
