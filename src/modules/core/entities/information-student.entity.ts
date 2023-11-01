@@ -61,6 +61,17 @@ export class InformationStudentEntity {
     consumeNewsTypeId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'contact_emergency_kinship_id'})
+    contactEmergencyKinship: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'contact_emergency_kinship_id',
+        nullable: true,
+        comment: 'Parentesco, mama, papa, etc'
+    })
+    contactEmergencyKinshipId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'degree_superior_id'})
     degreeSuperior: CatalogueEntity;
     @Column({
@@ -481,6 +492,17 @@ export class InformationStudentEntity {
     isWorkId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'monthly_salary_id'})
+    monthlySalary: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'monthly_salary_id',
+        nullable: true,
+        comment: 'Salario mensual por rangos'
+    })
+    monthlySalaryId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'student_live_id'})
     studentLive: CatalogueEntity;
     @Column({
@@ -632,14 +654,6 @@ export class InformationStudentEntity {
     contactEmergencyName: string;
 
     @Column({
-        name: 'contact_emergency_kinship',
-        type: 'varchar',
-        nullable: true,
-        comment: 'Parentesco para informar sobre el estudiante',
-    })
-    contactEmergencyKinship: string;
-
-    @Column({
         name: 'contact_emergency_phone',
         type: 'varchar',
         nullable: true,
@@ -694,14 +708,6 @@ export class InformationStudentEntity {
         comment: 'Numero de familiares con quien vive el estudiante',
     })
     membersHouseNumber: number;
-
-    @Column({
-        name: 'monthly_salary',
-        type: 'float',
-        nullable: true,
-        comment: 'Sueldo mensual del estudiante',
-    })
-    monthlySalary: number;
 
     @Column({
         name: 'name_study_other_career',
