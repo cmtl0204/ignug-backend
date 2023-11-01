@@ -52,6 +52,14 @@ export class StudentsService {
                     isFamilyVehicle:true,
                     isFamilyProperties:true,
                     familyProperties:true,
+                    isAncestralLanguage:true,
+                    ancestralLanguageName:true,
+                    isDegreeSuperior:true,
+                    degreeSuperior:true,
+                    universityCareer:true,
+                    isLostGratuity:true,
+                    typeSchool:true,
+                    isStudyOtherCareer:true
               },
                  user: {
                     identificationType:true,
@@ -60,6 +68,16 @@ export class StudentsService {
                     sex:true,
                     gender:true,
                     ethnicOrigin:true,
+                    originAddress:{
+                        province:true,
+                        canton:true,
+                        parrish:true,
+                    },
+                    residenceAddress:{
+                        province:true,
+                        canton:true,
+                        parrish:true,
+                    },
                  }},
             where: {id},
         });
