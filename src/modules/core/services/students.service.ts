@@ -278,7 +278,7 @@ export class StudentsService {
                     latitude: payload.user.originAddress.latitude,
                     longitude: payload.user.originAddress.longitude,
                     mainStreet: payload.user.originAddress.mainStreet,
-                    modelId: payload.user.id,
+                    modelId: entity.user.id,
                     nearbyCity: payload.user.originAddress.nearbyCity,
                     number: payload.user.originAddress.number,
                     parrishId: payload.user.originAddress.parrish?.id,

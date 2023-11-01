@@ -156,7 +156,7 @@ export class InstitutionsController {
     @Get(':id/careers')
     @HttpCode(HttpStatus.OK)
     async findCareersByInstitution(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterCareerDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.careersService.findByInstitution(id, params);
+        const serviceResponse = await this.careersService.findCareersByInstitution(id, params);
         return {
             data: serviceResponse.data,
             pagination: serviceResponse.pagination,

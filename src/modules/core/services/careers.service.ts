@@ -50,7 +50,7 @@ export class CareersService {
         return {pagination: {totalItems: data[1], limit: 10}, data: data[0]};
     }
 
-    async findByInstitution(institutionId: string, params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
+    async findCareersByInstitution(institutionId: string, params?: FilterCareerDto): Promise<ServiceResponseHttpModel> {
         const relations = {modality: true, state: true, type: true};
         //Pagination & Filter by Search
         if (params?.limit > 0 && params?.page >= 0) {
