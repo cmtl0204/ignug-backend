@@ -59,7 +59,22 @@ export class StudentsService {
                     universityCareer: true,
                     isLostGratuity: true,
                     typeSchool: true,
-                    isStudyOtherCareer: true
+                    isStudyOtherCareer: true,
+                    isForeignLanguage:true,
+                    foreignLanguageName:true,
+                    isWork:true,
+                    isHasChildren:true,
+                    isHouseHead:true,
+                    isPrivateSecurity:true,
+                    isSocialSecurity:true,
+                    isDisability:true,
+                    disabilityType:true,
+                    isCatastrophicIllness:true,
+                    indigenousNationality:true,
+                    town:true,
+                   // monthlySalary:true,
+                   // contactEmergencyKinship:true
+
                 },
                 user: {
                     identificationType: true,
