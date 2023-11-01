@@ -72,8 +72,8 @@ export class StudentsService {
                     isCatastrophicIllness:true,
                     indigenousNationality:true,
                     town:true,
-                   // monthlySalary:true,
-                   // contactEmergencyKinship:true
+                    monthlySalary:true,
+                    contactEmergencyKinship:true
 
                 },
                 user: {
