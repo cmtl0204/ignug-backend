@@ -36,7 +36,7 @@ import {ReportsModule} from "./modules/reports";
             }),
         }),
         MulterModule.register({dest: './uploads'}),
-        HttpModule,
+        //HttpModule,
         CommonModule,
         AuthModule,
         CoreModule,
