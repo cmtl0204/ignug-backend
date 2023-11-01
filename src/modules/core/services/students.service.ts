@@ -49,36 +49,37 @@ export class StudentsService {
         const entity = await this.repository.findOne({
             relations: {
                 informationStudent: {
-                    isFamilyVehicle:true,
-                    isFamilyProperties:true,
-                    familyProperties:true,
-                    isAncestralLanguage:true,
-                    ancestralLanguageName:true,
-                    isDegreeSuperior:true,
-                    degreeSuperior:true,
-                    universityCareer:true,
-                    isLostGratuity:true,
-                    typeSchool:true,
-                    isStudyOtherCareer:true
-              },
-                 user: {
-                    identificationType:true,
-                    maritalStatus:true,
-                    nationality:true,
-                    sex:true,
-                    gender:true,
-                    ethnicOrigin:true,
-                    originAddress:{
-                        province:true,
-                        canton:true,
-                        parrish:true,
+                    isFamilyVehicle: true,
+                    isFamilyProperties: true,
+                    familyProperties: true,
+                    isAncestralLanguage: true,
+                    ancestralLanguageName: true,
+                    isDegreeSuperior: true,
+                    degreeSuperior: true,
+                    universityCareer: true,
+                    isLostGratuity: true,
+                    typeSchool: true,
+                    isStudyOtherCareer: true
+                },
+                user: {
+                    identificationType: true,
+                    maritalStatus: true,
+                    nationality: true,
+                    sex: true,
+                    gender: true,
+                    ethnicOrigin: true,
+                    originAddress: {
+                        province: true,
+                        canton: true,
+                        parrish: true,
                     },
-                    residenceAddress:{
-                        province:true,
-                        canton:true,
-                        parrish:true,
+                    residenceAddress: {
+                        province: true,
+                        canton: true,
+                        parrish: true,
                     },
-                 }},
+                }
+            },
             where: {id},
         });
 
@@ -183,12 +184,6 @@ export class StudentsService {
 
         await this.usersService.update(entity.userId, entity.user);
 
-        entity.informationStudent.indigenousNationalityId = payload.informationStudent.indigenousNationality.id;
-        entity.informationStudent.townId = payload.informationStudent.town.id;
-        entity.informationStudent.isAncestralLanguageId = payload.informationStudent.isAncestralLanguage.id;
-        entity.informationStudent.ancestralLanguageName = payload.informationStudent.ancestralLanguageName;
-        entity.informationStudent.isForeignLanguageId = payload.informationStudent.isForeignLanguage.id;
-        entity.informationStudent.foreignLanguageName = payload.informationStudent.foreignLanguageName;
         entity.informationStudent.contactEmergencyName = payload.informationStudent.contactEmergencyName;
         entity.informationStudent.contactEmergencyPhone = payload.informationStudent.contactEmergencyPhone;
         entity.informationStudent.contactEmergencyKinship = payload.informationStudent.contactEmergencyKinship;
@@ -202,11 +197,40 @@ export class StudentsService {
         entity.informationStudent.isHouseHeadId = payload.informationStudent.isHouseHead.id;
         entity.informationStudent.isSocialSecurityId = payload.informationStudent.isSocialSecurity.id;
         entity.informationStudent.isPrivateSecurityId = payload.informationStudent.isPrivateSecurity.id;
+
+        // Conditional Field
+        entity.informationStudent.indigenousNationalityId = payload.user.ethnicOrigin.code === '1'
+            ? payload.informationStudent.indigenousNationality.id : null;
+
+        entity.informationStudent.townId = payload.user.ethnicOrigin.code === '1'
+            ?payload.informationStudent.town.id:null;
+
+        // Conditional Field
         entity.informationStudent.isDisabilityId = payload.informationStudent.isDisability.id;
-        entity.informationStudent.disabilityTypeId = payload.informationStudent.disabilityType.id;
-        entity.informationStudent.disabilityPercentage = payload.informationStudent.disabilityPercentage;
+
+        entity.informationStudent.disabilityTypeId = payload.informationStudent.isDisability.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.disabilityType.id : null;
+
+        entity.informationStudent.disabilityPercentage = payload.informationStudent.isDisability.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.disabilityPercentage : null;
+
+        // Conditional Field
+        entity.informationStudent.isAncestralLanguageId = payload.informationStudent.isAncestralLanguage.id;
+
+        entity.informationStudent.ancestralLanguageNameId = payload.informationStudent.isAncestralLanguage.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.ancestralLanguageName.id : null;
+
+        // Conditional Field
+        entity.informationStudent.isForeignLanguageId = payload.informationStudent.isForeignLanguage.id;
+
+        entity.informationStudent.foreignLanguageNameId = payload.informationStudent.isForeignLanguage.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.foreignLanguageName.id : null;
+
+        // Conditional Field
         entity.informationStudent.isCatastrophicIllnessId = payload.informationStudent.isCatastrophicIllness.id;
-        entity.informationStudent.catastrophicIllness = payload.informationStudent.catastrophicIllness;
+
+        entity.informationStudent.catastrophicIllness = payload.informationStudent.isCatastrophicIllness.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.catastrophicIllness : null;
 
         await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 
