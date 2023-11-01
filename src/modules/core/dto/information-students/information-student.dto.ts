@@ -30,6 +30,9 @@ export class InformationStudentDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly familyIncome: CatalogueEntity;
 
+  @IsOptional()
+  readonly contactEmergencyKinship: CatalogueEntity;
+
   @IsString(isStringValidationOptions())
   @MaxLength(1000, { message: 'Maximo 1000 caracteres' })
   readonly address: string;
@@ -41,10 +44,6 @@ export class InformationStudentDto {
   @IsString(isStringValidationOptions())
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
   readonly contactEmergencyName: string;
-
-  @IsString(isStringValidationOptions())
-  @MaxLength(255, { message: 'Maximo 255 caracteres' })
-  readonly contactEmergencyKinship: string;
 
   @IsString(isStringValidationOptions())
   @MaxLength(255, { message: 'Maximo 255 caracteres' })
