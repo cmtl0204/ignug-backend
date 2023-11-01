@@ -52,8 +52,7 @@ import {
 } from '@core/services';
 import {DatabaseModule} from '@database';
 import {coreProviders} from '@core/providers';
-import {OriginAddressesService} from "./services/origin-addresses.service";
-import {ResidenceAddressesService} from "./services/residence-addresses.service";
+import {EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddressesService} from "@core/services";
 
 @Global()
 @Module({
@@ -88,6 +87,7 @@ import {ResidenceAddressesService} from "./services/residence-addresses.service"
         CurriculumsService,
         EnrollmentDetailsService,
         EnrollmentStatesService,
+        EnrollmentDetailStatesService,
         EnrollmentsService,
         EventsService,
         ExportsService,
@@ -120,6 +120,7 @@ import {ResidenceAddressesService} from "./services/residence-addresses.service"
         ClassroomsService,
         CurriculumsService,
         EnrollmentDetailsService,
+        EnrollmentDetailStatesService,
         EnrollmentStatesService,
         EnrollmentsService,
         EventsService,

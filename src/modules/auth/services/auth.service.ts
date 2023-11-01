@@ -236,13 +236,13 @@ export class AuthService {
             });
         }
 
-
         if (transactionalCode.isUsed) {
             throw new BadRequestException({
                 message: 'El código ya fue usado',
                 error: 'Error',
             });
         }
+
         const maxDate = add(transactionalCode.createdAt, {minutes: 10});
 
         if (isBefore(maxDate, new Date())) {

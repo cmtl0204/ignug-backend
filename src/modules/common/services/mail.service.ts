@@ -89,9 +89,8 @@ export class MailService {
             from: `${this.configService.mail.fromName} - ${this.configService.mail.from}`,
             subject: mailData.subject,
             template: mailData.template,
-            context: {system: environments.appName},
+            context: {system: environments.appName,data:mailData.data},
             attachments: mailAttachments,
-            secure : true
         };
 
 

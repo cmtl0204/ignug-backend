@@ -98,10 +98,10 @@ export * from './teacher-distributions/update-teacher-distribution.dto';
 export * from './teacher-distributions/filter-teacher-distribution.dto';
 export * from './teacher-distributions/seed-teacher-distribution.dto';
 
-export * from './enrollment-detail/enrollment-detail.dto';
-export * from './enrollment-detail/create-enrollment-detail.dto';
-export * from './enrollment-detail/filter-enrollment-detail.dto';
-export * from './enrollment-detail/update-enrollment-detail.dto';
+export * from './enrollment-details/enrollment-detail.dto';
+export * from './enrollment-details/create-enrollment-detail.dto';
+export * from './enrollment-details/filter-enrollment-detail.dto';
+export * from './enrollment-details/update-enrollment-detail.dto';
 
 export * from './grades/grade.dto';
 export * from './grades/create-grade.dto';
@@ -118,6 +118,12 @@ export * from './enrollment-state/create-enrollment-state.dto';
 export * from './enrollment-state/update-enrollment-state.dto';
 export * from './enrollment-state/filter-enrollment-state.dto';
 export * from './enrollment-state/seed-enrollment-state.dto';
+
+export * from './enrollment-detail-states/enrollment-detail-state.dto';
+export * from './enrollment-detail-states/create-enrollment-detail-state.dto';
+export * from './enrollment-detail-states/update-enrollment-detail-state.dto';
+export * from './enrollment-detail-states/filter-enrollment-detail-state.dto';
+export * from './enrollment-detail-states/seed-enrollment-detail-state.dto';
 
 export * from './origin-adresses/origin-address.dto';
 export * from './origin-adresses/create-origin-address.dto';

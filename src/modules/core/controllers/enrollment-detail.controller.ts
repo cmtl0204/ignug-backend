@@ -13,10 +13,17 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateEnrollmentsDetailDto, UpdateEnrollmentsDetailDto, FilterEnrollmentsDetailDto } from '@core/dto';
+import {
+  CreateEnrollmentsDetailDto,
+  UpdateEnrollmentsDetailDto,
+  FilterEnrollmentsDetailDto,
+  UpdateEnrollmentDto
+} from '@core/dto';
 import { EnrollmentDetailsService } from '@core/services';
 import { EnrollmentDetailEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
+import {User} from "@auth/decorators";
+import {UserEntity} from "@auth/entities";
 
 @ApiTags('Enrillment-details')
 @Controller('enrollments-details')
@@ -99,6 +106,52 @@ export class  EnrollmentDetailsController {
       title: `Reporte de notas eliminadas`,
     };
   }
+
+  @ApiOperation({summary: 'Approve Enrollment'})
+  @Patch(':id/approve')
+  @HttpCode(HttpStatus.CREATED)
+  async approve(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentDetailsService.approve(id, user.id, payload);
+    return {
+      data: serviceResponse,
+      message: `La solicitud fue aprobada`,
+      title: `Aprobada`,
+    };
+  }
+
+  @ApiOperation({summary: 'Approve Enrollment'})
+  @Patch(':id/reject')
+  @HttpCode(HttpStatus.CREATED)
+  async reject(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentDetailsService.reject(id, user.id, payload);
+    return {
+      data: serviceResponse,
+      message: `La solicitud fue rechazada`,
+      title: `Rechazada`,
+    };
+  }
+
+  @ApiOperation({summary: 'Enroll Enrollment'})
+  @Patch(':id/enroll')
+  @HttpCode(HttpStatus.CREATED)
+  async enroll(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentDetailsService.enroll(id, user.id, payload);
+    return {
+      data: serviceResponse,
+      message: `La matrícula fue creada`,
+      title: `Matriculado`,
+    };
+  }
+
+  @ApiOperation({summary: 'Enroll Enrollment'})
+  @Patch(':id/revoke')
+  @HttpCode(HttpStatus.CREATED)
+  async revoke(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentDetailsService.revoke(id, user.id, payload);
+    return {
+      data: serviceResponse,
+      message: `La matrícula fue anulada`,
+      title: `Anulada`,
+    };
+  }
 }
-
-

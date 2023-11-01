@@ -9,6 +9,7 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {CatalogueEntity, EnrollmentEntity} from '@core/entities';
+import {UserEntity} from "@auth/entities";
 
 @Entity('enrollment_detail_states', {schema: 'core'})
 export class EnrollmentDetailStateEntity {
@@ -51,6 +52,12 @@ export class EnrollmentDetailStateEntity {
     enrollmentDetail: EnrollmentEntity;
     @Column({type: 'uuid', name: 'enrollment_detail_id', comment: 'Detalle Matricula'})
     enrollmentDetailId: string;
+
+    @ManyToOne(() => UserEntity)
+    @JoinColumn({name: 'user_id'})
+    user: UserEntity;
+    @Column({type: 'uuid', name: 'user_id', comment: 'Usuario que realiza el cambio'})
+    userId: string;
 
     /** Columns **/
     @Column({

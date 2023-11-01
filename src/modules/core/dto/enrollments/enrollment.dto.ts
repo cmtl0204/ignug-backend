@@ -1,6 +1,6 @@
 import {IsNotEmpty, IsOptional, IsString, IsDate, Min, MinLength} from 'class-validator';
 import {StudentEntity, CatalogueEntity, SchoolPeriodEntity, CareerEntity, EnrollmentDetailEntity} from '@core/entities';
-import {CreateEnrollmentsDetailDto} from "../enrollment-detail/create-enrollment-detail.dto";
+import {CreateEnrollmentsDetailDto} from "../enrollment-details/create-enrollment-detail.dto";
 
 export class EnrollmentDto {
     @IsNotEmpty()
