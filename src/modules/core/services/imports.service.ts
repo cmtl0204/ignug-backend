@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {CareersService, InstitutionsService, StudentsService, TeachersService} from '@core/services';
+import {CareersService, InstitutionsService, LocationsService, StudentsService, TeachersService} from '@core/services';
 import * as XLSX from 'xlsx';
 import * as process from 'process';
 import {join} from 'path';
@@ -10,12 +10,13 @@ import {RoleEntity} from '@auth/entities';
 @Injectable()
 export class ImportsService {
     constructor(
-        private teachersService: TeachersService,
-        private studentsService: StudentsService,
-        private rolesService: RolesService,
-        private usersService: UsersService,
-        private institutionsService: InstitutionsService,
-        private careersService: CareersService,
+        private readonly locationsService: LocationsService,
+        private readonly teachersService: TeachersService,
+        private readonly studentsService: StudentsService,
+        private readonly rolesService: RolesService,
+        private readonly usersService: UsersService,
+        private readonly institutionsService: InstitutionsService,
+        private readonly careersService: CareersService,
     ) {
     }
 
@@ -112,6 +113,78 @@ export class ImportsService {
             const userCrated = await this.usersService.create(user);
 
             await this.teachersService.create({user: userCrated});
+        }
+
+        return true;
+    }
+
+    async importCountries(): Promise<boolean> {
+        const workbook = XLSX.readFile(join(process.cwd(), 'storage/imports/countries.xlsx'));
+
+        const workbookSheets = workbook.SheetNames;
+        const sheet = workbookSheets[0];
+        const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+        for (const item of dataExcel) {
+            const location = {
+                alpha3: item['alpha3'],
+                code: item['codigo'],
+                idTemp: item['alpha3'],
+                level: 1,
+                name: item['nombre'].toUpperCase()
+            }
+
+            await this.locationsService.create(location);
+        }
+
+        return true;
+    }
+
+    async importDPA(): Promise<boolean> {
+        const workbook = XLSX.readFile(join(process.cwd(), 'storage/imports/dpa.xlsx'));
+
+        const workbookSheets = workbook.SheetNames;
+        const sheet = workbookSheets[0];
+        const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+        for (const item of dataExcel) {
+            let level = 0;
+            let zone = null;
+            if (item['tipo_id'] == 36) {
+                level = 2;
+            }
+            if (item['tipo_id'] == 37) {
+                level = 3;
+            }
+            if (item['tipo_id'] == 38) {
+                level = 4;
+            }
+
+            if (item['tipo_zona']) {
+                zone = item['tipo_zona'];
+            }
+
+            let parentId = null;
+
+            if (item['padre_id']) {
+                const parent = await this.locationsService.findByIdTemp(item['padre_id']);
+                if (parent) {
+                    parentId = parent.id;
+                }
+            }
+
+            const location = {
+                parentId,
+                code: item['codigo'],
+                latitude: item['latitud'],
+                longitude: item['longitud'],
+                level,
+                name: item['nombre'],
+                zone,
+                idTemp: item['id'],
+            }
+
+            await this.locationsService.create(location);
         }
 
         return true;

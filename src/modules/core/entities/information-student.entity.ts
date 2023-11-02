@@ -289,6 +289,17 @@ export class InformationStudentEntity {
     isDisabilityId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_discrimination_id'})
+    isDiscrimination: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_discrimination_id',
+        nullable: true,
+        comment: 'Alguna vez ha sido usted objeto de discriminación'
+    })
+    isDiscriminationId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_economic_contribution_id'})
     isEconomicContribution: CatalogueEntity;
     @Column({
@@ -400,6 +411,17 @@ export class InformationStudentEntity {
     isForeignLanguageId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_gender_violence_id'})
+    isGenderViolence: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_gender_violence_id',
+        nullable: true,
+        comment: 'Usted alguna vez ha sido víctima de violencia de género'
+    })
+    isGenderViolenceId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_has_children_id'})
     isHasChildren: CatalogueEntity;
     @Column({type: 'uuid', name: 'is_has_children_id', nullable: true, comment: 'Tiene Hijos'})
@@ -410,6 +432,17 @@ export class InformationStudentEntity {
     isHouseHead: CatalogueEntity;
     @Column({type: 'uuid', name: 'is_house_head_id', nullable: true, comment: 'Es Jefe de Hogar'})
     isHouseHeadId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'is_injuries_id'})
+    isInjuries: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'is_injuries_id',
+        nullable: true,
+        comment: 'Alguna vez ha tenido pensamientos o ha intentado hacerse daño a sí mismo'
+    })
+    isInjuriesId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_internet_id'})
@@ -469,10 +502,10 @@ export class InformationStudentEntity {
     isStudyOtherCareerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'is_subject_repeat_id'})
-    isSubjectRepeat: CatalogueEntity;
-    @Column({type: 'uuid', name: 'is_subject_repeat_id', nullable: true, comment: 'Repite materias'})
-    isSubjectRepeatId: string;
+    @JoinColumn({name: 'is_subject_lost_id'})
+    isSubjectLost: CatalogueEntity;
+    @Column({type: 'uuid', name: 'is_subject_lost_id', nullable: true, comment: 'Ha perdido asignaturas: si o no'})
+    isSubjectLostId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_water_service_id'})
@@ -503,6 +536,28 @@ export class InformationStudentEntity {
     monthlySalaryId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'pandemic_psychological_effects_id'})
+    pandemicPsychologicalEffects: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'pandemic_psychological_effects_id',
+        nullable: true,
+        comment: 'Ansiedad, Estres, Depresion, etc'
+    })
+    pandemicPsychologicalEffectsId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'social_group_id'})
+    socialGroup: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'social_group_id',
+        nullable: true,
+        comment: 'Goticos, Raperos, Hipsters, etc'
+    })
+    socialGroupId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'student_live_id'})
     studentLive: CatalogueEntity;
     @Column({
@@ -523,6 +578,50 @@ export class InformationStudentEntity {
         comment: 'Pueblo: Chibuleo, Cayambi, Karanki, etc'
     })
     townId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'type_discrimination_id'})
+    typeDiscrimination: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'type_discrimination_id',
+        nullable: true,
+        comment: 'Edad, Genero, Origen etnico, etc'
+    })
+    typeDiscriminationId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'type_gender_violence_id'})
+    typeGenderViolence: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'type_gender_violence_id',
+        nullable: true,
+        comment: 'Fisica, Emocional, Psicologica, etc'
+    })
+    typeGenderViolenceId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'type_injuries_id'})
+    typeInjuries: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'type_injuries_id',
+        nullable: true,
+        comment: 'Me cortaba, Me quemaba la piel, Me golpeaba, etc'
+    })
+    typeInjuriesId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'type_school_id'})
+    typeSchool: CatalogueEntity;
+    @Column({
+        type: 'uuid',
+        name: 'type_school_id',
+        nullable: true,
+        comment: 'Tipo de colegio del que proviene'
+    })
+    typeSchoolId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'type_study_other_career_id'})
@@ -564,17 +663,6 @@ export class InformationStudentEntity {
     studentId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'type_school_id'})
-    typeSchool: CatalogueEntity;
-    @Column({
-        type: 'uuid',
-        name: 'type_school_id',
-        nullable: true,
-        comment: 'Tipo de colegio del que proviene'
-    })
-    typeSchoolId: string;
-
-    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'water_service_type_id'})
     waterServiceType: CatalogueEntity;
     @Column({
@@ -597,6 +685,14 @@ export class InformationStudentEntity {
     workingHoursId: string;
 
     /** Columns **/
+    @Column({
+        name: 'additional_information',
+        type: 'text',
+        nullable: true,
+        comment: 'Información adicional de estudiante',
+    })
+    additionalInformation: string;
+
     @Column({
         name: 'address',
         type: 'text',

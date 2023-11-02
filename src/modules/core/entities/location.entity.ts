@@ -52,6 +52,14 @@ export class LocationEntity {
 
     /** Columns **/
     @Column({
+        name: 'alpha3',
+        type: 'varchar',
+        nullable: true,
+        comment: 'alpha3',
+    })
+    alpha3: string;
+
+    @Column({
         name: 'code',
         type: 'varchar',
         nullable: true,

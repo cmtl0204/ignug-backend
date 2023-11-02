@@ -17,3 +17,4 @@ export * from './enrollment-detail.controller';
 export * from './enrollment.controller';
 export * from './secretary.controller';
 export * from './teacher-charge.controller';
+export * from './locations.controller';

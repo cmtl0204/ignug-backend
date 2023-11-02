@@ -56,6 +56,14 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
+                code: 'pre',
+                description: 'Pre',
+                name: 'Pre',
+                sort: 0,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
+            },
+            {
                 code: '1',
                 description: 'Periodo academico',
                 name: 'Primero',
@@ -132,14 +140,6 @@ export class CataloguesSeeder {
                 description: 'Periodo academico',
                 name: 'Décimo',
                 sort: 10,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ACADEMIC_PERIOD,
-            },
-            {
-                code: 'pre',
-                description: 'Pre',
-                name: 'Pre',
-                sort: 11,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ACADEMIC_PERIOD,
             },

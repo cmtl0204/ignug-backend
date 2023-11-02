@@ -11,7 +11,7 @@ import {
     ImportsController,
     InformationStudentsController,
     InformationTeachersController,
-    InstitutionsController,
+    InstitutionsController, LocationsController,
     PDFController,
     SchoolPeriodsController,
     SecretaryController,
@@ -76,6 +76,7 @@ import {EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddresse
         SubjectsController,
         TeacherDistributionsController,
         TeachersController,
+        LocationsController,
     ],
     providers: [
         ...coreProviders,

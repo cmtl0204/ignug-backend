@@ -31,7 +31,7 @@ export class InformationStudentsService {
                 // isBonusDevelopmentReceive: true,
                 // isDegreeSuperior: true,
                 isDisability: true,
-                isSubjectRepeat: true
+                isSubjectLost: true
             },
             where: {id},
         });

@@ -25,7 +25,7 @@ export class InformationStudentDto {
   readonly isLostGratuity: CatalogueEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
-  readonly isSubjectRepeat: CatalogueEntity;
+  readonly isSubjectLost: CatalogueEntity;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly familyIncome: CatalogueEntity;
