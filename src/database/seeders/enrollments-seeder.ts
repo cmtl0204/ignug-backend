@@ -179,15 +179,21 @@ export class EnrollmentSeeder {
             return academicState.code === 'a' && academicState.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
         });
 
+        const reprobateAcademicState = this.academicStates.find(academicState => {
+            return academicState.code === 'r' && academicState.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
+        });
+
         //subjects
-        const subject1 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod1');
-        const subject2 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod2');
-        const subject3 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod3');
-        const subject4 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod4');
-        const subject5 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod5');
-        const subject6 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod6');
-        const subject7 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod7');
-        const subject8 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'cod8');
+        const subject1 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling1');
+        const subject2 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling2');
+        const subject3 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling3');
+        const subject4 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling4');
+        const subject5 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling5');
+        const subject6 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling1');
+        const subject7 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling2');
+        const subject8 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling3');
+        const subject9 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling4');
+        const subject10 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling5');
 
         //enrollments
         this.enrollments = (await this.enrollmentsService.findAll()).data;
@@ -269,7 +275,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment2,
+                enrollment: enrollment1,
                 parallel: parallel,
                 subject: subject5,
                 type: type,
@@ -311,6 +317,32 @@ export class EnrollmentSeeder {
                 enrollment: enrollment2,
                 parallel: parallel,
                 subject: subject8,
+                type: type,
+                workday: workday,
+                number: faker.helpers.rangeToNumber({min: 1, max: 3}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                observation: 'no hay observaciones',
+            },
+            {
+                academicState: academicState,
+                enrollment: enrollment2,
+                parallel: parallel,
+                subject: subject9,
+                type: type,
+                workday: workday,
+                number: faker.helpers.rangeToNumber({min: 1, max: 3}),
+                // date: new Date('2023-08-14'),
+                // finalAttendance: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                // finalGrade: faker.helpers.rangeToNumber({min: 7, max: 10}),
+                observation: 'no hay observaciones',
+            },
+            {
+                academicState: reprobateAcademicState,
+                enrollment: enrollment2,
+                parallel: parallel,
+                subject: subject10,
                 type: type,
                 workday: workday,
                 number: faker.helpers.rangeToNumber({min: 1, max: 3}),

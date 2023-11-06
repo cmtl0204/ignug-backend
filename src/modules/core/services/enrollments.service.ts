@@ -354,7 +354,7 @@ export class EnrollmentsService {
         const enrollments = await this.repository.find({
             relations: {
                 enrollmentDetails: {
-                    subject: true,
+                    subject: {type: true},
                     academicState: true,
                     enrollmentDetailStates: true
                 }

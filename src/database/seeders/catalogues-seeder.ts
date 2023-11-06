@@ -56,9 +56,9 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: 'pre',
-                description: 'Pre',
-                name: 'Pre',
+                code: 'leveling',
+                description: 'Nivelación',
+                name: 'Nivelación',
                 sort: 0,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ACADEMIC_PERIOD,
@@ -1256,6 +1256,14 @@ export class CataloguesSeeder {
                 code: 'practical_phase',
                 description: 'Fase Práctica',
                 name: 'Fase Práctica',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SUBJECTS_TYPE,
+            },
+            {
+                code: 'leveling',
+                description: 'Nivelación',
+                name: 'Nivelación',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.SUBJECTS_TYPE,
