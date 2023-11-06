@@ -14,13 +14,16 @@ import {
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
 import {FilterStudentDto, UpdateStudentDto} from '@core/dto';
 import {StudentEntity} from '@core/entities';
-import {StudentsService} from '@core/services';
+import {EnrollmentsService, StudentsService} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Students')
 @Controller('students')
-export class StudentsController     {
-    constructor(private studentService: StudentsService) {
+export class StudentsController {
+    constructor(
+        private studentService: StudentsService,
+        private enrollmentsService: EnrollmentsService,
+    ) {
     }
 
     @ApiOperation({summary: 'Lista de todos los usuarios'})
@@ -105,7 +108,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Datos Personales Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -117,7 +120,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Datos Académicos del Estudiante Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -129,7 +132,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Otros Datos Académicos del Estudiante Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -141,7 +144,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Lugar de Procedencia Actualizado`,
             title: `Actualizado`,
         };
     }
@@ -153,7 +156,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Lugar de Residencia Actualizado`,
             title: `Actualizado`,
         };
     }
@@ -165,7 +168,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Datos del Grupo Familiar Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -177,7 +180,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Otros Datos Económicos Familiares Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -189,7 +192,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Antecedentes de Salud de la Familia Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -201,7 +204,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Datos de la Vivienda del Estudiante Actualizados`,
             title: `Actualizado`,
         };
     }
@@ -213,7 +216,7 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Migración de País Actualizado`,
             title: `Actualizado`,
         };
     }
@@ -225,20 +228,20 @@ export class StudentsController     {
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
+            message: `Sección Psicosocial Actualizada`,
             title: `Actualizado`,
         };
     }
 
-    @Patch(':id/croquis')
-    @HttpCode(HttpStatus.CREATED)
-    async updateCroquis(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateStudentDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.studentService.updateCroquis(id, payload);
+    @Get(':id/enrollment-details')
+    @HttpCode(HttpStatus.OK)
+    async findEnrollmentDetailsByStudent(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.findEnrollmentsByStudent(id);
 
         return {
             data: serviceResponse,
-            message: `Usuario actualizado`,
-            title: `Actualizado`,
+            message: `Success`,
+            title: `GET`,
         };
     }
 }

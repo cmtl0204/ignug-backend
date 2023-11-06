@@ -63,7 +63,6 @@ export class SchoolPeriodsController {
     }
 
     @ApiOperation({summary: 'Find All'})
-    @Roles(RoleEnum.COORDINATOR_CAREER)
     @Get()
     @HttpCode(HttpStatus.OK)
     async findAll(): Promise<ResponseHttpModel> {

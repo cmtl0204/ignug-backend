@@ -60,21 +60,22 @@ export class StudentsService {
                     isLostGratuity: true,
                     typeSchool: true,
                     isStudyOtherCareer: true,
-                    isForeignLanguage:true,
-                    foreignLanguageName:true,
-                    isWork:true,
-                    isHasChildren:true,
-                    isHouseHead:true,
-                    isPrivateSecurity:true,
-                    isSocialSecurity:true,
-                    isDisability:true,
-                    disabilityType:true,
-                    isCatastrophicIllness:true,
-                    indigenousNationality:true,
-                    town:true,
-                    monthlySalary:true,
-                    contactEmergencyKinship:true
-
+                    isForeignLanguage: true,
+                    foreignLanguageName: true,
+                    isWork: true,
+                    isHasChildren: true,
+                    isHouseHead: true,
+                    isPrivateSecurity: true,
+                    isSocialSecurity: true,
+                    isDisability: true,
+                    disabilityType: true,
+                    isCatastrophicIllness: true,
+                    indigenousNationality: true,
+                    town: true,
+                    monthlySalary: true,
+                    contactEmergencyKinship: true,
+                    workingHours: true,
+                    typeStudyOtherCareer: true,
                 },
                 user: {
                     identificationType: true,
@@ -207,18 +208,22 @@ export class StudentsService {
         entity.informationStudent.monthlySalary = payload.informationStudent.monthlySalary;
         entity.informationStudent.workingHours = payload.informationStudent.workingHours;
         entity.informationStudent.workPosition = payload.informationStudent.workPosition;
-        entity.informationStudent.isHasChildrenId = payload.informationStudent.isHasChildren.id;
-        entity.informationStudent.childrenTotal = payload.informationStudent.childrenTotal;
         entity.informationStudent.isHouseHeadId = payload.informationStudent.isHouseHead.id;
         entity.informationStudent.isSocialSecurityId = payload.informationStudent.isSocialSecurity.id;
         entity.informationStudent.isPrivateSecurityId = payload.informationStudent.isPrivateSecurity.id;
+
+        // Conditional Field
+        entity.informationStudent.isHasChildrenId = payload.informationStudent.isHasChildren.id;
+
+        entity.informationStudent.childrenTotal = payload.informationStudent.isHasChildren.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.childrenTotal : null;
 
         // Conditional Field
         entity.informationStudent.indigenousNationalityId = payload.user.ethnicOrigin.code === '1'
             ? payload.informationStudent.indigenousNationality.id : null;
 
         entity.informationStudent.townId = payload.user.ethnicOrigin.code === '1'
-            ?payload.informationStudent.town.id:null;
+            ? payload.informationStudent.town.id : null;
 
         // Conditional Field
         entity.informationStudent.isDisabilityId = payload.informationStudent.isDisability.id;
@@ -568,25 +573,6 @@ export class StudentsService {
         entity.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
 
         await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
-
-        return entity;
-    }
-
-    async updateCroquis(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
-            relations: {informationStudent: true},
-            where: {id}
-        });
-
-        if (!entity) {
-            throw new NotFoundException('Estudiante no encontrado');
-        }
-
-        entity.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
-
-        await this.repository.save(entity);
-
-        // await this.usersService.update(payload.user.id, payload.user);
 
         return entity;
     }

@@ -21,7 +21,6 @@ export class CareerReportsService {
         doc.text('hello world', 100, 50);
 
         const careers = await this.findCareers();
-        console.log(careers);
         const headers = ['Código', 'Carrera'];
 
         const rows = [];

@@ -55,10 +55,10 @@ export class EnrollmentDetailEntity {
 
     /** Foreign Keys **/
 
-    @ManyToOne(() => CatalogueEntity)
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'academic_state_id'})
     academicState: CatalogueEntity;
-    @Column({type: 'uuid', name: 'academic_state_id', comment: 'Aprobado o Desaprobado'})
+    @Column({type: 'uuid', name: 'academic_state_id', nullable: true, comment: 'Aprobado o Desaprobado'})
     academicStateId: string;
 
     @ManyToOne(() => EnrollmentEntity)
@@ -67,10 +67,10 @@ export class EnrollmentDetailEntity {
     @Column({type: 'uuid', name: 'enrollment_id', comment: 'Matriculado o No Matriculado'})
     enrollmentId: string;
 
-    @ManyToOne(() => CatalogueEntity)
+    @ManyToOne(() => CatalogueEntity,{nullable: true})
     @JoinColumn({name: 'parallel_id'})
     parallel: CatalogueEntity;
-    @Column({type: 'uuid', name: 'parallel_id', comment: 'Paralelo asignado'})
+    @Column({type: 'uuid', name: 'parallel_id',nullable:true, comment: 'Paralelo asignado'})
     parallelId: string;
 
     @ManyToOne(() => SubjectEntity)
@@ -118,7 +118,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'final_attendance',
         type: 'decimal',
-        nullable:true,
+        nullable: true,
         precision: 5,
         scale: 2,
         comment: 'Valor de la asistencia',
@@ -128,7 +128,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'final_grade',
         type: 'decimal',
-        nullable:true,
+        nullable: true,
         precision: 5,
         scale: 2,
         comment: 'Valor de la calificacion',
@@ -138,7 +138,7 @@ export class EnrollmentDetailEntity {
     @Column({
         name: 'observation',
         type: 'text',
-        nullable:true,
+        nullable: true,
         comment: 'Observaciones de la matricula',
     })
     observation: string;

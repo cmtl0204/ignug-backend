@@ -69,6 +69,14 @@ export class TeacherDistributionEntity {
 
     /** Columns **/
     @Column({
+        name: 'capacity',
+        type: 'int',
+        nullable: true,
+        comment: 'Capacidad Máxima',
+    })
+    capacity: number;
+
+    @Column({
         name: 'hours',
         type: 'int',
         nullable: true,

@@ -77,7 +77,7 @@ export class DatabaseSeeder {
             const path = join(process.cwd(), 'storage/private/uploads', i.toString());
             fs.mkdir(path, err => {
                 if (err) {
-                    console.log(err);
+                    // console.log(err);
                 }
             });
 
@@ -85,7 +85,7 @@ export class DatabaseSeeder {
                 const path = join(process.cwd(), 'storage/private/uploads', i.toString());
                 fs.mkdir(path, err => {
                     if (err) {
-                        console.log(err);
+                        // console.log(err);
                     }
                 });
             }

@@ -350,6 +350,31 @@ export class EnrollmentsService {
         }
     }
 
+    async findEnrollmentsByStudent(studentId: string): Promise<EnrollmentDetailEntity[]> {
+        const enrollments = await this.repository.find({
+            relations: {
+                enrollmentDetails: {
+                    subject: true,
+                    academicState: true,
+                    enrollmentDetailStates: true
+                }
+            },
+            where: {studentId}
+        });
+
+        const enrollmentDetails = [];
+
+        for (const item of enrollments) {
+            enrollmentDetails.push(...item.enrollmentDetails);
+        }
+
+        if (enrollmentDetails.length === 0) {
+            return [];
+        }
+
+        return enrollmentDetails;
+    }
+
     async sendRequest(userId: string, payload: CreateEnrollmentDto): Promise<EnrollmentEntity> {
         // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
         let enrollment = await this.repository.findOne({
@@ -364,17 +389,17 @@ export class EnrollmentsService {
 
         enrollment.applicationsAt = new Date();
 
+        enrollment = await this.repository.save(enrollment);
+
         const catalogues = await this.cataloguesService.findCache();
 
-        const requestSentState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueEnrollmentStateEnum.REQUEST_SENT &&
+        const registeredState = catalogues.find(catalogue =>
+            catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
-
-        enrollment = await this.repository.save(enrollment);
 
         await this.enrollmentsStateService.create({
             enrollmentId: enrollment.id,
-            stateId: requestSentState.id,
+            stateId: registeredState.id,
             userId,
             date: new Date(),
             observation: payload.observation,

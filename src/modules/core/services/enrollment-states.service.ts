@@ -35,7 +35,6 @@ export class EnrollmentStatesService {
     }
 
     async removeRejected(enrollmentStates: EnrollmentStateEntity[]): Promise<EnrollmentStateEntity> {
-        console.log(enrollmentStates);
         const rejected = enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED);
         if (!rejected) {
             return null;

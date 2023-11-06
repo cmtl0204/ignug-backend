@@ -60,7 +60,7 @@ export class LocationsService {
             where: {level: 1},
             order: {name: 'asc'},
         });
-        console.log(locations);
+
         await this.cacheManager.set(CacheEnum.LOCATIONS, locations);
 
         return locations;
