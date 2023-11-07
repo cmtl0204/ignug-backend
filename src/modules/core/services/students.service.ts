@@ -549,6 +549,7 @@ export class StudentsService {
             relations: {informationStudent: true},
             where: {id}
         });
+
         if (!entity) {
             throw new NotFoundException('Estudiante no encontrado');
         }

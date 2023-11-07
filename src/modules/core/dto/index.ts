@@ -27,6 +27,7 @@ export * from './enrollments/create-enrollment.dto';
 export * from './enrollments/enrollment.dto';
 export * from './enrollments/filter-enrollment.dto';
 export * from './enrollments/update-enrollment.dto';
+export * from './enrollments/send-registration.dto';
 
 export * from './information-students/information-student.dto';
 export * from './information-students/create-information-student.dto';

@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsString, Min} from "class-validator";
+import {IsNotEmpty, IsNumber, IsOptional, IsString, Min} from "class-validator";
 import {EnrollmentEntity, CatalogueEntity, SubjectEntity} from "@core/entities";
 
 export class EnrollmentsDetailDto {

@@ -194,4 +194,18 @@ export class SchoolPeriodsController {
         const response = await this.filesService.uploadFile(file, modelId);
         return {data: response, message: 'Upload File', title: 'Upload'};
     }
+
+    @ApiOperation({summary: 'Open School Period'})
+    @Get('states/open')
+    @HttpCode(HttpStatus.OK)
+    async findOpenSchoolPeriod(): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.schoolPeriodsService.findOpenSchoolPeriod();
+
+        return {
+            data: serviceResponse,
+            message: `Find One`,
+            title: `Success`,
+        };
+    }
+
 }

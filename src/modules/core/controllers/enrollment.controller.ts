@@ -15,7 +15,13 @@ import {
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
 import {Auth, User} from "@auth/decorators";
 import {UserEntity} from "@auth/entities";
-import {UpdateCareerDto, CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto} from '@core/dto';
+import {
+    UpdateCareerDto,
+    CreateEnrollmentDto,
+    FilterEnrollmentDto,
+    UpdateEnrollmentDto,
+    SendRegistrationDto
+} from '@core/dto';
 import {EnrollmentEntity} from '@core/entities';
 import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
@@ -117,6 +123,19 @@ export class EnrollmentsController {
             data: serviceResponse,
             message: `Success`,
             title: `Success`,
+        };
+    }
+
+    @ApiOperation({summary: 'Send Registration'})
+    @Post('send-registration')
+    @HttpCode(HttpStatus.CREATED)
+    async sendRegistration(@User() user: UserEntity, @Body() payload: any): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.sendRegistration(user.id, payload);
+
+        return {
+            data: serviceResponse,
+            message: 'Asignaturas Registradas',
+            title: 'Registro',
         };
     }
 

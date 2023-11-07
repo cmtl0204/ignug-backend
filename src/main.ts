@@ -27,7 +27,7 @@ async function bootstrap() {
 
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)), new ResponseHttpInterceptor());
 
-    app.useGlobalFilters(new AllExceptionsFilter());
+    // app.useGlobalFilters(new AllExceptionsFilter());
 
     app.setGlobalPrefix('api/v1');
 

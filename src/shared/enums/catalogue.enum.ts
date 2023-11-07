@@ -65,6 +65,12 @@ export enum CatalogueSchoolPeriodStateEnum {
   CLOSE = 'close',
 }
 
+export enum CatalogueSchoolPeriodTypeEnum {
+  ORDINARY = 'ordinary',
+  EXTRAORDINARY = 'extraordinary',
+  ESPECIAL = 'especial',
+}
+
 export enum CatalogueSubjectRequirementTypeEnum {
   PREREQUISITE = 'prerequisite',
   CO_REQUISITE = 'co_requisite',

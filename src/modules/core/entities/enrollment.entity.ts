@@ -132,6 +132,7 @@ export class EnrollmentEntity {
     @Column({
         name: 'observation',
         type: 'text',
+        nullable:true,
         comment: 'Observaciones de la matricula',
     })
     observation: string;

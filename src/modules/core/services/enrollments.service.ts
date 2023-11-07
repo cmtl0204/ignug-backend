@@ -1,7 +1,13 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder} from 'typeorm';
 import {UserEntity} from '@auth/entities';
-import {CreateEnrollmentDto, FilterEnrollmentDto, PaginationDto, UpdateEnrollmentDto} from '@core/dto';
+import {
+    CreateEnrollmentDto, EnrollmentsDetailDto,
+    FilterEnrollmentDto,
+    PaginationDto,
+    SendRegistrationDto,
+    UpdateEnrollmentDto
+} from '@core/dto';
 import {
     CareerEntity,
     CatalogueEntity,
@@ -14,9 +20,21 @@ import {
     GradeEntity,
     SubjectEntity
 } from '@core/entities';
-import {CataloguesService, EnrollmentStatesService, EnrollmentDetailsService} from "@core/services";
-import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+import {
+    CataloguesService,
+    EnrollmentStatesService,
+    EnrollmentDetailsService,
+    EnrollmentDetailStatesService
+} from "@core/services";
+import {
+    CatalogueEnrollmentStateEnum,
+    CatalogueSchoolPeriodStateEnum, CatalogueSchoolPeriodTypeEnum,
+    CatalogueTypeEnum,
+    CoreRepositoryEnum
+} from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
+import {isAfter, isBefore} from "date-fns";
+import {en} from "@faker-js/faker";
 
 @Injectable()
 export class EnrollmentsService {
@@ -25,6 +43,7 @@ export class EnrollmentsService {
         private repository: Repository<EnrollmentEntity>,
         private readonly enrollmentsStateService: EnrollmentStatesService,
         private readonly enrollmentDetailsService: EnrollmentDetailsService,
+        private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
         private readonly cataloguesService: CataloguesService,
     ) {
     }
@@ -356,7 +375,7 @@ export class EnrollmentsService {
                 enrollmentDetails: {
                     subject: {type: true},
                     academicState: true,
-                    enrollmentDetailStates: true
+                    enrollmentDetailStates: {state:true}
                 }
             },
             where: {studentId}
@@ -375,6 +394,101 @@ export class EnrollmentsService {
         return enrollmentDetails;
     }
 
+    async findEnrollmentByStudent(studentId: string): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {
+                enrollmentStates: {
+                    state: true
+                }
+            },
+            where: {studentId}
+        });
+
+
+        return enrollment;
+    }
+
+    async sendRegistration(userId: string, payload: any): Promise<EnrollmentEntity> {
+        console.log(payload.enrollmentDetails);
+        // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
+        let enrollment = await this.repository.findOne({
+            relations: {enrollmentStates: true, enrollmentDetails: true},
+            where: {
+                studentId: payload.student.id,
+                schoolPeriodId: payload.schoolPeriod.id
+            }
+        });
+
+        if (!enrollment) {
+            enrollment = this.repository.create();
+        }
+
+        enrollment.academicPeriodId = payload.academicPeriod.id;
+        enrollment.careerId = payload.career.id;
+        enrollment.parallelId = payload.parallel.id;
+        enrollment.schoolPeriodId = payload.schoolPeriod.id;
+        enrollment.studentId = payload.student.id;
+        enrollment.typeId = await this.getType(payload.schoolPeriod);
+        enrollment.workdayId = payload.workday.id;
+        enrollment.applicationsAt = new Date();
+
+        enrollment = await this.repository.save(enrollment);
+        // if (enrollment?.id) {
+        //     console.log('update');
+        //     await this.repository.update(enrollment.id, enrollment);
+        // } else {
+        //     console.log('create');
+        //     enrollment = await this.repository.save(enrollment);
+        // }
+
+        const catalogues = await this.cataloguesService.findCache();
+
+        if (enrollment.enrollmentStates?.length === 0) {
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+            await this.enrollmentsStateService.create({
+                enrollmentId: enrollment.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
+        }
+
+        console.log(enrollment.enrollmentDetails);
+        if (enrollment.enrollmentDetails)
+            await this.enrollmentDetailsService.removeAll(enrollment.enrollmentDetails);
+
+        for (const item of payload.enrollmentDetails) {
+            const enrollmentDetail: any = {
+                enrollmentId: enrollment.id,
+                parallelId: enrollment.parallelId,
+                subjectId: item.id,
+                typeId: enrollment.typeId,
+                workdayId: enrollment.workdayId,
+                number: 1,
+            }
+
+            const enrollmentDetailCreated = await this.enrollmentDetailsService.create(enrollmentDetail);
+
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+            await this.enrollmentDetailStatesService.create({
+                enrollmentDetailId: enrollmentDetailCreated.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
+        }
+
+        return enrollment;
+        // });
+    }
+
     async sendRequest(userId: string, payload: CreateEnrollmentDto): Promise<EnrollmentEntity> {
         // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
         let enrollment = await this.repository.findOne({
@@ -385,7 +499,7 @@ export class EnrollmentsService {
         });
 
         if (!enrollment)
-            enrollment = this.repository.create(payload);
+            enrollment = this.repository.create();
 
         enrollment.applicationsAt = new Date();
 
@@ -525,6 +639,31 @@ export class EnrollmentsService {
         });
 
         return enrollment;
+    }
+
+    private async getType(schoolPeriod: SchoolPeriodEntity) {
+        const currentDate = new Date();
+
+        const catalogues = await this.cataloguesService.findCache();
+        let codeType = CatalogueSchoolPeriodTypeEnum.ESPECIAL;
+
+        if (isAfter(currentDate, schoolPeriod.ordinaryStartedAt) && isBefore(currentDate, schoolPeriod.ordinaryEndedAt)) {
+            codeType = CatalogueSchoolPeriodTypeEnum.ORDINARY;
+        }
+
+        if (isAfter(currentDate, schoolPeriod.extraOrdinaryStartedAt) && isBefore(currentDate, schoolPeriod.extraOrdinaryEndedAt)) {
+            codeType = CatalogueSchoolPeriodTypeEnum.EXTRAORDINARY;
+        }
+
+        if (isAfter(currentDate, schoolPeriod.especialStartedAt) && isBefore(currentDate, schoolPeriod.especialEndedAt)) {
+            codeType = CatalogueSchoolPeriodTypeEnum.ESPECIAL;
+        }
+
+        const type = catalogues.find(type => {
+            return type.code === codeType && type.type === CatalogueTypeEnum.ENROLLMENTS_TYPE;
+        });
+
+        return type.id;
     }
 }
 

@@ -380,6 +380,7 @@ export class EnrollmentSeeder {
         });
 
         const user = (await this.usersService.findAll()).data[0];
+
         enrollmentStates.push(
             {
                 enrollmentId: enrollment1.id,

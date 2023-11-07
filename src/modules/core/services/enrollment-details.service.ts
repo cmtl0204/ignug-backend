@@ -84,7 +84,7 @@ export class EnrollmentDetailsService {
         return await this.repository.save(enrollmentDetail);
     }
 
-    async removeAll(payload: EnrollmentDetailEntity[]): Promise<EnrollmentDetailEntity[]> {
+    async removeAll(payload: EnrollmentDetailEntity[] | CreateEnrollmentsDetailDto[]): Promise<EnrollmentDetailEntity[]> {
         return await this.repository.softRemove(payload);
     }
 
@@ -136,7 +136,7 @@ export class EnrollmentDetailsService {
         const response = await this.repository.find({
             relations: {
                 parallel: true,
-                enrollmentDetailStates: true,
+                enrollmentDetailStates: {state:true},
                 subject: {academicPeriod:true},
                 type: true,
                 workday: true,

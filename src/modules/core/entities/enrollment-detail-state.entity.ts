@@ -8,7 +8,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, EnrollmentEntity} from '@core/entities';
+import {CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity} from '@core/entities';
 import {UserEntity} from "@auth/entities";
 
 @Entity('enrollment_detail_states', {schema: 'core'})
@@ -47,9 +47,9 @@ export class EnrollmentDetailStateEntity {
     @Column({type: 'uuid', name: 'state_id', comment: 'Estados'})
     stateId: string;
 
-    @ManyToOne(() => EnrollmentEntity)
+    @ManyToOne(() => EnrollmentDetailEntity)
     @JoinColumn({name: 'enrollment_detail_id'})
-    enrollmentDetail: EnrollmentEntity;
+    enrollmentDetail: EnrollmentDetailEntity;
     @Column({type: 'uuid', name: 'enrollment_detail_id', comment: 'Detalle Matricula'})
     enrollmentDetailId: string;
 
