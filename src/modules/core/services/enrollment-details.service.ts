@@ -137,7 +137,7 @@ export class EnrollmentDetailsService {
             relations: {
                 parallel: true,
                 enrollmentDetailStates: true,
-                subject: true,
+                subject: {academicPeriod:true},
                 type: true,
                 workday: true,
             },
