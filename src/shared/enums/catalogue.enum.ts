@@ -96,3 +96,7 @@ export enum UsersIdentificationTypeStateEnum {
   IDENTIFICATION = '1',
   PASSPORT = '2',
 }
+
+export enum CatalogueMaritalStatusEnum {
+  SINGLE = 'single'
+}

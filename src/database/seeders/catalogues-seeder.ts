@@ -1,7 +1,12 @@
 import {Injectable} from '@nestjs/common';
 import {CreateCatalogueDto} from '@core/dto';
 import {CataloguesService} from '@core/services';
-import {CatalogueStateEnum, CatalogueTypeEnum, CatalogueCareersModalityEnum} from '@shared/enums';
+import {
+    CatalogueStateEnum,
+    CatalogueTypeEnum,
+    CatalogueCareersModalityEnum,
+    CatalogueMaritalStatusEnum
+} from '@shared/enums';
 
 @Injectable()
 export class CataloguesSeeder {
@@ -51,6 +56,7 @@ export class CataloguesSeeder {
         await this.createHomeWallCatalogues();
         await this.createFamilyIncomeCatalogues();
         await this.createNationalityCatalogues();
+        await this.createAncestralLanguageNameCatalogues();
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -612,7 +618,15 @@ export class CataloguesSeeder {
                 code: '2',
                 description: 'tipo de identificacion',
                 name: 'Femenino',
-                sort: 1,
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.GENDER,
+            },
+            {
+                code: '3',
+                description: '',
+                name: 'LGBTI',
+                sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.GENDER,
             },
@@ -627,7 +641,7 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: '1',
+                code: CatalogueMaritalStatusEnum.SINGLE,
                 description: 'estado civil',
                 name: 'Soltero/a',
                 sort: 1,
@@ -638,7 +652,7 @@ export class CataloguesSeeder {
                 code: '2',
                 description: 'estado civil',
                 name: 'Casado/a',
-                sort: 1,
+                sort:2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
@@ -646,7 +660,7 @@ export class CataloguesSeeder {
                 code: '3',
                 description: 'estado civil',
                 name: 'Divorciado/a',
-                sort: 1,
+                sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
@@ -654,7 +668,7 @@ export class CataloguesSeeder {
                 code: '4',
                 description: 'estado civil',
                 name: 'Unión libre',
-                sort: 1,
+                sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
@@ -662,7 +676,7 @@ export class CataloguesSeeder {
                 code: '5',
                 description: 'estado civil',
                 name: 'Viudo/a',
-                sort: 1,
+                sort: 5,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
@@ -2077,103 +2091,6 @@ export class CataloguesSeeder {
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
             },
-            {
-                code: '',
-                description: 'A’ingae',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-            {
-                code: '',
-                description: '',
-                name: '',
-                sort: ,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
-            },
-
         );
 
         for (const catalogue of catalogues) {
