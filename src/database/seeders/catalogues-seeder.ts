@@ -50,6 +50,7 @@ export class CataloguesSeeder {
         await this.createHomeFloorCatalogues();
         await this.createHomeWallCatalogues();
         await this.createFamilyIncomeCatalogues();
+        await this.createNationalityCatalogues();
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -2024,6 +2025,155 @@ export class CataloguesSeeder {
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FAMILY_INCOME,
             },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+
+    private async createNationalityCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Ecuatoriana',
+                name: 'Ecuatoriana',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+
+    private async createAncestralLanguageNameCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Andoa',
+                name: 'Andoa',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '2',
+                description: 'Achuar',
+                name: 'Achuar',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '3',
+                description: 'Chicham',
+                name: 'Chicham',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: 'A’ingae',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '',
+                description: '',
+                name: '',
+                sort: ,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+
         );
 
         for (const catalogue of catalogues) {
