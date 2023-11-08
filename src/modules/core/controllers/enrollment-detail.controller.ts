@@ -25,8 +25,8 @@ import { ResponseHttpModel } from '@shared/models';
 import {User} from "@auth/decorators";
 import {UserEntity} from "@auth/entities";
 
-@ApiTags('Enrillment-details')
-@Controller('enrollments-details')
+@ApiTags('Enrollment Details')
+@Controller('enrollment-details')
 export class  EnrollmentDetailsController {
   constructor(private enrollmentDetailsService: EnrollmentDetailsService) { }
 

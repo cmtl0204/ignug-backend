@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {faker} from '@faker-js/faker';
-import {CreateEnrollmentsDetailDto, CreateEnrollmentDto} from '@core/dto';
+import {CreateEnrollmentsDetailDto, CreateEnrollmentDto, SeedEnrollmentStateDto} from '@core/dto';
 import {
     CataloguesService,
     EnrollmentsService,
@@ -18,8 +18,6 @@ import {
     SubjectEntity
 } from '@core/entities';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
-import {SeedEnrollmentStateDto} from "../../modules/core/dto/enrollment-state/seed-enrollment-state.dto";
-import {first} from "rxjs";
 import {UsersService} from "@auth/services";
 
 @Injectable()
@@ -385,7 +383,7 @@ export class EnrollmentSeeder {
             {
                 enrollmentId: enrollment1.id,
                 stateId: requestSentstate.id,
-                userId:user.id,
+                userId: user.id,
             },
             // {
             //     enrollmentId: enrollment1.id,

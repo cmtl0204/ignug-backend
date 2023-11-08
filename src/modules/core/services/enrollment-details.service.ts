@@ -51,7 +51,7 @@ export class EnrollmentDetailsService {
 
     async findOne(id: string): Promise<EnrollmentDetailEntity> {
         const enrollmentDetail = await this.repository.findOne({
-            relations: {subject: true},
+            relations: {subject: {academicPeriod:true}},
             where: {id},
         });
 
