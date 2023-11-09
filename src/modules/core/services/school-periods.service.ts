@@ -2,7 +2,6 @@ import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestj
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
 import {
     CreateSchoolPeriodDto, FilterCareerDto,
-    FilterSchoolPeriodDto,
     PaginationDto,
     SeedSchoolPeriodDto,
     UpdateSchoolPeriodDto
@@ -173,6 +172,7 @@ export class SchoolPeriodsService {
         if (entity.state.code === CatalogueSchoolPeriodStateEnum.OPEN) {
             throw new BadRequestException(MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD);
         }
+
         if (existOpenSchoolPeriod) {
             throw new BadRequestException(`${MessageEnum.EXISTS_OPEN_SCHOOL_PERIOD} (${existOpenSchoolPeriod.name})`);
         }

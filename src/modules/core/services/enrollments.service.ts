@@ -98,7 +98,7 @@ export class EnrollmentsService {
         const entity = await this.repository.findOneBy({id});
 
         if (!entity) {
-            throw new NotFoundException('Subject not found');
+            throw new NotFoundException('Matrícula no encontrada');
         }
 
         entity.academicPeriodId = payload.academicPeriod.id;
@@ -106,7 +106,6 @@ export class EnrollmentsService {
         entity.typeId = payload.type.id;
         entity.workdayId = payload.workday.id;
         entity.date = payload.date;
-        entity.folio = payload.folio;
         entity.observation = payload.observation;
 
         return await this.repository.save(entity);
@@ -543,6 +542,7 @@ export class EnrollmentsService {
             catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
+        // await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
         await this.enrollmentsStateService.removeRejected(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
@@ -572,7 +572,8 @@ export class EnrollmentsService {
             catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
-        await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
+        // await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
+        await this.enrollmentsStateService.removeApproved(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,

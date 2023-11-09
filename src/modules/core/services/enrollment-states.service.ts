@@ -24,22 +24,31 @@ export class EnrollmentStatesService {
         return await this.repository.softRemove(payload);
     }
 
-    async removeRequestSent(payload: EnrollmentStateEntity[]): Promise<EnrollmentStateEntity> {
+    async removeRequestSent(payload: EnrollmentStateEntity[]): Promise<boolean> {
         const requestSent = payload.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT);
-        return await this.repository.softRemove(requestSent);
+
+        if (requestSent)
+            await this.repository.softRemove(requestSent);
+
+        return true;
     }
 
-    async removeApproved(payload: EnrollmentStateEntity[]): Promise<EnrollmentStateEntity> {
+    async removeApproved(payload: EnrollmentStateEntity[]): Promise<boolean> {
         const approved = payload.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED);
-        return await this.repository.softRemove(approved);
+
+        if (approved)
+            await this.repository.softRemove(approved);
+
+        return true;
     }
 
-    async removeRejected(enrollmentStates: EnrollmentStateEntity[]): Promise<EnrollmentStateEntity> {
+    async removeRejected(enrollmentStates: EnrollmentStateEntity[]): Promise<boolean> {
         const rejected = enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED);
-        if (!rejected) {
-            return null;
+
+        if (rejected) {
+            await this.repository.softRemove(rejected);
         }
 
-        return await this.repository.softRemove(rejected);
+        return true;
     }
 }

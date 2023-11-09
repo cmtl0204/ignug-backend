@@ -1,18 +1,11 @@
-import {Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere, ILike, LessThan} from 'typeorm';
-import {
-    CreateEnrollmentsDetailDto,
-    FilterEnrollmentsDetailDto,
-    UpdateEnrollmentDto,
-    UpdateEnrollmentsDetailDto
-} from '@core/dto';
-import {EnrollmentDetailEntity, EnrollmentEntity} from '@core/entities';
+import {CreateEnrollmentsDetailDto, FilterEnrollmentsDetailDto, UpdateEnrollmentsDetailDto} from '@core/dto';
+import {EnrollmentDetailEntity} from '@core/entities';
 import {PaginationDto} from '@core/dto';
-import {ServiceResponseHttpModel} from '@shared/models';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
-import {CataloguesService} from "./catalogues.service";
-import {EnrollmentStatesService} from "./enrollment-states.service";
-import {EnrollmentDetailStatesService} from "./enrollment-detail-states.service";
+import {CataloguesService, EnrollmentDetailStatesService} from "@core/services";
+import {ServiceResponseHttpModel} from '@shared/models';
 
 @Injectable()
 export class EnrollmentDetailsService {
@@ -26,6 +19,14 @@ export class EnrollmentDetailsService {
 
     async create(payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
         const newEnrollmentDetail = this.repository.create(payload);
+
+        const enrollmentDetailExist = await this.repository.find({
+            where: {enrollmentId: payload.enrollmentId, subjectId: payload.subject.id}
+        });
+
+        if (enrollmentDetailExist.length > 0) {
+            throw new BadRequestException('La asignatura ya existe, por favor ingrese otra');
+        }
 
         return await this.repository.save(newEnrollmentDetail);
     }
@@ -51,7 +52,13 @@ export class EnrollmentDetailsService {
 
     async findOne(id: string): Promise<EnrollmentDetailEntity> {
         const enrollmentDetail = await this.repository.findOne({
-            relations: {subject: {academicPeriod:true}},
+            relations: {
+                subject: {academicPeriod: true},
+                type: true,
+                workday: true,
+                parallel: true,
+                enrollmentDetailStates: {state: true}
+            },
             where: {id},
         });
 
@@ -66,10 +73,14 @@ export class EnrollmentDetailsService {
         const enrollmentDetail = await this.repository.findOneBy({id});
 
         if (!enrollmentDetail) {
-            throw new NotFoundException('enrollmentDetail not found');
+            throw new NotFoundException('Detalle de matrícula no encontrado');
         }
 
-        this.repository.merge(enrollmentDetail, payload);
+        enrollmentDetail.parallelId = payload.parallel.id;
+        enrollmentDetail.typeId = payload.type.id;
+        enrollmentDetail.workdayId = payload.workday.id;
+        enrollmentDetail.date = payload.date;
+        enrollmentDetail.observation = payload.observation;
 
         return await this.repository.save(enrollmentDetail);
     }
@@ -136,8 +147,8 @@ export class EnrollmentDetailsService {
         const response = await this.repository.find({
             relations: {
                 parallel: true,
-                enrollmentDetailStates: {state:true},
-                subject: {academicPeriod:true},
+                enrollmentDetailStates: {state: true},
+                subject: {academicPeriod: true},
                 type: true,
                 workday: true,
             },
@@ -192,7 +203,8 @@ export class EnrollmentDetailsService {
             catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
-        await this.enrollmentDetailStatesService.removeRequestSent(enrollmentDetail.enrollmentDetailStates);
+        // await this.enrollmentDetailStatesService.removeRequestSent(enrollmentDetail.enrollmentDetailStates);
+        await this.enrollmentDetailStatesService.removeApproved(enrollmentDetail.enrollmentDetailStates);
 
         await this.enrollmentDetailStatesService.create({
             enrollmentDetailId: id,

@@ -17,12 +17,11 @@ import {
   CreateEnrollmentsDetailDto,
   UpdateEnrollmentsDetailDto,
   FilterEnrollmentsDetailDto,
-  UpdateEnrollmentDto
 } from '@core/dto';
 import { EnrollmentDetailsService } from '@core/services';
 import { EnrollmentDetailEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
-import {User} from "@auth/decorators";
+import {Auth, User} from "@auth/decorators";
 import {UserEntity} from "@auth/entities";
 
 @ApiTags('Enrollment Details')
@@ -38,8 +37,8 @@ export class  EnrollmentDetailsController {
 
     return {
       data: serviceResponse,
-      message: 'Reporte de notas fue creada',
-      title: 'Reporte de notas  creada',
+      message: 'Detalle de matrícula creado',
+      title: 'Creado',
     };
   }
 
@@ -77,8 +76,8 @@ export class  EnrollmentDetailsController {
     const serviceResponse = await this.enrollmentDetailsService.update(id, payload);
     return {
       data: serviceResponse,
-      message: `Reporte de notas fue actualizada`,
-      title: `Reporte de notas actualizada`,
+      message: `Detalle de matrícula actualizada`,
+      title: `Actualizado`,
     };
   }
 
@@ -89,8 +88,8 @@ export class  EnrollmentDetailsController {
     const serviceResponse = await this.enrollmentDetailsService.remove(id);
     return {
       data: serviceResponse,
-      message: `Reporte de notas fue eliminada`,
-      title: `Reporte de notas eliminada`,
+      message: `Detalle de matrícula eliminado`,
+      title: `Eliminado`,
     };
   }
 
@@ -107,7 +106,8 @@ export class  EnrollmentDetailsController {
     };
   }
 
-  @ApiOperation({summary: 'Approve Enrollment'})
+  @ApiOperation({summary: 'Approve Enrollment Detail'})
+  @Auth()
   @Patch(':id/approve')
   @HttpCode(HttpStatus.CREATED)
   async approve(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
@@ -119,7 +119,8 @@ export class  EnrollmentDetailsController {
     };
   }
 
-  @ApiOperation({summary: 'Approve Enrollment'})
+  @ApiOperation({summary: 'Reject Enrollment Detail'})
+  @Auth()
   @Patch(':id/reject')
   @HttpCode(HttpStatus.CREATED)
   async reject(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
@@ -132,6 +133,7 @@ export class  EnrollmentDetailsController {
   }
 
   @ApiOperation({summary: 'Enroll Enrollment'})
+  @Auth()
   @Patch(':id/enroll')
   @HttpCode(HttpStatus.CREATED)
   async enroll(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
@@ -144,6 +146,7 @@ export class  EnrollmentDetailsController {
   }
 
   @ApiOperation({summary: 'Enroll Enrollment'})
+  @Auth()
   @Patch(':id/revoke')
   @HttpCode(HttpStatus.CREATED)
   async revoke(@Param('id', ParseUUIDPipe) id: string, @User() user: UserEntity, @Body() payload: UpdateEnrollmentsDetailDto): Promise<ResponseHttpModel> {

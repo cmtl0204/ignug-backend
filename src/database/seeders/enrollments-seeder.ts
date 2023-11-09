@@ -221,7 +221,7 @@ export class EnrollmentSeeder {
         enrollmentDetails.push(
             {
                 academicState: academicState,
-                enrollment: enrollment1,
+                enrollmentId: enrollment1.id,
                 parallel: parallel,
                 subject: subject1,
                 type: type,
@@ -234,7 +234,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment1,
+                enrollmentId: enrollment1.id,
                 parallel: parallel,
                 subject: subject2,
                 type: type,
@@ -247,7 +247,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment1,
+                enrollmentId: enrollment1.id,
                 parallel: parallel,
                 subject: subject3,
                 type: type,
@@ -260,7 +260,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment1,
+                enrollmentId: enrollment1.id,
                 parallel: parallel,
                 subject: subject4,
                 type: type,
@@ -273,7 +273,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment1,
+                enrollmentId: enrollment1.id,
                 parallel: parallel,
                 subject: subject5,
                 type: type,
@@ -286,7 +286,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment2,
+                enrollmentId: enrollment2.id,
                 parallel: parallel,
                 subject: subject6,
                 type: type,
@@ -299,7 +299,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment2,
+                enrollmentId: enrollment2.id,
                 parallel: parallel,
                 subject: subject7,
                 type: type,
@@ -312,7 +312,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment2,
+                enrollmentId: enrollment2.id,
                 parallel: parallel,
                 subject: subject8,
                 type: type,
@@ -325,7 +325,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: academicState,
-                enrollment: enrollment2,
+                enrollmentId: enrollment2.id,
                 parallel: parallel,
                 subject: subject9,
                 type: type,
@@ -338,7 +338,7 @@ export class EnrollmentSeeder {
             },
             {
                 academicState: reprobateAcademicState,
-                enrollment: enrollment2,
+                enrollmentId: enrollment2.id,
                 parallel: parallel,
                 subject: subject10,
                 type: type,

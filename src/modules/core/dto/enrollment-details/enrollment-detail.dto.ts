@@ -1,12 +1,17 @@
-import {IsNotEmpty, IsNumber, IsOptional, IsString, Min} from "class-validator";
+import {IsNotEmpty, IsNumber, IsOptional, IsString, Max, Min} from "class-validator";
 import {EnrollmentEntity, CatalogueEntity, SubjectEntity} from "@core/entities";
+import {
+    isStringValidationOptions,
+    maxValidationOptions,
+    minValidationOptions
+} from "@shared/validation";
 
 export class EnrollmentsDetailDto {
-    @IsNotEmpty()
+    @IsOptional()
     readonly academicState: CatalogueEntity;
 
     @IsNotEmpty()
-    readonly enrollment: EnrollmentEntity;
+    readonly enrollmentId: string;
 
     @IsNotEmpty()
     readonly parallel: CatalogueEntity;
@@ -21,10 +26,10 @@ export class EnrollmentsDetailDto {
     readonly workday: CatalogueEntity;
 
     @IsNumber({}, {message: 'El campo number debe ser un número'})
-    @Min(0, {message: 'El campo number debe tener mínimo 0'})
+    @Min(1, minValidationOptions())
+    @Max(3, maxValidationOptions())
     readonly number: number;
 
-    @IsString({message: 'El campo observation debe ser un string'})
-    @Min(0, {message: 'El campo observation debe tener minimo 5 caracteres'})
+    @IsString(isStringValidationOptions())
     readonly observation: string;
 }

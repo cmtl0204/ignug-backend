@@ -67,3 +67,15 @@ export function isUrlValidationOptions(validationOptions?: ValidationOptions) {
     message: 'La propiedad $property debe ser una url válida',
   };
 }
+
+export function minValidationOptions(validationOptions?: ValidationOptions) {
+  return {
+    message: 'La propiedad $property debe contener como valor mímino $constraint1',
+  };
+}
+
+export function maxValidationOptions(validationOptions?: ValidationOptions) {
+  return {
+    message: 'La propiedad $property debe contener como valor máximo $constraint1',
+  };
+}

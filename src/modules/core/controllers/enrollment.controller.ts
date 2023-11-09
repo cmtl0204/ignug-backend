@@ -15,25 +15,18 @@ import {
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
 import {Auth, User} from "@auth/decorators";
 import {UserEntity} from "@auth/entities";
-import {
-    UpdateCareerDto,
-    CreateEnrollmentDto,
-    FilterEnrollmentDto,
-    UpdateEnrollmentDto,
-    SendRegistrationDto
-} from '@core/dto';
+import {CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto} from '@core/dto';
 import {EnrollmentEntity} from '@core/entities';
 import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
-@ApiTags('enrollments')
+@ApiTags('Enrollments')
 @Auth()
 @Controller('enrollments')
 export class EnrollmentsController {
     constructor(
         private readonly enrollmentsService: EnrollmentsService,
-        private readonly enrollmentsDetailService: EnrollmentDetailsService,
-        private pdfservice: PDFService, private pdfnotasservice: PDFNotas) {
+        private readonly enrollmentsDetailService: EnrollmentDetailsService) {
     }
 
     @ApiOperation({summary: 'Create Enrollment'})
@@ -81,10 +74,11 @@ export class EnrollmentsController {
     @HttpCode(HttpStatus.CREATED)
     async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.update(id, payload);
+
         return {
             data: serviceResponse,
-            message: `Reporte de notas fue actualizada`,
-            title: `Reporte de notas actualizada`,
+            message: `Matrícula Actualizada`,
+            title: `Actualizado`,
         };
     }
 
@@ -127,6 +121,7 @@ export class EnrollmentsController {
     }
 
     @ApiOperation({summary: 'Send Registration'})
+    @Auth()
     @Post('send-registration')
     @HttpCode(HttpStatus.CREATED)
     async sendRegistration(@User() user: UserEntity, @Body() payload: any): Promise<ResponseHttpModel> {

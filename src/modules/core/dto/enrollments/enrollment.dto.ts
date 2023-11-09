@@ -1,6 +1,7 @@
-import {IsNotEmpty, IsOptional, IsString, IsDate, Min, MinLength} from 'class-validator';
-import {StudentEntity, CatalogueEntity, SchoolPeriodEntity, CareerEntity, EnrollmentDetailEntity} from '@core/entities';
-import {CreateEnrollmentsDetailDto} from "../enrollment-details/create-enrollment-detail.dto";
+import {IsNotEmpty, IsString} from 'class-validator';
+import {StudentEntity, CatalogueEntity, SchoolPeriodEntity, CareerEntity} from '@core/entities';
+import {CreateEnrollmentsDetailDto} from "@core/dto";
+import {isStringValidationOptions} from "@shared/validation";
 
 export class EnrollmentDto {
     @IsNotEmpty()
@@ -27,11 +28,9 @@ export class EnrollmentDto {
     @IsNotEmpty()
     readonly workday: CatalogueEntity;
 
-    @IsString({message: 'El campo code debe ser un String'})
-    @Min(0, {message: 'El campo code debe tener minimo 5 caracteres'})
+    @IsString(isStringValidationOptions())
     readonly code: string;
 
-    @IsString({message: 'El campo observation debe ser un String'})
-    @Min(0, {message: 'El campo observation debe tener minimo 5 caracteres'})
+    @IsString(isStringValidationOptions())
     readonly observation: string;
 }
