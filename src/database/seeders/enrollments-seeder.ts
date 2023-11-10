@@ -365,7 +365,11 @@ export class EnrollmentSeeder {
         const enrollment2 = this.enrollments.find((enrollment: EnrollmentEntity) => enrollment.code === 'cod2');
 
         //states
-        const requestSentstate = this.states.find((state: CatalogueEntity) => {
+        const registeredState = this.states.find((state: CatalogueEntity) => {
+            return state.code === CatalogueEnrollmentStateEnum.REGISTERED && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+        });
+
+        const requestSentState = this.states.find((state: CatalogueEntity) => {
             return state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
         });
 
@@ -382,7 +386,12 @@ export class EnrollmentSeeder {
         enrollmentStates.push(
             {
                 enrollmentId: enrollment1.id,
-                stateId: requestSentstate.id,
+                stateId: registeredState.id,
+                userId: user.id,
+            },
+            {
+                enrollmentId: enrollment1.id,
+                stateId: requestSentState.id,
                 userId: user.id,
             },
             // {
@@ -395,11 +404,11 @@ export class EnrollmentSeeder {
             //     stateId: enrolledState.id,
             //     userId:user.id,
             // },
-            // {
-            //     enrollmentId: enrollment2.id,
-            //     stateId: requestSentstate.id,
-            //     userId:user.id,
-            // },
+            {
+                enrollmentId: enrollment2.id,
+                stateId: registeredState.id,
+                userId:user.id,
+            },
             // {
             //     enrollmentId: enrollment2.id,
             //     stateId: approvedState.id,
