@@ -81,6 +81,7 @@ export class AuthService {
                 student: {careers: true},
             },
         })) as UserEntity;
+
         if (user && user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
 
         if (user && user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');

@@ -186,11 +186,12 @@ export class UserEntity {
     })
     lastname: string;
 
+
     @Exclude()
     @Column({
         name: 'password',
         type: 'varchar',
-        comment: 'Contraseña',
+        comment: 'Contraseña'
     })
     password: string;
 
@@ -253,9 +254,10 @@ export class UserEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async hashPassword() {
-        if (!this.password) {
+        if (!this.password || this.password?.length > 30) {
             return;
         }
+
         this.password = await Bcrypt.hash(this.password, 10);
     }
 

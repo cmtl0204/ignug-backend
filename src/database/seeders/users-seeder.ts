@@ -328,7 +328,7 @@ export class UsersSeeder {
         const institution = this.institutions.find(institution => institution.code === 'cod1');
 
         for (let i = 0; i < 10; i++) {
-            const identification = '1234567890' + i;
+            const identification = '987654321' + i;
             users.push({
                 bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
                 ethnicOrigin:

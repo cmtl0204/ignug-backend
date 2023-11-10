@@ -21,7 +21,7 @@ export class EnrollmentDetailsService {
         const newEnrollmentDetail = this.repository.create(payload);
 
         const enrollmentDetailExist = await this.repository.find({
-            where: {enrollmentId: payload.enrollmentId, subjectId: payload.subject.id}
+            where: {enrollmentId: payload.enrollmentId, subjectId: payload.subjectId}
         });
 
         if (enrollmentDetailExist.length > 0) {

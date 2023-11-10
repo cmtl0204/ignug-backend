@@ -374,7 +374,7 @@ export class EnrollmentsService {
                 enrollmentDetails: {
                     subject: {type: true},
                     academicState: true,
-                    enrollmentDetailStates: {state:true}
+                    enrollmentDetailStates: {state: true}
                 }
             },
             where: {studentId}
@@ -408,10 +408,9 @@ export class EnrollmentsService {
     }
 
     async sendRegistration(userId: string, payload: any): Promise<EnrollmentEntity> {
-        console.log(payload.enrollmentDetails);
         // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
         let enrollment = await this.repository.findOne({
-            relations: {enrollmentStates: true, enrollmentDetails: true},
+            relations: {enrollmentStates: {state: true}, enrollmentDetails: true},
             where: {
                 studentId: payload.student.id,
                 schoolPeriodId: payload.schoolPeriod.id
@@ -442,10 +441,11 @@ export class EnrollmentsService {
 
         const catalogues = await this.cataloguesService.findCache();
 
-        if (enrollment.enrollmentStates?.length === 0) {
+        if (!enrollment.enrollmentStates || enrollment.enrollmentStates?.length === 0) {
             const registeredState = catalogues.find(catalogue =>
                 catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
                 catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
             await this.enrollmentsStateService.create({
                 enrollmentId: enrollment.id,
                 stateId: registeredState.id,
@@ -455,11 +455,11 @@ export class EnrollmentsService {
             });
         }
 
-        console.log(enrollment.enrollmentDetails);
-        if (enrollment.enrollmentDetails)
+        if (enrollment?.enrollmentDetails)
             await this.enrollmentDetailsService.removeAll(enrollment.enrollmentDetails);
 
         for (const item of payload.enrollmentDetails) {
+
             const enrollmentDetail: any = {
                 enrollmentId: enrollment.id,
                 parallelId: enrollment.parallelId,
@@ -474,6 +474,7 @@ export class EnrollmentsService {
             const registeredState = catalogues.find(catalogue =>
                 catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
                 catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
 
             await this.enrollmentDetailStatesService.create({
                 enrollmentDetailId: enrollmentDetailCreated.id,
