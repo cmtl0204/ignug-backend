@@ -51,6 +51,8 @@ export class FileEntity {
   })
   @JoinColumn({ name: 'type_id' })
   type: CatalogueEntity;
+  @Column({type: 'uuid', name: 'type_id', comment: 'Tipo de documento'})
+  typeId: string;
 
   /** Columns **/
   @Column({

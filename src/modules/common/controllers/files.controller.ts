@@ -9,7 +9,7 @@ import {
     Res,
     UploadedFiles,
     Query,
-    Delete
+    Delete, Body
 } from '@nestjs/common';
 import {FileInterceptor, FilesInterceptor} from '@nestjs/platform-express';
 import {diskStorage} from 'multer';
@@ -35,11 +35,13 @@ export class FilesController {
                 filename: getFileName,
             }),
             fileFilter: fileFilter,
-            limits: {fieldSize: 1},
+            limits: {fieldSize: 2},
         }),
     )
-    async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('modelId', ParseUUIDPipe) modelId: string): Promise<ResponseHttpModel> {
-        const response = await this.filesService.uploadFile(file, modelId);
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('modelId', ParseUUIDPipe) modelId: string,
+                     @Query('typeId') typeId: string): Promise<ResponseHttpModel> {
+
+        const response = await this.filesService.uploadFile(file, modelId, typeId);
         return {
             data: response,
             message: 'Archivo Subido Correctamente',
@@ -57,7 +59,9 @@ export class FilesController {
         fileFilter: fileFilter,
         limits: {fieldSize: 10},
     }),)
-    async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Param('modelId', ParseUUIDPipe) modelId: string): Promise<ResponseHttpModel> {
+    async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Param('modelId', ParseUUIDPipe) modelId: string,
+                      @Body() payload: any): Promise<ResponseHttpModel> {
+        console.log(payload);
         await this.filesService.uploadFiles(files, modelId);
 
         return {
@@ -88,7 +92,7 @@ export class FilesController {
             data: serviceResponse.data,
             pagination: serviceResponse.pagination,
             message: 'Find Files',
-            title: 'Find',
+            title: 'Find By Model',
         };
     }
 

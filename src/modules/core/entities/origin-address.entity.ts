@@ -8,7 +8,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity} from '@core/entities';
+import {CatalogueEntity, LocationEntity} from '@core/entities';
 import {UserEntity} from "@auth/entities";
 
 @Entity('origin_addresses', {schema: 'core'})
@@ -52,27 +52,35 @@ export class OriginAddressEntity {
     @JoinColumn({name: 'model_id'})
     user: UserEntity;
 
-    @ManyToOne(() => CatalogueEntity, {
+    @ManyToOne(() => LocationEntity, {
+        nullable: true,
+    })
+    @JoinColumn({name: 'country_id'})
+    country: LocationEntity;
+    @Column({type: 'uuid', name: 'country_id', comment: 'Pais'})
+    countryId: string;
+
+    @ManyToOne(() => LocationEntity, {
         nullable: true,
     })
     @JoinColumn({name: 'province_id'})
-    province: CatalogueEntity;
+    province: LocationEntity;
     @Column({type: 'uuid', name: 'province_id', comment: 'Provincia que se encuentra la direccion'})
     provinceId: string;
 
-    @ManyToOne(() => CatalogueEntity, {
+    @ManyToOne(() => LocationEntity, {
         nullable: true,
     })
     @JoinColumn({name: 'canton_id'})
-    canton: CatalogueEntity;
+    canton: LocationEntity;
     @Column({type: 'uuid', name: 'canton_id', comment: 'Canton que se encuentra la direccion'})
     cantonId: string;
 
-    @ManyToOne(() => CatalogueEntity, {
+    @ManyToOne(() => LocationEntity, {
         nullable: true,
     })
     @JoinColumn({name: 'parrish_id'})
-    parrish: CatalogueEntity;
+    parrish: LocationEntity;
     @Column({type: 'uuid', name: 'parrish_id', comment: 'Parroquia que se encuentra la direccion'})
     parrishId: string;
 

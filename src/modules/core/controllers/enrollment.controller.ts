@@ -135,10 +135,10 @@ export class EnrollmentsController {
     }
 
     @ApiOperation({summary: 'Send Request'})
-    @Post('send-request')
+    @Post(':id/send-request')
     @HttpCode(HttpStatus.CREATED)
-    async sendRequest(@User() user: UserEntity, @Body() payload: CreateEnrollmentDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.sendRequest(user.id, payload);
+    async sendRequest(@User() user: UserEntity, @Param('id') id: string, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.sendRequest(user.id, id, payload);
 
         return {
             data: serviceResponse,

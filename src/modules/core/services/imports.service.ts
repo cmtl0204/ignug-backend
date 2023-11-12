@@ -127,7 +127,7 @@ export class ImportsService {
 
         for (const item of dataExcel) {
             const location = {
-                alpha3: item['alpha3'],
+                alpha3Code: item['alpha3'],
                 code: item['codigo'],
                 idTemp: item['alpha3'],
                 level: 1,

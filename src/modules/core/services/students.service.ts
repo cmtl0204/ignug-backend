@@ -76,6 +76,14 @@ export class StudentsService {
                     contactEmergencyKinship: true,
                     workingHours: true,
                     typeStudyOtherCareer: true,
+                    pandemicPsychologicalEffect:true,
+                    isDiscrimination:true,
+                    typeDiscrimination:true,
+                    isGenderViolence:true,
+                    typeGenderViolence:true,
+                    isInjuries:true,
+                    typeInjuries:true,
+                    socialGroup:true,
                 },
                 user: {
                     identificationType: true,
@@ -85,11 +93,13 @@ export class StudentsService {
                     gender: true,
                     ethnicOrigin: true,
                     originAddress: {
+                        country: true,
                         province: true,
                         canton: true,
                         parrish: true,
                     },
                     residenceAddress: {
+                        country: true,
                         province: true,
                         canton: true,
                         parrish: true,
@@ -332,16 +342,16 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        if (!entity.user.originAddress) {
+        if (!entity.user?.originAddress) {
             await this.originAddressesService.create(
                 {
                     cantonId: payload.user.originAddress.canton?.id,
+                    countryId: payload.user.originAddress.country?.id,
                     community: payload.user.originAddress.community,
                     latitude: payload.user.originAddress.latitude,
                     longitude: payload.user.originAddress.longitude,
                     mainStreet: payload.user.originAddress.mainStreet,
                     modelId: entity.user.id,
-                    nearbyCity: payload.user.originAddress.nearbyCity,
                     number: payload.user.originAddress.number,
                     parrishId: payload.user.originAddress.parrish?.id,
                     postCode: payload.user.originAddress.postCode,
@@ -359,7 +369,6 @@ export class StudentsService {
                     latitude: payload.user.originAddress.latitude,
                     longitude: payload.user.originAddress.longitude,
                     mainStreet: payload.user.originAddress.mainStreet,
-                    nearbyCity: payload.user.originAddress.nearbyCity,
                     number: payload.user.originAddress.number,
                     parrishId: payload.user.originAddress.parrish?.id,
                     postCode: payload.user.originAddress.postCode,
@@ -387,11 +396,11 @@ export class StudentsService {
             await this.residenceAddressesService.create(
                 {
                     cantonId: payload.user.residenceAddress.canton?.id,
-                    community: payload.user.residenceAddress.community,
+                    countryId: payload.user.residenceAddress.country?.id,
                     latitude: payload.user.residenceAddress.latitude,
                     longitude: payload.user.residenceAddress.longitude,
                     mainStreet: payload.user.residenceAddress.mainStreet,
-                    modelId: payload.user.id,
+                    modelId: entity.user.id,
                     nearbyCity: payload.user.residenceAddress.nearbyCity,
                     number: payload.user.residenceAddress.number,
                     parrishId: payload.user.residenceAddress.parrish?.id,
@@ -406,7 +415,6 @@ export class StudentsService {
                 entity.user.residenceAddress.id,
                 {
                     cantonId: payload.user.residenceAddress.canton?.id,
-                    community: payload.user.residenceAddress.community,
                     latitude: payload.user.residenceAddress.latitude,
                     longitude: payload.user.residenceAddress.longitude,
                     mainStreet: payload.user.residenceAddress.mainStreet,
@@ -571,7 +579,21 @@ export class StudentsService {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
+        entity.informationStudent.additionalInformation = payload.informationStudent.additionalInformation;
+        entity.informationStudent.pandemicPsychologicalEffectId = payload.informationStudent.pandemicPsychologicalEffect.id;
+        entity.informationStudent.socialGroupId = payload.informationStudent.socialGroup.id;
+
+        entity.informationStudent.isDiscriminationId = payload.informationStudent.isDiscrimination.id;
+        entity.informationStudent.typeDiscriminationId = payload.informationStudent.isDiscrimination.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.typeDiscrimination.id : null;
+
+        entity.informationStudent.isGenderViolenceId = payload.informationStudent.isGenderViolence.id;
+        entity.informationStudent.typeGenderViolenceId = payload.informationStudent.isGenderViolence.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.typeGenderViolence.id : null;
+
+        entity.informationStudent.isInjuriesId = payload.informationStudent.isInjuries.id;
+        entity.informationStudent.typeInjuriesId = payload.informationStudent.isInjuries.code === CatalogueYesNoEnum.YES
+            ? payload.informationStudent.typeInjuries.id : null;
 
         await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
 

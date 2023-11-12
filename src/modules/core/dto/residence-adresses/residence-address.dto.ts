@@ -1,6 +1,6 @@
 export class ResidenceAddressDto {
     readonly cantonId: string;
-    readonly community: string;
+    readonly countryId: string;
     readonly latitude: number;
     readonly longitude: number;
     readonly mainStreet: string;

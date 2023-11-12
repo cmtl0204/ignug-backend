@@ -1,11 +1,11 @@
 export class OriginAddressDto {
     readonly cantonId: string;
+    readonly countryId: string;
     readonly community: string;
     readonly latitude: number;
     readonly longitude: number;
     readonly mainStreet: string;
     readonly modelId: string;
-    readonly nearbyCity: string;
     readonly number: string;
     readonly parrishId: string;
     readonly postCode: string;

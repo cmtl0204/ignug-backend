@@ -536,15 +536,15 @@ export class InformationStudentEntity {
     monthlySalaryId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'pandemic_psychological_effects_id'})
-    pandemicPsychologicalEffects: CatalogueEntity;
+    @JoinColumn({name: 'pandemic_psychological_effect_id'})
+    pandemicPsychologicalEffect: CatalogueEntity;
     @Column({
         type: 'uuid',
-        name: 'pandemic_psychological_effects_id',
+        name: 'pandemic_psychological_effect_id',
         nullable: true,
         comment: 'Ansiedad, Estres, Depresion, etc'
     })
-    pandemicPsychologicalEffectsId: string;
+    pandemicPsychologicalEffectId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'social_group_id'})

@@ -31,6 +31,20 @@ export class LocationsService {
 
         if (locations === null || locations === undefined || locations.length === 0) {
             locations = await this.repository.find({
+                order: {name: 'asc'},
+            });
+
+            await this.cacheManager.set(CacheEnum.LOCATIONS, locations);
+        }
+
+        return locations;
+    }
+
+    async findCache2(): Promise<LocationEntity[]> {
+        let locations = (await this.cacheManager.get(CacheEnum.LOCATIONS)) as LocationEntity[];
+
+        if (locations === null || locations === undefined || locations.length === 0) {
+            locations = await this.repository.find({
                 relations: {
                     children: {
                         children: {
@@ -49,6 +63,15 @@ export class LocationsService {
     }
 
     async loadCache(): Promise<LocationEntity[]> {
+        const locations = await this.repository.find({
+            order: {name: 'asc'},
+        });
+
+        await this.cacheManager.set(CacheEnum.LOCATIONS, locations);
+
+        return locations;
+    }
+    async loadCache2(): Promise<LocationEntity[]> {
         const locations = await this.repository.find({
             relations: {
                 children: {

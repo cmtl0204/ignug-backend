@@ -5,7 +5,8 @@ import {
     CatalogueStateEnum,
     CatalogueTypeEnum,
     CatalogueCareersModalityEnum,
-    CatalogueMaritalStatusEnum
+    CatalogueMaritalStatusEnum,
+    CatalogueSchoolPeriodStateEnum
 } from '@shared/enums';
 
 @Injectable()
@@ -22,6 +23,7 @@ export class CataloguesSeeder {
         await this.createEthnicOriginCatalogues();
         await this.createIdentificationTypeCatalogues();
         await this.createInstitutionPracticesTypeCatalogues();
+        await this.createIndigenousNationalityTypeCatalogues();
         await this.createGenderCatalogues();
         await this.createMaritalStatusCatalogues();
         await this.createProjectScopeCatalogues();
@@ -57,6 +59,31 @@ export class CataloguesSeeder {
         await this.createFamilyIncomeCatalogues();
         await this.createNationalityCatalogues();
         await this.createAncestralLanguageNameCatalogues();
+        await this.createTownCatalogues();
+        await this.createForeingLanguageNameCatalogues();
+        await this.createContactEmergencyKindshipCatalogues();
+        await this.createMonthlySalaryCatalogues();
+        await this.createWorkingHoursIdCatalogues();
+        await this.createChildrenTotalCatalogues();
+        await this.createUniversityCarrerIdCatalogues();
+        await this.createDegreeSuperiorIdCatalogues();
+        await this.createTypeStudyOtherCareerIdCatalogues();
+        await this.createElectronicDeviceIdCatalogues();
+        await this.createInternetTypeIdCatalogues();
+        await this.createMembersHouseNumberCatalogues();
+        await this.createFamilyPropiertiesIdCatalogues();
+        await this.createFamilyKinshipCatastrophicIllnessIdCatalogues();
+        await this.createWaterServiceTypeCatalogues();
+        await this.createElectricServiceBlackoutCatalogues();
+        await this.createSewerageServiceTypeCatalogues();
+        await this.createEconomicContributionIdCatalogues();
+        await this.createConsumeNewsTypeCatalogues();
+        await this.createTypeGenderViolenceCatalogues();
+        await this.createPandemicPsychologicalEffectCatalogues();
+        await this.createTypeInjuriesCatalogues();
+        await this.createTypeDiscriminationCatalogues();
+        await this.createSocialGroupCatalogues();
+
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -458,7 +485,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '2',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Afroecuatoriano',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -466,7 +493,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '3',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Negro',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -474,7 +501,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '4',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Mulato',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -482,7 +509,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '5',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Montuvio',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -490,7 +517,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '6',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Mestizo',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -498,7 +525,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '7',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Blanco',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -506,7 +533,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '8',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'Otro',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -514,7 +541,7 @@ export class CataloguesSeeder {
             },
             {
                 code: '9',
-                description: 'tipo de sangre',
+                description: 'etnia',
                 name: 'No registra',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -910,7 +937,7 @@ export class CataloguesSeeder {
             {
                 code: '4',
                 description: 'Tipo de colegio',
-                name: 'Minicipal',
+                name: 'Municipal',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.SCHOOL_TYPE,
@@ -918,7 +945,23 @@ export class CataloguesSeeder {
             {
                 code: '5',
                 description: 'Tipo de colegio',
-                name: 'Extranjero',
+                name: 'Sist. Intercultural bilingue',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
+            },
+            {
+                code: '6',
+                description: 'Tipo de colegio',
+                name: 'Guard. memoria afroecuat.',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SCHOOL_TYPE,
+            },
+            {
+                code: '6',
+                description: 'Tipo de colegio',
+                name: 'Guard. memoria montubia',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.SCHOOL_TYPE,
@@ -1096,7 +1139,7 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: 'open',
+                code: CatalogueSchoolPeriodStateEnum.OPEN ,
                 description: 'Periodo Lectivo Actual',
                 name: 'ABIERTO',
                 sort: 1,
@@ -1104,7 +1147,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.SCHOOL_PERIODS_STATE,
             },
             {
-                code: 'close',
+                code: CatalogueSchoolPeriodStateEnum.CLOSE,
                 description: 'Periodo Lectivo Histórico',
                 name: 'CERRADO',
                 sort: 1,
@@ -1528,7 +1571,7 @@ export class CataloguesSeeder {
             {
                 code: 'rejected',
                 description: 'Rechazado',
-                name: 'Rechazado',
+                name: 'Rechzado',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENTS_STATE,
@@ -1908,6 +1951,22 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
+                code: 'Cane',
+                description: 'Caña',
+                name: 'Caña',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.HOME_FLOOR,
+            },
+            {
+                code: 'brick',
+                description: 'Ladrillo',
+                name: 'Ladrillo',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.HOME_FLOOR,
+            },
+            {
                 code: 'other',
                 description: 'Otro',
                 name: 'Otro',
@@ -2090,6 +2149,1841 @@ export class CataloguesSeeder {
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '4',
+                description: 'A’ingae',
+                name: 'A’ingae',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '5',
+                description: 'Awapit',
+                name: 'Awapit',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '6',
+                description: 'Baaikoka',
+                name: 'Baaikoka',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '7',
+                description: 'Cha’palaa',
+                name: 'Cha’palaa',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '8',
+                description: 'Siapede',
+                name: 'Siapede',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '9',
+                description: 'Kayapi',
+                name: 'Kayapi',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '10',
+                description: 'Paaicoca',
+                name: 'Paaicoca',
+                sort: 10,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '11',
+                description: 'Quichua O Runa Shimi',
+                name: 'Quichua O Runa Shimi',
+                sort: 11,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '12',
+                description: 'Shuar-Chicham',
+                name: 'Shuar-Chicham',
+                sort: 12,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '13',
+                description: 'Sapara',
+                name: 'Sapara',
+                sort: 13,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '14',
+                description: 'Tsafiqui',
+                name: 'Tsafiqui',
+                sort: 14,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+            {
+                code: '15',
+                description: 'Waotedeo-Huaotedeo',
+                name: 'Waotedeo-Huaotedeo',
+                sort: 15,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    //CORREGIR
+    private async createTownCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Chibuleo',
+                name: 'Chibuleo',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '2',
+                description: 'Cañari',
+                name: 'Cañari',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '3',
+                description: 'Karanki',
+                name: 'Karanki',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '4',
+                description: 'Cayambi',
+                name: 'Cayambi',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '5',
+                description: 'Kisapincha',
+                name: 'Kisapincha',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '6',
+                description: 'Kitukara',
+                name: 'Kitukara',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '7',
+                description: 'Panzaleo',
+                name: 'Panzaleo',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '8',
+                description: 'Natabuela',
+                name: 'Natabuela',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '9',
+                description: 'Otavalo',
+                name: 'Otavalo',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '10',
+                description: 'Purwa',
+                name: 'Purwa',
+                sort: 10,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '11',
+                description: 'Palta',
+                name: 'Palta',
+                sort: 11,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '12',
+                description: 'Salasaka',
+                name: 'Salasaka',
+                sort: 12,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '13',
+                description: 'Saraguro',
+                name: 'Saraguro',
+                sort: 13,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '14',
+                description: 'Waranka',
+                name: 'Waranka',
+                sort: 14,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '15',
+                description: 'Huancavilca',
+                name: 'Huancavilca',
+                sort: 15,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '16',
+                description: 'Manta',
+                name: 'Manta',
+                sort: 16,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '17',
+                description: 'Secoya',
+                name: 'Secoya',
+                sort: 17,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '18',
+                description: 'Siona',
+                name: 'Siona',
+                sort: 18,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+            {
+                code: '19',
+                description: 'Cofan',
+                name: 'Cofan',
+                sort: 19,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TOWN,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    //CORREGIR
+    private async createIndigenousNationalityTypeCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Epera',
+                name: 'Epera',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '2',
+                description: 'Chachis',
+                name: 'Chachis',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '3',
+                description: 'Awa',
+                name: 'Awa',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '4',
+                description: 'Tsachila',
+                name: 'Tsachila',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '5',
+                description: 'Kichwa(sierra)',
+                name: 'Kichwa(sierra)',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '6',
+                description: 'Cofan',
+                name: 'Cofan',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '7',
+                description: 'Huaorani',
+                name: 'Huaorani',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '8',
+                description: 'Kichwa (amazonico)',
+                name: 'Kichwa (amazonico)',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '9',
+                description: 'Siona',
+                name: 'Siona',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '10',
+                description: 'Secoya',
+                name: 'Secoya',
+                sort: 10,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '11',
+                description: 'Zapara',
+                name: 'Zapara',
+                sort: 11,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '12',
+                description: 'Andoa',
+                name: 'Andoa',
+                sort: 12,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '13',
+                description: 'Shiwiar',
+                name: 'Shiwiar',
+                sort: 13,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+            {
+                code: '14',
+                description: 'Achuar',
+                name: 'Achuar',
+                sort: 14,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createForeingLanguageNameCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Ingles',
+                name: 'Ingles',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '2',
+                description: 'Chino Mandarin',
+                name: 'Chino Mandarin',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '3',
+                description: 'Hindi',
+                name: 'Hindi',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '4',
+                description: 'Frances',
+                name: 'Frances',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '5',
+                description: 'Arabe',
+                name: 'Arabe',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '6',
+                description: 'Ruso',
+                name: 'Ruso',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '7',
+                description: 'Portugues',
+                name: 'Portugues',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '8',
+                description: 'Aleman',
+                name: 'Aleman',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '9',
+                description: 'Japones',
+                name: 'Japones',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '10',
+                description: 'Italiano',
+                name: 'Italiano',
+                sort: 10,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '11',
+                description: 'Turco',
+                name: 'Turco',
+                sort: 11,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '12',
+                description: 'Coreano',
+                name: 'Coreano',
+                sort: 12,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '13',
+                description: 'Neerlandes',
+                name: 'Neerlandes',
+                sort: 13,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '14',
+                description: 'Polaco',
+                name: 'Polaco',
+                sort: 14,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+            {
+                code: '15',
+                description: 'Griego',
+                name: 'Griego',
+                sort: 15,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createContactEmergencyKindshipCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Mamá',
+                name: 'Mamá',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '2',
+                description: 'Papá',
+                name: 'Papá',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '3',
+                description: 'Hermano',
+                name: 'Hermano',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '4',
+                description: 'Hijo',
+                name: 'Hijo',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '5',
+                description: 'Tío',
+                name: 'Tío',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '6',
+                description: 'Sobrino',
+                name: 'Sobrino',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '7',
+                description: 'Tía',
+                name: 'Tía',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '8',
+                description: 'Vecino',
+                name: 'Vecino',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+            {
+                code: '9',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createMonthlySalaryCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: '0-50',
+                name: '0-50',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+            {
+                code: '2',
+                description: '51-200',
+                name: '51-200',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+            {
+                code: '3',
+                description: '201-400',
+                name: '201-400',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+            {
+                code: '4',
+                description: '401-800',
+                name: '401-800',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+            {
+                code: '5',
+                description: '801-1000',
+                name: '801-1000',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+            {
+                code: '6',
+                description: '1001-2000',
+                name: '1001-2000',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+            {
+                code: '7',
+                description: '2001 o más',
+                name: '2001 o más',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MONTHLY_SALARY,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createWorkingHoursIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Mañana (4 horas)',
+                name: 'Mañana (4 horas)',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WORKING_HOURS
+            },
+            {
+                code: '2',
+                description: 'Vespertino (4 horas)',
+                name: 'Vespertino (4 horas)',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WORKING_HOURS
+            },
+            {
+                code: '3',
+                description: 'Nocturna (4 horas)',
+                name: 'Nocturna (4 horas)',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WORKING_HOURS
+            },
+            {
+                code: '4',
+                description: 'Día completo (8 horas)',
+                name: 'Día completo (8 horas)',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WORKING_HOURS
+            },
+            {
+                code: '5',
+                description: 'Velada Completa (8 horas)',
+                name: 'Velada Completa (8 horas)',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WORKING_HOURS
+            },
+            {
+                code: '6',
+                description: 'Otros',
+                name: 'Otros',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WORKING_HOURS
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createChildrenTotalCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Numero de hijos',
+                name: '1',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CHILDREN_TOTAL,
+            },
+            {
+                code: '2',
+                description: 'Numero de hijos',
+                name: '2',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CHILDREN_TOTAL,
+            },
+            {
+                code: '3',
+                description: 'Numero de hijos',
+                name: '3',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CHILDREN_TOTAL,
+            },
+            {
+                code: '4',
+                description: 'Numero de hijos',
+                name: '4',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CHILDREN_TOTAL,
+            },
+            {
+                code: '5',
+                description: 'Numero de hijos',
+                name: '5',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CHILDREN_TOTAL,
+            },
+            {
+                code: '6',
+                description: 'Numero de hijos',
+                name: '6 o más',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CHILDREN_TOTAL,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createUniversityCarrerIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'En su trayectoria universitaria ha realizado:',
+                name: 'Cambio de Universidad',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.UNIVERSITY_CAREER
+            },
+            {
+                code: '2',
+                description: 'En su trayectoria universitaria ha realizado:',
+                name: 'Cambio de carrera',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.UNIVERSITY_CAREER
+            },
+            {
+                code: '3',
+                description: 'En su trayectoria universitaria ha realizado:',
+                name: 'Segunda matrícula',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.UNIVERSITY_CAREER
+            },
+            {
+                code: '4',
+                description: 'En su trayectoria universitaria ha realizado:',
+                name: 'Tercera matrícula',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.UNIVERSITY_CAREER
+            },
+            {
+                code: '5',
+                description: 'En su trayectoria universitaria ha realizado:',
+                name: 'Realizo reingreso',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.UNIVERSITY_CAREER
+            },
+            {
+                code: '6',
+                description: 'En su trayectoria universitaria ha realizado:',
+                name: 'No aplica',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.UNIVERSITY_CAREER
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createDegreeSuperiorIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Técnico',
+                name: 'Técnico',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.DEGREE_SUPERIOR
+            },
+            {
+                code: '2',
+                description: 'Tecnológico',
+                name: 'Tecnológico',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.DEGREE_SUPERIOR
+            },
+            {
+                code: '3',
+                description: 'Tercer nivel',
+                name: 'Tercer nivel',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.DEGREE_SUPERIOR
+            },
+            {
+                code: '4',
+                description: 'Cuarto nivel',
+                name: 'Cuarto nivel',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.DEGREE_SUPERIOR
+            },
+            {
+                code: '5',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.DEGREE_SUPERIOR
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createTypeStudyOtherCareerIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Público',
+                name: 'Público',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_STUDY_OTHER_CAREER
+            },
+            {
+                code: '2',
+                description: 'Particular',
+                name: 'Particular',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_STUDY_OTHER_CAREER
+            },
+            {
+                code: '3',
+                description: 'Beca',
+                name: 'Beca',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_STUDY_OTHER_CAREER
+            },
+            {
+                code: '4',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_STUDY_OTHER_CAREER
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createElectronicDeviceIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'NO',
+                name: 'NO',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
+            },
+            {
+                code: '2',
+                description: 'Computadora de Escritorio',
+                name: 'Computadora de Escritorio',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
+            },
+            {
+                code: '3',
+                description: 'Tablet',
+                name: 'Tablet',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
+            },
+            {
+                code: '4',
+                description: 'Celular',
+                name: 'Celular',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
+            },
+            {
+                code: '5',
+                description: 'Laptop',
+                name: 'Laptop',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
+            },
+            {
+                code: '6',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createInternetTypeIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Acceso Telefonico o ADSL',
+                name: 'Acceso Telefonico o ADSL',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+            {
+                code: '2',
+                description: 'Via Satelite',
+                name: 'Via Satelite',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+            {
+                code: '3',
+                description: 'Estandar WI-FI',
+                name: 'Estandar WI-FI',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+            {
+                code: '4',
+                description: 'Datos Moviles',
+                name: 'Datos Moviles',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+            {
+                code: '5',
+                description: 'Fibra Óptica',
+                name: 'Fibra Óptica',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+            {
+                code: '6',
+                description: 'Linea Electrica',
+                name: 'Linea Electrica',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+            {
+                code: '7',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.INTERNET_TYPE
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createMembersHouseNumberCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '1',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '2',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '2',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '3',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '3',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '4',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '4',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '5',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '5',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '6',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '6',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '7',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '7',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '8',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '8',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+            {
+                code: '9',
+                description: 'Integrantes conforman el núcleo familiar',
+                name: '9 o más',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.MEMBER_HOUSE_NUMBER,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createFamilyPropiertiesIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Propiedades de la familia',
+                name: 'Terrenos',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_PROPERTIES
+            },
+            {
+                code: '2',
+                description: 'Propiedades de la familia',
+                name: 'Casa',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_PROPERTIES
+            },
+            {
+                code: '3',
+                description: 'Propiedades de la familia',
+                name: 'Local comercial',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_PROPERTIES
+            },
+            {
+                code: '4',
+                description: 'Propiedades de la familia',
+                name: 'Bienes',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_PROPERTIES
+            },
+            {
+                code: '5',
+                description: 'Propiedades de la familia',
+                name: 'Otros',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_PROPERTIES
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createFamilyKinshipCatastrophicIllnessIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Familiar con enefermedad catastrofica',
+                name: 'Mamá',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+            },
+            {
+                code: '2',
+                description: 'Familiar con enefermedad catastrofica',
+                name: 'Papá',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+            },
+            {
+                code: '3',
+                description: 'Familiar con enefermedad catastrofica',
+                name: 'Esposo/a',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+            },
+            {
+                code: '4',
+                description: 'Familiar con enefermedad catastrofica',
+                name: 'Hermano/a',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+            },
+            {
+                code: '5',
+                description: 'Familiar con enefermedad catastrofica',
+                name: 'Hijo/a',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+            },
+            {
+                code: '6',
+                description: 'Familiar con enefermedad catastrofica',
+                name: 'Otros',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createWaterServiceTypeCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Servicio de agua',
+                name: 'Agua entubada',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+            {
+                code: '2',
+                description: 'Servicio de agua',
+                name: 'Agua Lluvia',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+            {
+                code: '3',
+                description: 'Servicio de agua',
+                name: 'Agua de pozo',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+            {
+                code: '4',
+                description: 'Servicio de agua',
+                name: 'Agua de cisterna',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+            {
+                code: '5',
+                description: 'Servicio de agua',
+                name: 'Agua de rio o de ojo de agua',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+            {
+                code: '6',
+                description: 'Servicio de agua',
+                name: 'Otros',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createElectricServiceBlackoutCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Frecuencia de apagones',
+                name: '1 vez a la semana',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRIC_SERVICE_BLACKOUT,
+            },
+            {
+                code: '2',
+                description: 'Frecuencia de apagones',
+                name: '3 veces a la semana',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRIC_SERVICE_BLACKOUT,
+            },
+            {
+                code: '3',
+                description: 'Frecuencia de apagones',
+                name: 'De 2 a 4 veces al mes',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRIC_SERVICE_BLACKOUT,
+            },
+            {
+                code: '4',
+                description: 'Frecuencia de apagones',
+                name: 'Con frecuencia',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRIC_SERVICE_BLACKOUT,
+            },
+            {
+                code: '5',
+                description: 'Frecuencia de apagones',
+                name: 'No aplica',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ELECTRIC_SERVICE_BLACKOUT,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createSewerageServiceTypeCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Tipo de Alcantarillado',
+                name: 'Alcantarillado estandar',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SEWERAGE_SERVICE_TYPE,
+            },
+            {
+                code: '2',
+                description: 'Tipo de Alcantarillado',
+                name: 'Fosa septica',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SEWERAGE_SERVICE_TYPE,
+            },
+            {
+                code: '3',
+                description: 'Tipo de Alcantarillado',
+                name: 'Tuberia a rio o quebrada',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SEWERAGE_SERVICE_TYPE,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createEconomicContributionIdCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Contribución Economica para el estudiante',
+                name: 'Padres',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ECONOMIC_CONTRIBUTION
+            },
+            {
+                code: '2',
+                description: 'Contribución Economica para el estudiante',
+                name: 'Abuelos',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ECONOMIC_CONTRIBUTION
+            },
+            {
+                code: '3',
+                description: 'Contribución Economica para el estudiante',
+                name: 'Familiares',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ECONOMIC_CONTRIBUTION
+            },
+            {
+                code: '4',
+                description: 'Contribución Economica para el estudiante',
+                name: 'Sueldo propio',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ECONOMIC_CONTRIBUTION
+            },
+            {
+                code: '5',
+                description: 'Contribución Economica para el estudiante',
+                name: 'Otras',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ECONOMIC_CONTRIBUTION
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createConsumeNewsTypeCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Radio',
+                name: 'Radio',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONSUME_NEWS_TYPE,
+            },
+            {
+                code: '2',
+                description: 'Televisión',
+                name: 'Televisión',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONSUME_NEWS_TYPE,
+            },
+            {
+                code: '3',
+                description: 'Redes Sociales',
+                name: 'Redes Sociales',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONSUME_NEWS_TYPE,
+            },
+            {
+                code: '4',
+                description: 'Internet',
+                name: 'Internet',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONSUME_NEWS_TYPE,
+            },
+            {
+                code: '5',
+                description: 'Periodico/Revistas',
+                name: 'Periodico/Revistas',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONSUME_NEWS_TYPE,
+            },
+            {
+                code: '6',
+                description: 'Otros',
+                name: 'Otros',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CONSUME_NEWS_TYPE,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createTypeGenderViolenceCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Física',
+                name: 'Física',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_GENDER_VIOLENCE,
+            },
+            {
+                code: '2',
+                description: 'Emocional',
+                name: 'Emocional',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_GENDER_VIOLENCE,
+            },
+            {
+                code: '3',
+                description: 'Psicológica',
+                name: 'Psicológica',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_GENDER_VIOLENCE,
+            },
+            {
+                code: '4',
+                description: 'Económica',
+                name: 'Económica',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_GENDER_VIOLENCE,
+            },
+            {
+                code: '5',
+                description: 'Sexual',
+                name: 'Sexual',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_GENDER_VIOLENCE,
+            },
+            {
+                code: '6',
+                description: 'Otros',
+                name: 'Otros',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_GENDER_VIOLENCE,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createPandemicPsychologicalEffectCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Ansiedad',
+                name: 'Ansiedad',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '2',
+                description: 'Estrés',
+                name: 'Estrés',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '3',
+                description: 'Depresión',
+                name: 'Depresión',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '4',
+                description: 'Soledad',
+                name: 'Soledad',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '5',
+                description: 'Agotamiento emocional y mental',
+                name: 'Agotamiento emocional y mental',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '6',
+                description: 'Abuso de sustancias',
+                name: 'Abuso de sustancias',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '7',
+                description: 'Cambios de comportamiento social',
+                name: 'Cambios de comportamiento social',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+            {
+                code: '8',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createTypeInjuriesCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Me cortaba',
+                name: 'Me cortaba',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_INJURIES,
+            },
+            {
+                code: '2',
+                description: 'Me quemaba la piel',
+                name: 'Me quemaba la piel',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_INJURIES,
+            },
+            {
+                code: '3',
+                description: 'Me golpeaba',
+                name: 'Me golpeaba',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_INJURIES,
+            },
+            {
+                code: '4',
+                description: 'Me sacaba el cabello',
+                name: 'Me sacaba el cabello',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_INJURIES,
+            },
+            {
+                code: '5',
+                description: 'Ingería unas pastillas o jarabe',
+                name: 'Ingería unas pastillas o jarabe',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_INJURIES,
+            },
+            {
+                code: '6',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_INJURIES,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createTypeDiscriminationCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Edad',
+                name: 'Edad',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '2',
+                description: 'Género',
+                name: 'Género',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '3',
+                description: 'Origen étnico',
+                name: 'Origen étnico',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '4',
+                description: 'Discapacidad',
+                name: 'Discapacidad',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '5',
+                description: 'Orientación Sexual',
+                name: 'Orientación Sexual',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '6',
+                description: 'Religioso',
+                name: 'Religioso',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '7',
+                description: 'Politico',
+                name: 'Politico',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+            {
+                code: '8',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createSocialGroupCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Góticos',
+                name: 'Góticos',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '2',
+                description: 'Raperos',
+                name: 'Raperos',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '3',
+                description: 'Hipsters',
+                name: 'Hipsters',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '4',
+                description: 'Emos',
+                name: 'Emos',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '5',
+                description: 'Punks',
+                name: 'Punks',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '6',
+                description: 'Rastafaris',
+                name: 'Rastafaris',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '7',
+                description: 'Otakus',
+                name: 'Otakus',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '8',
+                description: 'Skaters',
+                name: 'Skaters',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP,
+            },
+            {
+                code: '9',
+                description: 'Reggaetoneros',
+                name: 'Reggaetoneros',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP
+            },
+            {
+                code: '10',
+                description: 'Hip-Hop',
+                name: 'Hip-Hop',
+                sort: 10,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP
+            },
+            {
+                code: '11',
+                description: 'Ninguno',
+                name: 'Ninguno',
+                sort: 11,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP
+            },
+            {
+                code: '12',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 12,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.SOCIAL_GROUP
             },
         );
 

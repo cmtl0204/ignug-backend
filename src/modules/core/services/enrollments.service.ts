@@ -24,7 +24,7 @@ import {
     CataloguesService,
     EnrollmentStatesService,
     EnrollmentDetailsService,
-    EnrollmentDetailStatesService
+    EnrollmentDetailStatesService, SchoolPeriodsService
 } from "@core/services";
 import {
     CatalogueEnrollmentStateEnum,
@@ -45,6 +45,7 @@ export class EnrollmentsService {
         private readonly enrollmentDetailsService: EnrollmentDetailsService,
         private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
         private readonly cataloguesService: CataloguesService,
+        private readonly schoolPeriodsService: SchoolPeriodsService,
     ) {
     }
 
@@ -394,15 +395,17 @@ export class EnrollmentsService {
     }
 
     async findEnrollmentByStudent(studentId: string): Promise<EnrollmentEntity> {
+        const openSchoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
+
         const enrollment = await this.repository.findOne({
             relations: {
+                schoolPeriod: true,
                 enrollmentStates: {
                     state: true
                 }
             },
-            where: {studentId}
+            where: {studentId, schoolPeriodId: openSchoolPeriod.id}
         });
-
 
         return enrollment;
     }
@@ -489,13 +492,11 @@ export class EnrollmentsService {
         // });
     }
 
-    async sendRequest(userId: string, payload: CreateEnrollmentDto): Promise<EnrollmentEntity> {
+    async sendRequest(userId: string, id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
         // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
         let enrollment = await this.repository.findOne({
-            where: {
-                studentId: payload.student.id,
-                schoolPeriodId: payload.schoolPeriod.id
-            }
+            relations: {enrollmentDetails: {enrollmentDetailStates: true}, enrollmentStates: true},
+            where: {id}
         });
 
         if (!enrollment)
@@ -505,10 +506,12 @@ export class EnrollmentsService {
 
         enrollment = await this.repository.save(enrollment);
 
+        await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
+
         const catalogues = await this.cataloguesService.findCache();
 
         const registeredState = catalogues.find(catalogue =>
-            catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
+            catalogue.code === CatalogueEnrollmentStateEnum.REQUEST_SENT &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
         await this.enrollmentsStateService.create({
@@ -519,8 +522,20 @@ export class EnrollmentsService {
             observation: payload.observation,
         });
 
-        for (const item of payload.enrollmentDetails) {
-            await this.enrollmentDetailsService.create(item);
+        for (const item of enrollment.enrollmentDetails) {
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.REQUEST_SENT &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+            await this.enrollmentDetailStatesService.removeAll(item.enrollmentDetailStates);
+
+            await this.enrollmentDetailStatesService.create({
+                enrollmentDetailId: item.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
         }
 
         return enrollment;

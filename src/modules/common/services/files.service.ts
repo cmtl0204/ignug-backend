@@ -17,7 +17,7 @@ export class FilesService {
     ) {
     }
 
-    async uploadFile(file: Express.Multer.File, modelId: string) {
+    async uploadFile(file: Express.Multer.File, modelId: string, typeId: string) {
         const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${file.filename}`;
         const payload = {
             modelId,
@@ -26,7 +26,7 @@ export class FilesService {
             originalName: file.originalname,
             path: filePath,
             size: file.size,
-            // type: 'user',
+            typeId: typeId,
         };
 
         const newFile = this.repository.create(payload);
@@ -77,6 +77,7 @@ export class FilesService {
 
         //All
         const data = await this.repository.findAndCount({
+            relations:{type:true},
             where: {modelId},
         });
 
@@ -103,6 +104,7 @@ export class FilesService {
         }
 
         const response = await this.repository.findAndCount({
+            relations:{type:true},
             where,
             take: limit,
             skip: PaginationDto.getOffset(limit, page),
@@ -123,7 +125,7 @@ export class FilesService {
 
         if (entity?.fileName) {
             try {
-                fs.unlinkSync(join(process.cwd(),'storage/private',entity.path));
+                fs.unlinkSync(join(process.cwd(), 'storage/private', entity.path));
                 return await this.repository.softRemove(entity);
             } catch (err) {
                 console.error('Something wrong happened removing the file', err);

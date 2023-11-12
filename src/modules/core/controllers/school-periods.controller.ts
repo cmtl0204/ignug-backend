@@ -191,7 +191,7 @@ export class SchoolPeriodsController {
         }),
     )
     async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('modelId', ParseUUIDPipe) modelId: string): Promise<ResponseHttpModel> {
-        const response = await this.filesService.uploadFile(file, modelId);
+        const response = await this.filesService.uploadFile(file, modelId, null);
         return {data: response, message: 'Upload File', title: 'Upload'};
     }
 

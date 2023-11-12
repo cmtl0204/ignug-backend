@@ -52,12 +52,28 @@ export class LocationEntity {
 
     /** Columns **/
     @Column({
-        name: 'alpha3',
+        name: 'alpha2_code',
+        type: 'varchar',
+        nullable: true,
+        comment: 'alpha2',
+    })
+    alpha2Code: string;
+
+    @Column({
+        name: 'alpha3_code',
         type: 'varchar',
         nullable: true,
         comment: 'alpha3',
     })
-    alpha3: string;
+    alpha3Code: string;
+
+    @Column({
+        name: 'calling_code',
+        type: 'varchar',
+        nullable: true,
+        comment: 'codigo de pais',
+    })
+    callingCode: string;
 
     @Column({
         name: 'code',
