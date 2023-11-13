@@ -300,15 +300,15 @@ export class InformationStudentEntity {
     isDiscriminationId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'is_economic_contribution_id'})
-    isEconomicContribution: CatalogueEntity;
+    @JoinColumn({name: 'economic_contribution_id'})
+    economicContribution: CatalogueEntity;
     @Column({
         type: 'uuid',
-        name: 'is_economic_contribution_id',
+        name: 'economic_contribution_id',
         nullable: true,
         comment: 'Para sus estudios recibe el aporte ecónomico de:'
     })
-    isEconomicContributionId: string;
+    economicContributionId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'is_electric_service_id'})

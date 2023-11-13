@@ -522,7 +522,7 @@ export class StudentsService {
         entity.informationStudent.homeFloorId = payload.informationStudent.homeFloor.id;
         entity.informationStudent.homeWallId = payload.informationStudent.homeWall.id;
         entity.informationStudent.isPhoneServiceId = payload.informationStudent.isPhoneService.id;
-        entity.informationStudent.isEconomicContributionId = payload.informationStudent.isEconomicContribution.id;
+        entity.informationStudent.economicContributionId = payload.informationStudent.economicContribution.id;
         entity.informationStudent.isFamilyEconomicAidId = payload.informationStudent.isFamilyEconomicAid.id;
         entity.informationStudent.consumeNewsTypeId = payload.informationStudent.consumeNewsType.id;
 

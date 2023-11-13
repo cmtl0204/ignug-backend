@@ -20,7 +20,7 @@ export class StudentReportsController {
     @Get(':id/socioeconomic-form')
     @HttpCode(HttpStatus.OK)
     async generateSocioeconomicForm(@Res() res: Response, @Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-        await this.studentReportsService.generateCareers(res);
+        await this.studentReportsService.generateSocioeconomicForm(res, id);
 
         return {
             data: null,

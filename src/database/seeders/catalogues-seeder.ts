@@ -30,7 +30,7 @@ export class CataloguesSeeder {
         await this.createScholarshipReasonCatalogues();
         await this.createScholarshipTypeCatalogues();
         await this.createScholarshipFundingTypeCatalogues();
-        await this.createSchoolTypeCatalogues();
+        await this.createTypeSchoolCatalogues();
         await this.createSexCatalogues();
         await this.createStudentIncomeForCatalogues();
         await this.createStudentOccupationCatalogues();
@@ -60,8 +60,8 @@ export class CataloguesSeeder {
         await this.createNationalityCatalogues();
         await this.createAncestralLanguageNameCatalogues();
         await this.createTownCatalogues();
-        await this.createForeingLanguageNameCatalogues();
-        await this.createContactEmergencyKindshipCatalogues();
+        await this.createForeignLanguageNameCatalogues();
+        await this.createContactEmergencyKinshipCatalogues();
         await this.createMonthlySalaryCatalogues();
         await this.createWorkingHoursIdCatalogues();
         await this.createChildrenTotalCatalogues();
@@ -83,7 +83,6 @@ export class CataloguesSeeder {
         await this.createTypeInjuriesCatalogues();
         await this.createTypeDiscriminationCatalogues();
         await this.createSocialGroupCatalogues();
-
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -907,7 +906,7 @@ export class CataloguesSeeder {
         }
     }
 
-    private async createSchoolTypeCatalogues() {
+    private async createTypeSchoolCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
@@ -916,7 +915,7 @@ export class CataloguesSeeder {
                 name: 'Fiscal',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '2',
@@ -924,7 +923,7 @@ export class CataloguesSeeder {
                 name: 'Fiscomisional',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '3',
@@ -932,7 +931,7 @@ export class CataloguesSeeder {
                 name: 'Particular',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '4',
@@ -940,7 +939,7 @@ export class CataloguesSeeder {
                 name: 'Municipal',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '5',
@@ -948,7 +947,7 @@ export class CataloguesSeeder {
                 name: 'Sist. Intercultural bilingue',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '6',
@@ -956,7 +955,7 @@ export class CataloguesSeeder {
                 name: 'Guard. memoria afroecuat.',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '6',
@@ -964,7 +963,7 @@ export class CataloguesSeeder {
                 name: 'Guard. memoria montubia',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
                 code: '6',
@@ -972,7 +971,7 @@ export class CataloguesSeeder {
                 name: 'No registra',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.SCHOOL_TYPE,
+                type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
         );
 
@@ -2536,7 +2535,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
-    private async createForeingLanguageNameCatalogues() {
+    private async createForeignLanguageNameCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
@@ -2545,7 +2544,7 @@ export class CataloguesSeeder {
                 name: 'Ingles',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '2',
@@ -2553,7 +2552,7 @@ export class CataloguesSeeder {
                 name: 'Chino Mandarin',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '3',
@@ -2561,7 +2560,7 @@ export class CataloguesSeeder {
                 name: 'Hindi',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '4',
@@ -2569,7 +2568,7 @@ export class CataloguesSeeder {
                 name: 'Frances',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '5',
@@ -2577,7 +2576,7 @@ export class CataloguesSeeder {
                 name: 'Arabe',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '6',
@@ -2585,7 +2584,7 @@ export class CataloguesSeeder {
                 name: 'Ruso',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '7',
@@ -2593,7 +2592,7 @@ export class CataloguesSeeder {
                 name: 'Portugues',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '8',
@@ -2601,7 +2600,7 @@ export class CataloguesSeeder {
                 name: 'Aleman',
                 sort: 8,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '9',
@@ -2609,7 +2608,7 @@ export class CataloguesSeeder {
                 name: 'Japones',
                 sort: 9,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '10',
@@ -2617,7 +2616,7 @@ export class CataloguesSeeder {
                 name: 'Italiano',
                 sort: 10,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '11',
@@ -2625,7 +2624,7 @@ export class CataloguesSeeder {
                 name: 'Turco',
                 sort: 11,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '12',
@@ -2633,7 +2632,7 @@ export class CataloguesSeeder {
                 name: 'Coreano',
                 sort: 12,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '13',
@@ -2641,7 +2640,7 @@ export class CataloguesSeeder {
                 name: 'Neerlandes',
                 sort: 13,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '14',
@@ -2649,7 +2648,7 @@ export class CataloguesSeeder {
                 name: 'Polaco',
                 sort: 14,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '15',
@@ -2657,7 +2656,7 @@ export class CataloguesSeeder {
                 name: 'Griego',
                 sort: 15,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.FOREING_LANGUAGE_NAME,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
         );
 
@@ -2665,7 +2664,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
-    private async createContactEmergencyKindshipCatalogues() {
+    private async createContactEmergencyKinshipCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
@@ -2739,6 +2738,87 @@ export class CataloguesSeeder {
                 sort: 9,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+    private async createFamilyKinshipDisabilityCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: '1',
+                description: 'Mamá',
+                name: 'Mamá',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '2',
+                description: 'Papá',
+                name: 'Papá',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '3',
+                description: 'Hermano',
+                name: 'Hermano',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '4',
+                description: 'Hijo',
+                name: 'Hijo',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '5',
+                description: 'Tío',
+                name: 'Tío',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '6',
+                description: 'Sobrino',
+                name: 'Sobrino',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '7',
+                description: 'Tía',
+                name: 'Tía',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '8',
+                description: 'Vecino',
+                name: 'Vecino',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
+            },
+            {
+                code: '9',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
             },
         );
 
