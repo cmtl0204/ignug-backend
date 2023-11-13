@@ -25,7 +25,7 @@ import {ConfigType} from "@nestjs/config";
 import {MailDataInterface} from "../../common/interfaces/mail-data.interface";
 import {SchoolPeriodsService} from "@core/services";
 
-const {PDFDocument} = require('pdfKit-table-ts');
+const {PDFDocument} = require('pdfkit-table-ts');
 
 @Injectable()
 export class AuthService {

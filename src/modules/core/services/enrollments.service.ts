@@ -399,6 +399,9 @@ export class EnrollmentsService {
 
         const enrollment = await this.repository.findOne({
             relations: {
+                academicPeriod: true,
+                parallel: true,
+                workday: true,
                 schoolPeriod: true,
                 enrollmentStates: {
                     state: true
