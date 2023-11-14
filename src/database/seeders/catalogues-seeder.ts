@@ -83,6 +83,7 @@ export class CataloguesSeeder {
         await this.createTypeInjuriesCatalogues();
         await this.createTypeDiscriminationCatalogues();
         await this.createSocialGroupCatalogues();
+        await this.createFamilyKinshipDisabilityCatalogues();
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {

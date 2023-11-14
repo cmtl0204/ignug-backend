@@ -32,7 +32,10 @@ export class StudentReportsService {
         const textW = 500;
         const fontsize = 9;
 
-        doc.font('Helvetica-Bold').fontSize(10).text('MATRÍCULA', 250, textY);
+        doc.font('Helvetica-Bold');
+        doc.fontSize(10);
+
+        doc.text('MATRÍCULA', 250, textY);
 
         doc.rect(textX, textY + 20, textW, 675); //Rectangulo grande
         doc.rect(textX + 180, textY + 20, 0.1, 50);
@@ -85,14 +88,10 @@ export class StudentReportsService {
         doc.rect(textX + 345, textY + 670, 0.1, 25);
         doc.stroke();
 
-        doc
-            .font('Helvetica-Bold')
-            .fontSize(fontsize)
-            .text('1. Tipo de documento:', textX + 5, textY + 30);
-        doc
-            .font('Helvetica-Bold')
-            .fontSize(fontsize)
-            .text('2. Apellidos y nombres del estudiante:', textX + 190, textY + 30);
+        doc.fontSize(9);
+
+        doc.text('1. Tipo de documento:', textX + 5, textY + 30);
+        doc.text('2. Apellidos y nombres del estudiante:', textX + 190, textY + 30);
         doc
             .font('Helvetica-Bold')
             .fontSize(fontsize)
