@@ -84,6 +84,7 @@ export class CataloguesSeeder {
         await this.createTypeDiscriminationCatalogues();
         await this.createSocialGroupCatalogues();
         await this.createFamilyKinshipDisabilityCatalogues();
+        await this.createFileTypeCatalogues();
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -1461,8 +1462,8 @@ export class CataloguesSeeder {
             {
                 code: 'extraordinary',
                 description: 'Extraordinary',
-                name: 'Extraordinary',
-                sort: 1,
+                name: 'Extraordinaria',
+                sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENTS_TYPE,
             },
@@ -1470,7 +1471,7 @@ export class CataloguesSeeder {
                 code: 'especial',
                 description: 'Especial',
                 name: 'Especial',
-                sort: 1,
+                sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENTS_TYPE,
             },
@@ -4065,6 +4066,48 @@ export class CataloguesSeeder {
                 sort: 12,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.SOCIAL_GROUP
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+
+    private async createFileTypeCatalogues() {
+        const catalogues: CreateCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: 'identification_requirement',
+                description: 'Documento de Identificación',
+                name: 'Documento de Identificación',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+            },
+            {
+                code: 'socioeconomic_form',
+                description: 'Ficha Socioeconómica',
+                name: 'Ficha Socioeconómica',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+            },
+            {
+                code: 'application',
+                description: 'Solicitud de Matrícula',
+                name: 'Solicitud de Matrícula',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+            },
+            {
+                code: 'payment',
+                description: 'Pagos',
+                name: 'Pagos',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
             },
         );
 

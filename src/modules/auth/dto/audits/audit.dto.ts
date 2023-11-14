@@ -19,7 +19,7 @@ export class AuditDto {
 
     @IsNotEmpty(isNotEmptyValidationOptions())
     @IsString(isStringValidationOptions())
-    readonly newValues: string;
+    readonly values: string;
 
     @IsNotEmpty(isNotEmptyValidationOptions())
     @IsString(isStringValidationOptions())

@@ -112,6 +112,32 @@ export class EnrollmentsService {
         return await this.repository.save(entity);
     }
 
+    async updateEnrolled(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+        const entity = await this.repository.findOneBy({id});
+
+        if (!entity) {
+            throw new NotFoundException('Matrícula no encontrada');
+        }
+
+        entity.parallelId = payload.parallel.id;
+        entity.workdayId = payload.workday.id;
+
+        return await this.repository.save(entity);
+    }
+
+    async updateApproved(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
+        const entity = await this.repository.findOneBy({id});
+
+        if (!entity) {
+            throw new NotFoundException('Matrícula no encontrada');
+        }
+
+        entity.parallelId = payload.parallel.id;
+        entity.workdayId = payload.workday.id;
+
+        return await this.repository.save(entity);
+    }
+
     async remove(id: string): Promise<EnrollmentEntity> {
         const subject = await this.repository.findOneBy({id});
 
@@ -547,7 +573,7 @@ export class EnrollmentsService {
 
     async approve(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
         const enrollment = await this.repository.findOne({
-            relations: {enrollmentStates: {state: true}},
+            relations: {enrollmentDetails: {enrollmentDetailStates: true}, enrollmentStates: {state: true}},
             where: {id}
         });
 
@@ -562,7 +588,8 @@ export class EnrollmentsService {
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
         // await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
-        await this.enrollmentsStateService.removeRejected(enrollment.enrollmentStates);
+        // await this.enrollmentsStateService.removeRejected(enrollment.enrollmentStates);
+        await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,
@@ -571,6 +598,22 @@ export class EnrollmentsService {
             date: new Date(),
             observation: payload.observation,
         });
+
+        for (const item of enrollment.enrollmentDetails) {
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+            await this.enrollmentDetailStatesService.removeAll(item.enrollmentDetailStates);
+
+            await this.enrollmentDetailStatesService.create({
+                enrollmentDetailId: item.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
+        }
 
         return enrollment;
     }
@@ -592,7 +635,8 @@ export class EnrollmentsService {
             catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
         // await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
-        await this.enrollmentsStateService.removeApproved(enrollment.enrollmentStates);
+        // await this.enrollmentsStateService.removeApproved(enrollment.enrollmentStates);
+        await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
             enrollmentId: id,
@@ -607,17 +651,28 @@ export class EnrollmentsService {
 
     async enroll(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
         const enrollment = await this.repository.findOne({
-            relations: {enrollmentStates: true},
+            relations: {
+                enrollmentDetails: {enrollmentDetailStates: true},
+                enrollmentStates: true,
+                schoolPeriod: true,
+                career: true,
+                academicPeriod: true,
+                student: {user: true}
+            },
             where: {id}
         });
 
         enrollment.date = new Date();
+
         enrollment.code =
-            `${payload.schoolPeriod.code}-${payload.career.acronym}-${payload.student.user.identification}`;
+            `${enrollment.schoolPeriod.code}-${enrollment.career.acronym}-${enrollment.student.user.identification}`;
+
         enrollment.folio =
-            `${payload.schoolPeriod.code}-${payload.career.acronym}-${payload.academicPeriod.code}`;
+            `${enrollment.schoolPeriod.code}-${enrollment.career.acronym}-${enrollment.academicPeriod.code}`;
 
         await this.repository.save(enrollment);
+
+        await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
 
         const catalogues = await this.cataloguesService.findCache();
 
@@ -633,12 +688,28 @@ export class EnrollmentsService {
             observation: payload.observation,
         });
 
+        for (const item of enrollment.enrollmentDetails) {
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+            await this.enrollmentDetailStatesService.removeAll(item.enrollmentDetailStates);
+
+            await this.enrollmentDetailStatesService.create({
+                enrollmentDetailId: item.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
+        }
+
         return enrollment;
     }
 
     async revoke(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
         const enrollment = await this.repository.findOne({
-            relations: {enrollmentStates: true},
+            relations: {enrollmentDetails: {enrollmentDetailStates: true},enrollmentStates: true},
             where: {id}
         });
 
@@ -658,6 +729,21 @@ export class EnrollmentsService {
             observation: payload.observation,
         });
 
+        for (const item of enrollment.enrollmentDetails) {
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.REVOKED &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+
+            await this.enrollmentDetailStatesService.removeAll(item.enrollmentDetailStates);
+
+            await this.enrollmentDetailStatesService.create({
+                enrollmentDetailId: item.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
+        }
         return enrollment;
     }
 

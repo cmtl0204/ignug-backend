@@ -46,12 +46,13 @@ export class AuditMiddleware implements NestMiddleware {
                 modelId = params[params.length - 1];
             }
 
+
             const payload: CreateAuditDto = {
                 modelId: modelId,
                 user: user,
                 event: req.method,
                 ipAddress: req.ip,
-                newValues: req.body,
+                values: req.body,
                 url: req.path,
                 hostname: req.hostname
             }

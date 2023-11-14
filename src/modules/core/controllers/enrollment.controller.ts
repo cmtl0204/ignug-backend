@@ -69,11 +69,37 @@ export class EnrollmentsController {
         };
     }
 
-    @ApiOperation({summary: 'Update Career'})
+    @ApiOperation({summary: 'Update Enrollment'})
     @Put(':id')
     @HttpCode(HttpStatus.CREATED)
     async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.update(id, payload);
+
+        return {
+            data: serviceResponse,
+            message: `Matrícula Actualizada`,
+            title: `Actualizado`,
+        };
+    }
+
+    @ApiOperation({summary: 'Update Approved'})
+    @Put(':id/enrolled')
+    @HttpCode(HttpStatus.CREATED)
+    async updateApproved(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.updateApproved(id, payload);
+
+        return {
+            data: serviceResponse,
+            message: `Matrícula Actualizada`,
+            title: `Actualizado`,
+        };
+    }
+
+    @ApiOperation({summary: 'Update Enrolled'})
+    @Put(':id/enrolled')
+    @HttpCode(HttpStatus.CREATED)
+    async updateEnrolled(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.updateEnrolled(id, payload);
 
         return {
             data: serviceResponse,
