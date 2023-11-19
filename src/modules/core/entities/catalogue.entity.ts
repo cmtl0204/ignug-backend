@@ -81,6 +81,14 @@ export class CatalogueEntity {
     name: string;
 
     @Column({
+        name: 'required',
+        type: 'boolean',
+        default: true,
+        comment: 'Si el catalogo es requerido o no',
+    })
+    required: boolean;
+
+    @Column({
         name: 'sort',
         type: 'int',
         comment: 'Orden',

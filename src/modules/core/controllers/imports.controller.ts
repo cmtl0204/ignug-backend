@@ -41,6 +41,7 @@ export class ImportsController {
     async importDPA(): Promise<ResponseHttpModel> {
         await this.importsService.importCountries();
         await this.importsService.importDPA();
+
         return {
             data: null,
             message: `DPA importada correctamente`,

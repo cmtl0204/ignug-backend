@@ -150,6 +150,7 @@ export class ImportsService {
         for (const item of dataExcel) {
             let level = 0;
             let zone = null;
+
             if (item['tipo_id'] == 36) {
                 level = 2;
             }

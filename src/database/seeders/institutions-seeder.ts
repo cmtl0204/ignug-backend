@@ -25,7 +25,7 @@ export class InstitutionsSeeder {
       {
         state: stateEnable,
         acronym: 'ITSQ',
-        cellphone: faker.phone.number('09#######'),
+        cellphone: faker.phone.number(),
         code: 'cod1',
         codeSniese: '123',
         denomination: 'Institución Educativa',
@@ -41,7 +41,7 @@ export class InstitutionsSeeder {
       {
         state: stateEnable,
         acronym: 'ISTL',
-        cellphone: faker.phone.number('09#######'),
+        cellphone: faker.phone.number(),
         code: 'cod2',
         codeSniese: '321',
         denomination: 'Institución Educativa',

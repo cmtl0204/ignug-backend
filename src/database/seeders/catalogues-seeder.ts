@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {CreateCatalogueDto} from '@core/dto';
+import {CreateCatalogueDto, SeedCatalogueDto} from '@core/dto';
 import {CataloguesService} from '@core/services';
 import {
     CatalogueStateEnum,
@@ -84,7 +84,8 @@ export class CataloguesSeeder {
         await this.createTypeDiscriminationCatalogues();
         await this.createSocialGroupCatalogues();
         await this.createFamilyKinshipDisabilityCatalogues();
-        await this.createFileTypeCatalogues();
+        await this.createFileTypeNewStudentsCatalogues();
+        await this.createFileTypeOldStudentsCatalogues();
     }
 
     private async createAcademicPeriodCatalogues(): Promise<void> {
@@ -680,7 +681,7 @@ export class CataloguesSeeder {
                 code: '2',
                 description: 'estado civil',
                 name: 'Casado/a',
-                sort:2,
+                sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
@@ -1140,7 +1141,7 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: CatalogueSchoolPeriodStateEnum.OPEN ,
+                code: CatalogueSchoolPeriodStateEnum.OPEN,
                 description: 'Periodo Lectivo Actual',
                 name: 'ABIERTO',
                 sort: 1,
@@ -2117,6 +2118,158 @@ export class CataloguesSeeder {
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.NATIONALITY,
             },
+            {
+                code: '2',
+                description: 'Colombiana',
+                name: 'Colombiana',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '3',
+                description: 'Peruana',
+                name: 'Peruana',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '4',
+                description: 'Venezolana',
+                name: 'Venezolana',
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '5',
+                description: 'Chilena',
+                name: 'Chilena',
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '6',
+                description: 'Argentina',
+                name: 'Argentina',
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '7',
+                description: 'Brasileña',
+                name: 'Brasileña',
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '8',
+                description: 'Uruguaya',
+                name: 'Uruguaya',
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '9',
+                description: 'Paraguaya',
+                name: 'Paraguaya',
+                sort: 9,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '10',
+                description: 'Boliviana',
+                name: 'Boliviana',
+                sort: 10,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '11',
+                description: 'Costarricense',
+                name: 'Costarricense',
+                sort: 11,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '12',
+                description: 'Cubana',
+                name: 'Cubana',
+                sort: 12,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '13',
+                description: 'Salvadoreña',
+                name: 'Salvadoreña',
+                sort: 13,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '14',
+                description: 'Guatemalteca',
+                name: 'Guatemalteca',
+                sort: 14,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '15',
+                description: 'Mexicana',
+                name: 'Mexicana',
+                sort: 15,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '16',
+                description: 'Haitiana',
+                name: 'Haitiana',
+                sort: 16,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '17',
+                description: 'Nicaraguense',
+                name: 'Nicaraguense',
+                sort: 17,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '18',
+                description: 'Estado Unidense',
+                name: 'Estado Unidense',
+                sort: 18,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '19',
+                description: 'Canadiense',
+                name: 'Canadiense',
+                sort: 19,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
+            {
+                code: '20',
+                description: 'Otra',
+                name: 'Otra',
+                sort: 20,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.NATIONALITY,
+            },
         );
 
         for (const catalogue of catalogues) {
@@ -2253,6 +2406,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     //CORREGIR
     private async createTownCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
@@ -2415,6 +2569,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     //CORREGIR
     private async createIndigenousNationalityTypeCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
@@ -2537,6 +2692,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createForeignLanguageNameCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2666,6 +2822,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createContactEmergencyKinshipCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2747,6 +2904,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createFamilyKinshipDisabilityCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2828,6 +2986,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createMonthlySalaryCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2893,6 +3052,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createWorkingHoursIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2950,6 +3110,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createChildrenTotalCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3007,6 +3168,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createUniversityCarrerIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3064,6 +3226,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createDegreeSuperiorIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3113,6 +3276,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createTypeStudyOtherCareerIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3154,6 +3318,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createElectronicDeviceIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3211,6 +3376,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createInternetTypeIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3276,6 +3442,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createMembersHouseNumberCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3357,6 +3524,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createFamilyPropiertiesIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3406,6 +3574,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createFamilyKinshipCatastrophicIllnessIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3463,6 +3632,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createWaterServiceTypeCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3520,6 +3690,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createElectricServiceBlackoutCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3569,6 +3740,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createSewerageServiceTypeCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3602,6 +3774,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createEconomicContributionIdCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3651,6 +3824,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createConsumeNewsTypeCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3708,6 +3882,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createTypeGenderViolenceCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3765,6 +3940,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createPandemicPsychologicalEffectCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3838,6 +4014,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createTypeInjuriesCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3895,6 +4072,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createTypeDiscriminationCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -3948,8 +4126,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '7',
-                description: 'Politico',
-                name: 'Politico',
+                description: 'Político',
+                name: 'Político',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.TYPE_DISCRIMINATION,
@@ -3968,6 +4146,7 @@ export class CataloguesSeeder {
             await this.catalogueService.create(catalogue);
         }
     }
+
     private async createSocialGroupCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -4074,40 +4253,153 @@ export class CataloguesSeeder {
         }
     }
 
-    private async createFileTypeCatalogues() {
-        const catalogues: CreateCatalogueDto[] = [];
+    private async createFileTypeNewStudentsCatalogues() {
+        const catalogues: SeedCatalogueDto[] = [];
         catalogues.push(
             {
                 code: 'identification_requirement',
                 description: 'Documento de Identificación',
                 name: 'Documento de Identificación',
+                required: true,
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
             },
             {
                 code: 'socioeconomic_form',
                 description: 'Ficha Socioeconómica',
                 name: 'Ficha Socioeconómica',
+                required: true,
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
             },
             {
                 code: 'application',
                 description: 'Solicitud de Matrícula',
                 name: 'Solicitud de Matrícula',
+                required: true,
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
             },
             {
                 code: 'payment',
-                description: 'Pagos',
-                name: 'Pagos',
+                description: 'Factura',
+                name: 'Factura',
+                required: false,
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
+            },
+            {
+                code: 'quota_acceptance',
+                description: 'Aceptacion de cupo',
+                name: 'Aceptacion de cupo',
+                required: true,
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
+            },
+            {
+                code: 'photo',
+                description: 'Fotografia',
+                name: 'Fotografia',
+                required: true,
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
+            },
+            {
+                code: 'title_bachelor',
+                description: 'Título de bachiller',
+                name: 'Título de bachiller',
+                required: true,
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
+            },
+            {
+                code: 'disability_card',
+                description: 'Carnet de Discapacidad',
+                name: 'Carnet de Discapacidad',
+                required: false,
+                sort: 8,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
+            },
+        );
+
+        for (const catalogue of catalogues) {
+            await this.catalogueService.create(catalogue);
+        }
+    }
+
+    private async createFileTypeOldStudentsCatalogues() {
+        const catalogues: SeedCatalogueDto[] = [];
+        catalogues.push(
+            {
+                code: 'identification_requirement',
+                description: 'Documento de Identificación',
+                name: 'Documento de Identificación',
+                required: true,
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
+            },
+            {
+                code: 'socioeconomic_form',
+                description: 'Ficha Socioeconómica',
+                name: 'Ficha Socioeconómica',
+                required: true,
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
+            },
+            {
+                code: 'application',
+                description: 'Solicitud de Matrícula',
+                name: 'Solicitud de Matrícula',
+                required: true,
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
+            },
+            {
+                code: 'payment',
+                description: 'Factura',
+                name: 'Factura',
+                required: false,
+                sort: 4,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
+            },
+            {
+                code: 'quota_acceptance',
+                description: 'Aceptacion de cupo',
+                name: 'Aceptacion de cupo',
+                required: true,
+                sort: 5,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
+            },
+            {
+                code: 'photo',
+                description: 'Fotografia',
+                name: 'Fotografia',
+                required: true,
+                sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
+            },
+            {
+                code: 'disability_card',
+                description: 'Carnet de Discapacidad',
+                name: 'Carnet de Discapacidad',
+                required: false,
+                sort: 7,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
             },
         );
 
