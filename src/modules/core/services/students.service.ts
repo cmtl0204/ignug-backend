@@ -46,7 +46,7 @@ export class StudentsService {
     }
 
     async findOne(id: string): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {
                 informationStudent: {
                     ancestralLanguageName: true,
@@ -58,8 +58,8 @@ export class StudentsService {
                     electricServiceBlackout: true,
                     electronicDevice: true,
                     familyIncome: true,
-                    familyKinshipCatastrophicIllness:true,
-                    familyKinshipDisability:true,
+                    familyKinshipCatastrophicIllness: true,
+                    familyKinshipDisability: true,
                     familyProperties: true,
                     foreignLanguageName: true,
                     homeFloor: true,
@@ -77,8 +77,8 @@ export class StudentsService {
                     isDiscrimination: true,
                     isElectricService: true,
                     isElectronicDevice: true,
-                    isFamilyCatastrophicIllness:true,
-                    isFamilyDisability:true,
+                    isFamilyCatastrophicIllness: true,
+                    isFamilyDisability: true,
                     isFamilyEconomicAid: true,
                     isFamilyEmigrant: true,
                     isFamilyProperties: true,
@@ -136,27 +136,27 @@ export class StudentsService {
             where: {id},
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        return entity;
+        return student;
     }
 
     async update(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOneBy({id});
+        const student = await this.repository.findOneBy({id});
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        this.repository.merge(entity, payload);
+        this.repository.merge(student, payload);
 
-        await this.repository.save(entity);
+        await this.repository.save(student);
 
         await this.usersService.update(payload.user.id, payload.user);
 
-        payload.informationStudent.student = await this.repository.save(entity);
+        payload.informationStudent.student = await this.repository.save(student);
 
         if (payload.informationStudent?.id) {
             await this.informationStudentsService.update(payload.informationStudent.id, payload.informationStudent);
@@ -165,17 +165,17 @@ export class StudentsService {
             await this.informationStudentsService.create(informationStudentRest);
         }
 
-        return entity;
+        return student;
     }
 
     async remove(id: string) {
-        const entity = await this.repository.findOneBy({id});
+        const student = await this.repository.findOneBy({id});
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Student not found');
         }
 
-        return await this.repository.softRemove(entity);
+        return await this.repository.softRemove(student);
     }
 
     async removeAll(payload: StudentEntity[]) {
@@ -211,165 +211,165 @@ export class StudentsService {
     }
 
     async updatePersonalInformation(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true, user: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.user.identificationTypeId = payload.user.identificationType.id;
-        entity.user.identification = payload.user.identification;
-        entity.user.name = payload.user.name;
-        entity.user.lastname = payload.user.lastname;
-        entity.user.birthdate = payload.user.birthdate;
-        entity.user.maritalStatusId = payload.user.maritalStatus.id;
-        entity.user.nationalityId = payload.user.nationality.id;
-        entity.user.genderId = payload.user.gender.id;
-        entity.user.sexId = payload.user.sex.id;
-        entity.user.ethnicOriginId = payload.user.ethnicOrigin.id;
-        entity.user.cellPhone = payload.user.cellPhone;
-        entity.user.phone = payload.user.phone;
-        entity.user.personalEmail = payload.user.personalEmail;
-        entity.user.email = payload.user.email;
+        student.user.identificationTypeId = payload.user.identificationType.id;
+        student.user.identification = payload.user.identification;
+        student.user.name = payload.user.name;
+        student.user.lastname = payload.user.lastname;
+        student.user.birthdate = payload.user.birthdate;
+        student.user.maritalStatusId = payload.user.maritalStatus.id;
+        student.user.nationalityId = payload.user.nationality.id;
+        student.user.genderId = payload.user.gender.id;
+        student.user.sexId = payload.user.sex.id;
+        student.user.ethnicOriginId = payload.user.ethnicOrigin.id;
+        student.user.cellPhone = payload.user.cellPhone;
+        student.user.phone = payload.user.phone;
+        student.user.personalEmail = payload.user.personalEmail;
+        student.user.email = payload.user.email;
 
-        await this.usersService.update(entity.userId, entity.user);
+        await this.usersService.update(student.userId, student.user);
 
-        entity.informationStudent.contactEmergencyName = payload.informationStudent.contactEmergencyName;
-        entity.informationStudent.contactEmergencyPhone = payload.informationStudent.contactEmergencyPhone;
-        entity.informationStudent.contactEmergencyKinship = payload.informationStudent.contactEmergencyKinship;
-        entity.informationStudent.isWorkId = payload.informationStudent.isWork.id;
-        entity.informationStudent.workAddress = payload.informationStudent.workAddress;
-        entity.informationStudent.monthlySalary = payload.informationStudent.monthlySalary;
-        entity.informationStudent.workingHours = payload.informationStudent.workingHours;
-        entity.informationStudent.workPosition = payload.informationStudent.workPosition;
-        entity.informationStudent.isHouseHeadId = payload.informationStudent.isHouseHead.id;
-        entity.informationStudent.isSocialSecurityId = payload.informationStudent.isSocialSecurity.id;
-        entity.informationStudent.isPrivateSecurityId = payload.informationStudent.isPrivateSecurity.id;
+        student.informationStudent.contactEmergencyName = payload.informationStudent.contactEmergencyName;
+        student.informationStudent.contactEmergencyPhone = payload.informationStudent.contactEmergencyPhone;
+        student.informationStudent.contactEmergencyKinship = payload.informationStudent.contactEmergencyKinship;
+        student.informationStudent.isWorkId = payload.informationStudent.isWork.id;
+        student.informationStudent.workAddress = payload.informationStudent.workAddress;
+        student.informationStudent.monthlySalary = payload.informationStudent.monthlySalary;
+        student.informationStudent.workingHours = payload.informationStudent.workingHours;
+        student.informationStudent.workPosition = payload.informationStudent.workPosition;
+        student.informationStudent.isHouseHeadId = payload.informationStudent.isHouseHead.id;
+        student.informationStudent.isSocialSecurityId = payload.informationStudent.isSocialSecurity.id;
+        student.informationStudent.isPrivateSecurityId = payload.informationStudent.isPrivateSecurity.id;
 
         // Conditional Field
-        entity.informationStudent.isHasChildrenId = payload.informationStudent.isHasChildren.id;
+        student.informationStudent.isHasChildrenId = payload.informationStudent.isHasChildren.id;
 
-        entity.informationStudent.childrenTotal = payload.informationStudent.isHasChildren.code === CatalogueYesNoEnum.YES
+        student.informationStudent.childrenTotal = payload.informationStudent.isHasChildren.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.childrenTotal : null;
 
         // Conditional Field
-        entity.informationStudent.indigenousNationalityId = payload.user.ethnicOrigin.code === '1'
+        student.informationStudent.indigenousNationalityId = payload.user.ethnicOrigin.code === '1'
             ? payload.informationStudent.indigenousNationality.id : null;
 
-        entity.informationStudent.townId = payload.user.ethnicOrigin.code === '1'
+        student.informationStudent.townId = payload.user.ethnicOrigin.code === '1'
             ? payload.informationStudent.town.id : null;
 
         // Conditional Field
-        entity.informationStudent.isDisabilityId = payload.informationStudent.isDisability.id;
+        student.informationStudent.isDisabilityId = payload.informationStudent.isDisability.id;
 
-        entity.informationStudent.disabilityTypeId = payload.informationStudent.isDisability.code === CatalogueYesNoEnum.YES
+        student.informationStudent.disabilityTypeId = payload.informationStudent.isDisability.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.disabilityType.id : null;
 
-        entity.informationStudent.disabilityPercentage = payload.informationStudent.isDisability.code === CatalogueYesNoEnum.YES
+        student.informationStudent.disabilityPercentage = payload.informationStudent.isDisability.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.disabilityPercentage : null;
 
         // Conditional Field
-        entity.informationStudent.isAncestralLanguageId = payload.informationStudent.isAncestralLanguage.id;
+        student.informationStudent.isAncestralLanguageId = payload.informationStudent.isAncestralLanguage.id;
 
-        entity.informationStudent.ancestralLanguageNameId = payload.informationStudent.isAncestralLanguage.code === CatalogueYesNoEnum.YES
+        student.informationStudent.ancestralLanguageNameId = payload.informationStudent.isAncestralLanguage.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.ancestralLanguageName.id : null;
 
         // Conditional Field
-        entity.informationStudent.isForeignLanguageId = payload.informationStudent.isForeignLanguage.id;
+        student.informationStudent.isForeignLanguageId = payload.informationStudent.isForeignLanguage.id;
 
-        entity.informationStudent.foreignLanguageNameId = payload.informationStudent.isForeignLanguage.code === CatalogueYesNoEnum.YES
+        student.informationStudent.foreignLanguageNameId = payload.informationStudent.isForeignLanguage.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.foreignLanguageName.id : null;
 
         // Conditional Field
-        entity.informationStudent.isCatastrophicIllnessId = payload.informationStudent.isCatastrophicIllness.id;
+        student.informationStudent.isCatastrophicIllnessId = payload.informationStudent.isCatastrophicIllness.id;
 
-        entity.informationStudent.catastrophicIllness = payload.informationStudent.isCatastrophicIllness.code === CatalogueYesNoEnum.YES
+        student.informationStudent.catastrophicIllness = payload.informationStudent.isCatastrophicIllness.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.catastrophicIllness : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateAcademicData(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.universityCareerId = payload.informationStudent.universityCareer.id;
-        entity.informationStudent.typeSchoolId = payload.informationStudent.typeSchool.id;
+        student.informationStudent.universityCareerId = payload.informationStudent.universityCareer.id;
+        student.informationStudent.typeSchoolId = payload.informationStudent.typeSchool.id;
 
         // Conditional Field
-        entity.informationStudent.isDegreeSuperiorId = payload.informationStudent.isDegreeSuperior.id;
+        student.informationStudent.isDegreeSuperiorId = payload.informationStudent.isDegreeSuperior.id;
 
-        entity.informationStudent.degreeSuperiorId =
+        student.informationStudent.degreeSuperiorId =
             payload.informationStudent.isDegreeSuperior.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.degreeSuperior.id : null;
 
         // Conditional Field
-        entity.informationStudent.isStudyOtherCareerId = payload.informationStudent.isStudyOtherCareer.id;
+        student.informationStudent.isStudyOtherCareerId = payload.informationStudent.isStudyOtherCareer.id;
 
-        entity.informationStudent.nameStudyOtherCareer =
+        student.informationStudent.nameStudyOtherCareer =
             payload.informationStudent.isStudyOtherCareer.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.nameStudyOtherCareer : null;
 
-        entity.informationStudent.typeStudyOtherCareerId =
+        student.informationStudent.typeStudyOtherCareerId =
             payload.informationStudent.isStudyOtherCareer.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.typeStudyOtherCareer?.id : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateOtherAcademicData(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
         // Conditional Field
-        entity.informationStudent.isElectronicDeviceId = payload.informationStudent.isElectronicDevice.id;
+        student.informationStudent.isElectronicDeviceId = payload.informationStudent.isElectronicDevice.id;
 
-        entity.informationStudent.electronicDeviceId =
+        student.informationStudent.electronicDeviceId =
             payload.informationStudent.isElectronicDevice.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.electronicDevice.id : null;
 
         // Conditional Field
-        entity.informationStudent.isInternetId = payload.informationStudent.isInternet.id;
+        student.informationStudent.isInternetId = payload.informationStudent.isInternet.id;
 
-        entity.informationStudent.internetTypeId =
+        student.informationStudent.internetTypeId =
             payload.informationStudent.isInternet.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.internetType.id : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateOriginPlace(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {user: {originAddress: true}},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        if (!entity.user?.originAddress) {
+        if (!student.user?.originAddress) {
             await this.originAddressesService.create(
                 {
                     cantonId: payload.user.originAddress.canton?.id,
@@ -378,7 +378,7 @@ export class StudentsService {
                     latitude: payload.user.originAddress.latitude,
                     longitude: payload.user.originAddress.longitude,
                     mainStreet: payload.user.originAddress.mainStreet,
-                    modelId: entity.user.id,
+                    modelId: student.user.id,
                     number: payload.user.originAddress.number,
                     parrishId: payload.user.originAddress.parrish?.id,
                     postCode: payload.user.originAddress.postCode,
@@ -389,7 +389,7 @@ export class StudentsService {
             );
         } else {
             await this.originAddressesService.update(
-                entity.user.originAddress.id,
+                student.user.originAddress.id,
                 {
                     cantonId: payload.user.originAddress.canton?.id,
                     community: payload.user.originAddress.community,
@@ -406,20 +406,20 @@ export class StudentsService {
             );
         }
 
-        return entity;
+        return student;
     }
 
     async updateResidencePlace(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {user: {residenceAddress: true}},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        if (!entity.user.residenceAddress) {
+        if (!student.user.residenceAddress) {
             await this.residenceAddressesService.create(
                 {
                     cantonId: payload.user.residenceAddress.canton?.id,
@@ -427,7 +427,7 @@ export class StudentsService {
                     latitude: payload.user.residenceAddress.latitude,
                     longitude: payload.user.residenceAddress.longitude,
                     mainStreet: payload.user.residenceAddress.mainStreet,
-                    modelId: entity.user.id,
+                    modelId: student.user.id,
                     nearbyCity: payload.user.residenceAddress.nearbyCity,
                     number: payload.user.residenceAddress.number,
                     parrishId: payload.user.residenceAddress.parrish?.id,
@@ -439,7 +439,7 @@ export class StudentsService {
             );
         } else {
             await this.residenceAddressesService.update(
-                entity.user.residenceAddress.id,
+                student.user.residenceAddress.id,
                 {
                     cantonId: payload.user.residenceAddress.canton?.id,
                     latitude: payload.user.residenceAddress.latitude,
@@ -456,177 +456,177 @@ export class StudentsService {
             );
         }
 
-        return entity;
+        return student;
     }
 
     async updateFamilyGroup(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.membersHouseNumber = payload.informationStudent.membersHouseNumber;
-        entity.informationStudent.familyIncome = payload.informationStudent.familyIncome;
-        entity.informationStudent.isDependsEconomicallyId = payload.informationStudent.isDependsEconomically.id;
+        student.informationStudent.membersHouseNumber = payload.informationStudent.membersHouseNumber;
+        student.informationStudent.familyIncome = payload.informationStudent.familyIncome;
+        student.informationStudent.isDependsEconomicallyId = payload.informationStudent.isDependsEconomically.id;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateFamilyEconomic(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.isFamilyVehicleId = payload.informationStudent.isFamilyVehicle.id;
-        entity.informationStudent.isFamilyPropertiesId = payload.informationStudent.isFamilyProperties.id;
+        student.informationStudent.isFamilyVehicleId = payload.informationStudent.isFamilyVehicle.id;
+        student.informationStudent.isFamilyPropertiesId = payload.informationStudent.isFamilyProperties.id;
 
-        entity.informationStudent.familyPropertiesId = payload.informationStudent.isFamilyProperties.code === CatalogueYesNoEnum.YES
+        student.informationStudent.familyPropertiesId = payload.informationStudent.isFamilyProperties.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.familyProperties.id : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateFamilyHealth(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
         // Conditional Field
-        entity.informationStudent.isFamilyCatastrophicIllnessId = payload.informationStudent.isFamilyCatastrophicIllness.id;
+        student.informationStudent.isFamilyCatastrophicIllnessId = payload.informationStudent.isFamilyCatastrophicIllness.id;
 
-        entity.informationStudent.familyKinshipCatastrophicIllnessId =
+        student.informationStudent.familyKinshipCatastrophicIllnessId =
             payload.informationStudent.isFamilyCatastrophicIllness.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.familyKinshipCatastrophicIllness.id : null;
 
-        entity.informationStudent.familyCatastrophicIllness =
+        student.informationStudent.familyCatastrophicIllness =
             payload.informationStudent.isFamilyCatastrophicIllness.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.familyCatastrophicIllness : null;
 
         // Conditional Field
-        entity.informationStudent.isFamilyDisabilityId = payload.informationStudent.isFamilyDisability.id;
-        entity.informationStudent.familyKinshipDisabilityId =
+        student.informationStudent.isFamilyDisabilityId = payload.informationStudent.isFamilyDisability.id;
+        student.informationStudent.familyKinshipDisabilityId =
             payload.informationStudent.isFamilyDisability.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.familyKinshipDisability.id : null;
 
-        entity.informationStudent.familyDisabilityPercentage =
+        student.informationStudent.familyDisabilityPercentage =
             payload.informationStudent.isFamilyDisability.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.familyDisabilityPercentage : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateHousingData(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.studentLiveId = payload.informationStudent.studentLive.id;
-        entity.informationStudent.homeOwnershipId = payload.informationStudent.homeOwnership.id;
-        entity.informationStudent.homeTypeId = payload.informationStudent.homeType.id;
-        entity.informationStudent.homeRoofId = payload.informationStudent.homeRoof.id;
-        entity.informationStudent.homeFloorId = payload.informationStudent.homeFloor.id;
-        entity.informationStudent.homeWallId = payload.informationStudent.homeWall.id;
-        entity.informationStudent.isPhoneServiceId = payload.informationStudent.isPhoneService.id;
-        entity.informationStudent.economicContributionId = payload.informationStudent.economicContribution.id;
-        entity.informationStudent.isFamilyEconomicAidId = payload.informationStudent.isFamilyEconomicAid.id;
-        entity.informationStudent.consumeNewsTypeId = payload.informationStudent.consumeNewsType.id;
+        student.informationStudent.studentLiveId = payload.informationStudent.studentLive.id;
+        student.informationStudent.homeOwnershipId = payload.informationStudent.homeOwnership.id;
+        student.informationStudent.homeTypeId = payload.informationStudent.homeType.id;
+        student.informationStudent.homeRoofId = payload.informationStudent.homeRoof.id;
+        student.informationStudent.homeFloorId = payload.informationStudent.homeFloor.id;
+        student.informationStudent.homeWallId = payload.informationStudent.homeWall.id;
+        student.informationStudent.isPhoneServiceId = payload.informationStudent.isPhoneService.id;
+        student.informationStudent.economicContributionId = payload.informationStudent.economicContribution.id;
+        student.informationStudent.isFamilyEconomicAidId = payload.informationStudent.isFamilyEconomicAid.id;
+        student.informationStudent.consumeNewsTypeId = payload.informationStudent.consumeNewsType.id;
 
         // Conditional Field
-        entity.informationStudent.isWaterServiceId = payload.informationStudent.isWaterService.id;
+        student.informationStudent.isWaterServiceId = payload.informationStudent.isWaterService.id;
 
-        entity.informationStudent.waterServiceTypeId =
+        student.informationStudent.waterServiceTypeId =
             payload.informationStudent.isWaterService.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.waterServiceType.id : null;
 
         // Conditional Field
-        entity.informationStudent.isElectricServiceId = payload.informationStudent.isElectricService.id;
+        student.informationStudent.isElectricServiceId = payload.informationStudent.isElectricService.id;
 
-        entity.informationStudent.electricServiceBlackoutId =
+        student.informationStudent.electricServiceBlackoutId =
             payload.informationStudent.isElectricService.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.electricServiceBlackout.id : null;
 
         // Conditional Field
-        entity.informationStudent.isSewerageServiceId = payload.informationStudent.isSewerageService.id;
+        student.informationStudent.isSewerageServiceId = payload.informationStudent.isSewerageService.id;
 
-        entity.informationStudent.sewerageServiceTypeId =
+        student.informationStudent.sewerageServiceTypeId =
             payload.informationStudent.isSewerageService.code === CatalogueYesNoEnum.YES
                 ? payload.informationStudent.sewerageServiceType.id : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updateMigrationCountry(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
+        student.informationStudent.isFamilyEmigrantId = payload.informationStudent.isFamilyEmigrant.id;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 
     async updatePsychosocialSection(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
-        const entity = await this.repository.findOne({
+        const student = await this.repository.findOne({
             relations: {informationStudent: true},
             where: {id}
         });
 
-        if (!entity) {
+        if (!student) {
             throw new NotFoundException('Estudiante no encontrado');
         }
 
-        entity.informationStudent.additionalInformation = payload.informationStudent.additionalInformation;
-        entity.informationStudent.pandemicPsychologicalEffectId = payload.informationStudent.pandemicPsychologicalEffect.id;
-        entity.informationStudent.socialGroupId = payload.informationStudent.socialGroup.id;
+        student.informationStudent.additionalInformation = payload.informationStudent.additionalInformation;
+        student.informationStudent.pandemicPsychologicalEffectId = payload.informationStudent.pandemicPsychologicalEffect.id;
+        student.informationStudent.socialGroupId = payload.informationStudent.socialGroup.id;
 
-        entity.informationStudent.isDiscriminationId = payload.informationStudent.isDiscrimination.id;
-        entity.informationStudent.typeDiscriminationId = payload.informationStudent.isDiscrimination.code === CatalogueYesNoEnum.YES
+        student.informationStudent.isDiscriminationId = payload.informationStudent.isDiscrimination.id;
+        student.informationStudent.typeDiscriminationId = payload.informationStudent.isDiscrimination.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.typeDiscrimination.id : null;
 
-        entity.informationStudent.isGenderViolenceId = payload.informationStudent.isGenderViolence.id;
-        entity.informationStudent.typeGenderViolenceId = payload.informationStudent.isGenderViolence.code === CatalogueYesNoEnum.YES
+        student.informationStudent.isGenderViolenceId = payload.informationStudent.isGenderViolence.id;
+        student.informationStudent.typeGenderViolenceId = payload.informationStudent.isGenderViolence.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.typeGenderViolence.id : null;
 
-        entity.informationStudent.isInjuriesId = payload.informationStudent.isInjuries.id;
-        entity.informationStudent.typeInjuriesId = payload.informationStudent.isInjuries.code === CatalogueYesNoEnum.YES
+        student.informationStudent.isInjuriesId = payload.informationStudent.isInjuries.id;
+        student.informationStudent.typeInjuriesId = payload.informationStudent.isInjuries.code === CatalogueYesNoEnum.YES
             ? payload.informationStudent.typeInjuries.id : null;
 
-        await this.informationStudentsService.update(entity.informationStudent.id, entity.informationStudent);
+        await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
 
-        return entity;
+        return student;
     }
 }

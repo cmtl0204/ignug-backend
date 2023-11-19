@@ -499,7 +499,7 @@ export class StudentReportsService {
         doc.end();
     }
 
-    calculateAge(birthdate: Date) {
-        return differenceInYears(new Date(), birthdate);
+    calculateAge(birthdate: Date): number {
+        return differenceInYears(new Date(), new Date(birthdate));
     }
 }
