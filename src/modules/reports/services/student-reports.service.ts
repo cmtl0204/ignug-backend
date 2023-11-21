@@ -12,8 +12,8 @@ const blobStream = require('blob-stream');
 export class StudentReportsService {
     private imageHeaderPath = './resources/images/reports/header.png';
     private imageFooterPath = `./resources/images/reports/footer.png`;
-    private imageHeaderWidth = 100;
-    private imageHeaderHeight = 50;
+    private imageHeaderWidth = 90;
+    private imageHeaderHeight = 45;
 
     constructor(
         private readonly studentsService: StudentsService
@@ -39,8 +39,6 @@ export class StudentReportsService {
 
         doc.font('Helvetica-Bold');
         doc.fontSize(10);
-
-        doc.text('FICHA SOCIOECNOMOMICA', 250, textY);
 
         doc.rect(textX, textY + 20, textW, 675); //Rectangulo grande
         doc.rect(textX + 180, textY + 20, 0.1, 50);//Fila 1
@@ -84,9 +82,9 @@ export class StudentReportsService {
         doc.rect(textX, textY + 520, textW, 0.1);//Fila 39
         doc.rect(textX, textY + 545, textW, 0.1);//Fila 40
         doc.rect(textX, textY + 575, textW, 0.1);//Fila "LUGAR DE RESIDENCIA"
-        doc.rect(textX + 85, textY + 575, 0.1, 35);
-        doc.rect(textX + 195, textY + 575, 0.1, 35);
-        doc.rect(textX + 295, textY + 575, 0.1, 35);
+        doc.rect(textX + 65, textY + 575, 0.1, 35);
+        doc.rect(textX + 142, textY + 575, 0.1, 35);
+        doc.rect(textX + 287, textY + 575, 0.1, 35);
         doc.rect(textX, textY + 610, textW, 0.1);//Fila 41
         doc.rect(textX + 225, textY + 610, 0.1, 27);
         doc.rect(textX, textY + 637, textW, 0.1);//Fila 45
@@ -100,63 +98,87 @@ export class StudentReportsService {
 
         doc.text('1. Tipo de documento:', textX + 5, textY + 30);
         doc.text('2. Apellidos y nombres del estudiante:', textX + 190, textY + 30);// Sigueinte fila
-        doc.text('3. Numero de documento:', textX + 5, textY + 55);
+
+        doc.text('3. Número de documento:', textX + 5, textY + 55);
         doc.text('4. Fecha de nacimiento:', textX + 190, textY + 55);
         doc.text('5. Edad:', textX + 405, textY + 55);// Sigueinte fila
-        doc.text('6. Correo electronico institucional:', textX + 5, textY + 77);
-        doc.text('8. Correo electronico personal:', textX + 5, textY + 102);// Sigueinte fila
+
+        doc.text('6. Correo electrónico institucional :', textX + 5, textY + 77);
+        doc.text('8. Correo electrónico personal :', textX + 5, textY + 102);// Sigueinte fila
+
         doc.text('7. No. Celular:', textX + 300, textY + 77);
         doc.text('9. No. Convencional:', textX + 300, textY + 102);// Sigueinte fila
+
         doc.text('10. Estado civil:', textX + 5, textY + 128);
         doc.text('11. Nacionalidad:', textX + 150, textY + 128);
         doc.text('12. Sexo:', textX + 295, textY + 128);
         doc.text('13. Genero:', textX + 385, textY + 128);// Sigueinte fila
-        doc.text('14. Autoidentificación:', textX + 5, textY + 152);
+
+        doc.text('14. Autoidentificación:', textX + 5, textY + 148);
         doc.text('14.1 Nacionalidad indigena:', textX + 150, textY + 148);
         doc.text('14.2 Pueblo al que pertenece:', textX + 320, textY + 148); // Sigueinte fila
+
         doc.text('15. Habla alguna lengua ancestral:', textX + 5, textY + 178);
         doc.text('15.1 Indique la lengua ancestral:', textX + 250, textY + 178);// Sigueinte fila
+
         doc.text('16. Habla alguna lengua extranjera:', textX + 5, textY + 203);
         doc.text('16.1 Indique la lengua extranjera:', textX + 250, textY + 203);// Sigueinte fila
+
         doc.text('17. Nombre contacto de emergencia:', textX + 5, textY + 230);
-        doc.text('18. Numero contacto de emergencia:', textX + 250, textY + 227);
+        doc.text('18. Número contacto de emergencia:', textX + 250, textY + 227);
         doc.text('19. Parentesco:', textX + 250, textY + 253);// Sigueinte fila
+
         doc.text('20. ¿El estudiante trabaja?:', textX + 5, textY + 278);
         doc.text('20.1 Cargo que desempeña:', textX + 250, textY + 278);// Sigueinte fila
+
         doc.text('20.2 Sueldo mensual:', textX + 5, textY + 298);
         doc.text('20.3 Horario de trabajo:', textX + 140, textY + 298);
-        doc.text('20.4 Domicilia de trabajo:', textX + 280, textY + 298);// Sigueinte fila
+        doc.text('20.4 Domicilio de trabajo:', textX + 280, textY + 298);// Sigueinte fila
+
         doc.text('21. Tiene hijos:', textX + 5, textY + 328);
-        doc.text('21.1 Cuatos hijos:', textX + 175, textY + 328);
+        doc.text('21.1 Cuantos hijos :', textX + 175, textY + 328);
         doc.text('22. Es jefe de hogar:', textX + 335, textY + 328); // Sigueinte fila
+
         doc.text('23. Esta afiliado al seguro social:', textX + 5, textY + 353);
         doc.text('24. Posee seguro de salud privada:', textX + 250, textY + 353);// Sigueinte fila
+
         doc.text('26. Tiene alguna discapacidad:', textX + 5, textY + 378);
         doc.text('26.1 TIpo:', textX + 180, textY + 378);
         doc.text('26.2 Porcentaje de discapacidad:', textX + 300, textY + 378);// Sigueinte fila
-        doc.text('27. TIene alguna enfermedad catastrofica:', textX + 5, textY + 403);
+
+        doc.text('27. Tiene alguna enfermedad catastrófica:', textX + 5, textY + 403);
         doc.text('27.1 Tipo de enfermedad:', textX + 255, textY + 403);// Sigueinte fila
+
         doc.text('28. Tipo de colegio:', textX + 5, textY + 428);
         doc.text('29. En su trayectoria universitaria a realizado:', textX + 160, textY + 428);// Sigueinte fila
-        doc.text('30. Posee otro titulo:', textX + 5, textY + 453);
-        doc.text('30.1 Que titulo posee:', textX + 155, textY + 453);
+
+        doc.text('30. Posee otro título:', textX + 5, textY + 453);
+        doc.text('30.1 Que título posee:', textX + 155, textY + 453);
         doc.text('31. Estudia otra carrera:', textX + 340, textY + 453);// Sigueinte fila
+
         doc.text('31.1 Nombre de la carrera:', textX + 5, textY + 478);
         doc.text('31.2 Tipo de carrera:', textX + 230, textY + 478);// Sigueinte fila
-        doc.text('39. Cuenta con equipo tecnologico:', textX + 5, textY + 503);
-        doc.text('39.1 Dispositivo tecnologico:', textX + 230, textY + 503);// Sigueinte fila
+
+        doc.text('39. Cuenta con equipo tecnológico :', textX + 5, textY + 503);
+        doc.text('39.1 Dispositivo tecnológico :', textX + 230, textY + 503);// Sigueinte fila
+
         doc.text('40. Posee cobertura a internet:', textX + 5, textY + 528);
         doc.text('40.1 Tipo de cobertura que utiliza:', textX + 230, textY + 528);// Sigueinte fila
+
         doc.text('Lugar de prosedencia', textX + 200, textY + 555);//CAMBIO DE SECCION
-        doc.text('41. Pais:', textX + 5, textY + 580);
-        doc.text('42. Provincia:', textX + 90, textY + 580);
-        doc.text('43. Cantón:', textX + 200, textY + 580);
-        doc.text('44. Parroquia:', textX + 300, textY + 580);// Sigueinte fila
+
+        doc.text('41. País :', textX + 5, textY + 580);
+        doc.text('42. Provincia:', textX + 70, textY + 580);
+        doc.text('43. Cantón:', textX + 145, textY + 580);
+        doc.text('44. Parroquia:', textX + 290, textY + 580);// Sigueinte fila
+
         doc.text('45. Comunidad de procedencia:', textX + 5, textY + 622);
-        doc.text('45.1 Referencia de procedencia:', textX + 230, textY + 622);//SIGUIENTE FILA
+        doc.text('45.1 Referencia de procedencia:', textX + 230, textY + 616);//SIGUIENTE FILA
+
         doc.text('46. Calle principal:', textX + 5, textY + 648);
         doc.text('47. Calle secundaria:', textX + 255, textY + 648);//SIGUIENTE FILA
-        doc.text('48. Numero de casa:', textX + 5, textY + 678);
+
+        doc.text('48. Número de casa:', textX + 5, textY + 678);
         doc.text('49. Longitud:', textX + 200, textY + 678);
         doc.text('50. Latitud:', textX + 350, textY + 678);
 
@@ -170,17 +192,17 @@ export class StudentReportsService {
             doc.text(`${response?.user.name} ${response?.user.lastname}`, textX + 360, textY + 30);
             doc.text(response?.user.birthdate, textX + 305, textY + 55);
             doc.text(this.calculateAge(response?.user.birthdate), textX + 450, textY + 55); //variable de la edad (esta con dato quemado) // Sigueinte fila
-            doc.text(`${response?.user.personalEmail}`, textX + 155, textY + 77);
-            doc.text(`${response?.user.email}`, textX + 140, textY + 102); // Sigueinte fila
+            doc.text(`${response?.user.email}`, textX + 155, textY + 77);
+            doc.text(`${response?.user.personalEmail}`, textX + 140, textY + 102); // Sigueinte fila
             doc.text(`${response?.user.cellPhone}`, textX + 365, textY + 77);
             doc.text(`${response?.user.phone}`, textX + 395, textY + 102); // Sigueinte fila
             doc.text(`${response?.user.maritalStatus?.name}`, textX + 75, textY + 128);
             doc.text(`${response?.user.nationality?.name}`, textX + 225, textY + 128);
             doc.text(response?.user.sex?.name, textX + 340, textY + 128);
             doc.text(response?.user.gender?.name, textX + 439, textY + 128);// Sigueinte fila
-            doc.text(response?.user.ethnicOrigin?.name, textX + 105, textY + 152);
-            doc.text(response?.informationStudent.indigenousNationality?.name, textX + 220, textY + 160);
-            doc.text(response?.informationStudent.town?.name, textX + 420, textY + 160); // Sigueinte fila
+            doc.text(response?.user.ethnicOrigin?.name, textX + 65, textY + 160);
+            doc.text(response?.informationStudent.indigenousNationality?.name, textX + 210, textY + 160);
+            doc.text(response?.informationStudent.town?.name, textX + 410, textY + 160); // Sigueinte fila
             doc.text(response?.informationStudent.isAncestralLanguage?.name, textX + 160, textY + 178);
             doc.text(response?.informationStudent.ancestralLanguageName?.name, textX + 392, textY + 178);// Sigueinte fila
             doc.text(response?.informationStudent.isForeignLanguage?.name, textX + 160, textY + 202);
@@ -214,12 +236,17 @@ export class StudentReportsService {
             doc.text(response?.informationStudent.electronicDevice?.name, textX + 360, textY + 503);// Sigueinte fila
             doc.text(response?.informationStudent.isInternet?.name, textX + 145, textY + 528);
             doc.text(response?.informationStudent.internetType?.name, textX + 380, textY + 528);// Sigueinte fila
+
+            doc.fontSize(7.5)
             doc.text(response?.user.originAddress?.country?.name, textX + 5, textY + 595);
-            doc.text(response?.user.originAddress?.province?.name, textX + 90, textY + 595);
-            doc.text(response?.user.originAddress?.canton?.name, textX + 200, textY + 595);
-            doc.text(response?.user.originAddress?.parrish?.name, textX + 300, textY + 595);//SIGUIENTE FILA
-            doc.text(response?.user.originAddress?.community, textX + 155, textY + 622);
-            doc.text(response?.user.originAddress?.reference, textX + 370, textY + 622);//SIGUIENTE FILA
+            doc.text(response?.user.originAddress?.province?.name, textX + 68, textY + 595);
+            doc.text(response?.user.originAddress?.canton?.name, textX + 145, textY + 595);
+            doc.text(response?.user.originAddress?.parrish?.name, textX + 290, textY + 595);//SIGUIENTE FILA
+
+            doc.fontSize(9)
+            doc.text(response?.user.originAddress?.community, textX + 148, textY + 622);
+            doc.text(response?.user.originAddress?.reference, textX + 230, textY + 626);//SIGUIENTE FILA
+
             doc.text(response?.user.originAddress?.mainStreet, textX + 90, textY + 648);
             doc.text(response?.user.originAddress?.secondaryStreet, textX + 355, textY + 648);//SIGUIENTE FILA
             doc.text(response?.user.originAddress?.number, textX + 95, textY + 678);
@@ -230,9 +257,9 @@ export class StudentReportsService {
         doc.addPage();
         doc.rect(textX, textY, textW, 675); //Rectangulo grande
         doc.rect(textX, textY + 30, textW, 0.1);//LUGAR E RESIDENCIA
-        doc.rect(textX + 85, textY + 30, 0.1, 35);
-        doc.rect(textX + 195, textY + 30, 0.1, 35);
-        doc.rect(textX + 295, textY + 30, 0.1, 35);
+        doc.rect(textX + 65, textY + 30, 0.1, 35);
+        doc.rect(textX + 142, textY + 30, 0.1, 35);
+        doc.rect(textX + 287, textY + 30, 0.1, 35);
         doc.rect(textX, textY + 65, textW, 0.1);//FILA 51
         doc.rect(textX + 225, textY + 65, 0.1, 25);
         doc.rect(textX, textY + 90, textW, 0.1);//FILA 55
@@ -270,7 +297,7 @@ export class StudentReportsService {
         doc.rect(textX + 215, textY + 565, 0.1, 50);
         doc.rect(textX, textY + 590, textW, 0.1);//FILA 84 Y 84.1
         doc.rect(textX, textY + 615, textW, 0.1);//FILA 85 Y 85.1
-        doc.rect(textX + 135, textY + 615, 0.1, 25);
+        doc.rect(textX + 137, textY + 615, 0.1, 25);
         doc.rect(textX + 325, textY + 615, 0.1, 25);
         doc.rect(textX, textY + 640, textW, 0.1);//FILA 86 Y 86.1
         doc.stroke();
@@ -280,41 +307,41 @@ export class StudentReportsService {
 
         doc.text('Lugar de residencia:', textX + 200, textY + 10); //LUGAR DE RESIDENCIA
 
-        doc.text('51. Pais:', textX + 5, textY + 35);
-        doc.text('52. Provincia:', textX + 90, textY + 35);
-        doc.text('53. Cantón:', textX + 200, textY + 35);
-        doc.text('54. Parroquia:', textX + 300, textY + 35);//SIGUIENTE FILA
+        doc.text('51. País:', textX + 5, textY + 35);
+        doc.text('52. Provincia:', textX + 70, textY + 35);
+        doc.text('53. Cantón:', textX + 145, textY + 35);
+        doc.text('54. Parroquia:', textX + 290, textY + 35);//SIGUIENTE FILA
 
-        doc.text('55. Ciudad mas cercana:', textX + 5, textY + 73);
+        doc.text('55. Ciudad más cercana:', textX + 5, textY + 73);
         doc.text('55.1 Referencia:', textX + 230, textY + 73);//SIGUIENTE FILA
 
         doc.text('56. Calle principal:', textX + 5, textY + 99);
         doc.text('57. Calle secundaria:', textX + 230, textY + 99);//SIGUIENTE FILA
 
-        doc.text('58. Numero de casa:', textX + 5, textY + 124);
+        doc.text('58. Número de casa:', textX + 5, textY + 124);
         doc.text('59. Longitud:', textX + 200, textY + 124);
         doc.text('60. Latitud:', textX + 350, textY + 124);//SIGUIENTE FILA
 
         doc.text('61. Ingresos del hogar:', textX + 5, textY + 149);
-        doc.text('62. Numero de miebros del hogar:', textX + 260, textY + 149);//SIGUIENTE FILA
+        doc.text('62. Número de miebros del hogar:', textX + 260, textY + 149);//SIGUIENTE FILA
 
-        doc.text('63. Depende economicamente de otra persona:', textX + 5, textY + 175);
-        doc.text('64. Dispone de vehiculo propio:', textX + 260, textY + 175);//SIGUIENTE FILA
+        doc.text('63. Depende económicamente de otra persona:', textX + 5, textY + 175);
+        doc.text('64. Dispone de vehículo propio:', textX + 260, textY + 175);//SIGUIENTE FILA
 
         doc.text('65. Tiene otras propiedades:', textX + 5, textY + 199);
         doc.text('65.1 Cuales:', textX + 260, textY + 199);//SIGUIENTE FILA
 
-        doc.text('66. Algun miembro de su familia tiene una enfermedad catastrofica:', textX + 5, textY + 224);//SIGUIENTE FILA
+        doc.text('66. Algún miembro de su familia tiene una enfermedad catastrófica:', textX + 5, textY + 224);//SIGUIENTE FILA
 
-        doc.text('66.1 Quien:', textX + 5, textY + 249);
+        doc.text('66.1 Quién:', textX + 5, textY + 249);
         doc.text('66.2 Tipo de enfermedad:', textX + 175, textY + 249);//SIGUIENTE FILA
 
-        doc.text('67. Algun miembro de su familia presenta alguna discapacidad:', textX + 5, textY + 274);//SIGUIENTE FILA
+        doc.text('67. Algún miembro de su familia presenta alguna discapacidad:', textX + 5, textY + 274);//SIGUIENTE FILA
 
         doc.text('67.1 Porcentaje de discapacidad:', textX + 5, textY + 299);
-        doc.text('67.2 Especifique quien:', textX + 215, textY + 299);//SIGUIENTE FILA
+        doc.text('67.2 Especifique quién:', textX + 215, textY + 299);//SIGUIENTE FILA
 
-        doc.text('68. Con quien vive el estudiante:', textX + 5, textY + 324);
+        doc.text('68. Con quién vive el estudiante:', textX + 5, textY + 324);
         doc.text('69. Tipo de vivienda:', textX + 250, textY + 324);//SIGUIENTE FILA
 
         doc.text('70. La vivienda en la que habita es:', textX + 5, textY + 349);
@@ -323,13 +350,13 @@ export class StudentReportsService {
         doc.text('72. Tipo de piso:', textX + 5, textY + 374);
         doc.text('73. Tipo de pared:', textX + 240, textY + 374);//SIGUIENTE FILA
 
-        doc.text('74. Posee servicio basico de agua:', textX + 5, textY + 400);
+        doc.text('74. Posee servicio básico de agua:', textX + 5, textY + 400);
         doc.text('74.1 Que tipo de agua consume:', textX + 240, textY + 400);//SIGUIENTE FILA
 
         doc.text('75. Posee luz en su domicilio:', textX + 5, textY + 425);
         doc.text('76. Frecuencia de apagones:', textX + 240, textY + 425);//SIGUIENTE FILA
 
-        doc.text('77. Posee servicio de telefono:', textX + 5, textY + 448);//SIGUIENTE FILA
+        doc.text('77. Posee servicio de teléfono:', textX + 5, textY + 448);//SIGUIENTE FILA
 
         doc.text('78. Posee servicio de alcantarillado:', textX + 5, textY + 473);
         doc.text('78.1 Tipo de alcantarillado:', textX + 240, textY + 473);//SIGUIENTE FILA
@@ -338,32 +365,33 @@ export class StudentReportsService {
         doc.text('80. Bono, beca ó ayuda económica:', textX + 280, textY + 500);//SIGUIENTE FILA
 
         doc.text('81. Consumo noticias:', textX + 5, textY + 525);
-        doc.text('82. Algun miembro de su familia es emigrante:', textX + 220, textY + 525);//SIGUIENTE FILA
+        doc.text('82. Algún miembro de su familia es emigrante:', textX + 220, textY + 525);//SIGUIENTE FILA
 
         doc.text('83. Qué efectos psicosociales le dejó la pandemia (COVID-19):', textX + 5, textY + 550);
 
-        doc.text('84. Victima de violencia de genero:', textX + 5, textY + 575);
+        doc.text('84. Victima de violencia de género:', textX + 5, textY + 575);
         doc.text('84.1 Tipo de violencia:', textX + 220, textY + 575);//SIGUIENTE FILA
 
-        doc.text('85. A intentado hacerse daño:', textX + 5, textY + 600);
+        doc.text('85. Ha intentado hacerse daño:', textX + 5, textY + 600);
         doc.text('85.1 Tipo de autolesiones:', textX + 220, textY + 600);//SIGUIENTE FILA
 
-        doc.text('86. A sido disciminado:', textX + 5, textY + 625);
-        doc.text('86.1 Cual es el motivo:', textX + 140, textY + 625);
+        doc.text('86. Ha sido discriminado:', textX + 4, textY + 625);
+        doc.text('86.1 Cúal es el motivo:', textX + 140, textY + 625);
         doc.text('87. Tribu urbana:', textX + 330, textY + 625);//SIGUIENTE FILA
 
-        doc.text('88. Informacion adicional del estudiante:', textX + 5, textY + 645);
+        doc.text('88. Información adicional del estudiante:', textX + 5, textY + 644);
 
         if (response) {
 
             doc.font('Times-Roman')
-            doc.fontSize(9)
 
+            doc.fontSize(7.5)
             doc.text(response?.user.residenceAddress?.country.name, textX + 5, textY + 53);
-            doc.text(response?.user.residenceAddress?.province?.name, textX + 90, textY + 53);
-            doc.text(response?.user.residenceAddress?.canton?.name, textX + 200, textY + 53);
-            doc.text(response?.user.residenceAddress?.parrish?.name, textX + 300, textY + 53); //siguiente fila
+            doc.text(response?.user.residenceAddress?.province?.name, textX + 68, textY + 53);
+            doc.text(response?.user.residenceAddress?.canton?.name, textX + 145, textY + 53);
+            doc.text(response?.user.residenceAddress?.parrish?.name, textX + 290, textY + 53); //siguiente fila
 
+            doc.fontSize(9)
             doc.text(response?.user.residenceAddress?.nearbyCity, textX + 125, textY + 73);// (consultar ciudad mas cercana)
             doc.text(response?.user.residenceAddress?.reference, textX + 310, textY + 73);//siguiente fila
 
@@ -390,7 +418,7 @@ export class StudentReportsService {
 
             doc.text(response?.informationStudent.isFamilyDisability?.name, textX + 330, textY + 274);//SIGUIENTE FILA (NO GUARDA EN BASE)
 
-            doc.text(response?.informationStudent.familyDisabilityPercentage + '%', textX + 170, textY + 299);
+            doc.text(response?.informationStudent.familyDisabilityPercentage, textX + 170, textY + 299);
             doc.text(response?.informationStudent.familyKinshipDisability?.name, textX + 340, textY + 299);//SIGUIENTE FILA (NO GUARDA EN BASE)
 
             doc.text(response?.informationStudent.studentLive?.name, textX + 165, textY + 324);
@@ -424,14 +452,14 @@ export class StudentReportsService {
             doc.text(response?.informationStudent.isGenderViolence?.name, textX + 170, textY + 575);
             doc.text(response?.informationStudent.typeGenderViolence?.name, textX + 330, textY + 575);
 
-            doc.text(response?.informationStudent.isInjuries?.name, textX + 150, textY + 600);
+            doc.text(response?.informationStudent.isInjuries?.name, textX + 160, textY + 600);
             doc.text(response?.informationStudent.typeInjuries?.name, textX + 350, textY + 600);
 
-            doc.text(response?.informationStudent.isDiscrimination?.name, textX + 120, textY + 625);
+            doc.text(response?.informationStudent.isDiscrimination?.name, textX + 126, textY + 625);
             doc.text(response?.informationStudent.typeDiscrimination?.name, textX + 250, textY + 625);
             doc.text(response?.informationStudent.socialGroup?.name, textX + 410, textY + 625);
 
-            doc.text(response?.informationStudent.additionalInformation, textX + 5, textY + 655);
+            doc.text(response?.informationStudent.additionalInformation, textX + 5, textY + 656);
 
         }
 
@@ -443,19 +471,19 @@ export class StudentReportsService {
 
             //Header: Add page number
             const oldTopMargin = doc.page.margins.top;
-            doc.page.margins.top = 0 //Dumb: Have to remove top margin in order to write into it
+            doc.page.margins.top = 10 //Dumb: Have to remove top margin in order to write into it
 
             doc.font('Helvetica-Bold');
-            doc.fontSize(14);
+            doc.fontSize(12);
 
-            doc.text('asdaskdjhaskhd',
-                0,
-                (oldTopMargin / 2), // Centered vertically in top margin
+            doc.text('FICHA SOCIOECONÓMICA',
+                35,
+                (oldTopMargin / 2) + 20, // Centered vertically in top margin
                 {align: 'center'}
             );
             doc.image(
                 this.imageHeaderPath,
-                0,
+                25,
                 (oldTopMargin / 2), // Centered vertically in top margin
                 {
                     align: 'center',
@@ -470,17 +498,12 @@ export class StudentReportsService {
             const oldBottomMargin = doc.page.margins.bottom;
             doc.page.margins.bottom = 0 //Dumb: Have to remove bottom margin in order to write into it
 
-            doc.image(this.imageFooterPath, 20, doc.page.height - (oldBottomMargin / 2) - 25, {
-                width: 50,
-                height: 20
-            });
-
-            doc.fontSize(6).text(`Dir. El Oro y 13 de Abril Sector Huertos Familiares. TELF: 06 255 8378 - 06 254 5034 - 06 255 8372 MAIL: tecuniversitario@itca.edu.ec`,
+            doc.fontSize(6).text(`Dir. Av. Colón E5-56 y Juan León Mera, Edif. Ave María, Torre B. TELF: 022232000 / 022230500 MAIL: informacion@uaw.edu.ec`,
                 50,
                 doc.page.height - (oldBottomMargin / 2) - 20,
                 {align: 'center'});
 
-            doc.text(`IST ITCA`,
+            doc.text(`Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi`,
                 20,
                 doc.page.height - (oldBottomMargin / 2) - 10,
                 {align: 'center'});
