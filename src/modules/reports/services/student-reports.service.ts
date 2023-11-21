@@ -38,7 +38,7 @@ export class StudentReportsService {
         const fontsize = 9;
 
         doc.font('Helvetica-Bold');
-        doc.fontSize(10);
+        doc.fontSize('10');
 
         doc.rect(textX, textY + 20, textW, 675); //Rectangulo grande
         doc.rect(textX + 180, textY + 20, 0.1, 50);//Fila 1
@@ -94,7 +94,7 @@ export class StudentReportsService {
         doc.rect(textX + 345, textY + 667, 0.1, 27);
         doc.stroke();
 
-        doc.fontSize(9);
+        doc.fontSize('9');
 
         doc.text('1. Tipo de documento:', textX + 5, textY + 30);
         doc.text('2. Apellidos y nombres del estudiante:', textX + 190, textY + 30);// Sigueinte fila
@@ -185,7 +185,7 @@ export class StudentReportsService {
         if (response) {
 
             doc.font('Times-Roman')
-            doc.fontSize(9)
+            doc.fontSize('9')
 
             doc.text(response?.user.identificationType?.name, textX + 105, textY + 30);
             doc.text(response?.user.identification, textX + 120, textY + 55);
@@ -237,13 +237,13 @@ export class StudentReportsService {
             doc.text(response?.informationStudent.isInternet?.name, textX + 145, textY + 528);
             doc.text(response?.informationStudent.internetType?.name, textX + 380, textY + 528);// Sigueinte fila
 
-            doc.fontSize(7.5)
+            doc.fontSize('7.5')
             doc.text(response?.user.originAddress?.country?.name, textX + 5, textY + 595);
             doc.text(response?.user.originAddress?.province?.name, textX + 68, textY + 595);
             doc.text(response?.user.originAddress?.canton?.name, textX + 145, textY + 595);
             doc.text(response?.user.originAddress?.parrish?.name, textX + 290, textY + 595);//SIGUIENTE FILA
 
-            doc.fontSize(9)
+            doc.fontSize('9')
             doc.text(response?.user.originAddress?.community, textX + 148, textY + 622);
             doc.text(response?.user.originAddress?.reference, textX + 230, textY + 626);//SIGUIENTE FILA
 
@@ -303,7 +303,7 @@ export class StudentReportsService {
         doc.stroke();
 
         doc.font('Helvetica-Bold');
-        doc.fontSize(10);
+        doc.fontSize('10');
 
         doc.text('Lugar de residencia:', textX + 200, textY + 10); //LUGAR DE RESIDENCIA
 
@@ -385,13 +385,13 @@ export class StudentReportsService {
 
             doc.font('Times-Roman')
 
-            doc.fontSize(7.5)
+            doc.fontSize('7.5')
             doc.text(response?.user.residenceAddress?.country.name, textX + 5, textY + 53);
             doc.text(response?.user.residenceAddress?.province?.name, textX + 68, textY + 53);
             doc.text(response?.user.residenceAddress?.canton?.name, textX + 145, textY + 53);
             doc.text(response?.user.residenceAddress?.parrish?.name, textX + 290, textY + 53); //siguiente fila
 
-            doc.fontSize(9)
+            doc.fontSize('9')
             doc.text(response?.user.residenceAddress?.nearbyCity, textX + 125, textY + 73);// (consultar ciudad mas cercana)
             doc.text(response?.user.residenceAddress?.reference, textX + 310, textY + 73);//siguiente fila
 
@@ -474,7 +474,7 @@ export class StudentReportsService {
             doc.page.margins.top = 10 //Dumb: Have to remove top margin in order to write into it
 
             doc.font('Helvetica-Bold');
-            doc.fontSize(12);
+            doc.fontSize('12');
 
             doc.text('FICHA SOCIOECONÓMICA',
                 35,
@@ -498,7 +498,7 @@ export class StudentReportsService {
             const oldBottomMargin = doc.page.margins.bottom;
             doc.page.margins.bottom = 0 //Dumb: Have to remove bottom margin in order to write into it
 
-            doc.fontSize(6).text(`Dir. Av. Colón E5-56 y Juan León Mera, Edif. Ave María, Torre B. TELF: 022232000 / 022230500 MAIL: informacion@uaw.edu.ec`,
+            doc.fontSize('6').text(`Dir. Av. Colón E5-56 y Juan León Mera, Edif. Ave María, Torre B. TELF: 022232000 / 022230500 MAIL: informacion@uaw.edu.ec`,
                 50,
                 doc.page.height - (oldBottomMargin / 2) - 20,
                 {align: 'center'});
