@@ -753,15 +753,15 @@ export class EnrollmentsService {
         const catalogues = await this.cataloguesService.findCache();
         let codeType = CatalogueSchoolPeriodTypeEnum.ESPECIAL;
 
-        if (isAfter(currentDate, schoolPeriod.ordinaryStartedAt) && isBefore(currentDate, schoolPeriod.ordinaryEndedAt)) {
+        if (isAfter(currentDate, new Date(schoolPeriod.ordinaryStartedAt)) && isBefore(currentDate, new Date(schoolPeriod.ordinaryEndedAt))) {
             codeType = CatalogueSchoolPeriodTypeEnum.ORDINARY;
         }
 
-        if (isAfter(currentDate, schoolPeriod.extraOrdinaryStartedAt) && isBefore(currentDate, schoolPeriod.extraOrdinaryEndedAt)) {
+        if (isAfter(currentDate, new Date(schoolPeriod.extraOrdinaryStartedAt)) && isBefore(currentDate, new Date(schoolPeriod.extraOrdinaryEndedAt))) {
             codeType = CatalogueSchoolPeriodTypeEnum.EXTRAORDINARY;
         }
 
-        if (isAfter(currentDate, schoolPeriod.especialStartedAt) && isBefore(currentDate, schoolPeriod.especialEndedAt)) {
+        if (isAfter(currentDate, new Date(schoolPeriod.especialStartedAt)) && isBefore(currentDate, new Date(schoolPeriod.especialEndedAt))) {
             codeType = CatalogueSchoolPeriodTypeEnum.ESPECIAL;
         }
 
