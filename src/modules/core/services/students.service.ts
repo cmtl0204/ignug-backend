@@ -48,6 +48,7 @@ export class StudentsService {
     async findOne(id: string): Promise<StudentEntity> {
         const student = await this.repository.findOne({
             relations: {
+                careers:true,
                 informationStudent: {
                     ancestralLanguageName: true,
                     consumeNewsType: true,
