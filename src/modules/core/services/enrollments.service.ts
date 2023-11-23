@@ -1,5 +1,5 @@
 import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
-import {Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder} from 'typeorm';
+import {Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder, Not} from 'typeorm';
 import {UserEntity} from '@auth/entities';
 import {
     CreateEnrollmentDto,
@@ -448,11 +448,9 @@ export class EnrollmentsService {
             }
         });
 
-        const enrollmentTotal = await this.enrollmentDetailsService.findTotalEnrollmentDetails(payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
+        const enrollmentTotal = await this.findTotalEnrollments(enrollment?.id, payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
         const capacity = await this.teacherDistributionsService.findCapacity(payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
 
-        console.log(enrollmentTotal);
-        console.log(capacity)
         if (capacity < enrollmentTotal) {
             throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} en el paralelo ${payload.parallel.nae}`);
         }
@@ -755,19 +753,32 @@ export class EnrollmentsService {
         return enrollment;
     }
 
-    async findTotalEnrollments(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
+    async findTotalEnrollments(enrollmentId: string, parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
         const catalogues = await this.cataloguesService.findCache();
         const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
         const state = states.find((item: CatalogueEntity) => item.code === CatalogueEnrollmentStateEnum.REGISTERED);
 
-        const total = await this.repository.find({
-            where: {
-                workdayId,
-                parallelId,
-                schoolPeriodId,
-                enrollmentStates: {stateId: state.id}
-            }
-        });
+        let total = [];
+        if (enrollmentId) {
+            total = await this.repository.find({
+                where: {
+                    id:Not(enrollmentId),
+                    workdayId,
+                    parallelId,
+                    schoolPeriodId,
+                    enrollmentStates: {stateId: state.id}
+                }
+            });
+        } else {
+            total = await this.repository.find({
+                where: {
+                    workdayId,
+                    parallelId,
+                    schoolPeriodId,
+                    enrollmentStates: {stateId: state.id}
+                }
+            });
+        }
 
         return total.length;
     }
