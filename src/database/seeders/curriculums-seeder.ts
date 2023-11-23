@@ -1,58 +1,54 @@
-import { Injectable } from '@nestjs/common';
-import { faker } from '@faker-js/faker';
-import { SeedCurriculumDto } from '@core/dto';
-import { CareerEntity } from '@core/entities';
-import { CataloguesService, CareersService, CurriculumsService } from '@core/services';
-import { CatalogueTypeEnum } from '@shared/enums';
+import {Injectable} from '@nestjs/common';
+import {faker} from '@faker-js/faker';
+import {SeedCurriculumDto} from '@core/dto';
+import {CareerEntity} from '@core/entities';
+import {CataloguesService, CareersService, CurriculumsService} from '@core/services';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Injectable()
 export class CurriculumsSeeder {
-  constructor(private cataloguesService: CataloguesService, private careersService: CareersService, private curriculumsService: CurriculumsService) {}
-
-  async run() {
-    await this.create();
-  }
-
-  private async create() {
-    const curriculums: SeedCurriculumDto[] = [];
-
-    const catalogues = await this.cataloguesService.findCache();
-    const careers = (await this.careersService.findAll()).data;
-
-    const stateEnabled = catalogues.find(state => {
-      return state.code === 'enabled' && state.type === CatalogueTypeEnum.CURRICULUMS_STATE;
-    });
-
-    const career1 = careers.find((career: CareerEntity) => career.code === 'cod1');
-    const career2 = careers.find((career: CareerEntity) => career.code === 'cod2');
-
-    curriculums.push(
-      {
-        code: 'cod1',
-        name: 'Malla Curricular 1',
-        description: faker.lorem.lines(),
-        periodicAcademicNumber: 1,
-        resolutionNumber: '1',
-        weeksNumber: faker.number.int({ min: 10, max: 30 }),
-        state: stateEnabled,
-        isVisible: true,
-        career: career1,
-      },
-      {
-        code: 'cod2',
-        name: 'Malla Curricular 2',
-        description: faker.lorem.lines(),
-        periodicAcademicNumber: 4,
-        resolutionNumber: '4',
-        weeksNumber: faker.number.int({ min: 10, max: 30 }),
-        state: stateEnabled,
-        isVisible: true,
-        career: career2,
-      },
-    );
-
-    for (const curriculum of curriculums) {
-      await this.curriculumsService.create(curriculum);
+    constructor(private cataloguesService: CataloguesService, private careersService: CareersService, private curriculumsService: CurriculumsService) {
     }
-  }
+
+    async run() {
+        await this.create();
+    }
+
+    private async create() {
+        const curriculums: SeedCurriculumDto[] = [];
+
+        const catalogues = await this.cataloguesService.findCache();
+        const careers = (await this.careersService.findAll()).data;
+
+        const stateEnabled = catalogues.find(state => {
+            return state.code === 'enabled' && state.type === CatalogueTypeEnum.CURRICULUMS_STATE;
+        });
+
+        const career1 = careers.find((career: CareerEntity) => career.code === '650811G01-S-1701');
+        const career2 = careers.find((career: CareerEntity) => career.code === '1068-650314H01-H-1701');
+        const career3 = careers.find((career: CareerEntity) => career.code === 'CCNT-101');
+        const career4 = careers.find((career: CareerEntity) => career.code === '650331C01-S-1701');
+        const career5 = careers.find((career: CareerEntity) => career.code === '650314H01-S-1701');
+        const career6 = careers.find((career: CareerEntity) => career.code === '650112B01-S-1701');
+        const career7 = careers.find((career: CareerEntity) => career.code === '1068-650311D01-H-1701');
+        const career8 = careers.find((career: CareerEntity) => career.code === '651015D01-H-1701');
+
+        curriculums.push(
+            {
+                career: career1,
+                code: 'cod1',
+                name: 'Malla Curricular 1',
+                periodicAcademicNumber: 8,
+                weeksNumber: 20,
+                description: '',
+                resolutionNumber: '',
+                state: stateEnabled,
+                isVisible: true,
+            },
+        );
+
+        for (const curriculum of curriculums) {
+            await this.curriculumsService.create(curriculum);
+        }
+    }
 }

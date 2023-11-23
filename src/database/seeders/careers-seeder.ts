@@ -23,93 +23,32 @@ export class CareersSeeder {
         const stateEnabled = catalogues.find((state: CatalogueEntity) => {
             return state.code === 'enabled' && state.type === CatalogueTypeEnum.CAREERS_STATE;
         });
-        const stateDisabled = catalogues.find((state: CatalogueEntity) => {
-            return state.code === 'disabled' && state.type === CatalogueTypeEnum.CAREERS_STATE;
-        });
 
         const modality1 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.ON_SITE && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
-        });
-        const modality2 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.DISTANCE && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
-        });
-        const modality3 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.DUAL && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
-        });
-        const modality4 = catalogues.find((modality: CatalogueEntity) => {
-            return modality.code === CatalogueCareersModalityEnum.HYBRID && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
+            return modality.code === CatalogueCareersModalityEnum.SEMI_ON_SITE && modality.type === CatalogueTypeEnum.CAREER_MODALITY;
         });
 
         const type1 = catalogues.find((type: CatalogueEntity) => {
-            return type.code === 'technology' && type.type === CatalogueTypeEnum.CAREERS_TYPE;
-        });
-        const type2 = catalogues.find((type: CatalogueEntity) => {
-            return type.code === 'technique' && type.type === CatalogueTypeEnum.CAREERS_TYPE;
+            return type.code === 'level_3' && type.type === CatalogueTypeEnum.CAREERS_TYPE;
         });
 
         const institution1 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod1');
-        const institution2 = institutions.find((institution: InstitutionEntity) => institution.code === 'cod2');
 
         careers.push(
             {
-                code: 'cod1',
-                name: 'Ingeniería Eléctrica',
-                acronym: 'IEE',
-                state: stateDisabled,
+                code: '650811G01-S-1701',
+                name: 'AGROECOLOGÍA Y SOBERANÍA ALIMENTARIA',
+                degree: 'Ingeniero/a en Agroecología y soberanía alimentaria',
+                acronym: 'AYSA',
+                codeSniese: '650811G01-S-1701',
+                resolutionNumber: 'RPC-SO-32-No.731-2021',
+                shortName: 'AGROECOLOGIA',
+                state: stateEnabled,
                 institution: institution1,
                 modality: modality1,
                 type: type1,
-                codeSniese: '123456',
-                degree: 'Ingeniero',
                 isVisible: true,
                 logo: 'logo',
-                resolutionNumber: 'Res123',
-                shortName: 'IE',
-            },
-            {
-                code: 'cod2',
-                name: 'Arquitectura',
-                acronym: 'Arq',
-                state: stateEnabled,
-                institution: institution1,
-                modality: modality2,
-                type: type2,
-                codeSniese: '789012',
-                degree: 'Arquitecto',
-                isVisible: true,
-                logo: 'logo',
-                resolutionNumber: 'Res456',
-                shortName: 'Arq',
-            },
-            {
-                code: 'cod3',
-                name: 'Derecho',
-                acronym: 'Der',
-                state: stateEnabled,
-                institution: institution2,
-                modality: modality3,
-                type: type1,
-                codeSniese: '345678',
-                degree: 'Abogado',
-                isVisible: true,
-                logo: 'logo',
-                resolutionNumber: 'Res789',
-                shortName: 'Der',
-            },
-            {
-                code: 'cod4',
-                name: 'Medicina',
-                acronym: 'Med',
-                state: stateEnabled,
-                institution: institution2,
-                modality: modality4,
-                type: type2,
-                codeSniese: '901234',
-                degree: 'Médico',
-                isVisible: true,
-                logo: 'logo',
-                resolutionNumber: 'Res012',
-                shortName: 'Med',
             },
         );
 

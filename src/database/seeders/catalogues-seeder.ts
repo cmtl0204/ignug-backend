@@ -288,29 +288,13 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.CAREER_MODALITY,
             },
             {
-                code: CatalogueCareersModalityEnum.DUAL,
+                code: CatalogueCareersModalityEnum.ONLINE,
                 description: 'Modalidad de carrera',
-                name: 'Dual',
+                name: 'En Línea',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CAREER_MODALITY,
-            },
-            {
-                code: CatalogueCareersModalityEnum.ONLINE,
-                description: 'Modalidad de carrera',
-                name: 'Línea',
-                sort: 5,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.CAREER_MODALITY,
-            },
-            {
-                code: CatalogueCareersModalityEnum.HYBRID,
-                description: 'Modalidad de carrera',
-                name: 'Híbrida',
-                sort: 6,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.CAREER_MODALITY,
-            },
+            }
         );
 
         for (const catalogue of catalogues) {
@@ -1219,10 +1203,18 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
+                code: 'level_3',
+                description: 'Tercer Nivel',
+                name: 'Tercer Nivel',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.CAREERS_TYPE,
+            },
+            {
                 code: 'technology',
                 description: 'Tecnología,Tecnicatura',
                 name: 'Tecnología',
-                sort: 1,
+                sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CAREERS_TYPE,
             },
@@ -1230,7 +1222,7 @@ export class CataloguesSeeder {
                 code: 'technique',
                 description: 'Tecnología,Tecnicatura',
                 name: 'Tecnicatura',
-                sort: 1,
+                sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CAREERS_TYPE,
             },
