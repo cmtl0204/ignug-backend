@@ -8,6 +8,8 @@ import {
     CatalogueMaritalStatusEnum,
     CatalogueSchoolPeriodStateEnum
 } from '@shared/enums';
+import {CatalogueEntity} from "@core/entities";
+import {SeedCatalogueParentDto} from "../../modules/core/dto/catalogues/seed-catalogue-parent.dto";
 
 @Injectable()
 export class CataloguesSeeder {
@@ -43,10 +45,10 @@ export class CataloguesSeeder {
         await this.createCurriculumsStateCatalogues();
         await this.createSubjectsStateCatalogues();
         await this.createSubjectsTypeCatalogues();
+        await this.createEnrollmentsWorkdayCatalogues();
         await this.createParallelsCatalogues();
         await this.createEnrollmentsTypeCatalogues();
         await this.createEnrollmentsAcademicStateCatalogues();
-        await this.createEnrollmentsWorkdayCatalogues();
         await this.createEnrollmentsStateCatalogues();
         await this.createClassroomsStateCatalogues();
         await this.createClassroomsTypeCatalogues();
@@ -340,23 +342,7 @@ export class CataloguesSeeder {
             {
                 code: '5',
                 description: 'tipo de discapacidad',
-                name: 'Mental',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.DISABILITY_TYPE,
-            },
-            {
-                code: '6',
-                description: 'tipo de discapacidad',
                 name: 'Otra',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.DISABILITY_TYPE,
-            },
-            {
-                code: '7',
-                description: 'tipo de discapacidad',
-                name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.DISABILITY_TYPE,
@@ -952,14 +938,6 @@ export class CataloguesSeeder {
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
-            {
-                code: '6',
-                description: 'Tipo de colegio',
-                name: 'No registra',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.TYPE_SCHOOL,
-            },
         );
 
         for (const catalogue of catalogues) {
@@ -1067,7 +1045,7 @@ export class CataloguesSeeder {
             {
                 code: '1',
                 description: 'Si o No',
-                name: 'Si',
+                name: 'Sí',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.YES_NO,
@@ -1328,115 +1306,70 @@ export class CataloguesSeeder {
     }
 
     private async createParallelsCatalogues() {
-        const catalogues: CreateCatalogueDto[] = [];
-        catalogues.push(
+        const catalogues = await this.catalogueService.findCache();
+        const workdays = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
+        const morning = workdays.find((item: CatalogueEntity) => item.code === 'm');
+        const evening = workdays.find((item: CatalogueEntity) => item.code === 'v');
+        const newCatalogues: SeedCatalogueParentDto[] = [];
+
+        newCatalogues.push(
             {
-                code: 'a',
-                description: 'A',
-                name: 'A',
+                parentId: morning.id,
+                code: 'a1',
+                description: 'A 1',
+                name: 'A 1',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.PARALLEL,
             },
             {
-                code: 'b',
-                description: 'B',
-                name: 'B',
+                parentId: morning.id,
+                code: 'a2',
+                description: 'A 2',
+                name: 'A 2',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PARALLEL,
+            },
+            {
+                parentId: morning.id,
+                code: 'a3',
+                description: 'A 3',
+                name: 'A 3',
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.PARALLEL,
+            },
+            {
+                parentId: evening.id,
+                code: 'b1',
+                description: 'B 1',
+                name: 'B 1',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.PARALLEL,
             },
             {
-                code: 'c',
-                description: 'C',
-                name: 'C',
-                sort: 1,
+                parentId: evening.id,
+                code: 'b2',
+                description: 'B 2',
+                name: 'B 2',
+                sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.PARALLEL,
             },
             {
-                code: 'd',
-                description: 'D',
-                name: 'D',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'e',
-                description: 'E',
-                name: 'E',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'f',
-                description: 'F',
-                name: 'F',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'g',
-                description: 'G',
-                name: 'G',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'h',
-                description: 'H',
-                name: 'H',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'i',
-                description: 'I',
-                name: 'I',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'j',
-                description: 'J',
-                name: 'J',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'k',
-                description: 'K',
-                name: 'K',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'l',
-                description: 'L',
-                name: 'L',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.PARALLEL,
-            },
-            {
-                code: 'm',
-                description: 'M',
-                name: 'M',
-                sort: 1,
+                parentId: evening.id,
+                code: 'b3',
+                description: 'B 3',
+                name: 'B 3',
+                sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.PARALLEL,
             },
         );
 
-        for (const catalogue of catalogues) {
+        for (const catalogue of newCatalogues) {
             await this.catalogueService.create(catalogue);
         }
     }
@@ -1517,22 +1450,6 @@ export class CataloguesSeeder {
                 description: 'Vespertina',
                 name: 'Vespertina',
                 sort: 2,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
-            },
-            {
-                code: 'n',
-                description: 'Nocturna',
-                name: 'Nocturna',
-                sort: 3,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
-            },
-            {
-                code: 'i',
-                description: 'Intensiva',
-                name: 'Intensiva',
-                sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENTS_WORKDAY,
             },
@@ -1881,7 +1798,7 @@ export class CataloguesSeeder {
             {
                 code: 'ternit',
                 description: 'Eternit',
-                name: 'eternit',
+                name: 'Eternit',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_ROOF,
@@ -2429,8 +2346,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '4',
-                description: 'Cayambi',
-                name: 'Cayambi',
+                description: 'Kayambi',
+                name: 'Kayambi',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.TOWN,
@@ -2477,8 +2394,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '10',
-                description: 'Purwa',
-                name: 'Purwa',
+                description: 'Puruwa',
+                name: 'Puruwa',
                 sort: 10,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.TOWN,
@@ -2562,7 +2479,6 @@ export class CataloguesSeeder {
         }
     }
 
-    //CORREGIR
     private async createIndigenousNationalityTypeCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2690,8 +2606,8 @@ export class CataloguesSeeder {
         catalogues.push(
             {
                 code: '1',
-                description: 'Ingles',
-                name: 'Ingles',
+                description: 'Inglés',
+                name: 'Inglés',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
@@ -2714,16 +2630,16 @@ export class CataloguesSeeder {
             },
             {
                 code: '4',
-                description: 'Frances',
-                name: 'Frances',
+                description: 'Francés',
+                name: 'Francés',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '5',
-                description: 'Arabe',
-                name: 'Arabe',
+                description: 'Árabe',
+                name: 'Árabe',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
@@ -2738,24 +2654,24 @@ export class CataloguesSeeder {
             },
             {
                 code: '7',
-                description: 'Portugues',
-                name: 'Portugues',
+                description: 'Portugués',
+                name: 'Portugués',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '8',
-                description: 'Aleman',
-                name: 'Aleman',
+                description: 'Alemán',
+                name: 'Alemán',
                 sort: 8,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
             {
                 code: '9',
-                description: 'Japones',
-                name: 'Japones',
+                description: 'Japonés',
+                name: 'Japonés',
                 sort: 9,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
@@ -2786,8 +2702,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '13',
-                description: 'Neerlandes',
-                name: 'Neerlandes',
+                description: 'Neerlandés',
+                name: 'Neerlandés',
                 sort: 13,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
@@ -2805,6 +2721,14 @@ export class CataloguesSeeder {
                 description: 'Griego',
                 name: 'Griego',
                 sort: 15,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
+            },
+            {
+                code: '16',
+                description: 'Otro',
+                name: 'Otro',
+                sort: 16,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME,
             },
@@ -2836,16 +2760,16 @@ export class CataloguesSeeder {
             },
             {
                 code: '3',
-                description: 'Hermano',
-                name: 'Hermano',
+                description: 'Hermano/a',
+                name: 'Hermano/a',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
             },
             {
                 code: '4',
-                description: 'Hijo',
-                name: 'Hijo',
+                description: 'Hijo/a',
+                name: 'Hijo/a',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
@@ -2860,8 +2784,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '6',
-                description: 'Sobrino',
-                name: 'Sobrino',
+                description: 'Sobrino/a',
+                name: 'Sobrino/a',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP,
@@ -2918,16 +2842,16 @@ export class CataloguesSeeder {
             },
             {
                 code: '3',
-                description: 'Hermano',
-                name: 'Hermano',
+                description: 'Hermano/a',
+                name: 'Hermano/a',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
             },
             {
                 code: '4',
-                description: 'Hijo',
-                name: 'Hijo',
+                description: 'Hijo/a',
+                name: 'Hijo/a',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
@@ -2942,8 +2866,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '6',
-                description: 'Sobrino',
-                name: 'Sobrino',
+                description: 'Sobrino/a',
+                name: 'Sobrino/a',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY,
@@ -3316,8 +3240,8 @@ export class CataloguesSeeder {
         catalogues.push(
             {
                 code: '1',
-                description: 'NO',
-                name: 'NO',
+                description: 'No poseo equipo',
+                name: 'No poseo equipo',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ELECTRONIC_DEVICE
@@ -3374,16 +3298,16 @@ export class CataloguesSeeder {
         catalogues.push(
             {
                 code: '1',
-                description: 'Acceso Telefonico o ADSL',
-                name: 'Acceso Telefonico o ADSL',
+                description: 'Acceso Telefónico o ADSL',
+                name: 'Acceso Telefónico o ADSL',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INTERNET_TYPE
             },
             {
                 code: '2',
-                description: 'Via Satelite',
-                name: 'Via Satelite',
+                description: 'Vía Satélite',
+                name: 'Vía Satélite',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INTERNET_TYPE
@@ -3398,8 +3322,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '4',
-                description: 'Datos Moviles',
-                name: 'Datos Moviles',
+                description: 'Datos Móviles',
+                name: 'Datos Móviles',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INTERNET_TYPE
@@ -3414,8 +3338,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '6',
-                description: 'Linea Electrica',
-                name: 'Linea Electrica',
+                description: 'Linea Eléctrica',
+                name: 'Linea Eléctrica',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INTERNET_TYPE
@@ -4250,8 +4174,8 @@ export class CataloguesSeeder {
         catalogues.push(
             {
                 code: 'identification_requirement',
-                description: 'Documento de Identificación',
-                name: 'Documento de Identificación',
+                description: 'Copia de cédula de ciudadanía o pasaporte en el caso de extranjeros. (formato pdf)',
+                name: 'Copia de cédula de ciudadanía o pasaporte en el caso de extranjeros. (formato pdf)',
                 required: true,
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -4286,8 +4210,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'quota_acceptance',
-                description: 'Aceptacion de cupo',
-                name: 'Aceptacion de cupo',
+                description: 'Comprobante de aceptación de cupo en el Sistema Nacional de Nivelación y Admisión.',
+                name: 'Comprobante de aceptación de cupo en el Sistema Nacional de Nivelación y Admisión.',
                 required: true,
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
@@ -4295,8 +4219,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'photo',
-                description: 'Fotografia',
-                name: 'Fotografia',
+                description: 'Foto actualizada en formato JPG, con fondo blanco y sin ningún accesorio que cubra el rostro',
+                name: 'Foto actualizada en formato JPG, con fondo blanco y sin ningún accesorio que cubra el rostro',
                 required: true,
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
@@ -4304,8 +4228,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'title_bachelor',
-                description: 'Título de bachiller',
-                name: 'Título de bachiller',
+                description: 'Copia del título de bachiller, o Acta de Grado, o el certificado de registro de título de bachiller',
+                name: 'Copia del título de bachiller, o Acta de Grado, o el certificado de registro de título de bachiller',
                 required: true,
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
@@ -4332,8 +4256,8 @@ export class CataloguesSeeder {
         catalogues.push(
             {
                 code: 'identification_requirement',
-                description: 'Documento de Identificación',
-                name: 'Documento de Identificación',
+                description: 'Copia de cédula de ciudadanía o pasaporte en el caso de extranjeros. (formato pdf)',
+                name: 'Copia de cédula de ciudadanía o pasaporte en el caso de extranjeros. (formato pdf)',
                 required: true,
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
@@ -4368,8 +4292,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'quota_acceptance',
-                description: 'Aceptacion de cupo',
-                name: 'Aceptacion de cupo',
+                description: 'Comprobante de aceptación de cupo en el Sistema Nacional de Nivelación y Admisión',
+                name: 'Comprobante de aceptación de cupo en el Sistema Nacional de Nivelación y Admisión',
                 required: true,
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
@@ -4377,8 +4301,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'photo',
-                description: 'Fotografia',
-                name: 'Fotografia',
+                description: 'Foto actualizada en formato JPG, con fondo blanco y sin ningún accesorio que cubra el rostro',
+                name: 'Foto actualizada en formato JPG, con fondo blanco y sin ningún accesorio que cubra el rostroa',
                 required: true,
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
@@ -4386,8 +4310,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'disability_card',
-                description: 'Carnet de Discapacidad',
-                name: 'Carnet de Discapacidad',
+                description: 'Carnet del CONADIS en caso de discapacidad',
+                name: 'Carnet del CONADIS en caso de discapacidad',
                 required: false,
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,

@@ -63,12 +63,12 @@ export class DatabaseSeeder {
         await this.curriculumsSeeder.run();
         await this.subjectsSeeder.run();
         await this.partialsSeeder.run();
-        await this.enrollmentsSeeder.run();
-        await this.gradesSeeder.run();
+        // await this.enrollmentsSeeder.run();
+        // await this.gradesSeeder.run();
         await this.classroomsSeeder.run();
         await this.locationsSeeder.run();
         await this.teacherDistributionsSeeder.run();
-        await this.attendancesSeeder.run();
+        // await this.attendancesSeeder.run();
     }
 
     createUploadsDirectories() {

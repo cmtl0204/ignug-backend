@@ -20,7 +20,6 @@ export class SeedUserDto extends PickType(UserDto, [
   'password',
   'passwordChanged',
   'personalEmail',
-  'phone',
   'roles',
   'username',
 ]) {}

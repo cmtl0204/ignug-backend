@@ -1,7 +1,7 @@
 import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere, ILike, LessThan} from 'typeorm';
 import {CreateEnrollmentsDetailDto, FilterEnrollmentsDetailDto, UpdateEnrollmentsDetailDto} from '@core/dto';
-import {EnrollmentDetailEntity} from '@core/entities';
+import {CatalogueEntity, EnrollmentDetailEntity} from '@core/entities';
 import {PaginationDto} from '@core/dto';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
 import {CataloguesService, EnrollmentDetailStatesService} from "@core/services";
@@ -156,6 +156,23 @@ export class EnrollmentDetailsService {
         });
 
         return response;
+    }
+
+    async findTotalEnrollmentDetails(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
+        const catalogues = await this.cataloguesService.findCache();
+        const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+        const state = states.find((item: CatalogueEntity) => item.code === CatalogueEnrollmentStateEnum.REGISTERED);
+
+        const total = await this.repository.find({
+            where: {
+                workdayId,
+                parallelId,
+                enrollment: {schoolPeriodId},
+                enrollmentDetailStates: {stateId: state.id}
+            }
+        });
+
+        return total.length;
     }
 
     async approve(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {

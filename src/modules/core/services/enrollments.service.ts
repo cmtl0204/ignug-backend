@@ -1,11 +1,10 @@
-import {Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder} from 'typeorm';
 import {UserEntity} from '@auth/entities';
 import {
-    CreateEnrollmentDto, EnrollmentsDetailDto,
+    CreateEnrollmentDto,
     FilterEnrollmentDto,
     PaginationDto,
-    SendRegistrationDto,
     UpdateEnrollmentDto
 } from '@core/dto';
 import {
@@ -24,17 +23,16 @@ import {
     CataloguesService,
     EnrollmentStatesService,
     EnrollmentDetailsService,
-    EnrollmentDetailStatesService, SchoolPeriodsService
+    EnrollmentDetailStatesService, SchoolPeriodsService, TeacherDistributionsService
 } from "@core/services";
 import {
     CatalogueEnrollmentStateEnum,
-    CatalogueSchoolPeriodStateEnum, CatalogueSchoolPeriodTypeEnum,
+    CatalogueSchoolPeriodTypeEnum,
     CatalogueTypeEnum,
     CoreRepositoryEnum
 } from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
 import {isAfter, isBefore} from "date-fns";
-import {en} from "@faker-js/faker";
 
 @Injectable()
 export class EnrollmentsService {
@@ -46,6 +44,7 @@ export class EnrollmentsService {
         private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
         private readonly cataloguesService: CataloguesService,
         private readonly schoolPeriodsService: SchoolPeriodsService,
+        private readonly teacherDistributionsService: TeacherDistributionsService,
     ) {
     }
 
@@ -449,6 +448,15 @@ export class EnrollmentsService {
             }
         });
 
+        const enrollmentTotal = await this.enrollmentDetailsService.findTotalEnrollmentDetails(payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
+        const capacity = await this.teacherDistributionsService.findCapacity(payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
+
+        console.log(enrollmentTotal);
+        console.log(capacity)
+        if (capacity < enrollmentTotal) {
+            throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} en el paralelo ${payload.parallel.nae}`);
+        }
+
         if (!enrollment) {
             enrollment = this.repository.create();
         }
@@ -709,7 +717,7 @@ export class EnrollmentsService {
 
     async revoke(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
         const enrollment = await this.repository.findOne({
-            relations: {enrollmentDetails: {enrollmentDetailStates: true},enrollmentStates: true},
+            relations: {enrollmentDetails: {enrollmentDetailStates: true}, enrollmentStates: true},
             where: {id}
         });
 
@@ -745,6 +753,23 @@ export class EnrollmentsService {
             });
         }
         return enrollment;
+    }
+
+    async findTotalEnrollments(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
+        const catalogues = await this.cataloguesService.findCache();
+        const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+        const state = states.find((item: CatalogueEntity) => item.code === CatalogueEnrollmentStateEnum.REGISTERED);
+
+        const total = await this.repository.find({
+            where: {
+                workdayId,
+                parallelId,
+                schoolPeriodId,
+                enrollmentStates: {stateId: state.id}
+            }
+        });
+
+        return total.length;
     }
 
     private async getType(schoolPeriod: SchoolPeriodEntity) {

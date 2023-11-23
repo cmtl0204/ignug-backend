@@ -55,10 +55,10 @@ export class TeacherDistributionEntity {
     @Column({type: 'uuid', name: 'subject_id', comment: 'Asignaturas asignadas al profesor'})
     subjectId: string;
 
-    @ManyToOne(() => TeacherEntity)
+    @ManyToOne(() => TeacherEntity, {nullable: true})
     @JoinColumn({name: 'teacher_id'})
     teacher: TeacherEntity;
-    @Column({type: 'uuid', name: 'teacher_id', comment: 'Profesor asignado'})
+    @Column({type: 'uuid', name: 'teacher_id', nullable: true, comment: 'Profesor asignado'})
     teacherId: string;
 
     @ManyToOne(() => CatalogueEntity)

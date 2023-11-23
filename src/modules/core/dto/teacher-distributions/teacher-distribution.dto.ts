@@ -3,21 +3,24 @@ import { IsOptional } from 'class-validator';
 import { isNotEmptyValidationOptions } from '@shared/validation';
 
 export class TeacherDistributionDto {
-  @IsOptional(isNotEmptyValidationOptions())
+  @IsOptional()
+  readonly capacity: number;
+
+  @IsOptional()
   readonly parallel: CatalogueEntity;
 
-  @IsOptional(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly teacher: TeacherEntity;
 
-  @IsOptional(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly schoolPeriod: SchoolPeriodEntity;
 
-  @IsOptional(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly subject: SubjectEntity;
 
-  @IsOptional(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly workday: CatalogueEntity;
 
-  @IsOptional(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly hours: number;
 }

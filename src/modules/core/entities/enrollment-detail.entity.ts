@@ -61,6 +61,12 @@ export class EnrollmentDetailEntity {
     @Column({type: 'uuid', name: 'academic_state_id', nullable: true, comment: 'Aprobado o Desaprobado'})
     academicStateId: string;
 
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'income_type_id'})
+    incomeType: CatalogueEntity;
+    @Column({type: 'uuid', name: 'income_type_id', nullable: true, comment: 'Normal, Convalidacion, etc'})
+    incomeTypeId: string;
+
     @ManyToOne(() => EnrollmentEntity)
     @JoinColumn({name: 'enrollment_id'})
     enrollment: EnrollmentEntity;

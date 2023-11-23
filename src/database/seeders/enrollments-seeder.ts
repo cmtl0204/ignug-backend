@@ -99,7 +99,7 @@ export class EnrollmentSeeder {
         });
 
         //curriculums
-        const career = this.careers.find((career: CareerEntity) => career.code === 'cod1');
+        const career = this.careers[0];
 
         //parallel
         const parallel = this.parallels.find(parallel => {

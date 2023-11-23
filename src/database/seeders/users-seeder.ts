@@ -77,7 +77,7 @@ export class UsersSeeder {
         const reviewerRole = this.roles.find(role => role.code === RoleEnum.REVIEWER);
         const secretaryRole = this.roles.find(role => role.code === RoleEnum.SECRETARY);
 
-        const institution = this.institutions.find(institution => institution.code === 'cod1');
+        const institution = this.institutions[0];
 
         users.push(
             {
@@ -114,7 +114,6 @@ export class UsersSeeder {
                 password: '12345678',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 roles: [adminRole],
                 username: 'admin',
                 careers: [],
@@ -154,7 +153,6 @@ export class UsersSeeder {
                 passwordChanged: false,
                 roles: [coordinatorAdministrativeRole],
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 username: 'coordinator_administrative',
                 careers: [],
             },
@@ -193,7 +191,6 @@ export class UsersSeeder {
                 passwordChanged: false,
                 roles: [coordinatorCareerRole],
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 username: 'coordinator_career',
                 careers: this.careers,
             },
@@ -231,7 +228,6 @@ export class UsersSeeder {
                 password: '12345678',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 roles: [rectorRole],
                 username: 'rector',
                 careers: [],
@@ -270,7 +266,6 @@ export class UsersSeeder {
                 password: '12345678',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 roles: [reviewerRole],
                 username: 'reviewer',
                 careers: [this.careers[0]],
@@ -309,7 +304,6 @@ export class UsersSeeder {
                 password: '12345678',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 roles: [secretaryRole],
                 username: 'secretary',
                 careers: this.careers,
@@ -325,7 +319,7 @@ export class UsersSeeder {
         const users: SeedUserDto[] = [];
 
         const studentRole = this.roles.find(role => role.code === RoleEnum.STUDENT);
-        const institution = this.institutions.find(institution => institution.code === 'cod1');
+        const institution = this.institutions[0];
 
         for (let i = 0; i < 10; i++) {
             const identification = '123456789' + i;
@@ -363,7 +357,6 @@ export class UsersSeeder {
                 password: '12345678',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 roles: [studentRole],
                 username: identification,
                 careers: [this.careers[0]],
@@ -379,7 +372,7 @@ export class UsersSeeder {
         const users: SeedUserDto[] = [];
 
         const teacherRole = this.roles.find(role => role.code === RoleEnum.TEACHER);
-        const institution = this.institutions.find(institution => institution.code === 'cod1');
+        const institution = this.institutions[0];
 
         for (let i = 0; i < 10; i++) {
             const identification = faker.string.numeric(10);
@@ -417,7 +410,6 @@ export class UsersSeeder {
                 password: '12345678',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                phone: faker.phone.number(),
                 roles: [teacherRole],
                 username: identification,
                 careers: [],

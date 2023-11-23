@@ -81,6 +81,20 @@ export class CareersService {
         return entity;
     }
 
+    async findByCode(code: string): Promise<CareerEntity> {
+        const entity = await this.repository.findOne(
+            {
+                relations: {curriculums: true},
+                where: {code}
+            });
+
+        if (!entity) {
+            throw new NotFoundException(`La carrera no se encontró`);
+        }
+
+        return entity;
+    }
+
     async update(id: string, payload: UpdateCareerDto): Promise<CareerEntity> {
         const entity = await this.repository.findOneBy({id});
 

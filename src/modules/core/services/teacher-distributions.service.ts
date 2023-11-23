@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import {
     CreateTeacherDistributionDto,
     FilterTeacherDistributionDto,
-    PaginationDto,
+    PaginationDto, SeedTeacherDistributionDto,
     UpdateTeacherDistributionDto
 } from '@core/dto';
 import {TeacherDistributionEntity} from '@core/entities';
@@ -39,7 +39,7 @@ export class TeacherDistributionsService {
         };
     }
 
-    async create(payload: CreateTeacherDistributionDto): Promise<TeacherDistributionEntity> {
+    async create(payload: CreateTeacherDistributionDto | SeedTeacherDistributionDto): Promise<TeacherDistributionEntity> {
         const newEntity: TeacherDistributionEntity = this.repository.create(payload);
         return await this.repository.save(newEntity);
     }
@@ -165,5 +165,17 @@ export class TeacherDistributionsService {
         const path = join(process.cwd(), 'src/resources/exports', Date.now() + '.xlsx'); //review path
         XLSX.writeFile(newWorkbook, path);
         return path;
+    }
+
+    async findCapacity(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
+        const teacherDistribution = await this.repository.findOne({
+            where: {
+                workdayId,
+                parallelId,
+                schoolPeriodId,
+            }
+        });
+
+        return teacherDistribution.capacity;
     }
 }

@@ -1,6 +1,8 @@
-import { CatalogueDto } from '@core/dto';
+import {CatalogueDto} from '@core/dto';
+import {CatalogueEntity} from "@core/entities";
 
-export class CreateCatalogueDto extends CatalogueDto {}
+export class CreateCatalogueDto extends CatalogueDto {
+}
 
 /*
 const ES_I18N_MESSAGES = JSON.parse(
