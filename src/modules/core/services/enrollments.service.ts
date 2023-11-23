@@ -762,7 +762,7 @@ export class EnrollmentsService {
         if (enrollmentId) {
             total = await this.repository.find({
                 where: {
-                    id:Not(enrollmentId),
+                    id: Not(enrollmentId),
                     workdayId,
                     parallelId,
                     schoolPeriodId,
@@ -806,6 +806,27 @@ export class EnrollmentsService {
         });
 
         return type.id;
+    }
+
+    async findEnrollmentCertificateByEnrollment(id: string): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {
+                academicPeriod: true,
+                parallel: true,
+                workday: true,
+                schoolPeriod: true,
+                enrollmentDetails: {
+                    subject: {academicPeriod: true},
+                    enrollmentDetailStates: {state: true}
+                },
+                enrollmentStates: {
+                    state: true
+                }
+            },
+            where: {id}
+        });
+
+        return enrollment;
     }
 }
 

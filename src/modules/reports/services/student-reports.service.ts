@@ -1,7 +1,5 @@
-import {Inject, Injectable, Res} from '@nestjs/common';
-import {Repository} from 'typeorm';
-import {CareerEntity, StudentEntity} from '@core/entities';
-import {CoreRepositoryEnum} from '@shared/enums';
+import {Injectable, Res} from '@nestjs/common';
+import {StudentEntity} from '@core/entities';
 import {differenceInYears, format} from "date-fns";
 import {StudentsService} from "@core/services";
 

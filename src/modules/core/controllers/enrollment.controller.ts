@@ -220,6 +220,19 @@ export class EnrollmentsController {
             title: `Anulada`,
         };
     }
+
+    @ApiOperation({summary: 'Find Enrollment Certificate'})
+    @Get(':id')
+    @HttpCode(HttpStatus.OK)
+    async findEnrollmentCertificateByEnrollment(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.findEnrollmentCertificateByEnrollment(id);
+
+        return {
+            data: serviceResponse,
+            message: `Buscar reporte de notas`,
+            title: `Success`,
+        };
+    }
 }
 
 
