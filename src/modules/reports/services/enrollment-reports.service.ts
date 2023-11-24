@@ -175,7 +175,7 @@ export class EnrollmentReportsService {
       rows: rows,
     };
 
-    await doc.table(table, { align: 'center', columnsSize: [40, 200, 80, 30, 40, 50] });
+    await doc.table(table, { align: 'center', columnsSize: [60, 200, 80, 30, 40, 50] });
 
     doc.moveDown();
     doc.font('Times-Roman');

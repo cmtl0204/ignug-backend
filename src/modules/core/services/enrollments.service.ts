@@ -790,6 +790,7 @@ export class EnrollmentsService {
 
         let codeType = CatalogueSchoolPeriodTypeEnum.ESPECIAL;
 
+        /*
         console.log('currentDate', currentDate);
         console.log('schoolPeriod.ordinaryStartedAt', schoolPeriod.ordinaryStartedAt);
         console.log('new Date(schoolPeriod.ordinaryStartedAt)', new Date(schoolPeriod.ordinaryStartedAt));
@@ -815,6 +816,7 @@ export class EnrollmentsService {
         console.log('isBefore(currentDate, new Date(schoolPeriod.extraOrdinaryEndedAt))', isBefore(currentDate, new Date(schoolPeriod.extraOrdinaryEndedAt)))
         console.log('isAfter(currentDate, new Date(schoolPeriod.especialStartedAt))', isAfter(currentDate, new Date(schoolPeriod.especialStartedAt)))
         console.log('isBefore(currentDate, new Date(schoolPeriod.especialEndedAt))', isBefore(currentDate, new Date(schoolPeriod.especialEndedAt)))
+         */
 
         if (isAfter(currentDate, new Date(schoolPeriod.ordinaryStartedAt)) && isBefore(currentDate, new Date(schoolPeriod.ordinaryEndedAt))) {
             codeType = CatalogueSchoolPeriodTypeEnum.ORDINARY;
