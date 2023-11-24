@@ -452,7 +452,7 @@ export class EnrollmentsService {
         const capacity = await this.teacherDistributionsService.findCapacity(payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
 
         if (capacity < enrollmentTotal) {
-            throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} en el paralelo ${payload.parallel.nae}`);
+            throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} en el paralelo ${payload.parallel.name}`);
         }
 
         if (!enrollment) {
