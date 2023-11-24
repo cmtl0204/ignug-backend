@@ -812,7 +812,7 @@ export class EnrollmentsService {
         const enrollment = await this.repository.findOne({
             relations: {
                 academicPeriod: true,
-                career:true,
+                career: {institution: true},
                 parallel: true,
                 workday: true,
                 schoolPeriod: true,
