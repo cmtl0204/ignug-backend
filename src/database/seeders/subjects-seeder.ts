@@ -92,7 +92,7 @@ export class SubjectsSeeder {
                         credits: 0,
                         isVisible: true,
                         isEnabled: true,
-                        name: item['name'],
+                        name: item['name'].trim(),
                         practicalHour: item['hp'],
                         scale: 1,
                         teacherHour: item['hd'],

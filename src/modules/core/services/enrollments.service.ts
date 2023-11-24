@@ -787,7 +787,34 @@ export class EnrollmentsService {
         const currentDate = new Date();
 
         const catalogues = await this.cataloguesService.findCache();
+
         let codeType = CatalogueSchoolPeriodTypeEnum.ESPECIAL;
+
+        console.log('currentDate', currentDate);
+        console.log('schoolPeriod.ordinaryStartedAt', schoolPeriod.ordinaryStartedAt);
+        console.log('new Date(schoolPeriod.ordinaryStartedAt)', new Date(schoolPeriod.ordinaryStartedAt));
+
+        console.log('schoolPeriod.ordinaryEndedAt', schoolPeriod.ordinaryEndedAt);
+        console.log('new Date(schoolPeriod.ordinaryEndedAt)', new Date(schoolPeriod.ordinaryEndedAt));
+
+        console.log('schoolPeriod.extraOrdinaryStartedAt', schoolPeriod.extraOrdinaryStartedAt);
+        console.log('new Date(schoolPeriod.extraOrdinaryStartedAt)', new Date(schoolPeriod.extraOrdinaryStartedAt));
+
+        console.log('schoolPeriod.extraOrdinaryEndedAt', schoolPeriod.extraOrdinaryEndedAt);
+        console.log('new Date(schoolPeriod.extraOrdinaryEndedAt)', new Date(schoolPeriod.extraOrdinaryEndedAt));
+
+        console.log('schoolPeriod.especialStartedAt', schoolPeriod.especialStartedAt);
+        console.log('new Date(schoolPeriod.especialStartedAt)', new Date(schoolPeriod.especialStartedAt));
+
+        console.log('schoolPeriod.especialEndedAt', schoolPeriod.especialEndedAt);
+        console.log('new Date(schoolPeriod.especialEndedAt)', new Date(schoolPeriod.especialEndedAt));
+
+        console.log('isAfter(currentDate, new Date(schoolPeriod.ordinaryStartedAt))', isAfter(currentDate, new Date(schoolPeriod.ordinaryStartedAt)));
+        console.log('isBefore(currentDate, new Date(schoolPeriod.ordinaryEndedAt))', isBefore(currentDate, new Date(schoolPeriod.ordinaryEndedAt)))
+        console.log('isAfter(currentDate, new Date(schoolPeriod.extraOrdinaryStartedAt))', isAfter(currentDate, new Date(schoolPeriod.extraOrdinaryStartedAt)))
+        console.log('isBefore(currentDate, new Date(schoolPeriod.extraOrdinaryEndedAt))', isBefore(currentDate, new Date(schoolPeriod.extraOrdinaryEndedAt)))
+        console.log('isAfter(currentDate, new Date(schoolPeriod.especialStartedAt))', isAfter(currentDate, new Date(schoolPeriod.especialStartedAt)))
+        console.log('isBefore(currentDate, new Date(schoolPeriod.especialEndedAt))', isBefore(currentDate, new Date(schoolPeriod.especialEndedAt)))
 
         if (isAfter(currentDate, new Date(schoolPeriod.ordinaryStartedAt)) && isBefore(currentDate, new Date(schoolPeriod.ordinaryEndedAt))) {
             codeType = CatalogueSchoolPeriodTypeEnum.ORDINARY;
