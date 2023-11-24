@@ -521,7 +521,6 @@ export class StudentReportsService {
             doc.end();
         } catch (error) {
             res.ok;
-            console.log(error);
         }
     }
 

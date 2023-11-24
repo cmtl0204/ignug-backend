@@ -61,7 +61,6 @@ export class FilesController {
     }),)
     async uploadFiles(@UploadedFiles() files: Array<Express.Multer.File>, @Param('modelId', ParseUUIDPipe) modelId: string,
                       @Body() payload: any): Promise<ResponseHttpModel> {
-        console.log(payload);
         await this.filesService.uploadFiles(files, modelId);
 
         return {

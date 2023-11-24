@@ -18,7 +18,7 @@ export class EnrollmentReportsService {
 
     async generateEnrollmentCertificate(@Res() res: Response, id: string) {
         const enrollment = await this.enrollmentsService.findEnrollmentCertificateByEnrollment(id);
-        console.log(enrollment);
+
         const doc = new PDFDocument({
             size: 'A4',
             bufferPages: true,
@@ -40,6 +40,29 @@ export class EnrollmentReportsService {
                 height: this.imageHeaderHeight,
             },
         );
+
+        doc.moveDown();
+
+        const rows = [];
+
+        enrollment.enrollmentDetails.forEach(enrollmentDetail => {
+            const list = [
+                enrollmentDetail.subject.code,
+                enrollmentDetail.subject.name,
+                enrollmentDetail.subject.academicPeriod.name,
+                enrollmentDetail.number,
+                enrollmentDetail.parallel.name,
+                enrollmentDetail.enrollmentDetailStates[0].state.name
+            ];
+            rows.push(list);
+        });
+
+        const table = {
+            headers: ['Código', 'Asignatura', 'Nivel', 'Num.', 'Paralelo', 'Estado'],
+            rows: rows,
+        };
+
+        await doc.table(table, {align: 'center', columnsSize: [40, 200, 80, 30, 40, 50]});
 
         doc.end();
     }

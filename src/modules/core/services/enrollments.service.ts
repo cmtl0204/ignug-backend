@@ -816,6 +816,7 @@ export class EnrollmentsService {
                 workday: true,
                 schoolPeriod: true,
                 enrollmentDetails: {
+                    parallel:true,
                     subject: {academicPeriod: true},
                     enrollmentDetailStates: {state: true}
                 },
