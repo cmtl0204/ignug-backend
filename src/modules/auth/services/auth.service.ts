@@ -82,17 +82,17 @@ export class AuthService {
             },
         })) as UserEntity;
 
-        if (user && user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
-
-        if (user && user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
-
-        if (user && !(await this.checkPassword(payload.password, user))) {
-            const attempts = user.maxAttempts - 1;
-            throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${attempts} intentos restantes`);
-        }
-
         if (!user || !(await this.checkPassword(payload.password, user))) {
             throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
+        }
+
+        if (user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
+
+        if (user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
+
+        if (!(await this.checkPassword(payload.password, user))) {
+            const attempts = user.maxAttempts - 1;
+            throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${attempts} intentos restantes`);
         }
 
         const userUpdate = await this.repository.findOne({
@@ -189,7 +189,7 @@ export class AuthService {
         const token = randomNumber.toString().substring(2, 8);
 
         const mailData: MailDataInterface = {
-            to: user.email,
+            to: user.email || user.personalEmail,
             subject: MailSubjectEnum.RESET_PASSWORD,
             template: MailTemplateEnum.TRANSACTIONAL_CODE,
             data: {
@@ -203,7 +203,7 @@ export class AuthService {
 
         await this.transactionalCodeRepository.save(payload);
 
-        const value = user.email;
+        const value = user.email || user.personalEmail;
         const chars = 3; // Cantidad de caracters visibles
 
         const email = value.replace(

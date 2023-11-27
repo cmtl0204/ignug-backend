@@ -1,11 +1,9 @@
 import {Inject, Injectable} from '@nestjs/common';
 import {MailerService} from '@nestjs-modules/mailer';
 import {catchError} from 'rxjs';
-import {MailSubjectEnum, MailTemplateEnum} from '@shared/enums';
 import {ConfigType} from '@nestjs/config';
 import {config} from '@config';
 import {environments} from '../../../environments';
-import {AttachmentInterface} from "../interfaces/attachment.interface";
 import {MailDataInterface} from "../interfaces/mail-data.interface";
 import {join} from "path";
 import {FolderPathsService} from "./folder-paths.service";
@@ -70,14 +68,14 @@ export class MailService {
         }
 
         const header = {
-            filename: 'header.jpg',
-            path: join(this.folderPathsService.mailImages, 'header.jpg'),
+            filename: 'header.png',
+            path: join(this.folderPathsService.mailImages, 'header.png'),
             cid: 'header',
         };
 
         const footer = {
-            filename: 'footer.jpg',
-            path: join(this.folderPathsService.mailImages, 'footer.jpg'),
+            filename: 'footer.png',
+            path: join(this.folderPathsService.mailImages, 'footer.png'),
             cid: 'footer',
         };
 

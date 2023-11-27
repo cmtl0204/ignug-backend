@@ -31,15 +31,16 @@ export class StudentsSeeder {
 
   async createStudents() {
     const students: SeedStudentDto[] = [];
+
     let users = (await this.usersService.findAll()).data;
 
     users = users.filter((user: UserEntity) => user.roles.some(role => role.code === RoleEnum.STUDENT));
 
     users.forEach((user: UserEntity) => {
-      students.push({
-        user: user,
-        careers: [this.careers[faker.helpers.rangeToNumber({ min: 0, max: this.careers.length - 1 })]],
-      });
+        students.push({
+            user,
+            careers: user.careers,
+        });
     });
 
     for (const item of students) {

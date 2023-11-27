@@ -5,21 +5,28 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<!--    <link href="http://localhost:3000/css/bootstrap.min.css" rel="stylesheet">-->
+    <!--    <link href="http://localhost:3000/css/bootstrap.min.css" rel="stylesheet">-->
     <title>Document</title>
+    <style>
+        .header {
+            background-repeat: no-repeat;
+        }
+
+        .footer {
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h6>Estimado/a.</h6>
+            <h2>Estimado/a.</h2>
 
-            <h6>{{data.user.name}} {{data.user.lastname}}</h6>
+            <h2>{{data.user.name}} {{data.user.lastname}}</h2>
 
-            <br>
             <p>Reciba un cordial saludo.</p>
 
-            <br>
             <p>Notificamos que su código es:</p>
             <h2>{{data.token}}</h2>
             <br>
@@ -34,6 +41,9 @@
                 <b>Sistema de Gestión Académica ({{system}})</b>
             </p>
         </div>
+    </div>
+    <div>
+        <img class="footer" src="cid:footer" alt="">
     </div>
 </div>
 </body>

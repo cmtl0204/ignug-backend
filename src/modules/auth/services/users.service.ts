@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { FindOptionsWhere, ILike, LessThan, Repository } from 'typeorm';
-import { CreateUserDto, FilterUserDto, ReadUserDto, UpdateUserDto } from '@auth/dto';
+import {CreateUserDto, FilterUserDto, ReadUserDto, SeedUserDto, UpdateUserDto} from '@auth/dto';
 import { MAX_ATTEMPTS } from '@auth/constants';
 import { UserEntity } from '@auth/entities';
 import { PaginationDto } from '@core/dto';
@@ -16,7 +16,7 @@ export class UsersService {
     private repository: Repository<UserEntity>,
   ) {}
 
-  async create(payload: CreateUserDto): Promise<UserEntity> {
+  async create(payload: CreateUserDto|SeedUserDto): Promise<UserEntity> {
     const newUser = this.repository.create(payload);
     return await this.repository.save(newUser);
   }
@@ -42,7 +42,7 @@ export class UsersService {
 
     //All
     const response = await this.repository.findAndCount({
-      relations: { roles: true },
+      relations: { roles: true,careers:true },
       order: { updatedAt: 'DESC' },
     });
 

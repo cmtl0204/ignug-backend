@@ -7,15 +7,12 @@ import {RoleEnum} from '@auth/enums';
 import {RolesService, UsersService} from '@auth/services';
 import {CareerEntity, CatalogueEntity, InstitutionEntity} from '@core/entities';
 import {CareersService, CataloguesService, InstitutionsService} from '@core/services';
+import * as XLSX from "xlsx";
+import {join} from "path";
 
 @Injectable()
 export class UsersSeeder {
-    private bloodTypes: CatalogueEntity[] = [];
-    private ethnicOrigins: CatalogueEntity[] = [];
-    private genders: CatalogueEntity[] = [];
     private identificationTypes: CatalogueEntity[] = [];
-    private maritalStatus: CatalogueEntity[] = [];
-    private sexes: CatalogueEntity[] = [];
     private roles: RoleEntity[] = [];
     private institutions: InstitutionEntity[] = [];
     private careers: CareerEntity[] = [];
@@ -36,7 +33,7 @@ export class UsersSeeder {
         await this.loadCatalogues();
         await this.createUsers();
         await this.createStudentUsers();
-        await this.createTeacherUsers();
+        // await this.createTeacherUsers();
     }
 
     async loadCareers() {
@@ -54,17 +51,8 @@ export class UsersSeeder {
     async loadCatalogues() {
         const catalogues = (await this.cataloguesService.findAll()).data as CatalogueEntity[];
 
-        this.bloodTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.BLOOD_TYPE);
-
-        this.ethnicOrigins = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ETHNIC_ORIGIN);
-
-        this.genders = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.GENDER);
-
         this.identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
 
-        this.maritalStatus = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.MARITAL_STATUS);
-
-        this.sexes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.SEX);
     }
 
     async createUsers() {
@@ -81,15 +69,6 @@ export class UsersSeeder {
 
         users.push(
             {
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -97,16 +76,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: 'admin@gmail.com',
                 identification: '123456781',
                 institutions: [],
                 lastname: 'Perez',
@@ -119,15 +89,6 @@ export class UsersSeeder {
                 careers: [],
             },
             {
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -135,16 +96,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: 'coordinator_administrative@gmail.com',
                 identification: '123456782',
                 institutions: [],
                 lastname: 'Administrative',
@@ -157,15 +109,6 @@ export class UsersSeeder {
                 careers: [],
             },
             {
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -173,16 +116,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: 'coordinator_career@gmail.com',
                 identification: '123456783',
                 institutions: [institution],
                 lastname: 'Career',
@@ -195,15 +129,6 @@ export class UsersSeeder {
                 careers: this.careers,
             },
             {
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -211,16 +136,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: 'rector@gmail.com',
                 identification: '123456784',
                 institutions: [institution],
                 lastname: 'Perez',
@@ -233,15 +149,6 @@ export class UsersSeeder {
                 careers: [],
             },
             {
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -249,16 +156,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: 'reviewer@gmail.com',
                 identification: '123456785',
                 institutions: [institution],
                 lastname: 'Perez',
@@ -271,15 +169,6 @@ export class UsersSeeder {
                 careers: [this.careers[0]],
             },
             {
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -287,16 +176,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: 'secretary@gmail.com',
                 identification: '123456786',
                 institutions: [institution],
                 lastname: 'Perez',
@@ -316,52 +196,34 @@ export class UsersSeeder {
     }
 
     async createStudentUsers() {
-        const users: SeedUserDto[] = [];
+        const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/students.xlsx'));
 
+        const workbookSheets = workbook.SheetNames;
+        const sheet = workbookSheets[0];
+        const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+        const users: SeedUserDto[] = [];
         const studentRole = this.roles.find(role => role.code === RoleEnum.STUDENT);
         const institution = this.institutions[0];
 
-        for (let i = 0; i < 10; i++) {
-            const identification = '123456789' + i;
+        for (const item of dataExcel) {
+            const career = this.careers.find(career => career.code === item['career_code']);
             users.push({
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
-                identificationType:
-                    this.identificationTypes[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.identificationTypes.length - 1,
-                        })
-                        ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
-                birthdate: faker.date.birthdate(),
-                email: faker.internet.email(),
-                identification: identification,
+                identificationType: this.identificationTypes[0],
+                birthdate: item['birthdate'],
+                identification: item['identification'],
                 institutions: [institution],
-                lastname: faker.person.lastName(),
-                name: faker.person.firstName(),
-                password: '12345678',
+                lastname: item['lastname'],
+                name: item['name'],
+                password: item['identification'],
                 passwordChanged: false,
-                personalEmail: faker.internet.email(),
+                personalEmail: item['personal_email'],
                 roles: [studentRole],
-                username: identification,
-                careers: [this.careers[0]],
+                username: item['identification'],
+                careers: [career],
             });
         }
+
 
         for (const user of users) {
             await this.usersService.create(user);
@@ -377,15 +239,6 @@ export class UsersSeeder {
         for (let i = 0; i < 10; i++) {
             const identification = faker.string.numeric(10);
             users.push({
-                bloodType: this.bloodTypes[faker.helpers.rangeToNumber({min: 0, max: this.bloodTypes.length - 1})],
-                ethnicOrigin:
-                    this.ethnicOrigins[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.ethnicOrigins.length - 1,
-                        })
-                        ],
-                gender: this.genders[faker.helpers.rangeToNumber({min: 0, max: this.genders.length - 1})],
                 identificationType:
                     this.identificationTypes[
                         faker.helpers.rangeToNumber({
@@ -393,16 +246,7 @@ export class UsersSeeder {
                             max: this.identificationTypes.length - 1,
                         })
                         ],
-                maritalStatus:
-                    this.maritalStatus[
-                        faker.helpers.rangeToNumber({
-                            min: 0,
-                            max: this.maritalStatus.length - 1,
-                        })
-                        ],
-                sex: this.sexes[faker.helpers.rangeToNumber({min: 0, max: this.sexes.length - 1})],
                 birthdate: faker.date.birthdate(),
-                email: faker.internet.email(),
                 identification: identification,
                 institutions: [institution],
                 lastname: faker.person.lastName(),

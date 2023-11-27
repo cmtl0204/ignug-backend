@@ -77,19 +77,19 @@ export class UserEntity {
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'blood_type_id'})
     bloodType: CatalogueEntity;
-    @Column({type: 'uuid', name: 'blood_type_id', comment: 'A+, A-, B+, B-, AB+ AB-, O+, O-'})
+    @Column({type: 'uuid', name: 'blood_type_id',nullable: true, comment: 'A+, A-, B+, B-, AB+ AB-, O+, O-'})
     bloodTypeId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'ethnic_origin_id'})
     ethnicOrigin: CatalogueEntity;
-    @Column({type: 'uuid', name: 'ethnic_origin_id', comment: 'Blanco, Mestizo, Indigena, Afroecuatoriano, Montubio'})
+    @Column({type: 'uuid', name: 'ethnic_origin_id',nullable: true, comment: 'Blanco, Mestizo, Indigena, Afroecuatoriano, Montubio'})
     ethnicOriginId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'gender_id'})
     gender: CatalogueEntity;
-    @Column({type: 'uuid', name: 'gender_id', comment: 'Masculino, Femenino, LGBTI, Otro'})
+    @Column({type: 'uuid', name: 'gender_id',nullable: true, comment: 'Masculino, Femenino, LGBTI, Otro'})
     genderId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
@@ -104,6 +104,7 @@ export class UserEntity {
     @Column({
         type: 'uuid',
         name: 'marital_status_id',
+        nullable: true,
         comment: 'Soltero, Casado, Viudo, Divorciado, Union Libre, Separado no legal'
     })
     maritalStatusId: string;
@@ -117,7 +118,7 @@ export class UserEntity {
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'sex_id'})
     sex: CatalogueEntity;
-    @Column({type: 'uuid', name: 'sex_id', comment: 'Hombre o Mujer'})
+    @Column({type: 'uuid', name: 'sex_id',nullable: true, comment: 'Hombre o Mujer'})
     sexId: string;
 
     /** Columns **/
@@ -150,6 +151,7 @@ export class UserEntity {
         name: 'email',
         type: 'varchar',
         unique: true,
+        nullable: true,
         comment: 'Correo Electronico',
     })
     email: string;
