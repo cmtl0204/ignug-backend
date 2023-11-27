@@ -340,6 +340,14 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.DISABILITY_TYPE,
             },
             {
+                code: '6',
+                description: 'tipo de discapacidad',
+                name: 'Psicosocial',
+                sort: 1,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.DISABILITY_TYPE,
+            },
+            {
                 code: '5',
                 description: 'tipo de discapacidad',
                 name: 'Otra',
@@ -511,14 +519,6 @@ export class CataloguesSeeder {
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
-            {
-                code: '9',
-                description: 'etnia',
-                name: 'No registra',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
-            },
         );
 
         for (const catalogue of catalogues) {
@@ -583,14 +583,6 @@ export class CataloguesSeeder {
                 code: '4',
                 description: 'tipo de institucion practicas',
                 name: 'Otro',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
-            },
-            {
-                code: '5',
-                description: 'tipo de institucion practicas',
-                name: 'No aplica',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INSTITUTION_PRACTICES_TYPE,
@@ -3239,14 +3231,6 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: '1',
-                description: 'No poseo equipo',
-                name: 'No poseo equipo',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ELECTRONIC_DEVICE
-            },
-            {
                 code: '2',
                 description: 'Computadora de Escritorio',
                 name: 'Computadora de Escritorio',
@@ -3555,7 +3539,7 @@ export class CataloguesSeeder {
             {
                 code: '1',
                 description: 'Servicio de agua',
-                name: 'Agua entubada',
+                name: 'Agua potable',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
@@ -3595,8 +3579,16 @@ export class CataloguesSeeder {
             {
                 code: '6',
                 description: 'Servicio de agua',
-                name: 'Otros',
+                name: 'Agua entubada',
                 sort: 6,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
+            },
+            {
+                code: '7',
+                description: 'Servicio de agua',
+                name: 'Otros',
+                sort: 7,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.WATER_SERVICE_TYPE,
             },
@@ -4076,8 +4068,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '2',
-                description: 'Raperos',
-                name: 'Raperos',
+                description: 'Rockeros',
+                name: 'Rockeros',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.SOCIAL_GROUP,
@@ -4283,8 +4275,8 @@ export class CataloguesSeeder {
             },
             {
                 code: 'payment',
-                description: 'Factura',
-                name: 'Factura',
+                description: 'Factura, caso de perdida de gratuidad',
+                name: 'Factura, caso de perdida de gratuidad',
                 required: false,
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
