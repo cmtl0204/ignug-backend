@@ -127,5 +127,34 @@ export enum UsersIdentificationTypeStateEnum {
 }
 
 export enum CatalogueMaritalStatusEnum {
-  SINGLE = 'single'
+  SINGLE = 'single',
+  MARRIED = 'married',
+  WIDOWER = 'widower',
+  DIVORCED = 'divorced',
+  FREE_UNION = 'free_union'
+}
+
+export enum CatalogueEthnicOriginEnum {
+  INDIGENOUS = 'indigenous',
+  AFRO_ECUADORIAN = 'afro_ecuadorian',
+  MONTUBIO = 'montubio',
+  HALF_BLOOD = 'half_blood',
+  WHITE = 'white'
+}
+
+export enum CatalogueTypeSchoolEnum {
+  FISCAL = 'fiscal',
+  FISCOMISIONAL = 'fiscomisional',
+  PARTICULAR = 'particular',
+  MUNICIPAL = 'municipal',
+}
+
+export enum CatalogueStudentLiveEnum {
+  ALONE = 'alone',
+  BOTH_PARENTS = 'both_parents',
+  MOTHER = 'mother',
+  FATHER = 'father',
+  SPOUSE = 'spouse',
+  GRANDPARENTS = 'grandparents',
+  OTHER = 'other',
 }

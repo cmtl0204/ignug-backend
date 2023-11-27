@@ -1,8 +1,13 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, Repository} from 'typeorm';
 import {FilterStudentDto, PaginationDto, UpdateStudentDto} from '@core/dto';
-import {StudentEntity} from '@core/entities';
-import {CatalogueYesNoEnum, CoreRepositoryEnum} from '@shared/enums';
+import {InformationStudentEntity, StudentEntity} from '@core/entities';
+import {
+    CatalogueEthnicOriginEnum,
+    CatalogueMaritalStatusEnum, CatalogueStudentLiveEnum, CatalogueTypeSchoolEnum,
+    CatalogueYesNoEnum,
+    CoreRepositoryEnum
+} from '@shared/enums';
 import {UsersService} from '@auth/services';
 import {InformationStudentsService} from './information-students.service';
 import {ServiceResponseHttpModel} from '@shared/models';
@@ -48,7 +53,7 @@ export class StudentsService {
     async findOne(id: string): Promise<StudentEntity> {
         const student = await this.repository.findOne({
             relations: {
-                careers:true,
+                careers: true,
                 informationStudent: {
                     ancestralLanguageName: true,
                     consumeNewsType: true,
@@ -627,6 +632,329 @@ export class StudentsService {
             ? payload.informationStudent.typeInjuries.id : null;
 
         await this.informationStudentsService.update(student.informationStudent.id, student.informationStudent);
+
+        return student;
+    }
+
+    async calculateSocioeconomicForm(id: string): Promise<StudentEntity> {
+        const student = await this.repository.findOne({
+            relations: {
+                informationStudent: true,
+                user: {ethnicOrigin: true, maritalStatus: true}
+            },
+            where: {id},
+        });
+
+        if (!student) {
+            throw new NotFoundException('Estudiante no encontrado');
+        }
+
+        let score = 0;
+
+        // Marital Status
+        if (student.user.maritalStatus?.code === CatalogueMaritalStatusEnum.SINGLE) {
+            score += 1.875;
+        }
+
+        if (student.user.maritalStatus?.code === CatalogueMaritalStatusEnum.MARRIED) {
+            score += 1.25;
+        }
+
+        if (student.user.maritalStatus?.code === CatalogueMaritalStatusEnum.DIVORCED) {
+            score += 0.625;
+        }
+
+        if (student.user.maritalStatus?.code === CatalogueMaritalStatusEnum.FREE_UNION) {
+            score += 1.25;
+        }
+
+        // Ethnic Origin
+        if (student.user.ethnicOrigin?.code === CatalogueEthnicOriginEnum.INDIGENOUS) {
+            score += 10;
+        }
+
+        if (student.user.ethnicOrigin?.code === CatalogueEthnicOriginEnum.AFRO_ECUADORIAN) {
+            score += 10;
+        }
+
+        if (student.user.ethnicOrigin?.code === CatalogueEthnicOriginEnum.MONTUBIO) {
+            score += 10;
+        }
+
+        // Information Student
+        if (student.informationStudent.isHasChildren?.code === CatalogueYesNoEnum.YES) {
+            score += 1.25;
+        }
+
+        if (student.informationStudent.isHasChildren?.code === CatalogueYesNoEnum.NO) {
+            score += 2.5;
+        }
+
+        if (student.informationStudent.isHouseHead?.code === CatalogueYesNoEnum.YES) {
+            score += 3.5;
+        }
+
+        if (student.informationStudent.isSocialSecurity?.code === CatalogueYesNoEnum.YES) {
+            score += 2.5;
+        }
+
+        if (student.informationStudent.isPrivateSecurity?.code === CatalogueYesNoEnum.YES) {
+            score += 2.5;
+        }
+
+        if (student.informationStudent.isDisability?.code === CatalogueYesNoEnum.NO) {
+            score += 2.5;
+        }
+
+        if (student.informationStudent.isCatastrophicIllness?.code === CatalogueYesNoEnum.NO) {
+            score += 2.5;
+        }
+
+        // Type School
+        if (student.informationStudent.typeSchool?.code === CatalogueTypeSchoolEnum.FISCAL) {
+            score += 0.625;
+        }
+
+        if (student.informationStudent.typeSchool?.code === CatalogueTypeSchoolEnum.FISCOMISIONAL) {
+            score += 1.25;
+        }
+
+        if (student.informationStudent.typeSchool?.code === CatalogueTypeSchoolEnum.PARTICULAR) {
+            score += 1.875;
+        }
+
+        if (student.informationStudent.typeSchool?.code === CatalogueTypeSchoolEnum.MUNICIPAL) {
+            score += 0.625;
+        }
+
+        if (student.informationStudent.isElectronicDevice?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
+        }
+
+        // Residence Address
+        if (student.user?.residenceAddress?.parrish?.zone === 'urbana') {
+            score += 0.5;
+        }
+
+        if (student.user?.residenceAddress?.parrish?.zone === 'rural') {
+            score += 0.25;
+        }
+
+        // Members House Number
+        if (student.informationStudent.membersHouseNumber === 1 || student.informationStudent.membersHouseNumber === 2) {
+            score += 2.25;
+        }
+
+        if (student.informationStudent.membersHouseNumber === 3 || student.informationStudent.membersHouseNumber === 4) {
+            score += 1.5;
+        }
+
+        if (student.informationStudent.membersHouseNumber >= 5) {
+            score += 0.6;
+        }
+
+        // Family Income
+        if (student.informationStudent.familyIncome?.code === '3') {
+            score += 5;
+        }
+
+        if (student.informationStudent.familyIncome?.code === '4') {
+            score += 10;
+        }
+
+        if (student.informationStudent.familyIncome?.code === '5') {
+            score += 15;
+        }
+
+        if (student.informationStudent.familyIncome?.code === '6') {
+            score += 20;
+        }
+
+        if (student.informationStudent.familyIncome?.code === '7') {
+            score += 20;
+        }
+
+        if (student.informationStudent.isDependsEconomically?.code === CatalogueYesNoEnum.YES) {
+            score += 6;
+        }
+
+        if (student.informationStudent.isFamilyProperties?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isFamilyCatastrophicIllness?.code === CatalogueYesNoEnum.NO) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isFamilyDisability?.code === CatalogueYesNoEnum.NO) {
+            score += 2;
+        }
+
+        // Student Live
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.ALONE) {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.BOTH_PARENTS) {
+            score += 1;
+        }
+
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.MOTHER) {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.FATHER) {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.SPOUSE) {
+            score += 1;
+        }
+
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.GRANDPARENTS) {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.studentLive?.code === CatalogueStudentLiveEnum.OTHER) {
+            score += 0.5;
+        }
+
+        // Home Ownership
+        if (student.informationStudent.homeOwnership?.code === 'mortgaged') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeOwnership?.code === 'paid') {
+            score += 0.75;
+        }
+
+        if (student.informationStudent.homeOwnership?.code === 'rented') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeOwnership?.code === 'family') {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.homeOwnership?.code === 'shared') {
+            score += 0.3;
+        }
+
+        if (student.informationStudent.homeOwnership?.code === 'other') {
+            score += 0.25;
+        }
+
+        // Home Type
+        if (student.informationStudent.homeType?.code === 'house') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeType?.code === 'department') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeType?.code === 'mediagua') {
+            score += 0.1;
+        }
+
+        if (student.informationStudent.homeType?.code === 'ranch') {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.homeType?.code === 'room') {
+            score += 0.15;
+        }
+
+        // Home Roof
+        if (student.informationStudent.homeRoof?.code === 'ceramic') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeRoof?.code === 'brick') {
+            score += 5;
+        }
+
+        if (student.informationStudent.homeRoof?.code === 'other') {
+            score += 0.25;
+        }
+
+        // Home Floor
+        if (student.informationStudent.homeFloor?.code === 'ceramic') {
+            score += 0.75;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'vinyl') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'brick') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'wood') {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'untreated_board') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'cement') {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'cane') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeFloor?.code === 'other') {
+            score += 0.25;
+        }
+
+        // Home Wall
+        if (student.informationStudent.homeWall?.code === 'concrete') {
+            score += 0.75;
+        }
+
+        if (student.informationStudent.homeWall?.code === 'brick') {
+            score += 0.5;
+        }
+
+        if (student.informationStudent.homeWall?.code === 'wood') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.homeWall?.code === 'adobe') {
+            score += 0.15;
+        }
+
+        if (student.informationStudent.homeWall?.code === 'other') {
+            score += 0.25;
+        }
+
+        if (student.informationStudent.isWaterService?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isElectricService?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isPhoneService?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isSewerageService?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isFamilyEconomicAid?.code === CatalogueYesNoEnum.NO) {
+            score += 2;
+        }
+
+        if (student.informationStudent.isFamilyEmigrant?.code === CatalogueYesNoEnum.NO) {
+            score += 1;
+        }
 
         return student;
     }

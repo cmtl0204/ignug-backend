@@ -6,7 +6,7 @@ import {
     CatalogueTypeEnum,
     CatalogueCareersModalityEnum,
     CatalogueMaritalStatusEnum,
-    CatalogueSchoolPeriodStateEnum
+    CatalogueSchoolPeriodStateEnum, CatalogueEthnicOriginEnum, CatalogueTypeSchoolEnum, CatalogueStudentLiveEnum
 } from '@shared/enums';
 import {CatalogueEntity} from "@core/entities";
 import {SeedCatalogueParentDto} from "../../modules/core/dto/catalogues/seed-catalogue-parent.dto";
@@ -456,7 +456,7 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: '1',
+                code: CatalogueEthnicOriginEnum.INDIGENOUS,
                 description: 'etnia',
                 name: 'Indígena',
                 sort: 1,
@@ -464,7 +464,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
-                code: '2',
+                code: CatalogueEthnicOriginEnum.AFRO_ECUADORIAN,
                 description: 'etnia',
                 name: 'Afroecuatoriano',
                 sort: 1,
@@ -472,31 +472,15 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
-                code: '3',
+                code: CatalogueEthnicOriginEnum.MONTUBIO,
                 description: 'etnia',
-                name: 'Negro',
+                name: 'Montubio',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
-                code: '4',
-                description: 'etnia',
-                name: 'Mulato',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
-            },
-            {
-                code: '5',
-                description: 'etnia',
-                name: 'Montuvio',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
-            },
-            {
-                code: '6',
+                code: CatalogueEthnicOriginEnum.HALF_BLOOD,
                 description: 'etnia',
                 name: 'Mestizo',
                 sort: 1,
@@ -504,21 +488,13 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.ETHNIC_ORIGIN,
             },
             {
-                code: '7',
+                code: CatalogueEthnicOriginEnum.WHITE,
                 description: 'etnia',
                 name: 'Blanco',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ETHNIC_ORIGIN,
-            },
-            {
-                code: '8',
-                description: 'etnia',
-                name: 'Otro',
-                sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ETHNIC_ORIGIN,
-            },
+            }
         );
 
         for (const catalogue of catalogues) {
@@ -640,7 +616,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
-                code: '2',
+                code: CatalogueMaritalStatusEnum.MARRIED,
                 description: 'estado civil',
                 name: 'Casado/a',
                 sort: 2,
@@ -648,7 +624,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
-                code: '3',
+                code: CatalogueMaritalStatusEnum.DIVORCED,
                 description: 'estado civil',
                 name: 'Divorciado/a',
                 sort: 3,
@@ -656,7 +632,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
-                code: '4',
+                code: CatalogueMaritalStatusEnum.FREE_UNION,
                 description: 'estado civil',
                 name: 'Unión libre',
                 sort: 4,
@@ -664,7 +640,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.MARITAL_STATUS,
             },
             {
-                code: '5',
+                code: CatalogueMaritalStatusEnum.WIDOWER,
                 description: 'estado civil',
                 name: 'Viudo/a',
                 sort: 5,
@@ -875,7 +851,7 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: '1',
+                code: CatalogueTypeSchoolEnum.FISCAL,
                 description: 'Tipo de colegio',
                 name: 'Fiscal',
                 sort: 1,
@@ -883,7 +859,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
-                code: '2',
+                code: CatalogueTypeSchoolEnum.FISCOMISIONAL,
                 description: 'Tipo de colegio',
                 name: 'Fiscomisional',
                 sort: 1,
@@ -891,7 +867,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
-                code: '3',
+                code: CatalogueTypeSchoolEnum.PARTICULAR,
                 description: 'Tipo de colegio',
                 name: 'Particular',
                 sort: 1,
@@ -899,7 +875,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.TYPE_SCHOOL,
             },
             {
-                code: '4',
+                code: CatalogueTypeSchoolEnum.MUNICIPAL,
                 description: 'Tipo de colegio',
                 name: 'Municipal',
                 sort: 1,
@@ -1582,7 +1558,7 @@ export class CataloguesSeeder {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
             {
-                code: 'alone',
+                code: CatalogueStudentLiveEnum.ALONE,
                 description: 'Solo',
                 name: 'Solo',
                 sort: 1,
@@ -1590,7 +1566,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
-                code: 'both_parents',
+                code: CatalogueStudentLiveEnum.BOTH_PARENTS,
                 description: 'Ambos Padres',
                 name: 'Ambos Padres',
                 sort: 2,
@@ -1598,7 +1574,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
-                code: 'mother',
+                code: CatalogueStudentLiveEnum.MOTHER,
                 description: 'Madre',
                 name: 'Madre',
                 sort: 3,
@@ -1606,7 +1582,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
-                code: 'father',
+                code: CatalogueStudentLiveEnum.FATHER,
                 description: 'Padre',
                 name: 'Padre',
                 sort: 4,
@@ -1614,7 +1590,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
-                code: 'spouse',
+                code: CatalogueStudentLiveEnum.SPOUSE,
                 description: 'Cónygue / Conviviente',
                 name: 'Cónygue / Conviviente',
                 sort: 5,
@@ -1622,7 +1598,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
-                code: 'grandparents',
+                code: CatalogueStudentLiveEnum.GRANDPARENTS,
                 description: 'Abuelos',
                 name: 'Abuelos',
                 sort: 6,
@@ -1630,7 +1606,7 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.STUDENT_LIVE,
             },
             {
-                code: 'other',
+                code: CatalogueStudentLiveEnum.OTHER,
                 description: 'Otro',
                 name: 'Otro',
                 sort: 7,
@@ -1830,10 +1806,26 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
+                code: 'vinyl',
+                description: 'Vinil',
+                name: 'Vinil',
+                sort: 2,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.HOME_FLOOR,
+            },
+            {
                 code: 'wood',
                 description: 'Madera',
                 name: 'Madera',
-                sort: 2,
+                sort: 3,
+                state: CatalogueStateEnum.ENABLED,
+                type: CatalogueTypeEnum.HOME_FLOOR,
+            },
+            {
+                code: 'untreated_board',
+                description: 'Tabla sin tratar',
+                name: 'Tabla sin tratar',
+                sort: 4,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
@@ -1841,7 +1833,7 @@ export class CataloguesSeeder {
                 code: 'cement',
                 description: 'Cemento',
                 name: 'Cemento',
-                sort: 3,
+                sort: 5,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
@@ -1849,15 +1841,15 @@ export class CataloguesSeeder {
                 code: 'land',
                 description: 'Tierra',
                 name: 'Tierra',
-                sort: 4,
+                sort: 6,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
             {
-                code: 'Cane',
+                code: 'cane',
                 description: 'Caña',
                 name: 'Caña',
-                sort: 6,
+                sort: 7,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
@@ -1865,7 +1857,7 @@ export class CataloguesSeeder {
                 code: 'brick',
                 description: 'Ladrillo',
                 name: 'Ladrillo',
-                sort: 7,
+                sort: 8,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },
@@ -1873,7 +1865,7 @@ export class CataloguesSeeder {
                 code: 'other',
                 description: 'Otro',
                 name: 'Otro',
-                sort: 5,
+                sort: 9,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.HOME_FLOOR,
             },

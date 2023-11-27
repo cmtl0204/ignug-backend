@@ -41,6 +41,10 @@ export class UserDto {
   @IsDate(isNotEmptyValidationOptions())
   readonly birthdate: Date;
 
+  @IsOptional()
+  @MaxLength(10, maxLengthValidationOptions())
+  readonly cellPhone: string;
+
   @IsNotEmpty(isNotEmptyValidationOptions())
   @IsString(isStringValidationOptions())
   readonly identification: string;

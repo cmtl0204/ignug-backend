@@ -22,7 +22,7 @@ export class ClassroomSeeder {
 
     for (let i = 1; i <= 20; i++) {
       classrooms.push({
-        capacity: faker.helpers.rangeToNumber({ min: 10, max: 50 }),
+        capacity: 50,
         code: 'cod' + i,
         name: 'Aula ' + i,
         location: 'Piso ' + faker.helpers.rangeToNumber({ min: 1, max: 5 }),
