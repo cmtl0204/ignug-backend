@@ -2,6 +2,17 @@ import { Injectable, Res } from '@nestjs/common';
 import { EnrollmentsService, StudentsService } from '@core/services';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import {SelectQueryBuilder} from "typeorm";
+import {
+  CareerEntity, CatalogueEntity,
+  CurriculumEntity,
+  EnrollmentDetailEntity,
+  EnrollmentEntity,
+  InformationStudentEntity,
+  SchoolPeriodEntity,
+  StudentEntity
+} from "@core/entities";
+import {UserEntity} from "@auth/entities";
 
 const { PDFDocument } = require('pdfkit-table-ts');
 const blobStream = require('blob-stream');
@@ -202,5 +213,10 @@ export class EnrollmentReportsService {
     });
 
     doc.end();
+  }
+
+  async generateEnrollmentsByCareer(careerId: string){
+    const data = this.enrollmentsService.reportEnrollmentsByCareer(careerId);
+    return data;
   }
 }

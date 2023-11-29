@@ -41,4 +41,17 @@ export class EnrollmentReportsController {
             title: `Report`,
         };
     }
+
+    @ApiOperation({summary: 'Enrollments by Career'})
+    @Get('careers/:careerId')
+    @HttpCode(HttpStatus.OK)
+    async generateEnrollmentsByCareer( @Param('careerId', ParseUUIDPipe) careerId: string): Promise<ResponseHttpModel> {
+        const responseService = await this.enrollmentReportsService.generateEnrollmentsByCareer(careerId);
+
+        return {
+            data: responseService,
+            message: `Generate Enrollments By Career`,
+            title: `Report`,
+        };
+    }
 }

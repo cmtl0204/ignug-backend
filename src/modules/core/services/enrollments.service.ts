@@ -292,11 +292,11 @@ export class EnrollmentsService {
         return enrollmentCertificate;
     }
 
-    async exportCuposByEnrollments(): Promise<any[]> {
+    async reportEnrollmentsByCareer(careerId:string): Promise<any[]> {
         const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('exportCupos');
         queryBuilder.select(
             [
-                "enrollment_state.name",
+                "applications_at",
                 "CareerEntity.name",
                 "CurriculumEntity.name",
                 "UserEntity.identification",
