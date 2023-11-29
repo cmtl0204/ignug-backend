@@ -54,7 +54,15 @@ export class MenusSeeder {
                 code: 'students',
                 icon: PrimeIcons.ID_CARD,
                 isVisible: true,
-                label: 'Estudiante',
+                label: 'Estudiantes',
+                order: 1,
+                type: MenuTypeEnum.LEFT_SIDE,
+            },
+            {
+                code: 'teachers',
+                icon: PrimeIcons.ID_CARD,
+                isVisible: true,
+                label: 'Docentes',
                 order: 1,
                 type: MenuTypeEnum.LEFT_SIDE,
             },
@@ -131,10 +139,10 @@ export class MenusSeeder {
                 parent: academicAdministration,
             },
             {
-                code: 'teachers',
+                code: 'teacher-administrator',
                 icon: 'pi pi-bars',
                 isVisible: false,
-                label: 'Docentes',
+                label: 'Admin Docentes',
                 order: 5,
                 routerLink: '/core/teachers',
                 type: MenuTypeEnum.LEFT_SIDE,
@@ -216,6 +224,21 @@ export class MenusSeeder {
             },
         );
 
+        const teacherMenu = menusAll.find(menu => menu.code === 'teachers');
+
+        menus.push(
+            {
+                code: 'teacher-subjects',
+                icon: 'pi pi-book',
+                isVisible: true,
+                label: 'Mis Asignaturas',
+                order: 1,
+                routerLink: '/core/teacher-subjects',
+                type: MenuTypeEnum.LEFT_SIDE,
+                parent: teacherMenu,
+            }
+        );
+
         for (const menu of menus) {
             await this.menusService.create(menu);
         }
@@ -242,6 +265,10 @@ export class MenusSeeder {
 
         role = await this.rolesService.findByCode(RoleEnum.STUDENT);
         role.menus = menusAll.filter(menu => menu.code === 'students');
+        await this.rolesService.createMenus(role);
+
+        role = await this.rolesService.findByCode(RoleEnum.TEACHER);
+        role.menus = menusAll.filter(menu => menu.code === 'teachers');
         await this.rolesService.createMenus(role);
     }
 }

@@ -33,7 +33,7 @@ export class UsersSeeder {
         await this.loadCatalogues();
         await this.createUsers();
         await this.createStudentUsers();
-        // await this.createTeacherUsers();
+        await this.createTeacherUsers();
     }
 
     async loadCareers() {
@@ -77,7 +77,7 @@ export class UsersSeeder {
                         })
                         ],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '123456781',
                 institutions: [],
                 email: 'admin@correo.com',
@@ -99,7 +99,7 @@ export class UsersSeeder {
                         })
                         ],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '123456782',
                 institutions: [],
                 email: 'coordinator_administrative@correo.com',
@@ -121,7 +121,7 @@ export class UsersSeeder {
                         })
                         ],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '123456783',
                 institutions: [institution],
                 email: 'coordinator_career@correo.com',
@@ -143,7 +143,7 @@ export class UsersSeeder {
                         })
                         ],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '123456784',
                 institutions: [institution],
                 email: 'rector@correo.com',
@@ -165,7 +165,7 @@ export class UsersSeeder {
                         })
                         ],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '123456785',
                 institutions: [institution],
                 email: 'reviewer@correo.com',
@@ -187,7 +187,7 @@ export class UsersSeeder {
                         })
                         ],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '123456786',
                 institutions: [institution],
                 email: 'secretary@correo.com',
@@ -203,7 +203,7 @@ export class UsersSeeder {
             {
                 identificationType: this.identificationTypes[0],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '1711191567',
                 institutions: [institution],
                 email: 'diana.aguayo@uaw.edu.ec',
@@ -219,7 +219,7 @@ export class UsersSeeder {
             {
                 identificationType: this.identificationTypes[0],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '1723532014',
                 institutions: [institution],
                 email: 'angie.pillajo@uaw.edu.ec',
@@ -235,7 +235,7 @@ export class UsersSeeder {
             {
                 identificationType: this.identificationTypes[0],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '1725967648',
                 institutions: [institution],
                 email: 'nadia.tandayamo@uaw.edu.ec',
@@ -251,7 +251,7 @@ export class UsersSeeder {
             {
                 identificationType: this.identificationTypes[0],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '1711982627',
                 institutions: [institution],
                 email: 'nicolas.cabezas@uaw.edu.ec',
@@ -267,7 +267,7 @@ export class UsersSeeder {
             {
                 identificationType: this.identificationTypes[0],
                 birthdate: faker.date.birthdate(),
-                cellPhone:'',
+                cellPhone: '',
                 identification: '1721877270',
                 institutions: [institution],
                 email: 'diego.yanez@uaw.edu.ec',
@@ -330,7 +330,7 @@ export class UsersSeeder {
         const institution = this.institutions[0];
 
         for (let i = 0; i < 10; i++) {
-            const identification = faker.string.numeric(10);
+            const identification = 'teacher' + i;
             users.push({
                 identificationType:
                     this.identificationTypes[
@@ -351,7 +351,7 @@ export class UsersSeeder {
                 personalEmail: faker.internet.email(),
                 roles: [teacherRole],
                 username: identification,
-                careers: [],
+                careers: [this.careers[faker.helpers.rangeToNumber({min: 0, max: this.careers.length - 1,})]],
             });
         }
 
