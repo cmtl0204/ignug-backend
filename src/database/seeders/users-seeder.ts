@@ -64,6 +64,7 @@ export class UsersSeeder {
         const rectorRole = this.roles.find(role => role.code === RoleEnum.RECTOR);
         const reviewerRole = this.roles.find(role => role.code === RoleEnum.REVIEWER);
         const secretaryRole = this.roles.find(role => role.code === RoleEnum.SECRETARY);
+        const welfare = this.roles.find(role => role.code === RoleEnum.WELFARE);
 
         const institution = this.institutions[0];
 
@@ -78,7 +79,7 @@ export class UsersSeeder {
                         ],
                 birthdate: faker.date.birthdate(),
                 cellPhone: '',
-                identification: '123456781',
+                identification: 'user1',
                 institutions: [],
                 email: 'admin@correo.com',
                 lastname: 'Perez',
@@ -100,7 +101,7 @@ export class UsersSeeder {
                         ],
                 birthdate: faker.date.birthdate(),
                 cellPhone: '',
-                identification: '123456782',
+                identification: 'user2',
                 institutions: [],
                 email: 'coordinator_administrative@correo.com',
                 lastname: 'Administrative',
@@ -122,7 +123,7 @@ export class UsersSeeder {
                         ],
                 birthdate: faker.date.birthdate(),
                 cellPhone: '',
-                identification: '123456783',
+                identification: 'user3',
                 institutions: [institution],
                 email: 'coordinator_career@correo.com',
                 lastname: 'Career',
@@ -144,7 +145,7 @@ export class UsersSeeder {
                         ],
                 birthdate: faker.date.birthdate(),
                 cellPhone: '',
-                identification: '123456784',
+                identification: 'user4',
                 institutions: [institution],
                 email: 'rector@correo.com',
                 lastname: 'Perez',
@@ -166,7 +167,7 @@ export class UsersSeeder {
                         ],
                 birthdate: faker.date.birthdate(),
                 cellPhone: '',
-                identification: '123456785',
+                identification: 'user5',
                 institutions: [institution],
                 email: 'reviewer@correo.com',
                 lastname: 'Perez',
@@ -188,7 +189,7 @@ export class UsersSeeder {
                         ],
                 birthdate: faker.date.birthdate(),
                 cellPhone: '',
-                identification: '123456786',
+                identification: 'user6',
                 institutions: [institution],
                 email: 'secretary@correo.com',
                 lastname: 'Perez',
@@ -198,6 +199,28 @@ export class UsersSeeder {
                 personalEmail: faker.internet.email(),
                 roles: [secretaryRole],
                 username: 'secretary',
+                careers: this.careers,
+            },
+            {
+                identificationType:
+                    this.identificationTypes[
+                        faker.helpers.rangeToNumber({
+                            min: 0,
+                            max: this.identificationTypes.length - 1,
+                        })
+                        ],
+                birthdate: faker.date.birthdate(),
+                cellPhone: '',
+                identification: 'user7',
+                institutions: [institution],
+                email: 'welfare@correo.com',
+                lastname: 'Estudiantil',
+                name: 'Bienestar',
+                password: '12345678',
+                passwordChanged: false,
+                personalEmail: faker.internet.email(),
+                roles: [welfare],
+                username: 'welfare',
                 careers: this.careers,
             },
             {

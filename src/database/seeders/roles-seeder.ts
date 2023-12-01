@@ -46,6 +46,10 @@ export class RolesSeeder {
                 code: 'secretary',
                 name: 'Secretaria',
             },
+            {
+                code: 'welfare',
+                name: 'Bienestar Estudiantil',
+            },
         );
 
         for (const role of roles) {

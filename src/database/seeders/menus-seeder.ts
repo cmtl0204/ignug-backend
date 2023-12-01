@@ -66,6 +66,14 @@ export class MenusSeeder {
                 order: 1,
                 type: MenuTypeEnum.LEFT_SIDE,
             },
+            {
+                code: 'welfare',
+                icon: PrimeIcons.HEART,
+                isVisible: true,
+                label: 'Bienestar Estudiantil',
+                order: 1,
+                type: MenuTypeEnum.LEFT_SIDE,
+            },
         );
 
         for (const menu of menus) {
@@ -239,6 +247,21 @@ export class MenusSeeder {
             }
         );
 
+        const welfareMenu = menusAll.find(menu => menu.code === 'welfare');
+
+        menus.push(
+            {
+                code: 'enrollments',
+                icon: 'pi pi-list',
+                isVisible: true,
+                label: 'Matriculados',
+                order: 1,
+                routerLink: '/core/welfare/enrollments',
+                type: MenuTypeEnum.LEFT_SIDE,
+                parent: welfareMenu,
+            }
+        );
+
         for (const menu of menus) {
             await this.menusService.create(menu);
         }
@@ -269,6 +292,10 @@ export class MenusSeeder {
 
         role = await this.rolesService.findByCode(RoleEnum.TEACHER);
         role.menus = menusAll.filter(menu => menu.code === 'teachers');
+        await this.rolesService.createMenus(role);
+
+        role = await this.rolesService.findByCode(RoleEnum.WELFARE);
+        role.menus = menusAll.filter(menu => menu.code === 'welfare');
         await this.rolesService.createMenus(role);
     }
 }
