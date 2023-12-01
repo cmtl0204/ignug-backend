@@ -12,7 +12,7 @@ import {CareerEntity} from "./career.entity";
 import {CatalogueEntity} from "./catalogue.entity";
 
 @Entity('career_parallels', {schema: 'core'})
-export class CareerAcademicPeriodsEntity {
+export class CareerParallelEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -59,15 +59,30 @@ export class CareerAcademicPeriodsEntity {
     /** Inverse Relationship **/
 
     /** Foreign Keys **/
-    @ManyToOne(() => CareerEntity, career => career.academicPeriods)
+    @ManyToOne(() => CareerEntity, career => career.parallels)
     @JoinColumn({name: 'career_id'})
     career: CareerEntity;
     @Column({type: 'uuid', name: 'career_id', comment: 'Foreign Key'})
     careerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: true})
-    @JoinColumn({name: 'catalogue_id'})
-    catalogue: CatalogueEntity;
-    @Column({type: 'uuid', name: 'catalogue_id', comment: 'Foreign Key'})
-    catalogueId: string;
+    @JoinColumn({name: 'workday_id'})
+    workday: CatalogueEntity;
+    @Column({type: 'uuid', name: 'workday_id', comment: 'Foreign Key'})
+    workdayId: string;
+
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'parallel_id'})
+    parallel: CatalogueEntity;
+    @Column({type: 'uuid', name: 'parallel_id', comment: 'Foreign Key'})
+    parallelId: string;
+
+    /** Columns **/
+    @Column({
+        name: 'capacity',
+        type: 'integer',
+        nullable: true,
+        comment: 'Capacidad',
+    })
+    capacity: number;
 }

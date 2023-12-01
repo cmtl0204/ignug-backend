@@ -24,7 +24,7 @@ import {
     SubjectCorequisiteEntity,
     SubjectPrerequisiteEntity,
     TeacherDistributionEntity,
-    TeacherEntity, OriginAddressEntity, EnrollmentStateEntity, EnrollmentDetailStateEntity,
+    TeacherEntity, OriginAddressEntity, EnrollmentStateEntity, EnrollmentDetailStateEntity, CareerParallelEntity,
 } from '@core/entities';
 import {ConfigEnum, CoreRepositoryEnum} from '@shared/enums';
 
@@ -47,6 +47,11 @@ export const coreProviders = [
     {
         provide: CoreRepositoryEnum.CAREER_ACADEMIC_PERIOD_REPOSITORY,
         useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerAcademicPeriodsEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
+        provide: CoreRepositoryEnum.CAREER_PARALLEL_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerParallelEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {

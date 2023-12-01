@@ -25,6 +25,7 @@ import {
     AttendancesService,
     CareerAcademicPeriodsService,
     CareersService,
+    CareerParallelsService,
     CataloguesService,
     ClassroomsService,
     CurriculumsService,
@@ -111,6 +112,7 @@ import {EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddresse
         SubjectsService,
         TeacherDistributionsService,
         TeachersService,
+        CareerParallelsService
     ],
     exports: [
         ...coreProviders,
@@ -145,6 +147,7 @@ import {EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddresse
         SubjectsService,
         TeacherDistributionsService,
         TeachersService,
+        CareerParallelsService
     ],
 })
 export class CoreModule {

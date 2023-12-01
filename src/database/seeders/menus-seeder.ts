@@ -252,7 +252,7 @@ export class MenusSeeder {
         menus.push(
             {
                 code: 'enrollments',
-                icon: 'pi pi-list',
+                icon: 'pi pi-verified',
                 isVisible: true,
                 label: 'Matriculados',
                 order: 1,

@@ -98,9 +98,33 @@ export class EnrollmentEntity {
 
     /** Columns **/
     @Column({
+        name: 'socioeconomic_category',
+        type: 'varchar',
+        nullable: true,
+        comment: 'Categoria',
+    })
+    socioeconomicCategory: string;
+
+    @Column({
+        name: 'socioeconomic_percentage',
+        type: 'float',
+        nullable: true,
+        comment: 'Porcentaje',
+    })
+    socioeconomicPercentage: number;
+
+    @Column({
+        name: 'socioeconomic_score',
+        type: 'float',
+        nullable: true,
+        comment: 'Puntaje',
+    })
+    socioeconomicScore: number;
+
+    @Column({
         name: 'code',
         type: 'varchar',
-        nullable:true,
+        nullable: true,
         comment: 'Codigo de la matricula',
     })
     code: string;
@@ -124,7 +148,7 @@ export class EnrollmentEntity {
     @Column({
         name: 'folio',
         type: 'varchar',
-        nullable:true,
+        nullable: true,
         comment: 'Numero de folio',
     })
     folio: string;
@@ -132,7 +156,7 @@ export class EnrollmentEntity {
     @Column({
         name: 'observation',
         type: 'text',
-        nullable:true,
+        nullable: true,
         comment: 'Observaciones de la matricula',
     })
     observation: string;

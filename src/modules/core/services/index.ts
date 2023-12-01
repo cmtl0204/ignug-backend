@@ -20,6 +20,7 @@ export * from './teacher-distributions.service';
 export * from './enrollment-states.service';
 export * from './enrollment-detail-states.service';
 export * from './enrollment-details.service';
+export * from './career-parallels.service';
 export * from './enrollments.service';
 export * from './grades.service';
 export * from './classrooms.service';

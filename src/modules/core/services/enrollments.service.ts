@@ -23,7 +23,11 @@ import {
     CataloguesService,
     EnrollmentStatesService,
     EnrollmentDetailsService,
-    EnrollmentDetailStatesService, SchoolPeriodsService, TeacherDistributionsService
+    EnrollmentDetailStatesService,
+    SchoolPeriodsService,
+    TeacherDistributionsService,
+    StudentsService,
+    CareerParallelsService
 } from "@core/services";
 import {
     CatalogueEnrollmentStateEnum,
@@ -44,7 +48,8 @@ export class EnrollmentsService {
         private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
         private readonly cataloguesService: CataloguesService,
         private readonly schoolPeriodsService: SchoolPeriodsService,
-        private readonly teacherDistributionsService: TeacherDistributionsService,
+        private readonly careerParallelsService: CareerParallelsService,
+        private readonly studentsService: StudentsService,
     ) {
     }
 
@@ -292,7 +297,7 @@ export class EnrollmentsService {
         return enrollmentCertificate;
     }
 
-    async reportEnrollmentsByCareer(careerId:string): Promise<any[]> {
+    async reportEnrollmentsByCareer(careerId: string): Promise<any[]> {
         const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('exportCupos');
         queryBuilder.select(
             [
@@ -449,7 +454,8 @@ export class EnrollmentsService {
         });
 
         const enrollmentTotal = await this.findTotalEnrollments(enrollment?.id, payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
-        const capacity = await this.teacherDistributionsService.findCapacity(payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
+        console.log(payload.workday.id);
+        const capacity = await this.careerParallelsService.findCapacityByCareer(payload.career.id, payload.parallel.id, payload.workday.id);
 
         if (capacity <= enrollmentTotal) {
             throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} en el paralelo ${payload.parallel.name}`);
@@ -467,6 +473,9 @@ export class EnrollmentsService {
         enrollment.typeId = await this.getType(payload.schoolPeriod);
         enrollment.workdayId = payload.workday.id;
         enrollment.applicationsAt = new Date();
+        enrollment.socioeconomicScore = await this.studentsService.calculateSocioeconomicFormScore(enrollment.studentId);
+        enrollment.socioeconomicCategory = this.studentsService.calculateSocioeconomicFormCategory(enrollment.socioeconomicScore);
+        enrollment.socioeconomicPercentage = this.studentsService.calculateSocioeconomicFormPercentage(enrollment.socioeconomicCategory);
 
         enrollment = await this.repository.save(enrollment);
         // if (enrollment?.id) {

@@ -1278,6 +1278,7 @@ export class CataloguesSeeder {
         const workdays = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
         const morning = workdays.find((item: CatalogueEntity) => item.code === 'm');
         const evening = workdays.find((item: CatalogueEntity) => item.code === 'v');
+
         const newCatalogues: SeedCatalogueParentDto[] = [];
 
         newCatalogues.push(

@@ -49,7 +49,6 @@ export class MenuEntity {
     isVisible: boolean;
 
     /** Relationship **/
-    @PrimaryColumn({ type: 'varchar', name: 'parent_id' })
     @ManyToOne(() => MenuEntity, category => category.children)
     @JoinColumn({name: 'parent_id'})
     parent: MenuEntity;
@@ -64,7 +63,6 @@ export class MenuEntity {
     @Column({
         name: 'code',
         type: 'varchar',
-        unique: true,
         comment: 'Codigo unico',
     })
     code: string;
@@ -79,7 +77,6 @@ export class MenuEntity {
     @Column({
         name: 'label',
         type: 'varchar',
-        unique: true,
         comment: 'Nombre del menu',
     })
     label: string;

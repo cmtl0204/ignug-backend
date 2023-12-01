@@ -46,7 +46,7 @@ export class TeacherDistributionsSeeder {
                         parallel,
                         subject,
                         workday,
-                        capacity: 50,
+                        capacity: 1,
                         schoolPeriod: schoolPeriod
                     });
                 });

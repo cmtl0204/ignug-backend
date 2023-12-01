@@ -26,14 +26,12 @@ export class CataloguesService {
         return await this.repository.save(newCatalogue);
     }
 
-    async catalogue(type: CatalogueTypeEnum): Promise<ServiceResponseHttpModel> {
-        const data = await this.repository.findAndCount({
-            where: {type},
-            order: {name: 1},
-            take: 1000,
+    async catalogue(type: CatalogueTypeEnum): Promise<CatalogueEntity[]> {
+        const data = await this.repository.find({
+            where: {type}
         });
 
-        return {pagination: {totalItems: data[1], limit: 1000}, data: data[0]};
+        return data;
     }
 
     async findAll(params?: FilterCatalogueDto): Promise<ServiceResponseHttpModel> {

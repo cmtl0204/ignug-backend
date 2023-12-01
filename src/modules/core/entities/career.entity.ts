@@ -11,7 +11,14 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import {CatalogueEntity, CurriculumEntity, InstitutionEntity, StudentEntity, TeacherEntity} from '@core/entities';
+import {
+    CareerParallelEntity,
+    CatalogueEntity,
+    CurriculumEntity,
+    InstitutionEntity,
+    StudentEntity,
+    TeacherEntity
+} from '@core/entities';
 import {UserEntity} from '@auth/entities';
 import {CareerAcademicPeriodsEntity} from "./career-academic-periods.entity";
 
@@ -90,6 +97,9 @@ export class CareerEntity {
         inverseJoinColumn: {name: 'user_id'},
     })
     users: UserEntity[];
+
+    @OneToMany(() => CareerParallelEntity, workday => workday.career)
+    parallels: CareerParallelEntity[];
 
     /** Foreign Keys **/
     @ManyToOne(() => InstitutionEntity)

@@ -26,3 +26,4 @@ export * from './teacher-distribution.entity';
 export * from './career-academic-periods.entity';
 export * from './enrollment-state.entity';
 export * from './enrollment-detail-state.entity';
+export * from './career-parallel.entity';

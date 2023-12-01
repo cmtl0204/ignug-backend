@@ -24,7 +24,6 @@ export class SchoolPeriodSeeder {
 
         const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/school_periods.xlsx'));
 
-
         const workbookSheets = workbook.SheetNames;
         const sheet = workbookSheets[0];
         const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);

@@ -636,7 +636,7 @@ export class StudentsService {
         return student;
     }
 
-    async calculateSocioeconomicForm(id: string): Promise<StudentEntity> {
+    async calculateSocioeconomicFormScore(id: string): Promise<number> {
         const student = await this.repository.findOne({
             relations: {
                 informationStudent: true,
@@ -956,6 +956,39 @@ export class StudentsService {
             score += 1;
         }
 
-        return student;
+        return score;
+    }
+
+    calculateSocioeconomicFormCategory(score: number): string {
+        if (score >= 0 && score <= 25) {
+            return 'D';
+        }
+
+        if (score >= 25.05 && score <= 50.05) {
+            return 'C';
+        }
+
+        if (score >= 50.1 && score <= 75.1) {
+            return 'B';
+        }
+
+        if (score >= 75.15 && score <= 100) {
+            return 'A';
+        }
+
+        return 'SC'
+    }
+
+    calculateSocioeconomicFormPercentage(category: string): number {
+        switch (category) {
+            case 'A':
+                return 40;
+            case 'B':
+                return 30;
+            case 'C':
+                return 20;
+            case 'D':
+                return 10;
+        }
     }
 }
