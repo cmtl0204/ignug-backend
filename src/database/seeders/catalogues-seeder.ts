@@ -4249,24 +4249,6 @@ export class CataloguesSeeder {
                 type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
             },
             {
-                code: 'socioeconomic_form',
-                description: 'Ficha Socioeconómica',
-                name: 'Ficha Socioeconómica',
-                required: true,
-                sort: 2,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
-            },
-            {
-                code: 'application',
-                description: 'Solicitud de Matrícula',
-                name: 'Solicitud de Matrícula',
-                required: true,
-                sort: 3,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_OLD_STUDENT,
-            },
-            {
                 code: 'payment',
                 description: 'Factura, caso de perdida de gratuidad',
                 name: 'Factura, caso de perdida de gratuidad',
@@ -4307,5 +4289,4 @@ export class CataloguesSeeder {
         for (const catalogue of catalogues) {
             await this.catalogueService.create(catalogue);
         }
-    }
-}
+    }}
