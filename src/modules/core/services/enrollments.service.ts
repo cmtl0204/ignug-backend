@@ -454,7 +454,7 @@ export class EnrollmentsService {
         });
 
         const enrollmentTotal = await this.findTotalEnrollments(enrollment?.id, payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
-        console.log(payload.workday.id);
+
         const capacity = await this.careerParallelsService.findCapacityByCareer(payload.career.id, payload.parallel.id, payload.workday.id);
 
         if (capacity <= enrollmentTotal) {

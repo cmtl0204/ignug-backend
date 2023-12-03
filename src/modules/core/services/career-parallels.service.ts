@@ -44,9 +44,6 @@ export class CareerParallelsService {
     }
 
     async findCapacityByCareer(careerId: string, parallelId: string, workdayId: string): Promise<number> {
-        console.log(careerId);
-        console.log(parallelId);
-        console.log(workdayId);
         const response = await this.repository.findOne({
             where: {
                 careerId,
