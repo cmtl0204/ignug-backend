@@ -25,7 +25,6 @@ import {
     EnrollmentDetailsService,
     EnrollmentDetailStatesService,
     SchoolPeriodsService,
-    TeacherDistributionsService,
     StudentsService,
     CareerParallelsService
 } from "@core/services";

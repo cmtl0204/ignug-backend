@@ -2301,7 +2301,6 @@ export class CataloguesSeeder {
         }
     }
 
-    //CORREGIR
     private async createTownCatalogues() {
         const catalogues: CreateCatalogueDto[] = [];
         catalogues.push(
@@ -2435,25 +2434,17 @@ export class CataloguesSeeder {
             },
             {
                 code: '17',
-                description: 'Secoya',
-                name: 'Secoya',
+                description: 'Pasto',
+                name: 'Pasto',
                 sort: 17,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.TOWN,
             },
             {
                 code: '18',
-                description: 'Siona',
-                name: 'Siona',
+                description: 'Kichwa Amazónico',
+                name: 'Kichwa Amazónico',
                 sort: 18,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.TOWN,
-            },
-            {
-                code: '19',
-                description: 'Cofan',
-                name: 'Cofan',
-                sort: 19,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.TOWN,
             },
@@ -2477,16 +2468,16 @@ export class CataloguesSeeder {
             },
             {
                 code: '2',
-                description: 'Chachis',
-                name: 'Chachis',
+                description: 'Chachi',
+                name: 'Chachi',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
             },
             {
                 code: '3',
-                description: 'Awa',
-                name: 'Awa',
+                description: 'Awá',
+                name: 'Awá',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
@@ -2501,16 +2492,16 @@ export class CataloguesSeeder {
             },
             {
                 code: '5',
-                description: 'Kichwa(sierra)',
-                name: 'Kichwa(sierra)',
+                description: 'Kichwa',
+                name: 'Kichwa',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
             },
             {
                 code: '6',
-                description: 'Cofan',
-                name: 'Cofan',
+                description: 'Cofán',
+                name: 'Cofán',
                 sort: 6,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
@@ -2525,8 +2516,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '8',
-                description: 'Kichwa (amazonico)',
-                name: 'Kichwa (amazonico)',
+                description: 'Shuar',
+                name: 'Shuar',
                 sort: 8,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
@@ -2549,8 +2540,8 @@ export class CataloguesSeeder {
             },
             {
                 code: '11',
-                description: 'Zapara',
-                name: 'Zapara',
+                description: 'Zápara',
+                name: 'Zápara',
                 sort: 11,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.INDIGENOUS_NATIONALITY,
@@ -4163,24 +4154,6 @@ export class CataloguesSeeder {
                 name: 'Copia de cédula de ciudadanía o pasaporte en el caso de extranjeros. (formato pdf)',
                 required: true,
                 sort: 1,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
-            },
-            {
-                code: 'socioeconomic_form',
-                description: 'Ficha Socioeconómica',
-                name: 'Ficha Socioeconómica',
-                required: true,
-                sort: 2,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
-            },
-            {
-                code: 'application',
-                description: 'Solicitud de Matrícula',
-                name: 'Solicitud de Matrícula',
-                required: true,
-                sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT,
             },

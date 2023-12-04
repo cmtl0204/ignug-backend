@@ -1,7 +1,7 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, Repository} from 'typeorm';
 import {FilterStudentDto, PaginationDto, UpdateStudentDto} from '@core/dto';
-import {InformationStudentEntity, StudentEntity} from '@core/entities';
+import {StudentEntity} from '@core/entities';
 import {
     CatalogueEthnicOriginEnum,
     CatalogueMaritalStatusEnum, CatalogueStudentLiveEnum, CatalogueTypeSchoolEnum,
@@ -262,11 +262,11 @@ export class StudentsService {
             ? payload.informationStudent.childrenTotal : null;
 
         // Conditional Field
-        student.informationStudent.indigenousNationalityId = payload.user.ethnicOrigin.code === '1'
-            ? payload.informationStudent.indigenousNationality.id : null;
+        student.informationStudent.indigenousNationalityId = payload.user.ethnicOrigin.code === CatalogueEthnicOriginEnum.INDIGENOUS
+            ? payload.informationStudent.indigenousNationality?.id : null;
 
-        student.informationStudent.townId = payload.user.ethnicOrigin.code === '1'
-            ? payload.informationStudent.town.id : null;
+        student.informationStudent.townId = payload.user.ethnicOrigin.code === CatalogueEthnicOriginEnum.INDIGENOUS
+            ? payload.informationStudent.town?.id : null;
 
         // Conditional Field
         student.informationStudent.isDisabilityId = payload.informationStudent.isDisability.id;

@@ -316,7 +316,7 @@ export class UsersSeeder {
                 passwordChanged: false,
                 personalEmail: 'yessenia.chango@uaw.edu.ec',
                 roles: [welfareRole],
-                username: '1721877270',
+                username: '1803639093',
                 careers: this.careers,
             },
         );

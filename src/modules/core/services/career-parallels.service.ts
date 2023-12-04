@@ -52,6 +52,10 @@ export class CareerParallelsService {
             }
         });
 
+        if (!response) {
+            return 0;
+        }
+
         return response.capacity;
     }
 }
