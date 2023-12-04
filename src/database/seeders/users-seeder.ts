@@ -64,7 +64,7 @@ export class UsersSeeder {
         const rectorRole = this.roles.find(role => role.code === RoleEnum.RECTOR);
         const reviewerRole = this.roles.find(role => role.code === RoleEnum.REVIEWER);
         const secretaryRole = this.roles.find(role => role.code === RoleEnum.SECRETARY);
-        const welfare = this.roles.find(role => role.code === RoleEnum.WELFARE);
+        const welfareRole = this.roles.find(role => role.code === RoleEnum.WELFARE);
 
         const institution = this.institutions[0];
 
@@ -84,7 +84,7 @@ export class UsersSeeder {
                 email: 'admin@correo.com',
                 lastname: 'Perez',
                 name: 'Admin',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
                 roles: [adminRole],
@@ -106,7 +106,7 @@ export class UsersSeeder {
                 email: 'coordinator_administrative@correo.com',
                 lastname: 'Administrative',
                 name: 'Coordinator',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 roles: [coordinatorAdministrativeRole],
                 personalEmail: faker.internet.email(),
@@ -128,7 +128,7 @@ export class UsersSeeder {
                 email: 'coordinator_career@correo.com',
                 lastname: 'Career',
                 name: 'Coordinator',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 roles: [coordinatorCareerRole],
                 personalEmail: faker.internet.email(),
@@ -150,7 +150,7 @@ export class UsersSeeder {
                 email: 'rector@correo.com',
                 lastname: 'Perez',
                 name: 'Rector',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
                 roles: [rectorRole],
@@ -172,7 +172,7 @@ export class UsersSeeder {
                 email: 'reviewer@correo.com',
                 lastname: 'Perez',
                 name: 'Reviewer',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
                 roles: [reviewerRole],
@@ -194,7 +194,7 @@ export class UsersSeeder {
                 email: 'secretary@correo.com',
                 lastname: 'Perez',
                 name: 'Secretary',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
                 roles: [secretaryRole],
@@ -216,10 +216,10 @@ export class UsersSeeder {
                 email: 'welfare@correo.com',
                 lastname: 'Estudiantil',
                 name: 'Bienestar',
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
-                roles: [welfare],
+                roles: [welfareRole],
                 username: 'welfare',
                 careers: this.careers,
             },
@@ -303,6 +303,22 @@ export class UsersSeeder {
                 username: '1721877270',
                 careers: this.careers,
             },
+            {
+                identificationType: this.identificationTypes[0],
+                birthdate: faker.date.birthdate(),
+                cellPhone: '',
+                identification: '1803639093',
+                institutions: [institution],
+                email: 'yessenia.chango@uaw.edu.ec',
+                lastname: 'CHANGO CHANGO',
+                name: 'YESSENIA ELIZABETH',
+                password: '1803639093',
+                passwordChanged: false,
+                personalEmail: 'yessenia.chango@uaw.edu.ec',
+                roles: [welfareRole],
+                username: '1721877270',
+                careers: this.careers,
+            },
         );
 
         for (const user of users) {
@@ -331,7 +347,7 @@ export class UsersSeeder {
                 email: item['personal_email'],
                 lastname: item['lastname'],
                 name: item['name'],
-                password: '12345678',
+                password: item['identification'],
                 passwordChanged: false,
                 personalEmail: item['personal_email'],
                 roles: [studentRole],
@@ -369,7 +385,7 @@ export class UsersSeeder {
                 email: faker.internet.email(),
                 lastname: faker.person.lastName(),
                 name: faker.person.firstName(),
-                password: '12345678',
+                password: 'Siaaw23*',
                 passwordChanged: false,
                 personalEmail: faker.internet.email(),
                 roles: [teacherRole],
