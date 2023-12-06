@@ -1,11 +1,21 @@
 import {Injectable} from '@nestjs/common';
-import {CareersService, InstitutionsService, LocationsService, StudentsService, TeachersService} from '@core/services';
+import {
+    CareersService, CataloguesService,
+    InformationStudentsService,
+    InstitutionsService,
+    LocationsService,
+    StudentsService,
+    TeachersService
+} from '@core/services';
 import * as XLSX from 'xlsx';
 import * as process from 'process';
 import {join} from 'path';
 import {RolesService, UsersService} from '@auth/services';
 import {RoleEnum} from '@auth/enums';
 import {RoleEntity} from '@auth/entities';
+import {SeederInformationStudentDto} from "@core/dto";
+import {CatalogueEntity} from "@core/entities";
+import {CatalogueTypeEnum} from "@shared/enums";
 
 @Injectable()
 export class ImportsService {
@@ -17,6 +27,8 @@ export class ImportsService {
         private readonly usersService: UsersService,
         private readonly institutionsService: InstitutionsService,
         private readonly careersService: CareersService,
+        private informationStudentsService: InformationStudentsService,
+        private cataloguesService: CataloguesService,
     ) {
     }
 
@@ -47,7 +59,6 @@ export class ImportsService {
             */
 
             email = item['correo_institucional'];
-            email = email.toLowerCase();
 
             let user = users.find(user => user.username === identification);
 
@@ -81,6 +92,76 @@ export class ImportsService {
             }
 
             await this.studentsService.create({user});
+        }
+
+        return true;
+    }
+
+    async importLostStudents(): Promise<boolean> {
+        const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/lost-students.xlsx'));
+
+        const workbookSheets = workbook.SheetNames;
+        const sheet = workbookSheets[0];
+        const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+        const roles = (await this.rolesService.findAll()).data as RoleEntity[];
+        const studentRole = roles.find(role => role.code === RoleEnum.STUDENT);
+        const users = (await this.usersService.findAll()).data;
+        const catalogues = await this.cataloguesService.findCache();
+        const yes = catalogues.find((catalogue: CatalogueEntity) => {
+            return catalogue.code === '1' && catalogue.type === CatalogueTypeEnum.YES_NO;
+        });
+
+        const no = catalogues.find((catalogue: CatalogueEntity) => {
+            return catalogue.code === '2' && catalogue.type === CatalogueTypeEnum.YES_NO;
+        });
+
+        let identificationTypes: CatalogueEntity[] = [];
+        identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
+
+        for (const item of dataExcel) {
+            let identification = `${item['identification']}`;
+             identification = identification.toString().length < 10 ? '0' + identification : identification;
+            console.log(identification);
+
+            let email = '';
+            email = item['personal_email'];
+
+            let user = users.find(user => user.username === identification);
+
+            if (user === undefined) {
+                const institution = await this.institutionsService.findByCode('1068');
+                const careers = (await this.careersService.findCareersByInstitution(institution.id)).data;
+                const career = careers.find(career => career.code === item['career_code']);
+
+                user = {
+                    identificationType: identificationTypes[0],
+                    cellPhone: item['cell_phone'],
+                    identification: identification,
+                    institutions: [institution],
+                    email: email,
+                    lastname: item['lastname'],
+                    name: item['name'],
+                    password: identification,
+                    personalEmail: item['personal_email'],
+                    passwordChanged: false,
+                    roles: [studentRole],
+                    username: identification,
+                    careers: [career],
+                };
+
+                user = await this.usersService.create(user);
+
+                const newStudent = await this.studentsService.create({
+                    userId: user.id,
+                    careers: [career],
+                });
+
+                await this.informationStudentsService.create({
+                    student: newStudent,
+                    isLostGratuity: item['is_lost_gratuity'] == 'si' ? yes : no
+                });
+            }
         }
 
         return true;

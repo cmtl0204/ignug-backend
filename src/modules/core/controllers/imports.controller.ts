@@ -11,10 +11,10 @@ export class ImportsController {
     }
 
     @ApiOperation({summary: 'Import Students'})
-    @Get('students')
+    @Get('lost-students')
     @HttpCode(HttpStatus.CREATED)
-    async importStudents(): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.importsService.importStudents();
+    async importLostStudents(): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.importsService.importLostStudents();
 
         return {
             data: serviceResponse,

@@ -283,7 +283,7 @@ export class UserEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async setPersonalEmail() {
-        if (!this.email) {
+        if (!this.personalEmail) {
             return;
         }
         this.personalEmail = this.personalEmail.toLowerCase().trim();

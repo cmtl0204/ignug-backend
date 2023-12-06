@@ -9,7 +9,8 @@ import {join} from "path";
 @Injectable()
 export class CareersSeeder {
     constructor(private institutionsService: InstitutionsService,
-                private cataloguesService: CataloguesService, private careersService: CareersService,
+                private cataloguesService: CataloguesService,
+                private careersService: CareersService,
                 private careerParallelsService: CareerParallelsService
     ) {
     }

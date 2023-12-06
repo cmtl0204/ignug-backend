@@ -105,12 +105,23 @@ export class EnrollmentsService {
             throw new NotFoundException('Matrícula no encontrada');
         }
 
-        entity.academicPeriodId = payload.academicPeriod.id;
-        entity.parallelId = payload.parallel.id;
-        entity.typeId = payload.type.id;
-        entity.workdayId = payload.workday.id;
-        entity.date = payload.date;
-        entity.observation = payload.observation;
+        if (payload.academicPeriod)
+            entity.academicPeriodId = payload.academicPeriod.id;
+
+        if (payload.parallel)
+            entity.parallelId = payload.parallel.id;
+
+        if (payload.type)
+            entity.typeId = payload.type.id;
+
+        if (payload.workday)
+            entity.workdayId = payload.workday.id;
+
+        if (payload.academicPeriod)
+            entity.date = payload.date;
+
+        if (payload.observation)
+            entity.observation = payload.observation;
 
         return await this.repository.save(entity);
     }
