@@ -4,9 +4,9 @@ import { Exclude } from 'class-transformer';
 
 @Exclude()
 export class SeedUserDto extends PickType(UserDto, [
+  'birthdate',
   'careers',
   'identificationType',
-  'birthdate',
   'cellPhone',
   'identification',
   'institutions',
