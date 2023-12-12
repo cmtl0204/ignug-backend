@@ -1,59 +1,60 @@
-import {Injectable} from '@nestjs/common';
-import {RolesService} from '@auth/services';
-import {CreateRoleDto} from '@auth/dto';
+import { Injectable } from '@nestjs/common';
+import { RolesService } from '@auth/services';
+import { CreateRoleDto } from '@auth/dto';
+import { RoleEnum } from '@auth/enums';
 
 @Injectable()
 export class RolesSeeder {
-    constructor(private rolesService: RolesService) {
-    }
+  constructor(private rolesService: RolesService) {
+  }
 
-    async run() {
-        await this.createRoles();
-    }
+  async run() {
+    await this.createRoles();
+  }
 
-    private async createRoles() {
-        const roles: CreateRoleDto[] = [];
-        roles.push(
-            {
-                code: 'admin',
-                name: 'Administrador',
-            },
-            {
-                code: 'teacher',
-                name: 'Docente',
-            },
-            {
-                code: 'student',
-                name: 'Estudiante',
-            },
-            {
-                code: 'coordinator-administrative',
-                name: 'Coordinador Administrativo',
-            },
-            {
-                code: 'coordinator-career',
-                name: 'Coordinador Carrera',
-            },
-            {
-                code: 'rector',
-                name: 'Rector',
-            },
-            {
-                code: 'reviewer',
-                name: 'Revisor',
-            },
-            {
-                code: 'secretary',
-                name: 'Secretaria',
-            },
-            {
-                code: 'welfare',
-                name: 'Bienestar Estudiantil',
-            },
-        );
+  private async createRoles() {
+    const roles: CreateRoleDto[] = [];
+    roles.push(
+      {
+        code: RoleEnum.ADMIN,
+        name: 'Administrador',
+      },
+      {
+        code: RoleEnum.TEACHER,
+        name: 'Docente',
+      },
+      {
+        code: RoleEnum.STUDENT,
+        name: 'Estudiante',
+      },
+      {
+        code: RoleEnum.COORDINATOR_ADMINISTRATIVE,
+        name: 'Coordinador Administrativo',
+      },
+      {
+        code: RoleEnum.COORDINATOR_CAREER,
+        name: 'Coordinador Carrera',
+      },
+      {
+        code: RoleEnum.RECTOR,
+        name: 'Rector',
+      },
+      {
+        code: RoleEnum.REVIEWER,
+        name: 'Revisor',
+      },
+      {
+        code: RoleEnum.SECRETARY,
+        name: 'Secretaria',
+      },
+      {
+        code: RoleEnum.WELFARE,
+        name: 'Bienestar Estudiantil',
+      },
+    );
 
-        for (const role of roles) {
-            await this.rolesService.create(role);
-        }
+    for (const role of roles) {
+      await this.rolesService.create(role);
     }
+  }
 }

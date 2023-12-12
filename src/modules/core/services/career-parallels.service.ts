@@ -52,7 +52,6 @@ export class CareerParallelsService {
             }
         });
 
-        console.log(response);
         if (!response) {
             return 0;
         }

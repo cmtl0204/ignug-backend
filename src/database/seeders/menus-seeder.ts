@@ -1,301 +1,333 @@
-import {Injectable} from '@nestjs/common';
-import {MenusService, RolesService} from '@auth/services';
-import {CreateMenuDto} from '@auth/dto';
-import {MenuTypeEnum, RoleEnum} from '@auth/enums';
-import {MenuEntity} from '@auth/entities';
-import {PrimeIcons} from "../../shared/enums/prime-icons.enum";
+import { Injectable } from '@nestjs/common';
+import { MenusService, RolesService } from '@auth/services';
+import { CreateMenuDto } from '@auth/dto';
+import { MenuTypeEnum, RoleEnum } from '@auth/enums';
+import { MenuEntity } from '@auth/entities';
+import { PrimeIcons } from '../../shared/enums/prime-icons.enum';
 
 @Injectable()
 export class MenusSeeder {
-    constructor(private menusService: MenusService, private rolesService: RolesService) {
+  constructor(private menusService: MenusService, private rolesService: RolesService) {
+  }
+
+  async run() {
+    await this.createMenus();
+    await this.createMenuRole();
+  }
+
+  private async createMenus() {
+    let menus: CreateMenuDto[] = [];
+    menus.push(
+      {
+        code: RoleEnum.ADMIN,
+        icon: PrimeIcons.USER,
+        isVisible: true,
+        label: 'Administrador',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.TEACHER,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Docentes',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.STUDENT,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Estudiantes',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.COORDINATOR_ADMINISTRATIVE,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Coordinador Administrativo',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.COORDINATOR_CAREER,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Coordinador de Carrera',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.RECTOR,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Rectorado',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.REVIEWER,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Revisor',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.SECRETARY,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Secretaría',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+      {
+        code: RoleEnum.WELFARE,
+        icon: PrimeIcons.LIST,
+        isVisible: true,
+        label: 'Bienestar Estudiantil',
+        order: 1,
+        type: MenuTypeEnum.LEFT_SIDE,
+      },
+    );
+
+    for (const menu of menus) {
+      await this.menusService.create(menu);
     }
 
-    async run() {
-        await this.createMenus();
-        await this.createMenuRole();
+    const menusAll = (await this.menusService.findAll()).data as MenuEntity[];
+
+    /** Admin Role **/
+    const adminMenu = menusAll.find(menu => menu.code === RoleEnum.ADMIN);
+
+    menus = [];
+    menus.push(
+      {
+        code: 'users',
+        icon: 'pi pi-users',
+        isVisible: true,
+        label: 'Usuarios',
+        order: 1,
+        routerLink: '/admin/users',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: adminMenu,
+      },
+      {
+        code: 'menus',
+        icon: 'pi pi-users',
+        isVisible: true,
+        label: 'Menus',
+        order: 2,
+        routerLink: '/admin/menus',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: adminMenu,
+      },
+    );
+
+    for (const menu of menus) {
+      await this.menusService.create(menu);
     }
 
-    private async createMenus() {
-        let menus: CreateMenuDto[] = [];
-        menus.push(
-            {
-                code: 'admin',
-                icon: PrimeIcons.USER,
-                isVisible: true,
-                label: 'Administrador',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-            {
-                code: 'academic-administrator',
-                icon: PrimeIcons.SITEMAP,
-                isVisible: true,
-                label: 'Administración',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-            {
-                code: 'enrollments',
-                icon: PrimeIcons.VERIFIED,
-                isVisible: true,
-                label: 'Matrículas',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-            {
-                code: 'inscriptions',
-                icon: PrimeIcons.SHIELD,
-                isVisible: true,
-                label: 'Inscripciones',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-            {
-                code: 'students',
-                icon: PrimeIcons.ID_CARD,
-                isVisible: true,
-                label: 'Estudiantes',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-            {
-                code: 'teachers',
-                icon: PrimeIcons.ID_CARD,
-                isVisible: true,
-                label: 'Docentes',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-            {
-                code: 'welfare',
-                icon: PrimeIcons.HEART,
-                isVisible: true,
-                label: 'Bienestar Estudiantil',
-                order: 1,
-                type: MenuTypeEnum.LEFT_SIDE,
-            },
-        );
+    /** Coordinator Career Role **/
+    const coordinatorCareer = menusAll.find(menu => menu.code === RoleEnum.COORDINATOR_CAREER);
 
-        for (const menu of menus) {
-            await this.menusService.create(menu);
-        }
+    menus = [];
+    menus.push(
+      {
+        code: 'institutions',
+        icon: 'pi pi-bars',
+        isVisible: true,
+        label: 'Instituciones',
+        order: 1,
+        routerLink: '/core/coordinator-career/institutions',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+      {
+        code: 'careers',
+        icon: 'pi pi-bars',
+        isVisible: true,
+        label: 'Carreras',
+        order: 2,
+        routerLink: '/core/coordinator-career/careers',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+      {
+        code: 'curriculums',
+        icon: 'pi pi-list',
+        isVisible: true,
+        label: 'Mallas Curriculares',
+        order: 3,
+        routerLink: '/core/coordinator-career/curriculums',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+      {
+        code: 'subjects',
+        icon: 'pi pi-book',
+        isVisible: true,
+        label: 'Asignaturas',
+        order: 4,
+        routerLink: '/core/coordinator-career/subjects',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+      {
+        code: 'teachers',
+        icon: 'pi pi-bars',
+        isVisible: true,
+        label: 'Admin Docentes',
+        order: 5,
+        routerLink: '/core/coordinator-career/teachers',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+      {
+        code: 'school-periods',
+        icon: 'pi pi-bars',
+        isVisible: true,
+        label: 'Periodos Lectivos',
+        order: 6,
+        routerLink: '/core/coordinator-career/school-periods',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+      {
+        code: 'consolidated-grades',
+        icon: 'pi pi-bars',
+        isVisible: false,
+        label: 'Consolidado de notas',
+        order: 7,
+        routerLink: '/core/coordinator-career/consolidated-notes ',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: coordinatorCareer,
+      },
+    );
 
-        const menusAll = (await this.menusService.findAll()).data as MenuEntity[];
+    /** Reviewer Role **/
+    const reviewerMenu = menusAll.find(menu => menu.code === RoleEnum.REVIEWER);
+    menus.push(
+      {
+        code: 'inscription-list',
+        icon: 'pi pi-users',
+        isVisible: true,
+        label: 'Administración de Inscripciones',
+        order: 1,
+        routerLink: '/core/reviewer/inscriptions',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: reviewerMenu,
+      },
+    );
 
-        const adminMenu = menusAll.find(menu => menu.code === 'admin');
+    const secretaryMenu = menusAll.find(menu => menu.code === RoleEnum.SECRETARY);
 
-        menus = [];
-        menus.push(
-            {
-                code: 'users',
-                icon: 'pi pi-users',
-                isVisible: true,
-                label: 'Usuarios',
-                order: 1,
-                routerLink: '/administration/users',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: adminMenu,
-            },
-            {
-                code: 'menus',
-                icon: 'pi pi-users',
-                isVisible: true,
-                label: 'Menus',
-                order: 2,
-                routerLink: '/administration/menus',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: adminMenu,
-            },
-        );
+    menus.push(
+      {
+        code: 'enrollment-list',
+        icon: 'pi pi-users',
+        isVisible: true,
+        label: 'Administración de Matrículas',
+        order: 1,
+        routerLink: '/core/secretary/enrollments',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: secretaryMenu,
+      },
+    );
 
-        for (const menu of menus) {
-            await this.menusService.create(menu);
-        }
+    /** Student Role **/
+    const studentMenu = menusAll.find(menu => menu.code === RoleEnum.STUDENT);
 
-        const academicAdministration = menusAll.find(menu => menu.code === 'academic-administrator');
+    menus.push(
+      {
+        code: 'enrollment-application',
+        icon: 'pi pi-users',
+        isVisible: true,
+        label: 'Solicitud de Matrícula',
+        order: 1,
+        routerLink: '/core/student/enrollment-application',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: studentMenu,
+      },
+      {
+        code: 'enrollment-subjects',
+        icon: 'pi pi-users',
+        isVisible: true,
+        label: 'Asignaturas',
+        order: 2,
+        routerLink: '/core/student/enrollment-subjects',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: studentMenu,
+      },
+    );
 
-        menus = [];
-        menus.push(
-            {
-                code: 'institutions',
-                icon: 'pi pi-bars',
-                isVisible: true,
-                label: 'Instituciones',
-                order: 1,
-                routerLink: '/core/institutions',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: academicAdministration,
-            },
-            {
-                code: 'careers',
-                icon: 'pi pi-bars',
-                isVisible: true,
-                label: 'Carreras',
-                order: 2,
-                routerLink: '/core/careers',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: academicAdministration,
-            },
-            {
-                code: 'curriculums',
-                icon: 'pi pi-list',
-                isVisible: true,
-                label: 'Mallas Curriculares',
-                order: 2,
-                routerLink: '/core/curriculums',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: academicAdministration,
-            },
-            {
-                code: 'teacher-administrator',
-                icon: 'pi pi-bars',
-                isVisible: false,
-                label: 'Admin Docentes',
-                order: 5,
-                routerLink: '/core/teachers',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: academicAdministration,
-            },
-            {
-                code: 'school-periods',
-                icon: 'pi pi-bars',
-                isVisible: true,
-                label: 'Periodos Lectivos',
-                order: 6,
-                routerLink: '/core/school-periods',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: academicAdministration,
-            },
-            {
-                code: 'consolidated-grades',
-                icon: 'pi pi-bars',
-                isVisible: false,
-                label: 'Consolidado de notas',
-                order: 8,
-                routerLink: '/core/consolidated-notes ',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: academicAdministration,
-            },
-        );
+    /** Teacher Role **/
+    const teacherMenu = menusAll.find(menu => menu.code === RoleEnum.TEACHER);
 
-        const reviewerMenu = menusAll.find(menu => menu.code === 'inscriptions');
-        menus.push(
-            {
-                code: 'inscription-list',
-                icon: 'pi pi-users',
-                isVisible: true,
-                label: 'Administración de Inscripciones',
-                order: 1,
-                routerLink: '/core/inscriptions',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: reviewerMenu,
-            },
-        );
+    menus.push(
+      {
+        code: 'teacher-subjects',
+        icon: 'pi pi-book',
+        isVisible: true,
+        label: 'Mis Asignaturas',
+        order: 1,
+        routerLink: '/core/teacher/teacher-subjects',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: teacherMenu,
+      },
+    );
 
-        const secretaryMenu = menusAll.find(menu => menu.code === 'enrollments');
+    /** Welfare Role **/
+    const welfareMenu = menusAll.find(menu => menu.code === RoleEnum.WELFARE);
 
-        menus.push(
-            {
-                code: 'enrollment-list',
-                icon: 'pi pi-users',
-                isVisible: true,
-                label: 'Administración de Matrículas',
-                order: 1,
-                routerLink: '/core/enrollments',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: secretaryMenu,
-            },
-        );
+    menus.push(
+      {
+        code: 'enrollments',
+        icon: 'pi pi-verified',
+        isVisible: true,
+        label: 'Matriculados',
+        order: 1,
+        routerLink: '/core/welfare/enrollments',
+        type: MenuTypeEnum.LEFT_SIDE,
+        parent: welfareMenu,
+      },
+    );
 
-        const studentMenu = menusAll.find(menu => menu.code === 'students');
-
-        menus.push(
-            {
-                code: 'enrollment-application',
-                icon: 'pi pi-users',
-                isVisible: true,
-                label: 'Solicitud de Matrícula',
-                order: 1,
-                routerLink: '/core/enrollment-application',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: studentMenu,
-            },
-            {
-                code: 'enrollment-subjects',
-                icon: 'pi pi-users',
-                isVisible: true,
-                label: 'Asignaturas',
-                order: 2,
-                routerLink: '/core/student/enrollment-subjects',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: studentMenu,
-            },
-        );
-
-        const teacherMenu = menusAll.find(menu => menu.code === 'teachers');
-
-        menus.push(
-            {
-                code: 'teacher-subjects',
-                icon: 'pi pi-book',
-                isVisible: true,
-                label: 'Mis Asignaturas',
-                order: 1,
-                routerLink: '/core/teacher-subjects',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: teacherMenu,
-            }
-        );
-
-        const welfareMenu = menusAll.find(menu => menu.code === 'welfare');
-
-        menus.push(
-            {
-                code: 'enrollments',
-                icon: 'pi pi-verified',
-                isVisible: true,
-                label: 'Matriculados',
-                order: 1,
-                routerLink: '/core/welfare/enrollments',
-                type: MenuTypeEnum.LEFT_SIDE,
-                parent: welfareMenu,
-            }
-        );
-
-        for (const menu of menus) {
-            await this.menusService.create(menu);
-        }
+    for (const menu of menus) {
+      await this.menusService.create(menu);
     }
+  }
 
-    private async createMenuRole() {
-        const menusAll = (await this.menusService.findAll()).data;
+  private async createMenuRole() {
+    const menusAll = (await this.menusService.findAll()).data;
 
-        let role = await this.rolesService.findByCode(RoleEnum.COORDINATOR_CAREER);
-        role.menus = menusAll.filter(menu => menu.code === 'academic-administrator');
-        await this.rolesService.createMenus(role);
+    let role = await this.rolesService.findByCode(RoleEnum.ADMIN);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.ADMIN);
+    await this.rolesService.createMenus(role);
 
-        role = await this.rolesService.findByCode(RoleEnum.ADMIN);
-        role.menus = menusAll.filter(menu => menu.code === 'admin');
-        await this.rolesService.createMenus(role);
+    role = await this.rolesService.findByCode(RoleEnum.STUDENT);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.STUDENT);
+    await this.rolesService.createMenus(role);
 
-        role = await this.rolesService.findByCode(RoleEnum.REVIEWER);
-        role.menus = menusAll.filter(menu => menu.code === 'inscriptions');
-        await this.rolesService.createMenus(role);
+    role = await this.rolesService.findByCode(RoleEnum.TEACHER);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.TEACHER);
+    await this.rolesService.createMenus(role);
 
-        role = await this.rolesService.findByCode(RoleEnum.SECRETARY);
-        role.menus = menusAll.filter(menu => menu.code === 'enrollments');
-        await this.rolesService.createMenus(role);
+    role = await this.rolesService.findByCode(RoleEnum.COORDINATOR_CAREER);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.COORDINATOR_CAREER);
+    await this.rolesService.createMenus(role);
 
-        role = await this.rolesService.findByCode(RoleEnum.STUDENT);
-        role.menus = menusAll.filter(menu => menu.code === 'students');
-        await this.rolesService.createMenus(role);
+    role = await this.rolesService.findByCode(RoleEnum.REVIEWER);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.REVIEWER);
+    await this.rolesService.createMenus(role);
 
-        role = await this.rolesService.findByCode(RoleEnum.TEACHER);
-        role.menus = menusAll.filter(menu => menu.code === 'teachers');
-        await this.rolesService.createMenus(role);
+    role = await this.rolesService.findByCode(RoleEnum.SECRETARY);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.SECRETARY);
+    await this.rolesService.createMenus(role);
 
-        role = await this.rolesService.findByCode(RoleEnum.WELFARE);
-        role.menus = menusAll.filter(menu => menu.code === 'welfare');
-        await this.rolesService.createMenus(role);
-    }
+    role = await this.rolesService.findByCode(RoleEnum.WELFARE);
+    role.menus = menusAll.filter(menu => menu.code === RoleEnum.WELFARE);
+    await this.rolesService.createMenus(role);
+  }
 }

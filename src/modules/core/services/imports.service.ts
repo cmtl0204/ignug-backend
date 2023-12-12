@@ -121,7 +121,6 @@ export class ImportsService {
         for (const item of dataExcel) {
             let identification = `${item['identification']}`;
              identification = identification.toString().length < 10 ? '0' + identification : identification;
-            console.log(identification);
 
             let email = '';
             email = item['personal_email'];
