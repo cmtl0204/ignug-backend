@@ -78,8 +78,8 @@ export class UsersController {
 
     return {
       data: serviceResponse,
-      message: `User updated ${id}`,
-      title: `Updated`,
+      message: `Usuario actualizado`,
+      title: `Actualizado`,
     };
   }
 
@@ -92,8 +92,8 @@ export class UsersController {
 
     return {
       data: serviceResponse,
-      message: `User reactivated ${id}`,
-      title: `Reactivated`,
+      message: `Usuario reactivado`,
+      title: `Reactivado`,
     };
   }
 
@@ -106,8 +106,8 @@ export class UsersController {
 
     return {
       data: serviceResponse,
-      message: `User deleted ${id}`,
-      title: `Deleted`,
+      message: `Usuario eliminado`,
+      title: `Eliminado`,
     };
   }
 
@@ -134,8 +134,8 @@ export class UsersController {
 
     return {
       data: serviceResponse,
-      message: `User suspended ${id}`,
-      title: `Suspended`,
+      message: `Usuario suspendido`,
+      title: `Suspendido`,
     };
   }
 }

@@ -714,7 +714,7 @@ export class EnrollmentsService {
         });
 
         for (const item of enrollment.enrollmentDetails) {
-            const registeredState = catalogues.find(catalogue =>
+            const state = catalogues.find(catalogue =>
                 catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
                 catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
@@ -722,7 +722,7 @@ export class EnrollmentsService {
 
             await this.enrollmentDetailStatesService.create({
                 enrollmentDetailId: item.id,
-                stateId: registeredState.id,
+                stateId: state.id,
                 userId,
                 date: new Date(),
                 observation: payload.observation,

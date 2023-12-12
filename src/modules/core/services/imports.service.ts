@@ -116,8 +116,7 @@ export class ImportsService {
             return catalogue.code === '2' && catalogue.type === CatalogueTypeEnum.YES_NO;
         });
 
-        let identificationTypes: CatalogueEntity[] = [];
-        identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
+        const identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
 
         for (const item of dataExcel) {
             let identification = `${item['identification']}`;
@@ -168,6 +167,8 @@ export class ImportsService {
     }
 
     async importTeachers(): Promise<boolean> {
+        const catalogues = await this.cataloguesService.findCache();
+
         const workbook = XLSX.readFile(join(process.cwd(), 'src/resources/imports/teachers.xlsx'));
 
         const workbookSheets = workbook.SheetNames;
@@ -176,12 +177,14 @@ export class ImportsService {
 
         const roles = (await this.rolesService.findAll()).data as RoleEntity[];
         const teacherRole = roles.find(role => role.code === RoleEnum.TEACHER);
+        const identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
 
         for (const item of dataExcel) {
             const identification = item['identificacion'].toString().length < 10 ? '0' + item['identificacion'].toString() : item['identificacion'].toString();
 
             const user = {
                 email: item['correo_institucional'],
+                identificationType: identificationTypes[0],
                 identification: identification,
                 lastname: `${item['apellido1']} ${item['apellido2']}`,
                 name: `${item['nombre1']} ${item['nombre2']}`,

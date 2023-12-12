@@ -4,6 +4,6 @@ import {Exclude} from 'class-transformer';
 
 @Exclude()
 export class CreateUserDto extends PickType(UserDto, [
-    'email', 'identification', 'lastname', 'name', 'password', 'passwordChanged', 'roles', 'username'
+    'email', 'identificationType','identification', 'lastname', 'name', 'password', 'passwordChanged', 'roles', 'username'
 ]) {
 }

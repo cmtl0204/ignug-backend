@@ -13,7 +13,7 @@ export class LocationsSeeder {
   }
 
   async importCountries(): Promise<boolean> {
-    const workbook = XLSX.readFile(join(process.cwd(), 'storage/imports/countries.xlsx'));
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/countries.xlsx'));
 
     const workbookSheets = workbook.SheetNames;
     const sheet = workbookSheets[0];
@@ -35,7 +35,7 @@ export class LocationsSeeder {
   }
 
   async importDPA(): Promise<boolean> {
-    const workbook = XLSX.readFile(join(process.cwd(), 'storage/imports/dpa.xlsx'));
+    const workbook = XLSX.readFile(join(process.cwd(), 'src/database/seeders/files/dpa.xlsx'));
 
     const workbookSheets = workbook.SheetNames;
     const sheet = workbookSheets[0];
