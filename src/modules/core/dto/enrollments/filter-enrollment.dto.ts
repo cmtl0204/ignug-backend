@@ -14,4 +14,7 @@ export class FilterEnrollmentDto extends PaginationDto {
 
     @IsOptional()
     readonly academicPeriodId: string;
+
+    @IsOptional()
+    readonly enrollmentStateId: string;
 }

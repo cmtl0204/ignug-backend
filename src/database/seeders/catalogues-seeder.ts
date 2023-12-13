@@ -1451,7 +1451,7 @@ export class CataloguesSeeder {
             {
                 code: 'rejected',
                 description: 'Rechazado',
-                name: 'Rechzado',
+                name: 'Rechazado',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENTS_STATE,
@@ -1469,14 +1469,6 @@ export class CataloguesSeeder {
                 description: 'Anulado',
                 name: 'Anulado',
                 sort: 5,
-                state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
-            },
-            {
-                code: 'paid',
-                description: 'Pagado',
-                name: 'Pagado',
-                sort: 6,
                 state: CatalogueStateEnum.ENABLED,
                 type: CatalogueTypeEnum.ENROLLMENTS_STATE,
             },

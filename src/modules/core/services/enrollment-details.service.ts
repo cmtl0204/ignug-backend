@@ -57,7 +57,8 @@ export class EnrollmentDetailsService {
                 type: true,
                 workday: true,
                 parallel: true,
-                enrollmentDetailStates: {state: true}
+                enrollmentDetailStates: {state: true},
+                enrollmentDetailState: {state: true},
             },
             where: {id},
         });
@@ -148,6 +149,7 @@ export class EnrollmentDetailsService {
             relations: {
                 parallel: true,
                 enrollmentDetailStates: {state: true},
+                enrollmentDetailState: {state: true},
                 subject: {academicPeriod: true},
                 type: true,
                 workday: true,

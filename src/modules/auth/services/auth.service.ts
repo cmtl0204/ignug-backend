@@ -86,7 +86,10 @@ export class AuthService {
             throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
         }
 
-        if (user?.suspendedAt) throw new UnauthorizedException('Su usuario se encuentra suspendido');
+        if (user?.suspendedAt) throw new UnauthorizedException({
+            error: 'Cuenta Suspendida',
+            message: 'Su usuario se encuentra suspendido'
+        });
 
         if (user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
 

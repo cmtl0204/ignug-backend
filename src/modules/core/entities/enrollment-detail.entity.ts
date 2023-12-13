@@ -5,7 +5,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
-    OneToMany,
+    OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
@@ -52,6 +52,9 @@ export class EnrollmentDetailEntity {
 
     @OneToMany(() => EnrollmentDetailStateEntity, enrollmentDetailState => enrollmentDetailState.enrollmentDetail)
     enrollmentDetailStates: EnrollmentDetailStateEntity[];
+
+    @OneToOne(() => EnrollmentDetailStateEntity, enrollmentDetailState => enrollmentDetailState.enrollmentDetail)
+    enrollmentDetailState: EnrollmentDetailStateEntity;
 
     /** Foreign Keys **/
 

@@ -1,5 +1,5 @@
 import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
-import {Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder, Not} from 'typeorm';
+import {Repository, FindOptionsWhere, ILike, LessThan, SelectQueryBuilder, Not, ArrayContains} from 'typeorm';
 import {UserEntity} from '@auth/entities';
 import {
     CreateEnrollmentDto,
@@ -83,6 +83,7 @@ export class EnrollmentsService {
                 academicPeriod: true,
                 career: true,
                 enrollmentStates: {state: true},
+                enrollmentState: {state: true},
                 parallel: true,
                 student: {user: true},
                 type: true,
@@ -234,20 +235,52 @@ export class EnrollmentsService {
             );
         } else {
             if (params.academicPeriodId) {
-                where.push(
-                    {
-                        careerId,
-                        schoolPeriodId: params.schoolPeriodId,
-                        academicPeriodId: params.academicPeriodId,
+                if (params.enrollmentStateId) {
+                    where.push(
+                        {
+                            careerId,
+                            schoolPeriodId: params.schoolPeriodId,
+                            academicPeriodId: params.academicPeriodId,
+                            enrollmentState: {state: {id: params.enrollmentStateId}}
+                        }
+                    );
+                } else {
+                    if (params.enrollmentStateId) {
+                        where.push(
+                            {
+                                careerId,
+                                schoolPeriodId: params.schoolPeriodId,
+                                enrollmentState: {state: {id: params.enrollmentStateId}}
+                            }
+                        );
+                    } else {
+                        where.push(
+                            {
+                                careerId,
+                                schoolPeriodId: params.schoolPeriodId,
+                                academicPeriodId: params.academicPeriodId,
+                            }
+                        );
                     }
-                );
+
+                }
             } else {
-                where.push(
-                    {
-                        careerId,
-                        schoolPeriodId: params.schoolPeriodId,
-                    }
-                );
+                if (params.enrollmentStateId) {
+                    where.push(
+                        {
+                            careerId,
+                            schoolPeriodId: params.schoolPeriodId,
+                            enrollmentState: {state: {id: params.enrollmentStateId}}
+                        }
+                    );
+                } else {
+                    where.push(
+                        {
+                            careerId,
+                            schoolPeriodId: params.schoolPeriodId,
+                        }
+                    );
+                }
             }
         }
 
@@ -256,6 +289,7 @@ export class EnrollmentsService {
                 academicPeriod: true,
                 parallel: true,
                 enrollmentStates: {state: true},
+                enrollmentState: {state: true},
                 student: {user: true},
                 type: true,
                 workday: true,
@@ -415,7 +449,8 @@ export class EnrollmentsService {
                 enrollmentDetails: {
                     subject: {type: true},
                     academicState: true,
-                    enrollmentDetailStates: {state: true}
+                    enrollmentDetailStates: {state: true},
+                    enrollmentDetailState: {state: true}
                 }
             },
             where: {studentId}
@@ -445,7 +480,10 @@ export class EnrollmentsService {
                 schoolPeriod: true,
                 enrollmentStates: {
                     state: true
-                }
+                },
+                enrollmentState: {
+                    state: true
+                },
             },
             where: {studentId, schoolPeriodId: openSchoolPeriod.id}
         });
