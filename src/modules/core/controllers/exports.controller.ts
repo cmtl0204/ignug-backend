@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Res } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Res } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ResponseHttpModel } from '@shared/models';
@@ -7,7 +7,8 @@ import { ExportsService } from '@core/services';
 @ApiTags('Exports')
 @Controller('exports')
 export class ExportsController {
-  constructor(private exportsService: ExportsService) {}
+  constructor(private exportsService: ExportsService) {
+  }
 
   @ApiOperation({ summary: 'Export Students' })
   @Get('students')
