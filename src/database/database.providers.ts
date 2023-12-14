@@ -19,7 +19,6 @@ export const databaseProviders = [
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         migrations: ['src/database/migrations/*.ts'],
         migrationsTableName: 'migrations',
-        // dropSchema: true,
         synchronize: true,
       });
       return dataSource.initialize();
