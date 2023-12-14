@@ -76,10 +76,10 @@ export class EnrollmentDetailEntity {
     @Column({type: 'uuid', name: 'enrollment_id', comment: 'Matriculado o No Matriculado'})
     enrollmentId: string;
 
-    @ManyToOne(() => CatalogueEntity,{nullable: true})
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'parallel_id'})
     parallel: CatalogueEntity;
-    @Column({type: 'uuid', name: 'parallel_id',nullable:true, comment: 'Paralelo asignado'})
+    @Column({type: 'uuid', name: 'parallel_id', nullable: true, comment: 'Paralelo asignado'})
     parallelId: string;
 
     @ManyToOne(() => SubjectEntity)
@@ -88,10 +88,10 @@ export class EnrollmentDetailEntity {
     @Column({type: 'uuid', name: 'subject_id', comment: 'Asignaturas asignadas'})
     subjectId: string;
 
-    @ManyToOne(() => CatalogueEntity)
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'type_id'})
     type: CatalogueEntity;
-    @Column({type: 'uuid', name: 'type_id', comment: 'ordinaria, extraordinaria o especial'})
+    @Column({type: 'uuid', name: 'type_id', nullable: true, comment: 'ordinaria, extraordinaria o especial'})
     typeId: string;
 
     @ManyToOne(() => CatalogueEntity)

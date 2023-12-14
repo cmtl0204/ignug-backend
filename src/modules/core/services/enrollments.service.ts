@@ -17,7 +17,7 @@ import {
     SchoolPeriodEntity,
     StudentEntity,
     GradeEntity,
-    SubjectEntity
+    SubjectEntity, EnrollmentStateEntity
 } from '@core/entities';
 import {
     CataloguesService,
@@ -341,39 +341,36 @@ export class EnrollmentsService {
         return enrollmentCertificate;
     }
 
-    async reportEnrollmentsByCareer(careerId: string): Promise<any[]> {
-        const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('exportCupos');
+    async reportEnrollmentsByCareer(careerId: string, schoolPeriodId: string): Promise<any[]> {
+        const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('enrollments');
         queryBuilder.select(
             [
-                "applications_at",
-                "CareerEntity.name",
-                "CurriculumEntity.name",
-                "UserEntity.identification",
-                "UserEntity.lastname",
-                "UserEntity.name",
-                "sex_student.name",
-                "UserEntity.email",
-                "UserEntity.phone",
-                "enrollment_type.name",
-                "SchoolPeriodEntity.code_sniese",
-                "enrollment_workday.name",
-                "enrollment_parallel.name"
+                'careers.code as "Código de Carrera"',
+                'careers.name as "Carrera"',
+                'users.identification  as "Número de Documento"',
+                'users.lastname  as "Apellidos"',
+                'users.name  as "Nombres"',
+                'parallels.name as "Paralelo"',
+                'academic_periods.name as "Nivel"',
+                'types.name as "Tipo de Matricula"',
+                'enrollments.date as " Fecha de Matricula"',
+                'enrollments.applications_at as "Fecha de envio de solicitud"',
+                'states.name        as "Estado"'
             ])
-            .innerJoin(StudentEntity, "StudentEntity.id = EnrollmentEntity.student_id")
-            .innerJoin(InformationStudentEntity, "StudentEntity.id = Information_studentEntity.student_id")
-            .innerJoin(UserEntity, "UserEntity.id = StudentEntity.user_id")
-            .innerJoin(EnrollmentDetailEntity, "EnrollmentEntity.id = EnrollmentDetailEntity.enrollment_id")
-            .innerJoin(SchoolPeriodEntity, "SchoolPeriodEntity.id = EnrollmentEntity.school_period_id")
-            .innerJoin(CurriculumEntity, "CurriculumEntity.id = EnrollmentEntity.curriculum_id")
-            .innerJoin(CareerEntity, "CareerEntity.id = EnrollmentEntity.career_Id")
-            .innerJoin(CatalogueEntity, "gender_student", "users.gender_id = gender_student.id")
-            .innerJoin(CatalogueEntity, "sex_student", "UserEntity.sex_id = sex_student.id")
-            .innerJoin(CatalogueEntity, "enrollment_state", "enrollment_state.id = EnrollmentEntity.state_id")
-            .innerJoin(CatalogueEntity, "enrollment_parallel", "EnrollmentDetailEntity.parallel_id = enrollment_parallel.id")
-            .innerJoin(CatalogueEntity, "enrollment_type", "EnrollmentDetailEntity.type_id = enrollment_type.id")
-            .innerJoin(CatalogueEntity, "enrollment_workday", "EnrollmentDetailEntity.workday_id = enrollment_workday.id");
-        const result = await queryBuilder.getRawMany();
-        return result;
+            .innerJoin(EnrollmentStateEntity, "enrollment_states", "enrollment_states.enrollment_id = enrollments.id")
+            .innerJoin(CatalogueEntity, "types", "types.id = enrollments.type_id")
+            .innerJoin(CatalogueEntity, "states", "states.id = enrollment_states.state_id")
+            .innerJoin(CatalogueEntity, "parallels", "parallels.id = enrollments.parallel_id")
+            .innerJoin(CatalogueEntity, "academic_periods", "academic_periods.id = enrollments.academic_period_id")
+            .innerJoin(CareerEntity, "careers", "careers.id = enrollments.career_id")
+            .innerJoin(StudentEntity, "students", "students.id = enrollments.student_id")
+            .innerJoin(UserEntity, "users", "users.id = students.user_id")
+            .where('careers.id = :careerId and enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
+                careerId,
+                schoolPeriodId
+            }).orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+
+        return await queryBuilder.getRawMany();
     }
 
     async exportCuposDetalladosByEnrollments(): Promise<any[]> {
@@ -518,7 +515,6 @@ export class EnrollmentsService {
         enrollment.parallelId = payload.parallel.id;
         enrollment.schoolPeriodId = payload.schoolPeriod.id;
         enrollment.studentId = payload.student.id;
-        enrollment.typeId = await this.getType(payload.schoolPeriod);
         enrollment.workdayId = payload.workday.id;
         enrollment.applicationsAt = new Date();
         enrollment.socioeconomicScore = await this.studentsService.calculateSocioeconomicFormScore(enrollment.studentId);
@@ -595,6 +591,7 @@ export class EnrollmentsService {
             enrollment = this.repository.create();
 
         enrollment.applicationsAt = new Date();
+        enrollment.typeId = (await this.getType(payload.schoolPeriod)).id;
 
         enrollment = await this.repository.save(enrollment);
 
@@ -620,6 +617,10 @@ export class EnrollmentsService {
                 catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
 
             await this.enrollmentDetailStatesService.removeAll(item.enrollmentDetailStates);
+
+            item.type = await this.getType(payload.schoolPeriod);
+
+            await this.enrollmentDetailsService.update(item.id, item);
 
             await this.enrollmentDetailStatesService.create({
                 enrollmentDetailId: item.id,
@@ -891,7 +892,7 @@ export class EnrollmentsService {
             return type.code === codeType && type.type === CatalogueTypeEnum.ENROLLMENTS_TYPE;
         });
 
-        return type.id;
+        return type;
     }
 
     async findEnrollmentCertificateByEnrollment(id: string): Promise<EnrollmentEntity> {

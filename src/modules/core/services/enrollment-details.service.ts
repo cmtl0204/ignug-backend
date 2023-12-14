@@ -77,11 +77,20 @@ export class EnrollmentDetailsService {
             throw new NotFoundException('Detalle de matrícula no encontrado');
         }
 
-        enrollmentDetail.parallelId = payload.parallel.id;
-        enrollmentDetail.typeId = payload.type.id;
-        enrollmentDetail.workdayId = payload.workday.id;
-        enrollmentDetail.date = payload.date;
-        enrollmentDetail.observation = payload.observation;
+        if (payload.parallel)
+            enrollmentDetail.parallelId = payload.parallel.id;
+
+        if (payload.type)
+            enrollmentDetail.typeId = payload.type.id;
+
+        if (payload.workday)
+            enrollmentDetail.workdayId = payload.workday.id;
+
+        if (payload.date)
+            enrollmentDetail.date = payload.date;
+
+        if (payload.observation)
+            enrollmentDetail.observation = payload.observation;
 
         return await this.repository.save(enrollmentDetail);
     }

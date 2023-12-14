@@ -3,7 +3,7 @@ import {
     Get,
     HttpCode,
     HttpStatus,
-    Param, ParseUUIDPipe,
+    Param, ParseUUIDPipe, Query,
     Res
 } from '@nestjs/common';
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
@@ -45,11 +45,11 @@ export class EnrollmentReportsController {
     @ApiOperation({summary: 'Enrollments by Career'})
     @Get('careers/:careerId')
     @HttpCode(HttpStatus.OK)
-    async generateEnrollmentsByCareer( @Param('careerId', ParseUUIDPipe) careerId: string): Promise<ResponseHttpModel> {
-        const responseService = await this.enrollmentReportsService.generateEnrollmentsByCareer(careerId);
+    async generateEnrollmentsByCareer(@Res() res,@Param('careerId', ParseUUIDPipe) careerId: string, @Query('schoolPeriodId') schoolPeriodId: string): Promise<ResponseHttpModel> {
+        const path = await this.enrollmentReportsService.generateEnrollmentsByCareer(careerId,schoolPeriodId);
 
         return {
-            data: responseService,
+            data: res.sendFile(path),
             message: `Generate Enrollments By Career`,
             title: `Report`,
         };

@@ -87,10 +87,10 @@ export class EnrollmentEntity {
     @Column({type: 'uuid', name: 'student_id', comment: 'Estudiente matriculado'})
     studentId: string;
 
-    @ManyToOne(() => CatalogueEntity)
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'type_id'})
     type: CatalogueEntity;
-    @Column({type: 'uuid', name: 'type_id', comment: 'Intensivo'})
+    @Column({type: 'uuid', name: 'type_id', nullable: true, comment: 'Intensivo'})
     typeId: string;
 
     @ManyToOne(() => CatalogueEntity)
