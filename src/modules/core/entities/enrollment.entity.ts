@@ -1,4 +1,5 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -16,6 +17,7 @@ import {
     SchoolPeriodEntity,
     StudentEntity
 } from '@core/entities';
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('enrollments', {schema: 'core'})
 export class EnrollmentEntity {
@@ -163,4 +165,10 @@ export class EnrollmentEntity {
         comment: 'Observaciones de la matricula',
     })
     observation: string;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.date = getDateFormat(this.date);
+    }
 }

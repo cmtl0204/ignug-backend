@@ -1,16 +1,16 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
     JoinColumn,
-    JoinTable,
-    ManyToMany,
     ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import {CareerEntity, CatalogueEntity, InstitutionEntity} from '@core/entities';
+import {CatalogueEntity, InstitutionEntity} from '@core/entities';
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('school_periods', {schema: 'core'})
 export class SchoolPeriodEntity {
@@ -149,4 +149,17 @@ export class SchoolPeriodEntity {
         comment: 'Fecha Fin Periodo Especial',
     })
     especialEndedAt: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.startedAt = getDateFormat(this.startedAt);
+        this.endedAt = getDateFormat(this.endedAt);
+        this.ordinaryStartedAt = getDateFormat(this.ordinaryStartedAt);
+        this.ordinaryEndedAt = getDateFormat(this.ordinaryEndedAt);
+        this.extraOrdinaryStartedAt = getDateFormat(this.extraOrdinaryStartedAt);
+        this.extraOrdinaryEndedAt = getDateFormat(this.extraOrdinaryEndedAt);
+        this.especialStartedAt = getDateFormat(this.especialStartedAt);
+        this.especialEndedAt = getDateFormat(this.especialEndedAt);
+    }
 }

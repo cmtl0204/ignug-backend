@@ -1,4 +1,5 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -10,6 +11,7 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {CatalogueEntity, TeacherEntity} from '@core/entities';
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('information_teachers', {schema: 'core'})
 export class InformationTeacherEntity {
@@ -244,4 +246,11 @@ export class InformationTeacherEntity {
         comment: 'Total de las publicaciones realizadas hasta el momento',
     })
     totalPublications: number;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.holidays = getDateFormat(this.holidays);
+        this.homeVacation = getDateFormat(this.holidays);
+    }
 }

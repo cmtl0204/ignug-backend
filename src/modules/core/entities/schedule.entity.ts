@@ -1,4 +1,5 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -9,6 +10,7 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {ClassroomEntity, TeacherDistributionEntity} from '@core/entities';
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('schedules', {schema: 'core'})
 export class ScheduleEntity {
@@ -77,4 +79,12 @@ export class ScheduleEntity {
         comment: 'Hora de clase',
     })
     time: number;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.date = getDateFormat(this.date);
+        this.startedAt = getDateFormat(this.startedAt);
+        this.endedAt = getDateFormat(this.endedAt);
+    }
 }

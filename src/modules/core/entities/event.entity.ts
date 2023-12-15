@@ -1,4 +1,5 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -9,6 +10,7 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {CatalogueEntity, SchoolPeriodEntity} from '@core/entities';
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('events', {schema: 'core'})
 export class EventEntity {
@@ -101,4 +103,11 @@ export class EventEntity {
         comment: 'Fecha Inicio Evento',
     })
     startedAt: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.startedAt = getDateFormat(this.startedAt);
+        this.endedAt = getDateFormat(this.endedAt);
+    }
 }

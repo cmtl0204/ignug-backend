@@ -46,7 +46,6 @@ export class AuditMiddleware implements NestMiddleware {
                 modelId = params[params.length - 1];
             }
 
-
             const payload: CreateAuditDto = {
                 modelId: modelId,
                 user: user,

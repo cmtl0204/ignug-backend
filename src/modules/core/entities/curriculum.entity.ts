@@ -17,20 +17,11 @@ export class CurriculumEntity {
     id: string;
 
     @CreateDateColumn({
-        name: 'ended_At',
+        name: 'created_at',
         type: 'timestamp',
-        default: () => 'CURRENT_timestampP',
-        comment: 'Fecha de creacion de la carrera',
+        default: () => 'CURRENT_timestampP'
     })
-    endedAt: Date;
-
-    @CreateDateColumn({
-        name: 'started_at',
-        type: 'timestamp',
-        default: () => 'CURRENT_timestampP',
-        comment: 'Fecha de creacion de la carrera',
-    })
-    startedAt: Date;
+    created_at: Date;
 
     @UpdateDateColumn({
         name: 'updated_at',

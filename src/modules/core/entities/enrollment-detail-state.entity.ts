@@ -1,4 +1,5 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -10,6 +11,7 @@ import {
 } from 'typeorm';
 import {CatalogueEntity, EnrollmentDetailEntity, EnrollmentEntity} from '@core/entities';
 import {UserEntity} from "@auth/entities";
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('enrollment_detail_states', {schema: 'core'})
 export class EnrollmentDetailStateEntity {
@@ -75,4 +77,10 @@ export class EnrollmentDetailStateEntity {
         comment: 'Observaciones del estado matricula',
     })
     observation: string;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.date = getDateFormat(this.date);
+    }
 }

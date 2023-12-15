@@ -1,16 +1,17 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
     JoinColumn,
     ManyToOne,
-    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, EnrollmentEntity, GradeEntity, SubjectEntity} from '@core/entities';
+import {CatalogueEntity, EnrollmentEntity} from '@core/entities';
 import {UserEntity} from "@auth/entities";
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('enrollment_states', {schema: 'core'})
 export class EnrollmentStateEntity {
@@ -76,4 +77,10 @@ export class EnrollmentStateEntity {
         comment: 'Observaciones del cambio de estado de la matricula',
     })
     observation: string;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.date = getDateFormat(this.date);
+    }
 }

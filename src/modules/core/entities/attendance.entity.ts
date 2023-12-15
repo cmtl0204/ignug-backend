@@ -1,4 +1,5 @@
 import {
+    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -9,6 +10,7 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {EnrollmentDetailEntity, PartialEntity} from '@core/entities';
+import {getDateFormat} from "@shared/helpers";
 
 @Entity('attendances', {schema: 'core'})
 export class AttendanceEntity {
@@ -68,4 +70,10 @@ export class AttendanceEntity {
         comment: 'Valor de la asistencia',
     })
     value: number;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    async setDate() {
+        this.date = getDateFormat(this.date);
+    }
 }
