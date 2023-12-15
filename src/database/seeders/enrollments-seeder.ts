@@ -61,7 +61,7 @@ export class EnrollmentSeeder {
     private async loadCatalogues() {
         const catalogues = (await this.catalogueService.findAll()).data as CatalogueEntity[];
 
-        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
         this.types = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_TYPE);
 
@@ -95,7 +95,7 @@ export class EnrollmentSeeder {
 
         //states
         const state = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
         });
 
         //curriculums
@@ -205,7 +205,7 @@ export class EnrollmentSeeder {
 
         //states
         const state = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
         });
 
         //enrollment type
@@ -366,19 +366,19 @@ export class EnrollmentSeeder {
 
         //states
         const registeredState = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueEnrollmentStateEnum.REGISTERED && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.REGISTERED && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
         });
 
         const requestSentState = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
         });
 
         const approvedState = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueEnrollmentStateEnum.APPROVED && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.APPROVED && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
         });
 
         const enrolledState = this.states.find((state: CatalogueEntity) => {
-            return state.code === CatalogueEnrollmentStateEnum.ENROLLED && state.type === CatalogueTypeEnum.ENROLLMENTS_STATE;
+            return state.code === CatalogueEnrollmentStateEnum.ENROLLED && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
         });
 
         const user = (await this.usersService.findAll()).data[0];

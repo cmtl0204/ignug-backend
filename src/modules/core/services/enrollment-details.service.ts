@@ -171,7 +171,7 @@ export class EnrollmentDetailsService {
 
     async findTotalEnrollmentDetails(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
         const catalogues = await this.cataloguesService.findCache();
-        const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+        const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENT_STATE);
         const state = states.find((item: CatalogueEntity) => item.code === CatalogueEnrollmentStateEnum.REGISTERED);
 
         const total = await this.repository.find({
@@ -200,7 +200,7 @@ export class EnrollmentDetailsService {
 
         const approvedState = catalogues.find(catalogue =>
             catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
-            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
         await this.enrollmentDetailStatesService.removeRejected(enrollmentDetail.enrollmentDetailStates);
 
@@ -229,7 +229,7 @@ export class EnrollmentDetailsService {
 
         const rejectedState = catalogues.find(catalogue =>
             catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
-            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
         // await this.enrollmentDetailStatesService.removeRequestSent(enrollmentDetail.enrollmentDetailStates);
         await this.enrollmentDetailStatesService.removeApproved(enrollmentDetail.enrollmentDetailStates);
@@ -259,7 +259,7 @@ export class EnrollmentDetailsService {
 
         const enrolledState = catalogues.find(catalogue =>
             catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
-            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
         await this.enrollmentDetailStatesService.create({
             enrollmentDetailId: id,
@@ -282,7 +282,7 @@ export class EnrollmentDetailsService {
 
         const revokedState = catalogues.find(catalogue =>
             catalogue.code === CatalogueEnrollmentStateEnum.REVOKED &&
-            catalogue.type === CatalogueTypeEnum.ENROLLMENTS_STATE);
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
         await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
 

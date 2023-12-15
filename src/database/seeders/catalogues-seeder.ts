@@ -1438,7 +1438,7 @@ export class CataloguesSeeder {
                 name: 'Solicitud Enviada',
                 sort: 1,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENT_STATE,
             },
             {
                 code: 'approved',
@@ -1446,7 +1446,7 @@ export class CataloguesSeeder {
                 name: 'Aprobado',
                 sort: 2,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENT_STATE,
             },
             {
                 code: 'rejected',
@@ -1454,7 +1454,7 @@ export class CataloguesSeeder {
                 name: 'Rechazado',
                 sort: 3,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENT_STATE,
             },
             {
                 code: 'enrolled',
@@ -1462,7 +1462,7 @@ export class CataloguesSeeder {
                 name: 'Matriculado',
                 sort: 4,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENT_STATE,
             },
             {
                 code: 'revoked',
@@ -1470,7 +1470,7 @@ export class CataloguesSeeder {
                 name: 'Anulado',
                 sort: 5,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENT_STATE,
             },
             {
                 code: 'registered',
@@ -1478,7 +1478,7 @@ export class CataloguesSeeder {
                 name: 'Inscrito',
                 sort: 7,
                 state: CatalogueStateEnum.ENABLED,
-                type: CatalogueTypeEnum.ENROLLMENTS_STATE,
+                type: CatalogueTypeEnum.ENROLLMENT_STATE,
             },
         );
 
