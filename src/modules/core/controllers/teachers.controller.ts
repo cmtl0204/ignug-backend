@@ -14,14 +14,15 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
-import { TeacherDistributionsService, TeachersService } from '@core/services';
+import { EnrollmentsService, TeacherDistributionsService, TeachersService } from '@core/services';
 import { CreateTeacherDto, FilterTeacherDto, UpdateTeacherDto } from '@core/dto';
 import { TeacherEntity } from '@core/entities';
 
 @ApiTags('Teachers')
 @Controller('teachers')
 export class TeachersController {
-  constructor(private readonly teachersService: TeachersService, private readonly teacherDistributionsService: TeacherDistributionsService) {
+  constructor(private readonly teachersService: TeachersService, private readonly teacherDistributionsService: TeacherDistributionsService,
+              private readonly enrollmentsService: EnrollmentsService) {
   }
 
   @ApiOperation({ summary: 'Lista de todos los usuarios' })
@@ -105,6 +106,19 @@ export class TeachersController {
   async findTeacherDistributionsByTeacher(@Param('id', ParseUUIDPipe) id: string,
                                           @Query('schoolPeriodId') schoolPeriodId: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.teacherDistributionsService.findTeacherDistributionsByTeacher(id, schoolPeriodId);
+
+    return {
+      data: serviceResponse,
+      message: `Distrubutivo Docente`,
+      title: `Success`,
+    };
+  }
+
+  @Get(':id/subjects')
+  @HttpCode(HttpStatus.OK)
+  async findEnrollmentSubjectByTeacher(@Param('id', ParseUUIDPipe) id: string,
+                                       @Query() params: any): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentsService.findEnrollmentSubjectsByTeacher(id, params);
 
     return {
       data: serviceResponse,
