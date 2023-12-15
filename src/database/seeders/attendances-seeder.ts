@@ -41,6 +41,7 @@ export class AttendancesSeeder {
       });
     });
 
+
     for (const item of attendances) {
       await this.attendancesService.create(item);
     }
