@@ -74,6 +74,7 @@ export class AttendanceEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async setDate() {
+        if (this.date)
         this.date = getDateFormat(this.date);
     }
 }

@@ -107,7 +107,10 @@ export class EventEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async setDate() {
-        this.startedAt = getDateFormat(this.startedAt);
-        this.endedAt = getDateFormat(this.endedAt);
+        if (this.startedAt)
+            this.startedAt = getDateFormat(this.startedAt);
+
+        if (this.startedAt)
+            this.endedAt = getDateFormat(this.endedAt);
     }
 }

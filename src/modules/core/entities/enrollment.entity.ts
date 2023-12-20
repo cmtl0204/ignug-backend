@@ -169,6 +169,7 @@ export class EnrollmentEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async setDate() {
-        this.date = getDateFormat(this.date);
+        if (this.date)
+            this.date = getDateFormat(this.date);
     }
 }

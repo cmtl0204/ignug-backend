@@ -153,13 +153,28 @@ export class SchoolPeriodEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async setDate() {
-        this.startedAt = getDateFormat(this.startedAt);
-        this.endedAt = getDateFormat(this.endedAt);
-        this.ordinaryStartedAt = getDateFormat(this.ordinaryStartedAt);
-        this.ordinaryEndedAt = getDateFormat(this.ordinaryEndedAt);
-        this.extraOrdinaryStartedAt = getDateFormat(this.extraOrdinaryStartedAt);
-        this.extraOrdinaryEndedAt = getDateFormat(this.extraOrdinaryEndedAt);
-        this.especialStartedAt = getDateFormat(this.especialStartedAt);
-        this.especialEndedAt = getDateFormat(this.especialEndedAt);
+        if (this.startedAt)
+            this.startedAt = getDateFormat(this.startedAt);
+
+        if (this.endedAt)
+            this.endedAt = getDateFormat(this.endedAt);
+
+        if (this.ordinaryStartedAt)
+            this.ordinaryStartedAt = getDateFormat(this.ordinaryStartedAt);
+
+        if (this.ordinaryEndedAt)
+            this.ordinaryEndedAt = getDateFormat(this.ordinaryEndedAt);
+
+        if (this.extraOrdinaryStartedAt)
+            this.extraOrdinaryStartedAt = getDateFormat(this.extraOrdinaryStartedAt);
+
+        if (this.extraOrdinaryEndedAt)
+            this.extraOrdinaryEndedAt = getDateFormat(this.extraOrdinaryEndedAt);
+
+        if (this.especialStartedAt)
+            this.especialStartedAt = getDateFormat(this.especialStartedAt);
+
+        if (this.especialEndedAt)
+            this.especialEndedAt = getDateFormat(this.especialEndedAt);
     }
 }

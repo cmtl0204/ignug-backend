@@ -250,7 +250,10 @@ export class InformationTeacherEntity {
     @BeforeInsert()
     @BeforeUpdate()
     async setDate() {
-        this.holidays = getDateFormat(this.holidays);
-        this.homeVacation = getDateFormat(this.holidays);
+        if (this.holidays)
+            this.holidays = getDateFormat(this.holidays);
+
+        if (this.homeVacation)
+            this.homeVacation = getDateFormat(this.holidays);
     }
 }
