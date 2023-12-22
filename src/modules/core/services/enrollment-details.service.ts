@@ -4,7 +4,10 @@ import {CreateEnrollmentsDetailDto, FilterEnrollmentsDetailDto, UpdateEnrollment
 import {CatalogueEntity, EnrollmentDetailEntity} from '@core/entities';
 import {PaginationDto} from '@core/dto';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
-import {CataloguesService, EnrollmentDetailStatesService} from "@core/services";
+import {
+    CataloguesService,
+    EnrollmentDetailStatesService,
+} from "@core/services";
 import {ServiceResponseHttpModel} from '@shared/models';
 
 @Injectable()

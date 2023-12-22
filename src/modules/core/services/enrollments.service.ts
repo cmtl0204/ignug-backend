@@ -488,6 +488,26 @@ export class EnrollmentsService {
         return enrollment;
     }
 
+    async findEnrollmentDetailsByStudent(studentId: string, schoolPeriodId: string): Promise<EnrollmentEntity> {
+        const enrollment = await this.repository.findOne({
+            relations: {
+                enrollmentDetails: {
+                    subject: {academicPeriod: true},
+                    enrollmentDetailStates: {
+                        state: true,
+                    },
+                    parallel: true,
+                    type: true,
+                    workday: true,
+                    incomeType: true,
+                },
+            },
+            where: {studentId, schoolPeriodId},
+        });
+
+        return enrollment;
+    }
+
     async sendRegistration(userId: string, payload: any): Promise<EnrollmentEntity> {
         // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
         let enrollment = await this.repository.findOne({
@@ -498,7 +518,7 @@ export class EnrollmentsService {
             },
         });
 
-        const enrollmentTotal = await this.findTotalEnrollments(enrollment?.id,payload.career.id, payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
+        const enrollmentTotal = await this.findTotalEnrollments(enrollment?.id, payload.career.id, payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
 
         const capacity = await this.careerParallelsService.findCapacityByCareer(payload.career.id, payload.parallel.id, payload.workday.id);
 
@@ -811,12 +831,12 @@ export class EnrollmentsService {
         return enrollment;
     }
 
-    async findTotalEnrollments(enrollmentId: string, careerId: string,parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
+    async findTotalEnrollments(enrollmentId: string, careerId: string, parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
         const catalogues = await this.cataloguesService.findCache();
         const states = catalogues.filter((item: CatalogueEntity) =>
             item.code != CatalogueEnrollmentStateEnum.REVOKED && item.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-        const statesId = states.map(state=>state.id);
+        const statesId = states.map(state => state.id);
 
         let total = [];
         if (enrollmentId) {

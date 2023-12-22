@@ -256,4 +256,16 @@ export class StudentsController {
             title: `GET`,
         };
     }
+
+    @Get(':id/enrollment-subjects')
+    @HttpCode(HttpStatus.OK)
+    async findEnrollmentSubjectsByStudent(@Param('id', ParseUUIDPipe) id: string, @Query('schoolPeriodId') schoolPeriodId: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.findEnrollmentDetailsByStudent(id, schoolPeriodId);
+
+        return {
+            data: serviceResponse,
+            message: `Success`,
+            title: `GET`,
+        };
+    }
 }
