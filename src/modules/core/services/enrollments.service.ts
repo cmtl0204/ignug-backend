@@ -488,12 +488,12 @@ export class EnrollmentsService {
         return enrollment;
     }
 
-    async findEnrollmentDetailsByStudent(studentId: string, schoolPeriodId: string): Promise<EnrollmentEntity> {
+    async findEnrollmentSubjectsByStudent(studentId: string, schoolPeriodId: string): Promise<EnrollmentEntity> {
         const enrollment = await this.repository.findOne({
             relations: {
                 enrollmentDetails: {
                     subject: {academicPeriod: true},
-                    enrollmentDetailStates: {
+                    enrollmentDetailState: {
                         state: true,
                     },
                     parallel: true,

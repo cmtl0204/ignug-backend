@@ -235,7 +235,7 @@ export class StudentsController {
 
     @Get(':id/enrollment-details')
     @HttpCode(HttpStatus.OK)
-    async findEnrollmentDetailsByStudent(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    async findEnrollmentsDetailsByStudent(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.findEnrollmentsByStudent(id);
 
         return {
@@ -260,7 +260,7 @@ export class StudentsController {
     @Get(':id/enrollment-subjects')
     @HttpCode(HttpStatus.OK)
     async findEnrollmentSubjectsByStudent(@Param('id', ParseUUIDPipe) id: string, @Query('schoolPeriodId') schoolPeriodId: string): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.findEnrollmentDetailsByStudent(id, schoolPeriodId);
+        const serviceResponse = await this.enrollmentsService.findEnrollmentSubjectsByStudent(id, schoolPeriodId);
 
         return {
             data: serviceResponse,
