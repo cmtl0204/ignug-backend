@@ -21,13 +21,14 @@ import {
 import { EnrollmentDetailsService } from '@core/services';
 import { EnrollmentDetailEntity } from '@core/entities';
 import { ResponseHttpModel } from '@shared/models';
-import {Auth, User} from "@auth/decorators";
-import {UserEntity} from "@auth/entities";
+import { Auth, User } from '@auth/decorators';
+import { UserEntity } from '@auth/entities';
 
 @ApiTags('Enrollment Details')
 @Controller('enrollment-details')
-export class  EnrollmentDetailsController {
-  constructor(private enrollmentDetailsService: EnrollmentDetailsService) { }
+export class EnrollmentDetailsController {
+  constructor(private enrollmentDetailsService: EnrollmentDetailsService) {
+  }
 
   @ApiOperation({ summary: 'Create Career' })
   @Post()
@@ -106,7 +107,7 @@ export class  EnrollmentDetailsController {
     };
   }
 
-  @ApiOperation({summary: 'Approve Enrollment Detail'})
+  @ApiOperation({ summary: 'Approve Enrollment Detail' })
   @Auth()
   @Patch(':id/approve')
   @HttpCode(HttpStatus.CREATED)
@@ -119,7 +120,7 @@ export class  EnrollmentDetailsController {
     };
   }
 
-  @ApiOperation({summary: 'Reject Enrollment Detail'})
+  @ApiOperation({ summary: 'Reject Enrollment Detail' })
   @Auth()
   @Patch(':id/reject')
   @HttpCode(HttpStatus.CREATED)
@@ -132,7 +133,7 @@ export class  EnrollmentDetailsController {
     };
   }
 
-  @ApiOperation({summary: 'Enroll Enrollment'})
+  @ApiOperation({ summary: 'Enroll Enrollment' })
   @Auth()
   @Patch(':id/enroll')
   @HttpCode(HttpStatus.CREATED)
@@ -145,7 +146,7 @@ export class  EnrollmentDetailsController {
     };
   }
 
-  @ApiOperation({summary: 'Enroll Enrollment'})
+  @ApiOperation({ summary: 'Enroll Enrollment' })
   @Auth()
   @Patch(':id/revoke')
   @HttpCode(HttpStatus.CREATED)
@@ -155,6 +156,20 @@ export class  EnrollmentDetailsController {
       data: serviceResponse,
       message: `La matrícula fue anulada`,
       title: `Anulada`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Enroll Enrollment' })
+  @Get('grades/:subjectId')
+  @HttpCode(HttpStatus.OK)
+  async findEnrollmentDetailsByTeacherDistribution(@Param('subjectId', ParseUUIDPipe) subjectId: string,
+                                                   @Query('schoolPeriodId') schoolPeriodId: string,
+                                                   @Query('workdayId') workdayId: string, @Query(' parallelId') parallelId: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentDetailsService.findEnrollmentDetailsByTeacherDistribution(subjectId,schoolPeriodId, workdayId, parallelId);
+    return {
+      data: serviceResponse,
+      message: `Success`,
+      title: `Success`,
     };
   }
 }

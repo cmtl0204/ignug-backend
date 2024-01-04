@@ -945,7 +945,7 @@ export class EnrollmentsService {
 
   async findAcademicRecordByStudent(studentId: string, careerId: string): Promise<EnrollmentEntity[]> {
     const catalogues = await this.cataloguesService.findCache();
-    const enrolled = catalogues.find(item => item.code === CatalogueEnrollmentStateEnum.ENROLLED && item.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+    const enrolled = catalogues.find(item => item.code === CatalogueEnrollmentStateEnum.REQUEST_SENT && item.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
     return await this.repository.find({
       relations: {
@@ -965,10 +965,11 @@ export class EnrollmentsService {
       where: {
         studentId,
         careerId,
-        enrollmentState: { stateId: enrolled.id },
-        enrollmentDetails: { enrollmentDetailState: { stateId: enrolled.id } },
+
       },
     });
+    //enrollmentState: { stateId: enrolled.id },
+    //         enrollmentDetails: { enrollmentDetailState: { stateId: enrolled.id } },
   }
 
   async findEnrollmentSubjectsByTeacher(teacherId: string, params: any): Promise<EnrollmentEntity[]> {

@@ -234,12 +234,14 @@ export class EnrollmentReportsService {
 
   async generateAcademicRecordByStudent(@Res() res: Response, studentId: string, careerId: string) {
     const enrollments = await this.enrollmentsService.findAcademicRecordByStudent(studentId, careerId);
-    return enrollments;
     const student = await this.studentRepository.findOne({
         where: { id: studentId },
         relations: { user: true },
       },
     );
+
+    console.log(enrollments);
+    console.log(student);
 
     const doc = new PDFDocument({
       size: 'A4',
@@ -253,6 +255,7 @@ export class EnrollmentReportsService {
     const textW = 500;
 
     const enrollmentCode = `${student.user.identification}`;
+
 
     doc.end();
   }

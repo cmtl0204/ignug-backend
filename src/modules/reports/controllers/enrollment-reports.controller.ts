@@ -59,10 +59,10 @@ export class EnrollmentReportsController {
   @Get('academic-records/:studentId')
   @HttpCode(HttpStatus.OK)
   async generateAcademicRecordByStudent(@Res() res, @Param('studentId', ParseUUIDPipe) studentId: string, @Query('careerId') careerId: string): Promise<ResponseHttpModel> {
-    const path = await this.enrollmentReportsService.generateAcademicRecordByStudent(res,studentId,careerId);
+    await this.enrollmentReportsService.generateAcademicRecordByStudent(res,studentId,careerId);
 
     return {
-      data: res.sendFile(path),
+      data: null,
       message: `Generate Enrollments By Career`,
       title: `Report`,
     };
