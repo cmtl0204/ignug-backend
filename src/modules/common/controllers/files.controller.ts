@@ -25,13 +25,13 @@ import {FilterFileDto} from '@common/dto';
 export class FilesController {
     constructor(private readonly filesService: FilesService) {
     }
-//${new Date().getFullYear()}/${new Date().getMonth()}
+
     @ApiOperation({summary: 'Upload File'})
     @Post(':modelId/upload')
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
-                destination: join(process.cwd(), 'storage/private/uploads', `2024/0`),
+                destination: join(process.cwd(), 'storage/private/uploads', `${(new Date()).getFullYear()}/${(new Date()).getMonth()}`),
                 filename: getFileName,
             }),
             fileFilter: fileFilter,

@@ -18,7 +18,7 @@ export class FilesService {
     }
 
     async uploadFile(file: Express.Multer.File, modelId: string, typeId: string) {
-        const filePath = `uploads/${new Date().getFullYear()}/${new Date().getMonth()}/${file.filename}`;
+        const filePath = `uploads/${(new Date()).getFullYear()}/${(new Date()).getMonth()}/${file.filename}`;
         const payload = {
             modelId,
             fileName: file.filename,
