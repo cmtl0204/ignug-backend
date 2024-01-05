@@ -31,7 +31,7 @@ export class FilesController {
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
-                destination: join(process.cwd(), 'storage/private/uploads', `${(new Date()).getFullYear()}/${(new Date()).getMonth()}`),
+                destination: join(process.cwd(), 'storage/private/uploads', `2024/1`),
                 filename: getFileName,
             }),
             fileFilter: fileFilter,
