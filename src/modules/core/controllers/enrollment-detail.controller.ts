@@ -160,7 +160,7 @@ export class EnrollmentDetailsController {
   }
 
   @ApiOperation({ summary: 'Enroll Enrollment' })
-  @Get('grades/:subjectId')
+  @Get('subjects/:subjectId')
   @HttpCode(HttpStatus.OK)
   async findEnrollmentDetailsByTeacherDistribution(@Param('subjectId', ParseUUIDPipe) subjectId: string,
                                                    @Query('schoolPeriodId') schoolPeriodId: string,

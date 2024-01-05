@@ -25,17 +25,17 @@ import {FilterFileDto} from '@common/dto';
 export class FilesController {
     constructor(private readonly filesService: FilesService) {
     }
-
+//${new Date().getFullYear()}/${new Date().getMonth()}
     @ApiOperation({summary: 'Upload File'})
     @Post(':modelId/upload')
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
-                destination: join(process.cwd(), 'storage/private/uploads', `${new Date().getFullYear()}/${new Date().getMonth()}`),
+                destination: join(process.cwd(), 'storage/private/uploads', `2024/0`),
                 filename: getFileName,
             }),
             fileFilter: fileFilter,
-            limits: {fieldSize: 2},
+            limits: {fieldSize: 10},
         }),
     )
     async uploadFile(@UploadedFile() file: Express.Multer.File, @Param('modelId', ParseUUIDPipe) modelId: string,
