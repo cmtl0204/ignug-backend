@@ -358,7 +358,7 @@ export class EnrollmentsService {
         'states.name        as "Estado"',
       ])
       .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
-      .innerJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
+      .leftJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
       .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
       .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
       .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
