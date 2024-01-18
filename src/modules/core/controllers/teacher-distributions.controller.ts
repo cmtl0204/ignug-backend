@@ -1,17 +1,17 @@
-import { 
-  Body, 
-  Controller, 
-  Delete, Get, 
-  HttpCode, 
-  HttpStatus, 
-  Param, 
-  ParseUUIDPipe, 
-  Patch, 
-  Post, 
-  Put, 
+import {
+  Body,
+  Controller,
+  Delete, Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Put,
   Query,
   Res,
- } from '@nestjs/common';
+} from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CreateTeacherDistributionDto, UpdateTeacherDistributionDto, FilterTeacherDistributionDto } from '@core/dto';
 import { TeacherDistributionsService } from '@core/services';
@@ -21,7 +21,8 @@ import { ResponseHttpModel } from '@shared/models';
 @ApiTags('Teacher Distribution')
 @Controller('teacher-distributions')
 export class TeacherDistributionsController {
-  constructor(private teacherDistributionsService: TeacherDistributionsService) {}
+  constructor(private teacherDistributionsService: TeacherDistributionsService) {
+  }
 
   @ApiOperation({ summary: 'Catalogue' })
   @Get('catalogue')
@@ -124,6 +125,20 @@ export class TeacherDistributionsController {
       data: res.sendFile(path),
       message: `Distributivo Docente Exportado`,
       title: `Exportado`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Find TeacherDistributions By Teacher' })
+  @Get('teachers/:teacherId')
+  @HttpCode(HttpStatus.OK)
+  async findTeacherDistributionsByTeacher(@Param('teacherId', ParseUUIDPipe) teacherId: string,
+                                          @Query('schoolPeriodId') schoolPeriodId: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.teacherDistributionsService.findTeacherDistributionsByTeacher(teacherId, schoolPeriodId);
+
+    return {
+      data: serviceResponse,
+      message: `Success`,
+      title: `Success`,
     };
   }
 }
