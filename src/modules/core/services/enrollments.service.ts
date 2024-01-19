@@ -670,8 +670,6 @@ export class EnrollmentsService {
             catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-        // await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
-        // await this.enrollmentsStateService.removeRejected(enrollment.enrollmentStates);
         await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({
@@ -717,8 +715,6 @@ export class EnrollmentsService {
             catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
             catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-        // await this.enrollmentsStateService.removeRequestSent(enrollment.enrollmentStates);
-        // await this.enrollmentsStateService.removeApproved(enrollment.enrollmentStates);
         await this.enrollmentsStateService.removeAll(enrollment.enrollmentStates);
 
         await this.enrollmentsStateService.create({

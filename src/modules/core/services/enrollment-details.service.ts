@@ -205,7 +205,7 @@ export class EnrollmentDetailsService {
       catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
       catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-    await this.enrollmentDetailStatesService.removeRejected(enrollmentDetail.enrollmentDetailStates);
+    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
 
     await this.enrollmentDetailStatesService.create({
       enrollmentDetailId: id,
@@ -234,8 +234,7 @@ export class EnrollmentDetailsService {
       catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
       catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-    // await this.enrollmentDetailStatesService.removeRequestSent(enrollmentDetail.enrollmentDetailStates);
-    await this.enrollmentDetailStatesService.removeApproved(enrollmentDetail.enrollmentDetailStates);
+    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
 
     await this.enrollmentDetailStatesService.create({
       enrollmentDetailId: id,
@@ -263,6 +262,8 @@ export class EnrollmentDetailsService {
     const enrolledState = catalogues.find(catalogue =>
       catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
       catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
 
     await this.enrollmentDetailStatesService.create({
       enrollmentDetailId: id,
