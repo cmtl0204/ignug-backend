@@ -4,11 +4,17 @@ import {
     DeleteDateColumn,
     Entity,
     JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {CatalogueEntity, SchoolPeriodEntity, SubjectEntity, TeacherEntity} from '@core/entities';
+import {
+    CareerAcademicPeriodsEntity,
+    CatalogueEntity, PartialPermissionEntity,
+    SchoolPeriodEntity,
+    SubjectEntity,
+    TeacherEntity
+} from '@core/entities';
 
 @Entity('teacher_distributions', {schema: 'core'})
 export class TeacherDistributionEntity {
@@ -35,6 +41,10 @@ export class TeacherDistributionEntity {
         nullable: true,
     })
     deletedAt: Date;
+
+    /** Inverse Relationship **/
+    @OneToMany(() => PartialPermissionEntity,partialPermission => partialPermission.teacherDistribution)
+    partialPermissions: PartialPermissionEntity[];
 
     /** Foreign Keys **/
     @ManyToOne(() => CatalogueEntity)

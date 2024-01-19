@@ -303,7 +303,6 @@ export class EnrollmentDetailsService {
   async findEnrollmentDetailsByTeacherDistribution(subjectId: string, schoolPeriodId: string, workdayId: string, parallelId: string): Promise<EnrollmentDetailEntity[]> {
     const response = await this.repository.find({
       relations: {
-        grades: { partial: true },
         parallel: true,
         enrollmentDetailState: { state: true },
         subject: { academicPeriod: true },
@@ -311,7 +310,7 @@ export class EnrollmentDetailsService {
         workday: true,
         enrollment: { student: { user: true } },
       },
-      where: { enrollment: { schoolPeriodId }, parallelId, subjectId, workdayId },
+      where: { enrollment: { schoolPeriodId }, parallelId, subjectId,workdayId },
     });
 
     return response;
