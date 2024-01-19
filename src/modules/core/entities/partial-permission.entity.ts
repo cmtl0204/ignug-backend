@@ -43,12 +43,6 @@ export class PartialPermissionEntity {
     @Column({type: 'uuid', name: 'partial_id', comment: 'Parcial al que pertenece'})
     partialId: string;
 
-    @ManyToOne(() => SchoolPeriodEntity)
-    @JoinColumn({name: 'school_period_id'})
-    schoolPeriod: SchoolPeriodEntity;
-    @Column({type: 'uuid', name: 'school_period_id', comment: 'Periodo lectivo al que pertenece'})
-    schoolPeriodId: string;
-
     @ManyToOne(() => TeacherDistributionEntity)
     @JoinColumn({name: 'teacher_distribution_id'})
     teacherDistribution: TeacherDistributionEntity;
@@ -57,9 +51,9 @@ export class PartialPermissionEntity {
 
     /** Columns **/
     @Column({
-        name: 'is_enabled',
+        name: 'enabled',
         type: 'boolean',
         comment: 'Permiso',
     })
-    isEnabled: boolean;
+    enabled: boolean;
 }
