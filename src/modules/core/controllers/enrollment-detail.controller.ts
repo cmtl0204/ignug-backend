@@ -164,7 +164,8 @@ export class EnrollmentDetailsController {
   @HttpCode(HttpStatus.OK)
   async findEnrollmentDetailsByTeacherDistribution(@Param('subjectId', ParseUUIDPipe) subjectId: string,
                                                    @Query('schoolPeriodId') schoolPeriodId: string,
-                                                   @Query('workdayId') workdayId: string, @Query(' parallelId') parallelId: string): Promise<ResponseHttpModel> {
+                                                   @Query('workdayId') workdayId: string,
+                                                   @Query(' parallelId') parallelId: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.enrollmentDetailsService.findEnrollmentDetailsByTeacherDistribution(subjectId,schoolPeriodId, workdayId, parallelId);
     return {
       data: serviceResponse,

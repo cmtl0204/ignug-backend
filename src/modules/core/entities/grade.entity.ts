@@ -44,7 +44,7 @@ export class GradeEntity {
     @JoinColumn({name: 'enrollment_detail_id'})
     enrollmentDetail: EnrollmentDetailEntity;
     @Column({type: 'uuid', name: 'enrollment_detail_id', comment: 'Detalles de la matricula'})
-    enrollment_detailId: string;
+    enrollmentDetailId: string;
 
     @ManyToOne(() => PartialEntity)
     @JoinColumn({name: 'partial_id'})
