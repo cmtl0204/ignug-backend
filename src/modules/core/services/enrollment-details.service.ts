@@ -1,319 +1,349 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { Repository, FindOptionsWhere, ILike, LessThan } from 'typeorm';
-import { CreateEnrollmentsDetailDto, FilterEnrollmentsDetailDto, UpdateEnrollmentsDetailDto } from '@core/dto';
-import { CatalogueEntity, EnrollmentDetailEntity } from '@core/entities';
-import { PaginationDto } from '@core/dto';
-import { CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import {BadRequestException, Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {Repository, FindOptionsWhere, ILike, LessThan} from 'typeorm';
+import {CreateEnrollmentsDetailDto, FilterEnrollmentsDetailDto, UpdateEnrollmentsDetailDto} from '@core/dto';
+import {CatalogueEntity, EnrollmentDetailEntity} from '@core/entities';
+import {PaginationDto} from '@core/dto';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
 import {
-  CataloguesService,
-  EnrollmentDetailStatesService,
+    CataloguesService,
+    EnrollmentDetailStatesService,
 } from '@core/services';
-import { ServiceResponseHttpModel } from '@shared/models';
+import {ServiceResponseHttpModel} from '@shared/models';
 
 @Injectable()
 export class EnrollmentDetailsService {
-  constructor(
-    @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY)
-    private repository: Repository<EnrollmentDetailEntity>,
-    private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
-    private readonly cataloguesService: CataloguesService,
-  ) {
-  }
-
-  async create(payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const newEnrollmentDetail = this.repository.create(payload);
-
-    const enrollmentDetailExist = await this.repository.find({
-      where: { enrollmentId: payload.enrollmentId, subjectId: payload.subjectId },
-    });
-
-    if (enrollmentDetailExist.length > 0) {
-      throw new BadRequestException('La asignatura ya existe, por favor ingrese otra');
+    constructor(
+        @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY)
+        private repository: Repository<EnrollmentDetailEntity>,
+        private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
+        private readonly cataloguesService: CataloguesService,
+    ) {
     }
 
-    return await this.repository.save(newEnrollmentDetail);
-  }
+    async create(payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+        const newEnrollmentDetail = this.repository.create(payload);
 
-  async findAll(params?: FilterEnrollmentsDetailDto): Promise<ServiceResponseHttpModel> {
-    //Pagination & Filter by search
-    if (params?.limit > 0 && params?.page >= 0) {
-      return await this.paginateAndFilter(params);
+        const enrollmentDetailExist = await this.repository.find({
+            where: {enrollmentId: payload.enrollmentId, subjectId: payload.subjectId},
+        });
+
+        if (enrollmentDetailExist.length > 0) {
+            throw new BadRequestException('La asignatura ya existe, por favor ingrese otra');
+        }
+
+        return await this.repository.save(newEnrollmentDetail);
     }
 
-    //Other filters
-    // if (params.number) {
-    //   return this.filterByNumber(params.number);
-    // }
+    async findAll(params?: FilterEnrollmentsDetailDto): Promise<ServiceResponseHttpModel> {
+        //Pagination & Filter by search
+        if (params?.limit > 0 && params?.page >= 0) {
+            return await this.paginateAndFilter(params);
+        }
 
-    //All
-    const data = await this.repository.findAndCount({
-      relations: { subject: true },
-    });
+        //Other filters
+        // if (params.number) {
+        //   return this.filterByNumber(params.number);
+        // }
 
-    return { data: data[0], pagination: { totalItems: data[1], limit: 10 } };
-  }
+        //All
+        const data = await this.repository.findAndCount({
+            relations: {subject: true},
+        });
 
-  async findOne(id: string): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOne({
-      relations: {
-        subject: { academicPeriod: true },
-        type: true,
-        workday: true,
-        parallel: true,
-        enrollmentDetailStates: { state: true },
-        enrollmentDetailState: { state: true },
-      },
-      where: { id },
-    });
-
-    if (!enrollmentDetail) {
-      throw new NotFoundException('Enrollment detail not found');
+        return {data: data[0], pagination: {totalItems: data[1], limit: 10}};
     }
 
-    return enrollmentDetail;
-  }
+    async findOne(id: string): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOne({
+            relations: {
+                subject: {academicPeriod: true},
+                type: true,
+                workday: true,
+                parallel: true,
+                enrollmentDetailStates: {state: true},
+                enrollmentDetailState: {state: true},
+            },
+            where: {id},
+        });
 
-  async update(id: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOneBy({ id });
+        if (!enrollmentDetail) {
+            throw new NotFoundException('Enrollment detail not found');
+        }
 
-    if (!enrollmentDetail) {
-      throw new NotFoundException('Detalle de matrícula no encontrado');
+        return enrollmentDetail;
     }
 
-    if (payload.parallel)
-      enrollmentDetail.parallelId = payload.parallel.id;
+    async update(id: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOneBy({id});
 
-    if (payload.type)
-      enrollmentDetail.typeId = payload.type.id;
+        if (!enrollmentDetail) {
+            throw new NotFoundException('Detalle de matrícula no encontrado');
+        }
 
-    if (payload.workday)
-      enrollmentDetail.workdayId = payload.workday.id;
+        if (payload.parallel)
+            enrollmentDetail.parallelId = payload.parallel.id;
 
-    if (payload.date)
-      enrollmentDetail.date = payload.date;
+        if (payload.type)
+            enrollmentDetail.typeId = payload.type.id;
 
-    if (payload.observation)
-      enrollmentDetail.observation = payload.observation;
+        if (payload.workday)
+            enrollmentDetail.workdayId = payload.workday.id;
 
-    return await this.repository.save(enrollmentDetail);
-  }
+        if (payload.date)
+            enrollmentDetail.date = payload.date;
 
-  async remove(id: string): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOneBy({ id });
+        if (payload.observation)
+            enrollmentDetail.observation = payload.observation;
 
-    if (!enrollmentDetail) {
-      throw new NotFoundException('enrollmentDetail not found');
+        return await this.repository.save(enrollmentDetail);
     }
 
-    return await this.repository.save(enrollmentDetail);
-  }
+    async updateParallel(enrollmentId: string, parallelId: string): Promise<boolean> {
+        const enrollmentDetails = await this.repository.find({where: {enrollmentId}});
 
-  async removeAll(payload: EnrollmentDetailEntity[] | CreateEnrollmentsDetailDto[]): Promise<EnrollmentDetailEntity[]> {
-    return await this.repository.softRemove(payload);
-  }
+        if (enrollmentDetails.length === 0) {
+            throw new NotFoundException('Detalle de matrícula no encontrado');
+        }
 
-  private async paginateAndFilter(params: FilterEnrollmentsDetailDto): Promise<ServiceResponseHttpModel> {
-    let where: FindOptionsWhere<EnrollmentDetailEntity> | FindOptionsWhere<EnrollmentDetailEntity>[];
-    where = {};
-    let { page, search } = params;
-    const { limit } = params;
+        for (const enrollmentDetail of enrollmentDetails) {
+            enrollmentDetail.parallelId = parallelId;
+            await this.repository.save(enrollmentDetail);
+        }
 
-    if (search) {
-      search = search.trim();
-      page = 0;
-      where = [];
-      where.push({ observation: ILike(`%${search}%`) });
+        return true;
     }
 
-    const response = await this.repository.findAndCount({
-      where,
-      relations: { subject: true },
-      skip: PaginationDto.getOffset(limit, page),
-      take: limit,
-    });
+    async updateWorkday(enrollmentId: string, workdayId: string): Promise<boolean> {
+        const enrollmentDetails = await this.repository.find({where: {enrollmentId}});
 
-    return {
-      data: response[0],
-      pagination: { limit, totalItems: response[1] },
-    };
-  }
+        if (enrollmentDetails.length === 0) {
+            throw new NotFoundException('Detalle de matrícula no encontrado');
+        }
 
-  private async filterByNumber(number: number): Promise<ServiceResponseHttpModel> {
-    const where: FindOptionsWhere<EnrollmentDetailEntity> = {};
+        for (const enrollmentDetail of enrollmentDetails) {
+            enrollmentDetail.workdayId = workdayId;
+            await this.repository.save(enrollmentDetail);
+        }
 
-    if (number) {
-      where.number = LessThan(number);
+        return true;
     }
 
-    const response = await this.repository.findAndCount({
-      relations: { subject: true },
-      where,
-    });
+    async remove(id: string): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOneBy({id});
 
-    return {
-      data: response[0],
-      pagination: { limit: 10, totalItems: response[1] },
-    };
-  }
+        if (!enrollmentDetail) {
+            throw new NotFoundException('enrollmentDetail not found');
+        }
 
-  async findEnrollmentDetailsByEnrollment(enrollmentId: string): Promise<EnrollmentDetailEntity[]> {
-    const response = await this.repository.find({
-      relations: {
-        parallel: true,
-        enrollmentDetailStates: { state: true },
-        enrollmentDetailState: { state: true },
-        subject: { academicPeriod: true },
-        type: true,
-        workday: true,
-      },
-      where: { enrollmentId },
-    });
-
-    return response;
-  }
-
-  async findTotalEnrollmentDetails(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
-    const catalogues = await this.cataloguesService.findCache();
-    const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENT_STATE);
-    const state = states.find((item: CatalogueEntity) => item.code === CatalogueEnrollmentStateEnum.REGISTERED);
-
-    const total = await this.repository.find({
-      where: {
-        workdayId,
-        parallelId,
-        enrollment: { schoolPeriodId },
-        enrollmentDetailStates: { stateId: state.id },
-      },
-    });
-
-    return total.length;
-  }
-
-  async approve(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOne({
-      relations: { enrollmentDetailStates: { state: true } },
-      where: { id },
-    });
-
-    if (!enrollmentDetail) {
-      throw new NotFoundException('Detalle Matrícula no encontrado');
+        return await this.repository.save(enrollmentDetail);
     }
 
-    const catalogues = await this.cataloguesService.findCache();
-
-    const approvedState = catalogues.find(catalogue =>
-      catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
-      catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
-
-    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
-
-    await this.enrollmentDetailStatesService.create({
-      enrollmentDetailId: id,
-      stateId: approvedState.id,
-      userId,
-      date: new Date(),
-      observation: payload.observation,
-    });
-
-    return enrollmentDetail;
-  }
-
-  async reject(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOne({
-      relations: { enrollmentDetailStates: { state: true } },
-      where: { id },
-    });
-
-    if (!enrollmentDetail) {
-      throw new NotFoundException('Matrícula no encontrada');
+    async removeAll(payload: EnrollmentDetailEntity[] | CreateEnrollmentsDetailDto[]): Promise<EnrollmentDetailEntity[]> {
+        return await this.repository.softRemove(payload);
     }
 
-    const catalogues = await this.cataloguesService.findCache();
+    private async paginateAndFilter(params: FilterEnrollmentsDetailDto): Promise<ServiceResponseHttpModel> {
+        let where: FindOptionsWhere<EnrollmentDetailEntity> | FindOptionsWhere<EnrollmentDetailEntity>[];
+        where = {};
+        let {page, search} = params;
+        const {limit} = params;
 
-    const rejectedState = catalogues.find(catalogue =>
-      catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
-      catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+        if (search) {
+            search = search.trim();
+            page = 0;
+            where = [];
+            where.push({observation: ILike(`%${search}%`)});
+        }
 
-    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
+        const response = await this.repository.findAndCount({
+            where,
+            relations: {subject: true},
+            skip: PaginationDto.getOffset(limit, page),
+            take: limit,
+        });
 
-    await this.enrollmentDetailStatesService.create({
-      enrollmentDetailId: id,
-      stateId: rejectedState.id,
-      userId,
-      date: new Date(),
-      observation: payload.observation,
-    });
+        return {
+            data: response[0],
+            pagination: {limit, totalItems: response[1]},
+        };
+    }
 
-    return enrollmentDetail;
-  }
+    private async filterByNumber(number: number): Promise<ServiceResponseHttpModel> {
+        const where: FindOptionsWhere<EnrollmentDetailEntity> = {};
 
-  async enroll(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOne({
-      relations: { enrollmentDetailStates: true },
-      where: { id },
-    });
+        if (number) {
+            where.number = LessThan(number);
+        }
 
-    enrollmentDetail.date = new Date();
+        const response = await this.repository.findAndCount({
+            relations: {subject: true},
+            where,
+        });
 
-    await this.repository.save(enrollmentDetail);
+        return {
+            data: response[0],
+            pagination: {limit: 10, totalItems: response[1]},
+        };
+    }
 
-    const catalogues = await this.cataloguesService.findCache();
+    async findEnrollmentDetailsByEnrollment(enrollmentId: string): Promise<EnrollmentDetailEntity[]> {
+        const response = await this.repository.find({
+            relations: {
+                parallel: true,
+                enrollmentDetailStates: {state: true},
+                enrollmentDetailState: {state: true},
+                subject: {academicPeriod: true},
+                type: true,
+                workday: true,
+            },
+            where: {enrollmentId},
+        });
 
-    const enrolledState = catalogues.find(catalogue =>
-      catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
-      catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+        return response;
+    }
 
-    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
+    async findTotalEnrollmentDetails(parallelId: string, schoolPeriodId: string, workdayId: string): Promise<number> {
+        const catalogues = await this.cataloguesService.findCache();
+        const states = catalogues.filter((item: CatalogueEntity) => item.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+        const state = states.find((item: CatalogueEntity) => item.code === CatalogueEnrollmentStateEnum.REGISTERED);
 
-    await this.enrollmentDetailStatesService.create({
-      enrollmentDetailId: id,
-      stateId: enrolledState.id,
-      userId,
-      date: new Date(),
-      observation: payload.observation,
-    });
+        const total = await this.repository.find({
+            where: {
+                workdayId,
+                parallelId,
+                enrollment: {schoolPeriodId},
+                enrollmentDetailStates: {stateId: state.id},
+            },
+        });
 
-    return enrollmentDetail;
-  }
+        return total.length;
+    }
 
-  async revoke(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const enrollmentDetail = await this.repository.findOne({
-      relations: { enrollmentDetailStates: true },
-      where: { id },
-    });
+    async approve(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOne({
+            relations: {enrollmentDetailStates: {state: true}},
+            where: {id},
+        });
 
-    const catalogues = await this.cataloguesService.findCache();
+        if (!enrollmentDetail) {
+            throw new NotFoundException('Detalle Matrícula no encontrado');
+        }
 
-    const revokedState = catalogues.find(catalogue =>
-      catalogue.code === CatalogueEnrollmentStateEnum.REVOKED &&
-      catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+        const catalogues = await this.cataloguesService.findCache();
 
-    await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
+        const approvedState = catalogues.find(catalogue =>
+            catalogue.code === CatalogueEnrollmentStateEnum.APPROVED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-    await this.enrollmentDetailStatesService.create({
-      enrollmentDetailId: id,
-      stateId: revokedState.id,
-      userId,
-      date: new Date(),
-      observation: payload.observation,
-    });
+        await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
 
-    return enrollmentDetail;
-  }
+        await this.enrollmentDetailStatesService.create({
+            enrollmentDetailId: id,
+            stateId: approvedState.id,
+            userId,
+            date: new Date(),
+            observation: payload.observation,
+        });
 
-  async findEnrollmentDetailsByTeacherDistribution(subjectId: string, schoolPeriodId: string, workdayId: string, parallelId: string): Promise<EnrollmentDetailEntity[]> {
-    const response = await this.repository.find({
-      relations: {
-        parallel: true,
-        enrollmentDetailState: { state: true },
-        subject: { academicPeriod: true },
-        type: true,
-        workday: true,
-        enrollment: { student: { user: true } },
-      },
-      where: { enrollment: { schoolPeriodId }, parallelId, subjectId,workdayId },
-    });
+        return enrollmentDetail;
+    }
 
-    return response;
-  }
+    async reject(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOne({
+            relations: {enrollmentDetailStates: {state: true}},
+            where: {id},
+        });
+
+        if (!enrollmentDetail) {
+            throw new NotFoundException('Matrícula no encontrada');
+        }
+
+        const catalogues = await this.cataloguesService.findCache();
+
+        const rejectedState = catalogues.find(catalogue =>
+            catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+        await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
+
+        await this.enrollmentDetailStatesService.create({
+            enrollmentDetailId: id,
+            stateId: rejectedState.id,
+            userId,
+            date: new Date(),
+            observation: payload.observation,
+        });
+
+        return enrollmentDetail;
+    }
+
+    async enroll(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOne({
+            relations: {enrollmentDetailStates: true},
+            where: {id},
+        });
+
+        enrollmentDetail.date = new Date();
+
+        await this.repository.save(enrollmentDetail);
+
+        const catalogues = await this.cataloguesService.findCache();
+
+        const enrolledState = catalogues.find(catalogue =>
+            catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+        await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
+
+        await this.enrollmentDetailStatesService.create({
+            enrollmentDetailId: id,
+            stateId: enrolledState.id,
+            userId,
+            date: new Date(),
+            observation: payload.observation,
+        });
+
+        return enrollmentDetail;
+    }
+
+    async revoke(id: string, userId: string, payload: UpdateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+        const enrollmentDetail = await this.repository.findOne({
+            relations: {enrollmentDetailStates: true},
+            where: {id},
+        });
+
+        const catalogues = await this.cataloguesService.findCache();
+
+        const revokedState = catalogues.find(catalogue =>
+            catalogue.code === CatalogueEnrollmentStateEnum.REVOKED &&
+            catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+        await this.enrollmentDetailStatesService.removeAll(enrollmentDetail.enrollmentDetailStates);
+
+        await this.enrollmentDetailStatesService.create({
+            enrollmentDetailId: id,
+            stateId: revokedState.id,
+            userId,
+            date: new Date(),
+            observation: payload.observation,
+        });
+
+        return enrollmentDetail;
+    }
+
+    async findEnrollmentDetailsByTeacherDistribution(subjectId: string, schoolPeriodId: string, workdayId: string, parallelId: string): Promise<EnrollmentDetailEntity[]> {
+        const response = await this.repository.find({
+            relations: {
+                parallel: true,
+                enrollmentDetailState: {state: true},
+                subject: {academicPeriod: true},
+                type: true,
+                workday: true,
+                enrollment: {student: {user: true}},
+            },
+            where: {enrollment: {schoolPeriodId}, parallelId, subjectId, workdayId},
+        });
+
+        return response;
+    }
 }

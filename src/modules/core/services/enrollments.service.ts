@@ -100,31 +100,39 @@ export class EnrollmentsService {
     }
 
     async update(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
-        const entity = await this.repository.findOneBy({id});
+        const enrollment = await this.repository.findOneBy({id});
 
-        if (!entity) {
+        if (!enrollment) {
             throw new NotFoundException('Matrícula no encontrada');
         }
 
+        if (enrollment.parallelId != payload.parallel.id) {
+            await this.enrollmentDetailsService.updateParallel(enrollment.id, payload.parallel.id);
+        }
+
+        if (enrollment.workdayId != payload.workday.id) {
+            await this.enrollmentDetailsService.updateWorkday(enrollment.id, payload.workday.id);
+        }
+
         if (payload.academicPeriod)
-            entity.academicPeriodId = payload.academicPeriod.id;
+            enrollment.academicPeriodId = payload.academicPeriod.id;
 
         if (payload.parallel)
-            entity.parallelId = payload.parallel.id;
+            enrollment.parallelId = payload.parallel.id;
 
         if (payload.type)
-            entity.typeId = payload.type.id;
+            enrollment.typeId = payload.type.id;
 
         if (payload.workday)
-            entity.workdayId = payload.workday.id;
+            enrollment.workdayId = payload.workday.id;
 
         if (payload.academicPeriod)
-            entity.date = payload.date;
+            enrollment.date = payload.date;
 
         if (payload.observation)
-            entity.observation = payload.observation;
+            enrollment.observation = payload.observation;
 
-        return await this.repository.save(entity);
+        return await this.repository.save(enrollment);
     }
 
     async updateEnrolled(id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
