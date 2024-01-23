@@ -107,11 +107,11 @@ export class EnrollmentsService {
         }
 
         if (enrollment.parallelId != payload.parallel.id) {
-            await this.enrollmentDetailsService.updateParallel(enrollment.id, payload.parallel.id);
+            // await this.enrollmentDetailsService.updateParallel(enrollment.id, payload.parallel.id);
         }
 
         if (enrollment.workdayId != payload.workday.id) {
-            await this.enrollmentDetailsService.updateWorkday(enrollment.id, payload.workday.id);
+            // await this.enrollmentDetailsService.updateWorkday(enrollment.id, payload.workday.id);
         }
 
         if (payload.academicPeriod)
