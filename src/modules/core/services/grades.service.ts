@@ -12,7 +12,8 @@ export class GradesService {
   constructor(
     @Inject(CoreRepositoryEnum.GRADE_REPOSITORY)
     private repository: Repository<GradeEntity>,
-  ) {}
+  ) {
+  }
 
   async create(payload: CreateGradeDto): Promise<GradeEntity> {
     const newSubject = this.repository.create(payload);
@@ -78,6 +79,20 @@ export class GradesService {
     return await this.repository.softRemove(payload);
   }
 
+  async createGradeByEnrollmentDetail(enrollmentDetailId: string, partialId: string, value: number): Promise<GradeEntity> {
+    let grade = await this.repository.findOne({ where: { enrollmentDetailId, partialId } });
+
+    if (!grade) {
+      grade = this.repository.create();
+      grade.enrollmentDetailId = enrollmentDetailId;
+      grade.partialId = partialId;
+    }
+
+    grade.value = value;
+
+    return await this.repository.save(grade);
+  }
+
   private async paginateAndFilter(params: FilterGradeDto): Promise<ServiceResponseHttpModel> {
     let where: FindOptionsWhere<GradeEntity> | FindOptionsWhere<GradeEntity>[];
     where = {};
@@ -88,7 +103,7 @@ export class GradesService {
       search = search.trim();
       page = 0;
       where = [];
-     // where.push({ enrollmentDetail: ILike(`%${search}%`) });
+      // where.push({ enrollmentDetail: ILike(`%${search}%`) });
     }
 
     const response = await this.repository.findAndCount({
