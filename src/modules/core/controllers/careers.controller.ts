@@ -57,6 +57,7 @@ export class CareersController {
     @HttpCode(HttpStatus.CREATED)
     async update(@Param('id', ParseUUIDPipe) id: string, @Body() payload: UpdateCareerDto): Promise<ResponseHttpModel> {
         const serviceResponse = await this.careersService.update(id, payload);
+
         return {
             data: serviceResponse,
             message: `Carrera fue actualizada`,
@@ -146,6 +147,7 @@ export class CareersController {
     @HttpCode(HttpStatus.OK)
     async findByAuthenticatedUser(@User() user: UserEntity): Promise<ResponseHttpModel> {
         const serviceResponse = await this.careersService.findCareersByAuthenticatedUser(user);
+
         return {
             data: serviceResponse,
             message: 'Find Careers By Authenticated User',
@@ -154,8 +156,8 @@ export class CareersController {
     }
 
     @ApiOperation({summary: 'Find Enrollments By Career'})
-    @Get(':id/enrollments')
-    @HttpCode(HttpStatus.CREATED)
+    @Get(':id/:enrollments')
+    @HttpCode(HttpStatus.OK)
     async findEnrollmentsByCareer(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterEnrollmentDto): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.findEnrollmentsByCareer(id, params);
 

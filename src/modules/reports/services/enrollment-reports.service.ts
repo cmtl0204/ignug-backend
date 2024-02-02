@@ -1,5 +1,5 @@
 import { Inject, Injectable, Res } from '@nestjs/common';
-import { EnrollmentsService, StudentsService } from '@core/services';
+import { CareersService, EnrollmentsService, StudentsService, SubjectsService } from '@core/services';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Repository, SelectQueryBuilder } from 'typeorm';
@@ -14,6 +14,7 @@ import {
 } from '@core/entities';
 import { UserEntity } from '@auth/entities';
 import * as XLSX from 'xlsx';
+import * as qr from 'qrcode';
 import { join } from 'path';
 import { CoreRepositoryEnum } from '@shared/enums';
 
@@ -27,8 +28,12 @@ export class EnrollmentReportsService {
   private imageHeaderWidth = 110;
   private imageHeaderHeight = 65;
 
-  constructor(private readonly enrollmentsService: EnrollmentsService, @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
-  private readonly studentRepository: Repository<StudentEntity>) {
+  constructor(
+    private readonly enrollmentsService: EnrollmentsService,
+    private readonly careersService: CareersService,
+    private readonly subjectsService: SubjectsService,
+    @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
+    private readonly studentRepository: Repository<StudentEntity>) {
   }
 
   async generateEnrollmentCertificate(@Res() res: Response, id: string) {
@@ -46,7 +51,7 @@ export class EnrollmentReportsService {
     const textW = 500;
 
     const enrollmentCode = `${enrollment.schoolPeriod.shortName}-${enrollment.career.acronym}-${enrollment.student.user.identification}`;
-    const text = `Este certificado reconoce que el estudiante: ${enrollment.student.user.name} ${enrollment.student.user.lastname} con el numero de identificación ${enrollment.student.user.identification} ha sido oficialmente matriculado en la Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi, en el programa académico de ${enrollment.career.name}. Este certificado confirma la matriculación del estudiante para el período académico ${enrollment.schoolPeriod.name}. Contando con la inscripción en las siguientes asignaturas: `;
+    const text = `Este certificado reconoce que el estudiante: ${enrollment.student.user.name} ${enrollment.student.user.lastname} con el número de identificación ${enrollment.student.user.identification}, previo al cumplimiento de los requisitos legales ha sido matriculado en la Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi, en la carrera de ${enrollment.career.name}, en el periodo académico ${enrollment.schoolPeriod.name}, en las siguientes asignaturas:`;
     const currentDate = new Date();
     const day = format(currentDate, 'd', { locale: es }); // Formato numérico del día
     const formattedDate = format(currentDate, 'dd \'de\' MMMM \'de\' yyyy', { locale: es });
@@ -58,18 +63,18 @@ export class EnrollmentReportsService {
       height: this.imageHeaderHeight,
     });
 
-    doc.moveDown();
-    doc.font('Times-Roman');
-    doc.fontSize(11);
-    doc.text(`Quito, ${fechaCompleta}`, textX + 320);
+
     doc.moveDown(2);
-    doc.font('Helvetica-Bold').fontSize(18).text('CERTIFICADO DE MATRÍCULA', textX + 100);
+    doc.font('Helvetica-Bold').fontSize(18).text('CERTIFICADO DE MATRÍCULA', textX + 120);
     doc.moveDown();
 
     doc.font('Helvetica-Bold');
     doc.fontSize(11);
     doc.text('MATRICULA:  ' + enrollmentCode, textX);
-
+    doc.moveDown();
+    doc.font('Times-Roman');
+    doc.fontSize(11);
+    doc.text(`Quito, ${fechaCompleta}`);
 
     doc.font('Times-Roman');
     doc.fontSize(11);
@@ -102,6 +107,16 @@ export class EnrollmentReportsService {
     await doc.table(table, { align: 'center', columnsSize: [40, 200, 80, 30, 40, 50] });
 
     doc.moveDown();
+
+    const qrData = `http://localhost:3000/api/v1/enrollment-reports/${enrollment.studentId}/certificate`;
+    const qrImageBuffer = await qr.toBuffer(qrData, {
+      errorCorrectionLevel: 'H',
+      type: 'png',
+      margin: 1,
+      scale: 6,
+    });
+
+    // doc.image(qrImageBuffer, textX + 180, textY + 390, { width: 100 });
 
     doc
       .font('Helvetica-Bold')
@@ -234,14 +249,13 @@ export class EnrollmentReportsService {
 
   async generateAcademicRecordByStudent(@Res() res: Response, studentId: string, careerId: string) {
     const enrollments = await this.enrollmentsService.findAcademicRecordByStudent(studentId, careerId);
+    const careers = await this.careersService.findOne(careerId);
     const student = await this.studentRepository.findOne({
         where: { id: studentId },
         relations: { user: true },
       },
     );
 
-    console.log(enrollments);
-    console.log(student);
 
     const doc = new PDFDocument({
       size: 'A4',
@@ -249,13 +263,190 @@ export class EnrollmentReportsService {
       align: 'center',
     });
 
+    doc.image(this.imageHeaderPath, 35, 20, {
+      align: 'center',
+      width: this.imageHeaderWidth,
+      height: this.imageHeaderHeight,
+    });
+
+    doc.moveDown('2');
+
     doc.pipe(res);
-    const textX = 50;
-    const textY = 80;
-    const textW = 500;
+    const title = `UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI`;
+    const career = `${careers.name}`;
+    doc
+      .fontSize('12')
+      .font('Helvetica-Bold')
+      .text(title, {
+        align: 'center',
+      });
 
-    const enrollmentCode = `${student.user.identification}`;
+    doc.moveDown();
 
+    doc
+      .font('Times-Roman')
+      .fontSize('9')
+      .text(career, {
+        align: 'center',
+      });
+
+    doc.moveDown();
+
+    doc
+      .font('Times-Roman')
+      .fontSize('8')
+      .text(careers.codeSniese, {
+        align: 'center',
+      });
+
+    doc.moveDown();
+
+    doc
+      .font('Times-Roman')
+      .fontSize('9')
+      .text(`PROGRAMA DE RECONOCIMIENTO DE TRAYECTORIAS DE LOS CONOCIMIENTOS Y EXPERIENCIAS DE LAS SABIAS Y SABIOS 
+    `, {
+        align: 'center',
+      });
+
+    doc.moveDown();
+
+    doc
+      .font('Helvetica-Bold')
+      .fontSize('20')
+      .text(`RÉCORD ACADÉMICO`, {
+        align: 'center',
+      });
+
+    doc.moveDown();
+
+    doc
+      .font('Times-Bold')
+      .fontSize('10')
+      .text(`Nombre: `, {
+        continued: true,
+      })
+      .font('Times-Roman')
+      .text(`${student.user.name} ${student.user.lastname}`);
+
+    doc
+      .font('Times-Bold')
+      .fontSize('10')
+      .text(`Cédula: `, {
+        continued: true,
+      })
+      .font('Times-Roman')
+      .text(student.user.identification);
+
+    const currentDate = new Date();
+    const formattedDate = format(currentDate, 'dd \'de\' MMMM \'de\' yyyy', { locale: es });
+    doc
+      .font('Times-Bold')
+      .fontSize('10')
+      .text(`Fecha: `, {
+        continued: true,
+      })
+      .font('Times-Roman')
+      .text(formattedDate);
+
+    const finalGrade = [];
+
+    enrollments.forEach(enrollment => {
+      enrollment.enrollmentDetails.forEach(enrollmentDetail => {
+
+
+        const list = [
+          enrollmentDetail.finalGrade,
+        ];
+        finalGrade.push(list);
+      });
+    });
+
+    doc
+      .font('Times-Bold')
+      .fontSize('10')
+      .text(`Promedio: `, {
+        continued: true,
+      })
+      .font('Times-Roman')
+      .text(finalGrade[0]);
+
+    doc.moveDown('2');
+
+    const rows = [];
+
+    enrollments.forEach(enrollment => {
+      enrollment.enrollmentDetails.forEach(enrollmentDetail => {
+
+
+        const list = [
+          enrollment.schoolPeriod.shortName,
+          enrollmentDetail.subject.code,
+          enrollmentDetail.subject.name,
+          enrollmentDetail.subject.academicPeriod.name,
+          enrollmentDetail.number,
+          enrollmentDetail.grades,
+          enrollmentDetail.enrollmentDetailState.state.name,
+        ];
+        rows.push(list);
+      });
+    });
+
+    const table = {
+      headers: ['PAO', 'Código Asignatura', 'Asignatura', 'Nivel', 'Num. Matrícula', 'Calificación', 'Estado'],
+      rows: rows,
+    };
+
+    await doc.table(table, { align: 'center', columnsSize: [40, 60, 160, 50, 50, 50, 50] });
+
+    doc.moveDown();
+
+    const oldBottomMargin = doc.page.margins.bottom;
+    doc.page.margins.bottom = 0;
+
+    const sectionWidth = doc.page.width / 2 - 50;
+    const sectionHeight = 20;
+
+    let yPositionSections = doc.page.height - oldBottomMargin / 2 - 100;
+
+    doc
+      .font('Times-Bold')
+      .fontSize('12')
+      .text(
+        'DIRECCIÓN DE CARRERA',
+        50,
+        yPositionSections,
+        { width: sectionWidth, align: 'center' },
+      );
+
+    doc
+      .font('Times-Bold')
+      .fontSize('12')
+      .text(
+        'SECRETARIA DE CARRERA',
+        doc.page.width / 2 + 50,
+        yPositionSections,
+        { width: sectionWidth, align: 'left' }, // Modificado para centrar
+      );
+
+    doc
+      .font('Times-Bold')
+      .fontSize('12')
+      .text(
+        `UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI`,
+        doc.page.width / 4 - 70,
+        yPositionSections + sectionHeight + 10,
+        { align: 'center' },
+      );
+
+    doc
+      .fontSize('7')
+      .text(
+        `Dir. Av. Colón E5-56 y Juan León Mera, Edif. Ave María, Torre B. TELF: 022232000 / 022230500 MAIL: informacion@uaw.edu.ec Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi`,
+        80,
+        doc.page.height - oldBottomMargin / 2 - 40,
+        { align: 'center' },
+      );
 
     doc.end();
   }
