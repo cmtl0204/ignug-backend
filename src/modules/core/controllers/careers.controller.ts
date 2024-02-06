@@ -21,7 +21,7 @@ import {CareersService, EnrollmentsService} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Careers')
-@Controller('careers')
+@Controller('language-center/careers')
 export class CareersController {
     constructor(private readonly careersService: CareersService, private readonly enrollmentsService: EnrollmentsService) {
     }
