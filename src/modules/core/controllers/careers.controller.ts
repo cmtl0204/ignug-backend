@@ -17,13 +17,16 @@ import {Auth, User} from '@auth/decorators';
 import {UserEntity} from '@auth/entities';
 import {CreateCareerDto, FilterEnrollmentDto, UpdateCareerDto} from '@core/dto';
 import {CareerEntity} from '@core/entities';
-import {CareersService, EnrollmentsService} from '@core/services';
+import { CareersService, EnrollmentsService, SubjectsService } from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Careers')
-@Controller('language-center/careers')
+@Controller('careers')
 export class CareersController {
-    constructor(private readonly careersService: CareersService, private readonly enrollmentsService: EnrollmentsService) {
+    constructor(private readonly careersService: CareersService,
+                private readonly enrollmentsService: EnrollmentsService,
+                private readonly subjectsService: SubjectsService
+    ) {
     }
 
     @ApiOperation({summary: 'Create Career'})
@@ -166,6 +169,19 @@ export class CareersController {
             pagination: serviceResponse.pagination,
             message: `Reporte de notas fueron eliminadas`,
             title: `Reporte de notas eliminadas`,
+        };
+    }
+
+    @ApiOperation({summary: 'Find Subjects By Career'})
+    @Get(':id/subjects')
+    @HttpCode(HttpStatus.OK)
+    async findSubjectsByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.subjectsService.findSubjectsByCareer(id);
+
+        return {
+            data: serviceResponse,
+            message: `Success`,
+            title: `Success`,
         };
     }
 }
