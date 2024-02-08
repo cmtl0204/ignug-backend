@@ -176,6 +176,7 @@ export class CareersController {
     @Get(':id/subjects')
     @HttpCode(HttpStatus.OK)
     async findSubjectsByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        console.log('entro');
         const serviceResponse = await this.subjectsService.findSubjectsByCareer(id);
 
         return {
