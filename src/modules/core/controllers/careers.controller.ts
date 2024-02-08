@@ -158,20 +158,6 @@ export class CareersController {
         };
     }
 
-    @ApiOperation({summary: 'Find Enrollments By Career'})
-    @Get(':id/:enrollments')
-    @HttpCode(HttpStatus.OK)
-    async findEnrollmentsByCareer(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterEnrollmentDto): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.findEnrollmentsByCareer(id, params);
-
-        return {
-            data: serviceResponse.data,
-            pagination: serviceResponse.pagination,
-            message: `Reporte de notas fueron eliminadas`,
-            title: `Reporte de notas eliminadas`,
-        };
-    }
-
     @ApiOperation({summary: 'Find Subjects By Career'})
     @Get(':id/subjects')
     @HttpCode(HttpStatus.OK)
@@ -183,6 +169,20 @@ export class CareersController {
             data: serviceResponse,
             message: `Success`,
             title: `Success`,
+        };
+    }
+
+    @ApiOperation({summary: 'Find Enrollments By Career'})
+    @Get(':id/:enrollments')
+    @HttpCode(HttpStatus.OK)
+    async findEnrollmentsByCareer(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterEnrollmentDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.findEnrollmentsByCareer(id, params);
+
+        return {
+            data: serviceResponse.data,
+            pagination: serviceResponse.pagination,
+            message: `Reporte de notas fueron eliminadas`,
+            title: `Reporte de notas eliminadas`,
         };
     }
 }
