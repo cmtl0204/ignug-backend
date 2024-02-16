@@ -8,7 +8,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {TeacherDistributionEntity, PartialEntity, SchoolPeriodEntity} from '@core/entities';
+import {TeacherDistributionEntity, PartialEntity} from '@core/entities';
 
 @Entity('partial_permission', {schema: 'core'})
 export class PartialPermissionEntity {

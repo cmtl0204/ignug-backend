@@ -11,11 +11,12 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {
+    AttendanceEntity,
     CatalogueEntity,
     EnrollmentDetailStateEntity,
     EnrollmentEntity,
     GradeEntity,
-    SubjectEntity
+    SubjectEntity,
 } from '@core/entities';
 import {getDateFormat} from "@shared/helpers";
 
@@ -49,6 +50,9 @@ export class EnrollmentDetailEntity {
     deletedAt: Date;
 
     /** Inverse Relationship **/
+    @OneToMany(() => AttendanceEntity, attendance => attendance.enrollmentDetail)
+    attendances: AttendanceEntity[];
+
     @OneToMany(() => GradeEntity, grade => grade.enrollmentDetail)
     grades: GradeEntity[];
 

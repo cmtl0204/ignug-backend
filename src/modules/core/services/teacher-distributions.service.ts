@@ -186,12 +186,13 @@ export class TeacherDistributionsService {
         parallel: true,
         teacher: true,
         schoolPeriod: true,
-        subject: true,
+        subject: { curriculum: { career: true }, academicPeriod: true },
         workday: true,
+        partialPermissions: { partial: true },
       },
       where: {
         teacherId,
-        schoolPeriodId
+        schoolPeriodId,
       },
     });
   }

@@ -6,7 +6,7 @@ import { PaginationDto } from '@core/dto';
 import { CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import {
   CataloguesService,
-  EnrollmentDetailStatesService,
+  EnrollmentDetailStatesService, TeacherDistributionsService,
 } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
 
@@ -17,6 +17,7 @@ export class EnrollmentDetailsService {
     private repository: Repository<EnrollmentDetailEntity>,
     private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
     private readonly cataloguesService: CataloguesService,
+    private readonly teacherDistributionsService: TeacherDistributionsService,
   ) {
   }
 
@@ -300,9 +301,12 @@ export class EnrollmentDetailsService {
     return enrollmentDetail;
   }
 
-  async findEnrollmentDetailsByTeacherDistribution(subjectId: string, schoolPeriodId: string, workdayId: string, parallelId: string): Promise<EnrollmentDetailEntity[]> {
+  async findEnrollmentDetailsByTeacherDistribution(teacherDistributionId: string): Promise<EnrollmentDetailEntity[]> {
+    const teacherDistribution = await this.teacherDistributionsService.findOne(teacherDistributionId);
+
     const response = await this.repository.find({
       relations: {
+        attendances: { partial: true },
         grades: { partial: true },
         parallel: true,
         enrollmentDetailState: { state: true },
@@ -311,7 +315,12 @@ export class EnrollmentDetailsService {
         workday: true,
         enrollment: { student: { user: true } },
       },
-      where: { enrollment: { schoolPeriodId }, parallelId, subjectId, workdayId },
+      where: {
+        enrollment: { schoolPeriodId: teacherDistribution.schoolPeriodId },
+        parallelId: teacherDistribution.parallelId,
+        subjectId: teacherDistribution.subjectId,
+        workdayId: teacherDistribution.workdayId,
+      },
     });
 
     return response;
