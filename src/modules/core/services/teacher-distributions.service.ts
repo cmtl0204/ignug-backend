@@ -70,7 +70,7 @@ export class TeacherDistributionsService {
     const entity = await this.repository.findOne({
       relations: {
         parallel: true,
-        teacher: true,
+        teacher: {user:true},
         schoolPeriod: true,
         subject: true,
         workday: true,
@@ -193,6 +193,23 @@ export class TeacherDistributionsService {
       where: {
         teacherId,
         schoolPeriodId,
+      },
+    });
+  }
+
+  async findTeacherDistributionsByCareer(careerId: string, teacherDistributionId: string): Promise<TeacherDistributionEntity[]> {
+    return await this.repository.find({
+      relations: {
+        parallel: true,
+        teacher: true,
+        schoolPeriod: true,
+        subject: { curriculum: { career: true }, academicPeriod: true },
+        workday: true,
+        partialPermissions: { partial: true },
+      },
+      where: {
+        id: teacherDistributionId,
+        subject: { curriculum: { careerId } },
       },
     });
   }

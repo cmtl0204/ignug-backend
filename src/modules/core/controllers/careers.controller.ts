@@ -17,7 +17,7 @@ import {Auth, User} from '@auth/decorators';
 import {UserEntity} from '@auth/entities';
 import {CreateCareerDto, FilterEnrollmentDto, UpdateCareerDto} from '@core/dto';
 import {CareerEntity} from '@core/entities';
-import { CareersService, EnrollmentsService, SubjectsService } from '@core/services';
+import { CareersService, EnrollmentsService, SubjectsService, TeacherDistributionsService } from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Careers')
@@ -25,7 +25,8 @@ import {ResponseHttpModel} from '@shared/models';
 export class CareersController {
     constructor(private readonly careersService: CareersService,
                 private readonly enrollmentsService: EnrollmentsService,
-                private readonly subjectsService: SubjectsService
+                private readonly subjectsService: SubjectsService,
+                private readonly teacherDistributionsService: TeacherDistributionsService,
     ) {
     }
 
@@ -183,6 +184,20 @@ export class CareersController {
             pagination: serviceResponse.pagination,
             message: `Reporte de notas fueron eliminadas`,
             title: `Reporte de notas eliminadas`,
+        };
+    }
+
+    @ApiOperation({ summary: 'Find TeacherDistributions By Career' })
+    @Get(':id/teacher-distributions/:teacherDistributionId')
+    @HttpCode(HttpStatus.OK)
+    async findTeacherDistributionsByTeacher(@Param('id', ParseUUIDPipe) id: string,
+                                            @Param('teacherDistributionId', ParseUUIDPipe) teacherDistributionId: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.teacherDistributionsService.findTeacherDistributionsByCareer(id,teacherDistributionId);
+
+        return {
+            data: serviceResponse,
+            message: `Success`,
+            title: `Success`,
         };
     }
 }
