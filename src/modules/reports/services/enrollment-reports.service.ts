@@ -26,7 +26,7 @@ export class EnrollmentReportsService {
   private imageHeaderPath = './resources/images/reports/header.png';
   private imageFooterPath = `./resources/images/reports/footer.png`;
   private imageHeaderWidth = 110;
-  private imageHeaderHeight = 65;
+  private imageHeaderHeight = 80;
 
   constructor(
     private readonly enrollmentsService: EnrollmentsService,
@@ -107,6 +107,7 @@ export class EnrollmentReportsService {
     await doc.table(table, { align: 'center', columnsSize: [40, 200, 80, 30, 40, 50] });
 
     doc.moveDown();
+    doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 355);
 
     const qrData = `http://localhost:3000/api/v1/enrollment-reports/${enrollment.studentId}/certificate`;
     const qrImageBuffer = await qr.toBuffer(qrData, {
@@ -121,9 +122,11 @@ export class EnrollmentReportsService {
     doc
       .font('Helvetica-Bold')
       .fontSize(12)
-      .text('SECRETARIA ACADEMICA', textX + 150, textY + 570);
+      .text('SECRETARIA GENERAL', textX + 160, textY + 570);
     doc.moveDown();
     doc.text('UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI', textX + 5, textY + 590, { align: 'center' });
+    //doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 355, textY + 630);
+
     //Footer: Add page number
     const oldBottomMargin = doc.page.margins.bottom;
     doc.page.margins.bottom = 0; //Dumb: Have to remove bottom margin in order to write into it
