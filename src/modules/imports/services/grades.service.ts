@@ -141,4 +141,14 @@ export class GradesService {
             console.error('Something wrong happened removing the file', err);
         }
     }
+
+    validateGrade(value: string) {
+        const grade = parseFloat(value);
+
+        if (grade) {
+            if (grade < 0 || grade > 10) {
+
+            }
+        }
+    }
 }
