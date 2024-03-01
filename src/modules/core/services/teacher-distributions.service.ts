@@ -184,7 +184,7 @@ export class TeacherDistributionsService {
     return await this.repository.find({
       relations: {
         parallel: true,
-        teacher: true,
+        teacher: {user:true},
         schoolPeriod: true,
         subject: { curriculum: { career: true }, academicPeriod: true },
         workday: true,

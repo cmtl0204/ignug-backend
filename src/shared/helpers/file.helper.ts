@@ -18,3 +18,11 @@ export const fileFilter = (req, file, callback) => {
   }
   callback(null, true);
 };
+
+export const excelFileFilter = (req, file, callback) => {
+  if (!file.originalname.match(/\.(xlsx|xls)$/)) {
+    return callback(new Error('Solo xlsx|xls estos tipos están permitidos!'), false);
+  }
+  callback(null, true);
+};
+

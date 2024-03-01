@@ -13,6 +13,7 @@ import {MulterModule} from '@nestjs/platform-express';
 import {VerifyUserMiddleware} from "./middlewares/verify-user.middleware";
 import {AuditMiddleware} from "./middlewares/audit.middleware";
 import {ReportsModule} from "./modules/reports";
+import {ImportsModule} from "./modules/imports";
 
 @Module({
     imports: [
@@ -41,6 +42,7 @@ import {ReportsModule} from "./modules/reports";
         AuthModule,
         CoreModule,
         ReportsModule,
+        ImportsModule
     ],
     controllers: [AppController],
     providers: [AppService],
