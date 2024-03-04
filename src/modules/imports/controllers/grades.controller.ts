@@ -7,7 +7,7 @@ import {diskStorage} from 'multer';
 import {join} from 'path';
 import {excelFileFilter, fileFilter, getFileName} from '@shared/helpers';
 
-@ApiTags('Catalogues')
+@ApiTags('Imports Grades')
 @Controller('imports/grades')
 export class GradesController {
     constructor(private readonly gradesService: GradesService) {
@@ -27,7 +27,7 @@ export class GradesController {
         }),
     )
     async importGrades(@UploadedFile() file: Express.Multer.File,@Body() payload: any): Promise<ResponseHttpModel> {
-        await this.gradesService.createGrades(file, payload);
+        await this.gradesService.importGrades(file, payload);
 
         return {
             data: null,

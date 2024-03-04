@@ -306,6 +306,7 @@ export class EnrollmentDetailsService {
 
     const response = await this.repository.find({
       relations: {
+        academicState: true,
         attendances: { partial: true },
         grades: { partial: true },
         parallel: true,
@@ -321,6 +322,7 @@ export class EnrollmentDetailsService {
         subjectId: teacherDistribution.subjectId,
         workdayId: teacherDistribution.workdayId,
       },
+      order: { enrollment: { student: { user: { lastname: 'asc', name: 'asc' } } } },
     });
 
     return response;
