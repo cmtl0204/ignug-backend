@@ -63,6 +63,19 @@ export class GradeReportsService {
     return path;
   }
 
+  async findTeacherDistribution(teacherDistributionId: string) {
+    return await this.teacherDistributionRepository.findOne({
+      relations: {
+        parallel: true,
+        workday: true,
+        subject: {curriculum:{career:true}},
+        schoolPeriod: true,
+        teacher:{user:true}
+      },
+      where: { id: teacherDistributionId },
+    });
+  }
+
   async findEnrollmentDetails(teacherDistribution: TeacherDistributionEntity) {
     return await this.enrollmentDetailRepository.find({
       relations: {
