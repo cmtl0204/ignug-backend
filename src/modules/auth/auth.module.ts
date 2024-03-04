@@ -33,7 +33,7 @@ import {CoreModule} from "@core/modules";
     ],
     controllers: [AuthController, MenusController, RolesController, UsersController],
     providers: [...authProviders, AuditsService, JwtStrategy, AuthService, RolesService, UsersService, MenusService, JwtService],
-    exports: [UsersService, RolesService, MenusService, JwtService, AuditsService],
+    exports: [...authProviders,UsersService, RolesService, MenusService, JwtService, AuditsService],
 })
 export class AuthModule {
 }

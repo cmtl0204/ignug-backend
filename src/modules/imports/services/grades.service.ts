@@ -96,62 +96,56 @@ export class GradesService {
   }
 
   async importGrades(file: Express.Multer.File, payload: any) {
-    try {
-      const path = join(process.cwd(), 'storage/imports', file.filename);
+    const path = join(process.cwd(), 'storage/imports', file.filename);
 
-      const workbook = XLSX.readFile(path);
-      const workbookSheets = workbook.SheetNames;
-      const sheet = workbookSheets[0];
-      const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+    const workbook = XLSX.readFile(path);
+    const workbookSheets = workbook.SheetNames;
+    const sheet = workbookSheets[0];
+    const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
 
-      const teacherDistribution = await this.teacherDistributionRepository.findOneBy({ id: payload.teacherDistributionId });
+    const teacherDistribution = await this.teacherDistributionRepository.findOneBy({ id: payload.teacherDistributionId });
 
-      await this.loadAcademicStates();
-      await this.loadPartials();
-      await this.loadPartialPermissions(teacherDistribution.id);
+    await this.loadAcademicStates();
+    await this.loadPartials();
+    await this.loadPartialPermissions(teacherDistribution.id);
 
-      this.row = 1;
+    this.row = 1;
 
-      for (const item of dataExcel) {
-        this.row++;
-        let identification = item[ColumnsEnum.IDENTIFICATION];
+    for (const item of dataExcel) {
+      this.row++;
+      let identification = item[ColumnsEnum.IDENTIFICATION];
 
-        if (identification) identification = identification.trim();
+      if (identification) identification = identification.trim();
 
-        const student = await this.studentRepository.findOne({
-          where: { user: { identification: identification } },
-        });
+      const student = await this.studentRepository.findOne({
+        where: { user: { identification: identification } },
+      });
 
-        if (!student) continue;
+      if (!student) continue;
 
-        this.checkErrors(item);
+      this.checkErrors(item);
 
-        const enrollment = await this.enrollmentRepository.findOne({
-          where: { studentId: student.id, schoolPeriodId: teacherDistribution.schoolPeriodId },
-        });
+      const enrollment = await this.enrollmentRepository.findOne({
+        where: { studentId: student.id, schoolPeriodId: teacherDistribution.schoolPeriodId },
+      });
 
-        const enrollmentDetail = await this.enrollmentDetailRepository.findOne({
-          where: { enrollmentId: enrollment.id, subjectId: teacherDistribution.subjectId },
-        });
+      const enrollmentDetail = await this.enrollmentDetailRepository.findOne({
+        where: { enrollmentId: enrollment.id, subjectId: teacherDistribution.subjectId },
+      });
 
-        await this.saveGrades(item, enrollmentDetail);
+      await this.saveGrades(item, enrollmentDetail);
 
-        await this.saveAttendance(item, enrollmentDetail);
+      await this.saveAttendance(item, enrollmentDetail);
 
-        await this.saveAcademicState(enrollmentDetail);
-      }
-
-      await this.generateErrorReport(teacherDistribution.id);
-
-      fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
-
-      if ((this.gradeErrors.concat(this.attendanceErrors, this.partialPermissionErrors)).length > 0)
-        throw new BadRequestException();
-
-    } catch (err) {
-      console.log('err', err);
-      throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores');
+      await this.saveAcademicState(enrollmentDetail);
     }
+
+    await this.generateErrorReport(teacherDistribution.id);
+
+    fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
+
+    if ((this.gradeErrors.concat(this.attendanceErrors, this.partialPermissionErrors)).length > 0)
+      throw new BadRequestException();
   }
 
   checkErrors(item: any) {
@@ -231,7 +225,7 @@ export class GradesService {
     this.partialPermissionErrors.push({
       row: this.row,
       column,
-      observation: `No se puede cambiar la ${column}, el parcial se encuentra bloqueado`,
+      observation: `No se puede cambiar ${column}, el parcial se encuentra bloqueado`,
     });
   }
 
@@ -270,9 +264,13 @@ export class GradesService {
         }
       }
 
+      if (this.row == 2) {
+        console.log(item[ColumnsEnum.GRADE_2]);
+      }
       if (grade2) {
         grade2.value = parseFloat(String(grade2.value));
         if (grade2.value != item[ColumnsEnum.GRADE_2]) {
+          console.log(item[ColumnsEnum.GRADE_2]);
           if (this.partialEnabled2) {
             grade2.value = item[ColumnsEnum.GRADE_2];
           } else {
