@@ -96,6 +96,11 @@ export class GradesService {
   }
 
   async importGrades(file: Express.Multer.File, payload: any) {
+    this.gradeErrors = [];
+    this.attendanceErrors = [];
+    this.partialPermissionErrors = [];
+    this.row = 1;
+
     const path = join(process.cwd(), 'storage/imports', file.filename);
 
     const workbook = XLSX.readFile(path);
@@ -108,8 +113,6 @@ export class GradesService {
     await this.loadAcademicStates();
     await this.loadPartials();
     await this.loadPartialPermissions(teacherDistribution.id);
-
-    this.row = 1;
 
     for (const item of dataExcel) {
       this.row++;
@@ -264,9 +267,7 @@ export class GradesService {
         }
       }
 
-      if (this.row == 2) {
-        console.log(item[ColumnsEnum.GRADE_2]);
-      }
+
       if (grade2) {
         grade2.value = parseFloat(String(grade2.value));
         if (grade2.value != item[ColumnsEnum.GRADE_2]) {
