@@ -143,7 +143,7 @@ export class TeacherDistributionsController {
   }
 
   @ApiOperation({ summary: 'Find TeacherDistributions By Teacher' })
-  @Get(':id/:enrollmentDetails')
+  @Get(':id/:enrollment-details')
   @HttpCode(HttpStatus.OK)
   async findEnrollmentDetailsByTeacherDistribution(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     const serviceResponse = await this.enrollmentDetailsService.findEnrollmentDetailsByTeacherDistribution(id);

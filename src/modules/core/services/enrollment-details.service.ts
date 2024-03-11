@@ -304,6 +304,9 @@ export class EnrollmentDetailsService {
   async findEnrollmentDetailsByTeacherDistribution(teacherDistributionId: string): Promise<EnrollmentDetailEntity[]> {
     const teacherDistribution = await this.teacherDistributionsService.findOne(teacherDistributionId);
 
+    const catalogues = await this.cataloguesService.findCache();
+    const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
     const response = await this.repository.find({
       relations: {
         academicState: true,
@@ -317,10 +320,14 @@ export class EnrollmentDetailsService {
         enrollment: { student: { user: true } },
       },
       where: {
-        enrollment: { schoolPeriodId: teacherDistribution.schoolPeriodId },
+        enrollment: {
+          schoolPeriodId: teacherDistribution.schoolPeriodId,
+          enrollmentState: { stateId: enrollmentStateEnrolled.id },
+        },
         parallelId: teacherDistribution.parallelId,
         subjectId: teacherDistribution.subjectId,
         workdayId: teacherDistribution.workdayId,
+        enrollmentDetailState: { stateId: enrollmentStateEnrolled.id },
       },
       order: { enrollment: { student: { user: { lastname: 'asc', name: 'asc' } } } },
     });
