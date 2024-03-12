@@ -9,10 +9,11 @@ import {
   StudentEntity, SubjectEntity,
   TeacherDistributionEntity,
 } from '@core/entities';
-import { CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import { CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { join } from 'path';
 import * as XLSX from 'xlsx';
 import * as fs from 'fs';
+import { CataloguesService } from '@core/services';
 
 enum ColumnsEnum {
   IDENTIFICATION = 'Numero_Documento',
@@ -48,6 +49,7 @@ export class GradesService {
   private failed!: CatalogueEntity;
 
   constructor(
+    private readonly cataloguesService: CataloguesService,
     @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY) private readonly catalogueRepository: Repository<CatalogueEntity>,
     @Inject(CoreRepositoryEnum.GRADE_REPOSITORY) private readonly gradeRepository: Repository<GradeEntity>,
     @Inject(CoreRepositoryEnum.PARTIAL_REPOSITORY) private readonly partialRepository: Repository<PartialEntity>,
@@ -114,6 +116,9 @@ export class GradesService {
     await this.loadPartials();
     await this.loadPartialPermissions(teacherDistribution.id);
 
+    const catalogues = await this.cataloguesService.findCache();
+    const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
     for (const item of dataExcel) {
       this.row++;
       let identification = item[ColumnsEnum.IDENTIFICATION];
@@ -129,18 +134,42 @@ export class GradesService {
       this.checkErrors(item);
 
       const enrollment = await this.enrollmentRepository.findOne({
-        where: { studentId: student.id, schoolPeriodId: teacherDistribution.schoolPeriodId },
+        where: {
+          studentId: student.id,
+          schoolPeriodId: teacherDistribution.schoolPeriodId,
+          enrollmentState: { stateId: enrollmentStateEnrolled.id },
+        },
       });
 
-      const enrollmentDetail = await this.enrollmentDetailRepository.findOne({
-        where: { enrollmentId: enrollment.id, subjectId: teacherDistribution.subjectId },
-      });
+      if (enrollment) {
+        const enrollmentDetail = await this.enrollmentDetailRepository.findOne({
+          where: {
+            enrollmentId: enrollment.id,
+            subjectId: teacherDistribution.subjectId,
+            enrollmentDetailState: { stateId: enrollmentStateEnrolled.id },
+          },
+        });
 
-      await this.saveGrades(item, enrollmentDetail);
+        if (enrollment) {
+          await this.saveGrades(item, enrollmentDetail);
 
-      await this.saveAttendance(item, enrollmentDetail);
+          await this.saveAttendance(item, enrollmentDetail);
 
-      await this.saveAcademicState(enrollmentDetail);
+          await this.saveAcademicState(enrollmentDetail);
+        } else {
+          this.attendanceErrors.push({
+            row: this.row,
+            column: ColumnsEnum.IDENTIFICATION,
+            observation: `El estudiante no se encuentra matriculado en la asignatura`,
+          });
+        }
+      } else {
+        this.attendanceErrors.push({
+          row: this.row,
+          column: ColumnsEnum.IDENTIFICATION,
+          observation: `El estudiante no se encuentra matriculado`,
+        });
+      }
     }
 
     await this.generateErrorReport(teacherDistribution.id);

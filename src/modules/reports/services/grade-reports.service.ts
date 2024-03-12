@@ -1,5 +1,11 @@
 import { Inject, Injectable, Res } from '@nestjs/common';
-import { CareersService, EnrollmentsService, StudentsService, SubjectsService } from '@core/services';
+import {
+  CareersService,
+  CataloguesService,
+  EnrollmentsService,
+  StudentsService,
+  SubjectsService,
+} from '@core/services';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Repository, SelectQueryBuilder } from 'typeorm';
@@ -16,7 +22,7 @@ import { UserEntity } from '@auth/entities';
 import * as XLSX from 'xlsx';
 import * as qr from 'qrcode';
 import { join } from 'path';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class GradeReportsService {
@@ -26,6 +32,7 @@ export class GradeReportsService {
   private imageHeaderHeight = 80;
 
   constructor(
+    private readonly cataloguesService: CataloguesService,
     @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY) private readonly enrollmentRepository: Repository<EnrollmentEntity>,
     @Inject(CoreRepositoryEnum.TEACHER_DISTRIBUTION_REPOSITORY) private readonly teacherDistributionRepository: Repository<TeacherDistributionEntity>,
     @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY) private readonly enrollmentDetailRepository: Repository<EnrollmentDetailEntity>,
@@ -77,6 +84,9 @@ export class GradeReportsService {
   }
 
   async findEnrollmentDetails(teacherDistribution: TeacherDistributionEntity) {
+    const catalogues = await this.cataloguesService.findCache();
+    const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
     return await this.enrollmentDetailRepository.find({
       relations: {
         academicState: true,
@@ -90,7 +100,7 @@ export class GradeReportsService {
         enrollment: { student: { user: true } },
       },
       where: {
-        enrollment: { schoolPeriodId: teacherDistribution.schoolPeriodId },
+        enrollment: { schoolPeriodId: teacherDistribution.schoolPeriodId,enrollmentState:{stateId:enrollmentStateEnrolled.id} },
         parallelId: teacherDistribution.parallelId,
         subjectId: teacherDistribution.subjectId,
         workdayId: teacherDistribution.workdayId,
