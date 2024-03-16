@@ -300,7 +300,6 @@ export class GradesService {
       if (grade2) {
         grade2.value = parseFloat(String(grade2.value));
         if (grade2.value != item[ColumnsEnum.GRADE_2]) {
-          console.log(item[ColumnsEnum.GRADE_2]);
           if (this.partialEnabled2) {
             grade2.value = item[ColumnsEnum.GRADE_2];
           } else {
@@ -419,6 +418,10 @@ export class GradesService {
       const finalGrade = parseFloat(String(enrollmentDetail.finalGrade));
       const finalAttendance = parseFloat(String(enrollmentDetail.finalAttendance));
 
+      console.log('enrollmentDetailId', enrollmentDetail.id);
+      console.log('finalGrade', finalGrade);
+      console.log('finalAttendance', finalAttendance);
+
       if (finalAttendance || finalAttendance == 0) {
         if (finalGrade >= 6) {
           if (finalAttendance >= 75) {
@@ -431,9 +434,9 @@ export class GradesService {
           enrollmentDetail.academicStateId = this.failed.id;
 
           if (finalAttendance >= 75) {
-            enrollmentDetail.academicObservation = 'Pierde por Nota';
+            enrollmentDetail.academicObservation = 'Pierde por Calificación';
           } else {
-            enrollmentDetail.academicObservation = 'Pierde por Nota y Asistencia';
+            enrollmentDetail.academicObservation = 'Pierde por Calificación y Asistencia';
           }
         }
 
