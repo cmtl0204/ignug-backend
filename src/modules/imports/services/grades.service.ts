@@ -418,14 +418,11 @@ export class GradesService {
       const finalGrade = parseFloat(String(enrollmentDetail.finalGrade));
       const finalAttendance = parseFloat(String(enrollmentDetail.finalAttendance));
 
-      console.log('enrollmentDetailId', enrollmentDetail.id);
-      console.log('finalGrade', finalGrade);
-      console.log('finalAttendance', finalAttendance);
-
       if (finalAttendance || finalAttendance == 0) {
         if (finalGrade >= 6) {
           if (finalAttendance >= 75) {
             enrollmentDetail.academicStateId = this.approved.id;
+            enrollmentDetail.academicObservation = null;
           } else {
             enrollmentDetail.academicStateId = this.failed.id;
             enrollmentDetail.academicObservation = 'Pierde por Asistencia';

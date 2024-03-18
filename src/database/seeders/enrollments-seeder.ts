@@ -19,6 +19,7 @@ import {
 } from '@core/entities';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
 import {UsersService} from "@auth/services";
+import { SeedEnrollmentsDetailDto } from '../../modules/core/dto/enrollment-details/seed-enrollment-detail.dto';
 
 @Injectable()
 export class EnrollmentSeeder {
@@ -223,6 +224,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment1.id,
                 parallel: parallel,
+                subject: subject1,
                 subjectId: subject1.id,
                 type: type,
                 workday: workday,
@@ -236,6 +238,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment1.id,
                 parallel: parallel,
+                subject: subject2,
                 subjectId: subject2.id,
                 type: type,
                 workday: workday,
@@ -249,6 +252,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment1.id,
                 parallel: parallel,
+                subject: subject3,
                 subjectId: subject3.id,
                 type: type,
                 workday: workday,
@@ -262,6 +266,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment1.id,
                 parallel: parallel,
+                subject: subject4,
                 subjectId: subject4.id,
                 type: type,
                 workday: workday,
@@ -275,6 +280,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment1.id,
                 parallel: parallel,
+                subject: subject5,
                 subjectId: subject5.id,
                 type: type,
                 workday: workday,
@@ -288,6 +294,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment2.id,
                 parallel: parallel,
+                subject: subject6,
                 subjectId: subject6.id,
                 type: type,
                 workday: workday,
@@ -301,6 +308,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment2.id,
                 parallel: parallel,
+                subject: subject7,
                 subjectId: subject7.id,
                 type: type,
                 workday: workday,
@@ -314,6 +322,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment2.id,
                 parallel: parallel,
+                subject: subject8,
                 subjectId: subject8.id,
                 type: type,
                 workday: workday,
@@ -327,6 +336,7 @@ export class EnrollmentSeeder {
                 academicState: academicState,
                 enrollmentId: enrollment2.id,
                 parallel: parallel,
+                subject: subject9,
                 subjectId: subject9.id,
                 type: type,
                 workday: workday,
@@ -340,6 +350,7 @@ export class EnrollmentSeeder {
                 academicState: reprobateAcademicState,
                 enrollmentId: enrollment2.id,
                 parallel: parallel,
+                subject: subject10,
                 subjectId: subject10.id,
                 type: type,
                 workday: workday,

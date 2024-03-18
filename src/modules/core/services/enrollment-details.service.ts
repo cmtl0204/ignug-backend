@@ -9,6 +9,7 @@ import {
   EnrollmentDetailStatesService, TeacherDistributionsService,
 } from '@core/services';
 import { ServiceResponseHttpModel } from '@shared/models';
+import { SeedEnrollmentsDetailDto } from '../dto/enrollment-details/seed-enrollment-detail.dto';
 
 @Injectable()
 export class EnrollmentDetailsService {
@@ -22,15 +23,23 @@ export class EnrollmentDetailsService {
   }
 
   async create(payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    const newEnrollmentDetail = this.repository.create(payload);
-
     const enrollmentDetailExist = await this.repository.find({
-      where: { enrollmentId: payload.enrollmentId, subjectId: payload.subjectId },
+      where: { enrollmentId: payload.enrollmentId, subjectId: payload.subject.id },
     });
 
     if (enrollmentDetailExist.length > 0) {
       throw new BadRequestException('La asignatura ya existe, por favor ingrese otra');
     }
+
+    const newEnrollmentDetail = this.repository.create();
+
+    newEnrollmentDetail.enrollmentId = payload.enrollmentId;
+    newEnrollmentDetail.number = payload.number;
+    newEnrollmentDetail.observation = payload.observation;
+    newEnrollmentDetail.parallelId = payload.parallel.id;
+    newEnrollmentDetail.subjectId = payload.subject.id;
+    newEnrollmentDetail.typeId = payload.type.id;
+    newEnrollmentDetail.workdayId = payload.workday.id;
 
     return await this.repository.save(newEnrollmentDetail);
   }
