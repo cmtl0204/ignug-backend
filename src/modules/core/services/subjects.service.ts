@@ -212,7 +212,6 @@ export class SubjectsService {
   async findSubjectsByCareer(careerId: string): Promise<SubjectEntity[]> {
     const curriculums = await this.careersService.findCurriculumsByCareer(careerId);
 
-    console.log(curriculums);
     const response = await this.repository.find({
       relations: {
         academicPeriod: true,

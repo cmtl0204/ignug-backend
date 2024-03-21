@@ -52,7 +52,6 @@ export class GradeReportsService {
             const partial3 = enrollmentDetail.grades.find(grade => grade.partial.code === '3');
             const partial4 = enrollmentDetail.grades.find(grade => grade.partial.code === '4');
 
-            console.log(partial1);
             return {
                 'Numero_Documento': enrollmentDetail.enrollment.student.user.identification,
                 'Apellidos': enrollmentDetail.enrollment.student.user.lastname,

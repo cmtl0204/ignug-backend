@@ -1,16 +1,57 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere,} from 'typeorm';
 import {CreateGradeDto, FilterGradeDto, UpdateGradeDto} from '@core/dto';
-import {GradeEntity} from '@core/entities';
+import {
+    CatalogueEntity,
+    EnrollmentDetailEntity,
+    GradeEntity,
+    PartialEntity,
+    PartialPermissionEntity
+} from '@core/entities';
 import {PaginationDto} from '@core/dto';
 import {ServiceResponseHttpModel} from '@shared/models';
-import {CoreRepositoryEnum} from '@shared/enums';
+import {CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+
+enum ColumnsEnum {
+    IDENTIFICATION = 'Numero_Documento',
+    GRADE_1 = 'Parcial1',
+    GRADE_2 = 'Parcial2',
+    GRADE_3 = 'Parcial3',
+    GRADE_4 = 'Parcial4',
+    ATTENDANCE = 'Asistencia',
+}
+
+interface ErrorModel {
+    row: number;
+    column: string;
+    observation: string;
+}
 
 @Injectable()
 export class GradesService {
+    private gradeErrors: ErrorModel[] = [];
+    private attendanceErrors: ErrorModel[] = [];
+    private partialPermissionErrors: ErrorModel[] = [];
+    private row = 1;
+    private partialEnabled1 = false;
+    private partialEnabled2 = false;
+    private partialEnabled3 = false;
+    private partialEnabled4 = false;
+    private partials: PartialEntity[] = [];
+    private partial1!: PartialEntity;
+    private partial2!: PartialEntity;
+    private partial3!: PartialEntity;
+    private partial4!: PartialEntity;
+    private approved!: CatalogueEntity;
+    private failed!: CatalogueEntity;
+
     constructor(
-        @Inject(CoreRepositoryEnum.GRADE_REPOSITORY)
-        private repository: Repository<GradeEntity>,
+        @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY) private readonly catalogueRepository: Repository<CatalogueEntity>,
+        @Inject(CoreRepositoryEnum.GRADE_REPOSITORY) private repository: Repository<GradeEntity>,
+        @Inject(CoreRepositoryEnum.PARTIAL_REPOSITORY) private readonly partialRepository: Repository<PartialEntity>,
+        @Inject(CoreRepositoryEnum.PARTIAL_PERMISSION_REPOSITORY) private readonly partialPermissionRepository: Repository<PartialPermissionEntity>,
+        @Inject(CoreRepositoryEnum.GRADE_REPOSITORY) private readonly gradeRepository: Repository<GradeEntity>,
+        @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY) private readonly enrollmentDetailRepository: Repository<EnrollmentDetailEntity>,
     ) {
     }
 
@@ -116,5 +157,234 @@ export class GradesService {
             data: response[0],
             pagination: {limit, totalItems: response[1]},
         };
+    }
+
+    async saveGradesByTeacher(enrollmentDetailId: string, payload: any) {
+        await this.loadAcademicStates();
+        await this.loadPartials();
+        await this.loadPartialPermissions(payload.teacherDistributionId);
+
+        const grades = await this.gradeRepository.find({
+            where: {enrollmentDetailId: enrollmentDetailId},
+        });
+
+        let grade1 = grades.find(grade => grade.partialId === this.partial1.id);
+        let grade2 = grades.find(grade => grade.partialId === this.partial2.id);
+        let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
+        let grade4 = grades.find(grade => grade.partialId === this.partial4.id);
+
+        if (grade1) {
+            grade1.value = parseFloat(String(grade1.value));
+
+            if (grade1.value != payload.grade1) {
+                if (this.partialEnabled1) {
+                    grade1.value = payload.grade1;
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_1);
+                }
+            }
+        } else {
+            if (payload.grade1 || payload.grade1 == 0) {
+                if (this.partialEnabled1) {
+                    grade1 = this.gradeRepository.create({
+                        enrollmentDetailId: enrollmentDetailId,
+                        partialId: this.partial1.id,
+                        value: payload.grade1,
+                    });
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_1);
+                }
+            }
+        }
+
+        if (grade2) {
+            grade2.value = parseFloat(String(grade2.value));
+            if (grade2.value != payload.grade2) {
+                if (this.partialEnabled2) {
+                    grade2.value = payload.grade2;
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_2);
+                }
+            }
+        } else {
+            if (payload.grade2 || payload.grade2 == 0) {
+                if (this.partialEnabled2) {
+                    grade2 = this.gradeRepository.create({
+                        enrollmentDetailId: enrollmentDetailId,
+                        partialId: this.partial2.id,
+                        value: payload.grade2,
+                    });
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_2);
+                }
+            }
+        }
+
+        if (grade3) {
+            grade3.value = parseFloat(String(grade3.value));
+            if (grade3.value != payload.grade3) {
+                if (this.partialEnabled3) {
+                    grade3.value = payload.grade3;
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_3);
+                }
+            }
+        } else {
+            if (payload.grade3 || payload.grade3 == 0) {
+                if (this.partialEnabled3) {
+                    grade3 = this.gradeRepository.create({
+                        enrollmentDetailId: enrollmentDetailId,
+                        partialId: this.partial3.id,
+                        value: payload.grade3,
+                    });
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_3);
+                }
+            }
+        }
+
+        if (grade4) {
+            grade4.value = parseFloat(String(grade4.value));
+            if (grade4.value != payload.grade4) {
+                if (this.partialEnabled4) {
+                    grade4.value = payload.grade4;
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_4);
+                }
+            }
+        } else {
+            if (payload.grade4 || payload.grade4 == 0) {
+                if (this.partialEnabled4) {
+                    grade4 = this.gradeRepository.create({
+                        enrollmentDetailId: enrollmentDetailId,
+                        partialId: this.partial4.id,
+                        value: payload.grade4,
+                    });
+                } else {
+                    this.addPartialPermissionError(ColumnsEnum.GRADE_4);
+                }
+            }
+        }
+
+        if (grade1)
+            await this.gradeRepository.save(grade1);
+
+        if (grade2)
+            await this.gradeRepository.save(grade2);
+
+        if (grade3){
+            await this.gradeRepository.save(grade3);
+        }
+
+        if (grade4)
+            await this.gradeRepository.save(grade4);
+
+        const enrollmentDetail = await this.enrollmentDetailRepository.findOneBy({id: enrollmentDetailId});
+
+        if (payload.attendance || payload.attendance == 0) {
+            enrollmentDetail.finalAttendance = payload.attendance;
+
+            await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
+        }
+
+        return await this.saveAcademicState(enrollmentDetail);
+    }
+
+    async saveAcademicState(enrollmentDetail: EnrollmentDetailEntity) {
+        const grades = await this.gradeRepository.find({
+            where: {enrollmentDetailId: enrollmentDetail.id},
+        });
+
+        const grade1 = grades.find(grade => grade.partialId === this.partial1.id);
+        const grade2 = grades.find(grade => grade.partialId === this.partial2.id);
+        const grade3 = grades.find(grade => grade.partialId === this.partial3.id);
+        const grade4 = grades.find(grade => grade.partialId === this.partial4.id);
+
+        if (grade1 && grade2 && grade3 && grade4) {
+            grade1.value = parseFloat(String(grade1.value));
+            grade2.value = parseFloat(String(grade2.value));
+            grade3.value = parseFloat(String(grade3.value));
+            grade4.value = parseFloat(String(grade4.value));
+
+            const finalGradeTotal = grade1.value + grade2.value + grade3.value + grade4.value;
+
+            if (this.partials.length)
+                enrollmentDetail.finalGrade = finalGradeTotal / this.partials.length;
+
+            await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
+
+            enrollmentDetail = await this.enrollmentDetailRepository.findOneBy({id: enrollmentDetail.id});
+
+            const finalGrade = parseFloat(String(enrollmentDetail.finalGrade));
+            const finalAttendance = parseFloat(String(enrollmentDetail.finalAttendance));
+
+            if (finalAttendance || finalAttendance == 0) {
+                if (finalGrade >= 6) {
+                    if (finalAttendance >= 75) {
+                        enrollmentDetail.academicStateId = this.approved.id;
+                        enrollmentDetail.academicObservation = null;
+                    } else {
+                        enrollmentDetail.academicStateId = this.failed.id;
+                        enrollmentDetail.academicObservation = 'Pierde por Asistencia';
+                    }
+                } else {
+                    enrollmentDetail.academicStateId = this.failed.id;
+
+                    if (finalAttendance >= 75) {
+                        enrollmentDetail.academicObservation = 'Pierde por Calificación';
+                    } else {
+                        enrollmentDetail.academicObservation = 'Pierde por Calificación y Asistencia';
+                    }
+                }
+
+                await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
+            }
+        }
+
+        return grades;
+    }
+
+    async loadAcademicStates() {
+        const academicStates = await this.catalogueRepository.find({where: {type: CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE}});
+        this.approved = academicStates.find(academicState => academicState.code === 'a');
+        this.failed = academicStates.find(academicState => academicState.code === 'r');
+    }
+
+    async loadPartials() {
+        this.partials = await this.partialRepository.find();
+        this.partial1 = this.partials.find(partial => partial.code === '1');
+        this.partial2 = this.partials.find(partial => partial.code === '2');
+        this.partial3 = this.partials.find(partial => partial.code === '3');
+        this.partial4 = this.partials.find(partial => partial.code === '4');
+    }
+
+    async loadPartialPermissions(teacherDistributionId: string) {
+        const partialPermissions = await this.partialPermissionRepository.find({where: {teacherDistributionId}});
+
+        for (const partialPermission of partialPermissions) {
+            if (partialPermission.partialId === this.partial1.id) {
+                this.partialEnabled1 = partialPermission.enabled;
+            }
+
+            if (partialPermission.partialId === this.partial2.id) {
+                this.partialEnabled2 = partialPermission.enabled;
+            }
+
+            if (partialPermission.partialId === this.partial3.id) {
+                this.partialEnabled3 = partialPermission.enabled;
+            }
+
+            if (partialPermission.partialId === this.partial4.id) {
+                this.partialEnabled4 = partialPermission.enabled;
+            }
+        }
+    }
+
+    addPartialPermissionError(column: string) {
+        this.partialPermissionErrors.push({
+            row: this.row,
+            column,
+            observation: `No se puede cambiar ${column}, el parcial se encuentra bloqueado`,
+        });
     }
 }
