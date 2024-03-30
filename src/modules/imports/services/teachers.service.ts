@@ -145,7 +145,6 @@ export class TeachersService {
         throw new BadRequestException();
 
     } catch (err) {
-      console.log('err', err);
       throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores');
     }
   }
