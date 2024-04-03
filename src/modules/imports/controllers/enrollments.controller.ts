@@ -27,7 +27,7 @@ export class EnrollmentsController {
       fileFilter: excelFileFilter,
     }),
   )
-  async importGrades(@UploadedFile() file: Express.Multer.File,
+  async importEnrollments(@UploadedFile() file: Express.Multer.File,
                      @Body() payload: any): Promise<ResponseHttpModel> {
     await this.enrollmentsService.importEnrollments(file, payload);
 
