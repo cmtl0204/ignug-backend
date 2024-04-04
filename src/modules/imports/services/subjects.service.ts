@@ -1,0 +1,121 @@
+import {BadRequestException, Inject, Injectable, UnprocessableEntityException} from '@nestjs/common';
+import {Repository} from 'typeorm';
+import {
+    CareerEntity,
+    CatalogueEntity,
+    EnrollmentDetailEntity,
+    EnrollmentEntity,
+    GradeEntity, InstitutionEntity,
+    PartialEntity, PartialPermissionEntity,
+    StudentEntity, SubjectEntity,
+    TeacherDistributionEntity, TeacherEntity,
+} from '@core/entities';
+import {AuthRepositoryEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+import {join} from 'path';
+import * as XLSX from 'xlsx';
+import * as fs from 'fs';
+import {CreateUserDto, SeedUserDto} from '@auth/dto';
+import {RoleEnum} from '@auth/enums';
+import {faker} from '@faker-js/faker';
+import {RoleEntity, UserEntity} from '@auth/entities';
+import {RolesService, UsersService} from '@auth/services';
+import {CareersService, CataloguesService, InstitutionsService} from '@core/services';
+import * as Bcrypt from 'bcrypt';
+
+interface ErrorModel {
+    row: number;
+    column: string;
+    observation: string;
+}
+
+@Injectable()
+export class SubjectsService {
+    private gradeErrors: ErrorModel[] = [];
+    private attendanceErrors: ErrorModel[] = [];
+    private partialPermissionErrors: ErrorModel[] = [];
+    private row = 1;
+    private academicPeriods: CatalogueEntity[] = [];
+    private states: CatalogueEntity[] = [];
+    private types: CatalogueEntity[] = [];
+    private subjects: SubjectEntity[] = [];
+    private careers: CareerEntity[] = [];
+
+    constructor(
+        private readonly cataloguesService: CataloguesService,
+        @Inject(CoreRepositoryEnum.CAREER_REPOSITORY) private readonly careerRepository: Repository<CareerEntity>,
+        @Inject(CoreRepositoryEnum.SUBJECT_REPOSITORY) private readonly subjectRepository: Repository<SubjectEntity>,
+    ) {
+    }
+
+    async loadCareers() {
+        this.careers = (await this.careerRepository.find({relations: {curriculum: true}}));
+    }
+
+    async loadSubjects() {
+        this.subjects = (await this.subjectRepository.find());
+    }
+
+    async loadCatalogues() {
+        const catalogues = (await this.cataloguesService.findAll()).data as CatalogueEntity[];
+        this.academicPeriods = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ACADEMIC_PERIOD);
+        this.states = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.SUBJECTS_STATE);
+        this.types = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.SUBJECTS_TYPE);
+    }
+
+    async importSubjects(file: Express.Multer.File, payload: any) {
+        try {
+            await this.loadCareers();
+            await this.loadSubjects();
+            await this.loadCatalogues();
+
+            const path = join(process.cwd(), 'storage/imports', file.filename);
+
+            const workbook = XLSX.readFile(path);
+            const workbookSheets = workbook.SheetNames;
+            const sheet = workbookSheets[0];
+            const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+            this.row = 1;
+
+            const state = this.states.find(state => state.code === 'enabled');
+            const type = this.types.find(type => type.code === 'subject');
+
+            for (const item of dataExcel) {
+                this.row++;
+                const career = this.careers.find(career => career.code === item['Codigo_Carrera']);
+                const subject = this.subjects.find(subject => subject.code === item['Codigo_Asignatura']);
+                const academicPeriod = this.academicPeriods.find(academicPeriod => academicPeriod.code == item['Nivel']);
+
+                console.log('Codigo_Asignatura', item['Codigo_Asignatura']);
+                console.log('academicPeriod', academicPeriod?.code);
+                console.log('career', career?.code);
+                if (!subject) {
+                    const newSubject =
+                        {
+                            academicPeriodId: academicPeriod.id,
+                            curriculumId: career.curriculum.id,
+                            stateId: state.id,
+                            typeId: type.id,
+                            autonomousHour: 0,
+                            code: item['Codigo_Asignatura'],
+                            credits: 0,
+                            name: item['Nombre_Asignatura'],
+                            practicalHour: 0,
+                            scale: 1,
+                            teacherHour: 0,
+                        };
+
+                    await this.subjectRepository.save(newSubject);
+                }
+            }
+
+            fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
+
+            if ((this.gradeErrors.concat(this.attendanceErrors, this.partialPermissionErrors)).length > 0)
+                throw new BadRequestException();
+
+        } catch (err) {
+            throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores');
+        }
+    }
+}

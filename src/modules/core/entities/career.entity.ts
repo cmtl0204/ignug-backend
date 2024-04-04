@@ -7,7 +7,7 @@ import {
     JoinTable,
     ManyToMany,
     ManyToOne,
-    OneToMany,
+    OneToMany, OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -73,6 +73,9 @@ export class CareerEntity {
 
     @OneToMany(() => CurriculumEntity, curriculum => curriculum.career)
     curriculums: CurriculumEntity[];
+
+    @OneToOne(() => CurriculumEntity, curriculum => curriculum.career)
+    curriculum: CurriculumEntity;
 
     @ManyToMany(() => StudentEntity, student => student.careers)
     @JoinTable({

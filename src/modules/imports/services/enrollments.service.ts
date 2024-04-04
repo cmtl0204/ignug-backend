@@ -129,12 +129,17 @@ export class EnrollmentsService {
             const career = careers.find(career => career.code === item[ColumnsEnum.CAREER_CODE]);
             const parallel = parallels.find(parallel => parallel.code === item[ColumnsEnum.PARALLEL].toLowerCase());
             const enrollmentType = enrollmentTypes.find(enrollmentType => enrollmentType.code === 'ordinary');
-            const workday = workdays.find(workday => workday.name.toLowerCase() === item[ColumnsEnum.WORKDAY].toLowerCase());
+            const workday = workdays.find(workday => workday.name.toLowerCase() == item[ColumnsEnum.WORKDAY].toLowerCase().trim());
+
             const subject = subjects.find(subject => subject.code === item[ColumnsEnum.SUBJECT_CODE]);
 
-            const identification = item[ColumnsEnum.IDENTIFICATION];
+            let identification = item[ColumnsEnum.IDENTIFICATION];
 
             if (!identification || identification.length === 0) continue;
+
+            if (identification) identification = identification.toString().trim();
+
+            if (identification.length === 9) identification = '0' + identification;
 
             const student = await this.findStudent(item);
 
@@ -149,9 +154,6 @@ export class EnrollmentsService {
             });
 
             if (enrollment) {
-                console.log(enrollment.id)
-                console.log(subject.id)
-
                 let enrollmentDetail = await this.enrollmentDetailRepository.findOne({
                     where: {
                         enrollmentId: enrollment.id,
@@ -175,7 +177,7 @@ export class EnrollmentsService {
                         enrollmentDetailId: enrollmentDetail.id,
                         stateId: enrollmentStateEnrolled.id,
                         userId: student.userId,
-                        date : new Date(item[ColumnsEnum.ENROLLMENT_DATE]),
+                        date: new Date(item[ColumnsEnum.ENROLLMENT_DATE]),
                     };
 
                     await this.enrollmentDetailStateRepository.save(enrollmentDetailState);
@@ -196,7 +198,7 @@ export class EnrollmentsService {
                 enrollment.studentId = student.id;
                 enrollment.typeId = enrollmentType.id;
                 enrollment.workdayId = workday.id;
-                enrollment.code = workday.id;
+                enrollment.code = `${schoolPeriod.codeSniese}-${career.code}-${identification}`;
                 enrollment.date = new Date(item[ColumnsEnum.ENROLLMENT_DATE]);
                 enrollment.applicationsAt = new Date(item[ColumnsEnum.ENROLLMENT_DATE]);
                 enrollment.folio = `${schoolPeriod.codeSniese}-${career.code}-${academicPeriod.code}`;
@@ -207,7 +209,7 @@ export class EnrollmentsService {
                     enrollmentId: enrollmentCreated.id,
                     stateId: enrollmentStateEnrolled.id,
                     userId: student.userId,
-                    date : new Date(item[ColumnsEnum.ENROLLMENT_DATE]),
+                    date: new Date(item[ColumnsEnum.ENROLLMENT_DATE]),
                 };
 
                 await this.enrollmentStateRepository.save(enrollmentState);
@@ -227,7 +229,7 @@ export class EnrollmentsService {
                     enrollmentDetailId: enrollmentDetail.id,
                     stateId: enrollmentStateEnrolled.id,
                     userId: student.userId,
-                    date : new Date(item[ColumnsEnum.ENROLLMENT_DATE]),
+                    date: new Date(item[ColumnsEnum.ENROLLMENT_DATE]),
                 };
 
                 await this.enrollmentDetailStateRepository.save(enrollmentDetailState);
@@ -505,6 +507,7 @@ export class EnrollmentsService {
         console.log(identification);
 
         let student = await this.studentRepository.findOne({
+            relations: {user: true},
             where: {user: {identification: identification}},
         });
 
