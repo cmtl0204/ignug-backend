@@ -33,7 +33,7 @@ export class SubjectsController {
 
         return {
             data: null,
-            message: `Docentes Importadas Correctamente`,
+            message: `Asignaturas Importadas Correctamente`,
             title: `Importado`,
         };
     }

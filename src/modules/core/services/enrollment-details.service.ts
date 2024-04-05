@@ -23,8 +23,9 @@ export class EnrollmentDetailsService {
   }
 
   async create(payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+    console.log(payload);
     const enrollmentDetailExist = await this.repository.find({
-      where: { enrollmentId: payload.enrollmentId, subjectId: payload.subject.id },
+      where: { enrollmentId: payload.enrollmentId, subjectId: payload.subjectId },
     });
 
     if (enrollmentDetailExist.length > 0) {
@@ -36,10 +37,10 @@ export class EnrollmentDetailsService {
     newEnrollmentDetail.enrollmentId = payload.enrollmentId;
     newEnrollmentDetail.number = payload.number;
     newEnrollmentDetail.observation = payload.observation;
-    newEnrollmentDetail.parallelId = payload.parallel.id;
-    newEnrollmentDetail.subjectId = payload.subject.id;
-    newEnrollmentDetail.typeId = payload.type.id;
-    newEnrollmentDetail.workdayId = payload.workday.id;
+    newEnrollmentDetail.parallelId = payload.parallelId;
+    newEnrollmentDetail.subjectId = payload.subjectId;
+    newEnrollmentDetail.typeId = payload.typeId;
+    newEnrollmentDetail.workdayId = payload.workdayId;
 
     return await this.repository.save(newEnrollmentDetail);
   }

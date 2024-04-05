@@ -15,6 +15,8 @@ export class EnrollmentsDetailDto {
 
     @IsNotEmpty()
     readonly parallel: CatalogueEntity;
+    @IsOptional()
+    readonly parallelId: string;
 
     @IsNotEmpty()
     readonly subject: SubjectEntity;
@@ -25,8 +27,14 @@ export class EnrollmentsDetailDto {
     @IsNotEmpty()
     readonly type: CatalogueEntity;
 
+    @IsOptional()
+    readonly typeId: string;
+
     @IsNotEmpty()
     readonly workday: CatalogueEntity;
+
+    @IsOptional()
+    readonly workdayId: string;
 
     @IsNumber({}, {message: 'El campo number debe ser un número'})
     @Min(1, minValidationOptions())
