@@ -41,8 +41,7 @@ import { isAfter, isBefore } from 'date-fns';
 @Injectable()
 export class EnrollmentsService {
   constructor(
-    @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY)
-    private repository: Repository<EnrollmentEntity>,
+    @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY) private readonly repository: Repository<EnrollmentEntity>,
     private readonly enrollmentsStateService: EnrollmentStatesService,
     private readonly enrollmentDetailsService: EnrollmentDetailsService,
     private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
@@ -108,11 +107,15 @@ export class EnrollmentsService {
     }
 
     if (enrollment.parallelId != payload.parallel.id) {
-      // await this.enrollmentDetailsService.updateParallel(enrollment.id, payload.parallel.id);
+      await this.enrollmentDetailsService.updateParallels(enrollment.id, payload.parallel.id);
     }
 
     if (enrollment.workdayId != payload.workday.id) {
-      // await this.enrollmentDetailsService.updateWorkday(enrollment.id, payload.workday.id);
+      await this.enrollmentDetailsService.updateWorkdays(enrollment.id, payload.workday.id);
+    }
+
+    if (enrollment.typeId != payload.type.id) {
+      await this.enrollmentDetailsService.updateTypes(enrollment.id, payload.type.id);
     }
 
     if (payload.academicPeriod)
@@ -589,6 +592,10 @@ export class EnrollmentsService {
       await this.enrollmentDetailsService.removeAll(enrollment.enrollmentDetails);
 
     for (const item of payload.enrollmentDetails) {
+      let enrollmentNumber = await this.calculateEnrollmentDetailNumber(payload.student.id, item.id);
+      enrollmentNumber = enrollmentNumber + 1;
+
+      if (enrollmentNumber > 3) continue;
 
       const enrollmentDetail: any = {
         enrollmentId: enrollment.id,
@@ -596,7 +603,7 @@ export class EnrollmentsService {
         subjectId: item.id,
         typeId: enrollment.typeId,
         workdayId: enrollment.workdayId,
-        number: 1,
+        number: enrollmentNumber,
       };
 
       const enrollmentDetailCreated = await this.enrollmentDetailsService.create(enrollmentDetail);
@@ -616,6 +623,13 @@ export class EnrollmentsService {
 
     return enrollment;
     // });
+  }
+
+  async calculateEnrollmentDetailNumber(studentId: string, subjectId: string) {
+    const enrollmentDetails = await this.enrollmentDetailsService.calculateEnrollmentDetailNumber(studentId, subjectId);
+    console.log(enrollmentDetails.length);
+    console.log(enrollmentDetails);
+    return enrollmentDetails.length;
   }
 
   async sendRequest(userId: string, id: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {

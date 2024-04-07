@@ -7,7 +7,7 @@ import {
   CareerEntity, CatalogueEntity,
   CurriculumEntity,
   EnrollmentDetailEntity,
-  EnrollmentEntity,
+  EnrollmentEntity, EnrollmentStateEntity,
   InformationStudentEntity,
   SchoolPeriodEntity,
   StudentEntity,
@@ -32,8 +32,8 @@ export class EnrollmentReportsService {
     private readonly enrollmentsService: EnrollmentsService,
     private readonly careersService: CareersService,
     private readonly subjectsService: SubjectsService,
-    @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
-    private readonly studentRepository: Repository<StudentEntity>) {
+    @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly studentRepository: Repository<StudentEntity>,
+    @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY) private readonly enrollmentRepository: Repository<EnrollmentEntity>) {
   }
 
   async generateEnrollmentCertificate(@Res() res: Response, id: string) {
@@ -250,6 +250,18 @@ export class EnrollmentReportsService {
     return path;
   }
 
+  async generateEnrollmentsBySchoolPeriod( schoolPeriodId: string) {
+    const data = await this.reportEnrollmentsBySchoolPeriod(schoolPeriodId);
+
+    const newWorkbook = XLSX.utils.book_new();
+    const newSheet = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Estudiantes');
+    const path = join(process.cwd(), 'storage/reports/enrollments', Date.now() + '.xlsx'); //review path
+    XLSX.writeFile(newWorkbook, path);
+
+    return path;
+  }
+
   async generateAcademicRecordByStudent(@Res() res: Response, studentId: string, careerId: string) {
     const enrollments = await this.enrollmentsService.findAcademicRecordByStudent(studentId, careerId);
     const careers = await this.careersService.findOne(careerId);
@@ -410,7 +422,7 @@ export class EnrollmentReportsService {
     const sectionWidth = doc.page.width / 2 - 50;
     const sectionHeight = 20;
 
-    let yPositionSections = doc.page.height - oldBottomMargin / 2 - 100;
+    const yPositionSections = doc.page.height - oldBottomMargin / 2 - 100;
 
     doc
       .font('Times-Bold')
@@ -452,5 +464,39 @@ export class EnrollmentReportsService {
       );
 
     doc.end();
+  }
+
+  private async reportEnrollmentsBySchoolPeriod(schoolPeriodId: string): Promise<any[]> {
+    const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.enrollmentRepository.createQueryBuilder('enrollments');
+    queryBuilder.select(
+      [
+        'careers.code as "Código de Carrera"',
+        'careers.name as "Carrera"',
+        'users.identification  as "Número de Documento"',
+        'users.lastname  as "Apellidos"',
+        'users.name  as "Nombres"',
+        'parallels.name as "Paralelo"',
+        'academic_periods.name as "Nivel"',
+        'types.name as "Tipo de Matricula"',
+        'enrollments.date as " Fecha de Matricula"',
+        'enrollments.applications_at as "Fecha de envio de solicitud"',
+        'enrollments.socioeconomic_category as "Nivel Socioeconómico"',
+        'enrollments.socioeconomic_percentage as "Porcentaje Socioeconómico"',
+        'enrollments.socioeconomic_score as "Puntaje Socioeconómico"',
+        'states.name as "Estado"',
+      ])
+      .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
+      .leftJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
+      .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
+      .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
+      .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
+      .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
+      .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
+      .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
+      .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
+        schoolPeriodId,
+      }).orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+
+    return await queryBuilder.getRawMany();
   }
 }

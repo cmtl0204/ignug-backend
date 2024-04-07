@@ -15,7 +15,7 @@ import { SeedEnrollmentsDetailDto } from '../dto/enrollment-details/seed-enrollm
 export class EnrollmentDetailsService {
   constructor(
     @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY)
-    private repository: Repository<EnrollmentDetailEntity>,
+    private readonly repository: Repository<EnrollmentDetailEntity>,
     private readonly enrollmentDetailStatesService: EnrollmentDetailStatesService,
     private readonly cataloguesService: CataloguesService,
     private readonly teacherDistributionsService: TeacherDistributionsService,
@@ -23,7 +23,6 @@ export class EnrollmentDetailsService {
   }
 
   async create(payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
-    console.log(payload);
     const enrollmentDetailExist = await this.repository.find({
       where: { enrollmentId: payload.enrollmentId, subjectId: payload.subjectId },
     });
@@ -107,6 +106,39 @@ export class EnrollmentDetailsService {
       enrollmentDetail.observation = payload.observation;
 
     return await this.repository.save(enrollmentDetail);
+  }
+
+  async updateParallels(enrollmentId: string, parallelId: string): Promise<EnrollmentDetailEntity[]> {
+    const enrollmentDetails = await this.repository.findBy({ enrollmentId });
+
+    for (const enrollmentDetail of enrollmentDetails) {
+      enrollmentDetail.parallelId = parallelId;
+      await this.repository.save(enrollmentDetail);
+    }
+
+    return enrollmentDetails;
+  }
+
+  async updateWorkdays(enrollmentId: string, workdayId: string): Promise<EnrollmentDetailEntity[]> {
+    const enrollmentDetails = await this.repository.findBy({ enrollmentId });
+
+    for (const enrollmentDetail of enrollmentDetails) {
+      enrollmentDetail.workdayId = workdayId;
+      await this.repository.save(enrollmentDetail);
+    }
+
+    return enrollmentDetails;
+  }
+
+  async updateTypes(enrollmentId: string, typeId: string): Promise<EnrollmentDetailEntity[]> {
+    const enrollmentDetails = await this.repository.findBy({ enrollmentId });
+
+    for (const enrollmentDetail of enrollmentDetails) {
+      enrollmentDetail.typeId = typeId;
+      await this.repository.save(enrollmentDetail);
+    }
+
+    return enrollmentDetails;
   }
 
   async remove(id: string): Promise<EnrollmentDetailEntity> {
@@ -346,5 +378,24 @@ export class EnrollmentDetailsService {
     });
 
     return response;
+  }
+
+  async calculateEnrollmentDetailNumber(studentId: string, subjectId: string) {
+    const catalogues = await this.cataloguesService.findCache();
+
+    const enrolled = catalogues.find(catalogue =>
+      catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+    const failed = catalogues.find(catalogue =>
+      catalogue.code === 'r' && catalogue.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
+
+    return await this.repository.find({
+      where: {
+        academicStateId: failed.id,
+        subjectId,
+        enrollmentDetailState: { stateId: enrolled.id },
+        enrollment: { studentId },
+      },
+    });
   }
 }
