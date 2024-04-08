@@ -7,10 +7,10 @@ import {
     CurriculumsService,
     SchoolPeriodsService,
     SubjectsService,
-    TeacherDistributionsService,
-    TeachersService
+    TeacherDistributionsService
 } from '@core/services';
 import {CatalogueTypeEnum} from '@shared/enums';
+import { TeachersService } from '../../modules/core/services/teachers.service';
 
 @Injectable()
 export class TeacherDistributionsSeeder {

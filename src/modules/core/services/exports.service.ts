@@ -1,17 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { StudentsService, TeachersService } from '@core/services';
 import * as XLSX from 'xlsx';
 import * as process from 'process';
 import { join } from 'path';
-import { RolesService, UsersService } from '@auth/services';
 import { GradesService } from './grades.service';
+import { UsersService } from '../../auth/services/users.service';
 
 @Injectable()
 export class ExportsService {
   constructor(
-    private teachersService: TeachersService,
-    private studentsService: StudentsService,
-    private rolesService: RolesService,
     private gradeService: GradesService,
     private usersService: UsersService,
   ) {}

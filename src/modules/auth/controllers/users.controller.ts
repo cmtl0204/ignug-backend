@@ -2,10 +2,10 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPi
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto, FilterUserDto, UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
-import { UsersService } from '@auth/services';
 import { ResponseHttpModel } from '@shared/models';
 import { Auth } from '@auth/decorators';
 import { RoleEnum } from '@auth/enums';
+import { UsersService } from '../services/users.service';
 
 @ApiTags('Users')
 @Controller('users')

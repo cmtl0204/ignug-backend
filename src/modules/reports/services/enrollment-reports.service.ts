@@ -1,15 +1,11 @@
 import { Inject, Injectable, Res } from '@nestjs/common';
-import { CareersService, EnrollmentsService, StudentsService, SubjectsService } from '@core/services';
+import { CareersService, EnrollmentsService, SubjectsService } from '@core/services';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import {
   CareerEntity, CatalogueEntity,
-  CurriculumEntity,
-  EnrollmentDetailEntity,
   EnrollmentEntity, EnrollmentStateEntity,
-  InformationStudentEntity,
-  SchoolPeriodEntity,
   StudentEntity,
 } from '@core/entities';
 import { UserEntity } from '@auth/entities';

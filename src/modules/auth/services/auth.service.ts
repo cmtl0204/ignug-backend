@@ -16,7 +16,6 @@ import {
   UpdateUserInformationDto,
 } from '@auth/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { UsersService } from '@auth/services';
 import { MailService } from '@common/services';
 import { join } from 'path';
 import * as fs from 'fs';
@@ -24,6 +23,7 @@ import { config } from '@config';
 import { ConfigType } from '@nestjs/config';
 import { MailDataInterface } from '../../common/interfaces/mail-data.interface';
 import { SchoolPeriodsService } from '@core/services';
+import { UsersService } from './users.service';
 
 const { PDFDocument } = require('pdfkit-table-ts');
 

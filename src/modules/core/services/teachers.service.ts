@@ -1,18 +1,19 @@
 import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {Repository, FindOptionsWhere} from 'typeorm';
-import {UsersService} from '@auth/services';
 import {FilterTeacherDto, PaginationDto, UpdateTeacherDto} from '@core/dto';
 import {TeacherEntity} from '@core/entities';
 import {InformationTeachersService} from '@core/services';
-import {CoreRepositoryEnum, MessageEnum} from '@shared/enums';
+import { AuthRepositoryEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import {ServiceResponseHttpModel} from '@shared/models';
+import { UsersService } from '../../auth/services/users.service';
+import { UpdateUserDto } from '@auth/dto';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class TeachersService {
     constructor(
-        @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY)
-        private repository: Repository<TeacherEntity>,
-        private usersService: UsersService,
+        @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY) private repository: Repository<TeacherEntity>,
+        @Inject(AuthRepositoryEnum.USER_REPOSITORY) private readonly userRepository: Repository<UserEntity>,
         private informationTeachersService: InformationTeachersService,
     ) {
     }
@@ -63,7 +64,7 @@ export class TeachersService {
 
         await this.repository.save(teacher);
 
-        await this.usersService.update(payload.user.id, payload.user);
+        await this.updateUser(payload.user.id, payload.user);
 
         payload.informationTeacher.teacher = await this.repository.save(teacher);
 
@@ -137,5 +138,17 @@ export class TeachersService {
         }
         entity.isVisible = true;
         return await this.repository.save(entity);
+    }
+
+    private async updateUser(id: string, payload: UpdateUserDto): Promise<UserEntity> {
+        const user = await this.userRepository.preload({ id, ...payload });
+
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado para actualizar');
+        }
+
+        this.userRepository.merge(user, payload);
+
+        return await this.userRepository.save(user);
     }
 }

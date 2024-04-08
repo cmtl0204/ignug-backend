@@ -14,11 +14,9 @@ import { AuthRepositoryEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shar
 import { join } from 'path';
 import * as XLSX from 'xlsx';
 import * as fs from 'fs';
-import { CreateUserDto, SeedUserDto } from '@auth/dto';
 import { RoleEnum } from '@auth/enums';
-import { faker } from '@faker-js/faker';
 import { RoleEntity, UserEntity } from '@auth/entities';
-import { RolesService, UsersService } from '@auth/services';
+import { RolesService } from '@auth/services';
 import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
 import * as Bcrypt from 'bcrypt';
 
@@ -51,7 +49,6 @@ export class TeachersService {
   constructor(
     private readonly careersService: CareersService,
     private readonly rolesService: RolesService,
-    private readonly usersService: UsersService,
     private readonly cataloguesService: CataloguesService,
     private readonly institutionsService: InstitutionsService,
     @Inject(CoreRepositoryEnum.CATALOGUE_REPOSITORY) private readonly catalogueRepository: Repository<CatalogueEntity>,

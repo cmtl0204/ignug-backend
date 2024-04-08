@@ -6,7 +6,6 @@ import {
     EnrollmentsService,
     EnrollmentDetailsService,
     SchoolPeriodsService,
-    StudentsService,
     SubjectsService, CareersService, EnrollmentStatesService,
 } from '@core/services';
 import {
@@ -18,8 +17,8 @@ import {
     SubjectEntity
 } from '@core/entities';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
-import {UsersService} from "@auth/services";
-import { SeedEnrollmentsDetailDto } from '../../modules/core/dto/enrollment-details/seed-enrollment-detail.dto';
+import { StudentsService } from '../../modules/core/services/students.service';
+import { UsersService } from '../../modules/auth/services/users.service';
 
 @Injectable()
 export class EnrollmentSeeder {

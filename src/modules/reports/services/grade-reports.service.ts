@@ -1,26 +1,13 @@
 import {Inject, Injectable, Res} from '@nestjs/common';
-import {
-    CareersService,
-    CataloguesService,
-    EnrollmentsService,
-    StudentsService,
-    SubjectsService,
-} from '@core/services';
-import {format} from 'date-fns';
-import {es} from 'date-fns/locale';
+import {CataloguesService, } from '@core/services';
 import {Repository, SelectQueryBuilder} from 'typeorm';
 import {
-    CareerEntity, CatalogueEntity,
-    CurriculumEntity,
     EnrollmentDetailEntity,
     EnrollmentEntity,
-    InformationStudentEntity,
-    SchoolPeriodEntity,
-    StudentEntity, TeacherDistributionEntity,
+    StudentEntity,
+    TeacherDistributionEntity,
 } from '@core/entities';
-import {UserEntity} from '@auth/entities';
 import * as XLSX from 'xlsx';
-import * as qr from 'qrcode';
 import {join} from 'path';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
 

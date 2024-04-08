@@ -4,13 +4,14 @@ import {JwtModule, JwtService} from '@nestjs/jwt';
 import {PassportModule} from '@nestjs/passport';
 import {config} from '@config';
 import {AuthController, RolesController, UsersController} from '@auth/controllers';
-import {AuditsService, AuthService, MenusService, RolesService, UsersService} from '@auth/services';
+import {AuditsService, AuthService, MenusService, RolesService} from '@auth/services';
 import {JwtStrategy} from '@auth/strategies';
 import {authProviders} from '@auth/providers';
 import {DatabaseModule} from '@database';
 import {MenusController} from './controllers/menus.controller';
 import {CommonModule} from '@common/modules';
 import {CoreModule} from "@core/modules";
+import { UsersService } from './services/users.service';
 
 @Global()
 @Module({

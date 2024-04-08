@@ -4,11 +4,12 @@ import {CatalogueTypeEnum} from '@shared/enums';
 import {SeedUserDto} from '@auth/dto';
 import {RoleEntity} from '@auth/entities';
 import {RoleEnum} from '@auth/enums';
-import {RolesService, UsersService} from '@auth/services';
+import {RolesService} from '@auth/services';
 import {CareerEntity, CatalogueEntity, InstitutionEntity} from '@core/entities';
 import {CareersService, CataloguesService, InstitutionsService} from '@core/services';
 import * as XLSX from "xlsx";
 import {join} from "path";
+import { UsersService } from '../../modules/auth/services/users.service';
 
 @Injectable()
 export class UsersSeeder {
@@ -226,7 +227,7 @@ export class UsersSeeder {
         );
 
         for (const user of users) {
-            await this.usersService.create(user);
+            // await this.usersService.create(user);
         }
     }
 
@@ -262,7 +263,7 @@ export class UsersSeeder {
 
 
         for (const user of users) {
-            await this.usersService.create(user);
+            // await this.usersService.create(user);
         }
     }
 
@@ -299,7 +300,7 @@ export class UsersSeeder {
         }
 
         for (const user of users) {
-            await this.usersService.create(user);
+            // await this.usersService.create(user);
         }
     }
 }

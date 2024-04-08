@@ -3,23 +3,25 @@ import {FindOptionsWhere, Repository} from 'typeorm';
 import {FilterStudentDto, PaginationDto, UpdateStudentDto} from '@core/dto';
 import {StudentEntity} from '@core/entities';
 import {
+    AuthRepositoryEnum,
     CatalogueEthnicOriginEnum,
     CatalogueMaritalStatusEnum, CatalogueStudentLiveEnum, CatalogueTypeSchoolEnum,
     CatalogueYesNoEnum,
-    CoreRepositoryEnum
+    CoreRepositoryEnum,
 } from '@shared/enums';
-import {UsersService} from '@auth/services';
 import {InformationStudentsService} from './information-students.service';
 import {ServiceResponseHttpModel} from '@shared/models';
 import {OriginAddressesService} from "./origin-addresses.service";
 import {ResidenceAddressesService} from "./residence-addresses.service";
+import { UsersService } from '../../auth/services/users.service';
+import { UpdateUserDto } from '@auth/dto';
+import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class StudentsService {
     constructor(
-        @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY)
-        private readonly repository: Repository<StudentEntity>,
-        private readonly usersService: UsersService,
+        @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly repository: Repository<StudentEntity>,
+        @Inject(AuthRepositoryEnum.USER_REPOSITORY) private readonly userRepository: Repository<UserEntity>,
         private readonly informationStudentsService: InformationStudentsService,
         private readonly originAddressesService: OriginAddressesService,
         private readonly residenceAddressesService: ResidenceAddressesService,
@@ -160,7 +162,7 @@ export class StudentsService {
 
         await this.repository.save(student);
 
-        await this.usersService.update(payload.user.id, payload.user);
+        await this.updateUser(payload.user.id, payload.user);
 
         payload.informationStudent.student = await this.repository.save(student);
 
@@ -241,7 +243,7 @@ export class StudentsService {
         student.user.personalEmail = payload.user.personalEmail;
         student.user.email = payload.user.email;
 
-        await this.usersService.update(student.userId, student.user);
+        await this.updateUser(student.userId, student.user);
 
         student.informationStudent.contactEmergencyName = payload.informationStudent.contactEmergencyName;
         student.informationStudent.contactEmergencyPhone = payload.informationStudent.contactEmergencyPhone;
@@ -990,5 +992,17 @@ export class StudentsService {
             case 'D':
                 return 10;
         }
+    }
+
+    private async updateUser(id: string, payload: UpdateUserDto): Promise<UserEntity> {
+        const user = await this.userRepository.preload({ id, ...payload });
+
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado para actualizar');
+        }
+
+        this.userRepository.merge(user, payload);
+
+        return await this.userRepository.save(user);
     }
 }

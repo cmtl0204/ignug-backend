@@ -14,8 +14,9 @@ import {
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
 import {FilterStudentDto, UpdateStudentDto} from '@core/dto';
 import {StudentEntity} from '@core/entities';
-import {EnrollmentsService, StudentsService} from '@core/services';
+import {EnrollmentsService} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
+import { StudentsService } from '../services/students.service';
 
 @ApiTags('Students')
 @Controller('students')

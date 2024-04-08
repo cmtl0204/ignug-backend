@@ -12,9 +12,10 @@ import {PayloadTokenModel} from "@auth/models";
 import {config} from "@config";
 import {ConfigType} from "@nestjs/config";
 import {isAfter, isBefore} from "date-fns";
-import {AuditsService, UsersService} from "@auth/services";
+import {AuditsService} from "@auth/services";
 import {CreateAuditDto} from "@auth/dto";
 import {string} from "joi";
+import { UsersService } from '../modules/auth/services/users.service';
 
 @Injectable()
 export class AuditMiddleware implements NestMiddleware {

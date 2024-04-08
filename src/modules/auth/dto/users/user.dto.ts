@@ -11,7 +11,7 @@ import { CareerEntity, CatalogueEntity, InstitutionEntity } from '@core/entities
 
 export class UserDto {
   @IsOptional()
-  readonly careers: CareerEntity[];
+  readonly careers: any;
 
   @IsOptional()
   readonly bloodType: CatalogueEntity;
@@ -27,6 +27,9 @@ export class UserDto {
 
   @IsOptional()
   readonly institutions: InstitutionEntity[];
+
+  @IsOptional()
+  readonly institution: InstitutionEntity;
 
   @IsOptional()
   readonly maritalStatus: CatalogueEntity;

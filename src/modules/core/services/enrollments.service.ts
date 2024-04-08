@@ -26,7 +26,6 @@ import {
   EnrollmentDetailsService,
   EnrollmentDetailStatesService,
   SchoolPeriodsService,
-  StudentsService,
   CareerParallelsService,
 } from '@core/services';
 import {
@@ -37,6 +36,7 @@ import {
 } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { isAfter, isBefore } from 'date-fns';
+import { StudentsService } from './students.service';
 
 @Injectable()
 export class EnrollmentsService {

@@ -14,14 +14,16 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
-import { EnrollmentsService, TeacherDistributionsService, TeachersService } from '@core/services';
+import { EnrollmentsService, TeacherDistributionsService } from '@core/services';
 import { CreateTeacherDto, FilterTeacherDto, UpdateTeacherDto } from '@core/dto';
 import { TeacherEntity } from '@core/entities';
+import { TeachersService } from '../services/teachers.service';
 
 @ApiTags('Teachers')
 @Controller('teachers')
 export class TeachersController {
-  constructor(private readonly teachersService: TeachersService, private readonly teacherDistributionsService: TeacherDistributionsService,
+  constructor(private readonly teachersService: TeachersService,
+              private readonly teacherDistributionsService: TeacherDistributionsService,
               private readonly enrollmentsService: EnrollmentsService) {
   }
 

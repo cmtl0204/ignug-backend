@@ -3,24 +3,13 @@ import { Repository } from 'typeorm';
 import {
   CareerEntity,
   CatalogueEntity,
-  EnrollmentDetailEntity,
-  EnrollmentEntity,
-  GradeEntity, InstitutionEntity,
-  PartialEntity, PartialPermissionEntity,
-  StudentEntity, SubjectEntity,
-  TeacherDistributionEntity, TeacherEntity,
+  SubjectEntity,
 } from '@core/entities';
-import { AuthRepositoryEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
+import { CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { join } from 'path';
 import * as XLSX from 'xlsx';
 import * as fs from 'fs';
-import { CreateUserDto, SeedUserDto } from '@auth/dto';
-import { RoleEnum } from '@auth/enums';
-import { faker } from '@faker-js/faker';
-import { RoleEntity, UserEntity } from '@auth/entities';
-import { RolesService, UsersService } from '@auth/services';
-import { CareersService, CataloguesService, InstitutionsService } from '@core/services';
-import * as Bcrypt from 'bcrypt';
+import { CataloguesService } from '@core/services';
 
 interface ErrorModel {
   row: number;

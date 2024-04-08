@@ -3,19 +3,19 @@ import {
     CareersService, CataloguesService,
     InformationStudentsService,
     InstitutionsService,
-    LocationsService,
-    StudentsService,
-    TeachersService
+    LocationsService
 } from '@core/services';
 import * as XLSX from 'xlsx';
 import * as process from 'process';
 import {join} from 'path';
-import {RolesService, UsersService} from '@auth/services';
+import {RolesService} from '@auth/services';
 import {RoleEnum} from '@auth/enums';
 import {RoleEntity} from '@auth/entities';
-import {SeederInformationStudentDto} from "@core/dto";
 import {CatalogueEntity} from "@core/entities";
 import {CatalogueTypeEnum} from "@shared/enums";
+import { TeachersService } from './teachers.service';
+import { StudentsService } from './students.service';
+import { UsersService } from '../../auth/services/users.service';
 
 @Injectable()
 export class ImportsService {
@@ -190,6 +190,9 @@ export class ImportsService {
                 password: identification,
                 passwordChanged: false,
                 roles: [teacherRole],
+                institutions: [],
+                institution: null,
+                careers: [],
                 username: identification,
             };
 

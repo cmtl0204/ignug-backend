@@ -1,7 +1,8 @@
 import {Injectable, Res} from '@nestjs/common';
 import {StudentEntity} from '@core/entities';
 import {differenceInYears, format} from "date-fns";
-import {StudentsService} from "@core/services";
+import { StudentsService } from '../../core/services/students.service';
+
 
 const {PDFDocument} = require("pdfkit-table-ts");
 const blobStream = require('blob-stream');

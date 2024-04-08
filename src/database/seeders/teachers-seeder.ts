@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CareersService, InformationTeachersService, TeachersService } from '@core/services';
-import { UsersService } from '@auth/services';
+import { CareersService, InformationTeachersService } from '@core/services';
 import { UserEntity } from '@auth/entities';
 import { SeedTeacherDto } from '@core/dto';
 import { CareerEntity, TeacherEntity } from '@core/entities';
 import { SeederInformationTeacherDto } from '@core/dto';
 import { RoleEnum } from '@auth/enums';
 import { faker } from '@faker-js/faker';
+import { TeachersService } from '../../modules/core/services/teachers.service';
+import { UsersService } from '../../modules/auth/services/users.service';
 
 @Injectable()
 export class TeachersSeeder {

@@ -45,15 +45,16 @@ import {
   PDFService,
   SchoolPeriodsService,
   SecretaryService,
-  StudentsService, SubjectCorequisitesService,
+   SubjectCorequisitesService,
   SubjectPrerequisitesService,
   SubjectsService,
   TeacherDistributionsService,
-  TeachersService,
 } from '@core/services';
 import { DatabaseModule } from '@database';
 import { coreProviders } from '@core/providers';
 import { EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddressesService } from '@core/services';
+import { StudentsService } from './services/students.service';
+import { TeachersService } from './services/teachers.service';
 
 @Global()
 @Module({
