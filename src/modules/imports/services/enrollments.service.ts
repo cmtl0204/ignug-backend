@@ -512,7 +512,7 @@ export class EnrollmentsService {
 
     if (identification.length === 9) identification = '0' + identification;
 
-    console.log(identification);
+    // console.log(identification);
 
     let student = await this.studentRepository.findOne({
       relations: { user: true },

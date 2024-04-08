@@ -627,8 +627,7 @@ export class EnrollmentsService {
 
   async calculateEnrollmentDetailNumber(studentId: string, subjectId: string) {
     const enrollmentDetails = await this.enrollmentDetailsService.calculateEnrollmentDetailNumber(studentId, subjectId);
-    console.log(enrollmentDetails.length);
-    console.log(enrollmentDetails);
+
     return enrollmentDetails.length;
   }
 
