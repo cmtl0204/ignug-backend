@@ -78,6 +78,20 @@ export class TeachersService {
         return teacher;
     }
 
+    async updateCareers(id: string, payload: UpdateTeacherDto): Promise<TeacherEntity> {
+        const teacher = await this.repository.findOneBy({id});
+
+        if (!teacher) {
+            throw new NotFoundException('Teacher not found');
+        }
+
+        this.repository.merge(teacher, payload);
+
+        await this.repository.save(teacher);
+
+        return teacher;
+    }
+
     async remove(id: string) {
         const teacher = await this.repository.findOneBy({id});
 

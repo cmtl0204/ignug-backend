@@ -176,6 +176,20 @@ export class StudentsService {
         return student;
     }
 
+    async updateCareers(id: string, payload: UpdateStudentDto): Promise<StudentEntity> {
+        const student = await this.repository.findOneBy({id});
+
+        if (!student) {
+            throw new NotFoundException('Estudiante no encontrado');
+        }
+
+        this.repository.merge(student, payload);
+
+        await this.repository.save(student);
+
+        return student;
+    }
+
     async remove(id: string) {
         const student = await this.repository.findOneBy({id});
 
