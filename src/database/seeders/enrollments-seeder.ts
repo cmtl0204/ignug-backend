@@ -170,60 +170,7 @@ export class EnrollmentSeeder {
     }
 
     private async createEnrollmentsDetails() {
-        const enrollmentDetails: CreateEnrollmentsDetailDto[] = [];
 
-        //academic State
-        const academicState = this.academicStates.find(academicState => {
-            return academicState.code === 'a' && academicState.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
-        });
-
-        const reprobateAcademicState = this.academicStates.find(academicState => {
-            return academicState.code === 'r' && academicState.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE;
-        });
-
-        //subjects
-        const subject1 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling1');
-        const subject2 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling2');
-        const subject3 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling3');
-        const subject4 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling4');
-        const subject5 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling5');
-        const subject6 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling1');
-        const subject7 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling2');
-        const subject8 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling3');
-        const subject9 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling4');
-        const subject10 = this.subjects.find((subjects: SubjectEntity) => subjects.code === 'leveling5');
-
-        //enrollments
-        this.enrollments = (await this.enrollmentsService.findAll()).data;
-        const enrollment1 = this.enrollments.find((enrollment: EnrollmentEntity) => enrollment.code === 'cod1');
-        const enrollment2 = this.enrollments.find((enrollment: EnrollmentEntity) => enrollment.code === 'cod2');
-
-        //parallel
-        const parallel = this.parallels.find(parallel => {
-            return parallel.code === 'a' && parallel.type === CatalogueTypeEnum.PARALLEL;
-        });
-
-        //states
-        const state = this.states.find((state: CatalogueEntity) => {
-            return state.code === 'registered' && state.type === CatalogueTypeEnum.ENROLLMENT_STATE;
-        });
-
-        //enrollment type
-        const type = this.types.find(type => {
-            return type.code === 'ordinary' && type.type === CatalogueTypeEnum.ENROLLMENTS_TYPE;
-        });
-
-        //workday
-        const workday = this.workdays.find(workday => {
-            return workday.code === 'm' && workday.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY;
-        });
-
-        enrollmentDetails.push(
-        );
-
-        for (const enrollmentDetail of enrollmentDetails) {
-            await this.enrollmentsDetailService.create(enrollmentDetail);
-        }
     }
 
     private async createEnrollmentsStates() {
