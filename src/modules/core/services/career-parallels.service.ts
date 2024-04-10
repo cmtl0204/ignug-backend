@@ -58,4 +58,13 @@ export class CareerParallelsService {
 
         return response.capacity;
     }
+
+    async findParallelsByCareer(careerId: string): Promise<CareerParallelEntity[]> {
+        const response = await this.repository.find({
+            relations: {parallel: true},
+            where: {careerId}
+        });
+
+        return response;
+    }
 }

@@ -168,7 +168,7 @@ export class EnrollmentDetailsService {
             throw new NotFoundException('enrollmentDetail not found');
         }
 
-        return await this.repository.save(enrollmentDetail);
+        return await this.repository.softRemove(enrollmentDetail);
     }
 
     async removeAll(payload: EnrollmentDetailEntity[] | CreateEnrollmentsDetailDto[]): Promise<EnrollmentDetailEntity[]> {

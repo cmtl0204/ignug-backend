@@ -17,7 +17,13 @@ import {Auth, User} from '@auth/decorators';
 import {UserEntity} from '@auth/entities';
 import {CreateCareerDto, FilterEnrollmentDto, UpdateCareerDto} from '@core/dto';
 import {CareerEntity} from '@core/entities';
-import { CareersService, EnrollmentsService, SubjectsService, TeacherDistributionsService } from '@core/services';
+import {
+    CareerParallelsService,
+    CareersService,
+    EnrollmentsService,
+    SubjectsService,
+    TeacherDistributionsService
+} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Careers')
@@ -26,6 +32,7 @@ export class CareersController {
     constructor(private readonly careersService: CareersService,
                 private readonly enrollmentsService: EnrollmentsService,
                 private readonly subjectsService: SubjectsService,
+                private readonly careerParallelsService: CareerParallelsService,
                 private readonly teacherDistributionsService: TeacherDistributionsService,
     ) {
     }
@@ -173,7 +180,7 @@ export class CareersController {
     }
 
     @ApiOperation({summary: 'Find Enrollments By Career'})
-    @Get(':id/:enrollments')
+    @Get(':id/enrollments')
     @HttpCode(HttpStatus.OK)
     async findEnrollmentsByCareer(@Param('id', ParseUUIDPipe) id: string, @Query() params: FilterEnrollmentDto): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.findEnrollmentsByCareer(id, params);
@@ -199,4 +206,18 @@ export class CareersController {
             title: `Success`,
         };
     }
+
+    @ApiOperation({summary: 'Find Enrollments By Career'})
+    @Get(':id/parallels')
+    @HttpCode(HttpStatus.OK)
+    async findParallelsByCareer(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.careerParallelsService.findParallelsByCareer(id);
+
+        return {
+            data: serviceResponse,
+            message: `Success`,
+            title: `Success`,
+        };
+    }
+
 }
