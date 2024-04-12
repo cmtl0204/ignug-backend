@@ -246,7 +246,7 @@ export class EnrollmentReportsService {
     return path;
   }
 
-  async generateEnrollmentsBySchoolPeriod( schoolPeriodId: string) {
+  async generateEnrollmentsBySchoolPeriod(schoolPeriodId: string) {
     const data = await this.reportEnrollmentsBySchoolPeriod(schoolPeriodId);
 
     const newWorkbook = XLSX.utils.book_new();
@@ -491,7 +491,8 @@ export class EnrollmentReportsService {
       .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
       .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
         schoolPeriodId,
-      }).orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+      })
+      .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
 
     return await queryBuilder.getRawMany();
   }
