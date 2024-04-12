@@ -26,7 +26,7 @@ import {
     EnrollmentDetailsService,
     EnrollmentDetailStatesService,
     SchoolPeriodsService,
-    CareerParallelsService,
+    CareerParallelsService, SubjectsService,
 } from '@core/services';
 import {
     CatalogueEnrollmentStateEnum,
@@ -49,6 +49,7 @@ export class EnrollmentsService {
         private readonly schoolPeriodsService: SchoolPeriodsService,
         private readonly careerParallelsService: CareerParallelsService,
         private readonly studentsService: StudentsService,
+        private readonly subjectsService: SubjectsService,
     ) {
     }
 
@@ -588,11 +589,23 @@ export class EnrollmentsService {
             });
         }
 
-        if (enrollment?.enrollmentDetails)
+        if (enrollment?.enrollmentDetails) {
             await this.enrollmentDetailsService.removeAll(enrollment.enrollmentDetails);
+        }
+
+
+        // if (!valid) {
+        //     throw new BadRequestException('No cumple con los prerequisitos de la asignatura');
+        // }
+
 
         for (const item of payload.enrollmentDetails) {
+            if (await this.validateSubjectPrerequisites(item.id, enrollment.id)) {
+                continue;
+            }
+
             let enrollmentNumber = await this.calculateEnrollmentDetailNumber(payload.student.id, item.id);
+
             enrollmentNumber = enrollmentNumber + 1;
 
             if (enrollmentNumber > 3) continue;
@@ -606,7 +619,7 @@ export class EnrollmentsService {
                 number: enrollmentNumber,
             };
 
-            const enrollmentDetailCreated = await this.enrollmentDetailsService.create(userId,enrollmentDetail);
+            const enrollmentDetailCreated = await this.enrollmentDetailsService.create(userId, enrollmentDetail);
 
             const registeredState = catalogues.find(catalogue =>
                 catalogue.code === CatalogueEnrollmentStateEnum.REGISTERED &&
@@ -623,6 +636,40 @@ export class EnrollmentsService {
 
         return enrollment;
         // });
+    }
+
+    async validateSubjectPrerequisites(subjectId: string, enrollmentId: string) {
+        const subject = await this.subjectsService.findOne(subjectId);
+        const enrollmentDetails = await this.enrollmentDetailsService.findEnrollmentDetailsByEnrollment(enrollmentId);
+
+        let valid = true;
+        let existSubject = false;
+        let prerequisites = '';
+        let namePrerequisite = '';
+
+        for (const subjectPrerequisite of subject.subjectPrerequisites) {
+            namePrerequisite = `(${subjectPrerequisite.requirement.code}) ${subjectPrerequisite.requirement.name}`;
+
+            for (const enrollmentDetail of enrollmentDetails) {
+                if (subjectPrerequisite.requirement.id === enrollmentDetail.subjectId) {
+                    existSubject = true;
+
+                    if (!enrollmentDetail.academicState?.code || enrollmentDetail.academicState?.code === 'r') {
+                        prerequisites += '\n' + namePrerequisite;
+                        valid = false;
+                    }
+                }
+            }
+
+            if (!existSubject) {
+                prerequisites += '\n' + namePrerequisite;
+                valid = false;
+            }
+
+            existSubject = false;
+        }
+
+        return valid;
     }
 
     async calculateEnrollmentDetailNumber(studentId: string, subjectId: string) {

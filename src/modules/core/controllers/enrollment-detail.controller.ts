@@ -159,4 +159,18 @@ export class EnrollmentDetailsController {
             title: `Anulada`,
         };
     }
+
+    @ApiOperation({summary: 'Send Request'})
+    @Auth()
+    @Post(':id/send-request')
+    @HttpCode(HttpStatus.CREATED)
+    async sendRequest(@User() user: UserEntity, @Param('id', ParseUUIDPipe) id: string,@Body() payload: CreateEnrollmentsDetailDto): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentDetailsService.sendRequest(user.id,id,payload);
+
+        return {
+            data: serviceResponse,
+            message: 'Detalle de matrícula creado',
+            title: 'Creado',
+        };
+    }
 }

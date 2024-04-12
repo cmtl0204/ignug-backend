@@ -44,8 +44,10 @@ export class EnrollmentDetailsService {
         newEnrollmentDetail.typeId = payload.type.id;
         newEnrollmentDetail.workdayId = payload.workday.id;
 
-        const enrollmentDetailCreated = await this.repository.save(newEnrollmentDetail);
+        return  await this.repository.save(newEnrollmentDetail);
+    }
 
+    async sendRequest(userId:string,enrollmentDetailId:string,payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
         const catalogues = await this.cataloguesService.findCache();
 
         const requestSentState = catalogues.find(catalogue =>
@@ -53,15 +55,15 @@ export class EnrollmentDetailsService {
             catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
 
-        await this.enrollmentDetailStatesService.create({
-            enrollmentDetailId: enrollmentDetailCreated.id,
+         await this.enrollmentDetailStatesService.create({
+            enrollmentDetailId: enrollmentDetailId,
             stateId: requestSentState.id,
             userId,
             date: new Date(),
             observation: payload.observation,
         });
 
-        return enrollmentDetailCreated;
+        return null;
     }
 
     async findAll(params?: FilterEnrollmentsDetailDto): Promise<ServiceResponseHttpModel> {
