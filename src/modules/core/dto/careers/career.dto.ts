@@ -7,6 +7,7 @@ import {
   maxLengthValidationOptions,
   minLengthValidationOptions,
 } from '@shared/validation';
+import {UserEntity} from "@auth/entities";
 
 export class CareerDto {
   @IsOptional(isNotEmptyValidationOptions())
@@ -14,6 +15,8 @@ export class CareerDto {
 
   @IsOptional(isNotEmptyValidationOptions())
   readonly modality: CatalogueEntity;
+
+  readonly users: UserEntity[];
 
   @IsOptional()
   readonly state: CatalogueEntity;

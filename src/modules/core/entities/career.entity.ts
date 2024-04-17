@@ -124,7 +124,8 @@ export class CareerEntity {
     })
     @JoinColumn({name: 'state_id'})
     state: CatalogueEntity;
-    @Column({type: 'uuid', name: 'state_id', comment: 'Habilitada o Inhabilitada'})
+
+    @Column({type: 'uuid', name: 'state_id', nullable: true, comment: 'Habilitada o Inhabilitada'})
     stateId: string;
 
     @ManyToOne(() => CatalogueEntity, {
@@ -133,7 +134,7 @@ export class CareerEntity {
     @JoinColumn({name: 'type_id'})
     type: CatalogueEntity;
 
-    @Column({type: 'uuid', name: 'type_id', comment: 'Tecnologia o Tecnicatura'})
+    @Column({type: 'uuid', name: 'type_id',nullable:true, comment: 'Tecnologia o Tecnicatura'})
     typeId: string;
 
     /** Columns **/
@@ -154,6 +155,7 @@ export class CareerEntity {
     @Column({
         comment: 'Código sniese de la carrera',
         type: 'varchar',
+        nullable:true,
         name: 'code_sniese',
     })
     codeSniese: string;
@@ -183,6 +185,7 @@ export class CareerEntity {
     @Column({
         comment: 'Numero de resolución de la carrera',
         type: 'varchar',
+        nullable:true,
         name: 'resolution_number',
     })
     resolutionNumber: string;

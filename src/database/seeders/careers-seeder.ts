@@ -57,6 +57,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '650321H01-H-1701',
@@ -73,6 +74,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '650331C01-S-1701',
@@ -89,6 +91,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '650311D01-H-1701',
@@ -105,6 +108,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '650112B01-S-1701',
@@ -121,6 +125,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '650314H01-S-1701',
@@ -137,6 +142,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '650314H01-H-1701',
@@ -153,6 +159,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
             {
                 code: '651015D01-H-1701',
@@ -169,6 +176,7 @@ export class CareersSeeder {
                 isVisible: true,
                 isEnabled: true,
                 logo: 'logo',
+                users:[],
             },
         );
 
