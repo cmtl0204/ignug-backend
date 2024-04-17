@@ -36,7 +36,7 @@ export class CareersService {
     };
   }
 
-  async create(payload: CreateCareerDto | SeedCareerDto): Promise<CareerEntity> {
+  async create(payload: CreateCareerDto): Promise<CareerEntity> {
     const newEntity: CareerEntity = this.repository.create(payload);
     return await this.repository.save(newEntity);
   }

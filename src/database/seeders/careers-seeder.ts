@@ -55,6 +55,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -70,6 +71,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -85,6 +87,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -100,6 +103,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -115,6 +119,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -130,6 +135,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -145,6 +151,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
             {
@@ -160,6 +167,7 @@ export class CareersSeeder {
                 modality: modality1,
                 type: type1,
                 isVisible: true,
+                isEnabled: true,
                 logo: 'logo',
             },
         );

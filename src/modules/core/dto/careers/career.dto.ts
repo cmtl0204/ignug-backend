@@ -31,6 +31,7 @@ export class CareerDto {
   @MaxLength(20, maxLengthValidationOptions())
   readonly code: string;
 
+  @IsOptional()
   @IsString(isStringValidationOptions())
   readonly codeSniese: string;
 
@@ -40,6 +41,9 @@ export class CareerDto {
   @IsBoolean(isBooleanValidationOptions())
   readonly isVisible: boolean;
 
+  @IsBoolean(isBooleanValidationOptions())
+  readonly isEnabled: boolean;
+
   @IsOptional()
   @IsString(isStringValidationOptions())
   readonly logo: string;
@@ -47,6 +51,7 @@ export class CareerDto {
   @IsString(isStringValidationOptions())
   readonly name: string;
 
+  @IsOptional()
   @IsString(isStringValidationOptions())
   readonly resolutionNumber: string;
 

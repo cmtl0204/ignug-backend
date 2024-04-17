@@ -593,15 +593,13 @@ export class EnrollmentsService {
             await this.enrollmentDetailsService.removeAll(enrollment.enrollmentDetails);
         }
 
-
         // if (!valid) {
         //     throw new BadRequestException('No cumple con los prerequisitos de la asignatura');
         // }
 
-
         for (const item of payload.enrollmentDetails) {
             if (await this.validateSubjectPrerequisites(item.id, enrollment.id)) {
-                continue;
+                //continue;
             }
 
             let enrollmentNumber = await this.calculateEnrollmentDetailNumber(payload.student.id, item.id);
