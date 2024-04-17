@@ -30,12 +30,9 @@ export class CareerDto {
 
   @IsString(isStringValidationOptions())
   @MinLength(3, minLengthValidationOptions())
-  @MaxLength(10, maxLengthValidationOptions())
   readonly acronym: string;
 
   @IsString(isStringValidationOptions())
-  @MinLength(1, minLengthValidationOptions())
-  @MaxLength(20, maxLengthValidationOptions())
   readonly code: string;
 
   @IsOptional()
