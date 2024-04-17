@@ -16,7 +16,11 @@ export class CareerDto {
   @IsOptional(isNotEmptyValidationOptions())
   readonly modality: CatalogueEntity;
 
+  @IsOptional()
   readonly users: UserEntity[];
+
+  @IsOptional()
+  readonly userId: string;
 
   @IsOptional()
   readonly state: CatalogueEntity;

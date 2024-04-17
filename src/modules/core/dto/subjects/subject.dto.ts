@@ -14,7 +14,7 @@ export class SubjectDto {
   @IsNotEmpty()
   readonly academicPeriod: CatalogueEntity;
 
-  @IsNotEmpty()
+  @IsOptional()
   readonly state: CatalogueEntity;
 
   @IsNotEmpty()

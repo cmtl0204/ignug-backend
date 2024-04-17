@@ -18,7 +18,7 @@ export class SubjectsService {
   ) {
   }
 
-  async create(payload: CreateSubjectDto | SeedSubjectDto): Promise<SubjectEntity> {
+  async create(payload: CreateSubjectDto): Promise<SubjectEntity> {
     const newSubject = this.repository.create(payload);
     const subject = await this.repository.save(newSubject);
 
