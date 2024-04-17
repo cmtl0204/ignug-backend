@@ -598,9 +598,9 @@ export class EnrollmentsService {
         // }
 
         for (const item of payload.enrollmentDetails) {
-            if (await this.validateSubjectPrerequisites(item.id, enrollment.id)) {
-                //continue;
-            }
+            // if (await this.validateSubjectPrerequisites(item.id, enrollment.id)) {
+            //     continue;
+            // }
 
             let enrollmentNumber = await this.calculateEnrollmentDetailNumber(payload.student.id, item.id);
 
