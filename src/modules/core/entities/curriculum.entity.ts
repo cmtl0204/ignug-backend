@@ -57,10 +57,9 @@ export class CurriculumEntity {
     careerId: string;
 
     @ManyToOne(() => CatalogueEntity, {nullable: false})
-
     @JoinColumn({name: 'state_id'})
     state: CatalogueEntity;
-    @Column({type: 'uuid', name: 'state_id', comment: 'Habilitado o Inhabilitado'})
+    @Column({type: 'uuid', name: 'state_id',nullable:true, comment: 'Habilitado o Inhabilitado'})
     stateId: string;
 
     /** Columns **/

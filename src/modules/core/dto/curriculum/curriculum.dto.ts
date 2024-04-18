@@ -6,7 +6,7 @@ export class CurriculumDto {
   @IsNotEmpty(isNotEmptyValidationOptions())
   readonly career: CareerEntity;
 
-  @IsNotEmpty(isNotEmptyValidationOptions())
+  @IsOptional()
   readonly state: CatalogueEntity;
 
   @IsString(isStringValidationOptions())
@@ -14,7 +14,6 @@ export class CurriculumDto {
   readonly code: string;
 
   @IsString(isStringValidationOptions())
-  @MinLength(10, minLengthValidationOptions())
   readonly description: string;
 
   @IsNotEmpty(isNotEmptyValidationOptions())
