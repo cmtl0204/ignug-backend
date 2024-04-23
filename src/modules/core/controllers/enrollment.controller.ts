@@ -21,7 +21,7 @@ import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Enrollments')
-@Auth()
+
 @Controller('enrollments')
 export class EnrollmentsController {
     constructor(
@@ -226,6 +226,19 @@ export class EnrollmentsController {
     @HttpCode(HttpStatus.OK)
     async findEnrollmentCertificateByEnrollment(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
         const serviceResponse = await this.enrollmentsService.findEnrollmentCertificateByEnrollment(id);
+
+        return {
+            data: serviceResponse,
+            message: `Buscar reporte de notas`,
+            title: `Success`,
+        };
+    }
+
+    @ApiOperation({summary: 'Recalculate Socioeconomic Forms'})
+    @Patch('recalculate-socioeconomic-forms')
+    @HttpCode(HttpStatus.OK)
+    async recalculateSocioeconomicForm(): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.recalculateSocioeconomicForm();
 
         return {
             data: serviceResponse,

@@ -120,7 +120,9 @@ export class EnrollmentEntity {
 
     @Column({
         name: 'socioeconomic_score',
-        type: 'float',
+        type: 'decimal',
+        precision: 5,
+        scale: 2,
         nullable: true,
         comment: 'Puntaje',
     })

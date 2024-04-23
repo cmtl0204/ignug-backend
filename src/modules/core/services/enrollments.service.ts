@@ -37,6 +37,7 @@ import {
 import {ServiceResponseHttpModel} from '@shared/models';
 import {isAfter, isBefore} from 'date-fns';
 import {StudentsService} from './students.service';
+import {IsNotEmpty} from "class-validator";
 
 @Injectable()
 export class EnrollmentsService {
@@ -1041,5 +1042,39 @@ export class EnrollmentsService {
                 enrollmentDetails: {parallelId: params.parallelId, workdayId: params.workdayId},
             },
         });
+    }
+
+    async recalculateSocioeconomicForm(): Promise<EnrollmentEntity> {
+        // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
+        const enrollments = await this.repository.find({
+            relations: {enrollmentStates: {state: true}, enrollmentDetails: true},
+            where: {
+                student: {user: {identification: '0850867599'}},
+                enrollmentStates: {
+                    state: {
+                        code: In([
+                            'request_sent',
+                            'approved',
+                            'enrolled',
+                            'revoked',
+                            'registered',
+                            'rejected',
+                        ])
+                    }
+                },
+            },
+        });
+
+
+        for (const enrollment of enrollments) {
+            enrollment.socioeconomicScore = await this.studentsService.calculateSocioeconomicFormScore(enrollment.studentId);
+            enrollment.socioeconomicCategory = this.studentsService.calculateSocioeconomicFormCategory(enrollment.socioeconomicScore);
+            enrollment.socioeconomicPercentage = this.studentsService.calculateSocioeconomicFormPercentage(enrollment.socioeconomicCategory);
+
+            await this.repository.save(enrollment);
+        }
+
+        return enrollments[0];
+        // });
     }
 }

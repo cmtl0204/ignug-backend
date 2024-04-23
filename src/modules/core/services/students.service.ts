@@ -13,9 +13,9 @@ import {InformationStudentsService} from './information-students.service';
 import {ServiceResponseHttpModel} from '@shared/models';
 import {OriginAddressesService} from "./origin-addresses.service";
 import {ResidenceAddressesService} from "./residence-addresses.service";
-import { UsersService } from '../../auth/services/users.service';
-import { UpdateUserDto } from '@auth/dto';
-import { UserEntity } from '@auth/entities';
+import {UsersService} from '../../auth/services/users.service';
+import {UpdateUserDto} from '@auth/dto';
+import {UserEntity} from '@auth/entities';
 
 @Injectable()
 export class StudentsService {
@@ -655,8 +655,35 @@ export class StudentsService {
     async calculateSocioeconomicFormScore(id: string): Promise<number> {
         const student = await this.repository.findOne({
             relations: {
-                informationStudent: true,
-                user: {ethnicOrigin: true, maritalStatus: true}
+                informationStudent: {
+                    isHasChildren: true,
+                    isHouseHead: true,
+                    isSocialSecurity: true,
+                    isPrivateSecurity: true,
+                    isDisability: true,
+                    isCatastrophicIllness: true,
+                    typeSchool: true,
+                    isElectronicDevice: true,
+                    familyIncome: true,
+                    isDependsEconomically: true,
+                    isFamilyProperties: true,
+                    isFamilyCatastrophicIllness: true,
+                    isFamilyDisability: true,
+                    studentLive: true,
+                    homeOwnership: true,
+                    homeType: true,
+                    homeRoof: true,
+                    homeFloor: true,
+                    homeWall: true,
+                    isWaterService: true,
+                    isElectricService: true,
+                    isInternet: true,
+                    isPhoneService: true,
+                    isSewerageService: true,
+                    isFamilyEconomicAid: true,
+                    isFamilyEmigrant: true,
+                },
+                user: {ethnicOrigin: true, maritalStatus: true, residenceAddress: {parrish: true}}
             },
             where: {id},
         });
@@ -669,7 +696,7 @@ export class StudentsService {
 
         // Marital Status
         if (student.user.maritalStatus?.code === CatalogueMaritalStatusEnum.SINGLE) {
-            score += 1.875;
+            score += 0.1875;
         }
 
         if (student.user.maritalStatus?.code === CatalogueMaritalStatusEnum.MARRIED) {
@@ -684,12 +711,17 @@ export class StudentsService {
             score += 1.25;
         }
 
-        // Ethnic Origin
-        if (student.user.ethnicOrigin?.code === CatalogueEthnicOriginEnum.INDIGENOUS) {
-            score += 10;
+        // Residence Address
+        if (student.user?.residenceAddress?.parrish?.zone.toLowerCase() === 'urbana') {
+            score += 0.5;
         }
 
-        if (student.user.ethnicOrigin?.code === CatalogueEthnicOriginEnum.AFRO_ECUADORIAN) {
+        if (student.user?.residenceAddress?.parrish?.zone.toLowerCase() === 'rural') {
+            score += 0.25;
+        }
+
+        // Ethnic Origin
+        if (student.user.ethnicOrigin?.code === CatalogueEthnicOriginEnum.WHITE) {
             score += 10;
         }
 
@@ -698,6 +730,7 @@ export class StudentsService {
         }
 
         // Information Student
+        // Is Has Children
         if (student.informationStudent.isHasChildren?.code === CatalogueYesNoEnum.YES) {
             score += 1.25;
         }
@@ -706,22 +739,27 @@ export class StudentsService {
             score += 2.5;
         }
 
+        // Is House head
         if (student.informationStudent.isHouseHead?.code === CatalogueYesNoEnum.YES) {
             score += 3.5;
         }
 
+        // Is Social Security
         if (student.informationStudent.isSocialSecurity?.code === CatalogueYesNoEnum.YES) {
             score += 2.5;
         }
 
+        // Is Private Security
         if (student.informationStudent.isPrivateSecurity?.code === CatalogueYesNoEnum.YES) {
             score += 2.5;
         }
 
+        // Is Disability
         if (student.informationStudent.isDisability?.code === CatalogueYesNoEnum.NO) {
             score += 2.5;
         }
 
+        // Is Catastrophic Illness
         if (student.informationStudent.isCatastrophicIllness?.code === CatalogueYesNoEnum.NO) {
             score += 2.5;
         }
@@ -743,17 +781,14 @@ export class StudentsService {
             score += 0.625;
         }
 
+        // Is Electronic Device
         if (student.informationStudent.isElectronicDevice?.code === CatalogueYesNoEnum.YES) {
             score += 2;
         }
 
-        // Residence Address
-        if (student.user?.residenceAddress?.parrish?.zone === 'urbana') {
-            score += 0.5;
-        }
-
-        if (student.user?.residenceAddress?.parrish?.zone === 'rural') {
-            score += 0.25;
+        // Is Internet
+        if (student.informationStudent.isInternet?.code === CatalogueYesNoEnum.YES) {
+            score += 2;
         }
 
         // Members House Number
@@ -790,18 +825,17 @@ export class StudentsService {
             score += 20;
         }
 
-        if (student.informationStudent.isDependsEconomically?.code === CatalogueYesNoEnum.YES) {
-            score += 6;
-        }
-
+        // Is Family Properties
         if (student.informationStudent.isFamilyProperties?.code === CatalogueYesNoEnum.YES) {
             score += 2;
         }
 
+        // Is Family Catastrophic Illness
         if (student.informationStudent.isFamilyCatastrophicIllness?.code === CatalogueYesNoEnum.NO) {
             score += 2;
         }
 
+        // Is Family Disability
         if (student.informationStudent.isFamilyDisability?.code === CatalogueYesNoEnum.NO) {
             score += 2;
         }
@@ -948,26 +982,37 @@ export class StudentsService {
             score += 0.25;
         }
 
+        // Is Water Service
         if (student.informationStudent.isWaterService?.code === CatalogueYesNoEnum.YES) {
             score += 2;
         }
 
+        // Is Electric Service
         if (student.informationStudent.isElectricService?.code === CatalogueYesNoEnum.YES) {
             score += 2;
         }
 
+        // Is Phone Service
         if (student.informationStudent.isPhoneService?.code === CatalogueYesNoEnum.YES) {
             score += 2;
         }
 
+        // Is Sewerage Service
         if (student.informationStudent.isSewerageService?.code === CatalogueYesNoEnum.YES) {
             score += 2;
         }
 
+        // Is Depends Economically
+        if (student.informationStudent.economicContribution?.code === CatalogueYesNoEnum.YES) {
+            score += 6;
+        }
+
+        // Is Family Economic Aid
         if (student.informationStudent.isFamilyEconomicAid?.code === CatalogueYesNoEnum.NO) {
             score += 2;
         }
 
+        // Is Family Emigrant
         if (student.informationStudent.isFamilyEmigrant?.code === CatalogueYesNoEnum.NO) {
             score += 1;
         }
@@ -992,7 +1037,7 @@ export class StudentsService {
             return 'A';
         }
 
-        return 'SC'
+        return 'Sin Categoria'
     }
 
     calculateSocioeconomicFormPercentage(category: string): number {
@@ -1009,7 +1054,7 @@ export class StudentsService {
     }
 
     private async updateUser(id: string, payload: UpdateUserDto): Promise<UserEntity> {
-        const user = await this.userRepository.preload({ id, ...payload });
+        const user = await this.userRepository.preload({id, ...payload});
 
         if (!user) {
             throw new NotFoundException('Usuario no encontrado para actualizar');
