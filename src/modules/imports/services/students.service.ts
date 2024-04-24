@@ -136,11 +136,13 @@ export class StudentsService {
           const studentCreated = await this.studentRepository.save(student);
 
           let isLostGratuity = null;
-          if (item['Gratuidad'].toLowerCase() === 'si') {
+
+          if (item['Tiene_Gratuidad'].toLowerCase() === 'si') {
             isLostGratuity = this.yesNo.find(item => item.code === '1');
           } else {
             isLostGratuity = this.yesNo.find(item => item.code === '2');
           }
+
           await this.informationStudentsService.create({ student: studentCreated, isLostGratuity });
         }
       }

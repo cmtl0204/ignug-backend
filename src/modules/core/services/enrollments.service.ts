@@ -1049,7 +1049,7 @@ export class EnrollmentsService {
         const enrollments = await this.repository.find({
             relations: {enrollmentStates: {state: true}, enrollmentDetails: true},
             where: {
-                student: {user: {identification: '0850867599'}},
+                student: {user: {identification: '1500938715'}},
                 enrollmentStates: {
                     state: {
                         code: In([

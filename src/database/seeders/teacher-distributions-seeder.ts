@@ -37,7 +37,7 @@ export class TeacherDistributionsSeeder {
         const schoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
         const curriculums = (await this.curriculumsService.findAll()).data;
         const subjects = await this.subjectsService.findAllSubjectsByCurriculum(curriculums[0].id);
-        const teachers = (await this.teachersService.findAll()).data;
+        const teachers = (await this.teachersService.findAll());
 
         subjects.forEach(subject => {
             workdays.forEach(workday => {

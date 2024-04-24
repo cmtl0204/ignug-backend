@@ -1,168 +1,168 @@
-import {Inject, Injectable, NotFoundException} from '@nestjs/common';
-import {Repository, FindOptionsWhere} from 'typeorm';
-import {FilterTeacherDto, PaginationDto, UpdateTeacherDto} from '@core/dto';
-import {TeacherEntity} from '@core/entities';
-import {InformationTeachersService} from '@core/services';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Repository, FindOptionsWhere } from 'typeorm';
+import { FilterTeacherDto, PaginationDto, UpdateTeacherDto } from '@core/dto';
+import { TeacherEntity } from '@core/entities';
+import { InformationTeachersService } from '@core/services';
 import { AuthRepositoryEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
-import {ServiceResponseHttpModel} from '@shared/models';
+import { ServiceResponseHttpModel } from '@shared/models';
 import { UsersService } from '../../auth/services/users.service';
 import { UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class TeachersService {
-    constructor(
-        @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY) private repository: Repository<TeacherEntity>,
-        @Inject(AuthRepositoryEnum.USER_REPOSITORY) private readonly userRepository: Repository<UserEntity>,
-        private informationTeachersService: InformationTeachersService,
-    ) {
+  constructor(
+    @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY) private repository: Repository<TeacherEntity>,
+    @Inject(AuthRepositoryEnum.USER_REPOSITORY) private readonly userRepository: Repository<UserEntity>,
+    private informationTeachersService: InformationTeachersService,
+  ) {
+  }
+
+  async catalogue() {
+    const data = await this.repository.findAndCount({
+      take: 1000,
+    });
+
+    return { pagination: { totalItems: data[1], limit: 10 }, data: data[0] };
+  }
+
+  async findAll(): Promise<TeacherEntity[]> {
+    return await this.repository.find({
+      relations: { user: true, informationTeacher: true },
+    });
+  }
+
+  async findTeachers(params?: FilterTeacherDto): Promise<ServiceResponseHttpModel> {
+    if (params?.limit > 0 && params?.page >= 0) {
+      return await this.paginateAndFilter(params);
     }
 
-    async catalogue() {
-        const data = await this.repository.findAndCount({
-            take: 1000,
-        });
+    return { pagination: { totalItems: 0, limit: 10 }, data: [] };
+  }
 
-        return {pagination: {totalItems: data[1], limit: 10}, data: data[0]};
+  async findOne(id: string) {
+    const teacher = await this.repository.findOne({
+      relations: { informationTeacher: true, user: true },
+      where: { id },
+    });
+
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
     }
 
-    async findAll(params?: FilterTeacherDto): Promise<ServiceResponseHttpModel> {
-        //Pagination & Filter by search
-        if (params?.limit > 0 && params?.page >= 0) {
-            return await this.paginateAndFilter(params);
-        }
+    return teacher;
+  }
 
-        //All
-        const data = await this.repository.findAndCount({
-            relations: {user: true, informationTeacher: true},
-        });
+  async update(id: string, payload: UpdateTeacherDto): Promise<TeacherEntity> {
+    const teacher = await this.repository.findOneBy({ id });
 
-        return {pagination: {totalItems: data[1], limit: 10}, data: data[0]};
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
     }
 
-    async findOne(id: string) {
-        const teacher = await this.repository.findOne({
-            relations: {informationTeacher: true, user: true},
-            where: {id},
-        });
+    this.repository.merge(teacher, payload);
 
-        if (!teacher) {
-            throw new NotFoundException('Teacher not found');
-        }
+    await this.repository.save(teacher);
 
-        return teacher;
+    await this.updateUser(payload.user.id, payload.user);
+
+    payload.informationTeacher.teacher = await this.repository.save(teacher);
+
+    if (payload.informationTeacher?.id) {
+      await this.informationTeachersService.update(payload.informationTeacher.id, payload.informationTeacher);
+    } else {
+      const { id, ...informationTeacherRest } = payload.informationTeacher;
+      await this.informationTeachersService.create(informationTeacherRest);
     }
 
-    async update(id: string, payload: UpdateTeacherDto): Promise<TeacherEntity> {
-        const teacher = await this.repository.findOneBy({id});
+    return teacher;
+  }
 
-        if (!teacher) {
-            throw new NotFoundException('Teacher not found');
-        }
+  async updateCareers(id: string, payload: UpdateTeacherDto): Promise<TeacherEntity> {
+    const teacher = await this.repository.findOneBy({ id });
 
-        this.repository.merge(teacher, payload);
-
-        await this.repository.save(teacher);
-
-        await this.updateUser(payload.user.id, payload.user);
-
-        payload.informationTeacher.teacher = await this.repository.save(teacher);
-
-        if (payload.informationTeacher?.id) {
-            await this.informationTeachersService.update(payload.informationTeacher.id, payload.informationTeacher);
-        } else {
-            const {id, ...informationTeacherRest} = payload.informationTeacher;
-            await this.informationTeachersService.create(informationTeacherRest);
-        }
-
-        return teacher;
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
     }
 
-    async updateCareers(id: string, payload: UpdateTeacherDto): Promise<TeacherEntity> {
-        const teacher = await this.repository.findOneBy({id});
+    this.repository.merge(teacher, payload);
 
-        if (!teacher) {
-            throw new NotFoundException('Teacher not found');
-        }
+    await this.repository.save(teacher);
 
-        this.repository.merge(teacher, payload);
+    return teacher;
+  }
 
-        await this.repository.save(teacher);
+  async remove(id: string) {
+    const teacher = await this.repository.findOneBy({ id });
 
-        return teacher;
+    if (!teacher) {
+      throw new NotFoundException('Teacher not found');
     }
 
-    async remove(id: string) {
-        const teacher = await this.repository.findOneBy({id});
+    return await this.repository.softRemove(teacher);
+  }
 
-        if (!teacher) {
-            throw new NotFoundException('Teacher not found');
-        }
+  async removeAll(payload: TeacherEntity[]) {
+    return this.repository.softRemove(payload);
+  }
 
-        return await this.repository.softRemove(teacher);
+  private async paginateAndFilter(params: FilterTeacherDto) {
+    let where: FindOptionsWhere<TeacherEntity> | FindOptionsWhere<TeacherEntity>[];
+    where = {};
+    let { page, search } = params;
+    const { limit } = params;
+
+    if (search) {
+      search = search.trim();
+      page = 0;
+      where = [];
+      // where.push({ name: ILike(`%${search}%`) });
     }
 
-    async removeAll(payload: TeacherEntity[]) {
-        return this.repository.softRemove(payload);
+    const data = await this.repository.findAndCount({
+      relations: { user: true, informationTeacher: true, careers: true },
+      where,
+      take: limit,
+      skip: PaginationDto.getOffset(limit, page),
+    });
+
+    return { pagination: { limit, totalItems: data[1] }, data: data[0] };
+  }
+
+  async create(payload: any): Promise<any> {
+    const newEntity = this.repository.create(payload);
+    return await this.repository.save(newEntity);
+  }
+
+  async hide(id: string): Promise<TeacherEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = false;
+    return await this.repository.save(entity);
+  }
+
+  async reactivate(id: string): Promise<TeacherEntity> {
+    const entity = await this.repository.findOneBy({ id });
+
+    if (!entity) {
+      throw new NotFoundException(MessageEnum.NOT_FOUND);
+    }
+    entity.isVisible = true;
+    return await this.repository.save(entity);
+  }
+
+  private async updateUser(id: string, payload: UpdateUserDto): Promise<UserEntity> {
+    const user = await this.userRepository.preload({ id, ...payload });
+
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado para actualizar');
     }
 
-    private async paginateAndFilter(params: FilterTeacherDto) {
-        let where: FindOptionsWhere<TeacherEntity> | FindOptionsWhere<TeacherEntity>[];
-        where = {};
-        let {page, search} = params;
-        const {limit} = params;
+    this.userRepository.merge(user, payload);
 
-        if (search) {
-            search = search.trim();
-            page = 0;
-            where = [];
-            // where.push({ name: ILike(`%${search}%`) });
-        }
-
-        const data = await this.repository.findAndCount({
-            relations: {user: true, informationTeacher: true},
-            where,
-            take: limit,
-            skip: PaginationDto.getOffset(limit, page),
-        });
-
-        return {pagination: {limit, totalItems: data[1]}, data: data[0]};
-    }
-
-    async create(payload: any): Promise<any> {
-        const newEntity = this.repository.create(payload);
-        return await this.repository.save(newEntity);
-    }
-
-    async hide(id: string): Promise<TeacherEntity> {
-        const entity = await this.repository.findOneBy({id});
-
-        if (!entity) {
-            throw new NotFoundException(MessageEnum.NOT_FOUND);
-        }
-        entity.isVisible = false;
-        return await this.repository.save(entity);
-    }
-
-    async reactivate(id: string): Promise<TeacherEntity> {
-        const entity = await this.repository.findOneBy({id});
-
-        if (!entity) {
-            throw new NotFoundException(MessageEnum.NOT_FOUND);
-        }
-        entity.isVisible = true;
-        return await this.repository.save(entity);
-    }
-
-    private async updateUser(id: string, payload: UpdateUserDto): Promise<UserEntity> {
-        const user = await this.userRepository.preload({ id, ...payload });
-
-        if (!user) {
-            throw new NotFoundException('Usuario no encontrado para actualizar');
-        }
-
-        this.userRepository.merge(user, payload);
-
-        return await this.userRepository.save(user);
-    }
+    return await this.userRepository.save(user);
+  }
 }

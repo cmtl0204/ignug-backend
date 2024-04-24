@@ -158,3 +158,11 @@ export enum CatalogueStudentLiveEnum {
   GRANDPARENTS = 'grandparents',
   OTHER = 'other',
 }
+
+export enum CatalogueEconomicContributionEnum {
+  PARENTS = 'parents',
+  GRAND_PARENTS = 'grand_parents',
+  FAMILY = 'family',
+  OWN_SALARY = 'own_salary',
+  OTHER = 'other',
+}

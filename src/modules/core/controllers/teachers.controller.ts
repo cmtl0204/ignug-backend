@@ -43,10 +43,24 @@ export class TeachersController {
 
   @ApiOperation({ summary: 'Lista de usuarios' })
   // @Roles(RoleEnum.ADMIN)
-  @Get()
+  @Get('all')
   @HttpCode(HttpStatus.OK)
-  async findAll(@Query() params: FilterTeacherDto): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.teachersService.findAll(params);
+  async findAll(): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.teachersService.findAll();
+
+    return {
+      data: serviceResponse,
+      message: `index`,
+      title: `index`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Lista de usuarios' })
+  // @Roles(RoleEnum.ADMIN)
+  @Get('')
+  @HttpCode(HttpStatus.OK)
+  async findTeachers(@Query() params: FilterTeacherDto): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.teachersService.findTeachers(params);
 
     return {
       data: serviceResponse.data,

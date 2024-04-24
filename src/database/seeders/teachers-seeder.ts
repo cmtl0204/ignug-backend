@@ -50,7 +50,7 @@ export class TeachersSeeder {
 
   async createInformationTeachers() {
     const informationTeachers: SeederInformationTeacherDto[] = [];
-    const teachers = (await this.teachersService.findAll()).data;
+    const teachers = (await this.teachersService.findAll());
 
     teachers.forEach((teacher: TeacherEntity) => {
       informationTeachers.push({

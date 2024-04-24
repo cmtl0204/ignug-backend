@@ -165,7 +165,7 @@ export class StudentReportsService {
             doc.text('40. Posee cobertura a internet:', textX + 5, textY + 528);
             doc.text('40.1 Tipo de cobertura que utiliza:', textX + 230, textY + 528);// Sigueinte fila
 
-            doc.text('Lugar de prosedencia', textX + 200, textY + 555);//CAMBIO DE SECCION
+            doc.text('Lugar de procedencia', textX + 200, textY + 555);//CAMBIO DE SECCION
 
             doc.text('41. País :', textX + 5, textY + 580);
             doc.text('42. Provincia:', textX + 70, textY + 580);
@@ -323,7 +323,7 @@ export class StudentReportsService {
             doc.text('60. Latitud:', textX + 350, textY + 124);//SIGUIENTE FILA
 
             doc.text('61. Ingresos del hogar:', textX + 5, textY + 149);
-            doc.text('62. Número de miebros del hogar:', textX + 260, textY + 149);//SIGUIENTE FILA
+            doc.text('62. Número de miembros del hogar:', textX + 260, textY + 149);//SIGUIENTE FILA
 
             doc.text('63. Depende económicamente de otra persona:', textX + 5, textY + 175);
             doc.text('64. Dispone de vehículo propio:', textX + 260, textY + 175);//SIGUIENTE FILA
