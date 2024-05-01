@@ -21,7 +21,7 @@ import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Enrollments')
-
+@Auth()
 @Controller('enrollments')
 export class EnrollmentsController {
     constructor(
