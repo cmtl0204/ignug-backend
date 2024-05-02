@@ -87,7 +87,6 @@ export enum CatalogueEnrollmentStateEnum {
   REJECTED = 'rejected',
   ENROLLED = 'enrolled',
   REVOKED = 'revoked',
-  PAID = 'paid',
   REGISTERED = 'registered',
 }
 

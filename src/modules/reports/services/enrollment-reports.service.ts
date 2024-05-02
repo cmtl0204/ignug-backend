@@ -157,7 +157,7 @@ export class EnrollmentReportsService {
     const textY = 80;
     const textW = 500;
 
-    const text = `Yo, ${enrollment.student.user.name} ${enrollment.student.user.lastname} con el número de identificación ${enrollment.student.user.identification}, hago uso de mi cupo en la ${enrollment.career.institution.name}, en el programa académico de ${enrollment.career.name}. Para el período lectivo ${enrollment.schoolPeriod.name}. Contando con la inscripción en las siguientes asignaturas:`;
+    const text = `Nombre: ${enrollment.student.user.name} ${enrollment.student.user.lastname}; Cedula: ${enrollment.student.user.identification}; Carrera: ${enrollment.career.name}; Ciclo: ${enrollment.schoolPeriod.name}.`;
     const currentDate = new Date();
     const day = format(currentDate, 'd', { locale: es }); // Formato numérico del día
     const formattedDate = format(currentDate, 'dd \'de\' MMMM \'de\' yyyy', { locale: es });
@@ -174,16 +174,16 @@ export class EnrollmentReportsService {
     doc.fontSize(11);
     doc.text(`Quito, ${fechaCompleta}`, textX + 320);
     doc.moveDown(2);
-    doc.font('Helvetica-Bold').fontSize(18).text('SOLICITUD DE MATRÍCULA', textX + 100);
+    doc.font('Helvetica-Bold').fontSize(18).text('REPORTE DE MATRÍCULA', textX + 100);
     doc.moveDown();
 
     doc.font('Times-Roman');
     doc.fontSize(11);
     doc.lineGap(7);
-    doc.text(text, textX, textY + 130, {
-      width: 460,
-      align: 'justify',
-    });
+    doc.text(`Nombre: ${enrollment.student.user.name} ${enrollment.student.user.lastname}`, textX, textY + 80);
+    doc.text(`Cedula: ${enrollment.student.user.identification}`, textX, textY + 95);
+    doc.text(`Carrera: ${enrollment.career.name}`, textX, textY + 110);
+    doc.text(`Ciclo: ${enrollment.schoolPeriod.name}`, textX, textY + 125);
     doc.moveDown(2);
 
     const rows = [];
@@ -210,9 +210,7 @@ export class EnrollmentReportsService {
     doc.moveDown();
     doc.font('Times-Roman');
     doc.fontSize(11);
-    doc.text(`Atentamente,`, textX, textY + 520);
-    doc.text(`${enrollment.student.user.name} ${enrollment.student.user.lastname}`, textX, textY + 570);
-    doc.text(`C.C. ${enrollment.student.user.identification}`, textX);
+    doc.text(`NOTA: ESTE DOCUMENTO ES ÚNICAMENTE INFORMATIVO, NO TIENE NINGUNA VALIDEZ LEGAL`, textX, textY + 560)
 
     //Footer: Add page number
     const oldBottomMargin = doc.page.margins.bottom;
