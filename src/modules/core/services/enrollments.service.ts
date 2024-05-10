@@ -779,7 +779,7 @@ export class EnrollmentsService {
 
     async reject(id: string, userId: string, payload: UpdateEnrollmentDto): Promise<EnrollmentEntity> {
         const enrollment = await this.repository.findOne({
-            relations: {enrollmentStates: {state: true}},
+            relations: {enrollmentDetails: {enrollmentDetailStates: true}, enrollmentStates: {state: true}},
             where: {id},
         });
 
@@ -802,6 +802,22 @@ export class EnrollmentsService {
             date: new Date(),
             observation: payload.observation,
         });
+
+        for (const item of enrollment.enrollmentDetails) {
+            const registeredState = catalogues.find(catalogue =>
+                catalogue.code === CatalogueEnrollmentStateEnum.REJECTED &&
+                catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+            await this.enrollmentDetailStatesService.removeAll(item.enrollmentDetailStates);
+
+            await this.enrollmentDetailStatesService.create({
+                enrollmentDetailId: item.id,
+                stateId: registeredState.id,
+                userId,
+                date: new Date(),
+                observation: payload.observation,
+            });
+        }
 
         return enrollment;
     }
@@ -904,6 +920,7 @@ export class EnrollmentsService {
                 observation: payload.observation,
             });
         }
+
         return enrollment;
     }
 
