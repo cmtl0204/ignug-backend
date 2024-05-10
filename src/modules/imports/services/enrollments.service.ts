@@ -126,7 +126,8 @@ export class EnrollmentsService {
     await this.loadRoles();
 
     const catalogues = await this.cataloguesService.findCache();
-    const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+    // const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+    const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.APPROVED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
     const academicPeriods = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ACADEMIC_PERIOD);
     const parallels = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.PARALLEL);
     const enrollmentTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_TYPE);
@@ -157,7 +158,8 @@ export class EnrollmentsService {
         where: {
           studentId: student.id,
           schoolPeriodId: schoolPeriod.id,
-          enrollmentState: { stateId: enrollmentStateEnrolled.id },
+          careerId: career.id,
+          enrollmentState: { stateId: enrollmentStateEnrolled.id },//reviewer si es necesario que se mantenga porque esta creando otra matricula si el estado es diferente
         },
       });
 

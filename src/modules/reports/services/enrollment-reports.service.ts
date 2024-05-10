@@ -47,7 +47,7 @@ export class EnrollmentReportsService {
     const textW = 500;
 
     const enrollmentCode = `${enrollment.schoolPeriod.shortName}-${enrollment.career.acronym}-${enrollment.student.user.identification}`;
-    const text = `Este certificado reconoce que el estudiante: ${enrollment.student.user.name} ${enrollment.student.user.lastname} con el número de identificación ${enrollment.student.user.identification}, previo al cumplimiento de los requisitos legales ha sido matriculado en la Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi, en la carrera de ${enrollment.career.name}, en el periodo académico ${enrollment.schoolPeriod.name}, en las siguientes asignaturas:`;
+    const text = `Por medio del presente, en mi calidad de Secretaria General de la Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi, CERTIFICO que, de conformidad con el Sistema Integral Académico, el estudiante  ${enrollment.student.user.name} ${enrollment.student.user.lastname} con el número de identificación ${enrollment.student.user.identification}, se encuentra legalmente matriculado en esta Institución de Educación Superior, en la carrera de  ${enrollment.career.name}, periodo académico ${enrollment.schoolPeriod.name}, en las siguientes asignaturas:`;
     const currentDate = new Date();
     const day = format(currentDate, 'd', { locale: es }); // Formato numérico del día
     const formattedDate = format(currentDate, 'dd \'de\' MMMM \'de\' yyyy', { locale: es });
@@ -61,20 +61,21 @@ export class EnrollmentReportsService {
 
 
     doc.moveDown(2);
-    doc.font('Helvetica-Bold').fontSize(18).text('CERTIFICADO DE MATRÍCULA', textX + 120);
+    doc.font('Helvetica-Bold').fontSize(18).text('CERTIFICADO DE MATRÍCULA', textX + 110);
     doc.moveDown();
-
+    doc.font('Helvetica');
+    doc.fontSize(11);
+    doc.text(`Quito, ${fechaCompleta}`, textX + 330);
+    doc.moveDown();
     doc.font('Helvetica-Bold');
     doc.fontSize(11);
     doc.text('MATRICULA:  ' + enrollmentCode, textX);
-    doc.moveDown();
-    doc.font('Times-Roman');
-    doc.fontSize(11);
-    doc.text(`Quito, ${fechaCompleta}`);
 
-    doc.font('Times-Roman');
+
+
+    doc.font('Helvetica');
     doc.fontSize(11);
-    doc.lineGap(7);
+    doc.lineGap(6);
     doc.text(text, textX, textY + 130, {
       width: 460,
       align: 'justify',
@@ -100,10 +101,7 @@ export class EnrollmentReportsService {
       rows: rows,
     };
 
-    await doc.table(table, { align: 'center', columnsSize: [40, 200, 80, 30, 40, 50] });
-
-    doc.moveDown();
-    doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 355);
+    await doc.table(table, { align: 'center', columnsSize: [50, 200, 70, 30, 40, 50] });
 
     const qrData = `http://localhost:3000/api/v1/enrollment-reports/${enrollment.studentId}/certificate`;
     const qrImageBuffer = await qr.toBuffer(qrData, {
@@ -115,20 +113,22 @@ export class EnrollmentReportsService {
 
     // doc.image(qrImageBuffer, textX + 180, textY + 390, { width: 100 });
 
+    doc.font('Helvetica').fontSize(12).text('Ab. Gissela Lozada Enríquez', textX + 160, textY + 565);
     doc
       .font('Helvetica-Bold')
-      .fontSize(12)
-      .text('SECRETARIA GENERAL', textX + 160, textY + 570);
+      .fontSize(11)
+      .text('SECRETARIA GENERAL', textX + 175, textY + 585);
     doc.moveDown();
-    doc.text('UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI', textX + 5, textY + 590, { align: 'center' });
+    doc.text('UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI', textX + 5, textY + 605, { align: 'center' });
     //doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 355, textY + 630);
-
+    doc.moveDown();
+    doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 365);
     //Footer: Add page number
     const oldBottomMargin = doc.page.margins.bottom;
     doc.page.margins.bottom = 0; //Dumb: Have to remove bottom margin in order to write into it
 
     doc
-      .fontSize('6')
+      .fontSize('7')
       .text(
         `Dir. Av. Colón E5-56 y Juan León Mera, Edif. Ave María, Torre B. TELF: 022232000 / 022230500 MAIL: informacion@uaw.edu.ec`,
         50,
@@ -157,7 +157,7 @@ export class EnrollmentReportsService {
     const textY = 80;
     const textW = 500;
 
-    const text = `Yo, ${enrollment.student.user.name} ${enrollment.student.user.lastname} con el número de identificación ${enrollment.student.user.identification}, hago uso de mi cupo en la ${enrollment.career.institution.name}, en el programa académico de ${enrollment.career.name}. Para el período lectivo ${enrollment.schoolPeriod.name}. Contando con la inscripción en las siguientes asignaturas:`;
+    const text = `Nombre: ${enrollment.student.user.name} ${enrollment.student.user.lastname}; Cedula: ${enrollment.student.user.identification}; Carrera: ${enrollment.career.name}; Ciclo: ${enrollment.schoolPeriod.name}.`;
     const currentDate = new Date();
     const day = format(currentDate, 'd', { locale: es }); // Formato numérico del día
     const formattedDate = format(currentDate, 'dd \'de\' MMMM \'de\' yyyy', { locale: es });
@@ -174,16 +174,16 @@ export class EnrollmentReportsService {
     doc.fontSize(11);
     doc.text(`Quito, ${fechaCompleta}`, textX + 320);
     doc.moveDown(2);
-    doc.font('Helvetica-Bold').fontSize(18).text('SOLICITUD DE MATRÍCULA', textX + 100);
+    doc.font('Helvetica-Bold').fontSize(18).text('REPORTE DE MATRÍCULA', textX + 100);
     doc.moveDown();
 
     doc.font('Times-Roman');
     doc.fontSize(11);
     doc.lineGap(7);
-    doc.text(text, textX, textY + 130, {
-      width: 460,
-      align: 'justify',
-    });
+    doc.text(`Nombre: ${enrollment.student.user.name} ${enrollment.student.user.lastname}`, textX, textY + 80);
+    doc.text(`Cedula: ${enrollment.student.user.identification}`, textX, textY + 95);
+    doc.text(`Carrera: ${enrollment.career.name}`, textX, textY + 110);
+    doc.text(`Ciclo: ${enrollment.schoolPeriod.name}`, textX, textY + 125);
     doc.moveDown(2);
 
     const rows = [];
@@ -210,9 +210,7 @@ export class EnrollmentReportsService {
     doc.moveDown();
     doc.font('Times-Roman');
     doc.fontSize(11);
-    doc.text(`Atentamente,`, textX, textY + 520);
-    doc.text(`${enrollment.student.user.name} ${enrollment.student.user.lastname}`, textX, textY + 570);
-    doc.text(`C.C. ${enrollment.student.user.identification}`, textX);
+    doc.text(`NOTA: ESTE DOCUMENTO ES ÚNICAMENTE INFORMATIVO, NO TIENE NINGUNA VALIDEZ LEGAL`, textX, textY + 560)
 
     //Footer: Add page number
     const oldBottomMargin = doc.page.margins.bottom;
