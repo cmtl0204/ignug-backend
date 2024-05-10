@@ -19,6 +19,7 @@ import {ResponseHttpModel} from '@shared/models';
 import {join} from 'path';
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
 import {FilterFileDto} from '@common/dto';
+import * as fs from 'fs';
 
 @ApiTags('Files')
 @Controller('files')
@@ -105,5 +106,29 @@ export class FilesController {
             message: 'Archivo Eliminado',
             title: 'Eliminado',
         };
+    }
+
+    @ApiOperation({summary: 'Read Files'})
+    @Get('read-files')
+    async readFiles(): Promise<ResponseHttpModel> {
+        const path = 'C:\\Users\\cesar.tamayo\\Desktop\\blacibu\\files';
+        const files = fs.readdirSync(path);
+        files.forEach(file => {
+                const pathFile = join(path, file);
+                const newPathFile = pathFile
+                    .replace('á', 'a')
+                    .replace('é', 'e')
+                    .replace('í', 'i')
+                    .replace('ó', 'o')
+                    .replace('ú', 'u');
+                const dataFile = fs.lstatSync(pathFile);
+                fs.rename(pathFile, newPathFile, function (err) {
+                    if (err) console.log('ERROR: ' + err);
+                });
+                console.log(dataFile);
+            }
+        )
+
+        return {data: null, message: '', title: ''};
     }
 }
