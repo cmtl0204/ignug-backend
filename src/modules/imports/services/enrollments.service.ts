@@ -158,8 +158,7 @@ export class EnrollmentsService {
         where: {
           studentId: student.id,
           schoolPeriodId: schoolPeriod.id,
-          careerId: career.id,
-          enrollmentState: { stateId: enrollmentStateEnrolled.id },//reviewer si es necesario que se mantenga porque esta creando otra matricula si el estado es diferente
+          careerId: career.id
         },
       });
 
