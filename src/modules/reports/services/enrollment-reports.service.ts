@@ -1,5 +1,5 @@
 import { Inject, Injectable, Res } from '@nestjs/common';
-import { CareersService, EnrollmentsService, SubjectsService } from '@core/services';
+import { CareersService, SubjectsService } from '@core/services';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Repository, SelectQueryBuilder } from 'typeorm';
@@ -13,6 +13,7 @@ import * as XLSX from 'xlsx';
 import * as qr from 'qrcode';
 import { join } from 'path';
 import { CoreRepositoryEnum } from '@shared/enums';
+import { EnrollmentSqlService } from './enrollment-sql.service';
 
 const { PDFDocument } = require('pdfkit-table-ts');
 const blobStream = require('blob-stream');
@@ -25,7 +26,7 @@ export class EnrollmentReportsService {
   private imageHeaderHeight = 80;
 
   constructor(
-    private readonly enrollmentsService: EnrollmentsService,
+    private readonly enrollmentSqlService: EnrollmentSqlService,
     private readonly careersService: CareersService,
     private readonly subjectsService: SubjectsService,
     @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly studentRepository: Repository<StudentEntity>,
@@ -33,7 +34,7 @@ export class EnrollmentReportsService {
   }
 
   async generateEnrollmentCertificate(@Res() res: Response, id: string) {
-    const enrollment = await this.enrollmentsService.findEnrollmentCertificateByEnrollment(id);
+    const enrollment = await this.enrollmentSqlService.findEnrollmentCertificateByEnrollment(id);
 
     const doc = new PDFDocument({
       size: 'A4',
@@ -144,7 +145,7 @@ export class EnrollmentReportsService {
   }
 
   async generateEnrollmentApplication(@Res() res: Response, id: string) {
-    const enrollment = await this.enrollmentsService.findEnrollmentCertificateByEnrollment(id);
+    const enrollment = await this.enrollmentSqlService.findEnrollmentCertificateByEnrollment(id);
 
     const doc = new PDFDocument({
       size: 'A4',
@@ -233,7 +234,7 @@ export class EnrollmentReportsService {
   }
 
   async generateEnrollmentsByCareer(careerId: string, schoolPeriodId: string) {
-    const data = await this.enrollmentsService.reportEnrollmentsByCareer(careerId, schoolPeriodId);
+    const data = await this.enrollmentSqlService.findEnrollmentsByCareer(careerId, schoolPeriodId);
 
     const newWorkbook = XLSX.utils.book_new();
     const newSheet = XLSX.utils.json_to_sheet(data);
@@ -245,7 +246,7 @@ export class EnrollmentReportsService {
   }
 
   async generateEnrollmentsBySchoolPeriod(schoolPeriodId: string) {
-    const data = await this.reportEnrollmentsBySchoolPeriod(schoolPeriodId);
+    const data = await this.enrollmentSqlService.findEnrollmentsBySchoolPeriod(schoolPeriodId);
 
     const newWorkbook = XLSX.utils.book_new();
     const newSheet = XLSX.utils.json_to_sheet(data);
@@ -256,8 +257,21 @@ export class EnrollmentReportsService {
     return path;
   }
 
+  async generateEnrollmentDetailsBySchoolPeriod(schoolPeriodId: string) {
+    const data = await this.enrollmentSqlService.findEnrollmentDetailsBySchoolPeriod(schoolPeriodId);
+
+    console.log(data);
+    const newWorkbook = XLSX.utils.book_new();
+    const newSheet = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Estudiantes');
+    const path = join(process.cwd(), 'storage/reports/enrollments', Date.now() + '.xlsx'); //review path
+    XLSX.writeFile(newWorkbook, path);
+
+    return path;
+  }
+
   async generateAcademicRecordByStudent(@Res() res: Response, studentId: string, careerId: string) {
-    const enrollments = await this.enrollmentsService.findAcademicRecordByStudent(studentId, careerId);
+    const enrollments = await this.enrollmentSqlService.findAcademicRecordByStudent(studentId, careerId);
     const careers = await this.careersService.findOne(careerId);
     const student = await this.studentRepository.findOne({
         where: { id: studentId },
@@ -458,40 +472,5 @@ export class EnrollmentReportsService {
       );
 
     doc.end();
-  }
-
-  private async reportEnrollmentsBySchoolPeriod(schoolPeriodId: string): Promise<any[]> {
-    const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.enrollmentRepository.createQueryBuilder('enrollments');
-    queryBuilder.select(
-      [
-        'careers.code as "Código de Carrera"',
-        'careers.name as "Carrera"',
-        'users.identification  as "Número de Documento"',
-        'users.lastname  as "Apellidos"',
-        'users.name  as "Nombres"',
-        'parallels.name as "Paralelo"',
-        'academic_periods.name as "Nivel"',
-        'types.name as "Tipo de Matricula"',
-        'enrollments.date as " Fecha de Matricula"',
-        'enrollments.applications_at as "Fecha de envio de solicitud"',
-        'enrollments.socioeconomic_category as "Nivel Socioeconómico"',
-        'enrollments.socioeconomic_percentage as "Porcentaje Socioeconómico"',
-        'enrollments.socioeconomic_score as "Puntaje Socioeconómico"',
-        'states.name as "Estado"',
-      ])
-      .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
-      .leftJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
-      .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
-      .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
-      .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
-      .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
-      .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
-      .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-      .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
-        schoolPeriodId,
-      })
-      .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
-
-    return await queryBuilder.getRawMany();
   }
 }

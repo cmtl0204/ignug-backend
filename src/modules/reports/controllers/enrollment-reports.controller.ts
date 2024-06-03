@@ -80,4 +80,17 @@ export class EnrollmentReportsController {
       title: `Report`,
     };
   }
+
+  @ApiOperation({ summary: 'Enrollment Details by School Period' })
+  @Get('enrollment-details/:schoolPeriodId')
+  @HttpCode(HttpStatus.OK)
+  async generateEnrollmentDetailsBySchoolPeriod(@Res() res, @Param('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string): Promise<ResponseHttpModel> {
+    const path = await this.enrollmentReportsService.generateEnrollmentDetailsBySchoolPeriod(schoolPeriodId);
+
+    return {
+      data: res.sendFile(path),
+      message: `Generate Enrollments By School Period`,
+      title: `Report`,
+    };
+  }
 }

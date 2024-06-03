@@ -44,4 +44,12 @@ export class PartialEntity {
     comment: 'Nombre visual para el parcial',
   })
   name: string;
+
+  @Column({
+    name: 'enabled',
+    type: 'boolean',
+    default: true,
+    comment: '',
+  })
+  enabled: boolean;
 }

@@ -1,31 +1,44 @@
 import {
-    Controller,
-    Get,
-    HttpCode,
-    HttpStatus,
-    Param, ParseUUIDPipe,
-    Res
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param, ParseUUIDPipe,
+  Res,
 } from '@nestjs/common';
-import {ApiTags, ApiOperation} from '@nestjs/swagger';
-import {ResponseHttpModel} from '@shared/models';
-import {StudentReportsService} from "../services";
+import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ResponseHttpModel } from '@shared/models';
+import { StudentReportsService } from '../services';
 
 @ApiTags('Student Reports')
 @Controller('student-reports')
 export class StudentReportsController {
-    constructor(private studentReportsService: StudentReportsService) {
-    }
+  constructor(private studentReportsService: StudentReportsService) {
+  }
 
-    @ApiOperation({summary: 'Socioeconomic Form Report'})
-    @Get(':id/socioeconomic-form')
-    @HttpCode(HttpStatus.OK)
-    async generateSocioeconomicForm(@Res() res: Response, @Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-        await this.studentReportsService.generateSocioeconomicForm(res, id);
+  @ApiOperation({ summary: 'Socioeconomic Form Report' })
+  @Get(':id/socioeconomic-form')
+  @HttpCode(HttpStatus.OK)
+  async generateSocioeconomicForm(@Res() res: Response, @Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    await this.studentReportsService.generateSocioeconomicForm(res, id);
 
-        return {
-            data: null,
-            message: `Socioeconomic Form Report`,
-            title: `Report`,
-        };
-    }
+    return {
+      data: null,
+      message: `Socioeconomic Form Report`,
+      title: `Report`,
+    };
+  }
+
+  @ApiOperation({ summary: 'All Socioeconomic Form Report for School Period' })
+  @Get(':schoolPeriodId/socioeconomic-form-all')
+  @HttpCode(HttpStatus.OK)
+  async generateSocioeconomicFormAll(@Res() res, @Param('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string): Promise<ResponseHttpModel> {
+    const path = await this.studentReportsService.generateSocioeconomicFormAll(res, schoolPeriodId);
+
+    return {
+      data: res.sendFile(path),
+      message: `Generate Enrollments By Career`,
+      title: `Report`,
+    };
+  }
 }
