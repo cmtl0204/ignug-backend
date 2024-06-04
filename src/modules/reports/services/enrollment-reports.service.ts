@@ -260,7 +260,6 @@ export class EnrollmentReportsService {
   async generateEnrollmentDetailsBySchoolPeriod(schoolPeriodId: string) {
     const data = await this.enrollmentSqlService.findEnrollmentDetailsBySchoolPeriod(schoolPeriodId);
 
-    console.log(data);
     const newWorkbook = XLSX.utils.book_new();
     const newSheet = XLSX.utils.json_to_sheet(data);
     XLSX.utils.book_append_sheet(newWorkbook, newSheet, 'Estudiantes');
