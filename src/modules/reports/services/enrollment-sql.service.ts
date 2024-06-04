@@ -1,9 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { CareerEntity, CatalogueEntity, EnrollmentEntity, EnrollmentStateEntity, StudentEntity } from '@core/entities';
+import {
+  CareerEntity,
+  CatalogueEntity,
+  EnrollmentDetailEntity, EnrollmentDetailStateEntity,
+  EnrollmentEntity,
+  EnrollmentStateEntity,
+  StudentEntity, SubjectEntity,
+} from '@core/entities';
 import { CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { UserEntity } from '@auth/entities';
-import { CataloguesService } from '@core/services';
+import { CataloguesService, EnrollmentDetailStatesService } from '@core/services';
 
 @Injectable()
 export class EnrollmentSqlService {
@@ -137,32 +144,37 @@ export class EnrollmentSqlService {
     const queryBuilder: SelectQueryBuilder<EnrollmentEntity> = this.repository.createQueryBuilder('enrollments');
     queryBuilder.select(
       [
-        'careers.code as "Código de Carrera"',
+        'careers.code as "Código Carrera"',
         'careers.name as "Carrera"',
-        'users.identification  as "Número de Documento"',
-        'users.lastname  as "Apellidos"',
-        'users.name  as "Nombres"',
+        'users.identification as "Número de Documento"',
+        'users.lastname as "Apellidos"',
+        'users.name as "Nombres"',
+        'users.email as "Correos"',
         'parallels.name as "Paralelo"',
-        'academic_periods.name as "Nivel"',
         'types.name as "Tipo de Matricula"',
-        'enrollments.date as " Fecha de Matricula"',
-        'enrollments.applications_at as "Fecha de envio de solicitud"',
-        'enrollments.socioeconomic_category as "Nivel Socioeconómico"',
-        'enrollments.socioeconomic_percentage as "Porcentaje Socioeconómico"',
-        'enrollments.socioeconomic_score as "Puntaje Socioeconómico"',
-        'states.name as "Estado"',
+        'subjects.code as "Codigo de Asignatura"',
+        'subjects.name as "Asignutura"',
+        'enrollment_details.number as "Numero de matricula"',
+        'academic_state.name as "Estado Asignatura"',
+        'detail_state.name as "Estado"',
+        'enrollment_details.observation as "Observacion"'
       ])
       .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
-      .leftJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
+      .innerJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
       .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
       .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
-      .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
       .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
       .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
       .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-      .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
+      .innerJoin(EnrollmentDetailEntity, 'enrollment_details', 'enrollment_details.enrollment_id = enrollments.id')
+      .innerJoin(EnrollmentDetailStateEntity, 'enrollment_detail_states', 'enrollment_detail_states.enrollment_detail_id = enrollment_details.id')
+      .innerJoin(CatalogueEntity, 'detail_state', 'detail_state.id = enrollment_detail_states.state_id')
+      .leftJoin(CatalogueEntity, 'academic_state', 'academic_state.id = enrollment_details.academic_state_id')
+      .innerJoin(SubjectEntity, 'subjects', 'subjects.id = enrollment_details.subject_id')
+      .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null and enrollment_detail_states.deleted_at is null and enrollments.deletedAt IS NULL', {
         schoolPeriodId,
       })
+      .andWhere('detail_state.code IN (:...stateCodes)', { stateCodes: ['approved', 'enrolled'] })
       .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
 
     return await queryBuilder.getRawMany();  }
