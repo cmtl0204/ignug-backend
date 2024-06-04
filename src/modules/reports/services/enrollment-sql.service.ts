@@ -149,20 +149,21 @@ export class EnrollmentSqlService {
         'users.identification as "Número de Documento"',
         'users.lastname as "Apellidos"',
         'users.name as "Nombres"',
-        'users.email as "Correos"',
+        'users.email as "Correo Electrónico"',
         'parallels.name as "Paralelo"',
-        'types.name as "Tipo de Matricula"',
-        'subjects.code as "Codigo de Asignatura"',
+        'types.name as "Tipo de Matrícula"',
+        'subjects.code as "Código de Asignatura"',
         'subjects.name as "Asignutura"',
-        'enrollment_details.number as "Numero de matricula"',
+        'enrollment_details.number as "Número de Matrícula"',
         'academic_state.name as "Estado Asignatura"',
-        'detail_state.name as "Estado"',
-        'enrollment_details.observation as "Observacion"'
+        'detail_state.name as "Estado Matrícula"',
+        'enrollment_details.observation as "Observación"'
       ])
       .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
       .innerJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
       .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
       .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
+      .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
       .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
       .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
       .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
