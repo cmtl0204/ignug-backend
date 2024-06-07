@@ -4,13 +4,13 @@ import {
     DeleteDateColumn,
     Entity,
     JoinColumn,
-    ManyToMany,
+    ManyToMany, OneToMany,
     OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
 import {UserEntity} from '@auth/entities';
-import {CareerEntity, InformationStudentEntity} from '@core/entities';
+import {CareerEntity, EnrollmentEntity, InformationStudentEntity} from '@core/entities';
 
 @Entity('students', {schema: 'core'})
 export class StudentEntity {
@@ -60,5 +60,10 @@ export class StudentEntity {
     @Column({type: 'uuid', name: 'user_id', comment: 'Usuario: estudiante'})
     userId: string;
 
+    @OneToMany(() => EnrollmentEntity, enrollment => enrollment.student)
+    enrollments: EnrollmentEntity[];
+
+    @OneToOne(() => EnrollmentEntity, enrollment => enrollment.student)
+    enrollment: EnrollmentEntity;
     /** Columns **/
 }

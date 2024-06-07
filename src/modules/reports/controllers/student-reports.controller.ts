@@ -3,7 +3,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param, ParseUUIDPipe,
+  Param, ParseUUIDPipe, Query,
   Res,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -38,6 +38,21 @@ export class StudentReportsController {
     return {
       data: res.sendFile(path),
       message: `Generate Enrollments By Career`,
+      title: `Report`,
+    };
+  }
+
+  @ApiOperation({ summary: 'Socioeconomic Form Report' })
+  @Get(':id/student-card')
+  @HttpCode(HttpStatus.OK)
+  async generateStudentCard(@Res() res: Response, @Param('id', ParseUUIDPipe) id: string,
+                            @Query('careerId') careerId:string,
+                            @Query('schoolPeriodId') schoolPeriodId:string): Promise<ResponseHttpModel> {
+    await this.studentReportsService.generateStudentCard(res, id,careerId,schoolPeriodId);
+
+    return {
+      data: null,
+      message: `Student Card`,
       title: `Report`,
     };
   }
