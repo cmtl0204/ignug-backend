@@ -125,7 +125,6 @@ export class FilesController {
                 fs.rename(pathFile, newPathFile, function (err) {
                     if (err) console.log('ERROR: ' + err);
                 });
-                console.log(dataFile);
             }
         )
 
