@@ -131,13 +131,13 @@ export class StudentsService {
             country: true,
             province: true,
             canton: true,
-            parrish: true,
+            parish: true,
           },
           residenceAddress: {
             country: true,
             province: true,
             canton: true,
-            parrish: true,
+            parish: true,
           },
         },
       },
@@ -402,7 +402,7 @@ export class StudentsService {
           mainStreet: payload.user.originAddress.mainStreet,
           modelId: student.user.id,
           number: payload.user.originAddress.number,
-          parrishId: payload.user.originAddress.parrish?.id,
+          parishId: payload.user.originAddress.parish?.id,
           postCode: payload.user.originAddress.postCode,
           provinceId: payload.user.originAddress.province?.id,
           reference: payload.user.originAddress.reference,
@@ -419,7 +419,7 @@ export class StudentsService {
           longitude: payload.user.originAddress.longitude,
           mainStreet: payload.user.originAddress.mainStreet,
           number: payload.user.originAddress.number,
-          parrishId: payload.user.originAddress.parrish?.id,
+          parishId: payload.user.originAddress.parish?.id,
           postCode: payload.user.originAddress.postCode,
           provinceId: payload.user.originAddress.province?.id,
           reference: payload.user.originAddress.reference,
@@ -452,7 +452,7 @@ export class StudentsService {
           modelId: student.user.id,
           nearbyCity: payload.user.residenceAddress.nearbyCity,
           number: payload.user.residenceAddress.number,
-          parrishId: payload.user.residenceAddress.parrish?.id,
+          parishId: payload.user.residenceAddress.parish?.id,
           postCode: payload.user.residenceAddress.postCode,
           provinceId: payload.user.residenceAddress.province?.id,
           reference: payload.user.residenceAddress.reference,
@@ -469,7 +469,7 @@ export class StudentsService {
           mainStreet: payload.user.residenceAddress.mainStreet,
           nearbyCity: payload.user.residenceAddress.nearbyCity,
           number: payload.user.residenceAddress.number,
-          parrishId: payload.user.residenceAddress.parrish?.id,
+          parishId: payload.user.residenceAddress.parish?.id,
           postCode: payload.user.residenceAddress.postCode,
           provinceId: payload.user.residenceAddress.province?.id,
           reference: payload.user.residenceAddress.reference,
@@ -684,7 +684,7 @@ export class StudentsService {
           isFamilyEconomicAid: true,
           isFamilyEmigrant: true,
         },
-        user: { ethnicOrigin: true, maritalStatus: true, residenceAddress: { parrish: true } },
+        user: { ethnicOrigin: true, maritalStatus: true, residenceAddress: { parish: true } },
       },
       where: { id },
     });
@@ -784,11 +784,11 @@ export class StudentsService {
     }
 
     // Residence Address
-    if (student.user?.residenceAddress?.parrish?.zone.toLowerCase() === 'urbana') {
+    if (student.user?.residenceAddress?.parish?.zone.toLowerCase() === 'urbana') {
       score += 0.5;
     }
 
-    if (student.user?.residenceAddress?.parrish?.zone.toLowerCase() === 'rural') {
+    if (student.user?.residenceAddress?.parish?.zone.toLowerCase() === 'rural') {
       score += 0.25;
     }
 

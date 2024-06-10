@@ -243,7 +243,7 @@ export class StudentReportsService {
                 doc.text(response?.user.originAddress?.country?.name, textX + 5, textY + 595);
                 doc.text(response?.user.originAddress?.province?.name, textX + 68, textY + 595);
                 doc.text(response?.user.originAddress?.canton?.name, textX + 145, textY + 595);
-                doc.text(response?.user.originAddress?.parrish?.name, textX + 290, textY + 595);//SIGUIENTE FILA
+                doc.text(response?.user.originAddress?.parish?.name, textX + 290, textY + 595);//SIGUIENTE FILA
 
                 doc.fontSize('9');
                 doc.text(response?.user.originAddress?.community, textX + 148, textY + 622);
@@ -391,7 +391,7 @@ export class StudentReportsService {
                 doc.text(response?.user.residenceAddress?.country.name, textX + 5, textY + 53);
                 doc.text(response?.user.residenceAddress?.province?.name, textX + 68, textY + 53);
                 doc.text(response?.user.residenceAddress?.canton?.name, textX + 145, textY + 53);
-                doc.text(response?.user.residenceAddress?.parrish?.name, textX + 290, textY + 53); //siguiente fila
+                doc.text(response?.user.residenceAddress?.parish?.name, textX + 290, textY + 53); //siguiente fila
 
                 doc.fontSize('9');
                 doc.text(response?.user.residenceAddress?.nearbyCity, textX + 125, textY + 73);// (consultar ciudad mas cercana)

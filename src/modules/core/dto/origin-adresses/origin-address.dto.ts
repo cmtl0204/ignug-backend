@@ -7,7 +7,7 @@ export class OriginAddressDto {
     readonly mainStreet: string;
     readonly modelId: string;
     readonly number: string;
-    readonly parrishId: string;
+    readonly parishId: string;
     readonly postCode: string;
     readonly provinceId: string;
     readonly reference: string;

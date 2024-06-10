@@ -79,10 +79,10 @@ export class ResidenceAddressEntity {
     @ManyToOne(() => LocationEntity, {
         nullable: true,
     })
-    @JoinColumn({name: 'parrish_id'})
-    parrish: LocationEntity;
-    @Column({type: 'uuid', name: 'parrish_id', nullable: true, comment: 'Parroquia que se encuentra la direccion'})
-    parrishId: string;
+    @JoinColumn({name: 'parish_id'})
+    parish: LocationEntity;
+    @Column({type: 'uuid', name: 'parish_id', nullable: true, comment: 'Parroquia que se encuentra la direccion'})
+    parishId: string;
 
     /** Columns **/
     @Column({

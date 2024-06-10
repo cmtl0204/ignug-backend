@@ -7,7 +7,7 @@ export class ResidenceAddressDto {
     readonly modelId: string;
     readonly nearbyCity: string;
     readonly number: string;
-    readonly parrishId: string;
+    readonly parishId: string;
     readonly postCode: string;
     readonly provinceId: string;
     readonly reference: string;
