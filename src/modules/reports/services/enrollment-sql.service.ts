@@ -79,10 +79,8 @@ export class EnrollmentSqlService {
       .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
       .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
       .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-      .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
-        schoolPeriodId,
-      })
-      .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+      .where('enrollments.school_period_id = :schoolPeriodId AND enrollment_details.deleted_at IS NULL AND ens.deleted_at IS NULL AND eds.deleted_at IS NULL AND (detail_states.code = \'approved\' OR detail_states.code = \'enrolled\')', { schoolPeriodId })
+      .orderBy('careers.name, users.lastname, users.name');
 
     return await queryBuilder.getRawMany();
   }
