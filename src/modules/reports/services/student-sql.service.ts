@@ -40,7 +40,6 @@ export class StudentSqlService {
       'users.phone AS "Teléfono convencional"',
       'users.email AS "Mail institucional"',
       'users.personal_email AS "Mail personal"',
-
       'parallels.name AS "Paralelo"',
       'types.name AS "Tipo de Matricula"',
       'enrollments.date AS "Fecha de Matrícula"',
@@ -104,7 +103,7 @@ export class StudentSqlService {
       'residence_addresses.reference AS "Referencia a residencia"',
       'student_info.members_house_number AS "Integrantes nucleo familiar"',
       'family_incomes.name AS "Ingreso Familiar"',
-      'has_vehicles.name AS "Vehículo"',
+      'is_family_vehicle.name AS "Vehículo"',
       'has_family_properties.name AS "Tiene propiedades familiares"',
       'family_properties.name AS "Tipo de Propiedades familiares"',
       'has_family_catastrophic_illnesses.name AS "Familiar con enfermedad catastrófica"',
@@ -200,7 +199,7 @@ export class StudentSqlService {
       .leftJoin(CatalogueEntity, 'is_family_economic_aids', 'is_family_economic_aids.id = student_info.is_family_economic_aid_id')
       .leftJoin(CatalogueEntity, 'family_emigrants', 'family_emigrants.id = student_info.is_family_emigrant_id')
       .leftJoin(CatalogueEntity, 'is_family_properties', 'is_family_properties.id = student_info.is_family_properties_id')
-      .leftJoin(CatalogueEntity, 'has_vehicles', 'has_vehicles.id = student_info.is_family_vehicle_id')
+      .leftJoin(CatalogueEntity, 'is_family_vehicle', 'is_family_vehicle.id = student_info.is_family_vehicle_id')
       .leftJoin(CatalogueEntity, 'foreign_languages', 'foreign_languages.id = student_info.is_foreign_language_id')
       .leftJoin(CatalogueEntity, 'gender_violences', 'gender_violences.id = student_info.is_gender_violence_id')
       .leftJoin(CatalogueEntity, 'is_has_children', 'is_has_children.id = student_info.is_has_children_id')
