@@ -551,11 +551,8 @@ export class StudentReportsService {
 
             doc.pipe(res);
 
-            doc.font('Helvetica-Bold').fillColor('white');
-            doc.fontSize('18');
-
             doc.image('./resources/images/reports/student-card.png', 0, 0, {
-                width: doc.page.width,
+                width: doc.page.width-50,
                 height: doc.page.height
             });
 
@@ -574,35 +571,29 @@ export class StudentReportsService {
 
             }
 
-            doc.image(avatarPath, 95, 181, {
-                width: 125,
-                height: 130
+            doc.image(avatarPath, 225, 170, {
+                width: 200,
+                height: 180
             });
 
-            const career = response.enrollment.career.name ? response.enrollment.career.name : '';
-            const canton = response.user.residenceAddress?.canton?.name ? response.user.residenceAddress?.canton?.name : '';
-            const province = response.user.residenceAddress?.province?.name ? response.user.residenceAddress?.province?.name : '';
-            const town = response.informationStudent.town?.name ? response.informationStudent.town?.name : '';
-            const indigenousNationality = response.informationStudent.indigenousNationality?.name ? response.informationStudent.indigenousNationality?.name : '';
+            const career = response.enrollment.career.name ? 'CARRERA DE ' + response.enrollment.career.name : '';
 
-            doc.text(response.user.identification, 270, 210);
-            doc.text(response.user.name, 270, 245);
-            doc.text(response.user.lastname, 270, 280);
+            doc.font('Helvetica').fontSize('28').fillColor('#af2222');
+            // .fillColor('white');
 
-            doc.text('', 50, 385);
+            doc.text('', 50, 420);
+            doc.text(response.user.identification, {width: doc.page.width - 100, align: 'center'});
+
+            doc.font('Helvetica-Bold').fontSize('28');
+            doc.text('', 50, 460);
+            doc.text(response.user.name, {width: doc.page.width - 100, align: 'center'});
+
+            doc.text('', 50, 500);
+            doc.text(response.user.lastname, {width: doc.page.width - 100, align: 'center'});
+
+            doc.font('Helvetica').fontSize('18');
+            doc.text('', 50, 550);
             doc.text(career, {width: doc.page.width - 100, align: 'center'});
-
-            doc.text('', 0, 465);
-            doc.text(canton, {width: doc.page.width, align: 'center'});
-
-            doc.text('', 0, 535);
-            doc.text(province, {width: doc.page.width, align: 'center'});
-
-            doc.text('', 0, 610);
-            doc.text(indigenousNationality + ' | ' + town, {
-                width: doc.page.width,
-                align: 'center'
-            });
 
             doc.end();
         } catch (error) {
