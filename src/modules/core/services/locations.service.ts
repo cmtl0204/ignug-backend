@@ -1,9 +1,10 @@
-import {CACHE_MANAGER, Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {Repository} from 'typeorm';
 import {CreateLocationDto} from '@core/dto';
 import {CacheEnum, CoreRepositoryEnum} from '@shared/enums';
 import {LocationEntity} from '@core/entities';
 import {Cache} from "cache-manager";
+import {CACHE_MANAGER} from '@nestjs/cache-manager';
 
 @Injectable()
 export class LocationsService {
@@ -71,6 +72,7 @@ export class LocationsService {
 
         return locations;
     }
+
     async loadCache2(): Promise<LocationEntity[]> {
         const locations = await this.repository.find({
             relations: {

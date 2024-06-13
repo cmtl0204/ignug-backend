@@ -9,6 +9,7 @@ import {
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
 import { StudentReportsService } from '../services';
+import {Response} from 'express';
 
 @ApiTags('Student Reports')
 @Controller('student-reports')
@@ -20,7 +21,10 @@ export class StudentReportsController {
   @Get(':id/socioeconomic-form')
   @HttpCode(HttpStatus.OK)
   async generateSocioeconomicForm(@Res() res: Response, @Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    await this.studentReportsService.generateSocioeconomicForm(res, id);
+    const pdfDoc = await this.studentReportsService.generateSocioeconomicForm( id);
+
+    pdfDoc.pipe(res);
+    pdfDoc.end();
 
     return {
       data: null,
@@ -45,10 +49,15 @@ export class StudentReportsController {
   @ApiOperation({ summary: 'Socioeconomic Form Report' })
   @Get(':id/student-card')
   @HttpCode(HttpStatus.OK)
-  async generateStudentCard(@Res() res: Response, @Param('id', ParseUUIDPipe) id: string,
+  async generateStudentCard(@Res() response: Response, @Param('id', ParseUUIDPipe) id: string,
                             @Query('careerId') careerId:string,
                             @Query('schoolPeriodId') schoolPeriodId:string): Promise<ResponseHttpModel> {
-    await this.studentReportsService.generateStudentCard(res, id,careerId,schoolPeriodId);
+    const pdfDoc=await this.studentReportsService.generateStudentCard( id,careerId,schoolPeriodId);
+
+    response.setHeader('Content-Type', 'application/pdf');
+    pdfDoc.info.Title = 'Factura';
+    pdfDoc.pipe(response);
+    pdfDoc.end();
 
     return {
       data: null,

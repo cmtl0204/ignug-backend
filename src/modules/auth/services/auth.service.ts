@@ -25,8 +25,6 @@ import { MailDataInterface } from '../../common/interfaces/mail-data.interface';
 import { SchoolPeriodsService } from '@core/services';
 import { UsersService } from './users.service';
 
-const { PDFDocument } = require('pdfkit-table-ts');
-
 @Injectable()
 export class AuthService {
   private readonly MAX_ATTEMPTS = 3;
@@ -341,14 +339,14 @@ export class AuthService {
 
   async generatePDF() {
     const pdf: Buffer = await new Promise(resolve => {
-      const doc = new PDFDocument();
+      // const doc = new PDFDocument();
 
-      doc.text('hello world', 100, 50);
+      // doc.text('hello world', 100, 50);
 
-      const buffer = [];
-      doc.on('data', buffer.push.bind(buffer));
-      doc.on('end', () => resolve(Buffer.concat(buffer)));
-      doc.end();
+      // const buffer = [];
+      // doc.on('data', buffer.push.bind(buffer));
+      // doc.on('end', () => resolve(Buffer.concat(buffer)));
+      // doc.end();f
     });
 
     const mailData: MailDataInterface = {
@@ -358,7 +356,7 @@ export class AuthService {
       data: {
         token: 'asd',
       },
-      attachments: [{ filename: 'test.pdf', file: pdf }, { filename: 'test.pdf', path: 'test.pdf' }],
+      // attachments: [{ filename: 'test.pdf', file: pdf }, { filename: 'test.pdf', path: 'test.pdf' }],
     };
 
     return await this.nodemailerService.sendMail(mailData);

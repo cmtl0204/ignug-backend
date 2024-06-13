@@ -4,6 +4,9 @@ import {differenceInYears, format} from 'date-fns';
 import {StudentSqlService} from './student-sql.service';
 import * as XLSX from 'xlsx';
 import {join} from 'path';
+import {TDocumentDefinitions} from "pdfmake/interfaces";
+import {PrinterService} from "./printer.service";
+import {studentCardReport} from "../templates/student-card.report";
 
 
 const {PDFDocument} = require('pdfkit-table-ts');
@@ -18,10 +21,11 @@ export class StudentReportsService {
 
     constructor(
         private readonly studentSqlService: StudentSqlService,
+        private readonly printerService: PrinterService,
     ) {
     }
 
-    async generateSocioeconomicForm(@Res() res: Response, id: string) {
+    async generateSocioeconomicForm(id: string) {
         const response = (await this.studentSqlService.findSocioeconomicForm(id)) as StudentEntity;
 
         try {
@@ -31,7 +35,6 @@ export class StudentReportsService {
                 align: 'center',
             });
 
-            doc.pipe(res);
 
             //Documento
             const textX = 40;
@@ -521,9 +524,9 @@ export class StudentReportsService {
                 doc.page.margins.bottom = oldBottomMargin; // ReProtect bottom margin
             }
 
-            doc.end();
+            return doc;
         } catch (error) {
-            res.ok;
+            throw new Error;
         }
     }
 
@@ -539,7 +542,7 @@ export class StudentReportsService {
         return path;
     }
 
-    async generateStudentCard(@Res() res: Response, id: string, careerId: string, schoolPeriodId: string) {
+    async generateStudentCard2(@Res() res: Response, id: string, careerId: string, schoolPeriodId: string) {
         const response = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity;
 
         try {
@@ -552,7 +555,7 @@ export class StudentReportsService {
             doc.pipe(res);
 
             doc.image('./resources/images/reports/student-card.png', 0, 0, {
-                width: doc.page.width-50,
+                width: doc.page.width - 50,
                 height: doc.page.height
             });
 
@@ -598,6 +601,16 @@ export class StudentReportsService {
             doc.end();
         } catch (error) {
             res.ok;
+        }
+    }
+
+    async generateStudentCard(id: string, careerId: string, schoolPeriodId: string) {
+        const data = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity;
+
+        try {
+            return this.printerService.createPdf(studentCardReport(data));
+        } catch (error) {
+            throw new Error;
         }
     }
 

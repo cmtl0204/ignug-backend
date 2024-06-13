@@ -17,7 +17,7 @@ import {Auth, User} from "@auth/decorators";
 import {UserEntity} from "@auth/entities";
 import {CreateEnrollmentDto, FilterEnrollmentDto, UpdateEnrollmentDto} from '@core/dto';
 import {EnrollmentEntity} from '@core/entities';
-import {EnrollmentsService, PDFService, PDFNotas, EnrollmentDetailsService} from '@core/services';
+import {EnrollmentsService, EnrollmentDetailsService} from '@core/services';
 import {ResponseHttpModel} from '@shared/models';
 
 @ApiTags('Enrollments')

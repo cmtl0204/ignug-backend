@@ -14,6 +14,7 @@ import {VerifyUserMiddleware} from "./middlewares/verify-user.middleware";
 import {AuditMiddleware} from "./middlewares/audit.middleware";
 import {ReportsModule} from "./modules/reports";
 import {ImportsModule} from "./modules/imports";
+import {CacheModule} from "@nestjs/cache-manager";
 
 @Module({
     imports: [
@@ -36,13 +37,14 @@ import {ImportsModule} from "./modules/imports";
                 MAIL_FROM_ADDRESS: Joi.string().required(),
             }),
         }),
+        CacheModule.register(),
         MulterModule.register({dest: './uploads'}),
         //HttpModule,
         CommonModule,
         AuthModule,
         CoreModule,
         ReportsModule,
-        ImportsModule
+        ImportsModule,
     ],
     controllers: [AppController],
     providers: [AppService],

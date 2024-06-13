@@ -12,7 +12,6 @@ export * from './teachers.controller';
 export * from './imports.controller';
 export * from './exports.controller';
 export * from './teacher-distributions.controller';
-export * from './pdf.controller';
 export * from './enrollment-detail.controller';
 export * from './enrollment.controller';
 export * from './secretary.controller';

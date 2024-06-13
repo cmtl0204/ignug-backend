@@ -14,17 +14,4 @@ import { SecretaryService } from '@core/services';
 export class SecretaryController {
     constructor(private secretaryService: SecretaryService) { }
 
-    @ApiOperation({ summary: 'Generate report' })
-    @Get("pdf/download")
-    @HttpCode(HttpStatus.OK)
-    async downloadPDF(): Promise<any> {
-        const buffer = await this.secretaryService.downloadReport();
-        const pdfBase64 = buffer.toString('base64');
-
-        return {
-            data: pdfBase64,
-            message: `response`,
-            title: `response`,
-        };
-    }
 }
