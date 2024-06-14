@@ -1,6 +1,6 @@
 export const environments = {
-  dev: '.env',
-  test: '.test.env',
+  local: '.env',
+  qa: '.qa.env',
   prod: '.prod.env',
   appVersion: '2.2.1',
   appName: 'SIAAW',
