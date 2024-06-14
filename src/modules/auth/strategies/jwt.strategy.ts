@@ -5,22 +5,24 @@ import {config} from '@config';
 import {ConfigType} from '@nestjs/config';
 import {PayloadTokenModel} from '@auth/models';
 import {UserEntity} from '@auth/entities';
-import { UsersService } from '../services/users.service';
+import {UsersService} from '../services/users.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtStrategy extends PassportStrategy(Strategy) {
+
     constructor(private userService: UsersService, @Inject(config.KEY) configService: ConfigType<typeof config>) {
+        console.log('configService.jwtSecret2', configService.jwtSecret);
+        console.log('-----------------------------------------');
         super({
+            secretOrKey: '123abc',
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            ignoreExpiration: false,
-            secretOrKey: configService.jwtSecret,
         });
     }
 
     async validate(payload: PayloadTokenModel): Promise<UserEntity> {
         const user = await this.userService.findOne(payload.id);
 
-        if (!user) throw new UnauthorizedException('Token no válido.');
+        if (!user) throw new UnauthorizedException('El Usuario no existe.');
 
         if (user.suspendedAt) throw new UnauthorizedException('El usuario está suspendido.');
 

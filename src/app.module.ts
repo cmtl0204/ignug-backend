@@ -15,6 +15,7 @@ import {AuditMiddleware} from "./middlewares/audit.middleware";
 import {ReportsModule} from "./modules/reports";
 import {ImportsModule} from "./modules/imports";
 import {CacheModule} from "@nestjs/cache-manager";
+import {VerifyTokenMiddleware} from "./middlewares/verify-token.middleware";
 
 @Module({
     imports: [
@@ -53,12 +54,13 @@ import {CacheModule} from "@nestjs/cache-manager";
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer): any {
         consumer
-            .apply(VerifyUserMiddleware, AuditMiddleware)
+            .apply(VerifyUserMiddleware, AuditMiddleware, VerifyTokenMiddleware)
             .forRoutes(
                 {path: '*', method: RequestMethod.POST},
                 {path: '*', method: RequestMethod.PUT},
                 {path: '*', method: RequestMethod.PATCH},
                 {path: '*', method: RequestMethod.DELETE},
+                {path: '*', method: RequestMethod.GET},
             );
     }
 }

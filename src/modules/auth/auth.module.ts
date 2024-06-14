@@ -11,7 +11,7 @@ import {DatabaseModule} from '@database';
 import {MenusController} from './controllers/menus.controller';
 import {CommonModule} from '@common/modules';
 import {CoreModule} from "@core/modules";
-import { UsersService } from './services/users.service';
+import {UsersService} from './services/users.service';
 
 @Global()
 @Module({
@@ -19,22 +19,25 @@ import { UsersService } from './services/users.service';
         DatabaseModule,
         CommonModule,
         CoreModule,
-        // PassportModule.register({ defaultStrategy: 'jwt' }),
-        // JwtModule.registerAsync({
-        //   inject: [config.KEY],
-        //   useFactory: (configService: ConfigType<typeof config>) => {
-        //     return {
-        //       secret: configService.jwtSecret,
-        //       signOptions: {
-        //         expiresIn: '1d',
-        //       },
-        //     };
-        //   },
-        // }),
+        PassportModule.register({defaultStrategy: 'jwt'}),
+        JwtModule.registerAsync({
+            inject: [config.KEY],
+            useFactory: (configService: ConfigType<typeof config>) => {
+                console.log('configService.jwtSecret1', configService.jwtSecret);
+                console.log('*************************');
+                return {
+                    secret: configService.jwtSecret,
+                    secretOrPrivateKey: configService.jwtSecret,
+                    signOptions: {
+                        expiresIn: '10s',
+                    },
+                };
+            },
+        }),
     ],
     controllers: [AuthController, MenusController, RolesController, UsersController],
-    providers: [...authProviders, AuditsService, JwtStrategy, AuthService, RolesService, UsersService, MenusService, JwtService],
-    exports: [...authProviders,UsersService, RolesService, MenusService, JwtService, AuditsService],
+    providers: [...authProviders, AuditsService, JwtService, JwtStrategy, AuthService, RolesService, UsersService, MenusService],
+    exports: [...authProviders, UsersService, RolesService, MenusService, JwtService, AuditsService],
 })
 export class AuthModule {
 }
