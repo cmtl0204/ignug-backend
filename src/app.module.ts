@@ -23,6 +23,7 @@ import {CacheModule} from "@nestjs/cache-manager";
             isGlobal: true,
             load: [config],
             validationSchema: Joi.object({
+                APP_URL: Joi.string().required(),
                 API_KEY: Joi.string().required(),
                 JWT_SECRET: Joi.string().required(),
                 DB_HOST: Joi.string().required(),

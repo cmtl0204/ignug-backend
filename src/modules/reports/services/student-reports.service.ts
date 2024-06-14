@@ -1,4 +1,4 @@
-import {Injectable, Res} from '@nestjs/common';
+import { Inject, Injectable, Res } from '@nestjs/common';
 import {EnrollmentEntity, StudentEntity} from '@core/entities';
 import {differenceInYears, format} from 'date-fns';
 import {StudentSqlService} from './student-sql.service';
@@ -7,6 +7,8 @@ import {join} from 'path';
 import {TDocumentDefinitions} from "pdfmake/interfaces";
 import {PrinterService} from "./printer.service";
 import {studentCardReport} from "../templates/student-card.report";
+import { ConfigType } from '@nestjs/config';
+import { config } from '@config';
 
 
 const {PDFDocument} = require('pdfkit-table-ts');
@@ -22,6 +24,7 @@ export class StudentReportsService {
     constructor(
         private readonly studentSqlService: StudentSqlService,
         private readonly printerService: PrinterService,
+        @Inject(config.KEY) private configService: ConfigType<typeof config>,
     ) {
     }
 
@@ -608,7 +611,7 @@ export class StudentReportsService {
         const data = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity;
 
         try {
-            return this.printerService.createPdf(studentCardReport(data));
+            return this.printerService.createPdf(studentCardReport(this.configService,data));
         } catch (error) {
             throw new Error;
         }
