@@ -23,11 +23,11 @@ import { RoleEnum } from '@auth/enums';
 
 enum ColumnsEnum {
   IDENTIFICATION = 'Identificacion',
-  GRADE_1 = 'Nota_Final',
-  GRADE_2 = 'Nota_Final',
-  GRADE_3 = 'Nota_Final',
-  GRADE_4 = 'Nota_Final',
-  ATTENDANCE = 'Asistencia',
+  GRADE_1 = 'Parcial1',
+  GRADE_2 = 'Parcial2',
+  GRADE_3 = 'Parcial3',
+  GRADE_4 = 'Parcial4',
+  ATTENDANCE = 'Progreso',
   SCHOOL_PERIOD = 'Periodo_Lectivo',
   CAREER_CODE = 'Carrera_Codigo',
   NAME = 'Nombres',
@@ -463,13 +463,13 @@ export class EnrollmentsService {
       const finalAttendance = parseFloat(String(enrollmentDetail.finalAttendance));
 
       if (finalAttendance || finalAttendance == 0) {
-        if (finalGrade >= 6) {
+        if (finalGrade >= 7) {
           if (finalAttendance >= 75) {
             enrollmentDetail.academicStateId = this.approved.id;
             enrollmentDetail.academicObservation = null;
           } else {
             enrollmentDetail.academicStateId = this.failed.id;
-            enrollmentDetail.academicObservation = 'Pierde por Asistencia';
+            enrollmentDetail.academicObservation = 'Pierde por Progreso';
           }
         } else {
           enrollmentDetail.academicStateId = this.failed.id;
@@ -477,7 +477,7 @@ export class EnrollmentsService {
           if (finalAttendance >= 75) {
             enrollmentDetail.academicObservation = 'Pierde por Calificación';
           } else {
-            enrollmentDetail.academicObservation = 'Pierde por Calificación y Asistencia';
+            enrollmentDetail.academicObservation = 'Pierde por Calificación y Progreso';
           }
         }
 
@@ -512,8 +512,6 @@ export class EnrollmentsService {
     if (identification) identification = identification.toString().trim();
 
     if (identification.length === 9) identification = '0' + identification;
-
-    // console.log(identification);
 
     let student = await this.studentRepository.findOne({
       relations: { user: true },

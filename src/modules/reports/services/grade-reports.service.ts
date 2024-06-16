@@ -26,7 +26,6 @@ export class GradeReportsService {
         @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly studentRepository: Repository<StudentEntity>) {
     }
 
-
     async generateGradesByTeacherDistribution(teacherDistributionId: string) {
         const teacherDistribution = await this.teacherDistributionRepository.findOneBy({id: teacherDistributionId});
 
@@ -37,7 +36,6 @@ export class GradeReportsService {
             const partial1 = enrollmentDetail.grades.find(grade => grade.partial.code === '1');
             const partial2 = enrollmentDetail.grades.find(grade => grade.partial.code === '2');
             const partial3 = enrollmentDetail.grades.find(grade => grade.partial.code === '3');
-            const partial4 = enrollmentDetail.grades.find(grade => grade.partial.code === '4');
 
             return {
                 'Numero_Documento': enrollmentDetail.enrollment.student.user.identification,
@@ -46,10 +44,9 @@ export class GradeReportsService {
                 'Asignatura': enrollmentDetail.subject.name,
                 'Parcial1': partial1?.value,
                 'Parcial2': partial2?.value,
-                'Parcial3': partial3?.value,
-                'Parcial4': partial4?.value,
-                'Asistencia': enrollmentDetail.finalAttendance,
-                'Nota_Final': enrollmentDetail.finalGrade,
+                'Examen_Final': partial3?.value,
+                'Progreso': enrollmentDetail.finalAttendance,
+                'Calificacion_Final': enrollmentDetail.finalGrade,
                 'Estado_Academico': enrollmentDetail.academicState?.name,
             };
         });

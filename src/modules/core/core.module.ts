@@ -7,8 +7,7 @@ import {
   EnrollmentDetailsController,
   EnrollmentsController,
   EventsController,
-  ExportsController, GradesController,
-  ImportsController,
+  GradesController,
   InformationStudentsController,
   InformationTeachersController,
   InstitutionsController, LocationsController,
@@ -32,9 +31,7 @@ import {
   EnrollmentStatesService,
   EnrollmentsService,
   EventsService,
-  ExportsService,
   GradesService,
-  ImportsService,
   InformationStudentsService,
   InformationTeachersService,
   InstitutionsService,
@@ -52,6 +49,7 @@ import { coreProviders } from '@core/providers';
 import { EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddressesService } from '@core/services';
 import { StudentsService } from './services/students.service';
 import { TeachersService } from './services/teachers.service';
+import { authProviders } from '@auth/providers';
 
 @Global()
 @Module({
@@ -63,9 +61,7 @@ import { TeachersService } from './services/teachers.service';
     EnrollmentDetailsController,
     EnrollmentsController,
     EventsController,
-    ExportsController,
     GradesController,
-    ImportsController,
     InformationStudentsController,
     InformationTeachersController,
     InstitutionsController,
@@ -90,9 +86,7 @@ import { TeachersService } from './services/teachers.service';
     EnrollmentDetailStatesService,
     EnrollmentsService,
     EventsService,
-    ExportsService,
     GradesService,
-    ImportsService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,
@@ -123,9 +117,7 @@ import { TeachersService } from './services/teachers.service';
     EnrollmentStatesService,
     EnrollmentsService,
     EventsService,
-    ExportsService,
     GradesService,
-    ImportsService,
     InformationStudentsService,
     InformationTeachersService,
     InstitutionsService,

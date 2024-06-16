@@ -18,6 +18,7 @@ import {CataloguesService} from '@core/services';
 import {CreateCatalogueDto, FilterCatalogueDto, UpdateCatalogueDto} from '@core/dto';
 import {CatalogueEntity} from '@core/entities';
 import {CatalogueTypeEnum} from '@shared/enums';
+import { PublicRoute } from '@auth/decorators';
 
 @ApiTags('Catalogues')
 @Controller('catalogues')
@@ -108,6 +109,7 @@ export class CataloguesController {
         };
     }
 
+    @PublicRoute()
     @ApiOperation({summary: 'Find Cache'})
     @Get('cache/get')
     @HttpCode(HttpStatus.OK)

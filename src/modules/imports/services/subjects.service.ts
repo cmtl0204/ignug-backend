@@ -104,8 +104,6 @@ export class SubjectsService {
 
           subjectUpdate.typeId = type.id;
 
-          // console.log(subjectUpdate.code, type.code);
-
           if (item['Nivel'] === 'leveling') {
             subjectUpdate.isVisible = false;
           }

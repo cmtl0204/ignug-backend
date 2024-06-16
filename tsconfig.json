@@ -109,6 +109,10 @@
       "@exceptions": [
         "./src/exceptions"
       ],
+      "@middlewares": [
+        "./src/middlewares"
+      ],
+
       "@shared/enums": [
         "./src/shared/enums"
       ],

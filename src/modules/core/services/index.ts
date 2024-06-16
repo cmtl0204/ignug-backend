@@ -9,8 +9,6 @@ export * from './information-students.service';
 export * from './locations.service';
 export * from './partials.service';
 export * from './events.service';
-export * from './imports.service';
-export * from './exports.service';
 export * from './subject-corequisites.service';
 export * from './subject-prerequisites.service';
 export * from './subjects.service';

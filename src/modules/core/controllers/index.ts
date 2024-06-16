@@ -9,8 +9,6 @@ export * from './information-teachers.controller';
 export * from './school-periods.controller';
 export * from './events.controller';
 export * from './teachers.controller';
-export * from './imports.controller';
-export * from './exports.controller';
 export * from './teacher-distributions.controller';
 export * from './enrollment-detail.controller';
 export * from './enrollment.controller';
