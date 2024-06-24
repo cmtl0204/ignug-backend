@@ -173,6 +173,7 @@ export class UsersService {
       where.push({ lastname: ILike(`%${search}%`) });
       where.push({ name: ILike(`%${search}%`) });
       where.push({ username: ILike(`%${search}%`) });
+      where.push({ roles: {name:ILike(`%${search}%`)} });
     }
 
     const response = await this.repository.findAndCount({

@@ -9,16 +9,16 @@ const avatar: Content = {
 };
 
 export const studentCardReport = (configService: any, student: StudentEntity): TDocumentDefinitions => {
+  const schoolPeriod = student.enrollment.schoolPeriod.shortName;
   const identification = student.user.identification;
   const names = student.user.name;
   const lastName = student.user.lastname;
-  const career = 'CARRERA DE ' + student.enrollment.career.name;
+  const career = student.enrollment.career.name;
   const studentId = student.id;
   const careerId = student.enrollment.careerId;
+  const schoolPeriodId = student.enrollment.schoolPeriodId;
 
-  console.log(studentId);
-  console.log(careerId);
-  const qr = `${configService.appUrl}/document-validations/student-card/${studentId}?careerCode=${careerId}&currentTime=${new Date().getTime()}`;
+  const qr = `${configService.appUrl}/document-validations/student-card/${studentId}?careerId=${careerId}&schoolPeriodId=${schoolPeriodId}&currentTime=${new Date().getTime()}`;
 
   if (student.user.avatar) {
     avatar.image = `./assets/${student.user.avatar}`;
@@ -48,6 +48,13 @@ export const studentCardReport = (configService: any, student: StudentEntity): T
     content: [
       avatar,
       {
+        text: schoolPeriod,
+        fontSize: 20,
+        color: '#0082CB',
+        absolutePosition: { x: 0, y: 140 },
+        alignment: 'center',
+      },
+      {
         text: identification,
         fontSize: 30,
         color: '#0082CB',
@@ -71,15 +78,23 @@ export const studentCardReport = (configService: any, student: StudentEntity): T
         alignment: 'center',
       },
       {
-        text: career,
+        text: 'CARRERA',
         fontSize: 18,
         color: '#0082CB',
         absolutePosition: { x: 10, y: 610 },
         alignment: 'center',
       },
       {
+        text: career,
+        fontSize: 18,
+        color: '#0082CB',
+        absolutePosition: { x: 10, y: 635 },
+        alignment: 'center',
+      },
+      {
         qr,
-        fit: 148,
+        fit: 158,
+        foreground: '#0082CB',
         absolutePosition: { x: 370, y: 700 },
       },
     ],
