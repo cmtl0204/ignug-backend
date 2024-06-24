@@ -127,6 +127,7 @@ export class AuthController {
         };
     }
 
+    @PublicRoute()
     @Get('transactional-codes/:username/request')
     @HttpCode(HttpStatus.OK)
     async requestTransactionalCode(@Param('username') username: string): Promise<ResponseHttpModel> {
@@ -139,6 +140,7 @@ export class AuthController {
         };
     }
 
+    @PublicRoute()
     @Patch('transactional-codes/:token/verify')
     @HttpCode(HttpStatus.OK)
     async verifyTransactionalCode(@Param('token') token: string, @Body('username') username: string): Promise<ResponseHttpModel> {
@@ -151,6 +153,7 @@ export class AuthController {
         };
     }
 
+    @PublicRoute()
     @Patch('reset-passwords')
     @HttpCode(HttpStatus.OK)
     async resetPassword(@Body() payload: any): Promise<ResponseHttpModel> {

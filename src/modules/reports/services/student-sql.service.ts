@@ -234,7 +234,7 @@ export class StudentSqlService {
                       AND enrollment_states.deleted_at IS NULL 
                       AND enrollment_detail_states.deleted_at IS NULL
                       AND (states_enrollment_detail.code = 'approved' OR states_enrollment_detail.code = 'enrolled')`,
-        { schoolPeriodId})
+        { schoolPeriodId })
       .orderBy('careers.name, users.lastname, users.name');
 
     return await queryBuilder.getRawMany();
@@ -346,7 +346,7 @@ export class StudentSqlService {
     const student = await this.repository.findOne({
       relations: {
         informationStudent: { town: true, indigenousNationality: true },
-        enrollment: { career: true },
+        enrollment: { career: true, schoolPeriod: true },
         user: {
           ethnicOrigin: true,
           sex: true,

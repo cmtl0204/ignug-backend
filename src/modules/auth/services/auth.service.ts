@@ -41,25 +41,35 @@ export class AuthService {
   }
 
   async changePassword(id: string, payload: PasswordChangeDto): Promise<boolean> {
-    const user = await this.repository.findOneBy({ id });
+    const user = await this.repository.findOne({
+      select: {
+        id: true,
+        identification: true,
+        lastname: true,
+        name: true,
+        maxAttempts: true,
+        password: true,
+        suspendedAt: true,
+        username: true,
+      },
+      where: { id },
+    });
 
     if (!user) {
       throw new NotFoundException('Usuario no encontrado para cambio de contraseña');
     }
 
-    const isMatchPassword = await this.checkPassword(payload.oldPassword, user, false);
+    const isMatchPassword = await this.checkPassword(payload.passwordOld, user, false);
 
     if (!isMatchPassword) {
       throw new BadRequestException('La contraseña anterior no coincide.');
     }
 
-    if (payload.confirmationPassword !== payload.newPassword) {
+    if (payload.passwordConfirmation !== payload.passwordNew) {
       throw new BadRequestException('Las contraseñas no coinciden.');
     }
 
-    user.password = payload.newPassword;
-
-    await this.repository.save(user);
+    await this.repository.update(user.id, { password: Bcrypt.hashSync(payload.passwordNew, 10) });
 
     return true;
   }
@@ -280,11 +290,16 @@ export class AuthService {
       });
     }
 
-    user.maxAttempts = this.MAX_ATTEMPTS;
-    user.password = payload.newPassword;
-    user.passwordChanged = true;
+    // user.maxAttempts = this.MAX_ATTEMPTS;
+    // user.password = payload.passwordNew;
+    // user.passwordChanged = true;
 
-    await this.repository.save(user);
+    await this.repository.update(user.id,
+      {
+        maxAttempts: this.MAX_ATTEMPTS,
+        password: Bcrypt.hashSync(payload.passwordNew, 10),
+        passwordChanged: true,
+      });
 
     return { data: true };
   }
@@ -333,8 +348,7 @@ export class AuthService {
     }
 
     if (reduceAttempts) {
-      userRest.maxAttempts = userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0;
-      await this.repository.save(userRest);
+      await this.repository.update(userRest.id, { maxAttempts: userRest.maxAttempts > 0 ? userRest.maxAttempts - 1 : 0 });
     }
 
     return false;

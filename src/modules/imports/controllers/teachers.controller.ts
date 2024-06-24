@@ -32,7 +32,7 @@ export class TeachersController {
 
         return {
             data: null,
-            message: `Docentes Importadas Correctamente`,
+            message: `Docentes Importados Correctamente`,
             title: `Importado`,
         };
     }

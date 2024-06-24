@@ -1,13 +1,13 @@
-import { BadRequestException, Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import {
   CareerEntity,
   CatalogueEntity,
   EnrollmentDetailEntity,
   EnrollmentEntity,
-  GradeEntity, InstitutionEntity,
-  PartialEntity, PartialPermissionEntity,
-  StudentEntity, SubjectEntity,
+  InstitutionEntity,
+  PartialPermissionEntity,
+  StudentEntity,
   TeacherDistributionEntity, TeacherEntity,
 } from '@core/entities';
 import { AuthRepositoryEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
@@ -21,12 +21,11 @@ import { CareersService, CataloguesService, InstitutionsService } from '@core/se
 import * as Bcrypt from 'bcrypt';
 
 enum ColumnsEnum {
+  CAREER_CODE = 'Codigo_Carrera',
   IDENTIFICATION = 'Numero_Documento',
-  GRADE_1 = 'Parcial1',
-  GRADE_2 = 'Parcial2',
-  GRADE_3 = 'Parcial3',
-  GRADE_4 = 'Parcial4',
-  ATTENDANCE = 'Asistencia',
+  LAST_NAME = 'Apellidos',
+  NAME = 'Nombres',
+  EMAIL = 'Correo_Institucional',
 }
 
 interface ErrorModel {
@@ -37,9 +36,8 @@ interface ErrorModel {
 
 @Injectable()
 export class TeachersService {
-  private gradeErrors: ErrorModel[] = [];
+  private errors: ErrorModel[] = [];
   private attendanceErrors: ErrorModel[] = [];
-  private partialPermissionErrors: ErrorModel[] = [];
   private row = 1;
   private identificationTypes: CatalogueEntity[] = [];
   private roles: RoleEntity[] = [];
@@ -95,7 +93,7 @@ export class TeachersService {
 
       const workbook = XLSX.readFile(path);
       const workbookSheets = workbook.SheetNames;
-      const sheet = workbookSheets[1];
+      const sheet = workbookSheets[0];
       const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
 
       this.row = 1;
@@ -103,26 +101,32 @@ export class TeachersService {
       for (const item of dataExcel) {
         this.row++;
 
-        const career = this.careers.find(career => career.code === item['Codigo_Carrera']);
+        const career = this.careers.find(career => career.code === item[ColumnsEnum.CAREER_CODE]);
 
-        let user: any = await this.userRepository.findOne({ where: { identification: item['Numero_Documento'] } });
+        let user: any = await this.userRepository.findOne({
+          relations: { careers: true, roles: true },
+          where: { identification: item[ColumnsEnum.IDENTIFICATION] },
+        });
 
         if (!user) {
           user =
             {
               identificationType: this.identificationTypes[0],
-              identification: item['Numero_Documento'],
+              identification: item[ColumnsEnum.IDENTIFICATION],
               institutions: [institution],
-              email: item['Correo_Institucional'],
-              lastname: item['Apellidos'],
-              name: item['Nombres'],
-              password: await Bcrypt.hash(item['Numero_Documento'], 10),
+              email: item[ColumnsEnum.EMAIL],
+              lastname: item[ColumnsEnum.LAST_NAME],
+              name: item[ColumnsEnum.NAME],
+              password: item[ColumnsEnum.IDENTIFICATION],
               passwordChanged: false,
-              personalEmail: item['Correo_Institucional'],
-              roles: [teacherRole],
-              username: item['Numero_Documento'],
+              personalEmail: item[ColumnsEnum.EMAIL],
+              username: item[ColumnsEnum.IDENTIFICATION],
               careers: [career],
+              roles: [teacherRole],
             };
+        } else {
+          user.careers = user.careers.concat(career);
+          user.roles = user.roles.concat(teacherRole);
         }
 
         const userCreated = await this.userRepository.save(user);
@@ -132,13 +136,14 @@ export class TeachersService {
         if (!teacher) {
           teacher = this.teacherRepository.create();
           teacher.userId = userCreated.id;
+
           await this.teacherRepository.save(teacher);
         }
       }
 
       fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
 
-      if ((this.gradeErrors.concat(this.attendanceErrors, this.partialPermissionErrors)).length > 0)
+      if (this.errors.length > 0)
         throw new BadRequestException();
 
     } catch (err) {
@@ -146,89 +151,8 @@ export class TeachersService {
     }
   }
 
-  checkErrors(item: any) {
-    this.validateGrade(item[ColumnsEnum.GRADE_1], ColumnsEnum.GRADE_1);
-    this.validateGrade(item[ColumnsEnum.GRADE_2], ColumnsEnum.GRADE_2);
-    this.validateGrade(item[ColumnsEnum.GRADE_3], ColumnsEnum.GRADE_3);
-    this.validateGrade(item[ColumnsEnum.GRADE_4], ColumnsEnum.GRADE_4);
-
-    this.validateAttendance(item[ColumnsEnum.ATTENDANCE]);
-  }
-
-  validateGrade(value: number, column: string) {
-    if (value || value == 0) {
-      if (isNaN(value)) {
-        this.gradeErrors.push({
-          row: this.row,
-          column,
-          observation: `${column} no válida`,
-        });
-
-        return;
-      }
-
-      const grade = Number(value);
-
-      if (grade < 0) {
-        this.gradeErrors.push({
-          row: this.row,
-          column,
-          observation: `${column} no puede ser menor a 0`,
-        });
-      }
-
-      if (grade > 10) {
-        this.gradeErrors.push({
-          row: this.row,
-          column,
-          observation: `${column} no puede ser mayor a 10`,
-        });
-      }
-    }
-  }
-
-  validateAttendance(value: number) {
-    if (value) {
-      if (isNaN(value)) {
-        this.attendanceErrors.push({
-          row: this.row,
-          column: ColumnsEnum.ATTENDANCE,
-          observation: `${ColumnsEnum.ATTENDANCE} no válida`,
-        });
-
-        return;
-      }
-
-      const attendance = Number(value);
-
-      if (attendance < 0) {
-        this.attendanceErrors.push({
-          row: this.row,
-          column: ColumnsEnum.ATTENDANCE,
-          observation: `${ColumnsEnum.ATTENDANCE} no puede ser menor a 0`,
-        });
-      }
-
-      if (attendance > 100) {
-        this.attendanceErrors.push({
-          row: this.row,
-          column: ColumnsEnum.ATTENDANCE,
-          observation: `${ColumnsEnum.ATTENDANCE} no puede ser mayor a 100`,
-        });
-      }
-    }
-  }
-
-  addPartialPermissionError(column: string) {
-    this.partialPermissionErrors.push({
-      row: this.row,
-      column,
-      observation: `No se puede cambiar la ${column}, el parcial se encuentra bloqueado`,
-    });
-  }
-
   async generateErrorReport(teacherDistributionId: string) {
-    const errors = this.gradeErrors.concat(this.attendanceErrors, this.partialPermissionErrors);
+    const errors = this.errors.concat(this.attendanceErrors);
 
     const data = errors.map(error => {
       return {
