@@ -11,6 +11,8 @@ import { SubjectsService } from './services/subjects.service';
 import { StudentsService } from './services/students.service';
 import { StudentsController } from './controllers/students.controller';
 import { RolesService } from '@auth/services';
+import { TeacherDistributionsController } from './controllers/teacher-distributions.controller';
+import { TeacherDistributionsService } from './services/teacher-distributions.service';
 
 
 @Global()
@@ -21,6 +23,7 @@ import { RolesService } from '@auth/services';
     EnrollmentsController,
     SubjectsController,
     StudentsController,
+    TeacherDistributionsController,
   ],
   providers: [
     GradesService,
@@ -29,6 +32,7 @@ import { RolesService } from '@auth/services';
     SubjectsService,
     StudentsService,
     RolesService,
+    TeacherDistributionsService
   ],
   exports: [],
 })
