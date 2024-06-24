@@ -70,7 +70,7 @@ export class TeacherDistributionsService {
     const entity = await this.repository.findOne({
       relations: {
         parallel: true,
-        teacher: {user:true},
+        teacher: { user: true },
         schoolPeriod: true,
         subject: true,
         workday: true,
@@ -184,7 +184,7 @@ export class TeacherDistributionsService {
     return await this.repository.find({
       relations: {
         parallel: true,
-        teacher: {user:true},
+        teacher: { user: true },
         schoolPeriod: true,
         subject: { curriculum: { career: true }, academicPeriod: true },
         workday: true,
@@ -194,6 +194,7 @@ export class TeacherDistributionsService {
         teacherId,
         schoolPeriodId,
       },
+      order: { partialPermissions: { partial: { code: 'asc' } } },
     });
   }
 

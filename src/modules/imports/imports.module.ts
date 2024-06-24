@@ -8,16 +8,28 @@ import { EnrollmentsController } from './controllers/enrollments.controller';
 import { EnrollmentsService } from './services/enrollments.service';
 import { SubjectsController } from './controllers/subjects.controller';
 import { SubjectsService } from './services/subjects.service';
-
 import { StudentsService } from './services/students.service';
 import { StudentsController } from './controllers/students.controller';
+import { RolesService } from '@auth/services';
 
 
 @Global()
 @Module({
   imports: [DatabaseModule],
-  controllers: [GradesController, TeachersController, EnrollmentsController, SubjectsController, StudentsController],
-  providers: [GradesService, TeachersService, EnrollmentsService, SubjectsService, StudentsService],
+  controllers: [GradesController,
+    TeachersController,
+    EnrollmentsController,
+    SubjectsController,
+    StudentsController,
+  ],
+  providers: [
+    GradesService,
+    TeachersService,
+    EnrollmentsService,
+    SubjectsService,
+    StudentsService,
+    RolesService,
+  ],
   exports: [],
 })
 export class ImportsModule {

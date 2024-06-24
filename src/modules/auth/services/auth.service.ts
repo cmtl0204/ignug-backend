@@ -25,17 +25,13 @@ import { MailDataInterface } from '../../common/interfaces/mail-data.interface';
 import { SchoolPeriodsService } from '@core/services';
 import { UsersService } from './users.service';
 
-const { PDFDocument } = require('pdfkit-table-ts');
-
 @Injectable()
 export class AuthService {
   private readonly MAX_ATTEMPTS = 3;
 
   constructor(
-    @Inject(AuthRepositoryEnum.USER_REPOSITORY)
-    private repository: Repository<UserEntity>,
-    @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY)
-    private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
+    @Inject(AuthRepositoryEnum.USER_REPOSITORY) private repository: Repository<UserEntity>,
+    @Inject(AuthRepositoryEnum.TRANSACTIONAL_CODE_REPOSITORY) private transactionalCodeRepository: Repository<TransactionalCodeEntity>,
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
     private readonly userService: UsersService,
     private jwtService: JwtService,
@@ -70,6 +66,16 @@ export class AuthService {
 
   async login(payload: LoginDto): Promise<ServiceResponseHttpModel> {
     const user: UserEntity = (await this.repository.findOne({
+      select: {
+        id: true,
+        identification: true,
+        lastname: true,
+        name: true,
+        maxAttempts: true,
+        password: true,
+        suspendedAt: true,
+        username: true,
+      },
       where: {
         username: payload.username,
       },
@@ -80,9 +86,9 @@ export class AuthService {
         teacher: { careers: true },
         student: { careers: true },
       },
-    })) as UserEntity;
+    }));
 
-    if (!user || !(await this.checkPassword(payload.password, user))) {
+    if (!user) {
       throw new UnauthorizedException(`Usuario y/o contraseña no válidos`);
     }
 
@@ -94,26 +100,22 @@ export class AuthService {
     if (user?.maxAttempts === 0) throw new UnauthorizedException('Ha excedido el número máximo de intentos permitidos');
 
     if (!(await this.checkPassword(payload.password, user))) {
-      const attempts = user.maxAttempts - 1;
-      throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${attempts} intentos restantes`);
+      throw new UnauthorizedException(`Usuario y/o contraseña no válidos, ${user.maxAttempts - 1} intentos restantes`);
     }
 
-    const userUpdate = await this.repository.findOne({
-      where: { username: payload.username },
-      select: { password: false },
-    });
+    const { password, suspendedAt, maxAttempts, ...userRest } = user;
 
-    const { password, ...userRest } = userUpdate;
-
-    userUpdate.maxAttempts = this.MAX_ATTEMPTS;
-    userUpdate.activatedAt = new Date();
-
-    await this.repository.update(userUpdate.id, userRest);
-
-    const accessToken = this.generateJwt(user);
+    await this.repository.update(user.id, { activatedAt: new Date() });
 
     const schoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
-    return { data: { accessToken, user, schoolPeriod } };
+
+    return {
+      data: {
+        token: await this.generateJwt(user),
+        user: userRest,
+        schoolPeriod,
+      },
+    };
   }
 
   async findProfile(id: string): Promise<ReadProfileDto> {
@@ -303,14 +305,14 @@ export class AuthService {
     return await this.repository.save({ ...restEntity });
   }
 
-  private generateJwt(user: UserEntity): string {
+  private async generateJwt(user: UserEntity): Promise<string> {
     const expiresDate = new Date();
-
+    //
     expiresDate.setDate(expiresDate.getSeconds() + 10);
 
-    const payload: PayloadTokenModel = { id: user.id, iat: new Date().getTime(), exp: expiresDate.getTime() };
+    const payload: PayloadTokenModel = { id: user.id, username: user.username };
 
-    return this.jwtService.sign(payload, { secret: this.configService.jwtSecret });
+    return await this.jwtService.signAsync(payload);
   }
 
   private async findByUsername(username: string): Promise<UserEntity> {
@@ -321,14 +323,13 @@ export class AuthService {
     })) as UserEntity;
   }
 
-  private async checkPassword(passwordCompare: string, user: UserEntity, reduceAttempts = true): Promise<null | UserEntity> {
+  private async checkPassword(passwordCompare: string, user: UserEntity, reduceAttempts = true): Promise<boolean> {
     const { password, ...userRest } = user;
     const isMatch = Bcrypt.compareSync(passwordCompare, password);
 
     if (isMatch) {
-      userRest.maxAttempts = 3;
-      await this.repository.save(userRest);
-      return user;
+      await this.repository.update(user.id, { maxAttempts: this.MAX_ATTEMPTS });
+      return true;
     }
 
     if (reduceAttempts) {
@@ -336,19 +337,19 @@ export class AuthService {
       await this.repository.save(userRest);
     }
 
-    return null;
+    return false;
   }
 
   async generatePDF() {
     const pdf: Buffer = await new Promise(resolve => {
-      const doc = new PDFDocument();
+      // const doc = new PDFDocument();
 
-      doc.text('hello world', 100, 50);
+      // doc.text('hello world', 100, 50);
 
-      const buffer = [];
-      doc.on('data', buffer.push.bind(buffer));
-      doc.on('end', () => resolve(Buffer.concat(buffer)));
-      doc.end();
+      // const buffer = [];
+      // doc.on('data', buffer.push.bind(buffer));
+      // doc.on('end', () => resolve(Buffer.concat(buffer)));
+      // doc.end();f
     });
 
     const mailData: MailDataInterface = {
@@ -358,7 +359,7 @@ export class AuthService {
       data: {
         token: 'asd',
       },
-      attachments: [{ filename: 'test.pdf', file: pdf }, { filename: 'test.pdf', path: 'test.pdf' }],
+      // attachments: [{ filename: 'test.pdf', file: pdf }, { filename: 'test.pdf', path: 'test.pdf' }],
     };
 
     return await this.nodemailerService.sendMail(mailData);

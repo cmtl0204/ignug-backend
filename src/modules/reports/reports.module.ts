@@ -11,13 +11,32 @@ import { CareerReportsService, EnrollmentReportsService, StudentReportsService }
 import { GradeReportsService } from './services/grade-reports.service';
 import { StudentSqlService } from './services/student-sql.service';
 import { EnrollmentSqlService } from './services/enrollment-sql.service';
+import { PdfmakeController } from './controllers/pdfmake.controller';
+import { PrinterService } from './services/printer.service';
 
 @Global()
 @Module({
   imports: [DatabaseModule, CacheModule.register()],
-  controllers: [CareerReportsController, EnrollmentReportsController, StudentReportsController, GradeReportsController],
-  providers: [CareerReportsService, StudentReportsService, EnrollmentReportsService, GradeReportsService, StudentSqlService, EnrollmentSqlService],
-  exports: [CareerReportsService, StudentReportsService],
+  controllers: [
+    CareerReportsController,
+    EnrollmentReportsController,
+    StudentReportsController,
+    GradeReportsController,
+    PdfmakeController,
+  ],
+  providers: [
+    CareerReportsService,
+    StudentReportsService,
+    EnrollmentReportsService,
+    GradeReportsService,
+    StudentSqlService,
+    EnrollmentSqlService,
+    PrinterService,
+  ],
+  exports: [
+    CareerReportsService,
+    StudentReportsService,
+  ],
 })
 export class ReportsModule {
 

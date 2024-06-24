@@ -27,7 +27,7 @@ import {getFileName, imageFilter} from '@shared/helpers';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService, private readonly nodemailerService: MailService) {
+    constructor(private authService: AuthService) {
     }
 
     @ApiOperation({summary: 'Login'})
@@ -59,7 +59,6 @@ export class AuthController {
     }
 
     @ApiOperation({summary: 'Find Profile'})
-    @Auth()
     @Get('profile')
     @HttpCode(HttpStatus.OK)
     async findProfile(@User() user: UserEntity): Promise<ResponseHttpModel> {
@@ -178,16 +177,6 @@ export class AuthController {
     )
     async uploadAvatar(@UploadedFile() avatar: Express.Multer.File, @Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
         const response = await this.authService.uploadAvatar(avatar, id);
-        return {
-            data: response,
-            message: 'Imagen Subida Correctamente',
-            title: 'Imagen Subida',
-        };
-    }
-
-    @Get('test-email-pdf')
-    async testMailPdfE() {
-        const response = await this.authService.generatePDF();
         return {
             data: response,
             message: 'Imagen Subida Correctamente',

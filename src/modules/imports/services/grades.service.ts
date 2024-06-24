@@ -19,9 +19,9 @@ enum ColumnsEnum {
   IDENTIFICATION = 'Numero_Documento',
   GRADE_1 = 'Parcial1',
   GRADE_2 = 'Parcial2',
-  GRADE_3 = 'Parcial3',
+  GRADE_3 = 'Examen_Final',
   GRADE_4 = 'Parcial4',
-  ATTENDANCE = 'Asistencia',
+  ATTENDANCE = 'Progreso',
 }
 
 interface ErrorModel {
@@ -44,7 +44,6 @@ export class GradesService {
   private partial1!: PartialEntity;
   private partial2!: PartialEntity;
   private partial3!: PartialEntity;
-  private partial4!: PartialEntity;
   private approved!: CatalogueEntity;
   private failed!: CatalogueEntity;
 
@@ -72,7 +71,6 @@ export class GradesService {
     this.partial1 = this.partials.find(partial => partial.code === '1');
     this.partial2 = this.partials.find(partial => partial.code === '2');
     this.partial3 = this.partials.find(partial => partial.code === '3');
-    this.partial4 = this.partials.find(partial => partial.code === '4');
   }
 
   async loadPartialPermissions(teacherDistributionId: string) {
@@ -89,10 +87,6 @@ export class GradesService {
 
       if (partialPermission.partialId === this.partial3.id) {
         this.partialEnabled3 = partialPermission.enabled;
-      }
-
-      if (partialPermission.partialId === this.partial4.id) {
-        this.partialEnabled4 = partialPermission.enabled;
       }
     }
   }
@@ -184,7 +178,7 @@ export class GradesService {
     this.validateGrade(item[ColumnsEnum.GRADE_1], ColumnsEnum.GRADE_1);
     this.validateGrade(item[ColumnsEnum.GRADE_2], ColumnsEnum.GRADE_2);
     this.validateGrade(item[ColumnsEnum.GRADE_3], ColumnsEnum.GRADE_3);
-    this.validateGrade(item[ColumnsEnum.GRADE_4], ColumnsEnum.GRADE_4);
+    // this.validateGrade(item[ColumnsEnum.GRADE_4], ColumnsEnum.GRADE_4);
 
     this.validateAttendance(item[ColumnsEnum.ATTENDANCE]);
   }
@@ -270,7 +264,6 @@ export class GradesService {
       let grade1 = grades.find(grade => grade.partialId === this.partial1.id);
       let grade2 = grades.find(grade => grade.partialId === this.partial2.id);
       let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
-      let grade4 = grades.find(grade => grade.partialId === this.partial4.id);
 
       if (this.partial1.enabled) {
         if (grade1) {
@@ -348,31 +341,6 @@ export class GradesService {
         }
       }
 
-      if (this.partial4.enabled) {
-        if (grade4) {
-          grade4.value = parseFloat(String(grade4.value));
-          if (grade4.value != item[ColumnsEnum.GRADE_4]) {
-            if (this.partialEnabled4) {
-              grade4.value = item[ColumnsEnum.GRADE_4];
-            } else {
-              this.addPartialPermissionError(ColumnsEnum.GRADE_4);
-            }
-          }
-        } else {
-          if (item[ColumnsEnum.GRADE_4] || item[ColumnsEnum.GRADE_4] == 0) {
-            if (this.partialEnabled4) {
-              grade4 = this.gradeRepository.create({
-                enrollmentDetailId: enrollmentDetail.id,
-                partialId: this.partial4.id,
-                value: item[ColumnsEnum.GRADE_4],
-              });
-            } else {
-              this.addPartialPermissionError(ColumnsEnum.GRADE_4);
-            }
-          }
-        }
-      }
-
       if (this.partial1.enabled && grade1)
         await this.gradeRepository.save(grade1);
 
@@ -381,9 +349,6 @@ export class GradesService {
 
       if (this.partial3.enabled && grade3)
         await this.gradeRepository.save(grade3);
-
-      if (this.partial4.enabled && grade4)
-        await this.gradeRepository.save(grade4);
 
       await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
     }
@@ -405,15 +370,13 @@ export class GradesService {
     let grade1 = grades.find(grade => grade.partialId === this.partial1.id)?.value || 0;
     let grade2 = grades.find(grade => grade.partialId === this.partial2.id)?.value || 0;
     let grade3 = grades.find(grade => grade.partialId === this.partial3.id)?.value || 0;
-    let grade4 = grades.find(grade => grade.partialId === this.partial4.id)?.value || 0;
 
-    if (grade1 && grade2 && grade3 && grade4) {
+    if (grade1 && grade2 && grade3) {
       grade1 = parseFloat(String(grade1));
       grade2 = parseFloat(String(grade2));
       grade3 = parseFloat(String(grade3));
-      grade4 = parseFloat(String(grade4));
 
-      const finalGradeSum = grade1 + grade2 + grade3 + grade4;
+      const finalGradeSum = grade1 + grade2 + grade3;
 
       if (this.partials.length)
         enrollmentDetail.finalGrade = finalGradeSum / this.partials.length;
@@ -432,7 +395,7 @@ export class GradesService {
             enrollmentDetail.academicObservation = null;
           } else {
             enrollmentDetail.academicStateId = this.failed.id;
-            enrollmentDetail.academicObservation = 'Pierde por Asistencia';
+            enrollmentDetail.academicObservation = 'Pierde por Progreso';
           }
         } else {
           enrollmentDetail.academicStateId = this.failed.id;
@@ -440,7 +403,7 @@ export class GradesService {
           if (finalAttendance >= 75) {
             enrollmentDetail.academicObservation = 'Pierde por Calificación';
           } else {
-            enrollmentDetail.academicObservation = 'Pierde por Calificación y Asistencia';
+            enrollmentDetail.academicObservation = 'Pierde por Calificación y Progreso';
           }
         }
 

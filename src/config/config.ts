@@ -1,4 +1,5 @@
 import {registerAs} from '@nestjs/config';
+import * as process from 'node:process';
 
 export const config = registerAs('config', () => {
     return {
@@ -22,10 +23,6 @@ export const config = registerAs('config', () => {
         apiKey: process.env.API_KEY,
         jwtSecret: process.env.JWT_SECRET,
         port: parseInt(process.env.PORT, 10),
-        defaultUser: {
-            username: process.env.DEFAULT_USER_USERNAME,
-            email: process.env.DEFAULT_USER_EMAIL,
-            password: process.env.DEFAULT_USER_PASSWORD,
-        },
+        appUrl: process.env.APP_URL,
     };
 });

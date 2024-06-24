@@ -21,6 +21,9 @@ import {
   TeachersSeeder,
   UsersSeeder,
 } from '@database/seeders';
+import { UsersService } from '../modules/auth/services/users.service';
+import { MenusService, RolesService } from '@auth/services';
+import { authProviders } from '@auth/providers';
 
 @Global()
 @Module({

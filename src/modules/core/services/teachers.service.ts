@@ -5,7 +5,6 @@ import { TeacherEntity } from '@core/entities';
 import { InformationTeachersService } from '@core/services';
 import { AuthRepositoryEnum, CoreRepositoryEnum, MessageEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
-import { UsersService } from '../../auth/services/users.service';
 import { UpdateUserDto } from '@auth/dto';
 import { UserEntity } from '@auth/entities';
 

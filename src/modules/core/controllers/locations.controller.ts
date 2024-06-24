@@ -2,6 +2,7 @@ import {Controller, Get, HttpCode, HttpStatus,} from '@nestjs/common';
 import {ApiOperation, ApiTags} from '@nestjs/swagger';
 import {ResponseHttpModel} from '@shared/models';
 import {LocationsService} from '@core/services';
+import { PublicRoute } from '@auth/decorators';
 
 @ApiTags('Locations')
 @Controller('locations')
@@ -9,6 +10,7 @@ export class LocationsController {
     constructor(private locationsService: LocationsService) {
     }
 
+    @PublicRoute()
     @ApiOperation({summary: 'Find Cache'})
     @Get('cache/get')
     @HttpCode(HttpStatus.OK)

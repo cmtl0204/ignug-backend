@@ -17,6 +17,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
     "paths": {
       "@auth/constants": [
         "./src/modules/auth/constants"
@@ -108,6 +109,10 @@
       "@exceptions": [
         "./src/exceptions"
       ],
+      "@middlewares": [
+        "./src/middlewares"
+      ],
+
       "@shared/enums": [
         "./src/shared/enums"
       ],

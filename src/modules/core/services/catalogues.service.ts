@@ -1,4 +1,4 @@
-import {CACHE_MANAGER, Inject, Injectable, NotFoundException} from '@nestjs/common';
+import {Inject, Injectable, NotFoundException} from '@nestjs/common';
 import {FindOptionsWhere, ILike, Repository} from 'typeorm';
 import {CreateCatalogueDto, FilterCatalogueDto, PaginationDto, UpdateCatalogueDto} from '@core/dto';
 import {CatalogueEntity} from '@core/entities';
@@ -8,6 +8,7 @@ import {UserEntity} from '@auth/entities';
 import {plainToInstance} from 'class-transformer';
 import {ServiceResponseHttpModel} from '@shared/models';
 import {Cache} from 'cache-manager';
+import {CACHE_MANAGER} from '@nestjs/cache-manager';
 
 @Injectable()
 export class CataloguesService {
