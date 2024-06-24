@@ -9,14 +9,14 @@ const avatar: Content = {
 };
 
 export const studentCardReport = (configService: any, student: StudentEntity): TDocumentDefinitions => {
-  const schoolPeriod = student.enrollment.schoolPeriod.shortName;
+  const schoolPeriod = student.enrollments[0].schoolPeriod.shortName;
   const identification = student.user.identification;
   const names = student.user.name;
   const lastName = student.user.lastname;
-  const career = student.enrollment.career.name;
+  const career = student.enrollments[0].career.name;
   const studentId = student.id;
-  const careerId = student.enrollment.careerId;
-  const schoolPeriodId = student.enrollment.schoolPeriodId;
+  const careerId = student.enrollments[0].careerId;
+  const schoolPeriodId = student.enrollments[0].schoolPeriodId;
 
   const qr = `${configService.appUrl}/document-validations/student-card/${studentId}?careerId=${careerId}&schoolPeriodId=${schoolPeriodId}&currentTime=${new Date().getTime()}`;
 

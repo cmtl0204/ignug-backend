@@ -262,7 +262,6 @@ export class TeacherDistributionsService {
     const path = join(process.cwd(), 'storage/reports/teacher-distributions', new Date().getTime() + '.xlsx'); //review path
     XLSX.writeFile(newWorkbook, path);
 
-    console.log('genero');
     return path;
   }
 }

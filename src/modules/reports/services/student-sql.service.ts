@@ -339,14 +339,14 @@ export class StudentSqlService {
     return student;
   }
 
-  async findStudentCard(id: string, careerId: string, schoolPeriodId: string): Promise<StudentEntity> {
+  async findStudentCard(id: string, careerId: string, schoolPeriodId: string): Promise<StudentEntity[]> {
     const catalogues = await this.cataloguesService.findCache();
     const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
-    const student = await this.repository.findOne({
+    const student = await this.repository.find({
       relations: {
         informationStudent: { town: true, indigenousNationality: true },
-        enrollment: { career: true, schoolPeriod: true },
+        enrollments: { career: true, schoolPeriod: true },
         user: {
           ethnicOrigin: true,
           sex: true,
@@ -358,12 +358,11 @@ export class StudentSqlService {
       },
       where: {
         id,
-        enrollments: { careerId, schoolPeriodId, enrollmentStates: { stateId: enrollmentStateEnrolled.id } },
+        enrollments: { careerId:careerId, schoolPeriodId:'3d34885e-1a03-4441-8b52-438d2e0b4931', enrollmentStates: { stateId: enrollmentStateEnrolled.id } },
       },
     });
 
-    // console.log(student);
-    if (!student) {
+    if (!student.length) {
       throw new NotFoundException('Estudiante no encontrado');
     }
 
