@@ -79,7 +79,7 @@ export const studentCardReport = (configService: any, student: StudentEntity): T
       },
       {
         qr,
-        fit: 148,
+        fit: 140,
         absolutePosition: { x: 370, y: 700 },
       },
     ],
