@@ -545,73 +545,11 @@ export class StudentReportsService {
         return path;
     }
 
-    async generateStudentCard2(@Res() res: Response, id: string, careerId: string, schoolPeriodId: string) {
-        const response = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity;
-
-        try {
-            const doc = new PDFDocument({
-                size: 'A4',
-                bufferPages: true,
-                align: 'center',
-            });
-
-            doc.pipe(res);
-
-            doc.image('./resources/images/reports/student-card.png', 0, 0, {
-                width: doc.page.width - 50,
-                height: doc.page.height
-            });
-
-            let avatarPath = '';
-
-            if (response.user.avatar) {
-                avatarPath = './assets/' + response.user.avatar;
-            } else {
-                if (response.user?.sex?.code === '1') {
-                    avatarPath = './assets/avatars/man.png';
-                } else if (response.user?.sex?.code === '2') {
-                    avatarPath = './assets/avatars/woman.png';
-                } else {
-                    avatarPath = './assets/avatars/unisex.png';
-                }
-
-            }
-
-            doc.image(avatarPath, 225, 170, {
-                width: 200,
-                height: 180
-            });
-
-            const career = response.enrollment.career.name ? 'CARRERA DE ' + response.enrollment.career.name : '';
-
-            doc.font('Helvetica').fontSize('28').fillColor('#af2222');
-            // .fillColor('white');
-
-            doc.text('', 50, 420);
-            doc.text(response.user.identification, {width: doc.page.width - 100, align: 'center'});
-
-            doc.font('Helvetica-Bold').fontSize('28');
-            doc.text('', 50, 460);
-            doc.text(response.user.name, {width: doc.page.width - 100, align: 'center'});
-
-            doc.text('', 50, 500);
-            doc.text(response.user.lastname, {width: doc.page.width - 100, align: 'center'});
-
-            doc.font('Helvetica').fontSize('18');
-            doc.text('', 50, 550);
-            doc.text(career, {width: doc.page.width - 100, align: 'center'});
-
-            doc.end();
-        } catch (error) {
-            res.ok;
-        }
-    }
-
     async generateStudentCard(id: string, careerId: string, schoolPeriodId: string) {
-        const data = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity;
+        const data = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity[];
 
         try {
-            return this.printerService.createPdf(studentCardReport(this.configService,data));
+            return this.printerService.createPdf(studentCardReport(this.configService,data[0]));
         } catch (error) {
             throw new Error;
         }

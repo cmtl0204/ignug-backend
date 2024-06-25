@@ -7,11 +7,12 @@ import {diskStorage} from 'multer';
 import {join} from 'path';
 import {excelFileFilter, fileFilter, getFileName} from '@shared/helpers';
 import { TeachersService } from '../services/teachers.service';
+import { TeacherDistributionsService } from '../services/teacher-distributions.service';
 
-@ApiTags('Imports Teachers')
-@Controller('imports/teachers')
-export class TeachersController {
-    constructor(private readonly teachersService: TeachersService) {
+@ApiTags('Imports Teacher Distributions')
+@Controller('imports/teacher-distributions')
+export class TeacherDistributionsController {
+    constructor(private readonly teacherDistributionsService: TeacherDistributionsService) {
     }
 
     @ApiOperation({summary: 'Import Teachers'})
@@ -27,8 +28,8 @@ export class TeachersController {
             fileFilter: excelFileFilter,
         }),
     )
-    async importTeachers(@UploadedFile() file: Express.Multer.File,@Body() payload: any): Promise<ResponseHttpModel> {
-        await this.teachersService.importTeachers(file, payload);
+    async import(@UploadedFile() file: Express.Multer.File,@Body() payload: any): Promise<ResponseHttpModel> {
+        await this.teacherDistributionsService.import(file, payload);
 
         return {
             data: null,

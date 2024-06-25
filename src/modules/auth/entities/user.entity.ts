@@ -257,12 +257,12 @@ export class UserEntity {
   /** Before Actions **/
   @BeforeInsert()
   @BeforeUpdate()
-  async hashPassword() {
+  hashPassword() {
     if (!this.password || this.password?.length > 30) {
       return;
     }
 
-    this.password = await Bcrypt.hash(this.password, 10);
+    this.password = Bcrypt.hashSync(this.password, 10);
   }
 
   @BeforeInsert()
