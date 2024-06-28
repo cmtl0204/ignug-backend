@@ -28,7 +28,7 @@ import { JwtGuard } from '@auth/guards';
         return {
           secret: configService.jwtSecret,
           signOptions: {
-            expiresIn: '1h',
+            expiresIn: '24h',
           },
         };
       },

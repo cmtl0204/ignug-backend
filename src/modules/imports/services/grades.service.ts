@@ -20,7 +20,6 @@ enum ColumnsEnum {
   GRADE_1 = 'Parcial1',
   GRADE_2 = 'Parcial2',
   GRADE_3 = 'Examen_Final',
-  GRADE_4 = 'Parcial4',
   ATTENDANCE = 'Progreso',
 }
 
@@ -39,7 +38,6 @@ export class GradesService {
   private partialEnabled1 = false;
   private partialEnabled2 = false;
   private partialEnabled3 = false;
-  private partialEnabled4 = false;
   private partials: PartialEntity[] = [];
   private partial1!: PartialEntity;
   private partial2!: PartialEntity;
@@ -131,6 +129,7 @@ export class GradesService {
         where: {
           studentId: student.id,
           schoolPeriodId: teacherDistribution.schoolPeriodId,
+          careerId: payload.careerId,
           enrollmentState: { stateId: enrollmentStateEnrolled.id },
         },
       });
@@ -144,7 +143,7 @@ export class GradesService {
           },
         });
 
-        if (enrollment) {
+        if (enrollment && enrollmentDetail) {
           await this.saveGrades(item, enrollmentDetail);
 
           await this.saveAttendance(item, enrollmentDetail);
@@ -171,7 +170,7 @@ export class GradesService {
     fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
 
     if ((this.gradeErrors.concat(this.attendanceErrors, this.partialPermissionErrors)).length > 0)
-      throw new BadRequestException();
+      throw new BadRequestException('Por favor descargue el informe de errores');
   }
 
   checkErrors(item: any) {
