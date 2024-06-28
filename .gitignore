@@ -42,3 +42,4 @@ lerna-debug.log*
 /src/resources/temps/
 /storage/private/
 /storage/reports/
+/storage/imports/
