@@ -28,7 +28,7 @@ export class EnrollmentSubjectsService {
 
         for (const item of dataExcel) {
             this.row++;
-
+            console.log(this.row);
             const enrollmentDetail = await this.enrollmentDetailRepository.findOneBy({id: item['enrollment_detail_id']});
 
             const subject = await this.subjectRepository.findOne({
