@@ -18,12 +18,12 @@ import {AuthService} from '@auth/services';
 import {UserEntity} from '@auth/entities';
 import {LoginDto, PasswordChangeDto, UpdateProfileDto, UpdateUserInformationDto} from '@auth/dto';
 import {ResponseHttpModel} from '@shared/models';
-import {MailService} from '@common/services';
 import {FileInterceptor} from '@nestjs/platform-express';
 import {diskStorage} from 'multer';
 import {join} from 'path';
 import {getFileName, imageFilter} from '@shared/helpers';
 
+@Auth()
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
@@ -45,7 +45,6 @@ export class AuthController {
     }
 
     @ApiOperation({summary: 'Change Password'})
-    @Auth()
     @Put(':id/change-password')
     @HttpCode(HttpStatus.CREATED)
     async changePassword(@Param('id', ParseUUIDPipe) id: string, @Body() payload: PasswordChangeDto): Promise<ResponseHttpModel> {
@@ -72,7 +71,6 @@ export class AuthController {
     }
 
     @ApiOperation({summary: 'Find User Information'})
-    @Auth()
     @Get('user-information')
     @HttpCode(HttpStatus.OK)
     async findUserInformation(@User() user: UserEntity): Promise<ResponseHttpModel> {
@@ -86,7 +84,6 @@ export class AuthController {
     }
 
     @ApiOperation({summary: 'Update Profile'})
-    @Auth()
     @Put('profile')
     @HttpCode(HttpStatus.CREATED)
     async updateProfile(@User() user: UserEntity, @Body() payload: UpdateProfileDto): Promise<ResponseHttpModel> {
@@ -100,7 +97,6 @@ export class AuthController {
     }
 
     @ApiOperation({summary: 'Update User Information'})
-    @Auth()
     @Put('user-information')
     @HttpCode(HttpStatus.CREATED)
     async updateUserInformation(@User('id', ParseUUIDPipe) id: string, @Body() payload: UpdateUserInformationDto): Promise<ResponseHttpModel> {

@@ -3,7 +3,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import {
   CareersController,
   CataloguesController,
-  CurriculumsController,
+  CurriculumsController, DashboardsController,
   EnrollmentDetailsController,
   EnrollmentsController,
   EventsController,
@@ -50,6 +50,7 @@ import { EnrollmentDetailStatesService, OriginAddressesService, ResidenceAddress
 import { StudentsService } from './services/students.service';
 import { TeachersService } from './services/teachers.service';
 import { authProviders } from '@auth/providers';
+import { DashboardsService } from './services/dashboards.service';
 
 @Global()
 @Module({
@@ -72,6 +73,7 @@ import { authProviders } from '@auth/providers';
     TeacherDistributionsController,
     TeachersController,
     LocationsController,
+    DashboardsController,
   ],
   providers: [
     ...coreProviders,
@@ -103,6 +105,7 @@ import { authProviders } from '@auth/providers';
     TeacherDistributionsService,
     TeachersService,
     CareerParallelsService,
+    DashboardsService
   ],
   exports: [
     ...coreProviders,
