@@ -248,8 +248,8 @@ export class StudentsController {
 
     @Get(':id/enrollments')
     @HttpCode(HttpStatus.OK)
-    async findEnrollmentByStudent(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.enrollmentsService.findEnrollmentByStudent(id);
+    async findEnrollmentByStudent(@Param('id', ParseUUIDPipe) id: string,@Query('careerId') careerId:string): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.enrollmentsService.findEnrollmentByStudent(id, careerId);
 
         return {
             data: serviceResponse,
