@@ -503,7 +503,7 @@ export class EnrollmentsService {
     return enrollment;
   }
 
-  async findEnrollmentSubjectsByStudent(studentId: string, schoolPeriodId: string): Promise<EnrollmentDetailEntity[]> {
+  async findEnrollmentSubjectsByStudent(studentId: string, schoolPeriodId: string, careerId: string): Promise<EnrollmentDetailEntity[]> {
     const catalogues = await this.cataloguesService.findCache();
 
     const enrolledState = catalogues.find(catalogue =>
@@ -527,6 +527,7 @@ export class EnrollmentsService {
       },
       where: {
         studentId,
+        careerId,
         schoolPeriodId,
         enrollmentDetails: { enrollmentDetailStates: { stateId: enrolledState.id } },
       },
