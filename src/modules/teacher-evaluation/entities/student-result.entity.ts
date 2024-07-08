@@ -59,9 +59,9 @@ export class StudentResultEntity {
 
   /** Columns **/
   @Column({
-    name: 'score',
+    name: 'total_score',
     type: 'float',
-    comment: 'Puntaje de la respuesta',
+    comment: 'Puntaje total de las respuestas',
   })
   totalScore: number;
 }
