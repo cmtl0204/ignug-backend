@@ -44,7 +44,7 @@ export class StudentSqlService {
       'types.name AS "Tipo de Matricula"',
       'enrollments.date AS "Fecha de Matrícula"',
       'enrollments.applications_at AS "Fecha de Envío de Solicitud"',
-      'states.name AS "Estado"',
+      'states_enrollment.name AS "Estado"',
       'users.birthdate AS "Fecha de nacimiento"',
       'genders.name AS "Genero"',
       'sexes.name AS "Sexo"',
@@ -54,7 +54,7 @@ export class StudentSqlService {
       'indigenous_nationalities.name AS "Nacionalidad Indígena"',
       'town.name AS "Pueblo Indigena"',
       'is_ancestral_languages.name AS "Habla Lengua ancestral"',
-      'ancestral_languages.name AS "Lengua Ancestral"',
+      'ancestral_language_name.name AS "Lengua Ancestral"',
       'foreign_languages.name AS "Habla Lengua extranjera"',
       'foreign_languages_names.name AS "Lengua extranjera"',
       'student_info.contact_emergency_name AS "Nombre contacto de emergencia"',
@@ -65,7 +65,7 @@ export class StudentSqlService {
       'working_hours.name AS "Horario de trabajo"',
       'monthly_salaries.name AS "Sueldo mensual"',
       'student_info.work_address AS "Dirección trabajo"',
-      'has_children.name AS "Cargas familiares - Hijos"',
+      'is_has_children.name AS "Cargas familiares - Hijos"',
       'student_info.children_total AS "Total hijos"',
       'house_heads.name AS "Jefe de hogar"',
       'social_securities.name AS "Afiliación Seguro social"',
@@ -77,22 +77,22 @@ export class StudentSqlService {
       'student_info.catastrophic_illness AS "Tipo Enfermedad catastrófica"',
       'school_types.name AS "Tipo de colegio"',
       'university_trajectory.name AS "Trayectoria Universitaria"',
-      'has_other_degrees.name AS "Tiene otro titulo académico"',
+      'is_degree_superior.name AS "Tiene otro titulo académico"',
       'degree_superiors.name AS "Titulo académico"',
-      'studies_other_careers.name AS "Estudia otra carrera"',
+      'is_study_other_careers.name AS "Estudia otra carrera"',
       'student_info.name_study_other_career AS "Nombre de la Institución"',
-      'institution_types.name AS "Tipo de institución"',
-      'has_electronic_devices.name AS "Posee equipo electrónico"',
+      'studies_other_careers.name AS "Tipo de institución"',
+      'is_electronic_devices.name AS "Posee equipo electrónico"',
       'electronic_devices.name AS "Equipo electrónico"',
-      'has_internet.name AS "Cobertura internet"',
+      'is_internet.name AS "Cobertura internet"',
       'internet_types.name AS "Tipo de cobertura a internet"',
       'countries.name AS "Pais de origen"',
       'province_origins.name AS "Provincia de origen"',
       'canton_origins.name AS "Canton de origen"',
-      'parrish_origins.name AS "Parroquia de origen"',
+      'parish_origins.name AS "Parroquia de origen"',
       'province_residences.name AS "Provincia de residencia"',
       'canton_residences.name AS "Canton de residencia"',
-      'parrish_residences.name AS "Parroquia de residencia"',
+      'parish_residences.name AS "Parroquia de residencia"',
       'residence_addresses.community AS "Comunidad de residencia"',
       'residence_addresses.latitude AS "Latitud residencia"',
       'residence_addresses.longitude AS "Longitud residencia"',
@@ -104,14 +104,14 @@ export class StudentSqlService {
       'student_info.members_house_number AS "Integrantes nucleo familiar"',
       'family_incomes.name AS "Ingreso Familiar"',
       'is_family_vehicle.name AS "Vehículo"',
-      'has_family_properties.name AS "Tiene propiedades familiares"',
+      'is_family_properties.name AS "Tiene propiedades familiares"',
       'family_properties.name AS "Tipo de Propiedades familiares"',
-      'has_family_catastrophic_illnesses.name AS "Familiar con enfermedad catastrófica"',
-      'family_catastrophic_illnesses.name AS "Miembro de familia con enfermedad catastrófica"',
+      'is_family_catastrophic_illness.name AS "Familiar con enfermedad catastrófica"',
+      'family_kinship_catastrophic_illness.name AS "Miembro de familia con enfermedad catastrófica"',
       'student_info.family_catastrophic_illness AS "Tipo de enfermedad catastrófica del familiar"',
-      'family_disabilities.name AS "Familiar con discapacidad"',
+      'is_family_disabilities.name AS "Familiar con discapacidad"',
       'family_kinship_disabilities.name AS "Miembro de la familia con discapacidad"',
-      'student_info.family_disability_percentage AS "Porcentaje de discapacidad del familiar"',
+      'family_disability_percentage AS "Porcentaje de discapacidad del familiar"',
       'student_live_with.name AS "Con quien vive el estudiante"',
       'home_ownerships.name AS "Vivienda en la que vive el estudiante"',
       'home_types.name AS "Tipo de vivienda"',
@@ -127,7 +127,7 @@ export class StudentSqlService {
       'sewerage_service_types.name AS "Tipo de servicio de alcantarillado"',
       'economic_dependencies.name AS "Dependencia económica"',
       'economic_contributions.name AS "Aporte economico"',
-      'has_family_economic_aids.name AS "Familiar con beca, bono o ayuda economica"',
+      'is_family_economic_aids.name AS "Familiar con beca, bono o ayuda economica"',
       'consume_news_types.name AS "Consumo de Noticias"',
       'family_emigrants.name AS "Familia migrante"',
       'pandemic_psychological_effects.name AS "Efecto psicosocial de la pandemia"',
@@ -142,10 +142,7 @@ export class StudentSqlService {
     ])
       .innerJoin(EnrollmentEntity, 'enrollments', 'enrollments.student_id = students.id')
       .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
-      .innerJoin(EnrollmentDetailEntity, 'enrollment_details', 'enrollment_details.enrollment_id = enrollments.id')
-      .innerJoin(EnrollmentDetailStateEntity, 'enrollment_detail_states', 'enrollment_detail_states.enrollment_detail_id = enrollment_details.id')
       .innerJoin(CatalogueEntity, 'states_enrollment', 'states_enrollment.id = enrollment_states.state_id')
-      .innerJoin(CatalogueEntity, 'states_enrollment_detail', 'states_enrollment_detail.id = enrollment_detail_states.state_id')
       .innerJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
       .leftJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
       .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
@@ -174,7 +171,9 @@ export class StudentSqlService {
       .leftJoin(CatalogueEntity, 'disability_types', 'disability_types.id = student_info.disability_type_id')
       .leftJoin(CatalogueEntity, 'electric_blackouts', 'electric_blackouts.id = student_info.electric_service_blackout_id')
       .leftJoin(CatalogueEntity, 'electronic_devices', 'electronic_devices.id = student_info.electronic_device_id')
-      .leftJoin(CatalogueEntity, 'family_catastrophic_illnesses', 'family_catastrophic_illnesses.id = student_info.family_kinship_catastrophic_illness_id')
+      .leftJoin(CatalogueEntity, 'family_kinship_catastrophic_illness', 'family_kinship_catastrophic_illness.id = student_info.family_kinship_catastrophic_illness_id')
+      .leftJoin(CatalogueEntity, 'is_family_catastrophic_illness', 'is_family_catastrophic_illness.id = student_info.is_family_catastrophic_illness_id')
+      .leftJoin(CatalogueEntity, 'is_family_disabilities', 'is_family_disabilities.id = student_info.is_family_disability_id')
       .leftJoin(CatalogueEntity, 'family_kinship_disabilities', 'family_kinship_disabilities.id = student_info.family_kinship_disability_id')
       .leftJoin(CatalogueEntity, 'family_incomes', 'family_incomes.id = student_info.family_income_id')
       .leftJoin(CatalogueEntity, 'family_properties', 'family_properties.id = student_info.family_properties_id')
@@ -187,6 +186,7 @@ export class StudentSqlService {
       .leftJoin(CatalogueEntity, 'indigenous_nationalities', 'indigenous_nationalities.id = student_info.indigenous_nationality_id')
       .leftJoin(CatalogueEntity, 'internet_types', 'internet_types.id = student_info.internet_type_id')
       .leftJoin(CatalogueEntity, 'is_ancestral_languages', 'is_ancestral_languages.id = student_info.is_ancestral_language_id')
+      .leftJoin(CatalogueEntity, 'ancestral_language_name', 'ancestral_language_name.id = student_info.ancestral_language_name_id')
       .leftJoin(CatalogueEntity, 'is_degree_superior', 'is_degree_superior.id = student_info.is_degree_superior_id')
       .leftJoin(CatalogueEntity, 'economic_dependencies', 'economic_dependencies.id = student_info.is_depends_economically_id')
       .leftJoin(CatalogueEntity, 'disabilities', 'disabilities.id = student_info.is_disability_id')
@@ -230,10 +230,8 @@ export class StudentSqlService {
       .leftJoin(CatalogueEntity, 'water_service_types', 'water_service_types.id = student_info.water_service_type_id')
       .leftJoin(CatalogueEntity, 'working_hours', 'working_hours.id = student_info.working_hours_id')
       .where(`enrollments.school_period_id = :schoolPeriodId 
-                      AND enrollment_details.deleted_at IS NULL 
                       AND enrollment_states.deleted_at IS NULL 
-                      AND enrollment_detail_states.deleted_at IS NULL
-                      AND (states_enrollment_detail.code = 'approved' OR states_enrollment_detail.code = 'enrolled')`,
+                      AND (states_enrollment.code = 'approved' OR states_enrollment.code = 'enrolled')`,
         { schoolPeriodId })
       .orderBy('careers.name, users.lastname, users.name');
 
@@ -358,7 +356,11 @@ export class StudentSqlService {
       },
       where: {
         id,
-        enrollments: { careerId:careerId, schoolPeriodId:'3d34885e-1a03-4441-8b52-438d2e0b4931', enrollmentStates: { stateId: enrollmentStateEnrolled.id } },
+        enrollments: {
+          careerId: careerId,
+          schoolPeriodId: '3d34885e-1a03-4441-8b52-438d2e0b4931',
+          enrollmentStates: { stateId: enrollmentStateEnrolled.id },
+        },
       },
     });
 

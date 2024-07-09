@@ -170,13 +170,13 @@ export class EnrollmentSqlService {
             .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
             .innerJoin(EnrollmentDetailEntity, 'enrollment_details', 'enrollment_details.enrollment_id = enrollments.id')
             .innerJoin(EnrollmentDetailStateEntity, 'enrollment_detail_states', 'enrollment_detail_states.enrollment_detail_id = enrollment_details.id')
-            .innerJoin(CatalogueEntity, 'detail_states', 'detail_state.id = enrollment_detail_states.state_id')
+            .innerJoin(CatalogueEntity, 'detail_states', 'detail_states.id = enrollment_detail_states.state_id')
             .leftJoin(CatalogueEntity, 'academic_state', 'academic_state.id = enrollment_details.academic_state_id')
             .innerJoin(SubjectEntity, 'subjects', 'subjects.id = enrollment_details.subject_id')
             .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null and enrollment_detail_states.deleted_at is null and enrollments.deletedAt IS NULL', {
                 schoolPeriodId,
             })
-            .andWhere('detail_state.code IN (:...stateCodes)', {stateCodes: ['approved', 'enrolled']})
+            .andWhere('detail_states.code IN (:...stateCodes)', {stateCodes: ['approved', 'enrolled']})
             .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
 
         return await queryBuilder.getRawMany();
