@@ -1,16 +1,11 @@
 import {
-    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
-    JoinColumn,
-    ManyToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {EnrollmentDetailEntity, PartialEntity} from '@core/entities';
-import {getDateFormat} from "@shared/helpers";
 
 @Entity('evaluations', {schema: 'teacher_evaluation'})
 export class EvaluationEntity {
