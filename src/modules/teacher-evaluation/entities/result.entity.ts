@@ -9,11 +9,6 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {EnrollmentDetailEntity, PartialEntity} from '@core/entities';
-import {getDateFormat} from "@shared/helpers";
-import { EvaluationEntity } from './evaluation.entity';
-import { QuestionEntity } from './question.entity';
-
 @Entity('results', {schema: 'teacher_evaluation'})
 export class ResultEntity {
     @PrimaryGeneratedColumn('uuid')

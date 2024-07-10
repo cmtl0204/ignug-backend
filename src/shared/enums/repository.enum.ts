@@ -46,6 +46,9 @@ export enum CommonRepositoryEnum {
   FILE_REPOSITORY = 'FILE_REPOSITORY',
 }
 
-export enum TeacherEvaluationRepositoryEnum {
+export enum CoreRepositoryEnum {
   EVALUATION_REPOSITORY = 'EVALUATION_REPOSITORY',
+}
+export enum CoreRepositoryEnum {
+  QUESTION_REPOSITORY = 'QUESTION_REPOSITORY',
 }

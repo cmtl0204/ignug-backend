@@ -24,9 +24,18 @@ import {
     SubjectCorequisiteEntity,
     SubjectPrerequisiteEntity,
     TeacherDistributionEntity,
-    TeacherEntity, OriginAddressEntity, EnrollmentStateEntity, EnrollmentDetailStateEntity, CareerParallelEntity,
+    TeacherEntity,
+    OriginAddressEntity,
+    EnrollmentStateEntity,
+    EnrollmentDetailStateEntity,
+    CareerParallelEntity,
+
 } from '@core/entities';
 import {ConfigEnum, CoreRepositoryEnum} from '@shared/enums';
+import { EvaluationEntity } from '../entities/evaluation.entity';
+import { QuestionEntity } from '../entities/question.entity';
+
+
 
 export const teacherEvaluationProviders = [
     {
@@ -179,4 +188,20 @@ export const teacherEvaluationProviders = [
         useFactory: (dataSource: DataSource) => dataSource.getRepository(TeacherEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
+    {
+        provide: CoreRepositoryEnum.EVALUATION_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(EvaluationEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
+        provide: CoreRepositoryEnum.QUESTION_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(QuestionEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
+        provide: CoreRepositoryEnum.QUESTION_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(QuestionEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+
 ];
