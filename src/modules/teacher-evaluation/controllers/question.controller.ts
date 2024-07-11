@@ -16,7 +16,6 @@ import { QuestionService } from '../services/question.service';
 import { CreateQuestionDto } from '../dto/question/create-question.dto';
 import { UpdateQuestionDto } from '../dto/question/update-question.dto';
 import { FilterQuestionDto } from '../dto/question/filter-question.dto';
-
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Questions')
@@ -30,8 +29,8 @@ export class QuestionController {
     const serviceResponse = await this.questionService.create(createQuestionDto);
     return {
       data: serviceResponse.data,
-      message: 'Question created successfully',
-      title: 'Question Created',
+      message: 'Pregunta creada exitosamente',
+      title: 'Pregunta Creada',
     };
   }
 
@@ -41,8 +40,8 @@ export class QuestionController {
     const serviceResponse = await this.questionService.findAll(params);
     return {
       data: serviceResponse.data,
-      message: 'Questions retrieved successfully',
-      title: 'Questions Retrieved',
+      message: 'Preguntas obtenidas exitosamente',
+      title: 'Preguntas',
     };
   }
 
@@ -52,8 +51,8 @@ export class QuestionController {
     const serviceResponse = await this.questionService.findOne(id);
     return {
       data: serviceResponse.data,
-      message: `Question ${id} retrieved successfully`,
-      title: 'Question Retrieved',
+      message: `Pregunta con ID ${id} obtenida exitosamente`,
+      title: 'Pregunta',
     };
   }
 
@@ -63,14 +62,19 @@ export class QuestionController {
     const serviceResponse = await this.questionService.update(id, updateQuestionDto);
     return {
       data: serviceResponse.data,
-      message: `Question ${id} updated successfully`,
-      title: 'Question Updated',
+      message: `Pregunta con ID ${id} actualizada exitosamente`,
+      title: 'Pregunta Actualizada',
     };
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
     await this.questionService.remove(id);
+    return {
+      data: null,
+      message: `Pregunta con ID ${id} eliminada exitosamente`,
+      title: 'Pregunta Eliminada',
+    };
   }
 }

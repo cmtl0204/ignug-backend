@@ -34,6 +34,9 @@ import {
 import {ConfigEnum, CoreRepositoryEnum} from '@shared/enums';
 import { EvaluationEntity } from '../entities/evaluation.entity';
 import { QuestionEntity } from '../entities/question.entity';
+import { ResponseEntity } from '../entities/response.entity';
+import { ResultEntity } from '../entities/result.entity';
+import { StudentResultEntity } from '../entities/student-result.entity';
 
 
 
@@ -199,9 +202,18 @@ export const teacherEvaluationProviders = [
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
     {
-        provide: CoreRepositoryEnum.QUESTION_REPOSITORY,
-        useFactory: (dataSource: DataSource) => dataSource.getRepository(QuestionEntity),
+        provide: CoreRepositoryEnum.RESPONSE_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(ResponseEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
-
+    {
+        provide: CoreRepositoryEnum.RESULT_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(ResultEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
+    {
+        provide: CoreRepositoryEnum.STUDENT_RESULT_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(StudentResultEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
 ];
