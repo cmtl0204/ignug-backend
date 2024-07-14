@@ -19,7 +19,7 @@ import { FilterEvaluationDto } from '../dto/evaluation/filter-evaluation.dto';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Evaluations')
-@Controller('evaluations')
+@Controller('teacher-evaluations/evaluations')
 export class EvaluationController {
   constructor(private readonly evaluationService: EvaluationService) {}
 
@@ -34,7 +34,7 @@ export class EvaluationController {
     };
   }
 
-  @Get()
+  @Get('find/all')
   @HttpCode(HttpStatus.OK)
   async findAll(@Query() params: FilterEvaluationDto): Promise<ResponseHttpModel> {
     const serviceResponse = await this.evaluationService.findAll(params);
