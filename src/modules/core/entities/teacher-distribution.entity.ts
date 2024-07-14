@@ -9,7 +9,6 @@ import {
     UpdateDateColumn
 } from 'typeorm';
 import {
-    CareerAcademicPeriodsEntity,
     CatalogueEntity, PartialPermissionEntity,
     SchoolPeriodEntity,
     SubjectEntity,

@@ -14,6 +14,7 @@ import { VerifyUserMiddleware } from '@middlewares';
 import { ReportsModule } from './modules/reports';
 import { ImportsModule } from './modules/imports';
 import { CacheModule } from '@nestjs/cache-manager';
+import { TeacherEvaluationModule } from './modules/teacher-evaluation';
 
 @Module({
   imports: [
@@ -39,12 +40,13 @@ import { CacheModule } from '@nestjs/cache-manager';
     }),
     CacheModule.register(),
     MulterModule.register({ dest: './uploads' }),
-    //HttpModule,
+    HttpModule,
     CommonModule,
     AuthModule,
     CoreModule,
     ReportsModule,
     ImportsModule,
+    TeacherEvaluationModule
   ],
   controllers: [AppController],
   providers: [AppService],
