@@ -9,8 +9,6 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from 'typeorm';
-import {EnrollmentDetailEntity, PartialEntity} from '@core/entities';
-import {getDateFormat} from "@shared/helpers";
 import { EvaluationEntity } from './evaluation.entity';
 
 @Entity('questions', {schema: 'teacher_evaluation'})

@@ -1,5 +1,4 @@
 import {
-  BeforeInsert, BeforeUpdate,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -9,10 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { EnrollmentDetailEntity, PartialEntity, StudentEntity, TeacherDistributionEntity } from '@core/entities';
-import { getDateFormat } from '@shared/helpers';
-import { EvaluationEntity } from './evaluation.entity';
-import { QuestionEntity } from './question.entity';
+import {TeacherDistributionEntity } from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
 @Entity('student-results', { schema: 'teacher_evaluation' })
@@ -61,6 +57,7 @@ export class StudentResultEntity {
   @Column({
     name: 'total_score',
     type: 'float',
+    nullable:true,
     comment: 'Puntaje total de las respuestas',
   })
   totalScore: number;
