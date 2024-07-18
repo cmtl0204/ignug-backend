@@ -30,6 +30,7 @@ export const studentCardReport = (configService: any, student: StudentEntity): T
     }
   }
 
+  console.log(avatar);
   return {
     pageSize: {
       width: 540,
@@ -98,6 +99,5 @@ export const studentCardReport = (configService: any, student: StudentEntity): T
         absolutePosition: { x: 370, y: 700 },
       },
     ],
-
   };
 };
