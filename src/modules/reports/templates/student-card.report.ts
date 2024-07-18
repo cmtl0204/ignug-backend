@@ -30,7 +30,6 @@ export const studentCardReport = (configService: any, student: StudentEntity): T
     }
   }
 
-  console.log(avatar);
   return {
     pageSize: {
       width: 540,
