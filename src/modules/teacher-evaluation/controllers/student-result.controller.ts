@@ -13,7 +13,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ResponseHttpModel } from '@shared/models';
-import { StudentResultService } from '../services/student-result.service';
+import { StudentEvaluationService } from '../services/student-evaluation.service';
 import { CreateStudentResultDto } from '../dto/student-result/create-student-result.dto';
 import { UpdateStudentResultDto } from '../dto/student-result/update-student-result.dto';
 import { FilterStudentResultDto } from '../dto/student-result/filter-student-result.dto';
@@ -21,7 +21,7 @@ import { FilterStudentResultDto } from '../dto/student-result/filter-student-res
 
 @Controller('student-results')
 export class StudentResultController {
-  constructor(private readonly studentResultService: StudentResultService) {}
+  constructor(private readonly studentResultService: StudentEvaluationService) {}
 
   @Post()
   async create(@Body() createStudentResultDto: CreateStudentResultDto): Promise<ResponseHttpModel> {
