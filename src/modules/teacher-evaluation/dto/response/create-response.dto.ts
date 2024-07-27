@@ -1,4 +1,4 @@
-import { IsUUID, IsString } from 'class-validator';
+import { IsUUID, IsString, IsNumber } from 'class-validator';
 
 export class CreateResponseDto {
   @IsUUID()
@@ -13,6 +13,6 @@ export class CreateResponseDto {
   @IsString()
   name: string;
 
-  @IsString()
-  score: string;
+  @IsNumber()
+  score: number;
 }

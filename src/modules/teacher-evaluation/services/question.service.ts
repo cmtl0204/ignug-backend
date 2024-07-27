@@ -4,15 +4,16 @@ import { CreateQuestionDto } from '../dto/question/create-question.dto';
 import { UpdateQuestionDto } from '../dto/question/update-question.dto';
 import { FilterQuestionDto } from '../dto/question/filter-question.dto';
 import { QuestionEntity } from '../entities/question.entity';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { TeacherEvaluationRepositoryEnum } from '@shared/enums';
 import { ServiceResponseHttpModel } from '@shared/models';
 
 @Injectable()
 export class QuestionService {
   constructor(
-    @Inject(CoreRepositoryEnum.QUESTION_REPOSITORY)
+    @Inject(TeacherEvaluationRepositoryEnum.QUESTION_REPOSITORY)
     private readonly repository: Repository<QuestionEntity>,
-  ) {}
+  ) {
+  }
 
   async create(payload: CreateQuestionDto): Promise<ServiceResponseHttpModel> {
     const newQuestion = this.repository.create(payload);

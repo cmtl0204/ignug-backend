@@ -1,5 +1,4 @@
 import {
-    BeforeInsert, BeforeUpdate,
     Column,
     CreateDateColumn,
     DeleteDateColumn,
@@ -74,5 +73,5 @@ export class ResponseEntity {
         type: 'float',
         comment: 'Puntaje de la respuesta',
     })
-    score: string;
+    score: number;
 }

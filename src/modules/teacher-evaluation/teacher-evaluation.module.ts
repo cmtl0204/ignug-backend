@@ -10,6 +10,8 @@ import { ResultController } from './controllers/result.controller';
 import { ResultService } from './services/result.service';
 import { StudentResultController } from './controllers/student-result.controller';
 import { StudentEvaluationService } from './services/student-evaluation.service';
+import { TeacherEvaluationsController } from '../imports/controllers/teacher-evaluations.controller';
+import { TeacherEvaluationsService } from '../imports/services/teacher-evaluations.service';
 
 @Global()
 @Module({
@@ -19,14 +21,16 @@ import { StudentEvaluationService } from './services/student-evaluation.service'
     QuestionController,
     ResponseController,
     ResultController,
-    StudentResultController
+    StudentResultController,
+    TeacherEvaluationsController
   ],
   providers: [
     ...teacherEvaluationProviders,
     QuestionService,
     ResponseService,
     ResultService,
-    StudentEvaluationService
+    StudentEvaluationService,
+    TeacherEvaluationsService
   ],
 
 })

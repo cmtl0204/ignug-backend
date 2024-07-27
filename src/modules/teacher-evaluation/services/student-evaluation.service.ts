@@ -4,12 +4,12 @@ import { StudentEvaluationEntity } from '../entities/student-evaluation.entity';
 import { CreateStudentResultDto } from '../dto/student-result/create-student-result.dto';
 import { UpdateStudentResultDto } from '../dto/student-result/update-student-result.dto';
 import { FilterStudentResultDto } from '../dto/student-result/filter-student-result.dto';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum, TeacherEvaluationRepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class StudentEvaluationService {
   constructor(
-    @Inject(CoreRepositoryEnum.STUDENT_EVALUATION_REPOSITORY)
+    @Inject(TeacherEvaluationRepositoryEnum.STUDENT_EVALUATION_REPOSITORY)
     private readonly studentEvaluationRepository: Repository<StudentEvaluationEntity>,
   ) {}
 

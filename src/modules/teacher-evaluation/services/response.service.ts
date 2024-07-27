@@ -4,12 +4,12 @@ import { ResponseEntity } from '../entities/response.entity';
 import { CreateResponseDto } from '../dto/response/create-response.dto';
 import { UpdateResponseDto } from '../dto/response/update-response.dto';
 import { FilterResponseDto } from '../dto/response/filter-response.dto';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum, TeacherEvaluationRepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class ResponseService {
   constructor(
-    @Inject(CoreRepositoryEnum.RESPONSE_REPOSITORY)
+    @Inject(TeacherEvaluationRepositoryEnum.RESPONSE_REPOSITORY)
     private readonly responseRepository: Repository<ResponseEntity>,
   ) {}
 

@@ -4,11 +4,12 @@ import {
     DeleteDateColumn,
     Entity,
     JoinColumn,
-    ManyToOne,
+    ManyToOne, OneToMany,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
 } from 'typeorm';
 import { CatalogueEntity } from '@core/entities';
+import { ResponseEntity } from './response.entity';
 
 @Entity('questions', { schema: 'teacher_evaluation' })
 export class QuestionEntity {
@@ -39,6 +40,10 @@ export class QuestionEntity {
     })
     deletedAt: Date;
 
+    /** Inverse Relationship **/
+    @OneToMany(() => ResponseEntity, response => response.question)
+    responses: ResponseEntity[];
+
     /** Foreign Keys **/
     @ManyToOne(() => CatalogueEntity)
     @JoinColumn({ name: 'evaluation_type_id' })
@@ -46,7 +51,6 @@ export class QuestionEntity {
     @Column({ type: 'uuid', name: 'evaluation_type_id', comment: 'FK' })
     evaluationTypeId: string;
 
-    /** New Foreign Key for Category **/
     @ManyToOne(() => CatalogueEntity, category => category.children, {nullable: true})
     @JoinColumn({ name: 'category_id' })
     category: CatalogueEntity;
@@ -78,7 +82,7 @@ export class QuestionEntity {
     @Column({
         name: 'type',
         type: 'varchar',
-        nullable: false,
+        nullable: true,
         comment: 'Tipo de la pregunta',
     })
     type: string;

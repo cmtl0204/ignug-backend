@@ -5,12 +5,12 @@ import { ResultEntity } from '../entities/result.entity';
 import { CreateResultDto } from '../dto/result/create-result.dto';
 import { UpdateResultDto } from '../dto/result/update-result.dto';
 import { FilterResultDto } from '../dto/result/filter-result.dto';
-import { CoreRepositoryEnum } from '@shared/enums';
+import { CoreRepositoryEnum, TeacherEvaluationRepositoryEnum } from '@shared/enums';
 
 @Injectable()
 export class ResultService {
   constructor(
-    @Inject(CoreRepositoryEnum.RESULT_REPOSITORY)
+    @Inject(TeacherEvaluationRepositoryEnum.RESULT_REPOSITORY)
     private readonly resultRepository: Repository<ResultEntity>,
   ) {}
 
