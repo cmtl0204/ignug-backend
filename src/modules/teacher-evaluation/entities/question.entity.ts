@@ -1,78 +1,94 @@
 import {
-    BeforeInsert, BeforeUpdate,
-    Column,
-    CreateDateColumn,
-    DeleteDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
+  BeforeInsert, BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { EvaluationEntity } from './evaluation.entity';
+import { CatalogueEntity } from '@core/entities';
 
-@Entity('questions', {schema: 'teacher_evaluation'})
+@Entity('questions', { schema: 'teacher_evaluation' })
 export class QuestionEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @CreateDateColumn({
-        name: 'created_at',
-        type: 'timestamp',
-        default: () => 'CURRENT_timestamp',
-        comment: 'Fecha de creacion del registro',
-    })
-    createdAt: Date;
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestamp',
+    comment: 'Fecha de creacion del registro',
+  })
+  createdAt: Date;
 
-    @UpdateDateColumn({
-        name: 'updated_at',
-        type: 'timestamp',
-        default: () => 'CURRENT_timestamp',
-        comment: 'Fecha de actualizacion del registro',
-    })
-    updatedAt: Date;
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestamp',
+    comment: 'Fecha de actualizacion del registro',
+  })
+  updatedAt: Date;
 
-    @DeleteDateColumn({
-        name: 'deleted_at',
-        type: 'timestamp',
-        nullable: true,
-        comment: 'Fecha de eliminacion del registro',
-    })
-    deletedAt: Date;
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamp',
+    nullable: true,
+    comment: 'Fecha de eliminacion del registro',
+  })
+  deletedAt: Date;
 
-    /** Foreign Keys **/
-    @ManyToOne(() => EvaluationEntity)
-    @JoinColumn({name: 'evaluation_id'})
-    evaluation: EvaluationEntity;
-    @Column({type: 'uuid', name: 'evaluation_id', comment: 'FK'})
-    evaluationId: string;
+  /** Foreign Keys **/
+  @ManyToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'category_id' })
+  category: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'category_id', comment: 'FK' })
+  categoryId: string;
 
-    /** Columns **/
-    @Column({
-        name: 'code',
-        type: 'varchar',
-        comment: 'Código de la pregunta',
-    })
-    code: string;
+  @ManyToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'evaluation_type_id' })
+  evaluationType: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'evaluation_type_id', comment: 'FK' })
+  evaluationTypeId: string;
 
-    @Column({
-        name: 'description',
-        type: 'text',
-        comment: 'Descripción de la pregunta',
-    })
-    description: string;
+  /** Columns **/
+  @Column({
+    name: 'code',
+    type: 'varchar',
+    comment: 'Código de la pregunta',
+  })
+  code: string;
 
-    @Column({
-        name: 'name',
-        type: 'text',
-        comment: 'Nombre de la pregunta',
-    })
-    name: string;
+  @Column({
+    name: 'description',
+    type: 'text',
+    nullable: true,
+    comment: 'Descripción de la pregunta',
+  })
+  description: string;
 
-    @Column({
-        name: 'type',
-        type: 'varchar',
-        comment: 'Tipo de la pregunta',
-    })
-    type: string;
+  @Column({
+    name: 'name',
+    type: 'text',
+    comment: 'Nombre de la pregunta',
+  })
+  name: string;
+
+  @Column({
+    name: 'type',
+    type: 'varchar',
+    nullable: true,
+    comment: 'Tipo de la pregunta',
+  })
+  type: string;
+
+  @Column({
+    name: 'sort',
+    type: 'int',
+    comment: '',
+  })
+  sort: number;
 }
