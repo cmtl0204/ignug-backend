@@ -80,6 +80,13 @@ export class QuestionEntity {
     name: string;
 
     @Column({
+        name: 'sort',
+        type: 'int',
+        comment: 'Orden de la pregunta',
+    })
+    sort: number;
+
+    @Column({
         name: 'type',
         type: 'varchar',
         nullable: true,

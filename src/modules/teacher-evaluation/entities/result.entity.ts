@@ -2,10 +2,12 @@ import {
     Column,
     CreateDateColumn,
     DeleteDateColumn,
-    Entity,
+    Entity, JoinColumn, ManyToOne,
     PrimaryGeneratedColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
 } from 'typeorm';
+import { QuestionEntity } from './question.entity';
+import { ResponseEntity } from './response.entity';
 @Entity('results', {schema: 'teacher_evaluation'})
 export class ResultEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -43,32 +45,18 @@ export class ResultEntity {
     })
     modelId: string;
 
+    @ManyToOne(() => ResponseEntity)
+    @JoinColumn({name: 'response_id'})
+    response: ResponseEntity;
+    @Column({type: 'uuid', name: 'response_id', comment: 'FK'})
+    responseId: string;
+
     /** Columns **/
-    @Column({
-        name: 'code',
-        type: 'varchar',
-        comment: 'Código de la respuesta',
-    })
-    code: string;
-
-    @Column({
-        name: 'description',
-        type: 'text',
-        comment: 'Descripción de la respuesta',
-    })
-    description: string;
-
-    @Column({
-        name: 'name',
-        type: 'text',
-        comment: 'Nombre de la respuesta',
-    })
-    name: string;
 
     @Column({
         name: 'score',
         type: 'float',
         comment: 'Puntaje de la respuesta',
     })
-    score: string;
+    score: number;
 }

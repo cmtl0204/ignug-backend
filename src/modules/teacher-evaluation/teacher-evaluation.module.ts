@@ -12,12 +12,14 @@ import { StudentResultController } from './controllers/student-result.controller
 import { StudentEvaluationService } from './services/student-evaluation.service';
 import { TeacherEvaluationsController } from '../imports/controllers/teacher-evaluations.controller';
 import { TeacherEvaluationsService } from '../imports/services/teacher-evaluations.service';
+import { AutoEvaluationController } from './controllers/auto-evaluation.controller';
+import { AutoEvaluationService } from './services/auto-evaluation.service';
 
 @Global()
 @Module({
   imports: [DatabaseModule, CacheModule.register()],
   controllers: [
-
+    AutoEvaluationController,
     QuestionController,
     ResponseController,
     ResultController,
@@ -26,6 +28,7 @@ import { TeacherEvaluationsService } from '../imports/services/teacher-evaluatio
   ],
   providers: [
     ...teacherEvaluationProviders,
+    AutoEvaluationService,
     QuestionService,
     ResponseService,
     ResultService,

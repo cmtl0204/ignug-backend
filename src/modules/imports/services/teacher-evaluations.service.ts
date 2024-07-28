@@ -58,6 +58,8 @@ export class TeacherEvaluationsService {
           newQuestion.name = item[ColumnsEnum.QUESTION];
           newQuestion.categoryId = category.id;
           newQuestion.evaluationTypeId = evaluationType.id;
+          newQuestion.sort = this.row;
+
           const questionCreated = await this.questionRepository.save(newQuestion);
 
           const responses = [];
@@ -69,6 +71,7 @@ export class TeacherEvaluationsService {
             newResponse.description = i.toString();
             newResponse.name = i.toString();
             newResponse.score = i;
+            newResponse.sort = i;
 
             responses.push(newResponse);
           }

@@ -5,8 +5,14 @@ import { ResponseEntity } from '../entities/response.entity';
 import { ResultEntity } from '../entities/result.entity';
 import { StudentEvaluationEntity } from '../entities/student-evaluation.entity';
 import { TeacherEvaluationEntity } from '../entities/teacher-evaluation.entity';
+import { AutoEvaluationEntity } from '../entities/auto-evaluation.entity';
 
 export const teacherEvaluationProviders = [
+  {
+    provide: TeacherEvaluationRepositoryEnum.AUTO_EVALUATION_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(AutoEvaluationEntity),
+    inject: [ConfigEnum.PG_DATA_SOURCE],
+  },
   {
     provide: TeacherEvaluationRepositoryEnum.QUESTION_REPOSITORY,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(QuestionEntity),

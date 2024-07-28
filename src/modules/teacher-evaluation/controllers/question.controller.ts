@@ -19,9 +19,10 @@ import { FilterQuestionDto } from '../dto/question/filter-question.dto';
 import { ResponseHttpModel } from '@shared/models';
 
 @ApiTags('Questions')
-@Controller('questions')
+@Controller('teacher-evaluations/questions')
 export class QuestionController {
-  constructor(private readonly questionService: QuestionService) {}
+  constructor(private readonly questionService: QuestionService) {
+  }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -75,6 +76,18 @@ export class QuestionController {
       data: null,
       message: `Pregunta con ID ${id} eliminada exitosamente`,
       title: 'Pregunta Eliminada',
+    };
+  }
+
+  @Get('evaluation-types/:evaluationTypeId')
+  @HttpCode(HttpStatus.OK)
+  async findQuestionsByEvaluationType(@Param('evaluationTypeId', ParseUUIDPipe) evaluationTypeId: string): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.questionService.findQuestionsByEvaluationType(evaluationTypeId);
+
+    return {
+      data: serviceResponse,
+      message: ``,
+      title: 'Pregunta',
     };
   }
 }

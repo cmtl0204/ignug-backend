@@ -74,4 +74,11 @@ export class ResponseEntity {
         comment: 'Puntaje de la respuesta',
     })
     score: number;
+
+    @Column({
+        name: 'sort',
+        type: 'int',
+        comment: 'Orden de la pregunta',
+    })
+    sort: number;
 }

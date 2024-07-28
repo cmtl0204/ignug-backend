@@ -11,7 +11,7 @@ import {
 import {TeacherDistributionEntity } from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
-@Entity('student-evaluations', { schema: 'teacher_evaluation' })
+@Entity('student_evaluations', { schema: 'teacher_evaluation' })
 export class StudentEvaluationEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;

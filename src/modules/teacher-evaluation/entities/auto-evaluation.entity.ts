@@ -8,10 +8,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SchoolPeriodEntity } from '@core/entities';
+import { CatalogueEntity, SchoolPeriodEntity } from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
-@Entity('auto-evaluations', { schema: 'teacher_evaluation' })
+@Entity('auto_evaluations', { schema: 'teacher_evaluation' })
 export class AutoEvaluationEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -47,6 +47,12 @@ export class AutoEvaluationEntity {
   @Column({ type: 'uuid', name: 'evaluated_id', comment: 'FK Docente Evaluado' })
   evaluatedId: string;
 
+  @ManyToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'evaluation_type_id' })
+  evaluationType: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'evaluation_type_id', comment: 'FK' })
+  evaluationTypeId: string;
+
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
   schoolPeriod: SchoolPeriodEntity;
@@ -57,6 +63,7 @@ export class AutoEvaluationEntity {
   @Column({
     name: 'total_score',
     type: 'float',
+    nullable: true,
     comment: 'Puntaje total de las respuestas',
   })
   totalScore: number;

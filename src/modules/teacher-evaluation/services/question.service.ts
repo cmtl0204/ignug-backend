@@ -1,4 +1,4 @@
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from '../dto/question/create-question.dto';
 import { UpdateQuestionDto } from '../dto/question/update-question.dto';
@@ -57,5 +57,13 @@ export class QuestionService {
     }
 
     await this.repository.softRemove(question);
+  }
+
+  async findQuestionsByEvaluationType(evaluationTypeId: string): Promise<QuestionEntity[]> {
+    return await this.repository.find({
+      relations: { responses: true, category: true },
+      where: { evaluationTypeId },
+      order: { sort: 'asc', responses: { sort: 'asc' } },
+    });
   }
 }
