@@ -41,13 +41,14 @@ export class TeacherEvaluationsService {
       const workbook = XLSX.readFile(path);
 
       await this.loadCatalogues();
-      const sheetNames = ['auto', 'student', 'teacher', 'coordinator'];
+      const sheetNames = ['auto', 'student', 'partner', 'coordinator'];
 
       for (let i = 0; i < 4; i++) {
         const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[i]]);
 
         this.row = 1;
 
+        console.log(this.row);
         for (const item of dataExcel) {
           const evaluationType = this.evaluationTypes.find(evaluationType => evaluationType.code.toLowerCase() === item[ColumnsEnum.EVALUATION_TYPE]);
           const category = this.categories.find(category => category.name.toLowerCase() === item[ColumnsEnum.CATEGORY].toString().toLowerCase().trim());
