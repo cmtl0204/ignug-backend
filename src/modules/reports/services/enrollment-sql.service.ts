@@ -44,10 +44,18 @@ export class EnrollmentSqlService {
             .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
             .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
             .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-            .where('careers.id = :careerId and enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
-                careerId,
-                schoolPeriodId,
-            }).orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+            .where(
+                `careers.id = :careerId 
+                AND enrollments.school_period_id = :schoolPeriodId 
+                AND enrollment_states.deleted_at is null`, {
+                    careerId,
+                    schoolPeriodId,
+                }).orderBy(
+            `careers.name, 
+                    academic_periods.code, 
+                    parallels.code, 
+                    users.lastname, 
+                    users.name`);
 
         return await queryBuilder.getRawMany();
     }
@@ -79,10 +87,13 @@ export class EnrollmentSqlService {
             .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
             .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
             .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-            .where('enrollments.school_period_id = :schoolPeriodId AND enrollment_states.deleted_at IS NULL AND (states.code IN (:...stateCodes))', {
-                schoolPeriodId,
-                stateCodes: ['approved', 'enrolled']
-            })
+            .where(
+                `enrollments.school_period_id = :schoolPeriodId 
+                AND enrollment_states.deleted_at IS NULL 
+                AND (states.code IN (:...stateCodes))`, {
+                    schoolPeriodId,
+                    stateCodes: ['approved', 'enrolled']
+                })
             .orderBy('careers.name, users.lastname, users.name');
 
         return await queryBuilder.getRawMany();
@@ -173,11 +184,20 @@ export class EnrollmentSqlService {
             .innerJoin(CatalogueEntity, 'detail_states', 'detail_states.id = enrollment_detail_states.state_id')
             .leftJoin(CatalogueEntity, 'academic_state', 'academic_state.id = enrollment_details.academic_state_id')
             .innerJoin(SubjectEntity, 'subjects', 'subjects.id = enrollment_details.subject_id')
-            .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null and enrollment_detail_states.deleted_at is null and enrollments.deletedAt IS NULL', {
-                schoolPeriodId,
-            })
-            .andWhere('detail_states.code IN (:...stateCodes)', {stateCodes: ['approved', 'enrolled']})
-            .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+            .where(
+                `enrollments.school_period_id = :schoolPeriodId 
+                AND enrollment_states.deleted_at is null 
+                AND enrollment_detail_states.deleted_at is null 
+                AND enrollments.deleted_at IS NULL 
+                AND detail_states.code IN (:...stateCodes)`, {
+                    schoolPeriodId, stateCodes: ['approved', 'enrolled']
+                })
+            .orderBy(
+                `careers.name, 
+                academic_periods.code, 
+                parallels.code, 
+                users.lastname, 
+                users.name`);
 
         return await queryBuilder.getRawMany();
     }
@@ -209,10 +229,17 @@ export class EnrollmentSqlService {
             .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
             .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
             .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-            .where('enrollments.school_period_id = :schoolPeriodId and enrollment_states.deleted_at is null', {
-                schoolPeriodId,
-            })
-            .orderBy('careers.name, academic_periods.code, parallels.code, users.lastname, users.name');
+            .where(
+                `enrollments.school_period_id = :schoolPeriodId 
+                AND enrollment_states.deleted_at is null`, {
+                    schoolPeriodId,
+                })
+            .orderBy(
+                `careers.name, 
+                academic_periods.code, 
+                parallels.code, 
+                users.lastname, 
+                users.name`);
 
         return await queryBuilder.getRawMany();
     }
