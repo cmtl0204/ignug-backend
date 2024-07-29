@@ -8,12 +8,14 @@ import { ResponseService } from './services/response.service';
 import { ResponseController } from './controllers/response.controller';
 import { ResultController } from './controllers/result.controller';
 import { ResultService } from './services/result.service';
-import { StudentResultController } from './controllers/student-result.controller';
+import { StudentEvaluationController } from './controllers/student-evaluation.controller';
 import { StudentEvaluationService } from './services/student-evaluation.service';
 import { TeacherEvaluationsController } from '../imports/controllers/teacher-evaluations.controller';
 import { TeacherEvaluationsService } from '../imports/services/teacher-evaluations.service';
 import { AutoEvaluationController } from './controllers/auto-evaluation.controller';
 import { AutoEvaluationService } from './services/auto-evaluation.service';
+import { PartnerEvaluationController } from './controllers/partner-evaluation.controller';
+import { PartnerEvaluationService } from './services/partner-evaluation.service';
 
 @Global()
 @Module({
@@ -23,8 +25,9 @@ import { AutoEvaluationService } from './services/auto-evaluation.service';
     QuestionController,
     ResponseController,
     ResultController,
-    StudentResultController,
-    TeacherEvaluationsController
+    StudentEvaluationController,
+    TeacherEvaluationsController,
+    PartnerEvaluationController,
   ],
   providers: [
     ...teacherEvaluationProviders,
@@ -33,7 +36,8 @@ import { AutoEvaluationService } from './services/auto-evaluation.service';
     ResponseService,
     ResultService,
     StudentEvaluationService,
-    TeacherEvaluationsService
+    TeacherEvaluationsService,
+    PartnerEvaluationService
   ],
 
 })

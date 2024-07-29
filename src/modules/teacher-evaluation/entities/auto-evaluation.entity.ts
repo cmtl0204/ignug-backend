@@ -61,6 +61,14 @@ export class AutoEvaluationEntity {
 
   /** Columns **/
   @Column({
+    name: 'enabled',
+    type: 'boolean',
+    default: true,
+    comment: 'Puntaje total de las respuestas',
+  })
+  enabled: boolean;
+
+  @Column({
     name: 'total_score',
     type: 'float',
     nullable: true,

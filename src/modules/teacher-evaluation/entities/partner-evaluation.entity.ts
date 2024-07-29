@@ -8,11 +8,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { SchoolPeriodEntity } from '@core/entities';
+import { CatalogueEntity, SchoolPeriodEntity } from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
-@Entity('teacher_evaluations', { schema: 'teacher_evaluation' })
-export class TeacherEvaluationEntity {
+@Entity('partner_evaluations', { schema: 'teacher_evaluation' })
+export class PartnerEvaluationEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -41,6 +41,12 @@ export class TeacherEvaluationEntity {
   deletedAt: Date;
 
   /** Foreign Keys **/
+  @ManyToOne(() => CatalogueEntity)
+  @JoinColumn({ name: 'evaluation_type_id' })
+  evaluationType: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'evaluation_type_id', comment: 'FK' })
+  evaluationTypeId: string;
+
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'evaluated_id' })
   evaluated: UserEntity;
@@ -60,9 +66,19 @@ export class TeacherEvaluationEntity {
   schoolPeriodId: string;
 
   /** Columns **/
+
+  @Column({
+    name: 'enabled',
+    type: 'boolean',
+    default: true,
+    comment: 'Puntaje total de las respuestas',
+  })
+  enabled: boolean;
+
   @Column({
     name: 'total_score',
     type: 'float',
+    nullable: true,
     comment: 'Puntaje total de las respuestas',
   })
   totalScore: number;

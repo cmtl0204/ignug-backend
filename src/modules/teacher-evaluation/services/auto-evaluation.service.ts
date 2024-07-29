@@ -1,14 +1,8 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CreateQuestionDto } from '../dto/question/create-question.dto';
-import { UpdateQuestionDto } from '../dto/question/update-question.dto';
-import { FilterQuestionDto } from '../dto/question/filter-question.dto';
-import { QuestionEntity } from '../entities/question.entity';
 import { TeacherEvaluationRepositoryEnum } from '@shared/enums';
-import { ServiceResponseHttpModel } from '@shared/models';
 import { AutoEvaluationEntity } from '../entities/auto-evaluation.entity';
 import { ResultEntity } from '../entities/result.entity';
-import { UserEntity } from '@auth/entities';
 
 @Injectable()
 export class AutoEvaluationService {
@@ -18,9 +12,19 @@ export class AutoEvaluationService {
   ) {
   }
 
-  async create(payload: any): Promise<ResultEntity[]> {
+  async create(evaluatedId: string, payload: any): Promise<ResultEntity[]> {
+    const evaluation = await this.repository.findOneBy({ evaluatedId });
+
+    if (evaluation && !evaluation.enabled) {
+      throw new BadRequestException('No tiene permisos para realizar le evaluación');
+    }
+
+    if (evaluation && evaluation.totalScore) {
+      throw new BadRequestException('Evaluation already exists');
+    }
+
     const newResult = this.resultRepository.create(payload);
-    console.log(newResult);
+
     return await this.resultRepository.save(newResult);
   }
 
@@ -34,17 +38,19 @@ export class AutoEvaluationService {
     return this.repository.save(payload);
   }
 
-  async findAutoEvaluationByEvaluated(evaluatedId: string): Promise<AutoEvaluationEntity> {
-    const autoEvaluation = await this.repository.findOne(
+  async findAutoEvaluationByEvaluated(evaluatedId: string, schoolPeriodId: string): Promise<AutoEvaluationEntity> {
+    return await this.repository.findOne(
       {
         relations: { evaluated: true, evaluationType: true },
-        where: { evaluatedId },
+        where: { evaluatedId, schoolPeriodId },
       });
+  }
 
-    // if (!autoEvaluation) {
-    //   throw new NotFoundException('Auto Evaluación no encontrada');
-    // }
-
-    return autoEvaluation;
+  async findOne(id: string): Promise<AutoEvaluationEntity> {
+    return await this.repository.findOne(
+      {
+        relations: { evaluated: true, evaluationType: true },
+        where: { id },
+      });
   }
 }

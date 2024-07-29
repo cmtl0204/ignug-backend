@@ -1,60 +1,52 @@
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { StudentEvaluationEntity } from '../entities/student-evaluation.entity';
-import { CreateStudentResultDto } from '../dto/student-result/create-student-result.dto';
-import { UpdateStudentResultDto } from '../dto/student-result/update-student-result.dto';
-import { FilterStudentResultDto } from '../dto/student-result/filter-student-result.dto';
-import { CoreRepositoryEnum, TeacherEvaluationRepositoryEnum } from '@shared/enums';
+import { TeacherEvaluationRepositoryEnum } from '@shared/enums';
+import { AutoEvaluationEntity } from '../entities/auto-evaluation.entity';
 
 @Injectable()
 export class StudentEvaluationService {
   constructor(
     @Inject(TeacherEvaluationRepositoryEnum.STUDENT_EVALUATION_REPOSITORY)
-    private readonly studentEvaluationRepository: Repository<StudentEvaluationEntity>,
-  ) {}
-
-  async create(createStudentResultDto: CreateStudentResultDto): Promise<StudentEvaluationEntity> {
-    const studentResult = this.studentEvaluationRepository.create(createStudentResultDto);
-    return await this.studentEvaluationRepository.save(studentResult);
+    private readonly repository: Repository<StudentEvaluationEntity>,
+  ) {
   }
 
-  async findAll(filter: FilterStudentResultDto): Promise<{ data: StudentEvaluationEntity[]; count: number }> {
-    const [data, count] = await this.studentEvaluationRepository.findAndCount({
-      where: filter,
-    });
-    return { data, count };
+  async update(id: string, payload: any): Promise<AutoEvaluationEntity[]> {
+    const evaluation = await this.repository.findOneBy({ id });
+
+    if (!evaluation) {
+      throw new NotFoundException('Evaluación por pares no encontrada');
+    }
+
+    return this.repository.save(payload);
   }
 
   async findOne(id: string): Promise<StudentEvaluationEntity> {
-    const studentResult = await this.studentEvaluationRepository.findOne({ where: { id } });
-    if (!studentResult) {
-      throw new NotFoundException('StudentResult not found');
-    }
-    return studentResult;
+    return await this.repository.findOne(
+      {
+        relations: { teacherDistribution: true, evaluator: true, evaluationType: true },
+        where: { id },
+      });
   }
 
-  async update(id: string, updateStudentResultDto: UpdateStudentResultDto): Promise<StudentEvaluationEntity> {
-    await this.studentEvaluationRepository.update(id, updateStudentResultDto);
-    const updatedStudentResult = await this.studentEvaluationRepository.findOne({ where: { id } });
-    if (!updatedStudentResult) {
-      throw new NotFoundException('StudentResult not found');
-    }
-    return updatedStudentResult;
+  async findStudentEvaluationByEvaluator(evaluatorId: string, schoolPeriodId: string, teacherDistributionId: string): Promise<StudentEvaluationEntity> {
+    return await this.repository.findOne(
+      {
+        relations: { teacherDistribution: true, evaluator: true, evaluationType: true },
+        where: { evaluatorId, schoolPeriodId, teacherDistributionId },
+      });
   }
 
-  async remove(id: string): Promise<void> {
-    const studentResult = await this.studentEvaluationRepository.findOne({ where: { id } });
-    if (!studentResult) {
-      throw new NotFoundException('StudentResult not found');
-    }
-    await this.studentEvaluationRepository.softRemove(studentResult);
-  }
-
-  async removeAll(ids: string[]): Promise<void> {
-    const studentResults = await this.studentEvaluationRepository.findByIds(ids);
-    if (studentResults.length === 0) {
-      throw new NotFoundException('StudentResults not found');
-    }
-    await this.studentEvaluationRepository.softRemove(studentResults);
+  async findStudentEvaluationsByEvaluator(evaluatorId: string, schoolPeriodId: string): Promise<StudentEvaluationEntity[]> {
+    return await this.repository.find(
+      {
+        relations: {
+          teacherDistribution: { subject: true, teacher: { user: true } },
+          evaluator: true,
+          evaluationType: true,
+        },
+        where: { evaluatorId, schoolPeriodId },
+      });
   }
 }
