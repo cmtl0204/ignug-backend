@@ -111,8 +111,8 @@ export class StudentReportsService {
             doc.text('4. Fecha de nacimiento:', textX + 190, textY + 55);
             doc.text('5. Edad:', textX + 405, textY + 55);// Sigueinte fila
 
-            doc.text('6. Correo electrónico institucional :', textX + 5, textY + 77);
-            doc.text('8. Correo electrónico personal :', textX + 5, textY + 102);// Sigueinte fila
+            doc.text('6. Correo electrónico institucional: ', textX + 5, textY + 77);
+            doc.text('8. Correo electrónico personal: ', textX + 5, textY + 102);// Sigueinte fila
 
             doc.text('7. No. Celular:', textX + 300, textY + 77);
             doc.text('9. No. Convencional:', textX + 300, textY + 102);// Sigueinte fila
@@ -197,7 +197,7 @@ export class StudentReportsService {
 
                 doc.text(response?.user.identificationType?.name, textX + 105, textY + 30);
                 doc.text(response?.user.identification, textX + 120, textY + 55);
-                doc.text(`${response?.user.name} ${response?.user.lastname}`, textX + 360, textY + 30);
+                doc.text(`${response?.user.name} ${response?.user.lastname}`, textX + 360, textY + 25);
                 doc.text(response?.user.birthdate, textX + 305, textY + 55);
                 doc.text(this.calculateAge(response?.user.birthdate), textX + 450, textY + 55); //variable de la edad (esta con dato quemado) // Sigueinte fila
                 doc.text(`${response?.user.email}`, textX + 155, textY + 77);
@@ -401,7 +401,7 @@ export class StudentReportsService {
 
                 doc.fontSize('9');
                 doc.text(response?.user.residenceAddress?.nearbyCity, textX + 125, textY + 73);// (consultar ciudad mas cercana)
-                doc.text(response?.user.residenceAddress?.reference, textX + 310, textY + 73);//siguiente fila
+                doc.text(response?.user.residenceAddress?.reference, textX + 310, textY + 71);//siguiente fila
 
                 doc.text(response?.user.residenceAddress?.mainStreet, textX + 100, textY + 99);
                 doc.text(response?.user.residenceAddress?.secondaryStreet, textX + 340, textY + 99);//SIGUIENTE FILA
@@ -411,7 +411,7 @@ export class StudentReportsService {
                 doc.text(response?.user.residenceAddress?.latitude, textX + 410, textY + 124);//SIGUIENTE FILA
 
                 doc.text(response?.informationStudent.familyIncome?.name, textX + 120, textY + 149);//(CONSULTAR)
-                doc.text(response?.informationStudent.membersHouseNumber, textX + 425, textY + 149);//SIGUIENTE FILA
+                doc.text(response?.informationStudent.membersHouseNumber, textX + 435, textY + 149);//SIGUIENTE FILA
 
                 doc.text(response?.informationStudent.isDependsEconomically?.name, textX + 235, textY + 175);
                 doc.text(response?.informationStudent.isFamilyVehicle?.name, textX + 425, textY + 175);//SIGUIENTE FILA
@@ -429,7 +429,7 @@ export class StudentReportsService {
                 doc.text(response?.informationStudent.familyDisabilityPercentage, textX + 170, textY + 299);
                 doc.text(response?.informationStudent.familyKinshipDisability?.name, textX + 340, textY + 299);//SIGUIENTE FILA (NO GUARDA EN BASE)
 
-                doc.text(response?.informationStudent.studentLive?.name, textX + 165, textY + 324);
+                doc.text(response?.informationStudent.studentLive?.name, textX + 160, textY + 324);
                 doc.text(response?.informationStudent.homeType?.name, textX + 350, textY + 324);//Siguiente fila
 
                 doc.text(response?.informationStudent.homeOwnership?.name, textX + 180, textY + 349);
