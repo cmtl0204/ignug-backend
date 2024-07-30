@@ -10,7 +10,7 @@ import {
   DeleteDateColumn,
   BeforeInsert,
   BeforeUpdate,
-  ManyToMany,
+  ManyToMany, OneToMany,
 } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
@@ -24,6 +24,10 @@ import {
   StudentEntity,
   TeacherEntity,
 } from '@core/entities';
+import {AutoEvaluationEntity} from "../../teacher-evaluation/entities/auto-evaluation.entity";
+import {CoordinatorEvaluationEntity} from "../../teacher-evaluation/entities/coordinator-evaluation.entity";
+import {PartnerEvaluationEntity} from "../../teacher-evaluation/entities/partner-evaluation.entity";
+import {StudentEvaluationEntity} from "../../teacher-evaluation/entities/student-evaluation.entity";
 
 @Entity('users', { schema: 'auth' })
 export class UserEntity {
@@ -72,6 +76,18 @@ export class UserEntity {
 
   @OneToOne(() => TeacherEntity, teacher => teacher.user)
   teacher: TeacherEntity;
+
+  @OneToMany(() => AutoEvaluationEntity, autoEvaluation => autoEvaluation.evaluated)
+  autoEvaluations: AutoEvaluationEntity[];
+
+  @OneToMany(() => CoordinatorEvaluationEntity, coordinatorEvaluation => coordinatorEvaluation.evaluated)
+  coordinatorEvaluations: CoordinatorEvaluationEntity[];
+
+  @OneToMany(() => PartnerEvaluationEntity, partnerEvaluation => partnerEvaluation.evaluated)
+  partnerEvaluations: PartnerEvaluationEntity[];
+
+  @OneToMany(() => StudentEvaluationEntity, studentEvaluation => studentEvaluation.evaluated)
+  studentEvaluations: StudentEvaluationEntity[];
 
   /** Foreign Keys **/
   @ManyToOne(() => CatalogueEntity, { nullable: true })

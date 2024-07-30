@@ -6,8 +6,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { QuestionEntity } from './question.entity';
 import { ResponseEntity } from './response.entity';
+
 @Entity('results', {schema: 'teacher_evaluation'})
 export class ResultEntity {
     @PrimaryGeneratedColumn('uuid')
@@ -41,7 +41,7 @@ export class ResultEntity {
     @Column({
         name: 'model_id',
         type: 'varchar',
-        comment: 'Foreign Key de cualquier otra entidad',
+        comment: 'Foreign Key de cualquier otra entidad (auto_evaluations, coordinator_evaluations, partner_evaluations, student_evaluations)' ,
     })
     modelId: string;
 
@@ -52,7 +52,6 @@ export class ResultEntity {
     responseId: string;
 
     /** Columns **/
-
     @Column({
         name: 'score',
         type: 'float',

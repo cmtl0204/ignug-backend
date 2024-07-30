@@ -53,16 +53,16 @@ export class StudentEvaluationService {
     async findOne(id: string): Promise<StudentEvaluationEntity> {
         return await this.repository.findOne(
             {
-                relations: {teacherDistribution: true, evaluator: true, evaluationType: true},
+                relations: {evaluated: true, evaluator: true, evaluationType: true},
                 where: {id},
             });
     }
 
-    async findStudentEvaluationByEvaluator(evaluatorId: string, schoolPeriodId: string, teacherDistributionId: string): Promise<StudentEvaluationEntity> {
+    async findStudentEvaluationByEvaluator(enrollmentDetailId: string): Promise<StudentEvaluationEntity> {
         return await this.repository.findOne(
             {
-                relations: {teacherDistribution: true, evaluator: true, evaluationType: true},
-                where: {evaluatorId, schoolPeriodId, teacherDistributionId},
+                relations: {evaluated: true, evaluator: true, evaluationType: true},
+                where: {enrollmentDetailId},
             });
     }
 
@@ -70,7 +70,7 @@ export class StudentEvaluationService {
         return await this.repository.find(
             {
                 relations: {
-                    teacherDistribution: {subject: true, teacher: {user: true}},
+                    enrollmentDetail: {subject: true},
                     evaluator: true,
                     evaluationType: true,
                 },
@@ -90,6 +90,7 @@ export class StudentEvaluationService {
 
         for (const enrollmentDetail of enrollmentDetails) {
             const teacherDistribution = await this.teacherDistributionRepository.findOne({
+                relations: {teacher: true},
                 where: {
                     parallelId: enrollmentDetail.parallelId,
                     workdayId: enrollmentDetail.workdayId,
@@ -100,7 +101,7 @@ export class StudentEvaluationService {
 
             if (teacherDistribution) {
                 let studentEvaluation = await this.repository.findOne({
-                    where: {teacherDistributionId: teacherDistribution.id, evaluatorId: enrollmentDetail.userId}
+                    where: {enrollmentDetailId: enrollmentDetail.id}
                 });
 
                 if (!studentEvaluation) {
@@ -108,9 +109,9 @@ export class StudentEvaluationService {
                 }
 
                 studentEvaluation.evaluationTypeId = evaluationType.id;
+                studentEvaluation.evaluatedId = teacherDistribution.teacher.userId;
                 studentEvaluation.evaluatorId = enrollmentDetail.userId;
                 studentEvaluation.schoolPeriodId = schoolPeriodId;
-                studentEvaluation.teacherDistributionId = teacherDistribution.id;
 
                 studentEvaluations.push(studentEvaluation);
             } else {

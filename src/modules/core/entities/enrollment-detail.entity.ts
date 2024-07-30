@@ -19,6 +19,7 @@ import {
     SubjectEntity,
 } from '@core/entities';
 import {getDateFormat} from "@shared/helpers";
+import {StudentEvaluationEntity} from "../../teacher-evaluation/entities/student-evaluation.entity";
 
 @Entity('enrollment_details', {schema: 'core'})
 export class EnrollmentDetailEntity {
@@ -62,8 +63,10 @@ export class EnrollmentDetailEntity {
     @OneToOne(() => EnrollmentDetailStateEntity, enrollmentDetailState => enrollmentDetailState.enrollmentDetail)
     enrollmentDetailState: EnrollmentDetailStateEntity;
 
-    /** Foreign Keys **/
+    @OneToMany(() => StudentEvaluationEntity, studentEvaluation => studentEvaluation.enrollmentDetail)
+    studentEvaluations: StudentEvaluationEntity[];
 
+    /** Foreign Keys **/
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'academic_state_id'})
     academicState: CatalogueEntity;

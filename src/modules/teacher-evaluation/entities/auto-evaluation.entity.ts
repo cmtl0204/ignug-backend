@@ -41,17 +41,17 @@ export class AutoEvaluationEntity {
   deletedAt: Date;
 
   /** Foreign Keys **/
-  @ManyToOne(() => UserEntity)
-  @JoinColumn({ name: 'evaluated_id' })
-  evaluated: UserEntity;
-  @Column({ type: 'uuid', name: 'evaluated_id', comment: 'FK Docente Evaluado' })
-  evaluatedId: string;
-
   @ManyToOne(() => CatalogueEntity)
   @JoinColumn({ name: 'evaluation_type_id' })
   evaluationType: CatalogueEntity;
   @Column({ type: 'uuid', name: 'evaluation_type_id', comment: 'FK' })
   evaluationTypeId: string;
+
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'evaluated_id' })
+  evaluated: UserEntity;
+  @Column({ type: 'uuid', name: 'evaluated_id', comment: 'FK Docente Evaluado' })
+  evaluatedId: string;
 
   @ManyToOne(() => SchoolPeriodEntity)
   @JoinColumn({ name: 'school_period_id' })
