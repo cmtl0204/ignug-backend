@@ -66,12 +66,11 @@ export class PartnerEvaluationEntity {
   schoolPeriodId: string;
 
   /** Columns **/
-
   @Column({
     name: 'enabled',
     type: 'boolean',
     default: true,
-    comment: 'Puntaje total de las respuestas',
+    comment: 'true = habilitado, false = deshabilitado',
   })
   enabled: boolean;
 

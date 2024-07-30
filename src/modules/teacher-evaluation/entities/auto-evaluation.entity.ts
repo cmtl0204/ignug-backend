@@ -64,7 +64,7 @@ export class AutoEvaluationEntity {
     name: 'enabled',
     type: 'boolean',
     default: true,
-    comment: 'Puntaje total de las respuestas',
+    comment: 'true = habilitado, false = deshabilitado',
   })
   enabled: boolean;
 

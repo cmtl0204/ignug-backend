@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { CatalogueEntity, SchoolPeriodEntity, TeacherDistributionEntity } from '@core/entities';
+import {CatalogueEntity, EnrollmentDetailEntity, SchoolPeriodEntity} from '@core/entities';
 import { UserEntity } from '@auth/entities';
 
 @Entity('student_evaluations', { schema: 'teacher_evaluation' })
@@ -48,6 +48,12 @@ export class StudentEvaluationEntity {
   evaluationTypeId: string;
 
   @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'evaluated_id' })
+  evaluated: UserEntity;
+  @Column({ type: 'uuid', name: 'evaluated_id', comment: 'FK Docente Evaluado' })
+  evaluatedId: string;
+
+  @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'evaluator_id' })
   evaluator: UserEntity;
   @Column({ type: 'uuid', name: 'evaluator_id', comment: 'FK' })
@@ -59,18 +65,18 @@ export class StudentEvaluationEntity {
   @Column({ type: 'uuid', name: 'school_period_id', comment: 'FK Periodo Lectivo' })
   schoolPeriodId: string;
 
-  @ManyToOne(() => TeacherDistributionEntity)
-  @JoinColumn({ name: 'teacher_distribution_id' })
-  teacherDistribution: TeacherDistributionEntity;
-  @Column({ type: 'uuid', name: 'teacher_distribution_id', comment: 'FK' })
-  teacherDistributionId: string;
+  @ManyToOne(() => EnrollmentDetailEntity)
+  @JoinColumn({ name: 'enrollment_detail_id' })
+  enrollmentDetail: EnrollmentDetailEntity;
+  @Column({ type: 'uuid', name: 'enrollment_detail_id', comment: 'FK' })
+  enrollmentDetailId: string;
 
   /** Columns **/
   @Column({
     name: 'enabled',
     type: 'boolean',
     default: true,
-    comment: 'Puntaje total de las respuestas',
+    comment: 'true = habilitado, false = deshabilitado',
   })
   enabled: boolean;
 
