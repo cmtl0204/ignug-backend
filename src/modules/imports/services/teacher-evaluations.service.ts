@@ -41,7 +41,8 @@ export class TeacherEvaluationsService {
       const workbook = XLSX.readFile(path);
 
       await this.loadCatalogues();
-      const sheetNames = ['auto', 'student', 'partner', 'coordinator'];
+      // const sheetNames = ['auto', 'student', 'partner', 'coordinator'];
+      const sheetNames = ['partner'];
 
       for (let i = 0; i < 4; i++) {
         const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[i]]);
