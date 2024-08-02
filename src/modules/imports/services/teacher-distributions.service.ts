@@ -25,7 +25,6 @@ enum ColumnsEnum {
   IDENTIFICATION = 'Cedula_Docente',
   PARALLEL_CODE = 'Codigo_Paralelo',
   SCHOOL_PERIOD_CODE = 'Codigo_Periodo',
-  ACADEMIC_PERIOD_CODE = 'Semestre',
   SUBJECT_CODE = 'Codigo_Asignatura',
   WORKDAY_CODE = 'Codigo_Jornada',
 }
@@ -44,11 +43,9 @@ export class TeacherDistributionsService {
   private parallels: CatalogueEntity[] = [];
   private workdays: CatalogueEntity[] = [];
   private subjects: SubjectEntity[] = [];
-  private academicPeriods: CatalogueEntity[] = [];
   private schoolPeriods: SchoolPeriodEntity[] = [];
   private partials: PartialEntity[] = [];
   private institutions: InstitutionEntity[] = [];
-  private careers: CareerEntity[] = [];
 
   constructor(
     private readonly careersService: CareersService,
@@ -66,10 +63,6 @@ export class TeacherDistributionsService {
     @Inject(CoreRepositoryEnum.SUBJECT_REPOSITORY) private readonly subjectRepository: Repository<SubjectEntity>,
     @Inject(CoreRepositoryEnum.PARTIAL_REPOSITORY) private readonly partialRepository: Repository<PartialEntity>,
   ) {
-  }
-
-  async loadCareers() {
-    this.careers = (await this.careersService.findCareersByInstitution(this.institutions[0].id)).data;
   }
 
   async loadSubjects() {
@@ -93,7 +86,6 @@ export class TeacherDistributionsService {
 
     this.parallels = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.PARALLEL);
     this.workdays = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
-    this.academicPeriods = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
   async import(file: Express.Multer.File, payload: any) {
@@ -130,7 +122,6 @@ export class TeacherDistributionsService {
 
         const parallel = this.parallels.find(parallel => parallel.code.toLowerCase() === item[ColumnsEnum.PARALLEL_CODE].trim().toLowerCase());
         const schoolPeriod = this.schoolPeriods.find(schoolPeriod => schoolPeriod.code.toLowerCase() === item[ColumnsEnum.SCHOOL_PERIOD_CODE].trim().toLowerCase());
-        const academicPeriod = this.academicPeriods.find(academicPeriod => academicPeriod.code === item[ColumnsEnum.ACADEMIC_PERIOD_CODE].toString().trim());
         const subject = this.subjects.find(subject => subject.code.toLowerCase() === item[ColumnsEnum.SUBJECT_CODE].trim().toLowerCase());
         const workday = this.workdays.find(workday => workday.code.toLowerCase() === item[ColumnsEnum.WORKDAY_CODE].trim().toLowerCase());
         const user = await this.userRepository.findOne({
@@ -186,7 +177,6 @@ export class TeacherDistributionsService {
   async checkErrors(item: any) {
     const parallel = this.parallels.find(parallel => parallel.code.toLowerCase() === item[ColumnsEnum.PARALLEL_CODE].trim().toLowerCase());
     const schoolPeriod = this.schoolPeriods.find(schoolPeriod => schoolPeriod.code.toLowerCase() === item[ColumnsEnum.SCHOOL_PERIOD_CODE].trim().toLowerCase());
-    const academicPeriod = this.academicPeriods.find(academicPeriod => academicPeriod.code === item[ColumnsEnum.ACADEMIC_PERIOD_CODE].toString().trim());
     const subject = this.subjects.find(subject => subject.code.toLowerCase() === item[ColumnsEnum.SUBJECT_CODE].trim().toLowerCase());
     const workday = this.workdays.find(workday => workday.code.toLowerCase() === item[ColumnsEnum.WORKDAY_CODE].trim().toLowerCase());
     const user = await this.userRepository.findOne({
@@ -209,14 +199,6 @@ export class TeacherDistributionsService {
         row: this.row,
         column: ColumnsEnum.SCHOOL_PERIOD_CODE,
         observation: `${ColumnsEnum.SCHOOL_PERIOD_CODE} no válido`,
-      });
-    }
-
-    if (!academicPeriod) {
-      this.errors.push({
-        row: this.row,
-        column: ColumnsEnum.ACADEMIC_PERIOD_CODE,
-        observation: `${ColumnsEnum.ACADEMIC_PERIOD_CODE} no válido`,
       });
     }
 
