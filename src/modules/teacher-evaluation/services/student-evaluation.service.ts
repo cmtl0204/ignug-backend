@@ -132,7 +132,7 @@ export class StudentEvaluationService {
     }
 
     if (this.errors.length > 0) {
-      await this.generateErrorReport();
+      // await this.generateErrorReport();
     }
 
     return await this.repository.save(studentEvaluations);
