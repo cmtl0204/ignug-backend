@@ -212,13 +212,13 @@ export class TeacherDistributionsService {
       });
     }
 
-    if (!academicPeriod) {
-      this.errors.push({
-        row: this.row,
-        column: ColumnsEnum.ACADEMIC_PERIOD_CODE,
-        observation: `${ColumnsEnum.ACADEMIC_PERIOD_CODE} no válido`,
-      });
-    }
+    // if (!academicPeriod) {
+    //   this.errors.push({
+    //     row: this.row,
+    //     column: ColumnsEnum.ACADEMIC_PERIOD_CODE,
+    //     observation: `${ColumnsEnum.ACADEMIC_PERIOD_CODE} no válido`,
+    //   });
+    // }
 
     if (!subject) {
       this.errors.push({
