@@ -1,199 +1,198 @@
 import {
-    Column,
-    CreateDateColumn,
-    DeleteDateColumn,
-    Entity,
-    JoinColumn,
-    JoinTable,
-    ManyToMany,
-    ManyToOne,
-    OneToMany, OneToOne,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany, OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import {
-    CareerParallelEntity,
-    CatalogueEntity,
-    CurriculumEntity,
-    InstitutionEntity,
-    StudentEntity,
-    TeacherEntity
+  CareerParallelEntity,
+  CareerToTeacherEntity,
+  CatalogueEntity,
+  CurriculumEntity,
+  InstitutionEntity,
+  StudentEntity,
+  TeacherEntity,
 } from '@core/entities';
-import {UserEntity} from '@auth/entities';
-import {CareerAcademicPeriodsEntity} from "./career-academic-periods.entity";
+import { UserEntity } from '@auth/entities';
+import { CareerAcademicPeriodsEntity } from './career-academic-periods.entity';
 
-@Entity('careers', {schema: 'core'})
+@Entity('careers', { schema: 'core' })
 export class CareerEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @CreateDateColumn({
-        name: 'created_at',
-        type: 'timestamp',
-        default: () => 'CURRENT_timestampP',
-        comment: 'Fecha de creacion de la carrera',
-    })
-    createdAt: Date;
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
+    comment: 'Fecha de creacion de la carrera',
+  })
+  createdAt: Date;
 
-    @UpdateDateColumn({
-        name: 'updated_at',
-        type: 'timestamp',
-        default: () => 'CURRENT_timestampP',
-        comment: 'Fecha de actualizacion de la carrera',
-    })
-    updatedAt: Date;
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_timestampP',
+    comment: 'Fecha de actualizacion de la carrera',
+  })
+  updatedAt: Date;
 
-    @DeleteDateColumn({
-        name: 'deleted_at',
-        type: 'timestamp',
-        nullable: true,
-        comment: 'Fecha de eliminacion de la carrera',
-    })
-    deletedAt: Date;
+  @DeleteDateColumn({
+    name: 'deleted_at',
+    type: 'timestamp',
+    nullable: true,
+    comment: 'Fecha de eliminacion de la carrera',
+  })
+  deletedAt: Date;
 
-    @Column({
-        name: 'is_visible',
-        type: 'boolean',
-        default: true,
-        comment: 'true=visible, false=no visible',
-    })
-    isVisible: boolean;
+  @Column({
+    name: 'is_visible',
+    type: 'boolean',
+    default: true,
+    comment: 'true=visible, false=no visible',
+  })
+  isVisible: boolean;
 
-    @Column({
-        name: 'is_enabled',
-        type: 'boolean',
-        default: true,
-        comment: 'true=enabled, false=disabled',
-    })
-    isEnabled: boolean;
+  @Column({
+    name: 'is_enabled',
+    type: 'boolean',
+    default: true,
+    comment: 'true=enabled, false=disabled',
+  })
+  isEnabled: boolean;
 
-    /** Inverse Relationship **/
-    @OneToMany(() => CareerAcademicPeriodsEntity, academicPeriod => academicPeriod.career)
-    academicPeriods: CareerAcademicPeriodsEntity[];
+  /** Inverse Relationship **/
+  @OneToMany(() => CareerAcademicPeriodsEntity, academicPeriod => academicPeriod.career)
+  academicPeriods: CareerAcademicPeriodsEntity[];
 
-    @OneToMany(() => CurriculumEntity, curriculum => curriculum.career)
-    curriculums: CurriculumEntity[];
+  @OneToMany(() => CurriculumEntity, curriculum => curriculum.career)
+  curriculums: CurriculumEntity[];
 
-    @OneToOne(() => CurriculumEntity, curriculum => curriculum.career)
-    curriculum: CurriculumEntity;
+  @OneToOne(() => CurriculumEntity, curriculum => curriculum.career)
+  curriculum: CurriculumEntity;
 
-    @ManyToMany(() => StudentEntity, student => student.careers)
-    @JoinTable({
-        name: 'career_student',
-        joinColumn: {name: 'career_id'},
-        inverseJoinColumn: {name: 'student_id'},
-    })
-    students: StudentEntity[];
+  @ManyToMany(() => StudentEntity, student => student.careers)
+  @JoinTable({
+    name: 'career_student',
+    joinColumn: { name: 'career_id' },
+    inverseJoinColumn: { name: 'student_id' },
+  })
+  students: StudentEntity[];
 
-    @ManyToMany(() => TeacherEntity, teacher => teacher.careers)
-    @JoinTable({
-        name: 'career_teacher',
-        joinColumn: {name: 'career_id'},
-        inverseJoinColumn: {name: 'teacher_id'},
-    })
-    teachers: TeacherEntity[];
+  // @ManyToMany(() => TeacherEntity, teacher => teacher.careers)
+  // teachers: TeacherEntity[];
 
-    @ManyToMany(() => UserEntity, user => user.careers)
-    @JoinTable({
-        name: 'career_user',
-        joinColumn: {name: 'career_id'},
-        inverseJoinColumn: {name: 'user_id'},
-    })
-    users: UserEntity[];
+  @OneToMany(() => CareerToTeacherEntity, careerToTeacher => careerToTeacher.career)
+  careerToTeachers: CareerToTeacherEntity[];
 
-    @OneToMany(() => CareerParallelEntity, workday => workday.career)
-    parallels: CareerParallelEntity[];
+  @ManyToMany(() => UserEntity, user => user.careers)
+  @JoinTable({
+    name: 'career_user',
+    joinColumn: { name: 'career_id' },
+    inverseJoinColumn: { name: 'user_id' },
+  })
+  users: UserEntity[];
 
-    /** Foreign Keys **/
-    @ManyToOne(() => InstitutionEntity)
-    @JoinColumn({name: 'institution_id'})
-    institution: InstitutionEntity;
-    @Column({type: 'uuid', name: 'institution_id', comment: 'Institución a la que pertenece la carrera'})
-    institutionId: string;
+  @OneToMany(() => CareerParallelEntity, workday => workday.career)
+  parallels: CareerParallelEntity[];
 
-    @ManyToOne(() => CatalogueEntity, {
-        nullable: true,
-    })
-    @JoinColumn({name: 'modality_id'})
-    modality: CatalogueEntity;
-    @Column({type: 'uuid', name: 'modality_id', comment: 'Presencial, Distancia, Hibrida, etc'})
-    modalityId: string;
+  /** Foreign Keys **/
+  @ManyToOne(() => InstitutionEntity)
+  @JoinColumn({ name: 'institution_id' })
+  institution: InstitutionEntity;
+  @Column({ type: 'uuid', name: 'institution_id', comment: 'Institución a la que pertenece la carrera' })
+  institutionId: string;
 
-    @ManyToOne(() => CatalogueEntity, {
-        nullable: true,
-    })
-    @JoinColumn({name: 'state_id'})
-    state: CatalogueEntity;
+  @ManyToOne(() => CatalogueEntity, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'modality_id' })
+  modality: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'modality_id', comment: 'Presencial, Distancia, Hibrida, etc' })
+  modalityId: string;
 
-    @Column({type: 'uuid', name: 'state_id', nullable: true, comment: 'Habilitada o Inhabilitada'})
-    stateId: string;
+  @ManyToOne(() => CatalogueEntity, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'state_id' })
+  state: CatalogueEntity;
 
-    @ManyToOne(() => CatalogueEntity, {
-        nullable: true,
-    })
-    @JoinColumn({name: 'type_id'})
-    type: CatalogueEntity;
+  @Column({ type: 'uuid', name: 'state_id', nullable: true, comment: 'Habilitada o Inhabilitada' })
+  stateId: string;
 
-    @Column({type: 'uuid', name: 'type_id',nullable:true, comment: 'Tecnologia o Tecnicatura'})
-    typeId: string;
+  @ManyToOne(() => CatalogueEntity, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'type_id' })
+  type: CatalogueEntity;
 
-    /** Columns **/
-    @Column({
-        name: 'acronym',
-        type: 'varchar',
-        comment: 'Acronimo de la carrera Ej. DS, MKT, GN',
-    })
-    acronym: string;
+  @Column({ type: 'uuid', name: 'type_id', nullable: true, comment: 'Tecnologia o Tecnicatura' })
+  typeId: string;
 
-    @Column({
-        name: 'code',
-        type: 'varchar',
-        comment: 'Código de la carrera',
-    })
-    code: string;
+  /** Columns **/
+  @Column({
+    name: 'acronym',
+    type: 'varchar',
+    comment: 'Acronimo de la carrera Ej. DS, MKT, GN',
+  })
+  acronym: string;
 
-    @Column({
-        comment: 'Código sniese de la carrera',
-        type: 'varchar',
-        nullable:true,
-        name: 'code_sniese',
-    })
-    codeSniese: string;
+  @Column({
+    name: 'code',
+    type: 'varchar',
+    comment: 'Código de la carrera',
+  })
+  code: string;
 
-    @Column({
-        name: 'degree',
-        type: 'varchar',
-        comment: 'Título que otorga la carrera',
-    })
-    degree: string;
+  @Column({
+    comment: 'Código sniese de la carrera',
+    type: 'varchar',
+    nullable: true,
+    name: 'code_sniese',
+  })
+  codeSniese: string;
 
-    @Column({
-        name: 'logo',
-        type: 'varchar',
-        nullable: true,
-        comment: 'Logo de la carrera',
-    })
-    logo: string;
+  @Column({
+    name: 'degree',
+    type: 'varchar',
+    comment: 'Título que otorga la carrera',
+  })
+  degree: string;
 
-    @Column({
-        name: 'name',
-        type: 'varchar',
-        comment: 'Nombre de la carrera',
-    })
-    name: string;
+  @Column({
+    name: 'logo',
+    type: 'varchar',
+    nullable: true,
+    comment: 'Logo de la carrera',
+  })
+  logo: string;
 
-    @Column({
-        comment: 'Numero de resolución de la carrera',
-        type: 'varchar',
-        nullable:true,
-        name: 'resolution_number',
-    })
-    resolutionNumber: string;
+  @Column({
+    name: 'name',
+    type: 'varchar',
+    comment: 'Nombre de la carrera',
+  })
+  name: string;
 
-    @Column({
-        name: 'short_name',
-        type: 'varchar',
-        comment: 'Nombre corto de la carrera',
-    })
-    shortName: string;
+  @Column({
+    comment: 'Numero de resolución de la carrera',
+    type: 'varchar',
+    nullable: true,
+    name: 'resolution_number',
+  })
+  resolutionNumber: string;
+
+  @Column({
+    name: 'short_name',
+    type: 'varchar',
+    comment: 'Nombre corto de la carrera',
+  })
+  shortName: string;
 }

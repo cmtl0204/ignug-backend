@@ -119,7 +119,7 @@ export class TeachersService {
     }
 
     const data = await this.repository.findAndCount({
-      relations: { user: true, informationTeacher: true, careers: true },
+      relations: { user: true, informationTeacher: true, careerToTeachers: true },
       where,
       take: limit,
       skip: PaginationDto.getOffset(limit, page),

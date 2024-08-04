@@ -6,6 +6,7 @@ import { ResultEntity } from '../entities/result.entity';
 import { StudentEvaluationEntity } from '../entities/student-evaluation.entity';
 import { PartnerEvaluationEntity } from '../entities/partner-evaluation.entity';
 import { AutoEvaluationEntity } from '../entities/auto-evaluation.entity';
+import { CoordinatorEvaluationEntity } from '../entities/coordinator-evaluation.entity';
 
 export const teacherEvaluationProviders = [
   {
@@ -36,6 +37,11 @@ export const teacherEvaluationProviders = [
   {
     provide: TeacherEvaluationRepositoryEnum.PARTNER_EVALUATION_REPOSITORY,
     useFactory: (dataSource: DataSource) => dataSource.getRepository(PartnerEvaluationEntity),
+    inject: [ConfigEnum.PG_DATA_SOURCE],
+  },
+  {
+    provide: TeacherEvaluationRepositoryEnum.COORDINATOR_EVALUATION_REPOSITORY,
+    useFactory: (dataSource: DataSource) => dataSource.getRepository(CoordinatorEvaluationEntity),
     inject: [ConfigEnum.PG_DATA_SOURCE],
   },
 ];

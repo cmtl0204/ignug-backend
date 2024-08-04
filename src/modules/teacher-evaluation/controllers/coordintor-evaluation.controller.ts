@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpCode,
@@ -10,21 +11,22 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
 import { PartnerEvaluationService } from '../services/partner-evaluation.service';
+import { CoordinatorEvaluationService } from '../services/coordinator-evaluation.service';
 
 @ApiTags('Questions')
-@Controller('teacher-evaluations/partner-evaluations')
-export class PartnerEvaluationController {
-  constructor(private readonly partnerEvaluationService: PartnerEvaluationService) {
+@Controller('teacher-evaluations/coordinator-evaluations')
+export class CoordinatorEvaluationController {
+  constructor(private readonly coordinatorEvaluationService: CoordinatorEvaluationService) {
   }
 
-  @ApiOperation({ summary: 'findPartnerEvaluationByEvaluator' })
+  @ApiOperation({ summary: 'findCoordinatorEvaluationByEvaluator' })
   @Get('evaluators/:evaluatorId')
   @HttpCode(HttpStatus.OK)
-  async findPartnerEvaluationByEvaluator(
+  async findCoordinatorEvaluationByEvaluator(
     @Param('evaluatorId', ParseUUIDPipe) evaluatorId: string,
     @Query('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.partnerEvaluationService.findPartnerEvaluationByEvaluator(evaluatorId, schoolPeriodId);
+    const serviceResponse = await this.coordinatorEvaluationService.findCoordinatorEvaluationsByEvaluator(evaluatorId, schoolPeriodId);
 
     return {
       data: serviceResponse,
@@ -33,14 +35,14 @@ export class PartnerEvaluationController {
     };
   }
 
-  @ApiOperation({ summary: 'findPartnerEvaluationByEvaluated' })
+  @ApiOperation({ summary: 'findCoordinatorEvaluationByEvaluated' })
   @Get('evaluated/:evaluatedId')
   @HttpCode(HttpStatus.OK)
-  async findPartnerEvaluationByEvaluated(
+  async findCoordinatorEvaluationByEvaluated(
     @Param('evaluatedId', ParseUUIDPipe) evaluatedId: string,
     @Query('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.partnerEvaluationService.findPartnerEvaluationByEvaluated(evaluatedId, schoolPeriodId);
+    const serviceResponse = await this.coordinatorEvaluationService.findPartnerEvaluationByEvaluated(evaluatedId, schoolPeriodId);
 
     return {
       data: serviceResponse,
@@ -51,8 +53,12 @@ export class PartnerEvaluationController {
 
   @Post('evaluations/school-periods/:schoolPeriodId')
   @HttpCode(HttpStatus.OK)
-  async generatePartnerEvaluationsBySchoolPeriod(@Param('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.partnerEvaluationService.generatePartnerEvaluations(schoolPeriodId);
+  async generateCoordinatorEvaluationsBySchoolPeriod(
+    @Param('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string,
+    @Body('careerId', ParseUUIDPipe) careerId: string,
+    @Body('evaluatorId', ParseUUIDPipe) evaluatorId: string,
+  ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.coordinatorEvaluationService.generateCoordinatorEvaluations(schoolPeriodId, careerId, evaluatorId);
 
     return {
       data: serviceResponse,

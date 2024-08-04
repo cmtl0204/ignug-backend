@@ -93,7 +93,7 @@ export class AuthService {
         roles: true,
         institutions: true,
         careers: { institution: true, curriculums: true },
-        teacher: { careers: true },
+        teacher: { careerToTeachers: { career: true } },
         student: { careers: true },
       },
     }));
@@ -119,10 +119,18 @@ export class AuthService {
 
     const schoolPeriod = await this.schoolPeriodsService.findOpenSchoolPeriod();
 
+    const userLogin = userRest;
+
+    if (userLogin.teacher) {
+      userLogin.teacher.careers = userRest.teacher.careerToTeachers.map(item => {
+        return item.career;
+      });
+    }
+
     return {
       data: {
         token: await this.generateJwt(user),
-        user: userRest,
+        user: userLogin,
         schoolPeriod,
       },
     };

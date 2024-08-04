@@ -9,11 +9,12 @@ import {
   TeacherEntity,
 } from '@core/entities';
 import { CataloguesService } from '@core/services';
+import { CoordinatorEvaluationEntity } from '../entities/coordinator-evaluation.entity';
 
 @Injectable()
-export class PartnerEvaluationService {
+export class CoordinatorEvaluationService {
   constructor(
-    @Inject(TeacherEvaluationRepositoryEnum.PARTNER_EVALUATION_REPOSITORY) private readonly repository: Repository<PartnerEvaluationEntity>,
+    @Inject(TeacherEvaluationRepositoryEnum.COORDINATOR_EVALUATION_REPOSITORY) private readonly repository: Repository<CoordinatorEvaluationEntity>,
     @Inject(TeacherEvaluationRepositoryEnum.RESULT_REPOSITORY) private readonly resultRepository: Repository<ResultEntity>,
     @Inject(CoreRepositoryEnum.TEACHER_REPOSITORY) private readonly teacherRepository: Repository<TeacherEntity>,
     @Inject(CoreRepositoryEnum.CAREER_REPOSITORY) private readonly careerRepository: Repository<CareerEntity>,
@@ -31,8 +32,8 @@ export class PartnerEvaluationService {
     return this.repository.save(payload);
   }
 
-  async findPartnerEvaluationByEvaluator(evaluatorId: string, schoolPeriodId: string): Promise<PartnerEvaluationEntity> {
-    return await this.repository.findOne(
+  async findCoordinatorEvaluationsByEvaluator(evaluatorId: string, schoolPeriodId: string): Promise<PartnerEvaluationEntity[]> {
+    return await this.repository.find(
       {
         relations: { evaluated: true, evaluator: true, evaluationType: true },
         where: { evaluatorId, schoolPeriodId },
@@ -55,69 +56,44 @@ export class PartnerEvaluationService {
       });
   }
 
-  async generatePartnerEvaluations(schoolPeriodId: string): Promise<PartnerEvaluationEntity[]> {
+  async generateCoordinatorEvaluations(schoolPeriodId: string, careerId: string,evaluatorId:string): Promise<CoordinatorEvaluationEntity[]> {
     const evaluationTypes = await this.catalogueService.findByType(CatalogueTypeEnum.QUESTIONS_EVALUATION_TYPE);
 
-    const evaluationType = evaluationTypes.find(evaluationType => evaluationType.code === 'partner');
+    const evaluationType = evaluationTypes.find(evaluationType => evaluationType.code === 'coordinator');
 
-    const careers = await this.findCareersWithTeachers();
+    const careers = await this.findCareersWithTeachers(careerId);
 
-    const partnerEvaluations = [];
+    const coordinatorEvaluations = [];
 
     for (const career of careers) {
       for (const careerToTeacher of career.careerToTeachers) {
-        let index = Math.floor(Math.random() * (career.careerToTeachers.length));
-        let evaluatedId = career.careerToTeachers[index].teacher.userId;
-        console.log(index);
-
-        let i = career.careerToTeachers.length;
-        while (evaluatedId === careerToTeacher.teacher.userId) {
-          index = Math.floor(Math.random() * (career.careerToTeachers.length));
-          console.log('index', index);
-          // console.log('evaluatedId', evaluatedId);
-          // console.log('evaluatorId', careerToTeacher.teacher.userId);
-          console.log('length2', career.careerToTeachers.length);
-          evaluatedId = career.careerToTeachers[index].teacher.userId;
-          i--;
-          if (i === 0) {
-            break;
-          }
-        }
-
-        let partnerEvaluation = await this.repository.findOne({
+        let coordinatorEvaluation = await this.repository.findOne({
           where: {
             schoolPeriodId,
-            evaluatedId,
+            evaluatedId: careerToTeacher.teacher.userId,
           },
         });
 
-        if (!partnerEvaluation) {
-          partnerEvaluation = this.repository.create();
+        if (!coordinatorEvaluation) {
+          coordinatorEvaluation = this.repository.create();
         }
 
-        partnerEvaluation.evaluatorId = careerToTeacher.teacher.userId;
-        partnerEvaluation.schoolPeriodId = schoolPeriodId;
-        partnerEvaluation.evaluationTypeId = evaluationType.id;
+        coordinatorEvaluation.evaluatorId = evaluatorId;
+        coordinatorEvaluation.evaluatedId = careerToTeacher.teacher.userId;
+        coordinatorEvaluation.schoolPeriodId = schoolPeriodId;
+        coordinatorEvaluation.evaluationTypeId = evaluationType.id;
 
-        partnerEvaluation.evaluatedId = evaluatedId;
-
-        // evaluates.splice(index, 1);
-
-        partnerEvaluations.push(partnerEvaluation);
+        coordinatorEvaluations.push(coordinatorEvaluation);
       }
-
-      console.log('------------------');
     }
 
-    await this.repository.save(partnerEvaluations);
-
-    return await this.repository.find({ relations: { evaluated: true, evaluator: true } });
+    return await this.repository.save(coordinatorEvaluations);
   }
 
-  private async findCareersWithTeachers(): Promise<CareerEntity[]> {
+  private async findCareersWithTeachers(id: string): Promise<CareerEntity[]> {
     return await this.careerRepository.find({
       relations: { careerToTeachers: { teacher: true } },
-      where: { careerToTeachers: { isCurrent: true } },
+      where: { id, careerToTeachers: { isCurrent: true } },
     });
   }
 }
