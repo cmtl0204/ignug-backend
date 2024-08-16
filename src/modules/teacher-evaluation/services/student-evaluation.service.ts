@@ -108,17 +108,15 @@ export class StudentEvaluationService {
                     },
                 });
 
-                if (studentEvaluation) {
+                if (!studentEvaluation) {
                     studentEvaluation = this.repository.create();
+                    studentEvaluation.enrollmentDetailId = enrollmentDetail.id;
+                    studentEvaluation.evaluationTypeId = evaluationType.id;
+                    studentEvaluation.evaluatedId = teacherDistribution.teacher.userId;
+                    studentEvaluation.evaluatorId = enrollmentDetail.userId;
+                    studentEvaluation.schoolPeriodId = schoolPeriodId;
+                    studentEvaluations.push(studentEvaluation);
                 }
-
-                studentEvaluation.enrollmentDetailId = enrollmentDetail.id;
-                studentEvaluation.evaluationTypeId = evaluationType.id;
-                studentEvaluation.evaluatedId = teacherDistribution.teacher.userId;
-                studentEvaluation.evaluatorId = enrollmentDetail.userId;
-                studentEvaluation.schoolPeriodId = schoolPeriodId;
-
-                studentEvaluations.push(studentEvaluation);
             } else {
                 this.errors.push({
                         parallel: enrollmentDetail.parallelName,
