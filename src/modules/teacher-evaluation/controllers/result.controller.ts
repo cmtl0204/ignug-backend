@@ -50,4 +50,16 @@ export class ResultController {
       title: 'Resultado Creado',
     };
   }
+
+  @Post('coordinator-evaluations/:coordinatorEvaluationId')
+  @HttpCode(HttpStatus.CREATED)
+  async createCoordinatorEvaluationResults(@Param('coordinatorEvaluationId') coordinatorEvaluationId: string, @Body() payload: any): Promise<ResponseHttpModel> {
+    const result = await this.resultService.createCoordinatorEvaluationResults(coordinatorEvaluationId, payload);
+
+    return {
+      data: result,
+      message: 'Resultado creado exitosamente',
+      title: 'Resultado Creado',
+    };
+  }
 }
