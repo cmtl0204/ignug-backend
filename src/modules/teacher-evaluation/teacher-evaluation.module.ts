@@ -16,6 +16,8 @@ import { AutoEvaluationController } from './controllers/auto-evaluation.controll
 import { AutoEvaluationService } from './services/auto-evaluation.service';
 import { PartnerEvaluationController } from './controllers/partner-evaluation.controller';
 import { PartnerEvaluationService } from './services/partner-evaluation.service';
+import { CoordinatorEvaluationController } from './controllers/coordintor-evaluation.controller';
+import { CoordinatorEvaluationService } from './services/coordinator-evaluation.service';
 
 @Global()
 @Module({
@@ -28,6 +30,7 @@ import { PartnerEvaluationService } from './services/partner-evaluation.service'
     StudentEvaluationController,
     TeacherEvaluationsController,
     PartnerEvaluationController,
+    CoordinatorEvaluationController,
   ],
   providers: [
     ...teacherEvaluationProviders,
@@ -37,7 +40,8 @@ import { PartnerEvaluationService } from './services/partner-evaluation.service'
     ResultService,
     StudentEvaluationService,
     TeacherEvaluationsService,
-    PartnerEvaluationService
+    PartnerEvaluationService,
+    CoordinatorEvaluationService,
   ],
 
 })

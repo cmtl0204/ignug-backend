@@ -27,3 +27,4 @@ export * from './career-academic-periods.entity';
 export * from './enrollment-state.entity';
 export * from './enrollment-detail-state.entity';
 export * from './career-parallel.entity';
+export * from './career-to-teacher.entity';

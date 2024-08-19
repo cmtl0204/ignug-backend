@@ -6,6 +6,7 @@ import { AutoEvaluationService } from './auto-evaluation.service';
 import { ResponseEntity } from '../entities/response.entity';
 import { PartnerEvaluationService } from './partner-evaluation.service';
 import { StudentEvaluationService } from './student-evaluation.service';
+import { CoordinatorEvaluationService } from './coordinator-evaluation.service';
 
 @Injectable()
 export class ResultService {
@@ -14,6 +15,7 @@ export class ResultService {
     private readonly autoEvaluationService: AutoEvaluationService,
     private readonly partnerEvaluationService: PartnerEvaluationService,
     private readonly studentEvaluationService: StudentEvaluationService,
+    private readonly coordinatorEvaluationService: CoordinatorEvaluationService,
   ) {
   }
 
@@ -95,6 +97,33 @@ export class ResultService {
     }
 
     await this.studentEvaluationService.update(evaluation.id, evaluation);
+
+    return await this.resultRepository.save(result);
+  }
+
+  async createCoordinatorEvaluationResults(coordinatorEvaluationId: string, payload: any[]): Promise<ResultEntity[]> {
+    const evaluation = await this.coordinatorEvaluationService.findOne(coordinatorEvaluationId);
+
+    if (evaluation && !evaluation.enabled) {
+      throw new BadRequestException('No tiene permisos para realizar le evaluación');
+    }
+
+    if (evaluation && evaluation.totalScore) {
+      throw new BadRequestException({
+        error: 'La evaluación ya fue respondida',
+        message: 'No puede enviar más de una vez',
+      });
+    }
+
+    const result = this.resultRepository.create(payload);
+
+    if (evaluation) {
+      evaluation.totalScore = payload.reduce((accumulator: number, currentValue: ResponseEntity): number => {
+        return accumulator + currentValue.score;
+      }, 0);
+    }
+
+    await this.coordinatorEvaluationService.update(evaluation.id, evaluation);
 
     return await this.resultRepository.save(result);
   }
