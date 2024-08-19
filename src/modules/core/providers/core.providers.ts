@@ -24,7 +24,12 @@ import {
     SubjectCorequisiteEntity,
     SubjectPrerequisiteEntity,
     TeacherDistributionEntity,
-    TeacherEntity, OriginAddressEntity, EnrollmentStateEntity, EnrollmentDetailStateEntity, CareerParallelEntity,
+    TeacherEntity,
+    OriginAddressEntity,
+    EnrollmentStateEntity,
+    EnrollmentDetailStateEntity,
+    CareerParallelEntity,
+    CareerToTeacherEntity,
 } from '@core/entities';
 import {ConfigEnum, CoreRepositoryEnum} from '@shared/enums';
 
@@ -177,6 +182,10 @@ export const coreProviders = [
     {
         provide: CoreRepositoryEnum.TEACHER_REPOSITORY,
         useFactory: (dataSource: DataSource) => dataSource.getRepository(TeacherEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    }, {
+        provide: CoreRepositoryEnum.CAREER_TO_TEACHER_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerToTeacherEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
 ];

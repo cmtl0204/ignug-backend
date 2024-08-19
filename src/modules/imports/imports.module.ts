@@ -15,6 +15,8 @@ import {TeacherDistributionsController} from './controllers/teacher-distribution
 import {TeacherDistributionsService} from './services/teacher-distributions.service';
 import {EnrollmentSubjectsService} from "./services/enrollment-subjects.service";
 import {EnrollmentSubjectsController} from "./controllers/enrollment-subjects.controller";
+import {CareerTeacherAssignmentsController} from "./controllers/career-teacher-assignments.controller";
+import {CareerTeacherAssignmentsService} from "./services/career-teacher-assignments.service";
 
 
 @Global()
@@ -27,6 +29,7 @@ import {EnrollmentSubjectsController} from "./controllers/enrollment-subjects.co
         StudentsController,
         TeacherDistributionsController,
         EnrollmentSubjectsController,
+        CareerTeacherAssignmentsController
     ],
     providers: [
         GradesService,
@@ -36,7 +39,8 @@ import {EnrollmentSubjectsController} from "./controllers/enrollment-subjects.co
         StudentsService,
         RolesService,
         TeacherDistributionsService,
-        EnrollmentSubjectsService
+        EnrollmentSubjectsService,
+        CareerTeacherAssignmentsService,
     ],
     exports: [],
 })
