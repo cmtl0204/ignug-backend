@@ -1,20 +1,11 @@
-import {Content, TDocumentDefinitions} from 'pdfmake/interfaces';
-import {StudentEntity} from '@core/entities';
+import {TDocumentDefinitions} from 'pdfmake/interfaces';
 import {format} from "date-fns";
 import {es} from "date-fns/locale";
 
-const avatar: Content = {
-    image: './assets/avatars/unisex.png',
-    width: 210,
-    height: 210,
-    absolutePosition: {x: 165, y: 178},
-};
-
 export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
-    const schoolPeriod = data.schoolPeriod.shortName;
-    const identification = data.evaluated.identification;
-    const names = data.evaluated.name;
-    const lastName = data.evaluated.lastname;
+    const schoolPeriod = data.schoolPeriod.name;
+    const vicerector = `${data.vicerector.lastname} ${data.vicerector.name}`;
+    const evaluated = `${data.evaluated.lastname} ${data.evaluated.name}`;
 
     let career = 'No tiene una carrera principal asignada';
 
@@ -33,133 +24,205 @@ export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
         content: [
             {
                 image: './resources/images/reports/header.png',
-                width: 130,
+                width: 115,
                 height: 100,
-                absolutePosition: {x: 180, y: 10},
+                absolutePosition: {y: 10},
+                alignment: 'center'
             },
 
             {
                 text: 'VICERRECTORADO ACADÉMICO INTERCULTURAL Y COMUNITARIO',
                 fontSize: 12,
-                color: '#0082CB',
+                bold:true,
                 absolutePosition: {y: 120},
                 alignment: 'center',
             },
             {
                 text: 'REPORTE DE EVALUACIÓN INTEGRAL DE DESEMPEÑO DOCENTE',
                 fontSize: 12,
-                color: '#0082CB',
-                absolutePosition: {y: 155},
+                bold:true,
+                absolutePosition: {y: 145},
                 alignment: 'center',
             },
 
             {
-                text: 'Proceso:',
-                fontSize: 10,
-                absolutePosition: {x: 50, y: 200},
-                alignment: 'left',
-            },
-            {
-                text: 'Evaluación integral de desempeño del personal académico:',
-                fontSize: 10,
-                absolutePosition: {x: 100, y: 200},
-                alignment: 'left',
-            },
+                layout: 'noBorders', // optional
+                table: {
+                    widths: ['10%', 'auto'],
 
-            {
-                text: 'PAO:',
+                    body: [
+                        [
+                            {
+                                width: '10%',
+                                text: 'Proceso:',
+                                bold: true,
+                            },
+                            {
+                                text: 'Evaluación integral de desempeño del personal académico:',
+                            },
+                        ],
+                        [
+                            {text: 'PAO:', bold: true},
+                            {text: schoolPeriod},
+                        ],
+                        [
+                            {text: 'Docente:', bold: true},
+                            {text: `${data.evaluated.lastname} ${data.evaluated.name}`},
+                        ],
+                        [
+                            {text: 'Carrera:', bold: true},
+                            {text: career},
+                        ],
+                        [
+                            {text: 'Fecha:', bold: true},
+                            {text: format(new Date(), 'dd \'de\' MMMM \'de\' yyyy', {locale: es})},
+                        ]
+                    ]
+                },
+                absolutePosition: {x: 50, y: 180},
                 fontSize: 10,
-                absolutePosition: {x: 50, y: 220},
-                alignment: 'left',
-            },
-            {
-                text: data.schoolPeriod.name,
-                fontSize: 10,
-                absolutePosition: {x: 100, y: 220},
-                alignment: 'left',
-            },
-
-            {
-                text: 'Docente:',
-                fontSize: 10,
-                absolutePosition: {x: 50, y: 240},
-                alignment: 'left',
-            },
-            {
-                text: `${data.evaluated.lastname} ${data.evaluated.name}`,
-                fontSize: 10,
-                absolutePosition: {x: 100, y: 240},
-                alignment: 'left',
-            },
-
-            {
-                text: 'Carrera:',
-                fontSize: 10,
-                absolutePosition: {x: 50, y: 260},
-                alignment: 'left',
-            },
-            {
-                text: career,
-                fontSize: 10,
-                absolutePosition: {x: 100, y: 260},
-                alignment: 'left',
-            },
-
-            {
-                text: 'Fecha:',
-                fontSize: 10,
-                absolutePosition: {x: 50, y: 280},
-                alignment: 'left',
-            },
-            {
-                text: format(new Date(), 'dd \'de\' MMMM \'de\' yyyy', {locale: es}),
-                fontSize: 10,
-                absolutePosition: {x: 100, y: 280},
-                alignment: 'left',
             },
 
             {
                 table: {
                     headerRows: 1,
-                    widths: [300, 50, 50],
+                    widths: [280, 60, 60],
 
                     body: [
-                        ['', {text: 'Cuantitativa', bold: true}, {text: 'Cualitativa', bold: true}],
-                        ['Resultado evaluación de desempeño personal académico', '92.11', 'Destacado'],
+                        ['', {text: 'Cuantitativa', bold: true, alignment: 'center'}, {
+                            text: 'Cualitativa',
+                            bold: true,
+                            alignment: 'center'
+                        }],
+                        ['Resultado evaluación de desempeño personal académico', {
+                            text: data.totalScore,
+                            alignment: 'center'
+                        }, {text: data.qualitity, alignment: 'center'}],
                     ]
                 },
-                absolutePosition: {x: 50, y: 300},
+                absolutePosition: {x: 50, y: 280},
 
                 fontSize: 10
             },
 
             {
+                absolutePosition: {x: 50, y: 330},
+                fontSize: 10,
+
                 table: {
                     headerRows: 1,
-                    widths: [300, 50, 50],
+                    widths: [280, 60, 60],
 
                     body: [
                         [
                             {text: 'Evaluación del desempeño', bold: true},
-                            {text: '%', bold: true},
-                            {text: 'Resultado', bold: true}
+                            {text: '%', bold: true, alignment: 'center'},
+                            {text: 'Resultado', bold: true, alignment: 'center'}
                         ],
-                        ['Cuestionario para la autoevaluación docente ', '10%', '10.00'],
-                        ['Cuestionario para la coevaluación por parte de pares académicos', '25%', '25.00'],
-                        ['Cuestionario para hetero evaluación', '40%', '35.37'],
-                        ['Cuestionario para la evaluación de las autoridades al personal académico', '25%', '21.74'],
-                        [{text: 'TOTAL', bold: true}, '100%', '92.11'],
+                        ['Cuestionario para la autoevaluación docente ',
+                            {text: '10%', alignment: 'center'},
+                            {text: data.autoEvaluationScore, alignment: 'center'}
+                        ],
+                        ['Cuestionario para la coevaluación por parte de pares académicos', {
+                            text: '25%',
+                            alignment: 'center'
+                        }, {text: data.partnerEvaluationScore, alignment: 'center'}],
+                        ['Cuestionario para hetero evaluación', {
+                            text: '40%',
+                            alignment: 'center'
+                        }, {text: data.studentEvaluationScore, alignment: 'center'}],
+                        ['Cuestionario para la evaluación de las autoridades al personal académico', {
+                            text: '25%',
+                            alignment: 'center'
+                        }, {text: data.coordinatorEvaluationScore, alignment: 'center'}],
+                        [{text: 'TOTAL', bold: true}, {text: '100%', alignment: 'center'}, {
+                            text: data.totalScore,
+                            alignment: 'center'
+                        }],
+                        [{
+                            border: [false, true, false, false],
+                            colSpan: 3,
+                            fontSize: 7,
+                            alignment: 'justify',
+                            text: 'De acuerdo al Reglamento de Carrera y Escalafón del profesor e investigador de la Universidad Amawtay Wasi, el artículo 129.- Reconsideración, señala que “el personal académico que esté en desacuerdo con los resultados de su evaluación, podrá solicitar la reconsideración de la resolución al director de la Comisión de Evaluación Interna, en el término de cinco días laborables”.'
+                        }]
                     ]
                 },
-                absolutePosition: {x: 50, y: 370},
-                fontSize: 10
             },
 
             {
-                text: 'De acuerdo al Reglamento de Carrera y Escalafón del profesor e investigador de la Universidad Amawtay Wasi, el artículo 129.- Reconsideración, señala que “el personal académico que esté en desacuerdo con los resultados de su evaluación, podrá solicitar la reconsideración de la resolución al director de la Comisión de Evaluación Interna, en el término de cinco días laborables”.',
-                fontSize: 8,
-                absolutePosition: {x: 50, y: 490},
-                alignment: 'left',
+                table: {
+                    headerRows: 1,
+                    widths: [100, 40],
+
+                    body: [
+                        [{text: 'Acepto', bold: true}, ''],
+                        [{text: 'Reconsideración', bold: true}, ''],
+                    ]
+                },
+                absolutePosition: {x: 50, y: 510},
+                fontSize: 11
+            },
+
+            {
+                layout: 'noBorders',
+
+                table: {
+                    headerRows: 1,
+                    widths: [180, 180],
+
+                    body: [
+                        [
+                            {
+                                text: vicerector,
+                                alignment: 'center'
+                            },
+                            {
+                                text: evaluated,
+                                alignment: 'center'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'Vicerrectora Académica\nIntercultural y Comunitaria\n(Con Asignación de Funciones)',
+                                bold: true,
+                                alignment: 'center'
+                            },
+                            {
+                                text: 'Docente',
+                                bold: true,
+                                alignment: 'center'
+                            }],
+                    ]
+                },
+                absolutePosition: {x: 100, y: 620},
+                fontSize: 11
+            },
+
+            {
+                table: {
+                    widths: [100, 100],
+
+                    body: [
+                        [
+                            {
+                                colSpan: 2, text: 'Equivalencia', bold: true, border: [false, false, false, false]
+                            },
+                            {
+                                text: '',
+                                border: [false, false, false, false]
+                            }
+                        ],
+                        [{text: 'CUANTITATIVA', bold: true}, {text: 'CUALITATIVA', bold: true}],
+                        ['95,00 - 100,00', 'Excelente'],
+                        ['80,00 - 94,99', 'Destacado'],
+                        ['70,00 - 79,99', 'Competente'],
+                        ['40,00 - 69,99', 'Básico'],
+                        ['20,00 - 39,99', 'Insatisfactorio'],
+                    ]
+                },
+                absolutePosition: {x: 50, y: 730},
+                fontSize: 8
             },
         ],
     };

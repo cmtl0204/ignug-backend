@@ -21,6 +21,7 @@ import {AutoEvaluationEntity} from "../../teacher-evaluation/entities/auto-evalu
 import {CoordinatorEvaluationEntity} from "../../teacher-evaluation/entities/coordinator-evaluation.entity";
 import {StudentEvaluationEntity} from "../../teacher-evaluation/entities/student-evaluation.entity";
 import {PartnerEvaluationEntity} from "../../teacher-evaluation/entities/partner-evaluation.entity";
+import {RoleEnum} from "@auth/enums";
 
 @Injectable()
 export class TeacherEvaluationSqlService {
@@ -39,6 +40,10 @@ export class TeacherEvaluationSqlService {
         const evaluated = await this.userRepository.findOne({
             relations: {teacher: {careerToTeachers: {career: true}}},
             where: {id: evaluatedId, teacher: {careerToTeachers: {isCurrent: true}}}
+        });
+
+        const vicerector = await this.userRepository.findOne({
+            where: {roles: {code: RoleEnum.VICERECTOR}}
         });
 
         const schoolPeriod = await this.schoolPeriodRepository.findOne({
@@ -63,29 +68,49 @@ export class TeacherEvaluationSqlService {
                 {evaluatedId, schoolPeriodId})
             .getRawOne();
 
-        const autoEvaluationScore = (autoEvaluation?.totalScore / 14).toFixed(2);
-        const studentEvaluationScore = (studentEvaluation?.totalScore * (4 / 11)).toFixed(2);
-        const partnerEvaluationScore = (partnerEvaluation?.totalScore * (5 / 28)).toFixed(2);
-        const coordinatorScore = (coordinatorEvaluation?.totalScore * (5 / 23)).toFixed(2);
+        const autoEvaluationScore = autoEvaluation.totalScore ? (autoEvaluation?.totalScore / 14).toFixed(2) : 'Pendiente0';
+        const studentEvaluationScore = studentEvaluation.totalScore ? (studentEvaluation?.totalScore * (4 / 11)).toFixed(2) : 'Pendiente';
+        const partnerEvaluationScore = partnerEvaluation.totalScore ? (partnerEvaluation?.totalScore * (5 / 28)).toFixed(2) : 'Pendiente';
+        const coordinatorEvaluationScore = coordinatorEvaluation.totalScore ? (coordinatorEvaluation?.totalScore * (5 / 23)).toFixed(2) : 'Pendiente';
 
-        let totalScore = null;
+        let totalScore = 'Pendiente';
+        let qualitity = 'Pendiente';
 
-        console.log('autoEvaluationScore', autoEvaluationScore);
-        console.log('studentEvaluationScore', studentEvaluationScore);
-        console.log('partnerEvaluationScore', partnerEvaluationScore);
-        console.log('coordinatorScore', coordinatorScore);
-        if (autoEvaluationScore && partnerEvaluation && coordinatorEvaluation && studentEvaluationScore) {
-            totalScore = autoEvaluationScore + partnerEvaluation + coordinatorEvaluation + studentEvaluationScore;
+        if (autoEvaluation.totalScore && studentEvaluation.totalScore && partnerEvaluation.totalScore && coordinatorEvaluation.totalScore) {
+            const total = parseFloat(autoEvaluationScore) + parseFloat(partnerEvaluationScore) + parseFloat(coordinatorEvaluationScore) + parseFloat(studentEvaluationScore);
+            totalScore = total.toFixed(2);
+
+            if (total >= 20 && total < 40) {
+                qualitity = 'Insatisfactorio';
+            }
+
+            if (total >= 40 && total < 70) {
+                qualitity = 'Básico';
+            }
+
+            if (total >= 70 && total < 80) {
+                qualitity = 'Competente';
+            }
+
+            if (total >= 80 && total < 95) {
+                qualitity = 'Destacado';
+            }
+
+            if (total >= 95 && total < 100) {
+                qualitity = 'Excelente';
+            }
         }
 
         return {
             evaluated,
+            vicerector,
             schoolPeriod,
             autoEvaluationScore,
             partnerEvaluationScore,
-            coordinatorScore,
+            coordinatorEvaluationScore,
             studentEvaluationScore,
             totalScore,
+            qualitity,
         };
     }
 }
