@@ -184,7 +184,7 @@ export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
                         ],
                         [
                             {
-                                text: 'Vicerrectora Académica\nIntercultural y Comunitaria\n(Con Asignación de Funciones)',
+                                text: 'Vicerrectora Académica\nIntercultural y Comunitaria',
                                 bold: true,
                                 alignment: 'center'
                             },
