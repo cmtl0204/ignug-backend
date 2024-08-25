@@ -4,7 +4,7 @@ import {es} from "date-fns/locale";
 
 export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
     const schoolPeriod = data.schoolPeriod.name;
-    const vicerector = `${data.vicerector.lastname} ${data.vicerector.name}`;
+    const viceRector = `${data.viceRector.lastname} ${data.viceRector.name}`;
     const evaluated = `${data.evaluated.lastname} ${data.evaluated.name}`;
 
     let career = 'No tiene una carrera principal asignada';
@@ -97,7 +97,7 @@ export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
                         ['Resultado evaluación de desempeño personal académico', {
                             text: data.totalScore,
                             alignment: 'center'
-                        }, {text: data.qualitity, alignment: 'center'}],
+                        }, {text: data.quality, alignment: 'center'}],
                     ]
                 },
                 absolutePosition: {x: 50, y: 280},
@@ -174,7 +174,7 @@ export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
                     body: [
                         [
                             {
-                                text: vicerector,
+                                text: viceRector,
                                 alignment: 'center'
                             },
                             {

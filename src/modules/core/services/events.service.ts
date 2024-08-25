@@ -177,7 +177,7 @@ export class EventsService {
     if (!entity) {
       throw new NotFoundException(MessageEnum.NOT_FOUND);
     }
-    entity.isVisible = false;
+    entity.enabled = false;
     return await this.repository.save(entity);
   }
 
@@ -187,7 +187,7 @@ export class EventsService {
     if (!entity) {
       throw new NotFoundException(MessageEnum.NOT_FOUND);
     }
-    entity.isVisible = true;
+    entity.enabled = true;
     return await this.repository.save(entity);
   }
 }

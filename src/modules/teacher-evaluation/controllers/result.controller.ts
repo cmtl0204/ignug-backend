@@ -1,9 +1,9 @@
 import {
   Body,
-  Controller,
+  Controller, Get,
   HttpCode,
-  HttpStatus, Param,
-  Post,
+  HttpStatus, Param, ParseUUIDPipe,
+  Post, Query,
 } from '@nestjs/common';
 import { ResultService } from '../services/result.service';
 import { ResponseHttpModel } from '@shared/models';
@@ -17,7 +17,9 @@ export class ResultController {
 
   @Post('auto-evaluations/:autoEvaluationId')
   @HttpCode(HttpStatus.CREATED)
-  async createAutoEvaluationResults(@Param('autoEvaluationId') autoEvaluationId: string, @Body() payload: any): Promise<ResponseHttpModel> {
+  async createAutoEvaluationResults(
+    @Param('autoEvaluationId', ParseUUIDPipe) autoEvaluationId: string,
+    @Body() payload: any): Promise<ResponseHttpModel> {
     const result = await this.resultService.createAutoEvaluationResults(autoEvaluationId, payload);
 
     return {
@@ -29,7 +31,9 @@ export class ResultController {
 
   @Post('partner-evaluations/:partnerEvaluationId')
   @HttpCode(HttpStatus.CREATED)
-  async createPartnerEvaluationResults(@Param('partnerEvaluationId') partnerEvaluationId: string, @Body() payload: any): Promise<ResponseHttpModel> {
+  async createPartnerEvaluationResults(
+    @Param('partnerEvaluationId', ParseUUIDPipe) partnerEvaluationId: string,
+    @Body() payload: any): Promise<ResponseHttpModel> {
     const result = await this.resultService.createPartnerEvaluationResults(partnerEvaluationId, payload);
 
     return {
@@ -41,7 +45,9 @@ export class ResultController {
 
   @Post('student-evaluations/:studentEvaluationId')
   @HttpCode(HttpStatus.CREATED)
-  async createStudentEvaluationResults(@Param('studentEvaluationId') studentEvaluationId: string, @Body() payload: any): Promise<ResponseHttpModel> {
+  async createStudentEvaluationResults(
+    @Param('studentEvaluationId', ParseUUIDPipe) studentEvaluationId:
+      string, @Body() payload: any): Promise<ResponseHttpModel> {
     const result = await this.resultService.createStudentEvaluationResults(studentEvaluationId, payload);
 
     return {
@@ -53,13 +59,29 @@ export class ResultController {
 
   @Post('coordinator-evaluations/:coordinatorEvaluationId')
   @HttpCode(HttpStatus.CREATED)
-  async createCoordinatorEvaluationResults(@Param('coordinatorEvaluationId') coordinatorEvaluationId: string, @Body() payload: any): Promise<ResponseHttpModel> {
+  async createCoordinatorEvaluationResults(
+    @Param('coordinatorEvaluationId', ParseUUIDPipe) coordinatorEvaluationId: string,
+    @Body() payload: any): Promise<ResponseHttpModel> {
     const result = await this.resultService.createCoordinatorEvaluationResults(coordinatorEvaluationId, payload);
 
     return {
       data: result,
       message: 'Resultado creado exitosamente',
       title: 'Resultado Creado',
+    };
+  }
+
+  @Get('integral-evaluations/:evaluatedId')
+  @HttpCode(HttpStatus.CREATED)
+  async findIntegralEvaluation(
+    @Param('evaluatedId', ParseUUIDPipe) evaluatedId: string,
+    @Query('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string): Promise<ResponseHttpModel> {
+    const result = await this.resultService.findIntegralEvaluation(evaluatedId, schoolPeriodId);
+
+    return {
+      data: result,
+      message: 'Evaluación Integral',
+      title: 'Resultados',
     };
   }
 }

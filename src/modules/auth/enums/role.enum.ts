@@ -7,7 +7,7 @@ export enum RoleEnum {
   COORDINATOR_ACADEMIC = 'coordinator-academic',
   STUDENT = 'student',
   RECTOR = 'rector',
-  VICERECTOR = 'vicerector',
+  VICE_RECTOR = 'vice-rector',
   REVIEWER = 'reviewer',
   SECRETARY = 'secretary',
   WELFARE = 'welfare',

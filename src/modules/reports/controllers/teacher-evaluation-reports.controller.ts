@@ -8,18 +8,17 @@ import {
 } from '@nestjs/common';
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
 import {ResponseHttpModel} from '@shared/models';
-import {StudentReportsService} from '../services';
 import {Response} from 'express';
 import {TeacherEvaluationReportsService} from "../services/teacher-evaluation-reports.service";
 
 @ApiTags('Student Reports')
-@Controller('teacher-evaluation-reports')
+@Controller('reports/teacher-evaluations')
 export class TeacherEvaluationReportsController {
     constructor(private teacherEvaluationReportsService: TeacherEvaluationReportsService) {
     }
 
     @ApiOperation({summary: 'Integral Evaluation'})
-    @Get(':evaluatedId/integral-evaluations')
+    @Get('integral-evaluations/:evaluatedId/download')
     @HttpCode(HttpStatus.OK)
     async generateIntegralEvaluation(
         @Res() response: Response,

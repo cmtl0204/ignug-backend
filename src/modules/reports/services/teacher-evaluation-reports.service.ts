@@ -18,7 +18,7 @@ export class TeacherEvaluationReportsService {
 
     async generateIntegralEvaluation(evaluatedId: string, schoolPeriodId: string) {
         const data = await this.teacherEvaluationSqlService.findIntegralEvaluation(evaluatedId, schoolPeriodId);
-
+        console.log(data);
         try {
             return this.printerService.createPdf(integralEvaluationReport(data));
         } catch (error) {

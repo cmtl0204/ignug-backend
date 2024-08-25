@@ -41,14 +41,6 @@ export class EventEntity {
     })
     deletedAt: Date;
 
-    @Column({
-        name: 'is_visible',
-        type: 'boolean',
-        default: true,
-        comment: 'true=visible, false=no visible',
-    })
-    isVisible: boolean;
-
     /** Foreign Keys **/
     @Column({
         name: 'model_id',
@@ -84,6 +76,13 @@ export class EventEntity {
     description: string;
 
     @Column({
+        name: 'enabled',
+        type: 'boolean',
+        comment: '',
+    })
+    enabled: boolean;
+
+    @Column({
         name: 'ended_at',
         type: 'date',
         comment: 'Fecha Inicio Evento',
@@ -91,11 +90,11 @@ export class EventEntity {
     endedAt: Date;
 
     @Column({
-        name: 'order',
+        name: 'sort',
         type: 'int',
         comment: '',
     })
-    order: number;
+    sort: number;
 
     @Column({
         name: 'started_at',
