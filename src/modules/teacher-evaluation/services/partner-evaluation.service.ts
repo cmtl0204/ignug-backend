@@ -31,8 +31,8 @@ export class PartnerEvaluationService {
     return this.repository.save(payload);
   }
 
-  async findPartnerEvaluationByEvaluator(evaluatorId: string, schoolPeriodId: string): Promise<PartnerEvaluationEntity> {
-    return await this.repository.findOne(
+  async findPartnerEvaluationsByEvaluator(evaluatorId: string, schoolPeriodId: string): Promise<PartnerEvaluationEntity[]> {
+    return await this.repository.find(
       {
         relations: { evaluated: true, evaluator: true, evaluationType: true },
         where: { evaluatorId, schoolPeriodId },

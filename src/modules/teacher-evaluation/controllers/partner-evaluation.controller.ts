@@ -17,14 +17,14 @@ export class PartnerEvaluationController {
   constructor(private readonly partnerEvaluationService: PartnerEvaluationService) {
   }
 
-  @ApiOperation({ summary: 'findPartnerEvaluationByEvaluator' })
+  @ApiOperation({ summary: 'findPartnerEvaluationsByEvaluator' })
   @Get('evaluators/:evaluatorId')
   @HttpCode(HttpStatus.OK)
-  async findPartnerEvaluationByEvaluator(
+  async findPartnerEvaluationsByEvaluator(
     @Param('evaluatorId', ParseUUIDPipe) evaluatorId: string,
     @Query('schoolPeriodId', ParseUUIDPipe) schoolPeriodId: string,
   ): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.partnerEvaluationService.findPartnerEvaluationByEvaluator(evaluatorId, schoolPeriodId);
+    const serviceResponse = await this.partnerEvaluationService.findPartnerEvaluationsByEvaluator(evaluatorId, schoolPeriodId);
 
     return {
       data: serviceResponse,
