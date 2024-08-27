@@ -7,6 +7,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import { ResponseEntity } from './response.entity';
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 
 @Entity('results', {schema: 'teacher_evaluation'})
 export class ResultEntity {
@@ -43,7 +44,7 @@ export class ResultEntity {
         type: 'varchar',
         comment: 'Foreign Key de cualquier otra entidad (auto_evaluations, coordinator_evaluations, partner_evaluations, student_evaluations)' ,
     })
-    modelId: string;
+    modelId: UUID;
 
     @ManyToOne(() => ResponseEntity)
     @JoinColumn({name: 'response_id'})

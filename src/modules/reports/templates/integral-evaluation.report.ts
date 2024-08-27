@@ -144,7 +144,7 @@ export const integralEvaluationReport = (data: any): TDocumentDefinitions => {
                             colSpan: 3,
                             fontSize: 7,
                             alignment: 'justify',
-                            text: 'De acuerdo al Reglamento de Carrera y Escalafón del profesor e investigador de la Universidad Amawtay Wasi, el artículo 129.- Reconsideración, señala que “el personal académico que esté en desacuerdo con los resultados de su evaluación, podrá solicitar la reconsideración de la resolución al director de la Comisión de Evaluación Interna, en el término de cinco días laborables”.'
+                            text: 'De acuerdo al Reglamento de Carrera y Escalafón del profesor e investigador de la Universidad Intercultural de las Nacionalidades y Pueblos Indígenas Amawtay Wasi, el artículo 129.- Reconsideración, señala que “el personal académico que esté en desacuerdo con los resultados de su evaluación, podrá solicitar la reconsideración de la resolución al director de la Comisión de Evaluación Interna, en el término de cinco días laborables”.'
                         }]
                     ]
                 },
