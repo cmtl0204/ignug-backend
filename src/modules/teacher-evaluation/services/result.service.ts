@@ -105,17 +105,26 @@ export class ResultService {
   }
 
   async createStudentEvaluationResults(studentEvaluationId: string, payload: any[]): Promise<ResultEntity[]> {
-    const evaluation = await this.studentEvaluationService.findOne(studentEvaluationId);
+    let evaluation = await this.studentEvaluationService.findOne(studentEvaluationId);
 
-    console.log(evaluation);
     if (evaluation && !evaluation.enabled) {
       throw new BadRequestException('No tiene permisos para realizar le evaluación');
     }
 
     if (evaluation && evaluation.totalScore) {
-      throw new BadRequestException({
-        error: 'La evaluación ya fue respondida',
-        message: 'No puede enviar más de una vez',
+      await this.studentEvaluationRepository.softDelete(evaluation.id);
+
+      const { id, createdAt, updatedAt, ...rest } = evaluation;
+
+      evaluation = await this.studentEvaluationRepository.save(rest);
+
+      payload = payload.map((item) => {
+        return {
+          modelId: evaluation.id,
+          questionId: item.questionId,
+          responseId: item.responseId,
+          score: item.score,
+        };
       });
     }
 
