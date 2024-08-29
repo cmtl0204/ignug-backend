@@ -289,7 +289,7 @@ export class GradesService {
             const finalAttendance = parseFloat(String(enrollmentDetail.finalAttendance));
 
             if (finalAttendance || finalAttendance == 0) {
-                if (finalGrade >= 6) {
+                if (finalGrade >= 7) {
                     if (finalAttendance >= 75) {
                         enrollmentDetail.academicStateId = this.approved.id;
                         enrollmentDetail.academicObservation = null;
