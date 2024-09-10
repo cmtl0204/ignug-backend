@@ -411,7 +411,7 @@ export class GradesService {
 
             if (finalAttendance || finalAttendance == 0) {
                 if (finalGrade >= 7) {
-                    if (finalAttendance >= 75) {
+                    if (finalAttendance >= 70) {
                         enrollmentDetail.academicStateId = this.approved.id;
                         enrollmentDetail.academicObservation = null;
                     } else {
@@ -421,7 +421,7 @@ export class GradesService {
                 } else {
                     enrollmentDetail.academicStateId = this.failed.id;
 
-                    if (finalAttendance >= 75) {
+                    if (finalAttendance >= 70) {
                         enrollmentDetail.academicObservation = 'Pierde por Calificación';
                     } else {
                         enrollmentDetail.academicObservation = 'Pierde por Calificación y Progreso';
