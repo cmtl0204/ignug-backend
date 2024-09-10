@@ -42,6 +42,7 @@ export class ResultEntity {
     @Column({
         name: 'model_id',
         type: 'varchar',
+        nullable:true,
         comment: 'Foreign Key de cualquier otra entidad (auto_evaluations, coordinator_evaluations, partner_evaluations, student_evaluations)' ,
     })
     modelId: UUID;

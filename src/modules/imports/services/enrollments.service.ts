@@ -346,6 +346,8 @@ export class EnrollmentsService {
         where: { enrollmentDetailId: enrollmentDetail.id },
       });
 
+      console.log(grades);
+
       let grade1 = grades.find(grade => grade.partialId === this.partial1.id);
       let grade2 = grades.find(grade => grade.partialId === this.partial2.id);
       let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
@@ -423,6 +425,8 @@ export class EnrollmentsService {
 
       if (grade4)
         await this.gradeRepository.save(grade4);
+
+      console.log(grade1);
     }
   }
 
