@@ -63,7 +63,7 @@ export class CareerParallelEntity {
     @ManyToOne(() => CatalogueEntity, {nullable: true})
     @JoinColumn({name: 'academic_period_id'})
     academicPeriod: CatalogueEntity;
-    @Column({type: 'uuid', name: 'academic_period', comment: 'Foreign Key'})
+    @Column({type: 'uuid', name: 'academic_period', nullable:true, comment: 'Foreign Key'})
     academicPeriodId: UUID;
 
     @ManyToOne(() => CareerEntity, career => career.parallels)
