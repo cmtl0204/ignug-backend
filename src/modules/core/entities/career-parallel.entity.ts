@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import {CareerEntity} from "./career.entity";
 import {CatalogueEntity} from "./catalogue.entity";
+import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 
 @Entity('career_parallels', {schema: 'core'})
 export class CareerParallelEntity {
@@ -59,6 +60,12 @@ export class CareerParallelEntity {
     /** Inverse Relationship **/
 
     /** Foreign Keys **/
+    @ManyToOne(() => CatalogueEntity, {nullable: true})
+    @JoinColumn({name: 'academic_period_id'})
+    academicPeriod: CatalogueEntity;
+    @Column({type: 'uuid', name: 'academic_period_id', nullable:true, comment: 'Foreign Key'})
+    academicPeriodId: string;
+
     @ManyToOne(() => CareerEntity, career => career.parallels)
     @JoinColumn({name: 'career_id'})
     career: CareerEntity;
