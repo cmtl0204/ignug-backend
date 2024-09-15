@@ -29,6 +29,7 @@ import {
   CareerParallelsService, SubjectsService,
 } from '@core/services';
 import {
+  CatalogueEnrollmentsAcademicStateEnum,
   CatalogueEnrollmentStateEnum,
   CatalogueSchoolPeriodTypeEnum,
   CatalogueTypeEnum,
@@ -553,7 +554,7 @@ export class EnrollmentsService {
 
     const enrollmentTotal = await this.findTotalEnrollments(enrollment?.id, payload.career.id, payload.parallel.id, payload.schoolPeriod.id, payload.workday.id);
 
-    const capacity = await this.careerParallelsService.findCapacityByCareer(payload.career.id, payload.parallel.id, payload.workday.id);
+    const capacity = await this.careerParallelsService.findCapacityByCareer(payload.career.id, payload.parallel.id, payload.workday.id,payload.academicPeriod.id);
 
     if (capacity <= enrollmentTotal) {
       throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} con en el paralelo ${payload.parallel.name}`);
@@ -1095,5 +1096,35 @@ export class EnrollmentsService {
 
     return enrollments[0];
     // });
+  }
+
+  async findLastEnrollmentDetailByStudent(studentId: string): Promise<string> {
+    const catalogues = await this.cataloguesService.findCache();
+
+    const approvedState = catalogues.find(catalogue =>
+      catalogue.code === CatalogueEnrollmentsAcademicStateEnum.APPROVED &&
+      catalogue.type === CatalogueTypeEnum.ENROLLMENTS_ACADEMIC_STATE);
+
+    const enrollments = await this.repository.find({
+      relations: {
+        enrollmentDetails: {
+          subject: { type: true, academicPeriod: true },
+          academicState: true,
+        },
+      },
+      where: { studentId, enrollmentDetails: { academicStateId: approvedState.id } },
+    });
+
+    let lastAcademicPeriod = 0;
+
+    for (const enrollment of enrollments) {
+      for (const enrollmentDetail of enrollment.enrollmentDetails) {
+        if (parseInt(enrollmentDetail.subject.academicPeriod.code) > lastAcademicPeriod) {
+          lastAcademicPeriod = parseInt(enrollmentDetail.subject.academicPeriod.code);
+        }
+      }
+    }
+
+    return lastAcademicPeriod.toString();
   }
 }

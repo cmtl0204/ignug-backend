@@ -93,6 +93,11 @@ export enum CatalogueEnrollmentStateEnum {
   REGISTERED = 'registered',
 }
 
+export enum CatalogueEnrollmentsAcademicStateEnum {
+  APPROVED = 'a',
+  REPROVED = 'r',
+}
+
 export enum CatalogueSchoolPeriodStateEnum {
   OPEN = 'open',
   CLOSE = 'close',
