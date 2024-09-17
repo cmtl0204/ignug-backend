@@ -43,7 +43,7 @@ export class CareerParallelsService {
         return await this.repository.softRemove(entity);
     }
 
-    async findCapacityByCareer(careerId: string, parallelId: string, workdayId: string,academicPeriodId:string): Promise<number> {
+    async findCapacityByCareer(careerId: string, parallelId: string, workdayId: string, academicPeriodId: string): Promise<number> {
         const response = await this.repository.findOne({
             where: {
                 careerId,
