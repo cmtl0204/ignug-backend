@@ -562,8 +562,6 @@ export class EnrollmentsService {
         );
 
         const capacity = await this.careerParallelsService.findCapacityByCareer(payload.career.id, payload.parallel.id, payload.workday.id, payload.academicPeriod.id);
-        console.log('enrollmentTotal', enrollmentTotal);
-        console.log('capacity', capacity);
 
         if (capacity <= enrollmentTotal) {
             throw new BadRequestException(`No existen cupos disponibles en la jornada ${payload.workday.name} con en el paralelo ${payload.parallel.name}`);
