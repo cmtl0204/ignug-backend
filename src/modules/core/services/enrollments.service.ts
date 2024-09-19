@@ -1123,7 +1123,7 @@ export class EnrollmentsService {
         },
       },
       where: { studentId, enrollmentDetails: { academicStateId: approvedState.id } },
-      order: { schoolPeriod: { startedAt: 'asc' }, enrollmentDetails: { subject: { code: 'asc' } } },
+      order: { schoolPeriod: { startedAt: 'asc' }, enrollmentDetails: { subject: { code: 'asc ' } } },
     });
 
     let lastAcademicPeriod = 0;
