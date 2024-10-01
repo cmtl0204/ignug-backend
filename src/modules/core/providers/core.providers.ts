@@ -188,4 +188,9 @@ export const coreProviders = [
         useFactory: (dataSource: DataSource) => dataSource.getRepository(CareerToTeacherEntity),
         inject: [ConfigEnum.PG_DATA_SOURCE],
     },
+    {
+        provide: CoreRepositoryEnum.TEST_REPOSITORY,
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(ResidenceAddressEntity),
+        inject: [ConfigEnum.PG_DATA_SOURCE],
+    },
 ];
