@@ -248,8 +248,11 @@ export class StudentsController {
 
   @Get(':id/last-enrollment-detail')
   @HttpCode(HttpStatus.OK)
-  async findLastEnrollmentDetailByStudent(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-    const serviceResponse = await this.enrollmentsService.findLastEnrollmentDetailByStudent(id);
+  async findLastEnrollmentDetailByStudent(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query('careerId', ParseUUIDPipe) careerId: string,
+    ): Promise<ResponseHttpModel> {
+    const serviceResponse = await this.enrollmentsService.findLastEnrollmentDetailByStudent(id,careerId);
 
     return {
       data: serviceResponse,

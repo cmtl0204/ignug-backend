@@ -1108,7 +1108,7 @@ export class EnrollmentsService {
     // });
   }
 
-  async findLastEnrollmentDetailByStudent(studentId: string): Promise<string> {
+  async findLastEnrollmentDetailByStudent(studentId: string, careerId: string): Promise<string> {
     const catalogues = await this.cataloguesService.findCache();
 
     const approvedState = catalogues.find(catalogue =>
@@ -1122,7 +1122,7 @@ export class EnrollmentsService {
           academicState: true,
         },
       },
-      where: { studentId, enrollmentDetails: { academicStateId: approvedState.id } },
+      where: {careerId, studentId, enrollmentDetails: { academicStateId: approvedState.id } },
       order: { schoolPeriod: { startedAt: 'asc' }, enrollmentDetails: { subject: { code: 'asc' } } },
     });
 
