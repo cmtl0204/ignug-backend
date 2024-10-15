@@ -22,7 +22,7 @@ export class EnrollmentDetailsService {
     ) {
     }
 
-    async create(userId:string,payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+    async create(userId: string, payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
         const enrollmentDetailExist = await this.repository.find({
             where: {
                 enrollmentId: payload.enrollmentId,
@@ -44,10 +44,10 @@ export class EnrollmentDetailsService {
         newEnrollmentDetail.typeId = payload.type.id;
         newEnrollmentDetail.workdayId = payload.workday.id;
 
-        return  await this.repository.save(newEnrollmentDetail);
+        return await this.repository.save(newEnrollmentDetail);
     }
 
-    async sendRequest(userId:string,enrollmentDetailId:string,payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
+    async sendRequest(userId: string, enrollmentDetailId: string, payload: CreateEnrollmentsDetailDto): Promise<EnrollmentDetailEntity> {
         const catalogues = await this.cataloguesService.findCache();
 
         const requestSentState = catalogues.find(catalogue =>
@@ -55,7 +55,7 @@ export class EnrollmentDetailsService {
             catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
 
 
-         await this.enrollmentDetailStatesService.create({
+        await this.enrollmentDetailStatesService.create({
             enrollmentDetailId: enrollmentDetailId,
             stateId: requestSentState.id,
             userId,
@@ -89,6 +89,7 @@ export class EnrollmentDetailsService {
         const enrollmentDetail = await this.repository.findOne({
             relations: {
                 subject: {academicPeriod: true},
+                academicState: true,
                 type: true,
                 workday: true,
                 parallel: true,
@@ -126,6 +127,16 @@ export class EnrollmentDetailsService {
 
         if (payload.observation)
             enrollmentDetail.observation = payload.observation;
+
+        if (payload.finalGrade)
+            enrollmentDetail.finalGrade = payload.finalGrade;
+
+        if (payload.finalAttendance)
+            enrollmentDetail.finalAttendance = payload.finalAttendance;
+
+        if (payload.academicState)
+            enrollmentDetail.academicState = payload.academicState;
+
 
         return await this.repository.save(enrollmentDetail);
     }

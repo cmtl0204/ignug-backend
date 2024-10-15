@@ -43,4 +43,10 @@ export class EnrollmentsDetailDto {
 
     @IsString(isStringValidationOptions())
     readonly observation: string;
+
+    @IsNumber()
+    readonly finalGrade: number;
+
+    @IsNumber()
+    readonly finalAttendance: number;
 }
