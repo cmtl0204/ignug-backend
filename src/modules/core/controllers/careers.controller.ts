@@ -13,7 +13,7 @@ import {
     Query
 } from '@nestjs/common';
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
-import {Auth, User} from '@auth/decorators';
+import { Auth, PublicRoute, User } from '@auth/decorators';
 import {UserEntity} from '@auth/entities';
 import {CreateCareerDto, FilterEnrollmentDto, UpdateCareerDto} from '@core/dto';
 import {CareerEntity} from '@core/entities';
@@ -50,18 +50,18 @@ export class CareersController {
         };
     }
 
-    @ApiOperation({summary: 'Find Career'})
-    @Get(':id')
-    @HttpCode(HttpStatus.OK)
-    async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
-        const serviceResponse = await this.careersService.findOne(id);
-
-        return {
-            data: serviceResponse,
-            message: `Buscar carrera`,
-            title: `Success`,
-        };
-    }
+    // @ApiOperation({summary: 'Find Career'})
+    // @Get(':id')
+    // @HttpCode(HttpStatus.OK)
+    // async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ResponseHttpModel> {
+    //     const serviceResponse = await this.careersService.findOne(id);
+    //
+    //     return {
+    //         data: serviceResponse,
+    //         message: `Buscar carrera`,
+    //         title: `Success`,
+    //     };
+    // }
 
     @ApiOperation({summary: 'Update Career'})
     @Put(':id')
@@ -219,5 +219,24 @@ export class CareersController {
             title: `Success`,
         };
     }
+    @PublicRoute()
+    @Get('prueba')
+    async sumar(): Promise<ResponseHttpModel> {
+        return {
+            data: null,
+            message: `Success`,
+            title: `Sumar`,
+        }
+    }
+    @PublicRoute()
+    @Get(':id')
+    async sumar2(): Promise<ResponseHttpModel> {
+        return {
+            data: null,
+            message: `Success`,
+            title: `Sumar 2`,
+        }
+    }
+
 
 }
