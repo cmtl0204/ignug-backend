@@ -91,9 +91,13 @@ export class StudentsService {
       this.row = 1;
 
       for (const item of dataExcel) {
+
         this.row++;
+        console.log("-----------------------------")
+        console.log(this.row)
 
         const career = this.careers.find(career => career.code === item['Codigo_Carrera']);
+        //console.log(career)
 
         if(!career){
           this.errors.push({
@@ -103,7 +107,8 @@ export class StudentsService {
           });
         }
         let user: any = await this.userRepository.findOne({ where: { identification: item['Numero_Documento'] } });
-
+        //console.log(user)
+        console.log(item['Numero_Documento'])
         if (!user) {
           user =
             {
@@ -114,7 +119,7 @@ export class StudentsService {
               email: item['Correo'],
               lastname: item['Apellidos'],
               name: item['Nombres'],
-              password: await Bcrypt.hash(item['Numero_Documento'], 10),
+              password: item['Numero_Documento'],
               passwordChanged: false,
               personalEmail: item['Correo'],
               roles: [studentRole],
@@ -122,7 +127,7 @@ export class StudentsService {
               careers: [career],
             };
         }
-
+        console.log(user)
         const userCreated = await this.userRepository.save(user);
 
         let student: any = await this.studentRepository.findOne({ where: { userId: userCreated.id } });
@@ -153,7 +158,7 @@ export class StudentsService {
         throw new BadRequestException();
 
     } catch (err) {
-      throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores');
+      throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores'+ err);
     }
   }
 
