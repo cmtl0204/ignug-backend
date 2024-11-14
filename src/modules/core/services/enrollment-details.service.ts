@@ -236,6 +236,7 @@ export class EnrollmentDetailsService {
         const response = await this.repository.find({
             relations: {
                 parallel: true,
+                academicState: true,
                 enrollmentDetailStates: {state: true},
                 enrollmentDetailState: {state: true},
                 subject: {academicPeriod: true},
