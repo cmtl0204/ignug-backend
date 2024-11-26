@@ -548,6 +548,8 @@ export class StudentReportsService {
     async generateStudentCard(id: string, careerId: string, schoolPeriodId: string) {
         const data = (await this.studentSqlService.findStudentCard(id, careerId, schoolPeriodId)) as StudentEntity[];
 
+        // console.log(data);
+
         try {
             return this.printerService.createPdf(studentCardReport(this.configService,data[0]));
         } catch (error) {

@@ -358,7 +358,7 @@ export class StudentSqlService {
         id,
         enrollments: {
           careerId: careerId,
-          schoolPeriodId: '3d34885e-1a03-4441-8b52-438d2e0b4931',
+          schoolPeriodId: schoolPeriodId,
           enrollmentStates: { stateId: enrollmentStateEnrolled.id },
         },
       },
