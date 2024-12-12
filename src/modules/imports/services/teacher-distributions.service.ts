@@ -101,8 +101,12 @@ export class TeacherDistributionsService {
       const path = join(process.cwd(), 'storage/imports', file.filename);
       const workbook = XLSX.readFile(path);
       const workbookSheets = workbook.SheetNames;
+
+
       const sheet = workbookSheets[0];
       const dataExcel = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+
 
       // await this.loadCareers();
       await this.loadSubjects();
@@ -127,7 +131,6 @@ export class TeacherDistributionsService {
 
       for (const item of dataExcel) {
         this.row++;
-
         const parallel = this.parallels.find(parallel => parallel.code.toLowerCase() === item[ColumnsEnum.PARALLEL_CODE].trim().toLowerCase());
         const schoolPeriod = this.schoolPeriods.find(schoolPeriod => schoolPeriod.code.toLowerCase() === item[ColumnsEnum.SCHOOL_PERIOD_CODE].trim().toLowerCase());
         const academicPeriod = this.academicPeriods.find(academicPeriod => academicPeriod.code === item[ColumnsEnum.ACADEMIC_PERIOD_CODE].toString().trim());
@@ -137,6 +140,12 @@ export class TeacherDistributionsService {
           relations: { teacher: true },
           where: { identification: item[ColumnsEnum.IDENTIFICATION].toString().trim() },
         });
+
+        if (!user.teacher){
+          const teacher = this.teacherRepository.create();
+          teacher.userId = user.id;
+          user.teacher = await this.teacherRepository.save(teacher);
+        }
 
         let teacherDistribution = await this.teacherDistributionRepository.findOne({
           where: {
@@ -236,7 +245,7 @@ export class TeacherDistributionsService {
       });
     }
 
-    if (!user?.teacher) {
+    if (!user) {
       this.errors.push({
         row: this.row,
         column: ColumnsEnum.IDENTIFICATION,

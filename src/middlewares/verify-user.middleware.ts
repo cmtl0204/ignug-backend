@@ -27,7 +27,6 @@ export class VerifyUserMiddleware implements NestMiddleware {
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ');
       const jwtDecode = this.jwtService.decode(token[1]) as PayloadTokenModel;
-
       const user = await this.userEntityRepository.findOneBy({ id: jwtDecode.id });
 
       if (user.suspendedAt) {
