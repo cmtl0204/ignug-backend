@@ -68,15 +68,12 @@ export class PartnerEvaluationService {
       for (const careerToTeacher of career.careerToTeachers) {
         let index = Math.floor(Math.random() * (career.careerToTeachers.length));
         let evaluatedId = career.careerToTeachers[index].teacher.userId;
-        console.log(index);
 
         let i = career.careerToTeachers.length;
         while (evaluatedId === careerToTeacher.teacher.userId) {
           index = Math.floor(Math.random() * (career.careerToTeachers.length));
-          console.log('index', index);
           // console.log('evaluatedId', evaluatedId);
           // console.log('evaluatorId', careerToTeacher.teacher.userId);
-          console.log('length2', career.careerToTeachers.length);
           evaluatedId = career.careerToTeachers[index].teacher.userId;
           i--;
           if (i === 0) {
@@ -106,7 +103,7 @@ export class PartnerEvaluationService {
         partnerEvaluations.push(partnerEvaluation);
       }
 
-      console.log('------------------');
+      // console.log('------------------');
     }
 
     await this.repository.save(partnerEvaluations);

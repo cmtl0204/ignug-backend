@@ -199,15 +199,15 @@ export class ResultService {
         { evaluatedId, schoolPeriodId })
       .getRawOne();
 
-    const autoEvaluationScore = autoEvaluation.totalScore ? parseFloat((autoEvaluation?.totalScore / 14).toFixed(2)) : null;
-    const studentEvaluationScore = studentEvaluation.totalScore ? parseFloat((studentEvaluation?.totalScore * (4 / 11)).toFixed(2)) : null;
-    const partnerEvaluationScore = partnerEvaluation.totalScore ? parseFloat((partnerEvaluation?.totalScore * (5 / 28)).toFixed(2)) : null;
-    const coordinatorEvaluationScore = coordinatorEvaluation.totalScore ? parseFloat((coordinatorEvaluation?.totalScore * (5 / 23)).toFixed(2)) : null;
+    const autoEvaluationScore = autoEvaluation?.totalScore ? parseFloat((autoEvaluation?.totalScore / 14).toFixed(2)) : null;
+    const studentEvaluationScore = studentEvaluation?.totalScore ? parseFloat((studentEvaluation?.totalScore * (4 / 11)).toFixed(2)) : null;
+    const partnerEvaluationScore = partnerEvaluation?.totalScore ? parseFloat((partnerEvaluation?.totalScore * (5 / 28)).toFixed(2)) : null;
+    const coordinatorEvaluationScore = coordinatorEvaluation?.totalScore ? parseFloat((coordinatorEvaluation?.totalScore * (5 / 23)).toFixed(2)) : null;
 
     let totalScore = null;
     let quality = null;
 
-    if (autoEvaluation.totalScore && studentEvaluation.totalScore && partnerEvaluation.totalScore && coordinatorEvaluation.totalScore) {
+    if (autoEvaluation?.totalScore && studentEvaluation?.totalScore && partnerEvaluation?.totalScore && coordinatorEvaluation?.totalScore) {
       totalScore = autoEvaluationScore + partnerEvaluationScore + coordinatorEvaluationScore + studentEvaluationScore;
       totalScore = totalScore.toFixed(2);
 

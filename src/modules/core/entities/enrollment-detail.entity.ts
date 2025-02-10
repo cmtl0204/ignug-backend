@@ -161,6 +161,16 @@ export class EnrollmentDetailEntity {
     })
     observation: string;
 
+    @Column({
+        name: 'supplementary_grade',
+        type: 'decimal',
+        nullable: true,
+        precision: 5,
+        scale: 2,
+        comment: 'Valor del examen supletorio-+',
+    })
+    supplementaryGrade: number;
+
     @BeforeInsert()
     @BeforeUpdate()
     async setDate() {

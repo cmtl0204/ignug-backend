@@ -33,4 +33,17 @@ export class GradesController {
             title: 'Registrada',
         };
     }
+
+    @ApiOperation({summary: 'Create'})
+    @Patch('enrollment-details/:enrollmentDetailId/supplementary-grades')
+    @HttpCode(HttpStatus.CREATED)
+    async saveSupplementaryGradeByTeacher(@Param('enrollmentDetailId') enrollmentDetailId: string, @Body() payload: any): Promise<ResponseHttpModel> {
+        const serviceResponse = await this.gradesService.saveSupplementaryGradeByTeacher(enrollmentDetailId, payload);
+
+        return {
+            data: serviceResponse,
+            message: `Calificación Registrada`,
+            title: 'Registrada',
+        };
+    }
 }
