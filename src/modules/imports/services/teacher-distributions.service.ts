@@ -115,6 +115,7 @@ export class TeacherDistributionsService {
       await this.loadCatalogues();
 
       this.row = 1;
+      this.errors = [];
 
       for (const item of dataExcel) {
         this.row++;
@@ -155,6 +156,8 @@ export class TeacherDistributionsService {
             teacherId: user.teacher.id,
           },
         });
+
+
 
         if (!teacherDistribution) {
           teacherDistribution = this.teacherDistributionRepository.create();
@@ -202,8 +205,10 @@ export class TeacherDistributionsService {
       relations: { teacher: true },
       where: { identification: item[ColumnsEnum.IDENTIFICATION].toString().trim() },
     });
+    //console.log(item[ColumnsEnum.IDENTIFICATION].toString().trim());
+    //console.log(!user);
+    //console.log(!user?.teacher);
 
-    this.errors = [];
 
     if (!parallel) {
       this.errors.push({
@@ -249,7 +254,15 @@ export class TeacherDistributionsService {
       this.errors.push({
         row: this.row,
         column: ColumnsEnum.IDENTIFICATION,
-        observation: `${ColumnsEnum.IDENTIFICATION} no válido`,
+        observation: `${ColumnsEnum.IDENTIFICATION} Usuario no existe o no valido`,
+      });
+    }
+
+    if (user && !user?.teacher) {
+      this.errors.push({
+        row: this.row,
+        column: ColumnsEnum.IDENTIFICATION,
+        observation: `${ColumnsEnum.IDENTIFICATION} Docente no válido`,
       });
     }
   }
