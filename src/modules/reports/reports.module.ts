@@ -7,7 +7,6 @@ import {
     GradeReportsController,
     StudentReportsController,
 } from './controllers';
-import {CareerReportsService, EnrollmentReportsService, StudentReportsService} from './services';
 import {GradeReportsService} from './services/grade-reports.service';
 import {StudentSqlService} from './services/student-sql.service';
 import {EnrollmentSqlService} from './services/enrollment-sql.service';
@@ -16,6 +15,10 @@ import {PrinterService} from './services/printer.service';
 import {TeacherEvaluationReportsController} from "./controllers/teacher-evaluation-reports.controller";
 import {TeacherEvaluationReportsService} from "./services/teacher-evaluation-reports.service";
 import {TeacherEvaluationSqlService} from "./services/teacher-evaluation-sql.service";
+import { CareerReportsService } from './services/career-reports.service';
+import { StudentReportsService } from './services/student-reports.service';
+import { EnrollmentReportsService } from './services/enrollment-reports.service';
+import { GradeSqlService } from './services/grade-sql.service';
 
 @Global()
 @Module({
@@ -34,6 +37,7 @@ import {TeacherEvaluationSqlService} from "./services/teacher-evaluation-sql.ser
         StudentReportsService,
         EnrollmentReportsService,
         GradeReportsService,
+        GradeSqlService,
         StudentSqlService,
         EnrollmentSqlService,
         TeacherEvaluationReportsService,

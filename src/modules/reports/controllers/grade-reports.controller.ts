@@ -3,12 +3,11 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  Param, ParseUUIDPipe, Query,
+  Param, ParseUUIDPipe,
   Res,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
-import { EnrollmentReportsService } from '../services';
 import { GradeReportsService } from '../services/grade-reports.service';
 
 @ApiTags('Grade Reports')
@@ -44,16 +43,21 @@ export class GradeReportsController {
   }
 
   @ApiOperation({ summary: 'Enrollments by Career' })
-  @Get('teacher-distributions/:teacherDistributionId/error-report')
+  @Get('teacher-distributions/:teacherDistributionId/grades-reports')
   @HttpCode(HttpStatus.OK)
   async generateGradesReportByTeacherDistribution(
     @Res() res,
     @Param('teacherDistributionId', ParseUUIDPipe) teacherDistributionId: string): Promise<ResponseHttpModel> {
-    const path = await this.gradeReportsService.generateGradesReportByTeacherDistribution(teacherDistributionId);
+    const pdfDoc = await this.gradeReportsService.generateGradesReportByTeacherDistribution(teacherDistributionId);
+
+    res.setHeader('Content-Type', 'application/pdf');
+    pdfDoc.info.Title = 'Evaluación Integral del Docente';
+    pdfDoc.pipe(res);
+    pdfDoc.end();
 
     return {
-      data: res.sendFile(path),
-      message: `Generate Enrollments By Career`,
+      data: null,
+      message: `Student Card`,
       title: `Report`,
     };
   }

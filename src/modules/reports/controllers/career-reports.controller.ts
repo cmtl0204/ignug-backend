@@ -7,7 +7,8 @@ import {
 } from '@nestjs/common';
 import {ApiTags, ApiOperation} from '@nestjs/swagger';
 import {ResponseHttpModel} from '@shared/models';
-import {CareerReportsService} from "../services";
+import { CareerReportsService } from '../services/career-reports.service';
+
 
 @ApiTags('Career Reports')
 @Controller('career-reports')

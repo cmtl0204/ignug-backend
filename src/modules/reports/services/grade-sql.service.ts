@@ -18,16 +18,25 @@ export class GradeSqlService {
   constructor(
     @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly repository: Repository<StudentEntity>,
     @Inject(CoreRepositoryEnum.TEACHER_DISTRIBUTION_REPOSITORY) private readonly teacherDistributionRepository: Repository<TeacherDistributionEntity>,
+    @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY) private readonly enrollmentDetailRepository: Repository<EnrollmentDetailEntity>,
     private readonly cataloguesService: CataloguesService,
   ) {
   }
 
   async findGradesReportByTeacherDistribution(teacherDistributionId: string) {
-    const teacherDistribution = await this.teacherDistributionRepository.findOneBy({id: teacherDistributionId});
+    const teacherDistribution = await this.teacherDistributionRepository.findOne({
+      where: { id: teacherDistributionId },
+      relations: {
+        teacher: { user: true },
+        subject: { academicPeriod: true, curriculum: { career: true } },
+        schoolPeriod: true,
+        parallel: true,
+      },
+    });
 
     const enrollmentDetails = await this.findEnrollmentDetails(teacherDistribution);
 
-    return enrollmentDetails.map(enrollmentDetail => {
+    const grades = enrollmentDetails.map(enrollmentDetail => {
       const partial1 = enrollmentDetail.grades.find(grade => grade.partial.code === '1');
       const partial2 = enrollmentDetail.grades.find(grade => grade.partial.code === '2');
       const partial3 = enrollmentDetail.grades.find(grade => grade.partial.code === '3');
@@ -37,13 +46,55 @@ export class GradeSqlService {
         'Apellidos': enrollmentDetail.enrollment.student.user.lastname,
         'Nombres': enrollmentDetail.enrollment.student.user.name,
         'Asignatura': enrollmentDetail.subject.name,
-        'Parcial1': partial1?.value,
-        'Parcial2': partial2?.value,
-        'Examen_Final': partial3?.value,
-        'Progreso': enrollmentDetail.finalAttendance,
-        'Calificacion_Final': enrollmentDetail.finalGrade,
-        'Estado_Academico': enrollmentDetail.academicState?.name,
+        'Parcial1': partial1?.value || '',
+        'Parcial2': partial2?.value || '',
+        'Examen_Final': partial3?.value || '',
+        'Examen_Supletorio': enrollmentDetail.supplementaryGrade || '',
+        'Progreso': enrollmentDetail.finalAttendance || '',
+        'Calificacion_Final': enrollmentDetail.finalGrade || '',
+        'Estado_Academico': enrollmentDetail.academicState?.name || '',
       };
+    });
+
+    const teacherDistributionMap = {
+      subject: teacherDistribution.subject,
+      parallel: teacherDistribution.parallel.name,
+      academicPeriod: teacherDistribution.subject.academicPeriod.name,
+      studentsTotal: enrollmentDetails.length,
+      teacherName: `${teacherDistribution.teacher.user.name} ${teacherDistribution.teacher.user.lastname}`,
+      teacherIdentification: teacherDistribution.teacher.user.identification,
+      schoolPeriod: teacherDistribution.schoolPeriod.shortName,
+    };
+
+    return { grades, teacherDistribution: teacherDistributionMap };
+  }
+
+  async findEnrollmentDetails(teacherDistribution: TeacherDistributionEntity) {
+    const catalogues = await this.cataloguesService.findCache();
+    const enrollmentStateEnrolled = catalogues.find(catalogue => catalogue.code === CatalogueEnrollmentStateEnum.ENROLLED && catalogue.type === CatalogueTypeEnum.ENROLLMENT_STATE);
+
+    return await this.enrollmentDetailRepository.find({
+      relations: {
+        academicState: true,
+        attendances: { partial: true },
+        grades: { partial: true },
+        parallel: true,
+        enrollmentDetailState: { state: true },
+        subject: { academicPeriod: true },
+        type: true,
+        workday: true,
+        enrollment: { student: { user: true } },
+      },
+      where: {
+        enrollment: {
+          schoolPeriodId: teacherDistribution.schoolPeriodId,
+          enrollmentState: { stateId: enrollmentStateEnrolled.id },
+        },
+        parallelId: teacherDistribution.parallelId,
+        subjectId: teacherDistribution.subjectId,
+        workdayId: teacherDistribution.workdayId,
+      },
+      order: { enrollment: { student: { user: { lastname: 'asc', name: 'asc' } } } },
     });
   }
 

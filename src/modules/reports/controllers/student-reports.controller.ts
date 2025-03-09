@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { ResponseHttpModel } from '@shared/models';
-import { StudentReportsService } from '../services';
 import {Response} from 'express';
+import { StudentReportsService } from '../services/student-reports.service';
 
 @ApiTags('Student Reports')
 @Controller('student-reports')

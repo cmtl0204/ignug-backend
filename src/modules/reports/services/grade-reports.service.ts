@@ -1,21 +1,19 @@
-import {Inject, Injectable, Res} from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {CataloguesService, } from '@core/services';
-import {Repository, SelectQueryBuilder} from 'typeorm';
+import {Repository} from 'typeorm';
 import {
     EnrollmentDetailEntity,
-    EnrollmentEntity,
     StudentEntity,
     TeacherDistributionEntity,
 } from '@core/entities';
 import * as XLSX from 'xlsx';
 import {join} from 'path';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
-import { studentCardReport } from '../templates/student-card.report';
 import { PrinterService } from './printer.service';
-import { StudentSqlService } from './student-sql.service';
 import { GradeSqlService } from './grade-sql.service';
 import { config } from '@config';
 import { ConfigType } from '@nestjs/config';
+import { gradesReportReport } from '../templates/grades-report.report';
 
 @Injectable()
 export class GradeReportsService {
@@ -29,7 +27,6 @@ export class GradeReportsService {
         private readonly cataloguesService: CataloguesService,
         private readonly printerService: PrinterService,
         private readonly gradeSqlService: GradeSqlService,
-        @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY) private readonly enrollmentRepository: Repository<EnrollmentEntity>,
         @Inject(CoreRepositoryEnum.TEACHER_DISTRIBUTION_REPOSITORY) private readonly teacherDistributionRepository: Repository<TeacherDistributionEntity>,
         @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY) private readonly enrollmentDetailRepository: Repository<EnrollmentDetailEntity>,
         @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly studentRepository: Repository<StudentEntity>) {
@@ -70,10 +67,12 @@ export class GradeReportsService {
     }
 
     async generateGradesReportByTeacherDistribution(teacherDistributionId: string) {
-        const data = (await this.gradeSqlService.findGradesReportByTeacherDistribution(teacherDistributionId)) as EnrollmentEntity[];
+        const data =
+          (await this.gradeSqlService.findGradesReportByTeacherDistribution(teacherDistributionId));
 
+        console.log(data);
         try {
-            return this.printerService.createPdf(studentCardReport(this.configService,data[0]));
+            return this.printerService.createPdf(gradesReportReport(data));
         } catch (error) {
             throw new Error;
         }
