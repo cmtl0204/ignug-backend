@@ -10,6 +10,12 @@ import {
 import * as XLSX from 'xlsx';
 import {join} from 'path';
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum, CoreRepositoryEnum} from '@shared/enums';
+import { studentCardReport } from '../templates/student-card.report';
+import { PrinterService } from './printer.service';
+import { StudentSqlService } from './student-sql.service';
+import { GradeSqlService } from './grade-sql.service';
+import { config } from '@config';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class GradeReportsService {
@@ -19,7 +25,10 @@ export class GradeReportsService {
     private imageHeaderHeight = 80;
 
     constructor(
+      @Inject(config.KEY) private configService: ConfigType<typeof config>,
         private readonly cataloguesService: CataloguesService,
+        private readonly printerService: PrinterService,
+        private readonly gradeSqlService: GradeSqlService,
         @Inject(CoreRepositoryEnum.ENROLLMENT_REPOSITORY) private readonly enrollmentRepository: Repository<EnrollmentEntity>,
         @Inject(CoreRepositoryEnum.TEACHER_DISTRIBUTION_REPOSITORY) private readonly teacherDistributionRepository: Repository<TeacherDistributionEntity>,
         @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY) private readonly enrollmentDetailRepository: Repository<EnrollmentDetailEntity>,
@@ -58,6 +67,16 @@ export class GradeReportsService {
         XLSX.writeFile(newWorkbook, path);
 
         return path;
+    }
+
+    async generateGradesReportByTeacherDistribution(teacherDistributionId: string) {
+        const data = (await this.gradeSqlService.findGradesReportByTeacherDistribution(teacherDistributionId)) as EnrollmentEntity[];
+
+        try {
+            return this.printerService.createPdf(studentCardReport(this.configService,data[0]));
+        } catch (error) {
+            throw new Error;
+        }
     }
 
     async findTeacherDistribution(teacherDistributionId: string) {

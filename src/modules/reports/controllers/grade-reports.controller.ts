@@ -42,4 +42,19 @@ export class GradeReportsController {
       title: `Report`,
     };
   }
+
+  @ApiOperation({ summary: 'Enrollments by Career' })
+  @Get('teacher-distributions/:teacherDistributionId/error-report')
+  @HttpCode(HttpStatus.OK)
+  async generateGradesReportByTeacherDistribution(
+    @Res() res,
+    @Param('teacherDistributionId', ParseUUIDPipe) teacherDistributionId: string): Promise<ResponseHttpModel> {
+    const path = await this.gradeReportsService.generateGradesReportByTeacherDistribution(teacherDistributionId);
+
+    return {
+      data: res.sendFile(path),
+      message: `Generate Enrollments By Career`,
+      title: `Report`,
+    };
+  }
 }
