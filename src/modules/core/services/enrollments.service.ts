@@ -39,6 +39,8 @@ import { ServiceResponseHttpModel } from '@shared/models';
 import { isAfter, isBefore } from 'date-fns';
 import { StudentsService } from './students.service';
 import { IsNotEmpty } from 'class-validator';
+import { join } from 'path';
+import * as fs from 'fs';
 
 @Injectable()
 export class EnrollmentsService {
@@ -542,6 +544,17 @@ export class EnrollmentsService {
   }
 
   async sendRegistration(userId: string, payload: any): Promise<EnrollmentEntity> {
+    try {
+      const filePath = join(process.cwd(), 'log-registration.txt');
+      fs.appendFile(filePath, payload.toString() + '\n', (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } catch (error) {
+      throw new Error(`Error appending to file: ${error.message}`);
+    }
+
     // return await this.repository.manager.transaction(async (transactionalEntityManager) => {
     let enrollment = await this.repository.findOne({
       relations: { enrollmentStates: { state: true }, enrollmentDetails: true },
@@ -1122,7 +1135,7 @@ export class EnrollmentsService {
           academicState: true,
         },
       },
-      where: {careerId, studentId, enrollmentDetails: { academicStateId: approvedState.id } },
+      where: { careerId, studentId, enrollmentDetails: { academicStateId: approvedState.id } },
       order: { schoolPeriod: { startedAt: 'asc' }, enrollmentDetails: { subject: { code: 'asc' } } },
     });
 

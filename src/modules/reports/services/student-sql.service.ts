@@ -158,7 +158,7 @@ export class StudentSqlService {
       .leftJoin(LocationEntity, 'province_origins', 'province_origins.id = origin_addresses.province_id')
       .leftJoin(LocationEntity, 'canton_origins', 'canton_origins.id = origin_addresses.canton_id')
       .leftJoin(LocationEntity, 'parish_origins', 'parish_origins.id = origin_addresses.parish_id')
-      .leftJoin(ResidenceAddressEntity, 'residence_addresses', 'residence_addresses.model_id = students.id')
+      .leftJoin(ResidenceAddressEntity, 'residence_addresses', 'residence_addresses.model_id = users.id')
       .leftJoin(LocationEntity, 'province_residences', 'province_residences.id = residence_addresses.province_id')
       .leftJoin(LocationEntity, 'canton_residences', 'canton_residences.id = residence_addresses.canton_id')
       .leftJoin(LocationEntity, 'parish_residences', 'parish_residences.id = residence_addresses.parish_id')
