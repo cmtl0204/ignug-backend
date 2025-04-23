@@ -171,19 +171,20 @@ export class EnrollmentSqlService {
                 'detail_states.name as "Estado Matrícula"',
                 'enrollment_details.observation as "Observación"'
             ])
-            .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
-            .innerJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
-            .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
-            .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollments.parallel_id')
-            .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
-            .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
-            .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
-            .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
-            .innerJoin(EnrollmentDetailEntity, 'enrollment_details', 'enrollment_details.enrollment_id = enrollments.id')
-            .innerJoin(EnrollmentDetailStateEntity, 'enrollment_detail_states', 'enrollment_detail_states.enrollment_detail_id = enrollment_details.id')
-            .innerJoin(CatalogueEntity, 'detail_states', 'detail_states.id = enrollment_detail_states.state_id')
-            .leftJoin(CatalogueEntity, 'academic_state', 'academic_state.id = enrollment_details.academic_state_id')
-            .innerJoin(SubjectEntity, 'subjects', 'subjects.id = enrollment_details.subject_id')
+          .innerJoin(EnrollmentStateEntity, 'enrollment_states', 'enrollment_states.enrollment_id = enrollments.id')
+          .innerJoin(CatalogueEntity, 'types', 'types.id = enrollments.type_id')
+          .innerJoin(CatalogueEntity, 'states', 'states.id = enrollment_states.state_id')
+          .innerJoin(CatalogueEntity, 'academic_periods', 'academic_periods.id = enrollments.academic_period_id')
+          .innerJoin(CareerEntity, 'careers', 'careers.id = enrollments.career_id')
+          .innerJoin(StudentEntity, 'students', 'students.id = enrollments.student_id')
+          .innerJoin(UserEntity, 'users', 'users.id = students.user_id')
+          .innerJoin(EnrollmentDetailEntity, 'enrollment_details', 'enrollment_details.enrollment_id = enrollments.id')
+          .innerJoin(EnrollmentDetailStateEntity, 'enrollment_detail_states', 'enrollment_detail_states.enrollment_detail_id = enrollment_details.id')
+          .innerJoin(CatalogueEntity, 'detail_states', 'detail_states.id = enrollment_detail_states.state_id')
+          .leftJoin(CatalogueEntity, 'academic_state', 'academic_state.id = enrollment_details.academic_state_id')
+          .innerJoin(SubjectEntity, 'subjects', 'subjects.id = enrollment_details.subject_id')
+          .innerJoin(CatalogueEntity, 'parallels', 'parallels.id = enrollment_details.parallel_id')
+
             .where(
                 `enrollments.school_period_id = :schoolPeriodId 
                 AND enrollment_states.deleted_at is null 
