@@ -102,7 +102,7 @@ export class EnrollmentReportsService {
       rows: rows,
     };
 
-    await doc.table(table, { align: 'center', columnsSize: [50, 200, 70, 30, 40, 50] });
+    await doc.table(table, { align: 'center', columnsSize: [50, 240, 50, 30, 40, 50] });
 
     const qrData = `http://localhost:3000/api/v1/enrollment-reports/${enrollment.studentId}/certificate`;
     const qrImageBuffer = await qr.toBuffer(qrData, {
@@ -114,16 +114,16 @@ export class EnrollmentReportsService {
 
     // doc.image(qrImageBuffer, textX + 180, textY + 390, { width: 100 });
 
-    doc.font('Helvetica').fontSize(12).text('AB. ANA KARINA PERALTA VELASQUEZ', textX + 130, textY + 565);
+    doc.font('Helvetica').fontSize(11).text('AB. ANA KARINA PERALTA VELASQUEZ', textX + 130, textY + 575);
     doc
       .font('Helvetica-Bold')
-      .fontSize(11)
-      .text('SECRETARIA GENERAL', textX + 175, textY + 585);
+      .fontSize(10)
+      .text('SECRETARIA GENERAL', textX + 175, textY + 595);
     doc.moveDown();
-    doc.text('UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI', textX + 5, textY + 605, { align: 'center' });
+    doc.text('UNIVERSIDAD INTERCULTURAL DE LAS NACIONALIDADES Y PUEBLOS INDÍGENAS AMAWTAY WASI', textX + 5, textY + 615, { align: 'center' });
     //doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 355, textY + 630);
     doc.moveDown();
-    doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 365);
+    doc.font('Helvetica').fontSize(8).text('Revisado por: A. M.', textX + 355);
     //Footer: Add page number
     const oldBottomMargin = doc.page.margins.bottom;
     doc.page.margins.bottom = 0; //Dumb: Have to remove bottom margin in order to write into it
@@ -206,7 +206,7 @@ export class EnrollmentReportsService {
       rows: rows,
     };
 
-    await doc.table(table, { align: 'center', columnsSize: [60, 200, 80, 30, 40, 50] });
+    await doc.table(table, { align: 'center', columnsSize: [60, 220, 60, 30, 40, 50] });
 
     doc.moveDown();
     doc.font('Times-Roman');
