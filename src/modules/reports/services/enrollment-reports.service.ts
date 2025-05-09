@@ -114,7 +114,7 @@ export class EnrollmentReportsService {
 
     // doc.image(qrImageBuffer, textX + 180, textY + 390, { width: 100 });
 
-    doc.font('Helvetica').fontSize(12).text('AB. ANA KARINA PERALTA VELASQUEZ', textX + 160, textY + 565);
+    doc.font('Helvetica').fontSize(12).text('AB. ANA KARINA PERALTA VELASQUEZ', textX + 130, textY + 565);
     doc
       .font('Helvetica-Bold')
       .fontSize(11)
