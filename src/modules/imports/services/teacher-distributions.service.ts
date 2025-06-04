@@ -129,6 +129,8 @@ export class TeacherDistributionsService {
       }
 
       this.row = 1;
+      let totalNewTeacherDistribution = 0;
+      let totalExitsTeacherDistribution = 0;
 
       for (const item of dataExcel) {
         this.row++;
@@ -154,10 +156,13 @@ export class TeacherDistributionsService {
             workdayId: workday.id,
             parallelId: parallel.id,
             teacherId: user.teacher.id,
+            schoolPeriodId: schoolPeriod.id,
           },
         });
 
-
+        if (teacherDistribution) {
+          totalExitsTeacherDistribution++;
+        }
 
         if (!teacherDistribution) {
           teacherDistribution = this.teacherDistributionRepository.create();
@@ -168,6 +173,7 @@ export class TeacherDistributionsService {
           teacherDistribution.workdayId = workday.id;
 
           await this.teacherDistributionRepository.save(teacherDistribution);
+          totalNewTeacherDistribution++;
         }
 
         for (const partial of this.partials) {
@@ -190,6 +196,11 @@ export class TeacherDistributionsService {
       }
 
       fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
+      return{
+        totalNewTeacherDistribution,
+        totalExitsTeacherDistribution,
+        totalTeacherDistribution: totalNewTeacherDistribution + totalExitsTeacherDistribution
+      }
     } catch (err) {
       throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores');
     }

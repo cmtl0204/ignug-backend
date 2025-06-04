@@ -1,7 +1,7 @@
 import { UserEntity } from '@auth/entities';
 import { CareerEntity, InformationTeacherEntity } from '@core/entities';
-import { IsNotEmpty, IsOptional } from 'class-validator';
-import { isNotEmptyValidationOptions } from '@shared/validation';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { isNotEmptyValidationOptions, isStringValidationOptions } from '@shared/validation';
 
 export class TeacherDto {
   @IsOptional()
@@ -12,4 +12,7 @@ export class TeacherDto {
 
   @IsOptional()
   informationTeacher: InformationTeacherEntity;
+
+  @IsString(isStringValidationOptions())
+  userId: string;
 }

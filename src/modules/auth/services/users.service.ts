@@ -112,7 +112,7 @@ export class UsersService {
     }
 
     if (user.roles.find(role => role.code === RoleEnum.TEACHER)) {
-      await this.teachersService.updateCareers(user.teacher.id, { careers: payload.careers });
+      await this.teachersService.updateCareers(user?.teacher?.id, { careers: payload.careers, userId: id });
     }
 
     if (user.roles.find(role => role.code === RoleEnum.STUDENT)) {

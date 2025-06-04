@@ -29,10 +29,10 @@ export class TeacherDistributionsController {
         }),
     )
     async import(@UploadedFile() file: Express.Multer.File,@Body() payload: any): Promise<ResponseHttpModel> {
-        await this.teacherDistributionsService.import(file, payload);
+       const response = await this.teacherDistributionsService.import(file, payload);
 
         return {
-            data: null,
+            data: response,
             message: `Docentes Importados Correctamente`,
             title: `Importado`,
         };
