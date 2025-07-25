@@ -1,13 +1,7 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { Repository, FindOptionsWhere } from 'typeorm';
 import { CreateGradeDto, FilterGradeDto, UpdateGradeDto } from '@core/dto';
-import {
-  CatalogueEntity,
-  EnrollmentDetailEntity,
-  GradeEntity,
-  PartialEntity,
-  PartialPermissionEntity,
-} from '@core/entities';
+import { CatalogueEntity, EnrollmentDetailEntity, GradeEntity, PartialEntity, PartialPermissionEntity } from '@core/entities';
 import { PaginationDto } from '@core/dto';
 import { ServiceResponseHttpModel } from '@shared/models';
 import { CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
@@ -51,8 +45,7 @@ export class GradesService {
     @Inject(CoreRepositoryEnum.PARTIAL_PERMISSION_REPOSITORY) private readonly partialPermissionRepository: Repository<PartialPermissionEntity>,
     @Inject(CoreRepositoryEnum.GRADE_REPOSITORY) private readonly gradeRepository: Repository<GradeEntity>,
     @Inject(CoreRepositoryEnum.ENROLLMENT_DETAIL_REPOSITORY) private readonly enrollmentDetailRepository: Repository<EnrollmentDetailEntity>,
-  ) {
-  }
+  ) {}
 
   async create(payload: CreateGradeDto): Promise<GradeEntity> {
     const newSubject = this.repository.create(payload);
@@ -162,14 +155,13 @@ export class GradesService {
     await this.loadAcademicStates();
     await this.loadPartials();
     await this.loadPartialPermissions(payload.teacherDistributionId);
-
     const grades = await this.gradeRepository.find({
       where: { enrollmentDetailId: enrollmentDetailId },
     });
 
     let grade1 = grades.find(grade => grade.partialId === this.partial1.id);
     let grade2 = grades.find(grade => grade.partialId === this.partial2.id);
-    let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
+    // let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
 
     if (grade1) {
       grade1.value = parseFloat(String(grade1.value));
@@ -218,37 +210,42 @@ export class GradesService {
       }
     }
 
-    if (grade3) {
-      grade3.value = parseFloat(String(grade3.value));
-      if (grade3.value != payload.grade3) {
-        if (this.partialEnabled3) {
-          grade3.value = payload.grade3;
-        } else {
-          this.addPartialPermissionError(ColumnsEnum.GRADE_3);
-        }
-      }
-    } else {
-      if (payload.grade3 || payload.grade3 == 0) {
-        if (this.partialEnabled3) {
-          grade3 = this.gradeRepository.create({
-            enrollmentDetailId: enrollmentDetailId,
-            partialId: this.partial3.id,
-            value: payload.grade3,
-          });
-        } else {
-          this.addPartialPermissionError(ColumnsEnum.GRADE_3);
-        }
-      }
-    }
+    // if (grade3) {
+    //   grade3.value = parseFloat(String(grade3.value));
+    //   if (grade3.value != payload.grade3) {
+    //     if (this.partialEnabled3) {
+    //       grade3.value = payload.grade3;
+    //     } else {
+    //       this.addPartialPermissionError(ColumnsEnum.GRADE_3);
+    //     }
+    //   }
+    // } else {
+    //   if (payload.grade3 || payload.grade3 == 0) {
+    //     if (this.partialEnabled3) {
+    //       grade3 = this.gradeRepository.create({
+    //         enrollmentDetailId: enrollmentDetailId,
+    //         partialId: this.partial3.id,
+    //         value: payload.grade3,
+    //       });
+    //     } else {
+    //       this.addPartialPermissionError(ColumnsEnum.GRADE_3);
+    //     }
+    //   }
+    // }
 
-    if (grade1)
-      await this.gradeRepository.save(grade1);
+    if (grade1) await this.gradeRepository.save(grade1);
 
-    if (grade2)
-      await this.gradeRepository.save(grade2);
+    if (grade2) await this.gradeRepository.save(grade2);
 
-    if (grade3) {
-      await this.gradeRepository.save(grade3);
+    // if (grade3) {
+    //   await this.gradeRepository.save(grade3);
+    // }
+
+    if (this.partialPermissionErrors.length > 0) {
+      throw new UnprocessableEntityException({
+        error: 'asd',
+        message: this.partialPermissionErrors.map(item => item.observation),
+      });
     }
 
     const enrollmentDetail = await this.enrollmentDetailRepository.findOneBy({ id: enrollmentDetailId });
@@ -280,17 +277,20 @@ export class GradesService {
       where: { enrollmentDetailId: enrollmentDetail.id },
     });
 
+    this.partialPermissionErrors = [];
     const grade1 = grades.find(grade => grade.partialId === this.partial1.id);
     const grade2 = grades.find(grade => grade.partialId === this.partial2.id);
-    const grade3 = grades.find(grade => grade.partialId === this.partial3.id);
+    // const grade3 = grades.find(grade => grade.partialId === this.partial3.id);
     let supplementaryGrade = parseFloat(String(enrollmentDetail.supplementaryGrade));
 
-    if (grade1 && grade2 && grade3) {
+    // if (grade1 && grade2 && grade3) {
+    if (grade1 && grade2) {
       grade1.value = parseFloat(String(grade1.value));
       grade2.value = parseFloat(String(grade2.value));
-      grade3.value = parseFloat(String(grade3.value));
+      // grade3.value = parseFloat(String(grade3.value));
 
-      let finalGradeTotal = (grade1.value + grade2.value + grade3.value) / 3;
+      // let finalGradeTotal = (grade1.value + grade2.value + grade3.value) / 3;
+      let finalGradeTotal = (grade1.value + grade2.value) / 2;
 
       if (finalGradeTotal >= 7 || finalGradeTotal < 4) {
         supplementaryGrade = null;

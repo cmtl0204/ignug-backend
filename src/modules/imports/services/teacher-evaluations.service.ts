@@ -49,7 +49,6 @@ export class TeacherEvaluationsService {
 
         this.row = 1;
 
-        console.log(this.row);
         for (const item of dataExcel) {
           const evaluationType = this.evaluationTypes.find(evaluationType => evaluationType.code.toLowerCase() === item[ColumnsEnum.EVALUATION_TYPE]);
           const category = this.categories.find(category => category.name.toLowerCase() === item[ColumnsEnum.CATEGORY].toString().toLowerCase().trim());
