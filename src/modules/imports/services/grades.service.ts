@@ -1,5 +1,5 @@
 import {BadRequestException, Inject, Injectable} from '@nestjs/common';
-import {Repository} from 'typeorm';
+import {Repository, In} from 'typeorm';
 import {
     CatalogueEntity,
     EnrollmentDetailEntity,
@@ -19,7 +19,6 @@ enum ColumnsEnum {
     IDENTIFICATION = 'Numero_Documento',
     GRADE_1 = 'Parcial1',
     GRADE_2 = 'Parcial2',
-    GRADE_3 = 'Examen_Final',
     ATTENDANCE = 'Progreso',
 }
 
@@ -38,11 +37,9 @@ export class GradesService {
     private row = 1;
     private partialEnabled1 = false;
     private partialEnabled2 = false;
-    private partialEnabled3 = false;
     private partials: PartialEntity[] = [];
     private partial1!: PartialEntity;
     private partial2!: PartialEntity;
-    private partial3!: PartialEntity;
     private approved!: CatalogueEntity;
     private failed!: CatalogueEntity;
 
@@ -66,10 +63,11 @@ export class GradesService {
     }
 
     async loadPartials() {
-        this.partials = await this.partialRepository.find();
+        this.partials = await this.partialRepository.find({
+            where: { code: In(['1', '2']) }
+        });
         this.partial1 = this.partials.find(partial => partial.code === '1');
         this.partial2 = this.partials.find(partial => partial.code === '2');
-        this.partial3 = this.partials.find(partial => partial.code === '3');
     }
 
     async loadPartialPermissions(teacherDistributionId: string) {
@@ -84,9 +82,6 @@ export class GradesService {
                 this.partialEnabled2 = partialPermission.enabled;
             }
 
-            if (partialPermission.partialId === this.partial3.id) {
-                this.partialEnabled3 = partialPermission.enabled;
-            }
         }
     }
 
@@ -192,8 +187,6 @@ export class GradesService {
     checkErrors(item: any) {
         this.validateGrade(item[ColumnsEnum.GRADE_1], ColumnsEnum.GRADE_1);
         this.validateGrade(item[ColumnsEnum.GRADE_2], ColumnsEnum.GRADE_2);
-        this.validateGrade(item[ColumnsEnum.GRADE_3], ColumnsEnum.GRADE_3);
-
         this.validateAttendance(item[ColumnsEnum.ATTENDANCE]);
     }
 
@@ -284,7 +277,6 @@ export class GradesService {
 
             let grade1 = grades.find(grade => grade.partialId === this.partial1.id);
             let grade2 = grades.find(grade => grade.partialId === this.partial2.id);
-            let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
 
             if (this.partial1.enabled) {
                 if (grade1) {
@@ -337,39 +329,12 @@ export class GradesService {
                 }
             }
 
-            if (this.partial3.enabled) {
-                if (grade3) {
-                    grade3.value = parseFloat(String(grade3.value));
-                    if (grade3.value != item[ColumnsEnum.GRADE_3]) {
-                        if (this.partialEnabled3) {
-                            grade3.value = item[ColumnsEnum.GRADE_3];
-                        } else {
-                            this.addPartialPermissionError(ColumnsEnum.GRADE_3);
-                        }
-                    }
-                } else {
-                    if (item[ColumnsEnum.GRADE_3] || item[ColumnsEnum.GRADE_3] == 0) {
-                        if (this.partialEnabled3) {
-                            grade3 = this.gradeRepository.create({
-                                enrollmentDetailId: enrollmentDetail.id,
-                                partialId: this.partial3.id,
-                                value: item[ColumnsEnum.GRADE_3],
-                            });
-                        } else {
-                            this.addPartialPermissionError(ColumnsEnum.GRADE_3);
-                        }
-                    }
-                }
-            }
 
             if (this.partial1.enabled && grade1)
                 await this.gradeRepository.save(grade1);
 
             if (this.partial2.enabled && grade2)
                 await this.gradeRepository.save(grade2);
-
-            if (this.partial3.enabled && grade3)
-                await this.gradeRepository.save(grade3);
 
             await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
         }
@@ -390,14 +355,12 @@ export class GradesService {
 
         let grade1 = grades.find(grade => grade.partialId === this.partial1.id)?.value || 0;
         let grade2 = grades.find(grade => grade.partialId === this.partial2.id)?.value || 0;
-        let grade3 = grades.find(grade => grade.partialId === this.partial3.id)?.value || 0;
 
-        if (grade1 && grade2 && grade3) {
+        if (grade1 && grade2) {
             grade1 = parseFloat(String(grade1));
             grade2 = parseFloat(String(grade2));
-            grade3 = parseFloat(String(grade3));
 
-            const finalGradeSum = grade1 + grade2 + grade3;
+            const finalGradeSum = grade1 + grade2;
 
             if (this.partials.length)
                 enrollmentDetail.finalGrade = finalGradeSum / this.partials.length;
