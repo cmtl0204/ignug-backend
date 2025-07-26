@@ -70,7 +70,6 @@ export class GradeReportsService {
         const data =
           (await this.gradeSqlService.findGradesReportByTeacherDistribution(teacherDistributionId));
 
-        console.log(data);
         try {
             return this.printerService.createPdf(gradesReportReport(data));
         } catch (error) {
