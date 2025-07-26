@@ -187,7 +187,6 @@ export class GradesService {
     checkErrors(item: any) {
         this.validateGrade(item[ColumnsEnum.GRADE_1], ColumnsEnum.GRADE_1);
         this.validateGrade(item[ColumnsEnum.GRADE_2], ColumnsEnum.GRADE_2);
-
         this.validateAttendance(item[ColumnsEnum.ATTENDANCE]);
     }
 
