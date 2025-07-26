@@ -50,7 +50,6 @@ export class GradeReportsService {
                 'Asignatura': enrollmentDetail.subject.name,
                 'Parcial1': partial1?.value,
                 'Parcial2': partial2?.value,
-                'Examen_Final': partial3?.value,
                 'Progreso': enrollmentDetail.finalAttendance,
                 'Calificacion_Final': enrollmentDetail.finalGrade,
                 'Estado_Academico': enrollmentDetail.academicState?.name,
