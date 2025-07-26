@@ -19,7 +19,6 @@ export const gradesReportReport = (data: any): TDocumentDefinitions => {
       grade.Progreso,
       grade.Parcial1,
       grade.Parcial2,
-      grade.Examen_Final,
       grade.Calificacion_Final,
       grade.Examen_Supletorio,
       grade.Estado_Academico,
@@ -125,7 +124,7 @@ export const gradesReportReport = (data: any): TDocumentDefinitions => {
         table: {
           headerRows: 1,
 
-          widths: [65, 120, 120, 50, 40, 40, 60, 60, 80, 60],
+          widths: [65, 120, 120, 50, 40, 40, 60, 80, 60],
 
           body: [
             [
@@ -135,7 +134,6 @@ export const gradesReportReport = (data: any): TDocumentDefinitions => {
               { text: 'PROGRESO', bold: true, alignment: 'center', fillColor: '#dddddd' },
               { text: 'PARCIAL 1', bold: true, alignment: 'center', fillColor: '#dddddd' },
               { text: 'PARCIAL 2', bold: true, alignment: 'center', fillColor: '#dddddd' },
-              { text: 'EVALUACIÓN FINAL', bold: true, alignment: 'center', fillColor: '#dddddd' },
               { text: 'CALIFICACIÓN FINAL', bold: true, alignment: 'center', fillColor: '#dddddd' },
               { text: 'EVALUACIÓN DE RECUPERACIÓN', bold: true, alignment: 'center', fillColor: '#dddddd' },
               { text: 'ESTADO ACADÉMICO', bold: true, alignment: 'center', fillColor: '#dddddd' },

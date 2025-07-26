@@ -284,7 +284,7 @@ export class GradesService {
 
             let grade1 = grades.find(grade => grade.partialId === this.partial1.id);
             let grade2 = grades.find(grade => grade.partialId === this.partial2.id);
-            // let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
+            let grade3 = grades.find(grade => grade.partialId === this.partial3.id);
 
             if (this.partial1.enabled) {
                 if (grade1) {
@@ -337,30 +337,30 @@ export class GradesService {
                 }
             }
 
-            // if (this.partial3.enabled) {
-            //     if (grade3) {
-            //         grade3.value = parseFloat(String(grade3.value));
-            //         if (grade3.value != item[ColumnsEnum.GRADE_3]) {
-            //             if (this.partialEnabled3) {
-            //                 grade3.value = item[ColumnsEnum.GRADE_3];
-            //             } else {
-            //                 this.addPartialPermissionError(ColumnsEnum.GRADE_3);
-            //             }
-            //         }
-            //     } else {
-            //         if (item[ColumnsEnum.GRADE_3] || item[ColumnsEnum.GRADE_3] == 0) {
-            //             if (this.partialEnabled3) {
-            //                 grade3 = this.gradeRepository.create({
-            //                     enrollmentDetailId: enrollmentDetail.id,
-            //                     partialId: this.partial3.id,
-            //                     value: item[ColumnsEnum.GRADE_3],
-            //                 });
-            //             } else {
-            //                 this.addPartialPermissionError(ColumnsEnum.GRADE_3);
-            //             }
-            //         }
-            //     }
-            // }
+            if (this.partial3.enabled) {
+                if (grade3) {
+                    grade3.value = parseFloat(String(grade3.value));
+                    if (grade3.value != item[ColumnsEnum.GRADE_3]) {
+                        if (this.partialEnabled3) {
+                            grade3.value = item[ColumnsEnum.GRADE_3];
+                        } else {
+                            this.addPartialPermissionError(ColumnsEnum.GRADE_3);
+                        }
+                    }
+                } else {
+                    if (item[ColumnsEnum.GRADE_3] || item[ColumnsEnum.GRADE_3] == 0) {
+                        if (this.partialEnabled3) {
+                            grade3 = this.gradeRepository.create({
+                                enrollmentDetailId: enrollmentDetail.id,
+                                partialId: this.partial3.id,
+                                value: item[ColumnsEnum.GRADE_3],
+                            });
+                        } else {
+                            this.addPartialPermissionError(ColumnsEnum.GRADE_3);
+                        }
+                    }
+                }
+            }
 
             if (this.partial1.enabled && grade1)
                 await this.gradeRepository.save(grade1);
@@ -368,8 +368,8 @@ export class GradesService {
             if (this.partial2.enabled && grade2)
                 await this.gradeRepository.save(grade2);
 
-            // if (this.partial3.enabled && grade3)
-            //     await this.gradeRepository.save(grade3);
+            if (this.partial3.enabled && grade3)
+                await this.gradeRepository.save(grade3);
 
             await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
         }
@@ -390,19 +390,17 @@ export class GradesService {
 
         let grade1 = grades.find(grade => grade.partialId === this.partial1.id)?.value || 0;
         let grade2 = grades.find(grade => grade.partialId === this.partial2.id)?.value || 0;
-        // let grade3 = grades.find(grade => grade.partialId === this.partial3.id)?.value || 0;
+        let grade3 = grades.find(grade => grade.partialId === this.partial3.id)?.value || 0;
 
-        // if (grade1 && grade2 && grade3) {
-        if (grade1 && grade2 ) {
+        if (grade1 && grade2 && grade3) {
             grade1 = parseFloat(String(grade1));
             grade2 = parseFloat(String(grade2));
-            // grade3 = parseFloat(String(grade3));
+            grade3 = parseFloat(String(grade3));
 
-            // const finalGradeSum = grade1 + grade2 + grade3;
-            const finalGradeSum = grade1 + grade2;
+            const finalGradeSum = grade1 + grade2 + grade3;
 
             if (this.partials.length)
-                enrollmentDetail.finalGrade = finalGradeSum / 2;
+                enrollmentDetail.finalGrade = finalGradeSum / this.partials.length;
 
             await this.enrollmentDetailRepository.update(enrollmentDetail.id, enrollmentDetail);
 
