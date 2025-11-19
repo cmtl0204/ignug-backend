@@ -274,7 +274,7 @@ export class UserEntity {
   @BeforeInsert()
   @BeforeUpdate()
   hashPassword() {
-    if (!this.password || this.password?.length > 30) {
+    if (!this.password) {
       return;
     }
 
