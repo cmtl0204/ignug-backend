@@ -5,10 +5,14 @@ import {
   CatalogueEntity,
   EnrollmentDetailEntity,
   EnrollmentEntity,
-  GradeEntity, InstitutionEntity,
-  PartialEntity, PartialPermissionEntity,
-  StudentEntity, SubjectEntity,
-  TeacherDistributionEntity, TeacherEntity,
+  GradeEntity,
+  InstitutionEntity,
+  PartialEntity,
+  PartialPermissionEntity,
+  StudentEntity,
+  SubjectEntity,
+  TeacherDistributionEntity,
+  TeacherEntity,
 } from '@core/entities';
 import { AuthRepositoryEnum, CatalogueTypeEnum, CoreRepositoryEnum } from '@shared/enums';
 import { join } from 'path';
@@ -48,8 +52,7 @@ export class StudentsService {
     private readonly informationStudentsService: InformationStudentsService,
     @Inject(AuthRepositoryEnum.USER_REPOSITORY) private readonly userRepository: Repository<UserEntity>,
     @Inject(CoreRepositoryEnum.STUDENT_REPOSITORY) private readonly studentRepository: Repository<StudentEntity>,
-  ) {
-  }
+  ) {}
 
   async loadCareers() {
     this.careers = (await this.careersService.findCareersByInstitution(this.institutions[0].id)).data;
@@ -68,7 +71,6 @@ export class StudentsService {
 
     this.identificationTypes = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.IDENTIFICATION_TYPE);
     this.yesNo = catalogues.filter(catalogue => catalogue.type === CatalogueTypeEnum.YES_NO);
-
   }
 
   async importStudents(file: Express.Multer.File) {
@@ -91,55 +93,55 @@ export class StudentsService {
       this.row = 1;
 
       for (const item of dataExcel) {
-
         this.row++;
-        console.log("-----------------------------")
-        console.log(this.row)
+        console.log('-----------------------------');
+        console.log(this.row);
 
         const career = this.careers.find(career => career.code === item['Codigo_Carrera']);
         //console.log(career)
 
-        if(!career){
+        if (!career) {
           this.errors.push({
             row: this.row,
-            column:'Codigo_Carrera',
+            column: 'Codigo_Carrera',
             observation: `'Codigo_Carrera' no válido`,
           });
         }
         let user: any = await this.userRepository.findOne({ where: { identification: item['Numero_Documento'] } });
         //console.log(user)
-        console.log(item['Numero_Documento'])
+        console.log(item['Numero_Documento']);
         if (!user) {
-          user =
-            {
-              identificationType: this.identificationTypes[0],
-              identification: item['Numero_Documento'],
-              institutions: [institution],
-              cellPhone: item['Telefono'],
-              email: item['Correo'],
-              lastname: item['Apellidos'],
-              name: item['Nombres'],
-              password: item['Numero_Documento'],
-              passwordChanged: false,
-              personalEmail: item['Correo'],
-              roles: [studentRole],
-              username: item['Numero_Documento'],
-              careers: [career],
-            };
+          user = {
+            identificationType: this.identificationTypes[0],
+            identification: item['Numero_Documento'],
+            institutions: [institution],
+            cellPhone: item['Telefono'],
+            email: item['Correo'],
+            lastname: item['Apellidos'],
+            name: item['Nombres'],
+            password: item['Numero_Documento'],
+            passwordChanged: false,
+            personalEmail: item['Correo'],
+            roles: [studentRole],
+            username: item['Numero_Documento'],
+            careers: [career],
+          };
         }
-        console.log(user)
+        console.log(user);
         const userCreated = await this.userRepository.save(user);
 
         let student: any = await this.studentRepository.findOne({ where: { userId: userCreated.id } });
 
+        console.log('1');
         if (!student) {
+          console.log('2');
           student = this.studentRepository.create();
           student.userId = userCreated.id;
           student.careers = [career];
           student.informationStudent = userCreated.id;
 
           const studentCreated = await this.studentRepository.save(student);
-
+          console.log('3');
           let isLostGratuity = null;
 
           if (item['Tiene_Gratuidad'].toLowerCase() === 'si') {
@@ -149,27 +151,24 @@ export class StudentsService {
           }
 
           await this.informationStudentsService.create({ student: studentCreated, isLostGratuity });
+          console.log('4');
         }
       }
 
       fs.unlinkSync(join(process.cwd(), 'storage/imports', file.filename));
 
-      if (this.errors.concat.length > 0)
-        throw new BadRequestException();
-
+      if (this.errors.concat.length > 0) throw new BadRequestException();
     } catch (err) {
-      throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores'+ err);
+      throw new BadRequestException('Problemas al subir el archivo, por favor verifique los errores' + err);
     }
   }
 
   async generateErrorReport() {
-
-
     const data = this.errors.map(error => {
       return {
-        'Fila': error.row,
-        'Columna': error.column,
-        'Observación': error.observation,
+        Fila: error.row,
+        Columna: error.column,
+        Observación: error.observation,
       };
     });
 
